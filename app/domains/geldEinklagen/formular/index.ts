@@ -25,6 +25,7 @@ import {
   updateIfUserNotPrefilledBeklagte,
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
+import { copyOrRemoveReferenceDocuments } from "../services/copyOrRemoveReferenceDocuments";
 import { geldEinklagenFlowConfig } from "./flowConfig";
 
 export const geldEinklagenFormular = {
@@ -75,5 +76,7 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/mensch": updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden":
+      copyOrRemoveReferenceDocuments,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

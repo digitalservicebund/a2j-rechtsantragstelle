@@ -47,6 +47,9 @@ const sharedBeklagteAddress = {
 const beweiseDokumentenArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema.check(datatypeC),
+    dokumentReference: hiddenInputSchema(
+      schemaOrEmptyString(stringOptionalSchema),
+    ),
   }),
 );
 
@@ -62,6 +65,7 @@ const beweisePersonenSchema = z.object({
   land: stringRequiredSchema,
   telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
   email: schemaOrEmptyString(emailSchema).check(datatypeC),
+  personReference: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
 });
 
 const beweisePersonenArray = z.array(
@@ -81,6 +85,8 @@ export const abschnitteArray = z.array(
     beschreibung: stringRequiredMaxSchema({ max: 12000 }).check(datatypeC),
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
+    reuseBeweiseDokument: reuseBeweisSchema("document"),
+    reuseBeweisePerson: reuseBeweisSchema("person"),
   }),
 );
 
@@ -247,6 +253,7 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
+      dokumentReference: beweiseDokumentenArray.element.shape.dokumentReference,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {

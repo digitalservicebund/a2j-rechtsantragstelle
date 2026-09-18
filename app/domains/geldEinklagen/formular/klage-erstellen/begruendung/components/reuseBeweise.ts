@@ -22,10 +22,12 @@ export const getDocumentsToBeReusedFromOtherAbschnitte = (
       return [];
     }
 
-    return abschnitt.dokumenten.map((dokument, documentIndex) => ({
-      label: dokument.beschreibung,
-      option: `${abschnittIndex}-${documentIndex}`,
-    }));
+    return abschnitt.dokumenten
+      .filter((dokument) => !dokument.dokumentReference)
+      .map((dokument, documentIndex) => ({
+        label: dokument.beschreibung,
+        option: `${abschnittIndex}-${documentIndex}`,
+      }));
   });
 
 export const hasDocumentsToBeReusedFromOtherAbschnitte = (
@@ -49,7 +51,9 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
 
     return abschnitt.personen
       .map((person, personIndex) => ({ person, personIndex }))
-      .filter(({ person }) => hasPersonDetails(person))
+      .filter(
+        ({ person }) => hasPersonDetails(person) && !person.personReference,
+      )
       .map(({ person, personIndex }) => ({
         labelBold: `${(person as { title: string }).title} ${(person as { vorname: string }).vorname} ${(person as { nachname: string }).nachname}`,
         label: `${(person as { strasse: string }).strasse} ${(person as { hausnummer: string }).hausnummer}, ${(person as { plz: string }).plz} ${(person as { ort: string }).ort}, ${(person as { land: string }).land}`,
