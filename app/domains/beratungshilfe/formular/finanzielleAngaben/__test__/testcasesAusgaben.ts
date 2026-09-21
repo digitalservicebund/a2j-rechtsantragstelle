@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/regelmaessigeAusgaben/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachAusgaben } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 const finanzielleAngabenAusgabenAusgabenFrage =
   "/finanzielle-angaben/ausgaben/ausgaben-frage";
@@ -10,14 +11,14 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
   ausgabenNo: [
     {
       stepId: finanzielleAngabenAusgabenAusgabenFrage,
-      userInput: { hasAusgaben: "no" },
+      userInput: { ...reachAusgaben, hasAusgaben: "no" },
     },
     { stepId: finanzielleAngabenAusgabenSituation },
   ],
   ausgabenYes: [
     {
       stepId: finanzielleAngabenAusgabenAusgabenFrage,
-      userInput: { hasAusgaben: "yes" },
+      userInput: { ...reachAusgaben, hasAusgaben: "yes" },
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
     { stepId: "/finanzielle-angaben/ausgaben/warnung" },
@@ -26,7 +27,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
   ausgabeWithoutZahlungsfrist: [
     {
       stepId: finanzielleAngabenAusgabenAusgabenFrage,
-      userInput: { hasAusgaben: "yes" },
+      userInput: { ...reachAusgaben, hasAusgaben: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
@@ -52,7 +53,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
   ausgabeWithZahlungsfrist: [
     {
       stepId: finanzielleAngabenAusgabenAusgabenFrage,
-      userInput: { hasAusgaben: "yes" },
+      userInput: { ...reachAusgaben, hasAusgaben: "yes" },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/uebersicht",
@@ -81,4 +82,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenAusgabe = {
     },
     { stepId: "/finanzielle-angaben/ausgaben/uebersicht" },
   ],
-} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenRegelmassigeAusgabenUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;

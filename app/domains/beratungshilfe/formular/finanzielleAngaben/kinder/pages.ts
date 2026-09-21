@@ -49,50 +49,65 @@ export const berhAntragFinanzielleAngabenKinderPages = {
   },
   kinderUebersicht: {
     stepId: "finanzielle-angaben/kinder/uebersicht",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "kinder",
+      schema: kinderArraySchema,
+      fieldName: "hasKinder",
+      hiddenFields: ["eigeneEinnahmen", "unterhalt"],
+    },
   },
   kinderWarnung: {
     stepId: "finanzielle-angaben/kinder/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
-  kinder: {
-    stepId: "finanzielle-angaben/kinder/kinder",
-    pageSchema: { kinder: kinderArraySchema },
-    arrayPages: {
-      name: {
-        pageSchema: {
-          "kinder#vorname": sharedKinderFields.vorname,
-          "kinder#nachname": sharedKinderFields.nachname,
-          "kinder#geburtsdatum": sharedKinderFields.geburtsdatum,
-        },
-      },
-      wohnort: {
-        pageSchema: {
-          "kinder#wohnortBeiAntragsteller":
-            sharedKinderFields.wohnortBeiAntragsteller,
-        },
-      },
-      "kind-eigene-einnahmen-frage": {
-        pageSchema: {
-          "kinder#eigeneEinnahmen": YesNoAnswer,
-        },
-      },
-      "kind-eigene-einnahmen": {
-        pageSchema: {
-          "kinder#einnahmen": buildMoneyValidationSchema(),
-        },
-      },
-      "kind-unterhalt-frage": {
-        pageSchema: {
-          "kinder#unterhalt": YesNoAnswer,
-        },
-      },
-      "kind-unterhalt": {
-        pageSchema: {
-          "kinder#unterhaltsSumme": buildMoneyValidationSchema(),
-        },
-      },
-      "kind-unterhalt-ende": {
-        pageSchema: {},
-      },
+  kinderName: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/name",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#vorname": sharedKinderFields.vorname,
+      "kinder#nachname": sharedKinderFields.nachname,
+      "kinder#geburtsdatum": sharedKinderFields.geburtsdatum,
     },
+  },
+  kinderWohnort: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/wohnort",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#wohnortBeiAntragsteller":
+        sharedKinderFields.wohnortBeiAntragsteller,
+    },
+  },
+  kinderEigeneEinnahmenFrage: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/kind-eigene-einnahmen-frage",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#eigeneEinnahmen": YesNoAnswer,
+    },
+  },
+  kinderEigeneEinnahmen: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/kind-eigene-einnahmen",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#einnahmen": buildMoneyValidationSchema(),
+    },
+  },
+  kinderUnterhaltFrage: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/kind-unterhalt-frage",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#unterhalt": YesNoAnswer,
+    },
+  },
+  kinderUnterhalt: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/kind-unterhalt",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "kinder#unterhaltsSumme": buildMoneyValidationSchema(),
+    },
+  },
+  kinderUnterhaltEnde: {
+    stepId: "finanzielle-angaben/kinder/kinder/#/kind-unterhalt-ende",
+    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PagesConfig;
