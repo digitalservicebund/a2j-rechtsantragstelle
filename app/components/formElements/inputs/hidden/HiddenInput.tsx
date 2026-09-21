@@ -15,6 +15,7 @@ const HiddenSubfieldInput = ({
       id={name}
       data-testid={`hidden-input-${name}`}
       value={value}
+      readOnly
     />
   );
 };
