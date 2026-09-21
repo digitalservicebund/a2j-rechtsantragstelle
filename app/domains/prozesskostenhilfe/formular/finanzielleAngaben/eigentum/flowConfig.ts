@@ -34,7 +34,7 @@ export const eigentumFlowConfig = {
       target: "eigentumBankkontenUebersicht",
     },
     {
-      target: "eigentumGeldanlagen",
+      target: "eigentumGeldanlagenFrage",
     },
   ],
   eigentumBankkontenUebersicht: [
@@ -161,7 +161,7 @@ export const eigentumFlowConfig = {
       target: "eigentumWertgegenstaendeUebersicht",
     },
     {
-      target: "eigentumGrundeigentum",
+      target: "eigentumGrundeigentumFrage",
     },
   ],
   eigentumWertgegenstaendeUebersicht: [
@@ -208,7 +208,7 @@ export const eigentumFlowConfig = {
       target: "eigentumGrundeigentumBewohntDaten",
     },
     {
-      target: "eigentumGrundeigentumUebersicht",
+      target: "eigentumGrundeigentumGrundeigentum",
     },
   ],
   eigentumGrundeigentumBewohntDaten: "eigentumGrundeigentumUebersicht",
