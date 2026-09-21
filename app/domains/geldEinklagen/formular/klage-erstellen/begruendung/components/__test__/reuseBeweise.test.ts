@@ -207,6 +207,59 @@ describe("reuseBeweise", () => {
       );
       expect(result).toEqual([]);
     });
+
+    it("should exclude persons with existing references", () => {
+      const abschnitte = [
+        { beschreibung: "Beschreibung 1" },
+        {
+          beschreibung: "Beschreibung 2",
+          personen: [
+            {
+              personAuswahl: "anotherPerson",
+              anrede: "none",
+              email: "email1@example.com",
+              title: "",
+              telefonnummer: "Telefonnummer 1",
+              vorname: "Vorname 1",
+              nachname: "Nachname 1",
+              strasse: "Strasse 1",
+              hausnummer: "Hausnummer 1",
+              plz: "PLZ 1",
+              ort: "Ort 1",
+              land: "Land 1",
+            },
+            {
+              personAuswahl: "anotherPerson",
+              anrede: "none",
+              email: "email1@example.com",
+              title: "",
+              telefonnummer: "Telefonnummer 2",
+              vorname: "Vorname 2",
+              nachname: "Nachname 2",
+              strasse: "Strasse 2",
+              hausnummer: "Hausnummer 2",
+              plz: "PLZ 2",
+              ort: "Ort 2",
+              land: "Land 2",
+              personReference: "0-1",
+            },
+          ],
+        },
+      ] satisfies GeldEinklagenFormularKlageErstellenUserData["abschnitte"];
+
+      const itemIndexAbschnitte = 0;
+      const result = getPersonenToBeReusedFromOtherAbschnitte(
+        abschnitte,
+        itemIndexAbschnitte,
+      );
+      expect(result).toEqual([
+        {
+          label: "Strasse 1 Hausnummer 1, PLZ 1 Ort 1, Land 1",
+          labelBold: " Vorname 1 Nachname 1",
+          option: "1-0",
+        },
+      ]);
+    });
   });
 
   describe("hasPersonenToBeReusedFromOtherAbschnitte", () => {

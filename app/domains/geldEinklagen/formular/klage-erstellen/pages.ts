@@ -257,7 +257,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
-      dokumentReference: beweiseDokumentenArray.element.shape.dokumentReference,
+      "abschnitte#dokumenten#dokumentReference":
+        beweiseDokumentenArray.element.shape.dokumentReference,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
@@ -289,6 +290,8 @@ export const geldEinklagenKlageErstellenPages = {
       "abschnitte#personen#telefonnummer":
         beweisePersonenSchema.shape.telefonnummer,
       "abschnitte#personen#email": beweisePersonenSchema.shape.email,
+      "abschnitte#dokumenten#personReference":
+        beweisePersonenSchema.shape.personReference,
     },
   },
   begruendungBeschreibungWarnung: {

@@ -1,5 +1,6 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
 import { deleteBeweisDokumentReference } from "~/domains/geldEinklagen/services/deleteBeweisDokumentReference";
+import { deleteBeweisPersonReference } from "~/domains/geldEinklagen/services/deleteBeweisPersonReference";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -31,9 +32,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   // Handle TGA Beweis references
   if (flowId === "/geld-einklagen/formular") {
+    const deleteArrayIndexes = [arrayIndexes[0], index];
     if (arrayName === "abschnitte#dokumenten") {
-      const deleteArrayIndexes = [arrayIndexes[0], index];
       deleteBeweisDokumentReference(flowSession, deleteArrayIndexes);
+    }
+
+    if (arrayName === "abschnitte#personen") {
+      deleteBeweisPersonReference(flowSession, deleteArrayIndexes);
     }
   }
 
