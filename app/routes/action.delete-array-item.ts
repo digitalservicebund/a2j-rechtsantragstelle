@@ -1,4 +1,5 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
+import { deleteBeweisDokumentReference } from "~/domains/geldEinklagen/services/deleteBeweisDokumentReference";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -27,6 +28,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
+
+  // Handle TGA Beweis references
+  if (flowId === "/geld-einklagen/formular") {
+    if (arrayName === "abschnitte#dokumenten") {
+      const deleteArrayIndexes = [arrayIndexes[0], index];
+      deleteBeweisDokumentReference(flowSession, deleteArrayIndexes);
+    }
+  }
 
   const resultDeletion = deleteArrayItem(
     arrayName,
