@@ -32,6 +32,7 @@ import {
 } from "~/services/upload/fileUploadHelpers.server";
 import { FIFTEEN_MB_IN_BYTES } from "~/services/validation/pdfFileSchema";
 import { getRedirect } from "~/services/routing/redirects";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 
 // Whether every top-level section is done except the given one. Used to decide
 // if a validation gate page can be skipped (its own section is still open).
@@ -232,11 +233,10 @@ export const runFormularAction = async (args: ActionFunctionArgs) => {
     });
   }
 
-  const resultFormUserData = await validateFormUserData(
-    formData,
-    pathname,
-    cookieHeader,
-  );
+  const [resultFormUserData, migrationData] = await Promise.all([
+    validateFormUserData(formData, pathname),
+    getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+  ]);
 
   if (resultFormUserData.isErr) {
     return validationError(
@@ -250,7 +250,7 @@ export const runFormularAction = async (args: ActionFunctionArgs) => {
     {
       sessionUserData: flowSession.data,
       formUserData: resultFormUserData.value.userData,
-      migrationData: resultFormUserData.value.migrationData,
+      migrationData,
     },
     flowId,
     compiledStaticFlow,

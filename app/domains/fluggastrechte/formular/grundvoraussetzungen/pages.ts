@@ -2,7 +2,10 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import {
+  schemaOrEmptyString,
+  schemaOrEmptyStringOptional,
+} from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const fluggastrechteGrundvoraussetzungenPages = {
@@ -36,7 +39,7 @@ export const fluggastrechteGrundvoraussetzungenPages = {
       bereich: hiddenInputSchema(stringOptionalSchema),
       ersatzflug: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
       ankuendigung: hiddenInputSchema(
-        schemaOrEmptyString(
+        schemaOrEmptyStringOptional(
           z.enum(["no", "until6Days", "between7And13Days", "moreThan13Days"]),
         ),
       ),
