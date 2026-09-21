@@ -11,6 +11,7 @@ import {
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeXstateConfig } from "./xstateConfig";
+import { beratungshilfeFormularFlowConfig } from "./flowConfig";
 import {
   geldAnlagenStrings,
   getArrayIndexStrings,
@@ -20,6 +21,11 @@ import {
 export const beratungshilfeFormular = {
   flowType: "formFlow",
   config: beratungshilfeXstateConfig,
+  newEngineConfig: beratungshilfeFormularFlowConfig,
+  metaConfiguration: {
+    "/abgabe": { excludedFromValidation: true },
+    "/abgabe/ueberpruefung": { triggerValidation: true },
+  },
   stringReplacements: (context: BeratungshilfeFormularUserData) => ({
     ...getAmtsgerichtStrings(context),
     ...getStaatlicheLeistungenStrings(context),

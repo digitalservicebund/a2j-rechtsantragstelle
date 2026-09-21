@@ -1,6 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/userData";
-import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/partner/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import {
+  reachEigentum,
+  reachEigentumGeldanlagen,
+  reachEigentumGrundeigentum,
+  reachEigentumKraftfahrzeuge,
+  reachEigentumViaPartner,
+  reachEigentumWertgegenstaende,
+} from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 const finanzielleAngabenEigentumInfo =
   "/finanzielle-angaben/eigentum/eigentum-info";
@@ -21,34 +28,41 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
   noEigentum: [
     {
       stepId: finanzielleAngabenEigentumInfo,
+      skipPageSchemaValidation: true,
+      userInput: { ...reachEigentum },
     },
     {
       stepId: finanzielleAngabenEigentumBankkontenFrage,
       userInput: {
+        ...reachEigentum,
         hasBankkonto: "no",
       },
     },
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "no",
       },
     },
     {
       stepId: finanzielleAngabenEigentumKraftfahrzeugeFrage,
       userInput: {
+        ...reachEigentumKraftfahrzeuge,
         hasKraftfahrzeug: "no",
       },
     },
     {
       stepId: finanzielleAngabenEigentumWertgegenstaendeFrage,
       userInput: {
+        ...reachEigentumWertgegenstaende,
         hasWertsache: "no",
       },
     },
     {
       stepId: finanzielleAngabenEigentumGrundeigentumFrage,
       userInput: {
+        ...reachEigentumGrundeigentum,
         hasGrundeigentum: "no",
       },
     },
@@ -60,9 +74,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumInfo,
       skipPageSchemaValidation: true,
-      userInput: {
-        partnerschaft: "yes",
-      },
+      userInput: { ...reachEigentumViaPartner },
     },
     { stepId: "/finanzielle-angaben/eigentum/heirat-info" },
     { stepId: finanzielleAngabenEigentumBankkontenFrage },
@@ -71,6 +83,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumBankkontenFrage,
       userInput: {
+        ...reachEigentum,
         hasBankkonto: "yes",
       },
     },
@@ -95,6 +108,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumBankkontenFrage,
       userInput: {
+        ...reachEigentum,
         hasBankkonto: "yes",
       },
     },
@@ -109,6 +123,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -123,6 +138,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumWertgegenstaendeFrage,
       userInput: {
+        ...reachEigentumWertgegenstaende,
         hasWertsache: "yes",
       },
     },
@@ -137,6 +153,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumWertgegenstaendeFrage,
       userInput: {
+        ...reachEigentumWertgegenstaende,
         hasWertsache: "yes",
       },
     },
@@ -161,6 +178,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGrundeigentumFrage,
       userInput: {
+        ...reachEigentumGrundeigentum,
         hasGrundeigentum: "yes",
       },
     },
@@ -175,6 +193,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGrundeigentumFrage,
       userInput: {
+        ...reachEigentumGrundeigentum,
         hasGrundeigentum: "yes",
       },
     },
@@ -207,6 +226,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGrundeigentumFrage,
       userInput: {
+        ...reachEigentumGrundeigentum,
         hasGrundeigentum: "yes",
       },
     },
@@ -243,6 +263,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumKraftfahrzeugeFrage,
       userInput: {
+        ...reachEigentumKraftfahrzeuge,
         hasKraftfahrzeug: "yes",
       },
     },
@@ -257,6 +278,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumKraftfahrzeugeFrage,
       userInput: {
+        ...reachEigentumKraftfahrzeuge,
         hasKraftfahrzeug: "yes",
       },
     },
@@ -299,6 +321,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -327,6 +350,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -356,6 +380,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -385,6 +410,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -416,6 +442,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -446,6 +473,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -475,6 +503,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
     {
       stepId: finanzielleAngabenEigentumGeldanlagenFrage,
       userInput: {
+        ...reachEigentumGeldanlagen,
         hasGeldanlage: "yes",
       },
     },
@@ -500,7 +529,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
     },
   ],
-} satisfies FlowTestCases<
-  BeratungshilfeFinanzielleAngabenEigentumUserData &
-    BeratungshilfeFinanzielleAngabenPartnerUserData
->;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;
