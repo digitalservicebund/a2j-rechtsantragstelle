@@ -1,12 +1,18 @@
-import { type Guards, yesNoGuards } from "~/domains/guards.server";
 import { isValidArrayIndex } from "~/services/flow/pageData";
 import { weiterePersonenDone } from "./doneFunctions";
 import type { FluggastrechtePersoenlicheDatenUserData } from "./userData";
 
 export const persoenlichDatenGuards = {
   isValidWeiterePersonenArrayIndex: ({
-    context: { pageData, weiterePersonen },
-  }) => isValidArrayIndex(weiterePersonen, pageData),
-  ...yesNoGuards("isWeiterePersonen"),
+    pageData,
+    weiterePersonen,
+  }: FluggastrechtePersoenlicheDatenUserData) =>
+    isValidArrayIndex(weiterePersonen, pageData),
+  isWeiterePersonenYes: ({
+    isWeiterePersonen,
+  }: FluggastrechtePersoenlicheDatenUserData) => isWeiterePersonen === "yes",
   isMissingAddWeiterePersonen: (context) => !weiterePersonenDone(context),
-} satisfies Guards<FluggastrechtePersoenlicheDatenUserData>;
+} satisfies Record<
+  string,
+  (context: FluggastrechtePersoenlicheDatenUserData) => boolean
+>;

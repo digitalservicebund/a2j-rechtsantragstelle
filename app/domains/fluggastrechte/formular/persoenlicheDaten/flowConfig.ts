@@ -1,24 +1,32 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { fromXStateGuard } from "../flowConfigGuards";
 import { fluggastrechteGuards } from "../guards";
 import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
-import { personDone, weiterePersonenDone } from "./doneFunctions";
+import { weiterePersonenDone } from "./doneFunctions";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 export const persoenlicheDatenFlowConfig = {
   personDaten: [
     {
       target: "weiterePersonenFrage",
-      guard: fromXStateGuard(personDone),
+      guard: (context) =>
+        objectKeysNonEmpty(context, [
+          "vorname",
+          "nachname",
+          "strasse",
+          "hausnummer",
+          "plz",
+          "ort",
+        ]),
     },
   ],
   weiterePersonenFrage: [
     {
       target: "weiterePersonenUebersicht",
-      guard: fromXStateGuard(fluggastrechteGuards.isWeiterePersonenYes),
+      guard: fluggastrechteGuards.isWeiterePersonenYes,
     },
     {
       target: "prozessfuehrungZeugen",
-      guard: fromXStateGuard(weiterePersonenDone),
+      guard: weiterePersonenDone,
     },
   ],
   weiterePersonenUebersicht: [
@@ -28,11 +36,11 @@ export const persoenlicheDatenFlowConfig = {
     },
     {
       target: "weiterePersonenWarnung",
-      guard: fromXStateGuard(fluggastrechteGuards.isMissingAddWeiterePersonen),
+      guard: fluggastrechteGuards.isMissingAddWeiterePersonen,
     },
     {
       target: "prozessfuehrungZeugen",
-      guard: fromXStateGuard(weiterePersonenDone),
+      guard: weiterePersonenDone,
     },
   ],
   weiterePersonenDaten: "weiterePersonenUebersicht",

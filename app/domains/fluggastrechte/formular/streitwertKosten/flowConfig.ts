@@ -1,6 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
-import { fromXStateGuard } from "../flowConfigGuards";
 import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
 import { streitwertKostenDone } from "./doneFunctions";
 
@@ -12,11 +11,11 @@ export const streitwertKostenFlowConfig = {
       target: "flugdatenAdresseFluggesellschaftAuswahl",
       guard: (context) =>
         hasAirlineAddress(context.fluggesellschaft ?? "") &&
-        streitwertKostenDone({ context }),
+        streitwertKostenDone(context),
     },
     {
       target: "flugdatenAdresseFluggesellschaft",
-      guard: fromXStateGuard(streitwertKostenDone),
+      guard: streitwertKostenDone,
     },
   ],
 } satisfies Partial<TransitionConfigMap<FluggastrechteFormularPages>>;

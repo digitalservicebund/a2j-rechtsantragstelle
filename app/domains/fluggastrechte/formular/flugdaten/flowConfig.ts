@@ -1,5 +1,4 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { fromXStateGuard } from "../flowConfigGuards";
 import { fluggastrechteGuards } from "../guards";
 import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
 
@@ -28,21 +27,17 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenTatsaechlicherFlug",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasNoZwischenstoppAndVerspaetung,
-      ),
+      guard: fluggastrechteGuards.hasNoZwischenstoppAndVerspaetung,
     },
     {
       target: "flugdatenErsatzverbindungDaten",
-      guard: fromXStateGuard(
+      guard:
         fluggastrechteGuards.hasNoZwischenstoppAndAnnullierungWithErsatzflugYes,
-      ),
     },
     {
       target: "flugdatenZusaetzlicheAngaben",
-      guard: fromXStateGuard(
+      guard:
         fluggastrechteGuards.hasNoZwischenstoppAndAnnullierungWithErsatzflugNo,
-      ),
     },
     { target: "flugdatenErsatzverbindungArt" },
   ],
@@ -61,15 +56,11 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenErsatzverbindungDaten",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
     },
     {
       target: "flugdatenZusaetzlicheAngaben",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
     },
     { target: "flugdatenErsatzverbindungArt" },
   ],
@@ -86,15 +77,11 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenErsatzverbindungDaten",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
     },
     {
       target: "flugdatenZusaetzlicheAngaben",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
     },
     { target: "flugdatenErsatzverbindungArt" },
   ],
@@ -112,15 +99,11 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenErsatzverbindungDaten",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
     },
     {
       target: "flugdatenZusaetzlicheAngaben",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
     },
     { target: "flugdatenErsatzverbindungArt" },
   ],
@@ -131,15 +114,11 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenErsatzverbindungDaten",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugYes,
     },
     {
       target: "flugdatenZusaetzlicheAngaben",
-      guard: fromXStateGuard(
-        fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
-      ),
+      guard: fluggastrechteGuards.hasAnnullierungWithErsatzflugNo,
     },
     { target: "flugdatenErsatzverbindungArt" },
   ],

@@ -67,8 +67,7 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
       },
       {
         target: "ersatzflug-starten-eine-stunde",
-        guard: (context) =>
-          guards.isErsatzflugYesAndAnkuendigungUntil6DaysOrNo({ context }),
+        guard: guards.isErsatzflugYesAndAnkuendigungUntil6DaysOrNo,
       },
       { target: "ersatzflug-starten-zwei-stunden" },
     ],
@@ -125,11 +124,11 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     flughaefen: [
       {
         target: "flughaefen-entfernung-abbruch",
-        guard: (context) => guards.isInvalidAirportDistance({ context }),
+        guard: guards.isInvalidAirportDistance,
       },
       {
         target: "flughaefen-abbruch",
-        guard: (context) => guards.areAirportsOutsideEU({ context }),
+        guard: guards.areAirportsOutsideEU,
       },
       { target: "fluggesellschaft" },
     ],
@@ -138,25 +137,19 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     fluggesellschaft: [
       {
         target: "fluggesellschaft-nicht-eu-abbruch",
-        guard: (context) =>
-          guards.isNonGermanAirportsAndIsNotClaimableInEU({ context }),
+        guard: guards.isNonGermanAirportsAndIsNotClaimableInEU,
       },
       {
         target: "fluggesellschaft-nicht-eu-abbruch",
-        guard: (context) =>
-          guards.isGermanEndAirportsAndIsNotClaimable({ context }),
+        guard: guards.isGermanEndAirportsAndIsNotClaimable,
       },
       {
         target: "fluggesellschaft-abbruch",
-        guard: (context) =>
-          guards.isGermanEndAirportsAndOtherAirline({ context }),
+        guard: guards.isGermanEndAirportsAndOtherAirline,
       },
       {
         target: "fluggesellschaft-abbruch-eu",
-        guard: (context) =>
-          guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
-            context,
-          }),
+        guard: guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline,
       },
       {
         target: "checkin",
@@ -238,11 +231,11 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
       },
       {
         target: "erfolg-eu",
-        guard: (context) => guards.isErfolgEU({ context }),
+        guard: guards.isErfolgEU,
       },
       {
         target: "erfolg-analog",
-        guard: (context) => guards.isErfolgAnalogGuard({ context }),
+        guard: guards.isErfolgAnalogGuard,
       },
       { target: "erfolg" },
     ],
