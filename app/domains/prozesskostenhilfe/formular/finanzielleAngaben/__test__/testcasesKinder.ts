@@ -8,8 +8,6 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
         hasKinder: "no",
       },
@@ -23,10 +21,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
-        hasKinder: "yes",
       },
     },
     {
@@ -42,10 +37,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       skipPageSchemaValidation: true,
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
-        hasKinder: "yes",
       },
     },
     {
@@ -57,10 +49,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
-        hasKinder: "yes",
       },
     },
     {
@@ -101,10 +90,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
-        hasKinder: "yes",
       },
     },
     {
@@ -144,10 +130,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        partnerschaft: "yes",
-        zusammenleben: "yes",
         partnerEinkommen: "no",
-        hasKinder: "yes",
       },
     },
     {
