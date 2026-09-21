@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { ProzesskostenhilfeFormularUserData } from "../../userData";
+import { finanzielleAngabenTestcaseData } from "./testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
   staatlicheLeistungenKeine: [
@@ -9,21 +10,13 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
       userInput: {
-        currentlyEmployed: "yes",
+        ...finanzielleAngabenTestcaseData,
       },
     },
     {
@@ -34,14 +27,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
+        ...finanzielleAngabenTestcaseData,
         staatlicheLeistungen: "buergergeld",
       },
     },
@@ -77,14 +63,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
+        ...finanzielleAngabenTestcaseData,
         staatlicheLeistungen: "buergergeld",
       },
     },
@@ -128,14 +107,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
+        ...finanzielleAngabenTestcaseData,
         staatlicheLeistungen: "arbeitslosengeld",
       },
     },
@@ -147,14 +119,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
+        ...finanzielleAngabenTestcaseData,
         staatlicheLeistungen: "grundsicherung",
       },
     },
@@ -166,14 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
+        ...finanzielleAngabenTestcaseData,
         staatlicheLeistungen: "asylbewerberleistungen",
       },
     },
@@ -185,17 +143,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        staatlicheLeistungen: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
       },
     },
@@ -213,17 +161,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "yes",
       },
@@ -242,17 +180,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "no",
         leistungen: {
@@ -296,17 +224,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "no",
         leistungen: {
@@ -326,17 +244,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "no",
         hasFurtherIncome: "yes",
@@ -349,17 +257,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "no",
         hasFurtherIncome: "yes",
@@ -387,17 +285,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       skipPageSchemaValidation: true,
       userInput: {
-        formularArt: "erstantrag",
-        anhaengigesGerichtsverfahrenFrage: "yes",
-        gerichtName: "",
-        aktenzeichen: "",
-        verfahrenArt: "verfahrenSelbststaendig",
-        versandArt: "digital",
-        empfaenger: "myself",
-        unterhaltsanspruch: "keine",
-        hasRsv: "no",
-        hasRsvCoverage: "no",
-        staatlicheLeistungen: "keine",
+        ...finanzielleAngabenTestcaseData,
         currentlyEmployed: "no",
         receivesPension: "no",
         hasFurtherIncome: "no",
