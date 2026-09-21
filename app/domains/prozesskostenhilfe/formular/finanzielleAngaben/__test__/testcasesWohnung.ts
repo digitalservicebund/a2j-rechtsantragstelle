@@ -1,54 +1,64 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/userData";
-const prefix = "/finanzielle-angaben/wohnung";
+import { type ProzesskostenhilfeFormularUserData } from "../../userData";
+import { finanzielleAngabenTestcaseData } from "./testcasesData";
+
 export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   all: [
     {
-      stepId: prefix + "/alleine-zusammen",
+      stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "withOthers",
+        hasWeitereUnterhaltszahlungen: "no",
       },
     },
     {
-      stepId: prefix + "/anzahl-mitbewohner",
+      stepId: "/finanzielle-angaben/wohnung/anzahl-mitbewohner",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         apartmentPersonCount: 3,
       },
     },
     {
-      stepId: prefix + "/groesse",
+      stepId: "/finanzielle-angaben/wohnung/groesse",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         apartmentSizeSqm: 33,
       },
     },
     {
-      stepId: prefix + "/anzahl-zimmer",
+      stepId: "/finanzielle-angaben/wohnung/anzahl-zimmer",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         numberOfRooms: 3,
       },
     },
     {
-      stepId: prefix + "/miete-eigenheim",
+      stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         rentsApartment: "yes",
       },
     },
     {
-      stepId: prefix + "/miete-zusammen",
+      stepId: "/finanzielle-angaben/wohnung/miete-zusammen",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         totalRent: "1000",
         sharedRent: "1000",
       },
     },
     {
-      stepId: prefix + "/garage-parkplatz",
+      stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
-      stepId: prefix + "/nebenkosten",
+      stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
@@ -56,71 +66,87 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   ],
   alone: [
     {
-      stepId: prefix + "/alleine-zusammen",
+      stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "alone",
       },
     },
     {
-      stepId: prefix + "/groesse",
+      stepId: "/finanzielle-angaben/wohnung/groesse",
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        apartmentSizeSqm: 33,
+      },
     },
   ],
   rentsApartmentAlone: [
     {
-      stepId: prefix + "/miete-eigenheim",
+      stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "alone",
         rentsApartment: "yes",
       },
     },
     {
-      stepId: prefix + "/miete-alleine",
+      stepId: "/finanzielle-angaben/wohnung/miete-alleine",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         totalRent: "1000",
         rentWithoutUtilities: "1000",
       },
     },
     {
-      stepId: prefix + "/garage-parkplatz",
+      stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
-      stepId: prefix + "/nebenkosten",
+      stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
     },
     {
       stepId: "/finanzielle-angaben/eigentum/eigentum-info",
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+      },
     },
   ],
   rentsApartmentWithOthers: [
     {
-      stepId: prefix + "/miete-eigenheim",
+      stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "withOthers",
         rentsApartment: "yes",
       },
     },
     {
-      stepId: prefix + "/miete-zusammen",
+      stepId: "/finanzielle-angaben/wohnung/miete-zusammen",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         totalRent: "1000",
         sharedRent: "1000",
       },
     },
     {
-      stepId: prefix + "/garage-parkplatz",
+      stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
-      stepId: prefix + "/nebenkosten",
+      stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
@@ -131,15 +157,17 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   ],
   ownsApartmentAlone: [
     {
-      stepId: prefix + "/miete-eigenheim",
+      stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "alone",
         rentsApartment: "no",
       },
     },
     {
-      stepId: prefix + "/eigenheim-nebenkosten",
+      stepId: "/finanzielle-angaben/wohnung/eigenheim-nebenkosten",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         utilitiesCostOwned: "123",
         heatingCostsOwned: "234",
       },
@@ -150,15 +178,17 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   ],
   ownsApartmentWithOthers: [
     {
-      stepId: prefix + "/miete-eigenheim",
+      stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         livingSituation: "withOthers",
         rentsApartment: "no",
       },
     },
     {
-      stepId: prefix + "/eigenheim-nebenkosten-geteilt",
+      stepId: "/finanzielle-angaben/wohnung/eigenheim-nebenkosten-geteilt",
       userInput: {
+        ...finanzielleAngabenTestcaseData,
         utilitiesCostOwnShared: "123",
         utilitiesCostOwned: "243",
         heatingCostsOwned: "234",
@@ -168,4 +198,4 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
       stepId: "/finanzielle-angaben/eigentum/eigentum-info",
     },
   ],
-} satisfies FlowTestCases<ProzesskostenhilfeFinanzielleAngabenUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

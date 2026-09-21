@@ -20,7 +20,6 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        hasWeitereUnterhaltszahlungen: "yes",
       },
     },
     {
@@ -35,7 +34,6 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
       userInput: {
         ...finanzielleAngabenTestcaseData,
-        hasWeitereUnterhaltszahlungen: "yes",
       },
     },
     {
