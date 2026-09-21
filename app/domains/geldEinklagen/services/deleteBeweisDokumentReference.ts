@@ -136,6 +136,12 @@ export const deleteBeweisDokumentReference = (
         reuseBeweiseDokument[renamed] = value;
       }
     });
+
+    // The schema requires at least one "on" entry, so drop the map entirely
+    // once nothing is selected anymore instead of leaving only "off" values.
+    if (!Object.values(reuseBeweiseDokument).some((value) => value === "on")) {
+      abschnitt.reuseBeweiseDokument = undefined;
+    }
   });
 
   // Replace the array wholesale instead of deep-merging, so removed
