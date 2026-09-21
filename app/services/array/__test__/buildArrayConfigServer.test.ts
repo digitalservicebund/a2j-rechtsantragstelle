@@ -48,4 +48,28 @@ describe("buildArrayConfigServer", () => {
       },
     });
   });
+
+  it("builds the url from nextArrayPath when the array is empty (item page not yet visited)", () => {
+    const flowSessionEngine = {
+      arrayInfo: {
+        name: "arrayName",
+        entryPoint: "daten",
+        fieldName: "fieldName",
+      },
+      nextArrayPath:
+        "/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
+      isReachable: () => true,
+      // Empty array: the item page was never visited, so it is absent from paths.
+      paths: [],
+    } as unknown as FlowSession<PageConfigMap>;
+
+    const result = buildArrayConfigServer(
+      flowSessionEngine,
+      "/beratungshilfe/antrag",
+    );
+
+    expect(result?.arrayName.url).toBe(
+      "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
+    );
+  });
 });
