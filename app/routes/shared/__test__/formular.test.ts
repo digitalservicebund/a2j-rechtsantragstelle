@@ -17,6 +17,7 @@ import {
 } from "~/routes/__test__/isResponse";
 import invariant from "tiny-invariant";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
@@ -28,6 +29,7 @@ vi.mock("~/services/logging", () => ({
 
 vi.mock("~/services/upload/fileUploadHelpers.server");
 vi.mock("~/services/session.server");
+vi.mock("~/services/session.server/getMigrationData");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
 vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
 vi.mock("~/services/flow/userFlowAction/flowDestination");
@@ -174,9 +176,12 @@ describe("formular.server", () => {
         vi.mocked(validateFormUserData).mockResolvedValue(
           Result.ok({
             userData: { name: "Valid Name" },
-            migrationData: { name: "Migration Name" },
           }),
         );
+
+        vi.mocked(getMigrationData).mockResolvedValue({
+          name: "Migration Name",
+        });
 
         await action(mockRouteArgsFromRequest(mockDefaultRequest));
 

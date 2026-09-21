@@ -15,6 +15,7 @@ const HiddenSubfieldInput = ({
       id={name}
       data-testid={`hidden-input-${name}`}
       value={value}
+      readOnly
     />
   );
 };
@@ -22,6 +23,10 @@ const HiddenSubfieldInput = ({
 const HiddenInput = ({ name }: { name: string }) => {
   const { getInputProps } = useField(name);
   const inputProps = getInputProps();
+  // If there is no value set, don't render it to avoid validating (possibly) invalid data against a schema
+  if (!inputProps.defaultValue) {
+    return null;
+  }
   if (typeof inputProps.defaultValue === "object") {
     return (
       <>
