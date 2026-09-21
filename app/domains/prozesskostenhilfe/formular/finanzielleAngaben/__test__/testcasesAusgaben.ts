@@ -1,7 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 import { addYears, today, toGermanDateString } from "~/util/date";
+import { type ProzesskostenhilfeFormularUserData } from "../../userData";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenYes: [
@@ -273,6 +272,4 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/gesetzliche-vertretung/frage",
     },
   ],
-} satisfies FlowTestCases<
-  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenAusgabenPages>
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

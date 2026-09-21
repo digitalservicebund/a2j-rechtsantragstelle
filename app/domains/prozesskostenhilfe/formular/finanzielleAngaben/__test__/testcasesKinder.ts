@@ -1,12 +1,18 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type pkhFormularFinanzielleAngabenKinderPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
+import type { ProzesskostenhilfeFormularUserData } from "../../userData";
+import { finanzielleAngabenTestcaseData } from "./testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = {
   doesntHaveChildren: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "no" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
+        hasKinder: "no",
+      },
     },
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
@@ -15,7 +21,13 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
   unenteredChildren: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
+        hasKinder: "yes",
+      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -29,6 +41,10 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
         hasKinder: "yes",
       },
     },
@@ -39,7 +55,13 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
   liveInChildWithEinnahmen: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
+        hasKinder: "yes",
+      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -77,7 +99,13 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
   childLivesSeparateWithUnterhalt: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
+        hasKinder: "yes",
+      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -114,7 +142,13 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
   childLivesSeparateNoUnterhalt: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
-      userInput: { hasKinder: "yes" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        partnerschaft: "yes",
+        zusammenleben: "yes",
+        partnerEinkommen: "no",
+        hasKinder: "yes",
+      },
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
@@ -141,12 +175,10 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/kinder/kinder/kind-unterhalt-ende",
+      stepId: "/finanzielle-angaben/kinder/kinder/0/kind-unterhalt-ende",
     },
     {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
     },
   ],
-} satisfies FlowTestCases<
-  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenKinderPages>
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

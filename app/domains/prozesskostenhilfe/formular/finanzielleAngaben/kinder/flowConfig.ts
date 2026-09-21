@@ -62,7 +62,7 @@ export const kinderFlowConfig = {
     { target: "kinderUebersicht" },
   ],
   kindUnterhalt: "kinderUebersicht",
-  kindUnterhaltEnde: null,
+  kindUnterhaltEnde: "kinderUebersicht",
 } satisfies Partial<
   TransitionConfigMap<typeof prozesskostenhilfeFormularPages>
 >;
