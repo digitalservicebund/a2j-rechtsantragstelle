@@ -115,8 +115,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.433.4
-        version: 1.433.4(@types/react@19.3.0)(react@19.3.0)
+        specifier: 1.434.0
+        version: 1.434.0(@types/react@19.3.0)(react@19.3.0)
       posthog-node:
         specifier: 5.52.4
         version: 5.52.4
@@ -1662,14 +1662,20 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  '@posthog/browser-common@0.8.3':
-    resolution: {integrity: sha512-4Hlbwyn+Hioc2+pjqSGWMTDrA5XsDshssPnGfv34khPKoJaeBe2YvPvsEPoH78jezOS6Wo3LJvCPhqyolg3S8w==}
+  '@posthog/browser-common@0.9.0':
+    resolution: {integrity: sha512-EWoVzs1vVY7ihpn8yOjj3jyjriHUEEMVSBNL/TW3hk09fTriWRe76vJXrRg0G0yjTYxHmtlSkNn4mOV24ZEzzA==}
 
   '@posthog/core@1.54.2':
     resolution: {integrity: sha512-p0NuMjiZkploKG/aASj4nw4QDuhF87SIFWkelaFRrr3G0Myb7KWWUZot2hm5qXpPx7zKozVZJrJkGzC2kGBqbg==}
 
+  '@posthog/core@1.54.5':
+    resolution: {integrity: sha512-7N/Su3EnQpGaPSYgB7Ha0UQms47GObytCvuFjcKgSTEVlUWKO42hs38Zhb5O1S5VTxK1vPzavomieoGVrCOiZg==}
+
   '@posthog/types@1.412.1':
     resolution: {integrity: sha512-FxXsb9YOOME8bJI5K09qKeSvLjnZQ2dPV7wZpI7a8sERQtXkAuhBcPB/balCnVE7TYwhgtHj5NQss9BgQ5bAfQ==}
+
+  '@posthog/types@1.412.2':
+    resolution: {integrity: sha512-taxTh8o6n7ZVlC8qBypZvF+6w7/18yNkS9XDiGCbutGTKqIljfzYi/7pumgwN3mcnl/n0e9A+JhF05+nLd4Xaw==}
 
   '@react-router/dev@8.3.0':
     resolution: {integrity: sha512-XR+N2fEFOPjczYo2efc3/AOtosbSICCroLF/IxnZ6ErGBeBGRG6SqAso0SYoff0e18OA05qOyhJHFhXKMGIPRw==}
@@ -4245,8 +4251,8 @@ packages:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.433.4:
-    resolution: {integrity: sha512-6OiSinv4tX2dZ3oc7fjzBOPLq3ouMbXk1y/DhyEh2vh+zh0m1WEIIyf5VtwcFFLOw2zEoGn1xXPXqt62eEV5uA==}
+  posthog-js@1.434.0:
+    resolution: {integrity: sha512-4h3OrJhflC8WS4t0b/av7x2cNCzmktO6Ey5punQbzFMZRqj+Mwh6C2MWTwhO4w5HEIf2XWh4SiFokgWILHk9qw==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -6442,7 +6448,7 @@ snapshots:
     dependencies:
       playwright: 1.63.0
 
-  '@posthog/browser-common@0.8.3':
+  '@posthog/browser-common@0.9.0':
     dependencies:
       '@posthog/core': 1.54.2
       '@posthog/types': 1.412.1
@@ -6451,7 +6457,13 @@ snapshots:
     dependencies:
       '@posthog/types': 1.412.1
 
+  '@posthog/core@1.54.5':
+    dependencies:
+      '@posthog/types': 1.412.2
+
   '@posthog/types@1.412.1': {}
+
+  '@posthog/types@1.412.2': {}
 
   '@react-router/dev@8.3.0(babel-plugin-macros@3.1.0)(react-router@8.3.0)(supports-color@7.2.0)(typescript@7.0.2)(vite@8.3.0)':
     dependencies:
@@ -9010,11 +9022,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.433.4(@types/react@19.3.0)(react@19.3.0):
+  posthog-js@1.434.0(@types/react@19.3.0)(react@19.3.0):
     dependencies:
-      '@posthog/browser-common': 0.8.3
-      '@posthog/core': 1.54.2
-      '@posthog/types': 1.412.1
+      '@posthog/browser-common': 0.9.0
+      '@posthog/core': 1.54.5
+      '@posthog/types': 1.412.2
       core-js: 3.50.0
       dompurify: 3.4.14
       fflate: 0.4.9
