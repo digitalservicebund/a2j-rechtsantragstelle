@@ -1,6 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/userData";
-import { type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../../userData";
 import { finanzielleAngabenTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
@@ -150,7 +149,4 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId: "/finanzielle-angaben/partner/partnerschaft",
     },
   ],
-} satisfies FlowTestCases<
-  ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData &
-    ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

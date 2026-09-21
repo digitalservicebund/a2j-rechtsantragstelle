@@ -110,7 +110,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
     ...testCasesPKHFormularRsv,
     ...testCasesPKHFormularFinanzielleAngabenEinkuenfte,
-    // ...testCasesPKHFormularFinanzielleAngabenPartner,
+    ...testCasesPKHFormularFinanzielleAngabenPartner,
     ...testCasesPKHFormularFinanzielleAngabenAbzuege,
     // ...testCasesPKHFormularFinanzielleAngabenAusgaben,
     // ...testCasesPKHFormularFinanzielleAngabenKinder,

@@ -52,8 +52,8 @@ export const partnerFlowConfig = {
     },
     { target: "kinderFrage" },
   ],
-  partnerBuergergeld: "partnerEinkommen",
-  partnerArbeitslosengeld: "partnerEinkommen",
+  partnerBuergergeld: "partnerErwerbstaetig",
+  partnerArbeitslosengeld: "partnerErwerbstaetig",
   partnerEinkuenfteEinkommen: "partnerErwerbstaetig",
   partnerErwerbstaetig: [
     {
@@ -80,8 +80,10 @@ export const partnerFlowConfig = {
     },
     {
       guard: (context) =>
-        context["partner-currentlyEmployed"] === "yes" &&
-        context["partner-staatlicheLeistungen"] === "buergergeld",
+        !(
+          context["partner-currentlyEmployed"] === "yes" &&
+          context["partner-staatlicheLeistungen"] === "buergergeld"
+        ),
       target: "partnerArbeitsweg",
     },
     { target: "partnerRenteFrage" },
