@@ -3,6 +3,10 @@ import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import type {
+  InferredUserData,
+  PageConfigMap,
+} from "~/services/flow/newFlowEngine/types";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
   pruneUserData,
@@ -43,6 +47,12 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Beratungshilfe", async () => {
+    // Beratungshilfe runs on the new engine now, so the loader prunes via
+    // getPrunedUserDataFromSimulation rather than the (mocked) old pruner.
+    getPrunedUserDataForPdfSpy.mockReturnValueOnce({
+      vorname: "Zoe",
+      nachname: "Müller",
+    } as InferredUserData<PageConfigMap>);
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
