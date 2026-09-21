@@ -27,7 +27,8 @@ export const flugdatenFlowConfig = {
     },
     {
       target: "flugdatenTatsaechlicherFlug",
-      guard: fluggastrechteGuards.hasNoZwischenstoppAndVerspaetung,
+      guard: ({ zwischenstoppAnzahl, bereich }) =>
+        zwischenstoppAnzahl === "no" && bereich === "verspaetet",
     },
     {
       target: "flugdatenErsatzverbindungDaten",

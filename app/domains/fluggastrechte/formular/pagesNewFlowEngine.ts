@@ -2,6 +2,7 @@ import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/p
 import { weiterePersonenArraySchema } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { isTotalClaimWillSucceddedAboveLimit } from "~/domains/fluggastrechte/formular/services/isTotalClaimAboveLimit";
 import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements/person";
+import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 
@@ -18,6 +19,8 @@ export const fluggastrechteFormularPagesNewFlowEngine = {
     arraySummary: {
       name: "weiterePersonen",
       schema: weiterePersonenArraySchema,
+      isArrayRelevant: (context: FluggastrechteUserData) =>
+        context.isWeiterePersonen === "yes",
       hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
       indexOffset: WEITERE_PERSONEN_START_INDEX,
       shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
