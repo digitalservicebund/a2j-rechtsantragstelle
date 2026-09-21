@@ -48,7 +48,7 @@ const beweiseDokumentenArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema.check(datatypeC),
     dokumentReference: hiddenInputSchema(
-      schemaOrEmptyString(stringOptionalSchema),
+      schemaOrEmptyStringOptional(stringOptionalSchema),
     ),
   }),
 );
@@ -65,7 +65,9 @@ const beweisePersonenSchema = z.object({
   land: stringRequiredSchema,
   telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
   email: schemaOrEmptyString(emailSchema).check(datatypeC),
-  personReference: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
+  personReference: hiddenInputSchema(
+    schemaOrEmptyStringOptional(stringOptionalSchema),
+  ),
 });
 
 const beweisePersonenArray = z.array(
