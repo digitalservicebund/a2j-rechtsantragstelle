@@ -16,8 +16,8 @@ importers:
         specifier: ^3.1136.0
         version: 3.1136.0
       '@digitalservicebund/a2j-xjustiz-bridge':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^0.10.0
+        version: 0.10.0
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^2.0.0
         version: 2.0.0(@kern-ux/native@2.5.0)(tailwindcss@4.3.3)
@@ -631,8 +631,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.9.0':
-    resolution: {integrity: sha512-7OJjwhYZ0/BxVCRJkqnt4LvpWvY3+ZwStHvwAzsu27u/2r9/d2ZhJUv9F4Fhx4KjZXlRpNOx2NzVF+p9O9QUBQ==}
+  '@digitalservicebund/a2j-xjustiz-bridge@0.10.0':
+    resolution: {integrity: sha512-T7hHyYS+JyhmEBIHM4Jg68ciaQPHplEFQ3PyQfzQzxInfbNe+rkyA6GOdFuooVewEHEhGm97+5CqpGoouM/V6A==}
     engines: {node: 26.5.0, pnpm: 11.4.0}
 
   '@digitalservicebund/kern-ux-tailwind-theme@2.0.0':
@@ -5665,7 +5665,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.9.0':
+  '@digitalservicebund/a2j-xjustiz-bridge@0.10.0':
     dependencies:
       '@standard-schema/spec': 1.1.0
       ky: 2.1.0
