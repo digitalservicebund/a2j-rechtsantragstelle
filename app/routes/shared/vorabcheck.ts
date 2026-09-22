@@ -72,11 +72,7 @@ export const action = async ({ request, url }: ActionFunctionArgs) => {
   const flowSession = await getSession(cookieHeader);
   const formData = await request.formData();
 
-  const resultFormUserData = await validateFormUserData(
-    formData,
-    pathname,
-    cookieHeader,
-  );
+  const resultFormUserData = await validateFormUserData(formData, pathname);
 
   if (resultFormUserData.isErr) {
     return validationError(
