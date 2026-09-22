@@ -3,32 +3,12 @@ import { updateSession } from "~/services/session.server";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/klage-erstellen/userData";
+import { getDokumentLocationsWithReference } from "./deleteBeweisDokumentReference";
 
 type Abschnitte = Exclude<
   GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
   undefined
 >;
-
-// Positions of documents that currently reuse (copy) a given original document reference.
-const getDokumentLocationsWithReference = (
-  abschnitte: Abschnitte,
-  reference: string,
-) =>
-  abschnitte.flatMap((abschnitt, abschnittIndex) => {
-    if (
-      !abschnitt.reuseBeweiseDokument ||
-      abschnitt.reuseBeweiseDokument[reference] !== "on" ||
-      !arrayIsNonEmpty(abschnitt.dokumenten)
-    ) {
-      return [];
-    }
-
-    return abschnitt.dokumenten.flatMap((dokument, dokumentIndex) =>
-      dokument.dokumentReference === reference
-        ? [{ abschnittIndex, dokumentIndex }]
-        : [],
-    );
-  });
 
 export const updateBeweisReferenceDocuments = async (
   request: Request,
