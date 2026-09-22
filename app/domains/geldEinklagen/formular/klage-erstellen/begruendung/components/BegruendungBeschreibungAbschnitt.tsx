@@ -6,7 +6,6 @@ import { translations } from "~/services/translations/translations";
 import { BASE_URL_BESCHREIBUNG_ABSCHNITTE } from "./BegruendungBeschreibungUebersicht";
 import { useBegruendungBeschreibung } from "./useBegruendungBeschreibung";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
-import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { useRef } from "react";
 import { DeleteDialog } from "./DeleteDialog";
 
@@ -23,17 +22,17 @@ const BegruendungBeschreibungAbschnitt = ({
   abschnitt,
 }: BegruendungBeschreibungAbschnittProps) => {
   const { onAbschnittDelete } = useBegruendungBeschreibung();
-  const jsAvailable = useJsAvailable();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const headingText = `${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${itemIndexAbschnitt + 1}`;
 
   const onDeleteClicked = () => {
-    if (!jsAvailable) {
-      onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitt);
-    }
-
     dialogRef.current?.showModal();
+  };
+
+  const onClickDeleteDialog = () => {
+    onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitt);
+    dialogRef.current?.close();
   };
 
   return (
@@ -96,12 +95,7 @@ const BegruendungBeschreibungAbschnitt = ({
                 translations.geldEinklagen
                   .begruendungBeschreibungDeleteDialogDescription.de
               }
-              onClick={() =>
-                onAbschnittDelete(
-                  BASE_URL_BESCHREIBUNG_ABSCHNITTE,
-                  itemIndexAbschnitt,
-                )
-              }
+              onClick={onClickDeleteDialog}
               closeDialog={() => dialogRef.current?.close()}
               dialogRef={dialogRef}
             />
