@@ -28,6 +28,7 @@ import {
 import { copyOrRemoveReferenceDocuments } from "../services/copyOrRemoveReferenceDocuments";
 import { geldEinklagenFlowConfig } from "./flowConfig";
 import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferencePersons";
+import { updateBeweisReferenceDocuments } from "../services/updateBeweisRefereceDocuments";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -81,5 +82,7 @@ export const geldEinklagenFormular = {
       copyOrRemoveReferenceDocuments,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden":
       copyOrRemoveReferencePersons,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten":
+      updateBeweisReferenceDocuments,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;
