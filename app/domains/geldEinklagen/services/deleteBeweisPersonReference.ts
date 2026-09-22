@@ -9,7 +9,7 @@ type Abschnitte = Exclude<
 >;
 
 // Positions of persons that currently reuse (copy) a given original person reference.
-const getPersonLocationsWithReference = (
+export const getPersonLocationsWithReference = (
   abschnitte: Abschnitte,
   reference: string,
 ) =>

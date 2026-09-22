@@ -1,4 +1,5 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
+import { deleteBeweisAbschnittReference } from "~/domains/geldEinklagen/services/deleteBeweisAbschnittReference";
 import { deleteBeweisDokumentReference } from "~/domains/geldEinklagen/services/deleteBeweisDokumentReference";
 import { deleteBeweisPersonReference } from "~/domains/geldEinklagen/services/deleteBeweisPersonReference";
 import { logWarning } from "~/services/logging";
@@ -39,6 +40,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     if (arrayName === "abschnitte#personen") {
       deleteBeweisPersonReference(flowSession, deleteArrayIndexes);
+    }
+
+    if (arrayName === "abschnitte") {
+      deleteBeweisAbschnittReference(flowSession, index);
     }
   }
 

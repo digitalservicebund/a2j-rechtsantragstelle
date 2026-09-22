@@ -9,7 +9,7 @@ type Abschnitte = Exclude<
 >;
 
 // Positions of documents that currently reuse (copy) a given original document reference.
-const getDokumentLocationsWithReference = (
+export const getDokumentLocationsWithReference = (
   abschnitte: Abschnitte,
   reference: string,
 ) =>
