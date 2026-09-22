@@ -15,6 +15,7 @@ type Props = {
   nextItemBeweis: number;
   abschnittPersons: BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"];
   formSchema: z.ZodObject<any>;
+  hasPersonsToBeReused: boolean;
 };
 
 const dialogLabelId = "dialog-label";
@@ -34,6 +35,7 @@ export const ReuseBeweiseDialogPerson = ({
   nextItemBeweis,
   abschnittPersons,
   formSchema,
+  hasPersonsToBeReused,
 }: Props) => {
   useEffect(() => {
     const dialog = dialogRef?.current;
@@ -74,6 +76,10 @@ export const ReuseBeweiseDialogPerson = ({
       disabled: hasBeklagtePerson,
     },
   ];
+
+  if (!hasPersonsToBeReused) {
+    dialogOptions.splice(0, 1);
+  }
 
   return (
     <ValidatedForm

@@ -172,6 +172,7 @@ export const BegruendungBeschreibungBeweise = ({
                 itemIndexAbschnitt={itemIndexAbschnitt}
                 nextItemBeweis={nextPersonItemIndex}
                 abschnittPersons={abschnitt.personen}
+                hasPersonsToBeReused={hasPersonsToBeReused}
                 formSchema={reuseDialogPersonSchema}
               />
             )}
