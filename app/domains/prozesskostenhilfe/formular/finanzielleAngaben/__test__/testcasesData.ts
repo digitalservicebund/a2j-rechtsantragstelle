@@ -44,4 +44,9 @@ export const finanzielleAngabenTestcaseData: Partial<ProzesskostenhilfeFormularU
     partnerHasBesondersAusgaben: "yes",
     hasKinder: "yes",
     hasWeitereUnterhaltszahlungen: "yes",
+    hasAusgaben: "yes",
+    hasVersicherungen: "yes",
+    hasRatenzahlungen: "yes",
+            hasSonstigeAusgaben: "yes",
+    
   };

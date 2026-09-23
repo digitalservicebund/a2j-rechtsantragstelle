@@ -116,7 +116,7 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen,
     ...testCasesPKHFormularFinanzielleAngabenWohnung,
     ...testCasesPKHFormularFinanzielleAngabenEigentum,
-    // ...testCasesPKHFormularFinanzielleAngabenAusgaben,
+    ...testCasesPKHFormularFinanzielleAngabenAusgaben,
     // ...testCasesPKHFormularPersoenlicheDaten,
     // weitereAngaben: [
     //   {
