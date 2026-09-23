@@ -1,8 +1,9 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { fluggastrechteFormularHappyPathData } from "~/domains/fluggastrechte/formular/__test__/mockTestData";
 import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 
-const baseContext = {
+const personDatenInput = {
   anrede: "",
   title: "",
   vorname: "test",
@@ -13,99 +14,143 @@ const baseContext = {
   ort: "test",
   land: "Deutschland",
   telefonnummer: "",
-} as FluggastrechteFormularWeiterePersonen[number];
+  iban: "",
+} satisfies Partial<FluggastrechteUserData>;
 
-export const testCasesFluggastrechteFormularPersoenlicheDaten = [
-  [
-    baseContext,
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "no",
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/prozessfuehrung/zeugen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "no",
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/prozessfuehrung/zeugen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "yes",
-      weiterePersonen: [
-        {
-          ...baseContext,
-          datenverarbeitungZustimmung: "on",
-          buchungsnummer: "123456",
+const weiterePersonInput = {
+  buchungsnummer: "123456",
+  anrede: "",
+  title: "",
+  vorname: "test",
+  nachname: "test",
+  strasse: "test",
+  hausnummer: "1",
+  plz: "13055",
+  ort: "test",
+  land: "Deutschland",
+  telefonnummer: "",
+  datenverarbeitungZustimmung: "on",
+} satisfies FluggastrechteFormularWeiterePersonen[number];
+
+export const testCasesFluggastrechteFormularPersoenlicheDaten: FlowTestCases<FluggastrechteUserData> =
+  {
+    ohneWeiterePersonenAntwort: [
+      {
+        stepId: "/persoenliche-daten/person/daten",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+          },
         },
-      ],
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/uebersicht",
-      "/prozessfuehrung/zeugen",
-    ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "yes",
-      weiterePersonen: [
-        {
-          ...baseContext,
-          datenverarbeitungZustimmung: "on",
-          buchungsnummer: "123456",
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          ...personDatenInput,
         },
-      ],
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/uebersicht",
-      "/prozessfuehrung/zeugen",
+      },
+      { stepId: "/persoenliche-daten/weitere-personen/frage" },
     ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "yes",
-      weiterePersonen: [],
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/warnung",
+    weiterePersonenNein: [
+      {
+        stepId: "/persoenliche-daten/person/daten",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+          },
+        },
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          ...personDatenInput,
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/frage",
+        userInput: {
+          isWeiterePersonen: "no",
+        },
+      },
+      { stepId: "/prozessfuehrung/zeugen" },
     ],
-  ],
-  [
-    {
-      ...baseContext,
-      isWeiterePersonen: "yes",
-    },
-    [
-      "/persoenliche-daten/person/daten",
-      "/persoenliche-daten/weitere-personen/frage",
-      "/persoenliche-daten/weitere-personen/uebersicht",
-      "/persoenliche-daten/weitere-personen/warnung",
+    weiterePersonenJaMitPerson: [
+      {
+        stepId: "/persoenliche-daten/person/daten",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+          },
+        },
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          ...personDatenInput,
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/frage",
+        userInput: {
+          isWeiterePersonen: "yes",
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/uebersicht",
+        skipPageSchemaValidation: true,
+        userInput: {
+          weiterePersonen: [weiterePersonInput],
+        },
+      },
+      { stepId: "/prozessfuehrung/zeugen" },
     ],
-  ],
-] as const satisfies TestCases<FluggastrechteUserData>;
+    weiterePersonenJaLeeresArray: [
+      {
+        stepId: "/persoenliche-daten/person/daten",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+          },
+        },
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          ...personDatenInput,
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/frage",
+        userInput: {
+          isWeiterePersonen: "yes",
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/uebersicht",
+        skipPageSchemaValidation: true,
+        userInput: {
+          weiterePersonen: [],
+        },
+      },
+      { stepId: "/persoenliche-daten/weitere-personen/warnung" },
+    ],
+    weiterePersonenJaOhneArray: [
+      {
+        stepId: "/persoenliche-daten/person/daten",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+          },
+        },
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          ...personDatenInput,
+        },
+      },
+      {
+        stepId: "/persoenliche-daten/weitere-personen/frage",
+        userInput: {
+          isWeiterePersonen: "yes",
+        },
+      },
+      { stepId: "/persoenliche-daten/weitere-personen/uebersicht" },
+      { stepId: "/persoenliche-daten/weitere-personen/warnung" },
+    ],
+  };
