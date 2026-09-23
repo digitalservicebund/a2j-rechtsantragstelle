@@ -1,6 +1,6 @@
-import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 import { type fluggastrechteFlugdatenPages } from "./pages";
 
-export type FluggastrechteFlugdatenUserData = UserDataFromPagesSchema<
+export type FluggastrechteFlugdatenUserData = InferredUserData<
   typeof fluggastrechteFlugdatenPages
 >;

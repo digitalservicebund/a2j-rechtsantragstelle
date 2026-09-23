@@ -1,26 +1,26 @@
+import { type FieldApi } from "@rvf/react";
 import mapValues from "lodash/mapValues";
+import { type MaybePromise } from "p-map";
+import { type Dispatch, type SetStateAction } from "react";
 import { type z } from "zod";
+import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
+import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
+import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
+import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
+import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
+import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
-import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
-import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
-import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { fluggastrechteFormularPages } from "./fluggastrechte/formular/pages";
 import { fluggastrechteVorabcheckPages } from "./fluggastrechte/vorabcheck/pages";
-import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
+import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
-import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
-import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
-import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
+import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import { erbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
-import { type MaybePromise } from "p-map";
-import { type FieldApi } from "@rvf/react";
-import { type Dispatch, type SetStateAction } from "react";
-import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
-import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
+import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -106,7 +106,11 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   if (
     arrayIndexes.length > 0 &&
     // TODO - Remove this condition after migrating all flows to the new flow engine
-    !["/geld-einklagen/formular", "/beratungshilfe/antrag"].includes(flowId)
+    ![
+      "/geld-einklagen/formular",
+      "/beratungshilfe/antrag",
+      "/fluggastrechte/formular",
+    ].includes(flowId)
   ) {
     // An index in the URL tells us we are on a page that belongs to an array
     // To return its pageConfig, we need to find the parent first, which should be one or two levels above

@@ -1,13 +1,10 @@
-import type { FluggastrechteUserData } from "./userData";
-import { type Guards } from "../../guards.server";
 import { fluggastrechteFlugdatenGuards } from "./flugdaten/guards";
-import { persoenlichDatenGuards } from "./persoenlicheDaten/guards";
 import { getTotalCompensationClaim } from "./services/getTotalCompensationClaim";
 import { MAX_TOTAL_COMPENSATION } from "./services/isTotalClaimAboveLimit";
+import type { FluggastrechteUserData } from "./userData";
 
 export const fluggastrechteGuards = {
   ...fluggastrechteFlugdatenGuards,
-  ...persoenlichDatenGuards,
-  isClaimNotExceedingLimit: ({ context }) =>
+  isClaimNotExceedingLimit: (context) =>
     getTotalCompensationClaim(context) < MAX_TOTAL_COMPENSATION,
-} satisfies Guards<FluggastrechteUserData>;
+} satisfies Record<string, (context: FluggastrechteUserData) => boolean>;
