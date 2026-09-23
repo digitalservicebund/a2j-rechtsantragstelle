@@ -490,7 +490,7 @@ export const translations = {
       de: "Anleitung: „Mein Justizpostfach“ einrichten",
     },
     cardDescriptionAnleitung: {
-      de: "Mit „Mein Justizpostfach“ können Sie mit der Justiz kommunizieren und Dokumente online einreichen (zum Beispiel einen Antrag oder eine Klage)“ einrichten und nutzen können.",
+      de: "Mit „Mein Justizpostfach“ können Sie mit der Justiz kommunizieren und Dokumente online einreichen, zum Beispiel einen Antrag oder eine Klage.",
     },
     cardButtonLabelAnleitung: {
       de: "„Mein Justizpostfach“ einrichten",
