@@ -331,7 +331,7 @@ export const getContentData = (
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
         flowId,
-        flowSessionEngine.reachablePaths,
+        flowSessionEngine.paths,
       );
       return await generateSummaryFromUserData(
         userDataWithPageData,

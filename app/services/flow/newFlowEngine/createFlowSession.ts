@@ -309,13 +309,6 @@ export const createFlowSession = <C extends PageConfigMap>(
     paths: simulation.keys
       .map((key) => compiledFlow.getPathFromNodeKey(key as NodeKey<C>))
       .filter((path): path is string => path !== undefined) as string[],
-    reachablePaths: Object.keys(compiledFlow.pages)
-      .filter((key) => simulation.reachableSet.has(key))
-      .map((key) => compiledFlow.getPathFromNodeKey(key as NodeKey<C>))
-      .filter(
-        (path): path is string =>
-          path !== undefined && !path.includes(ARRAY_WILDCARD),
-      ),
     isComplete: simulation.isComplete,
     statusTree: buildStatusTree(compiledFlow.pages, simulation, doneNodeKeys),
     prunedUserData,
