@@ -1,3 +1,4 @@
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { type FluggastrechteUserData } from "../../userData";
 import {
   getArrayWeiterePersonenIndexStrings,
@@ -41,7 +42,7 @@ describe("person", () => {
             ort: "ort",
             plz: "plz",
           },
-        ],
+        ] as FluggastrechteFormularWeiterePersonen,
         pageData: {
           arrayIndexes: [0],
         },
@@ -67,7 +68,7 @@ describe("person", () => {
             ort: "ort",
             plz: "plz",
           },
-        ],
+        ] as FluggastrechteFormularWeiterePersonen,
         pageData: {
           arrayIndexes: [5],
         },

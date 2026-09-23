@@ -1,3 +1,4 @@
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { getAirportByIataCode } from "~/domains/fluggastrechte/services/airports/getAirportByIataCode";
 import { getCourtByStartAndEndAirport } from "~/domains/fluggastrechte/services/getCourtByStartAndEndAirport";
 import { gerichtskostenFromBetrag } from "~/domains/shared/formular/onlineVerfahren/getCourtCost";
@@ -157,7 +158,7 @@ describe("legalCourts", () => {
         weiterePersonen: [
           { vorname: "Zweiter", nachname: "Person" },
           { vorname: "Dritter", nachname: "Person" },
-        ],
+        ] as FluggastrechteFormularWeiterePersonen,
       };
 
       const expected = {
