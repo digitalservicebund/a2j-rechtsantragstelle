@@ -47,6 +47,12 @@ describe("pdfDownloadLoader", () => {
   });
 
   it("generates correct PDF for Beratungshilfe", async () => {
+    // Beratungshilfe runs on the new engine now, so the loader prunes via
+    // getPrunedUserDataFromSimulation rather than the (mocked) old pruner.
+    getPrunedUserDataForPdfSpy.mockReturnValueOnce({
+      vorname: "Zoe",
+      nachname: "Müller",
+    } as InferredUserData<PageConfigMap>);
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 

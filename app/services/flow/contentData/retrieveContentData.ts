@@ -68,7 +68,7 @@ export const retrieveContentData = async (
 
   return getContentData(
     { cmsContent, translations },
-    userDataWithPageData,
+    { ...userDataWithPageData, ...migrationData },
     pathname,
   );
 };
