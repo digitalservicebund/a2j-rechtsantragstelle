@@ -1,15 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
-import type { ArrayConfigServer } from "~/services/array";
 import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import { abgabeXstateConfig } from "./abgabe/xstateConfig";
-import { flugdatenXstateConfig } from "./flugdaten/xstateConfig";
-import { grundvoraussetzungenXstateConfig } from "./grundvoraussetzungen/xstateConfig";
-import { fluggastrechteGuards } from "./guards";
-import { introXstateConfig } from "./intro/xstateConfig";
-import { persoenlicheDatenXstateConfig } from "./persoenlicheDaten/xstateConfig";
-import { prozessfuehrungXstateConfig } from "./prozessfuehrung/xstateConfig";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
-import { streitwertKostenXstateConfig } from "./streitwertKosten/xstateConfig";
 import {
   getAirlineAddressFromDB,
   getAirlineAddressString,
@@ -40,11 +31,9 @@ import {
   getPersonVorname,
   getWeiterePersonenNameStrings,
   isWeiterePersonen,
-  WEITERE_PERSONEN_START_INDEX,
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
-import { zusammenfassungXstateConfig } from "./zusammenfassung/xstateConfig";
-import { type fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { fluggastrechteFormularFlowConfig } from "./flowConfig";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -53,6 +42,11 @@ const flowTransitionConfig: FlowTransitionConfig = {
 
 export const fluggastrechtFlow = {
   flowType: "formFlow",
+  config: {
+    id: "/fluggastrechte/formular",
+    states: {},
+  },
+  newEngineConfig: fluggastrechteFormularFlowConfig,
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [
@@ -95,35 +89,5 @@ export const fluggastrechtFlow = {
     isClaimWillSucceddedAboveLimit:
       isTotalClaimWillSucceddedAboveLimit(context),
   }),
-  config: {
-    meta: {
-      arrays: {
-        weiterePersonen: {
-          url: "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person",
-          initialInputUrl: "daten",
-          statementKey: "isWeiterePersonen",
-          hiddenFields: ["anrede", "title", "datenverarbeitungZustimmung"],
-          event: "add-weiterePersonen",
-          displayIndexOffset: WEITERE_PERSONEN_START_INDEX,
-          shouldDisableAddButton: isTotalClaimWillSucceddedAboveLimit,
-        },
-      } satisfies Partial<
-        Record<keyof FluggastrechteUserData, ArrayConfigServer>
-      >,
-    },
-    id: "/fluggastrechte/formular",
-    initial: "intro",
-    states: {
-      intro: introXstateConfig,
-      grundvoraussetzungen: grundvoraussetzungenXstateConfig,
-      "streitwert-kosten": streitwertKostenXstateConfig,
-      flugdaten: flugdatenXstateConfig,
-      "persoenliche-daten": persoenlicheDatenXstateConfig,
-      prozessfuehrung: prozessfuehrungXstateConfig,
-      zusammenfassung: zusammenfassungXstateConfig,
-      abgabe: abgabeXstateConfig,
-    },
-  },
-  guards: fluggastrechteGuards,
   flowTransitionConfig,
-} satisfies Flow<typeof fluggastrechteFormularPages>;
+} satisfies Flow;

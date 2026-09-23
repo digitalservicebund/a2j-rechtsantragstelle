@@ -26,7 +26,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: NON_EU_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -37,7 +37,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: PARTNER_COURT_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -48,7 +48,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: NON_EU_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(true);
     });
@@ -59,7 +59,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: PARTNER_COURT_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -70,7 +70,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: "BLABLA",
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -80,7 +80,7 @@ describe("fluggastrechteGuard", () => {
         endAirport: PARTNER_COURT_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -90,7 +90,7 @@ describe("fluggastrechteGuard", () => {
         startAirport: PARTNER_COURT_AIRPORT,
       };
 
-      const actual = guards.areAirportsOutsideEU({ context });
+      const actual = guards.areAirportsOutsideEU(context);
 
       expect(actual).toBe(false);
     });
@@ -110,7 +110,7 @@ describe("fluggastrechteGuard", () => {
         Result.err(""),
       );
 
-      const actual = guards.isInvalidAirportDistance({ context });
+      const actual = guards.isInvalidAirportDistance(context);
 
       expect(actual).toBe(true);
     });
@@ -124,7 +124,7 @@ describe("fluggastrechteGuard", () => {
         Result.ok(100),
       );
 
-      const actual = guards.isInvalidAirportDistance({ context });
+      const actual = guards.isInvalidAirportDistance(context);
 
       expect(actual).toBe(false);
     });
@@ -139,9 +139,9 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
+        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline(
           context,
-        });
+        );
 
       expect(actual).toBe(false);
     });
@@ -154,9 +154,9 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
+        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline(
           context,
-        });
+        );
 
       expect(actual).toBe(false);
     });
@@ -169,9 +169,9 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
+        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline(
           context,
-        });
+        );
 
       expect(actual).toBe(false);
     });
@@ -184,9 +184,9 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
+        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline(
           context,
-        });
+        );
 
       expect(actual).toBe(false);
     });
@@ -199,9 +199,9 @@ describe("fluggastrechteGuard", () => {
       };
 
       const actual =
-        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline({
+        guards.isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline(
           context,
-        });
+        );
 
       expect(actual).toBe(true);
     });
@@ -215,9 +215,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
-        context,
-      });
+      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU(context);
 
       expect(actual).toBe(false);
     });
@@ -229,9 +227,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
-        context,
-      });
+      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU(context);
 
       expect(actual).toBe(false);
     });
@@ -243,9 +239,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
-        context,
-      });
+      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU(context);
 
       expect(actual).toBe(false);
     });
@@ -257,9 +251,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
-        context,
-      });
+      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU(context);
 
       expect(actual).toBe(false);
     });
@@ -271,9 +263,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: NON_EU_AIRLINE,
       };
 
-      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU({
-        context,
-      });
+      const actual = guards.isNonGermanAirportsAndIsNotClaimableInEU(context);
 
       expect(actual).toBe(true);
     });
@@ -288,9 +278,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "yes",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(false);
     });
@@ -303,9 +291,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(false);
     });
@@ -318,9 +304,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(false);
     });
@@ -333,9 +317,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(true);
     });
@@ -348,9 +330,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(false);
     });
@@ -363,9 +343,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(true);
     });
@@ -378,9 +356,7 @@ describe("fluggastrechteGuard", () => {
         gericht: "no",
       };
 
-      const actual = guards.isErfolgEU({
-        context,
-      });
+      const actual = guards.isErfolgEU(context);
 
       expect(actual).toBe(false);
     });
@@ -394,9 +370,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: NON_EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -408,9 +382,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -422,9 +394,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -436,9 +406,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: NON_EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -450,9 +418,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -464,9 +430,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(false);
     });
@@ -478,9 +442,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: NON_EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndIsNotClaimable({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndIsNotClaimable(context);
 
       expect(actual).toBe(true);
     });
@@ -494,9 +456,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(false);
     });
@@ -508,9 +468,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(false);
     });
@@ -522,9 +480,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(false);
     });
@@ -536,9 +492,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(false);
     });
@@ -550,9 +504,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: EU_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(false);
     });
@@ -564,9 +516,7 @@ describe("fluggastrechteGuard", () => {
         fluggesellschaft: SONSTIGES_AIRLINE,
       };
 
-      const actual = guards.isGermanEndAirportsAndOtherAirline({
-        context,
-      });
+      const actual = guards.isGermanEndAirportsAndOtherAirline(context);
 
       expect(actual).toBe(true);
     });
