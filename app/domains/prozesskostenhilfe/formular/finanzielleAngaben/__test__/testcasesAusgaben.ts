@@ -1,7 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { addYears, today, toGermanDateString } from "~/util/date";
 import { type ProzesskostenhilfeFormularUserData } from "../../userData";
-import { finanzielleAngabenTestcaseData } from "./testcasesData";
+import { finanzielleAngabenTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenYes: [
