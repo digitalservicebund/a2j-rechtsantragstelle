@@ -1,5 +1,6 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { testCasesPKHFormularAntragstellendePersonTransitions } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/__test__/testcases";
+import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { prozesskostenhilfeFormularFlowConfig } from "../flowConfig";
 import {
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
   testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions,
@@ -15,95 +16,14 @@ import { testCasesPKHFormularPersoenlicheDaten } from "~/domains/prozesskostenhi
 import { testCasesPKHFormularRsv } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAbzuege } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/__test__/testcases";
 import { testCasesPKHFormularFinanzielleAngabenAusgaben } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/__test__/testcasesAusgaben";
-import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { prozesskostenhilfeFormularFlowConfig } from "../flowConfig";
+import { testCasesPKHFormularFinanzielleAngabenGesetzlicheVertretung } from "../gesetzlicheVertretung/__test__/testcases";
+import { testCasesPKHFormularWeitereAngaben } from "../weitereAngaben/__tests__/testcases";
+import { testCasesPKHFormularAntragstellendePersonTransitions } from "../antragstellendePerson/__test__/testcases";
 
 export const prozesskostenhilfeFormularTestCases = {
   xstateConfig: { id: "/prozesskostenhilfe/formular" },
   newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   testcases: {
-    shortHappyPath: [
-      { stepId: "/start/start" },
-      // {
-      //   stepId: "/gesetzliche-vertretung/frage",
-      //   userInput: {
-      //     hasGesetzlicheVertretung: "yes",
-      //   },
-      // },
-      // {
-      //   stepId: "/gesetzliche-vertretung/daten",
-      //   userInput: {
-      //     gesetzlicheVertretungDaten: {
-      //       vorname: "Max",
-      //       nachname: "Mustermann",
-      //       strasseHausnummer: "Musterstraße 1",
-      //       plz: "10969",
-      //       ort: "Musterstadt",
-      //       telefonnummer: "0123456789",
-      //     },
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/start",
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/name",
-      //   userInput: {
-      //     vorname: "Marie",
-      //     nachname: "Mustermann",
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/geburtsdatum",
-      //   userInput: {
-      //     geburtsdatum: {
-      //       day: "10",
-      //       month: "12",
-      //       year: "1990",
-      //     },
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/plz",
-      //   userInput: {
-      //     plz: "10969",
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/adresse",
-      //   userInput: {
-      //     street: "Musterstraße",
-      //     houseNumber: "1c",
-      //     ort: "Berlin",
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/telefonnummer",
-      //   userInput: {
-      //     telefonnummer: "",
-      //   },
-      // },
-      // {
-      //   stepId: "/persoenliche-daten/beruf",
-      //   userInput: {
-      //     beruf: "Softwareentwickler:in",
-      //   },
-      // },
-      // {
-      //   stepId: "/weitere-angaben",
-      //   userInput: {
-      //     weitereAngaben: "",
-      //   },
-      //   pageData: {
-      //     subflowDoneStates: {
-      //       "/abgabe": false,
-      //       "/gesetzliche-vertretung": true,
-      //     },
-      //   },
-      // },
-      // { stepId: "/abgabe/zusammenfassung" },
-      // { stepId: "/abgabe/ende" },
-    ],
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,
     ...testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung,
@@ -117,27 +37,9 @@ export const prozesskostenhilfeFormularTestCases = {
     ...testCasesPKHFormularFinanzielleAngabenWohnung,
     ...testCasesPKHFormularFinanzielleAngabenEigentum,
     ...testCasesPKHFormularFinanzielleAngabenAusgaben,
-    // ...testCasesPKHFormularPersoenlicheDaten,
-    // weitereAngaben: [
-    //   {
-    //     stepId: "/persoenliche-daten/beruf",
-    //     userInput: {
-    //       beruf: "Softwareentwickler:in",
-    //     },
-    //   },
-    //   {
-    //     stepId: "/weitere-angaben",
-    //     userInput: {
-    //       weitereAngaben: "",
-    //     },
-    //   },
-    //   {
-    //     stepId: "/abgabe/ueberpruefung",
-    //     userInput: {
-    //       weitereAngaben: "",
-    //     },
-    //   },
-    // ],
+    ...testCasesPKHFormularFinanzielleAngabenGesetzlicheVertretung,
+    ...testCasesPKHFormularPersoenlicheDaten,
+    ...testCasesPKHFormularWeitereAngaben,
   },
 } satisfies FlowTestConfig<
   ProzesskostenhilfeFormularUserData,

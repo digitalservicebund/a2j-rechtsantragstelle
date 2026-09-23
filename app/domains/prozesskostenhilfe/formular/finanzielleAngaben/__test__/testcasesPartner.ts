@@ -131,7 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsweg",
       userInput: {
-                ...finanzielleAngabenTestcaseData,
+        ...finanzielleAngabenTestcaseData,
         "partner-arbeitsweg": "publicTransport",
       },
     },
@@ -317,7 +317,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/add-partner-besonders-ausgaben",
       userInput: {
-                ...finanzielleAngabenTestcaseData,
+        ...finanzielleAngabenTestcaseData,
         partnerBesondersAusgabe: {
           beschreibung: "Besondere Ausgaben",
           betrag: "1000",

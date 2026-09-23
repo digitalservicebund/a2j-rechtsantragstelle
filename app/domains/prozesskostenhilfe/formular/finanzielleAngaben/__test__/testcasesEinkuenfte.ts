@@ -1,5 +1,5 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { ProzesskostenhilfeFormularUserData } from "../../userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../userData";
 import { finanzielleAngabenTestcaseData } from "./testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {

@@ -1,4 +1,4 @@
-import { ProzesskostenhilfeFormularUserData } from "../../userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../userData";
 
 export const antragTestcaseData: Partial<ProzesskostenhilfeFormularUserData> = {
   formularArt: "erstantrag",

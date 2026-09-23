@@ -4,6 +4,7 @@ import { type ProzesskostenhilfeGrundvoraussetzungenUserData } from "~/domains/p
 export const testCasesPKHFormularGrundvoraussetzungen: FlowTestCases<ProzesskostenhilfeGrundvoraussetzungenUserData> =
   {
     analogNachueberpruefung: [
+      { stepId: "/start/start" },
       {
         stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
         userInput: {
@@ -38,6 +39,7 @@ export const testCasesPKHFormularGrundvoraussetzungen: FlowTestCases<Prozesskost
       },
     ],
     digitalErstantrag: [
+      { stepId: "/start/start" },
       {
         stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
         userInput: {
@@ -72,6 +74,7 @@ export const testCasesPKHFormularGrundvoraussetzungen: FlowTestCases<Prozesskost
       },
     ],
     erstantragAnhaengigesGericht: [
+      { stepId: "/start/start" },
       {
         stepId: "/grundvoraussetzungen/nachueberpruefung-frage",
         userInput: {

@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfePersoenlicheDatenUserData } from "~/domains/prozesskostenhilfe/formular/persoenlicheDaten/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { finanzielleAngabenTestcaseData } from "../../finanzielleAngaben/__test__/testcasesData";
 
 export const testCasesPKHFormularPersoenlicheDaten = {
   completePersoenlicheDaten: [
@@ -8,7 +9,11 @@ export const testCasesPKHFormularPersoenlicheDaten = {
     },
     {
       stepId: "/persoenliche-daten/name",
-      userInput: { vorname: "Max", nachname: "Mustermann" },
+      userInput: {
+        ...finanzielleAngabenTestcaseData,
+        vorname: "Max",
+        nachname: "Mustermann",
+      },
     },
     {
       stepId: "/persoenliche-daten/geburtsdatum",
@@ -38,4 +43,4 @@ export const testCasesPKHFormularPersoenlicheDaten = {
       stepId: "/weitere-angaben",
     },
   ],
-} satisfies FlowTestCases<ProzesskostenhilfePersoenlicheDatenUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
