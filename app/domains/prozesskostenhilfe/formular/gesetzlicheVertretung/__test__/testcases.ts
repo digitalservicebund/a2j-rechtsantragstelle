@@ -1,13 +1,13 @@
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { finanzielleAngabenTestcaseData } from "../../__test__/testcasesData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenGesetzlicheVertretung = {
   hasGesetzlicheVertretung: [
     {
       stepId: "/gesetzliche-vertretung/frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
       },
     },
     {

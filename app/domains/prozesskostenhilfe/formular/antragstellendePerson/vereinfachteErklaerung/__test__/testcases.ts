@@ -1,15 +1,22 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "../../../userData";
-import { vereinfachteErklaerungTestcaseData } from "./testcaseData";
+import { PKHTestcaseData } from "../../../__test__/testcasesData";
 
 const frageVermoegenFulfilled = {
   frageVermoegenFulfilledUnterhalt: [
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -48,9 +55,16 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -89,9 +103,16 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -130,9 +151,16 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -209,9 +237,16 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "no",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -251,9 +286,16 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "no",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -286,9 +328,16 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -328,9 +377,16 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
+        ...PKHTestcaseData,
         empfaenger: "child",
         minderjaehrig: "yes",
-        ...vereinfachteErklaerungTestcaseData,
+        verfahrenArt: "verfahrenAnwalt",
+        child: {
+          vorname: "Max",
+          nachname: "Mustermann",
+          geburtsdatum: "10.10.2005",
+        },
+        livesTogether: "yes",
       },
     },
     {
@@ -409,8 +465,14 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
       {
         stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
         userInput: {
+          ...PKHTestcaseData,
           empfaenger: "child",
-          ...vereinfachteErklaerungTestcaseData,
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
         },
       },
       {
@@ -441,9 +503,16 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
         userInput: {
-          ...vereinfachteErklaerungTestcaseData,
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
+          livesTogether: "yes",
           hasEinnahmen: "yes",
         },
       },
@@ -468,10 +537,16 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...vereinfachteErklaerungTestcaseData,
+          ...PKHTestcaseData,
           empfaenger: "child",
-          livesTogether: "no",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
+          livesTogether: "no",
           hasVermoegen: "no",
         },
       },
@@ -485,11 +560,19 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...vereinfachteErklaerungTestcaseData,
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
           unterhaltsOrAbstammungssachen: "yes",
           rechtlichesThema: "unterhalt",
+
+          livesTogether: "yes",
           hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
@@ -511,11 +594,19 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...vereinfachteErklaerungTestcaseData,
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
           unterhaltsOrAbstammungssachen: "yes",
           rechtlichesThema: "unterhalt",
+
+          livesTogether: "yes",
           hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
@@ -541,11 +632,18 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...vereinfachteErklaerungTestcaseData,
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
           unterhaltsOrAbstammungssachen: "yes",
           rechtlichesThema: "unterhalt",
+          livesTogether: "yes",
           hasEinnahmen: "no",
           hasVermoegen: "yes",
         },
@@ -604,12 +702,23 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
         skipPageSchemaValidation: true,
+
         userInput: {
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "no",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
           unterhaltsOrAbstammungssachen: "yes",
           rechtlichesThema: "unterhalt",
+
+          livesTogether: "yes",
           hasEinnahmen: "no",
+          hasVermoegen: "yes",
         },
       },
       { stepId: "/antragstellende-person/unterhaltsanspruch" },
@@ -620,11 +729,20 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
           "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
         skipPageSchemaValidation: true,
         userInput: {
+          ...PKHTestcaseData,
           empfaenger: "child",
           minderjaehrig: "yes",
+          verfahrenArt: "verfahrenAnwalt",
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: "10.10.2005",
+          },
           unterhaltsOrAbstammungssachen: "yes",
           rechtlichesThema: "unterhalt",
+          livesTogether: "yes",
           hasEinnahmen: "no",
+          hasVermoegen: "yes",
         },
       },
       { stepId: "/antragstellende-person/unterhaltsanspruch" },

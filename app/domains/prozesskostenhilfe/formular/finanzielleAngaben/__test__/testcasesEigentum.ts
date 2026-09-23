@@ -1,13 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFormularUserData } from "../../userData";
-import { finanzielleAngabenTestcaseData } from "../../__test__/testcasesData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenEigentum = {
   rentsApartment: [
     {
       stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         utilitiesCost: "500",
         heatingCosts: "500",
       },
@@ -20,7 +20,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/eigentum-info",
       skipPageSchemaValidation: true,
-      userInput: { ...finanzielleAngabenTestcaseData },
+      userInput: { ...PKHTestcaseData },
     },
     {
       stepId: "/finanzielle-angaben/eigentum/heirat-info",
@@ -33,14 +33,14 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasBankkonto: "no",
       },
     },
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "no",
       },
     },
@@ -48,7 +48,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasKraftfahrzeug: "no",
       },
     },
@@ -56,14 +56,14 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasWertsache: "no",
       },
     },
     {
       stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGrundeigentum: "no",
       },
     },
@@ -75,7 +75,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasBankkonto: "yes",
       },
     },
@@ -101,7 +101,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/bankkonten/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasBankkonto: "yes",
       },
     },
@@ -111,7 +111,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -140,7 +140,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -170,7 +170,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -200,7 +200,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -233,7 +233,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -266,7 +266,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -297,7 +297,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -329,7 +329,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/geldanlagen/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGeldanlage: "yes",
       },
     },
@@ -342,7 +342,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/wertgegenstaende/wertgegenstaende-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasWertsache: "yes",
       },
     },
@@ -368,7 +368,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/wertgegenstaende/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasWertsache: "yes",
       },
     },
@@ -381,7 +381,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId:
         "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasKraftfahrzeug: "yes",
       },
     },
@@ -425,7 +425,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasKraftfahrzeug: "yes",
       },
     },
@@ -437,7 +437,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGrundeigentum: "yes",
       },
     },
@@ -470,7 +470,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
     {
       stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGrundeigentum: "yes",
       },
     },
@@ -508,7 +508,7 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
       stepId: "/finanzielle-angaben/eigentum/grundeigentum/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasGrundeigentum: "yes",
       },
     },

@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFormularUserData } from "../../../userData";
-import { finanzielleAngabenTestcaseData } from "../../../__test__/testcasesData";
+import { PKHTestcaseData } from "../../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   noArbeitsweg: [
@@ -16,7 +16,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   arbeitswegWalking: [
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-      userInput: { ...finanzielleAngabenTestcaseData, arbeitsweg: "walking" },
+      userInput: { ...PKHTestcaseData, arbeitsweg: "walking" },
     },
     {
       stepId: "/finanzielle-angaben/abzuege/keine-rolle",
@@ -30,7 +30,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         arbeitsweg: "publicTransport",
       },
     },
@@ -59,7 +59,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         arbeitsweg: "privateVehicle",
       },
     },
@@ -85,7 +85,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         hasArbeitsausgaben: "yes",
       },
     },
@@ -101,7 +101,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         arbeitsweg: "walking",
       },
     },
@@ -114,7 +114,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         arbeitsweg: "walking",
         hasArbeitsausgaben: "yes",
       },

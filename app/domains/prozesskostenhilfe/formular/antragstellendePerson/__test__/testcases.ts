@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { antragTestcaseData } from "./testcaseData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
   erstAntragOtherRecipient: [
@@ -8,8 +8,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
       stepId: "/antragstellende-person/empfaenger",
       skipPageSchemaValidation: true,
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "otherPerson",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -25,8 +26,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/empfaenger",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -43,8 +45,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/empfaenger",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -73,8 +76,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/empfaenger",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -118,8 +122,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/empfaenger",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -142,8 +147,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/empfaenger",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
     },
     {
@@ -178,8 +184,9 @@ const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
     {
       stepId: "/antragstellende-person/unterhaltsanspruch",
       userInput: {
-        ...antragTestcaseData,
+        ...PKHTestcaseData,
         empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
         unterhaltsanspruch: "sonstiges",
       },
     },

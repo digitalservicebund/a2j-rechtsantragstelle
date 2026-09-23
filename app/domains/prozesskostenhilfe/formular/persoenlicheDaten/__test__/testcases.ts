@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { finanzielleAngabenTestcaseData } from "../../__test__/testcasesData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularPersoenlicheDaten = {
   completePersoenlicheDaten: [
@@ -10,7 +10,7 @@ export const testCasesPKHFormularPersoenlicheDaten = {
     {
       stepId: "/persoenliche-daten/name",
       userInput: {
-        ...finanzielleAngabenTestcaseData,
+        ...PKHTestcaseData,
         vorname: "Max",
         nachname: "Mustermann",
       },
