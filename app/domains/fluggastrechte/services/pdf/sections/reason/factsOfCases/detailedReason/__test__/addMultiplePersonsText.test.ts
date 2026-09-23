@@ -1,8 +1,9 @@
-import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { type Mock } from "vitest";
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { PDF_MARGIN_HORIZONTAL } from "~/services/pdf/createPdfKitDocument";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -55,7 +56,7 @@ describe("addMultiplePersonsText", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -83,7 +84,7 @@ describe("addMultiplePersonsText", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       bereich: "annullierung",
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
@@ -112,7 +113,7 @@ describe("addMultiplePersonsText", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       bereich: "nichtbefoerderung",
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
@@ -145,7 +146,7 @@ describe("addMultiplePersonsText", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -202,7 +203,7 @@ describe("addMultiplePersonsText", () => {
           land: "land",
           plz: "plz",
         },
-      ],
+      ] as unknown as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -260,7 +261,7 @@ describe("addMultiplePersonsText - accessibility", () => {
           plz: "plz",
           buchungsnummer: "123456",
         },
-      ],
+      ] as unknown as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 

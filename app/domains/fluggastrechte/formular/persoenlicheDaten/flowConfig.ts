@@ -1,8 +1,8 @@
+import { z } from "zod/mini";
+import { weiterePersonenArraySchema } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import { fluggastrechteGuards } from "../guards";
-import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
-import { weiterePersonenDone } from "./doneFunctions";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import type { FluggastrechteFormularPages } from "../pages";
 
 export const persoenlicheDatenFlowConfig = {
   personDaten: [
@@ -22,11 +22,10 @@ export const persoenlicheDatenFlowConfig = {
   weiterePersonenFrage: [
     {
       target: "weiterePersonenUebersicht",
-      guard: fluggastrechteGuards.isWeiterePersonenYes,
+      guard: ({ isWeiterePersonen }) => isWeiterePersonen === "yes",
     },
     {
       target: "prozessfuehrungZeugen",
-      guard: weiterePersonenDone,
     },
   ],
   weiterePersonenUebersicht: [
@@ -36,13 +35,27 @@ export const persoenlicheDatenFlowConfig = {
     },
     {
       target: "weiterePersonenWarnung",
-      guard: fluggastrechteGuards.isMissingAddWeiterePersonen,
+      guard: ({ isWeiterePersonen, weiterePersonen }) =>
+        isWeiterePersonen === "yes" && !weiterePersonen?.length,
     },
     {
       target: "prozessfuehrungZeugen",
-      guard: weiterePersonenDone,
+      guard: ({ weiterePersonen }) =>
+        z.validate(weiterePersonenArraySchema, weiterePersonen),
     },
   ],
-  weiterePersonenDaten: "weiterePersonenUebersicht",
+  weiterePersonenDaten: [
+    {
+      guard: ({ weiterePersonen, pageData }) => {
+        const arrayIndex = pageData?.arrayIndexes?.at(0);
+        if (!weiterePersonen || arrayIndex === undefined) return false;
+        return z.validate(
+          weiterePersonenArraySchema.unwrap(),
+          weiterePersonen[arrayIndex],
+        );
+      },
+      target: "weiterePersonenUebersicht",
+    },
+  ],
   weiterePersonenWarnung: "weiterePersonenUebersicht",
 } satisfies Partial<TransitionConfigMap<FluggastrechteFormularPages>>;

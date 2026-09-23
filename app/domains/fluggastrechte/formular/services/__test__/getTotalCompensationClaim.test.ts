@@ -1,3 +1,4 @@
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { getCompensationPayment } from "~/domains/fluggastrechte/services/airports/getCompensationPayment";
 import { getTotalCompensationClaim } from "../getTotalCompensationClaim";
 
@@ -33,7 +34,7 @@ describe("getTotalCompensationClaim", () => {
           plz: "plz",
           ort: "ort",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
     };
 
     const actual = getTotalCompensationClaim(mockContext);
@@ -70,7 +71,7 @@ describe("getTotalCompensationClaim", () => {
           plz: "plz",
           ort: "ort",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
     };
 
     const actual = getTotalCompensationClaim(mockContext);

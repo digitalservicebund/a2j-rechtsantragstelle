@@ -1,14 +1,19 @@
 import type { TestCases } from "~/domains/__test__/TestCases";
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 
 const baseContext = {
+  anrede: "",
+  title: "",
   vorname: "test",
   nachname: "test",
   strasse: "test",
   hausnummer: "1",
-  ort: "test",
   plz: "13055",
-};
+  ort: "test",
+  land: "Deutschland",
+  telefonnummer: "",
+} as FluggastrechteFormularWeiterePersonen[number];
 
 export const testCasesFluggastrechteFormularPersoenlicheDaten = [
   [
@@ -47,6 +52,8 @@ export const testCasesFluggastrechteFormularPersoenlicheDaten = [
       weiterePersonen: [
         {
           ...baseContext,
+          datenverarbeitungZustimmung: "on",
+          buchungsnummer: "123456",
         },
       ],
     },
@@ -64,6 +71,8 @@ export const testCasesFluggastrechteFormularPersoenlicheDaten = [
       weiterePersonen: [
         {
           ...baseContext,
+          datenverarbeitungZustimmung: "on",
+          buchungsnummer: "123456",
         },
       ],
     },
