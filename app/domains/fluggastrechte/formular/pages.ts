@@ -18,3 +18,5 @@ export const fluggastrechteFormularPages = {
   ...fluggastrechteZusammenfassungPages,
   ...fluggastrechteAbgabePages,
 } as const satisfies PagesConfig;
+
+export type FluggastrechteFormularPages = typeof fluggastrechteFormularPages;

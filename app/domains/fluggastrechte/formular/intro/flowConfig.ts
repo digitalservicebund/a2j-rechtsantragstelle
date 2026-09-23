@@ -1,5 +1,5 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
-import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
+import type { FluggastrechteFormularPages } from "../pages";
 
 export const introFlowConfig = {
   intro: "grundvoraussetzungenStreitbeilegung",

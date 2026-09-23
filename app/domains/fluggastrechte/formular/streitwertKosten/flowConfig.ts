@@ -1,6 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
-import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
+import type { FluggastrechteFormularPages } from "../pages";
 import { streitwertKostenDone } from "./doneFunctions";
 
 export const streitwertKostenFlowConfig = {

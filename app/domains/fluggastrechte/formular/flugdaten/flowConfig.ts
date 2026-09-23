@@ -1,6 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { fluggastrechteGuards } from "../guards";
-import type { FluggastrechteFormularPages } from "../pagesNewFlowEngine";
+import type { FluggastrechteFormularPages } from "../pages";
 
 export const flugdatenFlowConfig = {
   flugdatenAdresseFluggesellschaftAuswahl: [
