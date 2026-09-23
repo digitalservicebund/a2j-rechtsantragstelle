@@ -261,7 +261,7 @@ export const getContentData = (
       const stepStates = buildStepStatesFromStatusTree(
         statusTree,
         flowId,
-        flowSessionEngine.reachablePaths,
+        flowSessionEngine.paths,
       );
 
       const expandAll = getMetaConfigurationByStepId(
