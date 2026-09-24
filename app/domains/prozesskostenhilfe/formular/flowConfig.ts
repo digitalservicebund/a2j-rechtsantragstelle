@@ -1,9 +1,5 @@
-import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { persoenlicheDatenFlowConfig } from "./persoenlicheDaten/flowConfig";
-import {
-  type CompiledFlow,
-  compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { prozesskostenhilfeFormularPages } from "./pages";
 import { grundvoraussetzungenFlowConfig } from "./grundvoraussetzungen/flowConfig";
 import { rechtsschutzversicherungFlowConfig } from "./rechtsschutzversicherung/flowConfig";
@@ -26,4 +22,4 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     weitereAngaben: "zusammenfassung",
     ...abgabeFlowConfig,
   },
-}) as CompiledFlow<PageConfigMap>;
+});

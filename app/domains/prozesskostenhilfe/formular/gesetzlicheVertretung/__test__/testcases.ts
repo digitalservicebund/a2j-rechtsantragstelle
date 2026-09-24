@@ -1,13 +1,16 @@
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenGesetzlicheVertretung = {
   hasGesetzlicheVertretung: [
     {
       stepId: "/gesetzliche-vertretung/frage",
       userInput: {
-        ...PKHTestcaseData,
+        formularArt: "erstantrag",
+        anhaengigesGerichtsverfahrenFrage: "no",
+        verfahrenArt: "verfahrenSelbststaendig",
+        versandArt: "analog",
+        hasGesetzlicheVertretung: "yes",
       },
     },
     {

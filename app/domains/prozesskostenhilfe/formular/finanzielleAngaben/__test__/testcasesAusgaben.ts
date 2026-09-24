@@ -8,7 +8,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        hasAusgaben: "yes",
       },
     },
     {
