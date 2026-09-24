@@ -58,8 +58,8 @@
     border-radius: var(--kern-metric-border-radius-large, 0.25rem);
     box-shadow:
       0 0 0 2px var(--kern-color-action-on-default),
-      0 0 0 4px var(--kern-color-action-focus-border-inside),
-      0 0 0 6px var(--kern-color-action-focus-border-outside);
+      0 0 0 4px var(--kern-color-action-focus-default),
+      0 0 0 6px var(--kern-color-action-focus-default);
   }
 
   /* prevents Kern to style the inner input */
@@ -122,8 +122,8 @@
     z-index: 100;
     box-shadow:
       0 0 0 2px var(--kern-color-action-on-default),
-      0 0 0 4px var(--kern-color-action-focus-border-inside),
-      0 0 0 6px var(--kern-color-action-focus-border-outside);
+      0 0 0 4px var(--kern-color-action-focus-default),
+      0 0 0 6px var(--kern-color-action-focus-default);
   }
 
   @media (forced-colors: active) {
