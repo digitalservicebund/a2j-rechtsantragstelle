@@ -25,8 +25,11 @@ import {
   updateIfUserNotPrefilledBeklagte,
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
+import { copyOrRemoveReferenceDocuments } from "../services/copyOrRemoveReferenceDocuments";
 import { geldEinklagenFlowConfig } from "./flowConfig";
-import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
+import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferencePersons";
+import { updateBeweisReferenceDocuments } from "../services/updateBeweisRefereceDocuments";
+import { updateBeweisReferencePersons } from "../services/updateBeweisReferencePersons";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -76,9 +79,13 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/mensch": updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
-    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl":
-      updateAbschnittenPersonenIds,
-    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten":
-      updateAbschnittenPersonenIds,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden":
+      copyOrRemoveReferenceDocuments,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden":
+      copyOrRemoveReferencePersons,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten":
+      updateBeweisReferenceDocuments,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten":
+      updateBeweisReferencePersons,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

@@ -335,7 +335,6 @@ describe("stringReplacement", () => {
               // @ts-ignore
               {
                 personAuswahl: "anotherPerson",
-                personId: "123",
                 vorname: "",
                 nachname: "",
               },
@@ -348,7 +347,6 @@ describe("stringReplacement", () => {
                 personAuswahl: "anotherPerson",
                 anrede: "herr",
                 title: "",
-                personId: "123",
                 vorname: "Max",
                 nachname: "Mustermann",
                 strasse: "strasse",
@@ -366,7 +364,6 @@ describe("stringReplacement", () => {
             personen: [
               {
                 personAuswahl: "beklagte",
-                personId: "123",
               },
             ],
           },
@@ -376,7 +373,6 @@ describe("stringReplacement", () => {
               // @ts-ignore
               {
                 personAuswahl: "anotherPerson",
-                personId: "123",
               },
             ],
           },

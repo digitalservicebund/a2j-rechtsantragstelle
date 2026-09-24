@@ -9,6 +9,7 @@ type RadioInputProps = {
   readonly value: string;
   readonly text?: ReactNode;
   readonly suffix?: string;
+  readonly disabled?: boolean;
 };
 
 export const RadioInput = ({
@@ -17,6 +18,7 @@ export const RadioInput = ({
   name,
   value,
   suffix,
+  disabled,
 }: RadioInputProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
@@ -29,6 +31,7 @@ export const RadioInput = ({
           "kern-form-check__radio--error": Boolean(field.error()),
         })}
         ref={ref}
+        disabled={disabled}
       />
       <InputLabel name={id} label={text} suffix={suffix} />
     </div>
