@@ -151,7 +151,7 @@ export default function SideNavMobile({
           className={classNames(
             "flex bg-white h-80 items-center py-8! px-16! z-10 flex-row justify-between border border-kern-neutral-200 not-group-open:active:bg-kern-neutral-200! overflow-hidden forced-colors:group-focus-within/summary:border-4 forced-colors:group-focus-within/summary:border-[CanvasText]",
             "group-focus-visible/summary:bg-white",
-            "group-focus-visible/summary:shadow-[inset_0_0_0_2px_var(--kern-color-action-on-default),inset_0_0_0_4px_var(--kern-color-action-focus-border-inside),inset_0_0_0_6px_var(--kern-color-action-focus-border-outside)]",
+            "group-focus-visible/summary:shadow-[inset_0_0_0_2px_var(--kern-color-action-on-default),inset_0_0_0_4px_var(--kern-color-action-focus-default),inset_0_0_0_6px_var(--kern-color-action-focus-default)]",
             {
               "not-group-open:bg-kern-orange-100! not-group-open:active:bg-kern-orange-100!":
                 isStateCurrentWarning,

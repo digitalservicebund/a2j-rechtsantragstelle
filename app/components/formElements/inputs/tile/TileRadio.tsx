@@ -38,7 +38,7 @@ const TileRadio = ({
   return (
     <div
       className={classNames(
-        "kern-tile flex rounded-lg border-2 border-kern-form-input-border bg-kern-form-input-background-inverted hover:ring-2 hover:ring-kern-form-input-border hover:ring-inset box-border",
+        "kern-tile flex rounded-lg border-2 border-kern-form-input-border bg-kern-white hover:ring-2 hover:ring-kern-form-input-border hover:ring-inset box-border",
         {
           "border-kern-feedback-danger": field.error() !== null,
         },

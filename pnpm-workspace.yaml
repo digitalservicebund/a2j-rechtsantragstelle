@@ -28,3 +28,4 @@ trustPolicyExclude:
 
 minimumReleaseAgeExclude:
   - "@digitalservicebund/a2j-xjustiz-bridge@0.9.0"
+  - "@digitalservicebund/kern-ux-tailwind-theme@4.0.0"
