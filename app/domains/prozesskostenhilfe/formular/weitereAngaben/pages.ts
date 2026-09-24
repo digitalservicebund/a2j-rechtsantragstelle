@@ -5,7 +5,7 @@ import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 
 export const pkhFormularWeitereAngabenPages = {
   weitereAngaben: {
-    stepId: "weitere-angaben",
+    stepId: "/weitere-angaben",
     pageSchema: {
       weitereAngaben: schemaOrEmptyString(
         z.string().trim().max(TEXTAREA_CHAR_LIMIT, { message: "max" }),

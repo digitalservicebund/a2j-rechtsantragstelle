@@ -1,5 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../userData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
   staatlicheLeistungenKeine: [
@@ -9,13 +10,13 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
-        staatlicheLeistungen: "keine",
+        ...PKHTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
       userInput: {
-        currentlyEmployed: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -26,6 +27,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
+        ...PKHTestcaseData,
         staatlicheLeistungen: "buergergeld",
       },
     },
@@ -61,6 +63,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
+        ...PKHTestcaseData,
         staatlicheLeistungen: "buergergeld",
       },
     },
@@ -104,6 +107,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
+        ...PKHTestcaseData,
         staatlicheLeistungen: "arbeitslosengeld",
       },
     },
@@ -115,6 +119,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
+        ...PKHTestcaseData,
         staatlicheLeistungen: "grundsicherung",
       },
     },
@@ -126,6 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
+        ...PKHTestcaseData,
         staatlicheLeistungen: "asylbewerberleistungen",
       },
     },
@@ -137,6 +143,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/einkommen/erwerbstaetig",
       userInput: {
+        ...PKHTestcaseData,
         currentlyEmployed: "no",
       },
     },
@@ -154,6 +161,8 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
       userInput: {
+        ...PKHTestcaseData,
+        currentlyEmployed: "no",
         receivesPension: "yes",
       },
     },
@@ -171,6 +180,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
       userInput: {
+        ...PKHTestcaseData,
+        currentlyEmployed: "no",
+        receivesPension: "no",
         leistungen: {
           wohngeld: "on",
           krankengeld: "on",
@@ -212,6 +224,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/leistungen/frage",
       userInput: {
+        ...PKHTestcaseData,
+        currentlyEmployed: "no",
+        receivesPension: "no",
         leistungen: {
           wohngeld: "off",
           krankengeld: "off",
@@ -229,6 +244,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       userInput: {
+        ...PKHTestcaseData,
+        currentlyEmployed: "no",
+        receivesPension: "no",
         hasFurtherIncome: "yes",
       },
     },
@@ -239,6 +257,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
     {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       userInput: {
+        ...PKHTestcaseData,
+        currentlyEmployed: "no",
+        receivesPension: "no",
         hasFurtherIncome: "yes",
       },
     },
@@ -264,10 +285,12 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte/frage",
       skipPageSchemaValidation: true,
       userInput: {
+        ...PKHTestcaseData,
         currentlyEmployed: "no",
+        receivesPension: "no",
         hasFurtherIncome: "no",
       },
     },
     { stepId: "/finanzielle-angaben/partner/partnerschaft" },
   ],
-} satisfies FlowTestCases<ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

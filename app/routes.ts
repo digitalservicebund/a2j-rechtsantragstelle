@@ -1,7 +1,6 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 import {
-  flowRoutes,
   newEngineFlowRoutes,
   newEngineVorabcheckRoutes,
 } from "./services/routing/flowRoutes";
@@ -12,7 +11,9 @@ export default [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
     ...prefix("antrag", newEngineFlowRoutes("BHA")),
   ]),
-  ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
+  ...prefix("prozesskostenhilfe", [
+    ...prefix("formular", newEngineFlowRoutes("PKH")),
+  ]),
   ...prefix("fluggastrechte", [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
     ...prefix("formular", newEngineFlowRoutes("FGRF")),

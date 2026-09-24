@@ -10,17 +10,19 @@ import { addYears, today } from "~/util/date";
 
 export const pkhFormularPersoenlicheDatenPages = {
   persoenlicheDatenStart: {
-    stepId: "persoenliche-daten/start",
+    stepId: "/persoenliche-daten/start",
   },
   name: {
-    stepId: "persoenliche-daten/name",
+    stepId: "/persoenliche-daten/name",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       vorname: stringRequiredSchema,
       nachname: stringRequiredSchema,
     },
   },
   geburtsdatum: {
-    stepId: "persoenliche-daten/geburtsdatum",
+    stepId: "/persoenliche-daten/geburtsdatum",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       geburtsdatum: createSplitDateSchema({
         earliest: () => addYears(today(), -150),
@@ -29,13 +31,15 @@ export const pkhFormularPersoenlicheDatenPages = {
     },
   },
   plz: {
-    stepId: "persoenliche-daten/plz",
+    stepId: "/persoenliche-daten/plz",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       plz: stringRequiredSchema.pipe(postcodeSchema),
     },
   },
   adresse: {
-    stepId: "persoenliche-daten/adresse",
+    stepId: "/persoenliche-daten/adresse",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       street: autoSuggestStreetNames(["plz"]),
       houseNumber: germanHouseNumberSchema,
@@ -43,13 +47,15 @@ export const pkhFormularPersoenlicheDatenPages = {
     },
   },
   telefonnummer: {
-    stepId: "persoenliche-daten/telefonnummer",
+    stepId: "/persoenliche-daten/telefonnummer",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       telefonnummer: schemaOrEmptyString(phoneNumberSchema),
     },
   },
   beruf: {
-    stepId: "persoenliche-daten/beruf",
+    stepId: "/persoenliche-daten/beruf",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       beruf: stringRequiredSchema,
     },

@@ -1,7 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type pkhFormularFinanzielleAngabenAusgabenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
 import { addYears, today, toGermanDateString } from "~/util/date";
+import { type ProzesskostenhilfeFormularUserData } from "../../userData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenYes: [
@@ -30,7 +30,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
       userInput: {
-        hasVersicherungen: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -69,19 +69,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
       userInput: {
-        hasRatenzahlungen: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
-    },
-    {
-      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
-      userInput: {
-        "ratenzahlungen#art": "art",
-        "ratenzahlungen#zahlungsempfaenger": "empfaenger",
-      },
     },
     {
       stepId:
@@ -108,15 +101,14 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ],
   addRatenzahlungenSplit: [
     {
-      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
-      addArrayItemEvent: "add-ratenzahlungen",
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
+      userInput: {
+        ...PKHTestcaseData,
+      },
     },
     {
-      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
-      userInput: {
-        "ratenzahlungen#art": "art",
-        "ratenzahlungen#zahlungsempfaenger": "empfaenger",
-      },
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
+      addArrayItemEvent: "add-ratenzahlungen",
     },
     {
       stepId:
@@ -152,7 +144,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
       userInput: {
-        hasSonstigeAusgaben: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -184,6 +176,12 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     },
   ],
   addSonstigeAusgabenPartner: [
+    {
+      stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
+      userInput: {
+        ...PKHTestcaseData,
+      },
+    },
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
       addArrayItemEvent: "add-sonstigeAusgaben",
@@ -225,7 +223,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        hasVersicherungen: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -237,7 +235,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        hasRatenzahlungen: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -249,7 +247,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        hasSonstigeAusgaben: "yes",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -273,6 +271,4 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/gesetzliche-vertretung/frage",
     },
   ],
-} satisfies FlowTestCases<
-  UserDataFromPagesSchema<typeof pkhFormularFinanzielleAngabenAusgabenPages>
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

@@ -94,6 +94,7 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
 
   if (
     [
+      "/prozesskostenhilfe/formular",
       "/erbschein/erbfolge",
       "/erbschein/anfrage",
       "/erbausschlagung/anfrage",

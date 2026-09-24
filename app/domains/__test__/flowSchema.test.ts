@@ -15,10 +15,8 @@ import { type ArrayConfigServer } from "~/services/array";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
-import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 
 const flowSchemaTests = {
-  prozesskostenhilfeFormularTestCases,
   kontopfaendungWegweiserTestCases,
 };
 

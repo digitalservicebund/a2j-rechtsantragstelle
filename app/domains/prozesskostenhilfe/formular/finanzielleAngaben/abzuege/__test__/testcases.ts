@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/abzuege/userData";
-import { type ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/einkuenfte/userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../../userData";
+import { PKHTestcaseData } from "../../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   noArbeitsweg: [
@@ -16,7 +16,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   arbeitswegWalking: [
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-      userInput: { arbeitsweg: "walking" },
+      userInput: { ...PKHTestcaseData, arbeitsweg: "walking" },
     },
     {
       stepId: "/finanzielle-angaben/abzuege/keine-rolle",
@@ -29,7 +29,10 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   arbeitswegPublicTransport: [
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-      userInput: { arbeitsweg: "publicTransport" },
+      userInput: {
+        ...PKHTestcaseData,
+        arbeitsweg: "publicTransport",
+      },
     },
     {
       stepId: "/finanzielle-angaben/abzuege/opnv-kosten",
@@ -55,7 +58,10 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   arbeitswegPrivateVehicle: [
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-      userInput: { arbeitsweg: "privateVehicle" },
+      userInput: {
+        ...PKHTestcaseData,
+        arbeitsweg: "privateVehicle",
+      },
     },
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
@@ -79,6 +85,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasArbeitsausgaben: "yes",
       },
     },
@@ -94,9 +101,8 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        hasArbeitsausgaben: "no",
+        ...PKHTestcaseData,
         arbeitsweg: "walking",
-        currentlyEmployed: "yes",
       },
     },
     {
@@ -104,6 +110,15 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     },
   ],
   addArbeitsausgabe: [
+    {
+      stepId:
+        "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
+      userInput: {
+        ...PKHTestcaseData,
+        arbeitsweg: "walking",
+        hasArbeitsausgaben: "yes",
+      },
+    },
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
       addArrayItemEvent: "add-arbeitsausgaben",
@@ -119,9 +134,19 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     },
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        arbeitsausgaben: [
+          {
+            beschreibung: "Arbeitsausgabe Beschreibung",
+            zahlungsfrequenz: "monthly",
+            betrag: "100",
+          },
+        ],
+      },
+    },
+    {
+      stepId: "/finanzielle-angaben/partner/partnerschaft",
     },
   ],
-} satisfies FlowTestCases<
-  ProzesskostenhilfeFinanzielleAngabenAbzuegeUserData &
-    ProzesskostenhilfeFinanzielleAngabenEinkuenfteUserData
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

@@ -1,12 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeRechtsschutzversicherungUserData } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/userData";
+import { PKHTestcaseData } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesData";
 
 export const testCasesPKHFormularRsv = {
   noRsv: [
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
-        hasRsv: "no",
+        ...PKHTestcaseData,
       },
     },
     {
@@ -17,6 +18,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -34,6 +36,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -51,6 +54,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -71,6 +75,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/rsv-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsv: "yes",
       },
     },
@@ -91,6 +96,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -108,6 +114,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -125,6 +132,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },
@@ -142,6 +150,7 @@ export const testCasesPKHFormularRsv = {
     {
       stepId: "/rechtsschutzversicherung/org-frage",
       userInput: {
+        ...PKHTestcaseData,
         hasRsvThroughOrg: "yes",
       },
     },

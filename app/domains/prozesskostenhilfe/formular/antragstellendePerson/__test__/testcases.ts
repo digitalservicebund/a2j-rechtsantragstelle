@@ -1,212 +1,223 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type ProzesskostenhilfeAntragstellendePersonUserData } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/userData";
+import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
-const nextStepRSV = "/rechtsschutzversicherung/rsv-frage";
-const nextStepEinkuenfte = "/finanzielle-angaben/einkuenfte/start";
-
-const erstAntragCase: FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData> =
-  {
-    erstAntragOtherRecipient: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "otherPerson",
+const erstAntragCase: FlowTestCases<ProzesskostenhilfeFormularUserData> = {
+  erstAntragOtherRecipient: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "otherPerson",
+        verfahrenArt: "verfahrenAnwalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/zwei-formulare",
+      // Explicit validation skip for when we inject nachueberpruefung userInput
+      skipPageSchemaValidation: true,
+    },
+    {
+      stepId: "/finanzielle-angaben/einkuenfte/start",
+    },
+  ],
+  erstAntragSelfRecipientNoUnterhaltsanspruch: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        unterhaltsanspruch: "keine",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+  erstAntragSelfRecipientUnterhaltsanspruch: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        unterhaltsanspruch: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt",
+      userInput: {
+        unterhaltsSumme: "1000",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt-hauptsaechliches-leben",
+      userInput: {
+        livesPrimarilyFromUnterhalt: "no",
+      },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+  erstAntragSelfRecipientLivesFromUnterhalt: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        unterhaltsanspruch: "unterhalt",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt",
+      userInput: {
+        unterhaltsSumme: "1000",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt-hauptsaechliches-leben",
+      userInput: {
+        livesPrimarilyFromUnterhalt: "yes",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltspflichtige-person",
+      userInput: {
+        unterhaltspflichtigePerson: {
+          beziehung: "ex-spouse",
+          vorname: "Mara",
+          nachname: "Mustermann",
         },
       },
-      {
-        stepId: "/antragstellende-person/zwei-formulare",
-        // Explicit validation skip for when we inject nachueberpruefung userInput
-        skipPageSchemaValidation: true,
+    },
+    {
+      stepId: "/antragstellende-person/eigenes-exemplar",
+      // Explicit validation skip for when we inject nachueberpruefung userInput
+      skipPageSchemaValidation: true,
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+  erstAntragAnspruchNoUnterhalt: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
-      {
-        stepId: nextStepEinkuenfte,
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        unterhaltsanspruch: "anspruchNoUnterhalt",
       },
-    ],
-    erstAntragSelfRecipientNoUnterhaltsanspruch: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "myself",
-        },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt-leben-frage",
+      userInput: {
+        couldLiveFromUnterhalt: "no",
       },
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "keine",
-        },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+  erstAntragAnspruchLiveable: [
+    {
+      stepId: "/antragstellende-person/empfaenger",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
       },
-      {
-        stepId: nextStepRSV,
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        unterhaltsanspruch: "anspruchNoUnterhalt",
       },
-    ],
-    erstAntragSelfRecipientUnterhaltsanspruch: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "myself",
-        },
+    },
+    {
+      stepId: "/antragstellende-person/unterhalt-leben-frage",
+      userInput: {
+        couldLiveFromUnterhalt: "yes",
       },
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "unterhalt",
-        },
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltspflichtige-person-beziehung",
+      userInput: {
+        personWhoCouldPayUnterhaltBeziehung: "ex-spouse",
       },
-      {
-        stepId: "/antragstellende-person/unterhalt",
-        userInput: {
-          unterhaltsSumme: "1000",
-        },
+    },
+    {
+      stepId: "/antragstellende-person/warum-keiner-unterhalt",
+      userInput: {
+        whyNoUnterhalt: "Didn't wanna",
       },
-      {
-        stepId: "/antragstellende-person/unterhalt-hauptsaechliches-leben",
-        userInput: {
-          livesPrimarilyFromUnterhalt: "no",
-        },
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+  erstAntragSonstigesUnterhaltsanspruch: [
+    {
+      stepId: "/antragstellende-person/unterhaltsanspruch",
+      userInput: {
+        ...PKHTestcaseData,
+        empfaenger: "myself",
+        verfahrenArt: "verfahrenAnwalt",
+        unterhaltsanspruch: "sonstiges",
       },
-      {
-        stepId: nextStepRSV,
+    },
+    {
+      stepId: "/antragstellende-person/unterhaltsbeschreibung",
+      userInput: {
+        unterhaltsbeschreibung:
+          "A very detailed description of the Unterhalt I receive.",
       },
-    ],
-    erstAntragSelfRecipientLivesFromUnterhalt: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "myself",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "unterhalt",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhalt",
-        userInput: {
-          unterhaltsSumme: "1000",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhalt-hauptsaechliches-leben",
-        userInput: {
-          livesPrimarilyFromUnterhalt: "yes",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltspflichtige-person",
-        userInput: {
-          unterhaltspflichtigePerson: {
-            beziehung: "ex-spouse",
-            vorname: "Mara",
-            nachname: "Mustermann",
-          },
-        },
-      },
-      {
-        stepId: "/antragstellende-person/eigenes-exemplar",
-        // Explicit validation skip for when we inject nachueberpruefung userInput
-        skipPageSchemaValidation: true,
-      },
-      {
-        stepId: nextStepRSV,
-      },
-    ],
-    erstAntragAnspruchNoUnterhalt: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "myself",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "anspruchNoUnterhalt",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhalt-leben-frage",
-        userInput: {
-          couldLiveFromUnterhalt: "no",
-        },
-      },
-      {
-        stepId: nextStepRSV,
-      },
-    ],
-    erstAntragAnspruchLiveable: [
-      {
-        stepId: "/antragstellende-person/empfaenger",
-        userInput: {
-          empfaenger: "myself",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "anspruchNoUnterhalt",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhalt-leben-frage",
-        userInput: {
-          couldLiveFromUnterhalt: "yes",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltspflichtige-person-beziehung",
-        userInput: {
-          personWhoCouldPayUnterhaltBeziehung: "ex-spouse",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/warum-keiner-unterhalt",
-        userInput: {
-          whyNoUnterhalt: "Didn't wanna",
-        },
-      },
-      {
-        stepId: nextStepRSV,
-      },
-    ],
-    erstAntragSonstigesUnterhaltsanspruch: [
-      {
-        stepId: "/antragstellende-person/unterhaltsanspruch",
-        userInput: {
-          unterhaltsanspruch: "sonstiges",
-        },
-      },
-      {
-        stepId: "/antragstellende-person/unterhaltsbeschreibung",
-        userInput: {
-          unterhaltsbeschreibung:
-            "A very detailed description of the Unterhalt I receive.",
-        },
-      },
-      {
-        stepId: nextStepRSV,
-      },
-    ],
-  };
+    },
+    {
+      stepId: "/rechtsschutzversicherung/rsv-frage",
+    },
+  ],
+};
 
 const nachueberpruefungCase = Object.fromEntries(
   Object.entries(erstAntragCase).map(([testName, testSteps]) => [
     testName.replace("erstAntrag", "nachueberpruefung"),
     testSteps.map(({ stepId, userInput, skipPageSchemaValidation }) => ({
-      stepId: stepId === nextStepRSV ? nextStepEinkuenfte : stepId,
+      stepId:
+        stepId === "/rechtsschutzversicherung/rsv-frage"
+          ? "/finanzielle-angaben/einkuenfte/start"
+          : stepId,
       skipPageSchemaValidation: skipPageSchemaValidation,
       userInput: { ...userInput, formularArt: "nachueberpruefung" },
     })),
   ]),
-) satisfies FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData>;
+) satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
 
-/**
- * Specifically test the "BACK" transitions pointing to antragstellende-person,
- * as there are two places they can happen: Rechtsschutzversicherung and Finanzielle Angaben
- * (in the case of a Nachueberpruefung)
- */
 export const testCasesPKHFormularAntragstellendePersonTransitions = {
   ...erstAntragCase,
   ...nachueberpruefungCase,
-} satisfies FlowTestCases<ProzesskostenhilfeAntragstellendePersonUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

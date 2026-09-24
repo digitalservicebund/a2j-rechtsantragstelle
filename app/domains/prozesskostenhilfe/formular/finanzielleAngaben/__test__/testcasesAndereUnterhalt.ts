@@ -1,12 +1,15 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
-import { type pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/andere-unterhaltszahlungen/pages";
+import { type ProzesskostenhilfeFormularUserData } from "../../userData";
+import { PKHTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
   noWeitereUnterhaltszahlungen: [
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      userInput: { hasWeitereUnterhaltszahlungen: "no" },
+      userInput: {
+        ...PKHTestcaseData,
+        hasWeitereUnterhaltszahlungen: "no",
+      },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
@@ -15,7 +18,9 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
   weitereUnterhaltszahlungenUnentered: [
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      userInput: { hasWeitereUnterhaltszahlungen: "yes" },
+      userInput: {
+        ...PKHTestcaseData,
+      },
     },
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
@@ -27,7 +32,9 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
   weitereUnterhaltszahlungen: [
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
-      userInput: { hasWeitereUnterhaltszahlungen: "yes" },
+      userInput: {
+        ...PKHTestcaseData,
+      },
     },
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
@@ -47,8 +54,4 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
     },
   ],
-} satisfies FlowTestCases<
-  UserDataFromPagesSchema<
-    typeof pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages
-  >
->;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
