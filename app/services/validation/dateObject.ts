@@ -35,9 +35,15 @@ export const createSplitDateSchema = (args?: {
         )
         .transform((val) => val.padStart(2, "0")),
 
-      year: requiredString.refine((val) => !Number.isNaN(Number(val)), {
-        error: "Ungültiges Jahr",
-      }),
+      year: requiredString.refine(
+        (val) => {
+          const num = Number(val);
+          return !Number.isNaN(num) && num > 0;
+        },
+        {
+          error: "Ungültiges Jahr",
+        },
+      ),
     })
     .meta({ description: "split_date" })
     .refine((dateObj) => isValidDate(toDateString(dateObj)), {

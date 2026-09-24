@@ -1,9 +1,9 @@
-import { autocompleteMap } from "~/util/autocompleteMap";
 import { useField } from "@rvf/react-router";
-import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
-import InputError from "../error/InputError";
 import { type ErrorMessageProps } from "~/components/common/types";
+import { translations } from "~/services/translations/translations";
+import { autocompleteMap } from "~/util/autocompleteMap";
+import InputError from "../error/InputError";
 
 type SplitDateInputProps = {
   name: string;
@@ -32,28 +32,34 @@ const SplitDateInput = ({
   const month = name + ".month";
   const year = name + ".year";
 
-  const dateField = useField(name);
+  const field = useField(name);
   const dayField = useField(day);
   const monthField = useField(month);
   const yearField = useField(year);
 
-  const dateError = dateField.error();
-  const dayError = dayField.error();
-  const monthError = monthField.error();
-  const yearError = yearField.error();
-  const fieldError = dayError ?? monthError ?? yearError ?? dateError;
+  const groupErrorMessage = field.error();
+  /**
+   * Should only display errors as soon as all 3 fields have been visited
+   */
+  const shouldDisplayErrors =
+    Boolean(groupErrorMessage) ||
+    (dayField.touched() && monthField.touched() && yearField.touched());
 
-  const dayHasError = dayError !== null || dateError !== null;
-  const monthHasError = monthError !== null;
-  const yearHasError = yearError !== null;
-
-  const hasError = Boolean(fieldError);
+  const dayErrorMessage = dayField.error();
+  const monthErrorMessage = monthField.error();
+  const yearErrorMessage = yearField.error();
+  const fieldErrorMessage =
+    dayErrorMessage ??
+    monthErrorMessage ??
+    yearErrorMessage ??
+    groupErrorMessage;
   const errorId = `${name}-error`;
 
   return (
     <fieldset
       className={classNames("kern-fieldset", {
-        "kern-fieldset--error": hasError,
+        "kern-fieldset--error":
+          Boolean(fieldErrorMessage) && shouldDisplayErrors,
       })}
     >
       {label && (
@@ -83,11 +89,14 @@ const SplitDateInput = ({
               sharedClassnames,
               "kern-form-input__input--width-2",
               {
-                "kern-form-input__input--error": dayError,
+                "kern-form-input__input--error":
+                  dayErrorMessage && shouldDisplayErrors,
               },
             )}
-            aria-invalid={dayHasError}
-            aria-describedby={dayHasError ? errorId : undefined}
+            aria-invalid={Boolean(dayErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              dayErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
           />
         </div>
 
@@ -108,11 +117,14 @@ const SplitDateInput = ({
               sharedClassnames,
               "kern-form-input__input--width-2",
               {
-                "kern-form-input__input--error": monthError,
+                "kern-form-input__input--error":
+                  monthErrorMessage && shouldDisplayErrors,
               },
             )}
-            aria-invalid={monthHasError}
-            aria-describedby={monthHasError ? errorId : undefined}
+            aria-invalid={Boolean(monthErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              monthErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
           />
         </div>
 
@@ -131,18 +143,21 @@ const SplitDateInput = ({
               sharedClassnames,
               "kern-form-input__input--width-4",
               {
-                "kern-form-input__input--error": yearError,
+                "kern-form-input__input--error":
+                  yearErrorMessage && shouldDisplayErrors,
               },
             )}
-            aria-invalid={yearHasError}
-            aria-describedby={yearHasError ? errorId : undefined}
+            aria-invalid={Boolean(yearErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              yearErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
           />
         </div>
       </div>
-      {hasError && (
+      {Boolean(fieldErrorMessage) && shouldDisplayErrors && (
         <InputError id={errorId}>
-          {errorMessages?.find((err) => err.code === fieldError)?.text ??
-            fieldError}
+          {errorMessages?.find((err) => err.code === fieldErrorMessage)?.text ??
+            fieldErrorMessage}
         </InputError>
       )}
     </fieldset>
