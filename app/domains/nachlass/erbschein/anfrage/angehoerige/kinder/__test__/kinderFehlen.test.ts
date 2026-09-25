@@ -7,7 +7,6 @@ type UserData = Parameters<typeof createFlowSession>[1];
 // Guards on kindSummary read the pruned user data, so every ancestor page has to
 // stay reachable — otherwise the fields they inspect are stripped before the guard runs.
 const happyPathData: ErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
   verstorbeneVorname: "Max",
   verstorbeneNachname: "Mustermann",
   verstorbenePersonStrasse: "Musterstraße",
