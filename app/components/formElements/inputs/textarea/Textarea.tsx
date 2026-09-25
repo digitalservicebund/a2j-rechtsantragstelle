@@ -6,8 +6,8 @@ import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
-import RichText from "../../../common/RichText";
 import { InputLabel } from "../label/InputLabel";
+import { InputHelperText } from "../helperText/InputHelperText";
 
 export const TEXT_AREA_ROWS = 3;
 
@@ -21,7 +21,7 @@ type TextareaProps = Readonly<{
   suffix?: string;
   innerRef?: React.Ref<HTMLTextAreaElement>;
   maxLength?: number;
-  description?: string;
+  helperText?: string;
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   backgroundClass?: string;
@@ -34,7 +34,7 @@ const Textarea = ({
   suffix,
   details,
   innerRef,
-  description,
+  helperText,
   placeholder,
   errorMessages,
   ariaDescribedby,
@@ -61,8 +61,13 @@ const Textarea = ({
       })}
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
-      {description && <RichText html={description} />}
+
+      {helperText && (
+        <InputHelperText helperText={helperText} helperId={`${name}-helper`} />
+      )}
+
       {details && <Details {...details} setDetailsId={setDetailsId} />}
+
       <textarea
         {...field.getInputProps({
           id: name,

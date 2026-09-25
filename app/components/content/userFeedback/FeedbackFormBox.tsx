@@ -70,7 +70,7 @@ export const FeedbackFormBox = ({
     ["negative"]: feedbackTranslations["negative-feedback-question"],
   }[feedback];
 
-  const textAreaDescription = `<p id="${headingPersonalFeedbackId}">${feedbackTranslations["heading-personal-data-feedback"]}</p>`;
+  const textareaHelperText = `${feedbackTranslations["heading-personal-data-feedback"]}`;
 
   return (
     <ValidatedForm
@@ -94,7 +94,7 @@ export const FeedbackFormBox = ({
                 {feedbackText}
               </>
             }
-            description={textAreaDescription}
+            helperText={textareaHelperText}
             placeholder={feedbackTranslations["placeholder-feedback"]}
             innerRef={textAreaReference}
             ariaDescribedby={headingPersonalFeedbackId}
