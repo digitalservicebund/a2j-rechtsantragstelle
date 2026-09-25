@@ -5,19 +5,12 @@ import { nachlassPages } from "~/domains/nachlass/erbschein/anfrage/nachlass/pag
 import { testamentOderErbvertragPages } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { verstorbenePersonPages } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/pages";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const erbscheinAnfragePages = {
   start: {
     stepId: "/start",
-  },
-  datenverarbeitung: {
-    stepId: "/start/datenverarbeitung",
-    pageSchema: {
-      datenverarbeitungZustimmung: checkedRequired,
-    },
   },
   ...verstorbenePersonPages,
   ...antragstellendePersonPages,

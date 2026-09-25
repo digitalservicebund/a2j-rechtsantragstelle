@@ -23,10 +23,6 @@ export const erbscheinAnfrageTestCases = {
         stepId: "/start",
       },
       {
-        stepId: "/start/datenverarbeitung",
-        userInput: { datenverarbeitungZustimmung: "on" },
-      },
-      {
         stepId: "/verstorbene/name",
       },
     ],

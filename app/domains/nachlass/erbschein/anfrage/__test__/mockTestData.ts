@@ -3,7 +3,6 @@ import type { ErbscheinAnfrageUserData } from "../userData";
 import type z from "zod";
 
 export const erbscheinAnfrageHappyPathData: ErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
   verstorbenePersonStrasse: "Musterstraße",
   verstorbenePersonHausnummer: "1",
   verstorbenePersonOrt: "Musterstadt",
