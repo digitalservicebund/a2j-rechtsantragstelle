@@ -130,7 +130,7 @@
     "knip": "^6.37.0",
     "lefthook": "^2.1.14",
     "license-checker-rseidelsohn": "^5.0.1",
-    "oxlint": "^1.83.0",
+    "oxlint": "^1.85.0",
     "p-map": "^7.0.8",
     "prettier": "^3.9.8",
     "size-limit": "^14.0.0",
