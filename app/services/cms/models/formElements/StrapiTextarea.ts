@@ -2,7 +2,6 @@ import { z } from "zod";
 import { StrapiDetailsSchema } from "~/services/cms/models/content/StrapiDetails";
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
-import { StrapiRichTextOptionalSchema } from "~/services/validation/richtext";
 import { omitNull } from "~/util/omitNull";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
@@ -12,7 +11,7 @@ export const StrapiTextareaComponentSchema = z
     __component: z.literal("form-elements.textarea"),
     name: z.string(),
     suffix: StrapiStringOptionalSchema,
-    description: StrapiRichTextOptionalSchema(),
+    helperText: StrapiStringOptionalSchema,
     details: StrapiDetailsSchema.nullable().transform(omitNull).optional(),
     label: StrapiStringOptionalSchema,
     placeholder: StrapiStringOptionalSchema,
