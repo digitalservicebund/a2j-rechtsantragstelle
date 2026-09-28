@@ -1,13 +1,21 @@
 import type { FluggastrechtVorabcheckUserData } from "./userData";
-import { yesNoGuards, type Guards } from "../../guards.server";
 import { isErfolgAnalog } from "./services/isErfolgAnalog";
 import { isFluggesellschaftInEU } from "./services/isFluggesellschaftInEU";
 import { calculateDistanceBetweenAirportsInKilometers } from "../services/airports/calculateDistanceBetweenAirports";
 import { isEuropeanUnionAirport } from "../services/airports/isEuropeanUnionAirport";
 import { isGermanAirport } from "../services/airports/isGermanAirport";
 
+type Guard = (context: FluggastrechtVorabcheckUserData) => boolean;
+
+const yesNoGuards = (field: keyof FluggastrechtVorabcheckUserData) => ({
+  [`${field}Yes`]: (context: FluggastrechtVorabcheckUserData) =>
+    context[field] === "yes",
+  [`${field}No`]: (context: FluggastrechtVorabcheckUserData) =>
+    context[field] === "no",
+});
+
 export const guards = {
-  isInvalidAirportDistance: ({ context }) => {
+  isInvalidAirportDistance: (context) => {
     const distance = calculateDistanceBetweenAirportsInKilometers(
       context.startAirport ?? "",
       context.endAirport ?? "",
@@ -15,7 +23,9 @@ export const guards = {
     return distance.isErr;
   },
   isGermanEndAirportsAndIsNotClaimable: ({
-    context: { startAirport, endAirport, fluggesellschaft },
+    startAirport,
+    endAirport,
+    fluggesellschaft,
   }) => {
     const isEndAirportGerman = isGermanAirport(endAirport);
     const isStartAirportGerman = isGermanAirport(startAirport);
@@ -33,7 +43,9 @@ export const guards = {
    * go to the same page, but the logic are different, so keeping them in two different functions to test it properly
    * */
   isNonGermanAirportsAndIsNotClaimableInEU: ({
-    context: { startAirport, endAirport, fluggesellschaft },
+    startAirport,
+    endAirport,
+    fluggesellschaft,
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
@@ -52,7 +64,9 @@ export const guards = {
     return isEndAirportEU && !isFluggesellschaftInEU(fluggesellschaft);
   },
   isGermanEndAirportsAndOtherAirline: ({
-    context: { startAirport, endAirport, fluggesellschaft },
+    startAirport,
+    endAirport,
+    fluggesellschaft,
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
@@ -66,7 +80,9 @@ export const guards = {
     );
   },
   isNonGermanAirportsAndIsNotClaimableInEUWithOtherAirline: ({
-    context: { startAirport, endAirport, fluggesellschaft },
+    startAirport,
+    endAirport,
+    fluggesellschaft,
   }) => {
     const isStartAirportGerman = isGermanAirport(startAirport);
     const isEndAirportGerman = isGermanAirport(endAirport);
@@ -84,21 +100,19 @@ export const guards = {
 
     return isEndAirportEU && fluggesellschaft === "sonstiges";
   },
-  areAirportsOutsideEU: ({ context }) => {
+  areAirportsOutsideEU: (context) => {
     const isStartAirportEU = isEuropeanUnionAirport(context.startAirport);
     const isEndAirportEU = isEuropeanUnionAirport(context.endAirport);
 
     return !isStartAirportEU && !isEndAirportEU;
   },
-  isErsatzflugYesAndAnkuendigungUntil6DaysOrNo: ({ context }) => {
+  isErsatzflugYesAndAnkuendigungUntil6DaysOrNo: (context) => {
     return (
       context?.ersatzflug === "yes" &&
       (context?.ankuendigung === "until6Days" || context?.ankuendigung === "no")
     );
   },
-  isErfolgEU: ({
-    context: { startAirport, endAirport, gericht, fluggesellschaft },
-  }) => {
+  isErfolgEU: ({ startAirport, endAirport, gericht, fluggesellschaft }) => {
     // If the case is already in court, it's not an EU success
     if (gericht === "yes") {
       return false;
@@ -130,7 +144,7 @@ export const guards = {
     );
   },
 
-  isErfolgAnalogGuard: ({ context }) => {
+  isErfolgAnalogGuard: (context) => {
     return isErfolgAnalog(context);
   },
 
@@ -143,4 +157,4 @@ export const guards = {
   ...yesNoGuards("verjaehrung"),
   ...yesNoGuards("ausgleich"),
   ...yesNoGuards("ersatzflug"),
-} satisfies Guards<FluggastrechtVorabcheckUserData>;
+} satisfies Record<string, Guard>;
