@@ -1,13 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "../../userData";
-import { PKHTestcaseData } from "../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenWohnung = {
   all: [
     {
       stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "withOthers",
         hasWeitereUnterhaltszahlungen: "no",
       },
@@ -15,35 +15,35 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/anzahl-mitbewohner",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         apartmentPersonCount: 3,
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/groesse",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         apartmentSizeSqm: 33,
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/anzahl-zimmer",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         numberOfRooms: 3,
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         rentsApartment: "yes",
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/miete-zusammen",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         totalRent: "1000",
         sharedRent: "1000",
       },
@@ -51,14 +51,14 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
@@ -68,14 +68,14 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/alleine-zusammen",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "alone",
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/groesse",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         apartmentSizeSqm: 33,
       },
     },
@@ -84,7 +84,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "alone",
         rentsApartment: "yes",
       },
@@ -92,7 +92,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-alleine",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         totalRent: "1000",
         rentWithoutUtilities: "1000",
       },
@@ -100,14 +100,14 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
@@ -115,7 +115,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/eigentum/eigentum-info",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
   ],
@@ -123,7 +123,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "withOthers",
         rentsApartment: "yes",
       },
@@ -131,7 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-zusammen",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         totalRent: "1000",
         sharedRent: "1000",
       },
@@ -139,14 +139,14 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/garage-parkplatz",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         garageParkplatz: "no",
       },
     },
     {
       stepId: "/finanzielle-angaben/wohnung/nebenkosten",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         heatingCosts: "500",
         utilitiesCost: "500",
       },
@@ -159,7 +159,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "alone",
         rentsApartment: "no",
       },
@@ -167,7 +167,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/eigenheim-nebenkosten",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         utilitiesCostOwned: "123",
         heatingCostsOwned: "234",
       },
@@ -180,7 +180,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/miete-eigenheim",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         livingSituation: "withOthers",
         rentsApartment: "no",
       },
@@ -188,7 +188,7 @@ export const testCasesPKHFormularFinanzielleAngabenWohnung = {
     {
       stepId: "/finanzielle-angaben/wohnung/eigenheim-nebenkosten-geteilt",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         utilitiesCostOwnShared: "123",
         utilitiesCostOwned: "243",
         heatingCostsOwned: "234",

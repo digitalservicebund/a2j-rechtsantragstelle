@@ -11,7 +11,7 @@ import { type prozesskostenhilfeFormularPages } from "../pages";
 export const grundvoraussetzungenFlowConfig = {
   nachueberpruefungFrage: [
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "nameGericht",
     },
     {
@@ -32,9 +32,9 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   aktenzeichen: [
     {
-      guard: (data) =>
-        isErstantrag({ context: data }) &&
-        data.anhaengigesGerichtsverfahrenFrage === "yes",
+      guard: (context) =>
+        isErstantrag({ context }) &&
+        context.anhaengigesGerichtsverfahrenFrage === "yes",
       target: "klageersteller",
     },
     {
@@ -43,11 +43,11 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   klageersteller: [
     {
-      guard: (data) => verfahrenSelbststaendig({ context: data }),
+      guard: (context) => verfahrenSelbststaendig({ context }),
       target: "hinweis",
     },
     {
-      guard: (data) => grundvoraussetzungenDone({ context: data }),
+      guard: (context) => grundvoraussetzungenDone({ context }),
       target: "empfaenger",
     },
   ],
@@ -58,7 +58,7 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   fall: [
     {
-      guard: (data) => versandDigitalGericht({ context: data }),
+      guard: (context) => versandDigitalGericht({ context }),
       target: "mjp",
     },
     {
@@ -72,13 +72,13 @@ export const grundvoraussetzungenFlowConfig = {
   ],
   hinweisPapierEinreichung: [
     {
-      guard: (data) => grundvoraussetzungenDone({ context: data }),
+      guard: (context) => grundvoraussetzungenDone({ context }),
       target: "empfaenger",
     },
   ],
   hinweisDigitalEinreichung: [
     {
-      guard: (data) => grundvoraussetzungenDone({ context: data }),
+      guard: (context) => grundvoraussetzungenDone({ context }),
       target: "empfaenger",
     },
   ],

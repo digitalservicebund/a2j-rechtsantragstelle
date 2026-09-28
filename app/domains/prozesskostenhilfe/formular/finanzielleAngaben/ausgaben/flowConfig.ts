@@ -38,9 +38,7 @@ export const ausgabenFlowConfig = {
     {
       guard: (context) =>
         hasVersicherungenYes({ context }) &&
-        !arrayIsNonEmpty(
-          (context as { versicherungen?: unknown[] }).versicherungen,
-        ),
+        !arrayIsNonEmpty(context.versicherungen),
       target: "ausgabenVersicherungenWarnung",
     },
     {
@@ -125,7 +123,7 @@ export const ausgabenFlowConfig = {
   ausgabenSonstigeAusgabe: "ausgabenSonstigeAusgabeZahlungspflichtiger",
   ausgabenSonstigeAusgabeZahlungspflichtiger: [
     {
-      guard: (context: any) => sonstigeAusgabeAnteiligYes({ context }),
+      guard: (context) => sonstigeAusgabeAnteiligYes({ context }),
       target: "ausgabenSonstigeAusgabeBetragGemeinsamerAnteil",
     },
     {

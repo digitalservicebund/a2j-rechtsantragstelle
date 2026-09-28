@@ -1,6 +1,6 @@
 import type { ProzesskostenhilfeFormularUserData } from "../userData";
 
-export const PKHTestcaseData: Partial<ProzesskostenhilfeFormularUserData> = {
+export const pkhTestcaseData: Partial<ProzesskostenhilfeFormularUserData> = {
   formularArt: "erstantrag",
   anhaengigesGerichtsverfahrenFrage: "yes",
   gerichtName: "",

@@ -29,7 +29,7 @@ export const ausschlagendePersonFlowConfig = {
   ausschlagendePersonBirthday: "ausschlagendePersonRelationToErblasser",
   ausschlagendePersonRelationToErblasser: [
     {
-      guard: (data) => hasFilledAusschlagendePerson({ context: data }),
+      guard: (context) => hasFilledAusschlagendePerson({ context }),
       target: "kinderHasKid",
     },
   ],

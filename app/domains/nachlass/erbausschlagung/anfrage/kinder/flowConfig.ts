@@ -26,11 +26,11 @@ export const kinderFlowConfig = {
       target: "kinderName",
     },
     {
-      guard: (data) => kinderNotFilled({ context: data }),
+      guard: (context) => kinderNotFilled({ context }),
       target: "kinderWarnung",
     },
     {
-      guard: (data) => isKinderUebersichtFilled({ context: data }),
+      guard: (context) => isKinderUebersichtFilled({ context }),
       target: "abgabeWeitereInformation",
     },
     {
@@ -40,17 +40,17 @@ export const kinderFlowConfig = {
   kinderName: "kinderWohnort",
   kinderWohnort: [
     {
-      guard: (data) =>
-        isKinderWohnortBeiAntragstellerYes({ context: data }) &&
-        isKinderAbove18YearsOld({ context: data }),
+      guard: (context) =>
+        isKinderWohnortBeiAntragstellerYes({ context }) &&
+        isKinderAbove18YearsOld({ context }),
       target: "kinderUebersicht",
     },
     {
-      guard: (data) => isKinderWohnortBeiAntragstellerYes({ context: data }),
+      guard: (context) => isKinderWohnortBeiAntragstellerYes({ context }),
       target: "sorgerecht",
     },
     {
-      guard: (data) => isKinderAbove18YearsOld({ context: data }),
+      guard: (context) => isKinderAbove18YearsOld({ context }),
       target: "kinderAdresseOptional",
     },
     {
@@ -63,11 +63,12 @@ export const kinderFlowConfig = {
   kinderWarnungNichtAusgefuellt: null,
   sorgerecht: [
     {
-      guard: (data) => getOptionSorgerecht(data) === "yes",
+      guard: (context) => getOptionSorgerecht(context) === "yes",
       target: "erbeAusschlagende",
     },
     {
-      guard: (data) => getOptionSorgerecht(data) === "anotherOrganization",
+      guard: (context) =>
+        getOptionSorgerecht(context) === "anotherOrganization",
       target: "sorgerechtOrganisationName",
     },
     {
@@ -77,11 +78,11 @@ export const kinderFlowConfig = {
   sorgerechtPerson: "sorgerechtGleicheAdresse",
   sorgerechtGleicheAdresse: [
     {
-      guard: (data) => hasKinderSorgerechtSameAddressNo({ context: data }),
+      guard: (context) => hasKinderSorgerechtSameAddressNo({ context }),
       target: "sorgerechtAdresse",
     },
     {
-      guard: (data) => getOptionSorgerecht(data) === "anotherPerson",
+      guard: (context) => getOptionSorgerecht(context) === "anotherPerson",
       target: "kinderUebersicht",
     },
     {
@@ -90,7 +91,7 @@ export const kinderFlowConfig = {
   ],
   sorgerechtAdresse: [
     {
-      guard: (data) => getOptionSorgerecht(data) === "anotherPerson",
+      guard: (context) => getOptionSorgerecht(context) === "anotherPerson",
       target: "kinderUebersicht",
     },
     {

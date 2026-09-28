@@ -1,30 +1,25 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
-import {
-  newEngineFlowRoutes,
-  newEngineVorabcheckRoutes,
-} from "./services/routing/flowRoutes";
+import { flowRoutes, vorabcheckRoutes } from "./services/routing/flowRoutes";
 
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
-    ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
-    ...prefix("antrag", newEngineFlowRoutes("BHA")),
+    ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
+    ...prefix("antrag", flowRoutes("BHA")),
   ]),
-  ...prefix("prozesskostenhilfe", [
-    ...prefix("formular", newEngineFlowRoutes("PKH")),
-  ]),
+  ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
   ...prefix("fluggastrechte", [
-    ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
-    ...prefix("formular", newEngineFlowRoutes("FGRF")),
+    ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
+    ...prefix("formular", flowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
-    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
-    ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
+    ...prefix("anfrage", flowRoutes("EAA")),
+    ...prefix("gericht-finden", vorabcheckRoutes("EAGF")),
   ]),
   ...prefix("erbschein", [
-    ...prefix("wegweiser", newEngineVorabcheckRoutes("ESW")),
-    ...prefix("nachlassgericht", newEngineVorabcheckRoutes("ESN")),
+    ...prefix("wegweiser", vorabcheckRoutes("ESW")),
+    ...prefix("nachlassgericht", vorabcheckRoutes("ESN")),
     ...prefix("erbfolge", [
       route("ergebnis/*", "routes/erbschein.erbfolge.ergebnis.$.tsx", {
         id: "erbfolgeResult",
@@ -43,8 +38,8 @@ export default [
     ]),
   ]),
   ...prefix("kontopfaendung", [
-    ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
-    ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
+    ...prefix("wegweiser", vorabcheckRoutes("KPW")),
+    ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
     ...prefix("formular", [

@@ -29,8 +29,8 @@ export const rechtsschutzversicherungFlowConfig = {
   ],
   rsvDeckungJa: null,
   rsvDeckungUnbekannt: null,
-  rsvDeckungNein: [{ target: "orgFrage" }],
-  rsvDeckungTeilweise: [{ target: "orgFrage" }],
+  rsvDeckungNein: "orgFrage",
+  rsvDeckungTeilweise: "orgFrage",
   orgFrage: [
     {
       guard: (context) => context.hasRsvThroughOrg === "yes",

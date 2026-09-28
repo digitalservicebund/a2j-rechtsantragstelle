@@ -1,13 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFormularUserData } from "../../userData";
-import { PKHTestcaseData } from "../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenKinder = {
   doesntHaveChildren: [
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
         hasKinder: "no",
       },
@@ -20,7 +20,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
       },
     },
@@ -36,7 +36,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
       stepId: "/finanzielle-angaben/kinder/uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
       },
     },
@@ -48,7 +48,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
       },
     },
@@ -89,7 +89,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
       },
     },
@@ -129,7 +129,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
     {
       stepId: "/finanzielle-angaben/kinder/kinder-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         partnerEinkommen: "no",
       },
     },
