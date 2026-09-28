@@ -136,6 +136,7 @@ describe("copyOrRemoveReferencePersons", () => {
           telefonnummer: "telefonnummer 1",
           email: "email 1",
           personReference: "0-0",
+          personId: expect.anything(),
         },
         {
           personAuswahl: "anotherPerson",
@@ -151,6 +152,7 @@ describe("copyOrRemoveReferencePersons", () => {
           telefonnummer: "telefonnummer 3",
           email: "email 3",
           personReference: "1-0",
+          personId: expect.anything(),
         },
       ],
       reuseBeweisePerson: {
