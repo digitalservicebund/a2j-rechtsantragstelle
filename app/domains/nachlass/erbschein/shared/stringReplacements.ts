@@ -7,6 +7,10 @@ import {
   collectMissingChildrenNamesForElternteile,
 } from "~/domains/nachlass/erbschein/shared/missingChildren";
 import { type ErbfolgeData } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
+import {
+  type PersonDocuments,
+  collectRequiredDocuments,
+} from "~/domains/nachlass/erbschein/requiredDocuments";
 
 // placeholder (triple braces mean "insert as raw HTML"), e.g. inside a notice.
 function buildMissingChildrenNamesHtml(names: string[]): string {
@@ -43,8 +47,30 @@ function missingChildrenReplacements(data: ErbfolgeData): Replacements {
   };
 }
 
+function getAdditionalDisplayText(
+  additionalDisplayText: PersonDocuments["additionalDisplayText"],
+) {
+  return additionalDisplayText ? ` ${additionalDisplayText}` : "";
+}
+
+function buildRequiredDocumentsHtml(
+  requiredDocuments: PersonDocuments[],
+): string {
+  const rows = requiredDocuments
+    .map(
+      ({ name, documents, additionalDisplayText }) =>
+        `<tr><td class="font-semibold p-kern-space-default pr-kern-space-none align-top">${escape(name)}${getAdditionalDisplayText(additionalDisplayText)}</td>` +
+        `<td class="p-kern-space-default pl-kern-space-none">${documents}</td></tr>`,
+    )
+    .join("");
+  return `<table class="w-full bg-kern-white border-kern-neutral-200 rounded-kern-default"><tbody>${rows}</tbody></table>`;
+}
+
 export function erbfolgeStringReplacements(context: UserData): Replacements {
   return {
+    requiredDocumentsHtml: buildRequiredDocumentsHtml(
+      collectRequiredDocuments(context),
+    ),
     // The raw answers, so CMS text can reference them directly (e.g. {{name}}
     // is the deceased's name). Page-specific values that these can't express
     // (the name of the list item the user is currently inside) are added
