@@ -58,14 +58,11 @@ const Card = ({
           <footer className="kern-card__footer pt-kern-space-x-large!">
             <a
               href={link}
-              className="kern-link no-underline! hover:underline!"
+              className="flex items-center! kern-link no-underline! hover:underline!"
               aria-describedby={id}
               aria-label={buttonLabel}
             >
-              <Icon
-                name="arrow-forward"
-                className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
-              />
+              <Icon name="arrow-forward" className="h-[1em] w-[1em] shrink-0" />
               {buttonLabel}
             </a>
           </footer>

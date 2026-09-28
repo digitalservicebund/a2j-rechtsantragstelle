@@ -49,7 +49,10 @@ export const DataProtectionBanner = ({
       <div className="kern-dialog__body">
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.content]}</p>
         <p>{translations[DATA_PROTECTION_TRANSLATION_KEYS.zustimmung]}</p>
-        <a href="/datenschutzerklaerung" className="kern-link">
+        <a
+          href="/datenschutzerklaerung"
+          className="flex items-center! kern-link"
+        >
           <Icon name="arrow-forward" />
           {translations[DATA_PROTECTION_TRANSLATION_KEYS.link]}
         </a>
