@@ -12,6 +12,8 @@ import {
   getAbschnitteWithInvalidAnotherPerson,
   hasMoreThanOneReusePersonen,
   hasMoreThanOneReuseDokumenten,
+  isDocumentBeingReused,
+  isPersonBeingReused,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -576,6 +578,376 @@ describe("stringReplacement", () => {
       const actual = hasMoreThanOneReuseDokumenten(context);
 
       expect(actual.hasMoreThanOneReuseDokumenten).toBe(false);
+    });
+  });
+
+  describe("isDocumentBeingReused", () => {
+    it("should return false in case abschnitt is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [],
+        pageData: {
+          arrayIndexes: [0],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(false);
+    });
+
+    it("should return false in case arrayIndexes is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+          },
+        ],
+        pageData: {
+          arrayIndexes: [],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(false);
+    });
+
+    it("should return false in case document does not exist", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+              },
+            ],
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 1],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(false);
+    });
+
+    it("should return true in case document has reference", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+                dokumentReference: "111",
+              },
+            ],
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 0],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(true);
+    });
+
+    it("should return true in case document has other references", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+              },
+            ],
+          },
+          {
+            beschreibung: "",
+            dokumenten: [
+              {
+                beschreibung: "1",
+                dokumentReference: "0-0",
+              },
+            ],
+            reuseBeweiseDokument: {
+              "0-0": "on",
+            },
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 0],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(true);
+    });
+
+    it("should return false in case document does not have reference or is not referenced", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+              },
+              {
+                beschreibung: "2",
+              },
+            ],
+          },
+          {
+            beschreibung: "",
+            dokumenten: [
+              {
+                beschreibung: "1",
+                dokumentReference: "0-0",
+              },
+            ],
+            reuseBeweiseDokument: {
+              "0-0": "on",
+              "0-1": "off",
+            },
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 1],
+        },
+      };
+      const actual = isDocumentBeingReused(context);
+
+      expect(actual.isDocumentBeingReused).toBe(false);
+    });
+  });
+
+  describe("isPersonBeingReused", () => {
+    it("should return false in case abschnitt is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [],
+        pageData: {
+          arrayIndexes: [0],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(false);
+    });
+
+    it("should return false in case arrayIndexes is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+          },
+        ],
+        pageData: {
+          arrayIndexes: [],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(false);
+    });
+
+    it("should return false in case person does not exist", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+            ],
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 1],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(false);
+    });
+
+    it("should return true in case person has reference", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+                personReference: "0-1",
+              },
+            ],
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 0],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(true);
+    });
+
+    it("should return true in case document has other references", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+            ],
+          },
+          {
+            beschreibung: "",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+                personReference: "0-0",
+              },
+            ],
+            reuseBeweisePerson: {
+              "0-0": "on",
+            },
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 0],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(true);
+    });
+
+    it("should return false in case document does not have reference or is not referenced", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+            ],
+          },
+          {
+            beschreibung: "",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+                personReference: "0-0",
+              },
+            ],
+            reuseBeweisePerson: {
+              "0-0": "on",
+              "0-1": "off",
+            },
+          },
+        ],
+        pageData: {
+          arrayIndexes: [0, 1],
+        },
+      };
+      const actual = isPersonBeingReused(context);
+
+      expect(actual.isPersonBeingReused).toBe(false);
     });
   });
 });
