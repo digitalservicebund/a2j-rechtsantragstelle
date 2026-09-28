@@ -4,12 +4,15 @@ import { fluggastrechtMultiFieldsValidation } from "./fluggastrechte/formular/mu
 import { fluggastrechtVorabcheckMultiFieldsValidation } from "./fluggastrechte/vorabcheck/multiFieldsValidation";
 import { type MultiFieldsStepIdValidation } from "./types";
 import { erbscheinAnfrageMultiFieldsValidation } from "~/domains/nachlass/erbschein/anfrage/multiFieldsValidation";
+import { geldEinklagenMultiFieldsValidation } from "./geldEinklagen/formular/multiFieldsValidation";
 
 const multiFieldsFlowValidation = {
   "/fluggastrechte/vorabcheck":
     fluggastrechtVorabcheckMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/fluggastrechte/formular":
     fluggastrechtMultiFieldsValidation as MultiFieldsStepIdValidation,
+  "/geld-einklagen/formular":
+    geldEinklagenMultiFieldsValidation as MultiFieldsStepIdValidation,
   "/erbschein/anfrage": erbscheinAnfrageMultiFieldsValidation,
 } as const satisfies Partial<Record<FlowId, MultiFieldsStepIdValidation>>;
 

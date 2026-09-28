@@ -30,6 +30,7 @@ import { geldEinklagenFlowConfig } from "./flowConfig";
 import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferencePersons";
 import { updateBeweisReferenceDocuments } from "../services/updateBeweisRefereceDocuments";
 import { updateBeweisReferencePersons } from "../services/updateBeweisReferencePersons";
+import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -79,6 +80,10 @@ export const geldEinklagenFormular = {
     "/klage-erstellen/beklagte-person/mensch": updateIfUserNotPrefilledBeklagte,
     "/klage-erstellen/beklagte-person/organisation":
       updateIfUserNotPrefilledBeklagte,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl":
+      updateAbschnittenPersonenIds,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten":
+      updateAbschnittenPersonenIds,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden":
       copyOrRemoveReferenceDocuments,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden":

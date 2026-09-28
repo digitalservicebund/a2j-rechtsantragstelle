@@ -109,6 +109,7 @@ describe("reuseBeweise", () => {
           personen: [
             {
               personAuswahl: "anotherPerson",
+              personId: "personId0",
               anrede: "none",
               email: "email0@example.com",
               title: "",
@@ -126,9 +127,10 @@ describe("reuseBeweise", () => {
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte" },
+            { personAuswahl: "beklagte", personId: "personId0" },
             {
               personAuswahl: "anotherPerson",
+              personId: "personId0",
               anrede: "none",
               email: "email1@example.com",
               title: "",
@@ -165,6 +167,7 @@ describe("reuseBeweise", () => {
           personen: [
             {
               personAuswahl: "anotherPerson",
+              personId: "personId0",
               anrede: "none",
               email: "email0@example.com",
               title: "",
@@ -195,8 +198,8 @@ describe("reuseBeweise", () => {
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte" },
-            { personAuswahl: "klagende" },
+            { personAuswahl: "beklagte", personId: "personId0" },
+            { personAuswahl: "klagende", personId: "personId0" },
           ],
         },
       ] satisfies GeldEinklagenFormularKlageErstellenUserData["abschnitte"];
@@ -227,6 +230,7 @@ describe("reuseBeweise", () => {
               plz: "PLZ 1",
               ort: "Ort 1",
               land: "Land 1",
+              personId: "personId0",
             },
             {
               personAuswahl: "anotherPerson",
@@ -242,6 +246,7 @@ describe("reuseBeweise", () => {
               ort: "Ort 2",
               land: "Land 2",
               personReference: "0-1",
+              personId: "personId0",
             },
           ],
         },
@@ -281,6 +286,7 @@ describe("reuseBeweise", () => {
               plz: "PLZ 0",
               ort: "Ort 0",
               land: "Land 0",
+              personId: "personId0",
             },
           ],
         },
@@ -300,6 +306,7 @@ describe("reuseBeweise", () => {
               plz: "PLZ 1",
               ort: "Ort 1",
               land: "Land 1",
+              personId: "personId0",
             },
           ],
         },
@@ -330,6 +337,7 @@ describe("reuseBeweise", () => {
               plz: "PLZ 0",
               ort: "Ort 0",
               land: "Land 0",
+              personId: "personId0",
             },
           ],
         },
@@ -363,14 +371,15 @@ describe("reuseBeweise", () => {
               plz: "PLZ 0",
               ort: "Ort 0",
               land: "Land 0",
+              personId: "personId0",
             },
           ],
         },
         {
           beschreibung: "Beschreibung 2",
           personen: [
-            { personAuswahl: "beklagte" },
-            { personAuswahl: "klagende" },
+            { personAuswahl: "beklagte", personId: "personId0" },
+            { personAuswahl: "klagende", personId: "personId0" },
           ],
         },
       ] satisfies GeldEinklagenFormularKlageErstellenUserData["abschnitte"];

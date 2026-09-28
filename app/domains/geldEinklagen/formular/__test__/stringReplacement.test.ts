@@ -356,6 +356,7 @@ describe("stringReplacement", () => {
                 land: "land",
                 email: "email",
                 telefonnummer: "telefonnummer",
+                personId: "123",
               },
             ],
           },
@@ -364,6 +365,7 @@ describe("stringReplacement", () => {
             personen: [
               {
                 personAuswahl: "beklagte",
+                personId: "123",
               },
             ],
           },

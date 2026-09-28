@@ -99,6 +99,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
         land: "Deutschland",
         telefonnummer: "0123456789",
         email: "max.mustermann@example.com",
+        personId: "person-id",
       },
     ];
 
@@ -131,6 +132,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "klagende-person-id",
       },
     ];
 
@@ -149,9 +151,11 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "klagende-person-id",
       },
       {
         personAuswahl: "beklagte" as const,
+        personId: "beklagte-person-id",
       },
     ];
 
@@ -178,6 +182,7 @@ describe("BegruendungBeschreibungBeweisItems", () => {
     const personen = [
       {
         personAuswahl: "klagende" as const,
+        personId: "klagende-person-id",
       },
     ];
 

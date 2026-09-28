@@ -9,6 +9,7 @@ import { validationError } from "@rvf/react-router";
 import { getSessionManager, updateSession } from "~/services/session.server";
 import merge from "lodash/merge";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { updateAbschnittenPersonenIds } from "~/domains/geldEinklagen/services/updateAbschnittenPersonenIds";
 
 const BASE_URL_PAGE_REUSE_PERSON = "beweis-person-wiederverwenden";
 const BASE_URL_PAGE_UEBERSICHT =
@@ -38,7 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const itemIndexAbschnitt = result.submittedData["itemIndexAbschnitt"];
   const nextItemBeweis = result.submittedData["nextItemBeweis"];
   const reuseOption = result.submittedData["reuse-option"];
-  const BASE_URL_PAGE_ADD_NEW_DOCUMENT = `/personen/${nextItemBeweis}/daten`;
+  const BASE_URL_PAGE_ADD_NEW_PERSON = `/personen/${nextItemBeweis}/daten`;
 
   switch (reuseOption) {
     case "reuse":
@@ -80,9 +81,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
               land: "",
               telefonnummer: "",
               email: "",
+              personId: crypto.randomUUID(),
             }
           : {
               personAuswahl: reuseOption,
+              personId: crypto.randomUUID(),
             };
 
       currentAbschnitte[itemIndexAbschnitt] = {
@@ -96,10 +99,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
       updateSession(flowSession, updatedUserData);
 
+      await updateAbschnittenPersonenIds(
+        request,
+        flowSession.data,
+        flowSession,
+      );
+
       const headers = await commitSession(flowSession);
       const redirectUrl =
         reuseOption === "new"
-          ? `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/${BASE_URL_PAGE_ADD_NEW_DOCUMENT}`
+          ? `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/${BASE_URL_PAGE_ADD_NEW_PERSON}`
           : `${BASE_URL_PAGE_UEBERSICHT}${itemIndexAbschnitt}`;
 
       return redirectDocument(redirectUrl, { headers });

@@ -64,6 +64,7 @@ export const copyOrRemoveReferencePersons = async (
           ...referencedPerson,
           personAuswahl: "anotherPerson" as const,
           personReference: reference,
+          personId: crypto.randomUUID(),
         } as Personen;
         personen = [...personen, newPerson];
       }
