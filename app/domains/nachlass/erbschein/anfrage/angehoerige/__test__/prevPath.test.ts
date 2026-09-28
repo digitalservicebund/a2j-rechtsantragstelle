@@ -3,7 +3,6 @@ import { erbscheinAnfrageFlowConfig } from "~/domains/nachlass/erbschein/anfrage
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 const happyPathData: ErbscheinAnfrageUserData = {
-  datenverarbeitungZustimmung: "on",
   verstorbenePersonStrasse: "Musterstraße",
   verstorbenePersonHausnummer: "1",
   verstorbenePersonOrt: "Musterstadt",

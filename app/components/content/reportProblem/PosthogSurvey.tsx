@@ -145,7 +145,7 @@ export const PosthogSurvey = ({
         {wasSubmitted ? (
           <Button
             ref={closeButtonRef}
-            className="kern-btn kern-btn--secondary kern-btn--large"
+            className="kern-btn kern-btn--secondary"
             onClick={closeSurvey}
             type="button"
           >
@@ -154,7 +154,7 @@ export const PosthogSurvey = ({
         ) : (
           <>
             <Button
-              className="kern-btn kern-btn--secondary kern-btn--large"
+              className="kern-btn kern-btn--secondary"
               type="button"
               onClick={closeSurvey}
             >
@@ -164,7 +164,7 @@ export const PosthogSurvey = ({
             </Button>
 
             <Button
-              className="kern-btn kern-btn--primary kern-btn--large"
+              className="kern-btn kern-btn--primary"
               type="button"
               onClick={onSubmitClicked}
             >

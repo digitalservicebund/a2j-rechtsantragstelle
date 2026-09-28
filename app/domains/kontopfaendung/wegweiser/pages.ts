@@ -10,7 +10,7 @@ export const kontopfaendungWegweiserPages = {
   kontopfaendung: {
     stepId: "kontopfaendung",
     pageSchema: {
-      hasKontopfaendung: z.enum(["nein", "ja"]),
+      hasKontopfaendung: YesNoAnswer,
     },
   },
   ergebnisKeineKontopfaendung: {
@@ -19,7 +19,7 @@ export const kontopfaendungWegweiserPages = {
   pKonto: {
     stepId: "p-konto",
     pageSchema: {
-      hasPKonto: z.enum(["nein", "ja", "nichtAktiv", "nichtEingerichtet"]),
+      hasPKonto: z.enum(["no", "yes", "nichtAktiv", "nichtEingerichtet"]),
     },
   },
   zwischenseiteUnterhalt: {
@@ -35,7 +35,7 @@ export const kontopfaendungWegweiserPages = {
   kinderWohnenZusammen: {
     stepId: "kinder-wohnen-zusammen",
     pageSchema: {
-      kinderWohnenZusammen: z.enum(["nein", "ja", "teilweise"]),
+      kinderWohnenZusammen: z.enum(["no", "yes", "teilweise"]),
     },
   },
   kinderUnterhalt: {
@@ -45,7 +45,7 @@ export const kontopfaendungWegweiserPages = {
   partner: {
     stepId: "partner",
     pageSchema: {
-      verheiratet: z.enum(["nein", "ja", "geschieden", "verwitwet"]),
+      verheiratet: z.enum(["no", "yes", "geschieden", "verwitwet"]),
     },
   },
   partnerWohnenZusammen: {
@@ -77,7 +77,7 @@ export const kontopfaendungWegweiserPages = {
   },
   hoeheNachzahlungArbeitgeber: {
     stepId: "hoehe-nachzahlung-arbeitgeber",
-    pageSchema: { arbeitgeberNachzahlungHigherThan: YesNoAnswer },
+    pageSchema: { arbeitgeberNachzahlungGreaterThan500: YesNoAnswer },
   },
   einmalzahlungArbeitgeber: {
     stepId: "einmalzahlung-arbeitgeber",
@@ -99,7 +99,7 @@ export const kontopfaendungWegweiserPages = {
         "buergergeld",
         "grundsicherungSozialhilfe",
         "asylbewerberleistungen",
-        "nein",
+        "no",
       ]),
     },
   },

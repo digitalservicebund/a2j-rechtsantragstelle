@@ -85,7 +85,10 @@ export function CookieBanner({
               data-testid={buttonAcceptCookieTestId}
             />
             {content.cookieSettingLinkUrl && (
-              <a href={content.cookieSettingLinkUrl} className="kern-link">
+              <a
+                href={content.cookieSettingLinkUrl}
+                className="flex items-center! kern-link"
+              >
                 <Icon name="arrow-forward" />
                 {content.cookieSettingLinkText}
               </a>
