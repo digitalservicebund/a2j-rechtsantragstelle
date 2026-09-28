@@ -4,11 +4,7 @@ import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/kl
 import { arrayIsNonEmpty } from "~/util/array";
 import { getDokumentLocationsWithReference } from "./deleteBeweisDokumentReference";
 import { getPersonLocationsWithReference } from "./deleteBeweisPersonReference";
-
-type Abschnitte = Exclude<
-  GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-  undefined
->;
+import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
 // Any reference into a later abschnitt shifts its abschnitt index down by one
 // once the deleted abschnitt is spliced out (by `deleteArrayItem`, afterwards).

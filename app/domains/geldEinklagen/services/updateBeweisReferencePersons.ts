@@ -6,11 +6,7 @@ import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/kl
 import { getPersonLocationsWithReference } from "./deleteBeweisPersonReference";
 import assign from "lodash/assign";
 import omit from "lodash/omit";
-
-type Abschnitte = Exclude<
-  GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-  undefined
->;
+import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
 export const updateBeweisReferencePersons = async (
   request: Request,

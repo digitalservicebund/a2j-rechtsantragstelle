@@ -2,11 +2,7 @@ import { updateSession } from "~/services/session.server";
 import { type Session } from "react-router";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/klage-erstellen/userData";
 import { arrayIsNonEmpty } from "~/util/array";
-
-type Abschnitte = Exclude<
-  GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-  undefined
->;
+import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
 // Positions of documents that currently reuse (copy) a given original document reference.
 export const getDokumentLocationsWithReference = (

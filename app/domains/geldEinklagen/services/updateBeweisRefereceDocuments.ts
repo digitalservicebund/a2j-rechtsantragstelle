@@ -4,11 +4,7 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/klage-erstellen/userData";
 import { getDokumentLocationsWithReference } from "./deleteBeweisDokumentReference";
-
-type Abschnitte = Exclude<
-  GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-  undefined
->;
+import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
 export const updateBeweisReferenceDocuments = async (
   request: Request,

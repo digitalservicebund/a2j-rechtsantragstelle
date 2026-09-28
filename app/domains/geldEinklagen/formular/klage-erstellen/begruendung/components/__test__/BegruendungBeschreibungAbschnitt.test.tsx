@@ -2,7 +2,7 @@ import BegruendungBeschreibungAbschnitt from "../BegruendungBeschreibungAbschnit
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { type GeldEinklagenFormularKlageErstellenUserData } from "../../../userData";
+import { type Abschnitte } from "../reuseBeweise";
 
 // Needed as jsdom doesn't support dialog API yet
 // https://github.com/jsdom/jsdom/issues/3294
@@ -24,12 +24,7 @@ beforeEach(() => {
   }));
 });
 
-function renderBegruendungBeschreibungAbschnitt(
-  abschnitt: Exclude<
-    GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-    undefined
-  >[number],
-) {
+function renderBegruendungBeschreibungAbschnitt(abschnitt: Abschnitte[number]) {
   const router = createMemoryRouter(
     [
       {

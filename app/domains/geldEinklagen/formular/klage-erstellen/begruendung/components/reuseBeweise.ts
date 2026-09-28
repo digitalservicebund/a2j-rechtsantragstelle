@@ -2,7 +2,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { hasPersonDetails } from "./BegruendungBeschreibungBeweisItems";
 
-type Abschnitte = Exclude<
+export type Abschnitte = Exclude<
   GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
   undefined
 >;

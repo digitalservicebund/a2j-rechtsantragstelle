@@ -3,11 +3,7 @@ import { type Session } from "react-router";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/klage-erstellen/userData";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
-
-type Abschnitte = Exclude<
-  GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-  undefined
->;
+import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
 type Personen = Exclude<Abschnitte[number]["personen"], undefined>[number];
 

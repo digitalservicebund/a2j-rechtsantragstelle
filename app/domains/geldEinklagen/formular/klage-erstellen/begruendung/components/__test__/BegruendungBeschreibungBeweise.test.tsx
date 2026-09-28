@@ -2,7 +2,7 @@ import { RouterProvider } from "react-router/dom";
 import { BegruendungBeschreibungBeweise } from "../BegruendungBeschreibungBeweise";
 import { render } from "@testing-library/react";
 import { createMemoryRouter } from "react-router";
-import { type GeldEinklagenFormularKlageErstellenUserData } from "../../../userData";
+import { type Abschnitte } from "../reuseBeweise";
 
 vi.mock("../useBegruendungBeschreibung", () => ({
   useBegruendungBeschreibung: () => ({
@@ -12,12 +12,7 @@ vi.mock("../useBegruendungBeschreibung", () => ({
   }),
 }));
 
-function renderBegruendungBeschreibungBeweise(
-  abschnitt: Exclude<
-    GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
-    undefined
-  >[number],
-) {
+function renderBegruendungBeschreibungBeweise(abschnitt: Abschnitte[number]) {
   const router = createMemoryRouter(
     [
       {
