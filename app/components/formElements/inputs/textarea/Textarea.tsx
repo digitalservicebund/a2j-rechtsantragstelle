@@ -43,11 +43,13 @@ const Textarea = ({
 }: TextareaProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
 
   const [detailsId, setDetailsId] = useState<string | undefined>();
 
   const describedByIds = [
     field.error() ? errorId : null,
+    helperText ? helperId : null,
     ariaDescribedby,
     detailsId,
   ]
@@ -63,7 +65,7 @@ const Textarea = ({
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
 
       {helperText && (
-        <InputHelperText helperText={helperText} helperId={`${name}-helper`} />
+        <InputHelperText helperText={helperText} helperId={helperId} />
       )}
 
       {details && <Details {...details} setDetailsId={setDetailsId} />}

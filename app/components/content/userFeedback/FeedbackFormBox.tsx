@@ -50,7 +50,6 @@ export const FeedbackFormBox = ({
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
   const feedbackTranslations = useFeedbackTranslations();
-  const headingPersonalFeedbackId = useId();
 
   useEffect(() => {
     if (shouldFocus && textAreaReference.current) {
@@ -97,7 +96,6 @@ export const FeedbackFormBox = ({
             helperText={textareaHelperText}
             placeholder={feedbackTranslations["placeholder-feedback"]}
             innerRef={textAreaReference}
-            ariaDescribedby={headingPersonalFeedbackId}
           />
           <Button
             look="secondary"
