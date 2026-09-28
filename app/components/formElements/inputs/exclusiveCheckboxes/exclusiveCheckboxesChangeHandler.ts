@@ -25,6 +25,7 @@ export const onCheckboxChange =
 
     const label = checkboxes.find((c) => c.name.endsWith(checkboxName))?.label;
 
+    // oxlint-disable unicorn/consistent-function-scoping
     const announce = (message: string) => {
       // this constant forces SR to re-announce
       setAnnouncement("");
