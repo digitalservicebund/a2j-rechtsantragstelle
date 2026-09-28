@@ -51,6 +51,9 @@ export default [
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
         id: `pdfGEF`,
       }),
+      route("download/xjustiz", "routes/shared/xjustizDownloadLoader.ts", {
+        id: `xjustizGEF`,
+      }),
       route(":path/:path2/ergebnis/*", "routes/shared/newEngineResult.ts", {
         id: `resGEF`,
       }),
