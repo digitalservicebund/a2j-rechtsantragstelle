@@ -75,7 +75,7 @@ export const DeleteDialog = ({
         </Button>
 
         <Button
-          className="bg-kern-feedback-danger!"
+          className="bg-kern-feedback-danger! hover:bg-kern-red-500!"
           type="button"
           onClick={onClick}
         >
