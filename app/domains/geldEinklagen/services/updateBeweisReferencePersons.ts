@@ -64,7 +64,10 @@ export const updateBeweisReferencePersons = async (
       ];
 
     if (person && person.personAuswahl === "anotherPerson") {
-      assign(person, omit(currentPerson, ["personAuswahl", "personReference"]));
+      assign(
+        person,
+        omit(currentPerson, ["personAuswahl", "personReference", "personId"]),
+      );
     }
   });
 
