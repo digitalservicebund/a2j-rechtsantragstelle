@@ -7,7 +7,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/name",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneVorname: "Max",
           verstorbeneNachname: "Mustermann",
         },
@@ -53,7 +52,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/zweite-staatsangehoerigkeit-frage",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneHadSecondNationality: "yes",
         },
       },
@@ -77,7 +75,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/dritte-staatsangehoerigkeit-frage",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneHadSecondNationality: "yes",
           verstorbeneHadThirdNationality: "yes",
         },
@@ -96,7 +93,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneLebensmittelpunkt: "ausland",
         },
       },
@@ -121,7 +117,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneLebensmittelpunkt: "deutschland",
         },
       },
@@ -153,7 +148,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneLebensmittelpunkt: "deutschland",
         },
       },
@@ -191,7 +185,6 @@ export const verstorbenePersonTestCases: FlowTestCases<ErbscheinAnfrageUserData>
       {
         stepId: "/verstorbene/lebensmittelpunkt",
         userInput: {
-          datenverarbeitungZustimmung: "on",
           verstorbeneLebensmittelpunkt: "deutschland",
         },
       },
