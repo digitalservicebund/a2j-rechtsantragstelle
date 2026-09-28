@@ -50,7 +50,7 @@ export const FileInput = ({
         error && "kern-form-input__input--error",
         jsAvailable
           ? "w-0 h-0 opacity-0 overflow-hidden absolute z-0 cursor-pointer"
-          : "kern-body m-8 ml-0 file:kern-btn file:kern-btn--tertiary file:kern-btn--large w-fit file:cursor-pointer",
+          : "kern-body m-8 ml-0 file:kern-btn file:kern-btn--tertiary w-fit file:cursor-pointer",
       )}
       ref={fileInputRef}
       onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
