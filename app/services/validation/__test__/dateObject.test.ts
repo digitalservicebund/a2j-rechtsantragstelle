@@ -97,6 +97,15 @@ describe("createSplitDateSchema", () => {
       },
       {
         input: {
+          day: "10",
+          month: "12",
+          year: "0000",
+        },
+        errorPath: "year",
+        errorMessage: "Ungültiges Jahr",
+      },
+      {
+        input: {
           day: "-1",
           month: "12",
           year: "2000",

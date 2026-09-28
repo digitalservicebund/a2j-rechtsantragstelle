@@ -30,7 +30,7 @@ describe("parsePathname", () => {
 
     expect(actual).toEqual({
       flowId: "/fluggastrechte/formular",
-      stepId: "/////\\//stepId1",
+      stepId: "/////\\//stepId1/#",
       arrayIndexes: [2],
     });
   });

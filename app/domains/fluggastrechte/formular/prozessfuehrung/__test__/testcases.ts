@@ -1,27 +1,50 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { fluggastrechteFormularHappyPathData } from "~/domains/fluggastrechte/formular/__test__/mockTestData";
 import type { FluggastrechteUserData } from "../../userData";
 
-export const testCasesFluggastrechteFormularProzessfuehrung = [
-  [
-    {
-      hasZeugen: "yes",
-      versaeumnisurteil: "yes",
-      muendlicheVerhandlung: "yes",
-      videoverhandlung: "yes",
-      pageData: {
-        subflowDoneStates: {
-          "/prozessfuehrung": true,
+export const testCasesFluggastrechteFormularProzessfuehrung: FlowTestCases<FluggastrechteUserData> =
+  {
+    zeugenVerhandlungVideoverhandlungVersaeumnisurteilAlleJa: [
+      {
+        stepId: "/prozessfuehrung/zeugen",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+            "/flugdaten": true,
+            "/prozessfuehrung": true,
+          },
+        },
+        userInput: {
+          ...fluggastrechteFormularHappyPathData,
+          hasZeugen: "yes",
         },
       },
-    },
-    [
-      "/prozessfuehrung/zeugen",
-      "/prozessfuehrung/muendliche-verhandlung",
-      "/prozessfuehrung/videoverhandlung",
-      "/prozessfuehrung/versaeumnisurteil",
-      "/prozessfuehrung/zahlung-nach-klageeinreichung",
-      "/zusammenfassung/start",
-      "/abgabe/start",
+      {
+        stepId: "/prozessfuehrung/muendliche-verhandlung",
+        userInput: {
+          muendlicheVerhandlung: "yes",
+        },
+      },
+      {
+        stepId: "/prozessfuehrung/videoverhandlung",
+        userInput: {
+          videoverhandlung: "yes",
+        },
+      },
+      {
+        stepId: "/prozessfuehrung/versaeumnisurteil",
+        userInput: {
+          versaeumnisurteil: "yes",
+        },
+      },
+      {
+        stepId: "/prozessfuehrung/zahlung-nach-klageeinreichung",
+      },
+      {
+        stepId: "/zusammenfassung/start",
+      },
+      {
+        stepId: "/abgabe/start",
+      },
     ],
-  ],
-] as const satisfies TestCases<FluggastrechteUserData>;
+  };

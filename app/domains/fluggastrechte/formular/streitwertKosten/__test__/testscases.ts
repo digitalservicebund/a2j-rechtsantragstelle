@@ -1,29 +1,52 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
+import { fluggastrechteFormularHappyPathData } from "~/domains/fluggastrechte/formular/__test__/mockTestData";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 
-export const testCasesFluggastrechteFormularStreitwertKosten = [
-  [
-    {
-      prozesszinsen: "yes",
-      fluggesellschaft: "SU",
+const baseContext = {
+  ...fluggastrechteFormularHappyPathData,
+  pageData: {
+    subflowDoneStates: {
+      "/grundvoraussetzungen": true,
     },
-    [
-      "/streitwert-kosten/gerichtskosten",
-      "/streitwert-kosten/andere-kosten",
-      "/streitwert-kosten/prozesszinsen",
-      "/flugdaten/adresse-fluggesellschaft",
+  },
+} satisfies Partial<FluggastrechteUserData>;
+
+export const testCasesFluggastrechteFormularStreitwertKosten: FlowTestCases<FluggastrechteUserData> =
+  {
+    ohneAirlineAdresse: [
+      {
+        stepId: "/streitwert-kosten/gerichtskosten",
+        skipPageSchemaValidation: true,
+        userInput: {
+          ...baseContext,
+          fluggesellschaft: "SU",
+        },
+      },
+      { stepId: "/streitwert-kosten/andere-kosten" },
+      {
+        stepId: "/streitwert-kosten/prozesszinsen",
+        userInput: {
+          prozesszinsen: "yes",
+        },
+      },
+      { stepId: "/flugdaten/adresse-fluggesellschaft" },
     ],
-  ],
-  [
-    {
-      prozesszinsen: "yes",
-      fluggesellschaft: "LH",
-    },
-    [
-      "/streitwert-kosten/gerichtskosten",
-      "/streitwert-kosten/andere-kosten",
-      "/streitwert-kosten/prozesszinsen",
-      "/flugdaten/adresse-fluggesellschaft-auswahl",
+    mitAirlineAdresse: [
+      {
+        stepId: "/streitwert-kosten/gerichtskosten",
+        skipPageSchemaValidation: true,
+        userInput: {
+          ...baseContext,
+          fluggesellschaft: "LH",
+        },
+      },
+      { stepId: "/streitwert-kosten/andere-kosten" },
+      {
+        stepId: "/streitwert-kosten/prozesszinsen",
+        userInput: {
+          prozesszinsen: "yes",
+        },
+      },
+      { stepId: "/flugdaten/adresse-fluggesellschaft-auswahl" },
     ],
-  ],
-] as const satisfies TestCases<FluggastrechteUserData>;
+  };

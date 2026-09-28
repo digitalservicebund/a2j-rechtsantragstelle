@@ -1,8 +1,9 @@
-import { type Mock } from "vitest";
 import {
   mockPdfKitDocument,
   mockPdfKitDocumentStructure,
 } from "tests/factories/mockPdfKit";
+import { type Mock } from "vitest";
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import { userDataMock } from "~/domains/fluggastrechte/services/pdf/__test__/userDataMock";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import {
@@ -56,7 +57,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -83,7 +84,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -108,7 +109,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
     };
 
@@ -136,7 +137,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
     };
@@ -165,7 +166,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
       bereich: "nichtbefoerderung",
@@ -195,7 +196,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
       bereich: "annullierung",
@@ -225,7 +226,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
     };
@@ -254,7 +255,7 @@ describe("addMultiplePersonsInfo", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
     };
@@ -282,7 +283,7 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.yes,
     };
@@ -311,7 +312,7 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.yes,
       hasZeugen: YesNoAnswer.enum.no,
     };
@@ -340,7 +341,7 @@ describe("addMultiplePersonsInfo - accessibility", () => {
           ort: "ort",
           plz: "plz",
         },
-      ],
+      ] as FluggastrechteFormularWeiterePersonen,
       isWeiterePersonen: YesNoAnswer.enum.no,
     };
 

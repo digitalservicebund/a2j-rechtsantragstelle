@@ -1,13 +1,5 @@
-import type { FluggastrechteGrundvoraussetzungenUserData } from "./grundvoraussetzungen/userData";
-import type { FluggastrechtePersoenlicheDatenUserData } from "./persoenlicheDaten/userData";
-import type { FluggastrechteProzessfuehrungUserData } from "./prozessfuehrung/userData";
-import type { FluggastrechteStreitwertKostenUserData } from "./streitwertKosten/userData";
-import { type FluggastrechteFlugdatenUserData } from "./flugdaten/userData";
-import type { PageData } from "~/services/flow/pageData";
+import { type FluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 
 export type FluggastrechteUserData =
-  FluggastrechteGrundvoraussetzungenUserData &
-    FluggastrechtePersoenlicheDatenUserData &
-    FluggastrechteProzessfuehrungUserData &
-    FluggastrechteFlugdatenUserData &
-    FluggastrechteStreitwertKostenUserData & { pageData?: PageData };
+  InferredUserData<FluggastrechteFormularPages>;

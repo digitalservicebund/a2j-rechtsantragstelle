@@ -7,7 +7,7 @@ describe("getPageAndFlowDataFromPathname", () => {
       getPageAndFlowDataFromPathname(mockPathname);
 
     expect(flowId).toBe("/fluggastrechte/formular");
-    expect(stepId).toBe("/stepId1");
+    expect(stepId).toBe("/stepId1/#");
     expect(arrayIndexes).toEqual([2]);
   });
 });

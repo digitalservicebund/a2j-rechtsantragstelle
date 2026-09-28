@@ -180,7 +180,7 @@ jobs:
     concurrency: deploy-preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/preview
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -193,7 +193,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
           argocd_sync_timeout: 600
       - name: Report Deployment
-        uses: digitalservicebund/track-deployment@379b3db3b4ed6c0eab31e057858e842cea4789dc # v1.2.0
+        uses: digitalservicebund/track-deployment@e5d2262c109590c7af668dd176ae848566500004 # v1.3.0
         with:
           project: a2j-rechtsantragstelle
           environment: preview
@@ -216,7 +216,7 @@ jobs:
     concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/staging
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -229,7 +229,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
           argocd_sync_timeout: 600
       - name: Report Deployment
-        uses: digitalservicebund/track-deployment@379b3db3b4ed6c0eab31e057858e842cea4789dc # v1.2.0
+        uses: digitalservicebund/track-deployment@e5d2262c109590c7af668dd176ae848566500004 # v1.3.0
         with:
           project: a2j-rechtsantragstelle
           environment: staging
@@ -244,7 +244,7 @@ jobs:
     concurrency: deploy-production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/production
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -257,7 +257,7 @@ jobs:
           argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
           argocd_sync_timeout: 600
       - name: Report Deployment
-        uses: digitalservicebund/track-deployment@379b3db3b4ed6c0eab31e057858e842cea4789dc # v1.2.0
+        uses: digitalservicebund/track-deployment@e5d2262c109590c7af668dd176ae848566500004 # v1.3.0
         with:
           project: a2j-rechtsantragstelle
           environment: production
@@ -288,7 +288,7 @@ jobs:
     if: always() && failure() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: digitalservicebund/notify-on-failure-gha@9fafd6e97d275a51126f80bec2285a2cf2beb1fc
+      - uses: digitalservicebund/notify-on-failure-gha@b8fdda76a38fa8e94cf623ebdd03e4570bc4ceb0
         with:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_A2J_ALERT_ID }}

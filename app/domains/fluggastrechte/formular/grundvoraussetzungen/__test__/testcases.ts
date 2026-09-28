@@ -1,70 +1,99 @@
-import type { TestCases } from "~/domains/__test__/TestCases";
+import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 
-const happyPathSteps = [
-  "/intro/start",
-  "/grundvoraussetzungen/streitbeilegung",
-  "/grundvoraussetzungen/prozessfaehig",
-  "/grundvoraussetzungen/ausgleichszahlung",
-  "/grundvoraussetzungen/daten-uebernahme",
-  "/grundvoraussetzungen/amtsgericht",
-  "/streitwert-kosten/gerichtskosten",
-];
-
-export const testCasesFluggastrechteFormularGrundvoraussetzungen = [
-  [
-    {
-      fluggesellschaft: "TAP",
-      bereich: "bereich",
-      startAirport: "BER",
-      endAirport: "FRA",
-      streitbeilegung: "yes",
-      pageData: {
-        subflowDoneStates: {
-          "/grundvoraussetzungen": true,
+export const testCasesFluggastrechteFormularGrundvoraussetzungen: FlowTestCases<FluggastrechteUserData> =
+  {
+    streitbeilegungJa: [
+      { stepId: "/intro/start" },
+      {
+        stepId: "/grundvoraussetzungen/streitbeilegung",
+        userInput: {
+          streitbeilegung: "yes",
         },
       },
-    },
-    happyPathSteps,
-  ],
-  [
-    {
-      fluggesellschaft: "TAP",
-      bereich: "bereich",
-      startAirport: "BER",
-      endAirport: "FRA",
-      streitbeilegung: "noSpecification",
-      pageData: {
-        subflowDoneStates: {
-          "/grundvoraussetzungen": true,
+      { stepId: "/grundvoraussetzungen/prozessfaehig" },
+      { stepId: "/grundvoraussetzungen/ausgleichszahlung" },
+      {
+        stepId: "/grundvoraussetzungen/daten-uebernahme",
+        userInput: {
+          fluggesellschaft: "TAP",
+          bereich: "bereich",
+          startAirport: "BER",
+          endAirport: "FRA",
         },
       },
-    },
-    happyPathSteps,
-  ],
-  [
-    {
-      fluggesellschaft: "TAP",
-      bereich: "bereich",
-      startAirport: "BER",
-      endAirport: "FRA",
-      streitbeilegung: "no",
-      streitbeilegungGruende: "no",
-      pageData: {
-        subflowDoneStates: {
-          "/grundvoraussetzungen": true,
+      {
+        stepId: "/grundvoraussetzungen/amtsgericht",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+          },
         },
       },
-    },
-    [
-      "/intro/start",
-      "/grundvoraussetzungen/streitbeilegung",
-      "/grundvoraussetzungen/streitbeilegung-gruende",
-      "/grundvoraussetzungen/prozessfaehig",
-      "/grundvoraussetzungen/ausgleichszahlung",
-      "/grundvoraussetzungen/daten-uebernahme",
-      "/grundvoraussetzungen/amtsgericht",
-      "/streitwert-kosten/gerichtskosten",
+      { stepId: "/streitwert-kosten/gerichtskosten" },
     ],
-  ],
-] as const satisfies TestCases<FluggastrechteUserData>;
+    streitbeilegungNoSpecification: [
+      { stepId: "/intro/start" },
+      {
+        stepId: "/grundvoraussetzungen/streitbeilegung",
+        userInput: {
+          streitbeilegung: "noSpecification",
+        },
+      },
+      { stepId: "/grundvoraussetzungen/prozessfaehig" },
+      { stepId: "/grundvoraussetzungen/ausgleichszahlung" },
+      {
+        stepId: "/grundvoraussetzungen/daten-uebernahme",
+        userInput: {
+          fluggesellschaft: "TAP",
+          bereich: "bereich",
+          startAirport: "BER",
+          endAirport: "FRA",
+        },
+      },
+      {
+        stepId: "/grundvoraussetzungen/amtsgericht",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+          },
+        },
+      },
+      { stepId: "/streitwert-kosten/gerichtskosten" },
+    ],
+    streitbeilegungNeinGruendeNein: [
+      { stepId: "/intro/start" },
+      {
+        stepId: "/grundvoraussetzungen/streitbeilegung",
+        userInput: {
+          streitbeilegung: "no",
+        },
+      },
+      {
+        stepId: "/grundvoraussetzungen/streitbeilegung-gruende",
+        userInput: {
+          streitbeilegungGruende: "no",
+        },
+      },
+      { stepId: "/grundvoraussetzungen/prozessfaehig" },
+      { stepId: "/grundvoraussetzungen/ausgleichszahlung" },
+      {
+        stepId: "/grundvoraussetzungen/daten-uebernahme",
+        userInput: {
+          fluggesellschaft: "TAP",
+          bereich: "bereich",
+          startAirport: "BER",
+          endAirport: "FRA",
+        },
+      },
+      {
+        stepId: "/grundvoraussetzungen/amtsgericht",
+        pageData: {
+          subflowDoneStates: {
+            "/grundvoraussetzungen": true,
+          },
+        },
+      },
+      { stepId: "/streitwert-kosten/gerichtskosten" },
+    ],
+  };
