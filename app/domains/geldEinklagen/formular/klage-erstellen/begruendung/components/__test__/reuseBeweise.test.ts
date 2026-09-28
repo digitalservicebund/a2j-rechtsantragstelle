@@ -131,7 +131,7 @@ describe("reuseBeweise", () => {
             {
               personAuswahl: "anotherPerson",
               personId: "personId0",
-              anrede: "none",
+              anrede: "herr",
               email: "email1@example.com",
               title: "",
               telefonnummer: "Telefonnummer 1",
@@ -154,7 +154,7 @@ describe("reuseBeweise", () => {
       expect(result).toEqual([
         {
           label: "Strasse 1 Hausnummer 1, PLZ 1 Ort 1, Land 1",
-          labelBold: " Vorname 1 Nachname 1",
+          labelBold: " Herr Vorname 1 Nachname 1",
           option: "1-1",
         },
       ]);
@@ -219,7 +219,7 @@ describe("reuseBeweise", () => {
           personen: [
             {
               personAuswahl: "anotherPerson",
-              anrede: "none",
+              anrede: "herr",
               email: "email1@example.com",
               title: "",
               telefonnummer: "Telefonnummer 1",
@@ -234,7 +234,7 @@ describe("reuseBeweise", () => {
             },
             {
               personAuswahl: "anotherPerson",
-              anrede: "none",
+              anrede: "herr",
               email: "email1@example.com",
               title: "",
               telefonnummer: "Telefonnummer 2",
@@ -260,7 +260,7 @@ describe("reuseBeweise", () => {
       expect(result).toEqual([
         {
           label: "Strasse 1 Hausnummer 1, PLZ 1 Ort 1, Land 1",
-          labelBold: " Vorname 1 Nachname 1",
+          labelBold: " Herr Vorname 1 Nachname 1",
           option: "1-0",
         },
       ]);

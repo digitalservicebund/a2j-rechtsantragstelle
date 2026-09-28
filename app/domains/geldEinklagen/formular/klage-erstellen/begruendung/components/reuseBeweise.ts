@@ -1,11 +1,30 @@
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { hasPersonDetails } from "./BegruendungBeschreibungBeweisItems";
+import capitalize from "lodash/capitalize";
 
 export type Abschnitte = Exclude<
   GeldEinklagenFormularKlageErstellenUserData["abschnitte"],
   undefined
 >;
+
+const getPersonLabels = (
+  person: Exclude<Abschnitte[number]["personen"], undefined>[number],
+) => {
+  if (person.personAuswahl !== "anotherPerson") {
+    return {
+      labelBold: "",
+      label: "",
+    };
+  }
+
+  const anrede = person.anrede === "none" ? "" : capitalize(person.anrede);
+
+  return {
+    labelBold: `${person.title} ${anrede} ${person.vorname} ${person.nachname}`,
+    label: `${person.strasse} ${person.hausnummer}, ${person.plz} ${person.ort}, ${person.land}`,
+  };
+};
 
 const isOtherAbschnitt = (index: number, itemIndexAbschnitte: number) =>
   index !== itemIndexAbschnitte;
@@ -54,11 +73,14 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
       .filter(
         ({ person }) => hasPersonDetails(person) && !person.personReference,
       )
-      .map(({ person, personIndex }) => ({
-        labelBold: `${(person as { title: string }).title} ${(person as { vorname: string }).vorname} ${(person as { nachname: string }).nachname}`,
-        label: `${(person as { strasse: string }).strasse} ${(person as { hausnummer: string }).hausnummer}, ${(person as { plz: string }).plz} ${(person as { ort: string }).ort}, ${(person as { land: string }).land}`,
-        option: `${abschnittIndex}-${personIndex}`,
-      }));
+      .map(({ person, personIndex }) => {
+        const { label, labelBold } = getPersonLabels(person);
+        return {
+          labelBold,
+          label,
+          option: `${abschnittIndex}-${personIndex}`,
+        };
+      });
   });
 
 export const hasPersonenToBeReusedFromOtherAbschnitte = (
