@@ -629,6 +629,12 @@ export const translations = {
     dialogPersonBeklagteOption: {
       de: "Die beklagte Person",
     },
+    reuseBeweisDocumentSelectionRequired: {
+      de: "Bitte wählen Sie mindestens ein Dokument aus.",
+    },
+    reuseBeweisPersonSelectionRequired: {
+      de: "Bitte wählen Sie mindestens eine Person aus.",
+    },
   },
   nachlass: {
     childOf: {

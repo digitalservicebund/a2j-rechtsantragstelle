@@ -1,5 +1,6 @@
 import z from "zod";
 import { checkedOptional } from "./checkedCheckbox";
+import { translations } from "../translations/translations";
 
 export const reuseBeweisZodDescription = "reuseBeweis";
 
@@ -10,7 +11,12 @@ export const reuseBeweisSchema = (beweisType: "document" | "person") =>
     .refine(
       (checkboxes) =>
         Object.values(checkboxes ?? {}).some((value) => value === "on"),
-      { message: "selection_required" },
+      {
+        message:
+          beweisType === "document"
+            ? translations.geldEinklagen.reuseBeweisDocumentSelectionRequired.de
+            : translations.geldEinklagen.reuseBeweisPersonSelectionRequired.de,
+      },
     )
     .meta({
       description: reuseBeweisZodDescription,
