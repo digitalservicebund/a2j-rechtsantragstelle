@@ -1,17 +1,19 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { kontopfaendungWegweiserXstateConfig } from "../xStateConfig";
 import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 import { kontopfaendungWegweiserFlowConfig } from "../flowConfig";
 
 export const kontopfaendungWegweiserTestCases = {
-  xstateConfig: kontopfaendungWegweiserXstateConfig,
+  xstateConfig: {
+    id: "/kontopfaendung/wegweiser",
+    states: {},
+  },
   newEngineConfig: kontopfaendungWegweiserFlowConfig,
   testcases: {
     yesKontopfaendung: [
       { stepId: "/start" },
       {
         stepId: "/kontopfaendung",
-        userInput: { hasKontopfaendung: "ja" },
+        userInput: { hasKontopfaendung: "yes" },
       },
       { stepId: "/p-konto" },
     ],
@@ -19,14 +21,14 @@ export const kontopfaendungWegweiserTestCases = {
       { stepId: "/start" },
       {
         stepId: "/kontopfaendung",
-        userInput: { hasKontopfaendung: "nein" },
+        userInput: { hasKontopfaendung: "no" },
       },
       { stepId: "/ergebnis/keine-kontopfaendung" },
     ],
     zwischenseiteUnterhalt: [
       {
         stepId: "/p-konto",
-        userInput: { hasPKonto: "ja" },
+        userInput: { hasPKonto: "yes" },
       },
       {
         stepId: "/zwischenseite-unterhalt",
@@ -44,13 +46,13 @@ export const kontopfaendungWegweiserTestCases = {
         stepId: "/kinder",
         userInput: {
           hasKinder: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
         },
       },
       {
         stepId: "/kinder-wohnen-zusammen",
-        userInput: { kinderWohnenZusammen: "nein" },
+        userInput: { kinderWohnenZusammen: "no" },
       },
       {
         stepId: "/kinder-unterhalt",
@@ -62,10 +64,10 @@ export const kontopfaendungWegweiserTestCases = {
       {
         stepId: "/partner",
         userInput: {
-          verheiratet: "ja",
+          verheiratet: "yes",
           hasKinder: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
         },
       },
       {
@@ -91,8 +93,8 @@ export const kontopfaendungWegweiserTestCases = {
         stepId: "/arbeit",
         userInput: {
           hasArbeit: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
           hasKinder: "yes",
         },
       },
@@ -106,7 +108,7 @@ export const kontopfaendungWegweiserTestCases = {
       },
       {
         stepId: "/hoehe-nachzahlung-arbeitgeber",
-        userInput: { arbeitgeberNachzahlungHigherThan: "yes" },
+        userInput: { arbeitgeberNachzahlungGreaterThan500: "yes" },
       },
       {
         stepId: "/einmalzahlung-arbeitgeber",
@@ -129,8 +131,8 @@ export const kontopfaendungWegweiserTestCases = {
         userInput: {
           hasSozialleistungen: "buergergeld",
           hasArbeit: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
           hasKinder: "yes",
         },
       },
@@ -153,8 +155,8 @@ export const kontopfaendungWegweiserTestCases = {
         userInput: {
           hasKinder: "yes",
           hasKindergeld: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
         },
       },
       {
@@ -168,8 +170,8 @@ export const kontopfaendungWegweiserTestCases = {
         stepId: "/wohngeld",
         userInput: {
           hasWohngeld: "yes",
-          hasPKonto: "ja",
-          hasKontopfaendung: "ja",
+          hasPKonto: "yes",
+          hasKontopfaendung: "yes",
           hasKinder: "no",
         },
       },

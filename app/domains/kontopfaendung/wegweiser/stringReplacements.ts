@@ -7,8 +7,8 @@ export const getArbeitStrings = (userData: KontopfaendungWegweiserUserData) => {
 };
 export const getPKontoStrings = (userData: KontopfaendungWegweiserUserData) => {
   return {
-    hasPKonto: userData.hasPKonto === "ja",
-    hasNoPKonto: userData.hasPKonto === "nein",
+    hasPKonto: userData.hasPKonto === "yes",
+    hasNoPKonto: userData.hasPKonto === "no",
     hasPKontoBank: userData.hasPKonto === "nichtEingerichtet",
     hasPKontoNichtAktive: userData.hasPKonto === "nichtAktiv",
   };
@@ -20,7 +20,7 @@ export const getErhoehungsbetragStrings = (
   return {
     hasErhoehungsbetrag:
       userData.kinderUnterhalt === "yes" ||
-      userData.kinderWohnenZusammen === "ja" ||
+      userData.kinderWohnenZusammen === "yes" ||
       userData.kinderWohnenZusammen === "teilweise" ||
       userData.partnerUnterhalt === "yes" ||
       userData.partnerWohnenZusammen === "yes",
@@ -64,7 +64,7 @@ export const getNachzahlungSozialMehr500Strings = (
   return {
     hasNachzahlungSozialMehr500:
       userData.hasSozialleistungNachzahlung === "yes" &&
-      userData.arbeitgeberNachzahlungHigherThan === "yes",
+      userData.arbeitgeberNachzahlungGreaterThan500 === "yes",
   };
 };
 export const getNachzahlungArbeitUnter500Strings = (
@@ -73,7 +73,7 @@ export const getNachzahlungArbeitUnter500Strings = (
   return {
     hasNachzahlungArbeitUnter500:
       userData.nachzahlungArbeitgeber === "yes" &&
-      userData.arbeitgeberNachzahlungHigherThan === "no",
+      userData.arbeitgeberNachzahlungGreaterThan500 === "no",
   };
 };
 export const getNachzahlungArbeitMehr500Strings = (
@@ -82,7 +82,7 @@ export const getNachzahlungArbeitMehr500Strings = (
   return {
     hasNachzahlungArbeitMehr500:
       userData.nachzahlungArbeitgeber === "yes" &&
-      userData.arbeitgeberNachzahlungHigherThan === "yes",
+      userData.arbeitgeberNachzahlungGreaterThan500 === "yes",
   };
 };
 export const getBuergergeldStrings = (
