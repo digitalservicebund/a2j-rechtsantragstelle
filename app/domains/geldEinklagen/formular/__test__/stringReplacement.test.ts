@@ -10,6 +10,8 @@ import {
   hasStreitbeilegungGruende,
   hasAnwaltschaft,
   getAbschnitteWithInvalidAnotherPerson,
+  hasMoreThanOneReusePersonen,
+  hasMoreThanOneReuseDokumenten,
 } from "../stringReplacements";
 import { type GeldEinklagenFormularUserData } from "../userData";
 
@@ -384,6 +386,196 @@ describe("stringReplacement", () => {
       const actual = getAbschnitteWithInvalidAnotherPerson(context);
 
       expect(actual.abschnitteWithInvalidAnotherPerson).toBe("1, 4");
+    });
+  });
+
+  describe("hasMoreThanOneReusePersonen", () => {
+    it("should return false in case abschnitt is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [],
+        pageData: {
+          arrayIndexes: [0],
+        },
+      };
+      const actual = hasMoreThanOneReusePersonen(context);
+
+      expect(actual.hasMoreThanOneReusePersonen).toBe(false);
+    });
+
+    it("should return false in case arrayIndexes is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+          },
+        ],
+        pageData: {
+          arrayIndexes: [],
+        },
+      };
+      const actual = hasMoreThanOneReusePersonen(context);
+
+      expect(actual.hasMoreThanOneReusePersonen).toBe(false);
+    });
+
+    it("should return true in case exist more than one reuseable person", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+            ],
+          },
+          { beschreibung: "2" },
+        ],
+        pageData: {
+          arrayIndexes: [1],
+        },
+      };
+      const actual = hasMoreThanOneReusePersonen(context);
+
+      expect(actual.hasMoreThanOneReusePersonen).toBe(true);
+    });
+
+    it("should return false in case exist one reuseable person", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            personen: [
+              {
+                personAuswahl: "anotherPerson",
+                anrede: "herr",
+                title: "",
+                vorname: "Max",
+                nachname: "Mustermann",
+                strasse: "strasse",
+                hausnummer: "hausnummer",
+                plz: "plz",
+                ort: "ort",
+                land: "land",
+                email: "email",
+                telefonnummer: "telefonnummer",
+                personId: "123",
+              },
+            ],
+          },
+          { beschreibung: "2" },
+        ],
+        pageData: {
+          arrayIndexes: [1],
+        },
+      };
+      const actual = hasMoreThanOneReusePersonen(context);
+
+      expect(actual.hasMoreThanOneReusePersonen).toBe(false);
+    });
+  });
+
+  describe("hasMoreThanOneReuseDokumenten", () => {
+    it("should return false in case abschnitt is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [],
+        pageData: {
+          arrayIndexes: [0],
+        },
+      };
+      const actual = hasMoreThanOneReuseDokumenten(context);
+
+      expect(actual.hasMoreThanOneReuseDokumenten).toBe(false);
+    });
+
+    it("should return false in case arrayIndexes is empty", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+          },
+        ],
+        pageData: {
+          arrayIndexes: [],
+        },
+      };
+      const actual = hasMoreThanOneReuseDokumenten(context);
+
+      expect(actual.hasMoreThanOneReuseDokumenten).toBe(false);
+    });
+
+    it("should return true in case exist more than one reuseable document", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+              },
+              {
+                beschreibung: "2",
+              },
+            ],
+          },
+          { beschreibung: "2" },
+        ],
+        pageData: {
+          arrayIndexes: [1],
+        },
+      };
+      const actual = hasMoreThanOneReuseDokumenten(context);
+
+      expect(actual.hasMoreThanOneReuseDokumenten).toBe(true);
+    });
+
+    it("should return false in case exist one reuseable document", () => {
+      const context: GeldEinklagenFormularUserData = {
+        abschnitte: [
+          {
+            beschreibung: "1",
+            dokumenten: [
+              {
+                beschreibung: "1",
+              },
+            ],
+          },
+          { beschreibung: "2" },
+        ],
+        pageData: {
+          arrayIndexes: [1],
+        },
+      };
+      const actual = hasMoreThanOneReuseDokumenten(context);
+
+      expect(actual.hasMoreThanOneReuseDokumenten).toBe(false);
     });
   });
 });

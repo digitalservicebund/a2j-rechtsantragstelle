@@ -6,6 +6,10 @@ import { type GeldEinklagenFormularUserData } from "./userData";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasPersonDetails } from "./klage-erstellen/begruendung/components/BegruendungBeschreibungBeweisItems";
+import {
+  getDocumentsToBeReusedFromOtherAbschnitte,
+  getPersonenToBeReusedFromOtherAbschnitte,
+} from "./klage-erstellen/begruendung/components/reuseBeweise";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.gegenWenBeklagen === "person" };
@@ -185,4 +189,38 @@ export const getAbschnitteWithInvalidAnotherPerson = ({
     .join(", ");
 
   return { abschnitteWithInvalidAnotherPerson: invalidAbschnitte };
+};
+
+export const hasMoreThanOneReusePersonen = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(pageData);
+
+  if (!arrayIsNonEmpty(abschnitte) || arrayIndex === undefined) {
+    return { hasMoreThanOneReusePersonen: false };
+  }
+
+  return {
+    hasMoreThanOneReusePersonen:
+      getPersonenToBeReusedFromOtherAbschnitte(abschnitte, arrayIndex).length >
+      1,
+  };
+};
+
+export const hasMoreThanOneReuseDokumenten = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(pageData);
+
+  if (!arrayIsNonEmpty(abschnitte) || arrayIndex === undefined) {
+    return { hasMoreThanOneReuseDokumenten: false };
+  }
+
+  return {
+    hasMoreThanOneReuseDokumenten:
+      getDocumentsToBeReusedFromOtherAbschnitte(abschnitte, arrayIndex).length >
+      1,
+  };
 };
