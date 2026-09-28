@@ -7,7 +7,7 @@ import {
 describe("flowRoutes", () => {
   it("should return the correct routes", () => {
     expect(flowRoutes("BHA")).toEqual([
-       {
+      {
         file: "routes/shared/newEngineFormular.ts",
         id: "flowBHA",
         path: "*",
