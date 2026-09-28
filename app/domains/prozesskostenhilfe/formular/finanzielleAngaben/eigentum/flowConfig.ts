@@ -171,8 +171,7 @@ export const eigentumFlowConfig = {
     },
     {
       guard: (context) =>
-        hasWertsacheYes({ context }) &&
-        !arrayIsNonEmpty((context as { wertsachen?: unknown[] }).wertsachen),
+        hasWertsacheYes({ context }) && !arrayIsNonEmpty(context.wertsachen),
       target: "eigentumWertgegenstaendeWarnung",
     },
     { target: "eigentumGrundeigentumFrage" },
