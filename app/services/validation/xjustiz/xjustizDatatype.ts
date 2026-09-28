@@ -9,7 +9,7 @@ import { type z } from "zod";
 import { translations } from "~/services/translations/translations";
 
 const invalidCharacters = (characters: Readonly<Set<string>>) =>
-  `${translations.xjustiz.invalidCharacters.de} ${[...characters].join(", ")}`;
+  `${translations.xjustiz.invalidCharacters.de} ${[...characters].join(" ")}`;
 
 type Parse = (value: string) => {
   issues?: ReadonlyArray<{ message: string }>;

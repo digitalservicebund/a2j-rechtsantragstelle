@@ -18,7 +18,7 @@ describe("the xjustiz datatype check", () => {
   it("should report the rejected characters in the translated message", () => {
     const actual = requiredSchema.safeParse("Max 1 & Co");
 
-    expect(actual.error?.issues[0].message).toBe(message("1, &"));
+    expect(actual.error?.issues[0].message).toBe(message("1 &"));
   });
 
   it("should list a repeated character only once", () => {
@@ -89,7 +89,7 @@ describe("character sets of the xjustiz datatypes", () => {
 
     it("should reject typographic quotation marks", () => {
       expect(schema.safeParse("Er sagte „nein“").error?.issues[0].message).toBe(
-        message("„, “"),
+        message("„ “"),
       );
     });
   });
@@ -110,13 +110,13 @@ describe("character sets of the xjustiz datatypes", () => {
 
     it("should reject typographic quotation marks", () => {
       expect(schema.safeParse("Er sagte „nein“").error?.issues[0].message).toBe(
-        message("„, “"),
+        message("„ “"),
       );
     });
 
     it("should reject cyrillic letters", () => {
       expect(schema.safeParse("Невский").error?.issues[0].message).toBe(
-        message("Н, е, в, с, к, и, й"),
+        message("Н е в с к и й"),
       );
     });
   });
@@ -143,7 +143,7 @@ describe("character sets of the xjustiz datatypes", () => {
 
     it("should reject cyrillic letters", () => {
       expect(schema.safeParse("Невский").error?.issues[0].message).toBe(
-        message("Н, е, в, с, к, и, й"),
+        message("Н е в с к и й"),
       );
     });
   });
