@@ -1,6 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { ProzesskostenhilfeFormularUserData } from "../../../userData";
-import { PKHTestcaseData } from "../../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   noArbeitsweg: [
@@ -16,7 +16,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
   arbeitswegWalking: [
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
-      userInput: { ...PKHTestcaseData, arbeitsweg: "walking" },
+      userInput: { ...pkhTestcaseData, arbeitsweg: "walking" },
     },
     {
       stepId: "/finanzielle-angaben/abzuege/keine-rolle",
@@ -30,7 +30,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         arbeitsweg: "publicTransport",
       },
     },
@@ -59,7 +59,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
     {
       stepId: "/finanzielle-angaben/abzuege/arbeitsweg",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         arbeitsweg: "privateVehicle",
       },
     },
@@ -85,7 +85,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         hasArbeitsausgaben: "yes",
       },
     },
@@ -101,7 +101,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         arbeitsweg: "walking",
       },
     },
@@ -114,7 +114,7 @@ export const testCasesPKHFormularFinanzielleAngabenAbzuege = {
       stepId:
         "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         arbeitsweg: "walking",
         hasArbeitsausgaben: "yes",
       },

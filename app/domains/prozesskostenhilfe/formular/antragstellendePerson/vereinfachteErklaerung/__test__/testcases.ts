@@ -1,6 +1,6 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "../../../userData";
-import { PKHTestcaseData } from "../../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../../__test__/testcasesData";
 
 const vereinfachteErklaerungBaseContext = {
   empfaenger: "child",
@@ -21,7 +21,7 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -61,7 +61,7 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -101,7 +101,7 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -141,7 +141,7 @@ const frageVermoegenFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -219,7 +219,7 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
         minderjaehrig: "no",
       },
@@ -261,7 +261,7 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
         minderjaehrig: "no",
       },
@@ -296,7 +296,7 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -337,7 +337,7 @@ const frageVermoegenNotFulfilled = {
     {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         ...vereinfachteErklaerungBaseContext,
       },
     },
@@ -417,7 +417,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
       {
         stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
         },
       },
@@ -449,7 +449,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           hasEinnahmen: "yes",
         },
@@ -475,7 +475,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           livesTogether: "no",
           hasVermoegen: "no",
@@ -491,7 +491,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           hasEinnahmen: "no",
           hasVermoegen: "yes",
@@ -514,7 +514,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           hasEinnahmen: "no",
           hasVermoegen: "yes",
@@ -541,7 +541,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: Fl
         stepId:
           "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           hasEinnahmen: "no",
           hasVermoegen: "yes",
@@ -603,7 +603,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
         skipPageSchemaValidation: true,
 
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           minderjaehrig: "no",
           hasEinnahmen: "no",
@@ -618,7 +618,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
           "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
         skipPageSchemaValidation: true,
         userInput: {
-          ...PKHTestcaseData,
+          ...pkhTestcaseData,
           ...vereinfachteErklaerungBaseContext,
           hasEinnahmen: "no",
           hasVermoegen: "yes",

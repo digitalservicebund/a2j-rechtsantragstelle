@@ -20,19 +20,19 @@ export const antragstellendePersonFlowConfig = {
   ...vereinfachteErklaerungFlowConfig,
   unterhaltsanspruch: [
     {
-      guard: (data) => data.unterhaltsanspruch === "anspruchNoUnterhalt",
+      guard: (context) => context.unterhaltsanspruch === "anspruchNoUnterhalt",
       target: "unterhaltLebenFrage",
     },
     {
-      guard: (data) => data.unterhaltsanspruch === "unterhalt",
+      guard: (context) => context.unterhaltsanspruch === "unterhalt",
       target: "unterhalt",
     },
     {
-      guard: (data) => data.unterhaltsanspruch === "sonstiges",
+      guard: (context) => context.unterhaltsanspruch === "sonstiges",
       target: "unterhaltsbeschreibung",
     },
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {
@@ -45,7 +45,7 @@ export const antragstellendePersonFlowConfig = {
       target: "unterhaltspflichtigePersonBeziehung",
     },
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {
@@ -55,7 +55,7 @@ export const antragstellendePersonFlowConfig = {
   unterhaltspflichtigePersonBeziehung: "warumKeinerUnterhalt",
   warumKeinerUnterhalt: [
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {
@@ -65,7 +65,7 @@ export const antragstellendePersonFlowConfig = {
   unterhalt: "unterhaltHauptsaechlichesLeben",
   unterhaltsbeschreibung: [
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {
@@ -78,7 +78,7 @@ export const antragstellendePersonFlowConfig = {
       target: "unterhaltspflichtigePerson",
     },
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {
@@ -88,7 +88,7 @@ export const antragstellendePersonFlowConfig = {
   unterhaltspflichtigePerson: "eigenesExemplar",
   eigenesExemplar: [
     {
-      guard: (data) => isNachueberpruefung({ context: data }),
+      guard: (context) => isNachueberpruefung({ context }),
       target: "einkuenfteStart",
     },
     {

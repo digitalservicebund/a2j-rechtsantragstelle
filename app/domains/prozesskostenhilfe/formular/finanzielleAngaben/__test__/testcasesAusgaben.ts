@@ -1,7 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { addYears, today, toGermanDateString } from "~/util/date";
 import { type ProzesskostenhilfeFormularUserData } from "../../userData";
-import { PKHTestcaseData } from "../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenYes: [
@@ -30,7 +30,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/versicherungen-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -69,7 +69,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -103,7 +103,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -144,7 +144,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -179,7 +179,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -223,7 +223,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/versicherungen-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -235,7 +235,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -247,7 +247,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
       skipPageSchemaValidation: true,
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {

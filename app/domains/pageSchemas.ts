@@ -84,6 +84,7 @@ export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   return fieldsMap;
 };
 
+// TODO: Remove this line after migration is completed
 export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) return undefined;

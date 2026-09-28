@@ -1,13 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type ProzesskostenhilfeFormularUserData } from "../../userData";
-import { PKHTestcaseData } from "../../__test__/testcasesData";
+import { pkhTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
   noWeitereUnterhaltszahlungen: [
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
         hasWeitereUnterhaltszahlungen: "no",
       },
     },
@@ -19,7 +19,7 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
@@ -33,7 +33,7 @@ export const testCasesPKHFormularFinanzielleAngabenAndereUnterhaltszahlungen = {
     {
       stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
       userInput: {
-        ...PKHTestcaseData,
+        ...pkhTestcaseData,
       },
     },
     {
