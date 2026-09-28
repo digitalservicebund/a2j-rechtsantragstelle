@@ -62,10 +62,7 @@ const Card = ({
               aria-describedby={id}
               aria-label={buttonLabel}
             >
-              <Icon
-                name="arrow-forward"
-                className="h-[1em] w-[1em] shrink-0"
-              />
+              <Icon name="arrow-forward" className="h-[1em] w-[1em] shrink-0" />
               {buttonLabel}
             </a>
           </footer>
