@@ -180,7 +180,7 @@ jobs:
     concurrency: deploy-preview
     steps:
       - name: Deploy new preview image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/preview
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -216,7 +216,7 @@ jobs:
     concurrency: deploy-staging
     steps:
       - name: Deploy new staging image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/staging
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
@@ -244,7 +244,7 @@ jobs:
     concurrency: deploy-production
     steps:
       - name: Deploy new production image
-        uses: digitalservicebund/argocd-deploy@e8f6b8f77c8b8eeef3f67fc5bba9521f89145645 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@355b2c4b9d9191a5048c8307f13e1cfc05150387 # v1.0.0
         with:
           environment: environments/production
           version: ${{ needs.push-app-image.outputs.prod_image_tag }}
