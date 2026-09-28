@@ -1,37 +1,39 @@
 import type { Flow } from "~/domains/flows.server";
+import { kontopfaendungWegweiserFlowConfig } from "./flowConfig";
 import {
-  getPKontoStrings,
-  getErhoehungsbetragStrings,
-  getKindergeldStrings,
-  getWohngeldStrings,
-  getEinmalSozialleistungStrings,
-  getNachzahlungSozialUnter500Strings,
-  getNachzahlungSozialMehr500Strings,
-  getNachzahlungArbeitUnter500Strings,
-  getNachzahlungArbeitMehr500Strings,
-  getBuergergeldStrings,
-  getGrundsicherungStrings,
-  getAsylbewerberleistungStrings,
-  getArbeitsentgeltEinmaligStrings,
-  getSelbststaendigStrings,
-  getAngestelltStrings,
-  getKinderStrings,
-  getSchuldnerberatungsstelleStrings,
   getAmtsgerichtRequirementStrings,
-  getInfoZumPKontoStrings,
-  getHasErhöhungStrings,
+  getAngestelltStrings,
+  getArbeitsentgeltEinmaligStrings,
   getArbeitStrings,
-  getRenteStrings,
-  getPflegegeldStrings,
+  getAsylbewerberleistungStrings,
   getBescheinigungStrings,
+  getBuergergeldStrings,
+  getEinmalSozialleistungStrings,
+  getErhoehungsbetragStrings,
+  getGrundsicherungStrings,
+  getHasErhöhungStrings,
+  getInfoZumPKontoStrings,
+  getKindergeldStrings,
+  getKinderStrings,
+  getNachzahlungArbeitMehr500Strings,
+  getNachzahlungArbeitUnter500Strings,
+  getNachzahlungSozialMehr500Strings,
+  getNachzahlungSozialUnter500Strings,
+  getPflegegeldStrings,
+  getPKontoStrings,
+  getRenteStrings,
+  getSchuldnerberatungsstelleStrings,
+  getSelbststaendigStrings,
+  getWohngeldStrings,
 } from "./stringReplacements";
 import { type KontopfaendungWegweiserUserData } from "./userData";
-import { kontopfaendungWegweiserXstateConfig } from "./xStateConfig";
-import { kontopfaendungWegweiserFlowConfig } from "./flowConfig";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
-  config: kontopfaendungWegweiserXstateConfig,
+  config: {
+    id: "/kontopfaendung/wegweiser",
+    states: {},
+  },
   newEngineConfig: kontopfaendungWegweiserFlowConfig,
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getArbeitStrings(userData),
