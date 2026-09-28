@@ -17,6 +17,10 @@ import {
   getArrayIndex,
   hasZeroAbschnitte,
   getAbschnitteWithInvalidAnotherPerson,
+  hasMoreThanOneReusePersonen,
+  hasMoreThanOneReuseDokumenten,
+  isDocumentBeingReused,
+  isPersonBeingReused,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -53,6 +57,10 @@ export const geldEinklagenFormular = {
     ...getArrayIndex(context),
     ...hasZeroAbschnitte(context),
     ...getAbschnitteWithInvalidAnotherPerson(context),
+    ...hasMoreThanOneReusePersonen(context),
+    ...hasMoreThanOneReuseDokumenten(context),
+    ...isDocumentBeingReused(context),
+    ...isPersonBeingReused(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
