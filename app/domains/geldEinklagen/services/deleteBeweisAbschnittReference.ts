@@ -93,7 +93,7 @@ const fixDokumentReferences = (
 
     // The schema requires at least one "on" entry, so drop the map entirely
     // once nothing is selected anymore instead of leaving only "off" values.
-    if (!Object.values(reuseBeweiseDokument).some((value) => value === "on")) {
+    if (!Object.values(reuseBeweiseDokument).includes("on")) {
       abschnitt.reuseBeweiseDokument = undefined;
     }
   });
@@ -175,7 +175,7 @@ const fixPersonReferences = (
 
     // The schema requires at least one "on" entry, so drop the map entirely
     // once nothing is selected anymore instead of leaving only "off" values.
-    if (!Object.values(reuseBeweisePerson).some((value) => value === "on")) {
+    if (!Object.values(reuseBeweisePerson).includes("on")) {
       abschnitt.reuseBeweisePerson = undefined;
     }
   });

@@ -143,7 +143,7 @@ export const deleteBeweisPersonReference = (
 
     // The schema requires at least one "on" entry, so drop the map entirely
     // once nothing is selected anymore instead of leaving only "off" values.
-    if (!Object.values(reuseBeweisePerson).some((value) => value === "on")) {
+    if (!Object.values(reuseBeweisePerson).includes("on")) {
       abschnitt.reuseBeweisePerson = undefined;
     }
   });
