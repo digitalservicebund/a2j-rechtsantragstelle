@@ -56,6 +56,34 @@ describe("SummarySection", () => {
     ],
   };
 
+  const mockItemWithArrayGroups: SummaryItem = {
+    id: "section2",
+    title: "Child Information",
+    fields: [],
+    arrayGroups: [
+      {
+        id: "group1",
+        title: "Children",
+        items: [
+          {
+            id: "child1",
+            title: "Child 1",
+            question: "What is the child's name?",
+            answer: "Alice",
+            editUrl: "/edit/child/1",
+          },
+          {
+            id: "child2",
+            title: "Child 2",
+            question: "What is the child's name?",
+            answer: "Bob",
+            editUrl: "/edit/child/2",
+          },
+        ],
+      },
+    ],
+  };
+
   it("should render section title", () => {
     const { getByText } = render(
       <SummarySection item={mockItem} itemId="section1" />,
@@ -103,6 +131,28 @@ describe("SummarySection", () => {
     expect(getByText("Alice")).toBeInTheDocument();
     expect(getByText("Child's age?")).toBeInTheDocument();
     expect(getByText("8")).toBeInTheDocument();
+  });
+
+  it("should render array groups when present", () => {
+    const { getByText, getAllByText, getAllByRole } = render(
+      <SummarySection
+        item={mockItemWithArrayGroups}
+        itemId="section2"
+        startOpened={true}
+      />,
+    );
+
+    expect(getByText("Children")).toBeInTheDocument();
+    expect(getByText("Child 1")).toBeInTheDocument();
+    expect(getAllByText("What is the child's name?")).toHaveLength(2);
+    expect(getByText("Alice")).toBeInTheDocument();
+    expect(getByText("Child 2")).toBeInTheDocument();
+    expect(getByText("Bob")).toBeInTheDocument();
+
+    const firstEditLink = getAllByRole("link")[0];
+
+    expect(firstEditLink).toHaveAttribute("href", "/edit/child/1");
+    expect(firstEditLink).toHaveAttribute("aria-labelledby", "child1");
   });
 
   it("should call onToggle when section is toggled", () => {
