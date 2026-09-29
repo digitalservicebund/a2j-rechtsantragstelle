@@ -13,7 +13,10 @@ allowBuilds:
   xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101: true
 
 overrides:
-  qs@<6.14.1: ">=6.14.1"
+  "@xmldom/xmldom@<0.8.14": ">=0.8.15"
+  "tar@<=7.5.17": ">=7.5.18"
+  "qs@<6.16.0": ">=6.16.0"
+  "browserslist@<=4.28.6": ">=4.28.7"
 
 dedupePeers: true
 preferFrozenLockfile: true

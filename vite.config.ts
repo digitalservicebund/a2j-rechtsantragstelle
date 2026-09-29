@@ -3,7 +3,7 @@ import { reactRouter } from "@react-router/dev/vite";
 import {
   sentryReactRouter,
   type SentryReactRouterBuildOptions,
-} from "@sentry/react-router";
+} from "@sentry/react-router/vite";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { envOnlyMacros } from "vite-env-only";
