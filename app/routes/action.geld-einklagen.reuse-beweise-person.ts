@@ -10,16 +10,18 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 import merge from "lodash/merge";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { updateAbschnittenPersonenIds } from "~/domains/geldEinklagen/services/updateAbschnittenPersonenIds";
+import { reuseDialogPersonSchema } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungBeweise";
 
 const BASE_URL_PAGE_REUSE_PERSON = "beweis-person-wiederverwenden";
 const BASE_URL_PAGE_UEBERSICHT =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/uebersicht#array-summary-item-edit-abschnitte-";
 
-const reuseBeweisePersonSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
-  nextItemBeweis: z.coerce.number(),
-  itemIndexAbschnitt: z.coerce.number(),
-});
+const reuseBeweisePersonSchema = z
+  .object({
+    nextItemBeweis: z.coerce.number(),
+    itemIndexAbschnitt: z.coerce.number(),
+  })
+  .and(reuseDialogPersonSchema);
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);

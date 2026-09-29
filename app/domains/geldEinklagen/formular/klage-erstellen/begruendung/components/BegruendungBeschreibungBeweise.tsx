@@ -19,7 +19,7 @@ import z from "zod";
 const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
 
-const reuseDialogPersonSchema = z.object({
+export const reuseDialogPersonSchema = z.object({
   "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
 });
 
