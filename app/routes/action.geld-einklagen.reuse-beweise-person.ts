@@ -10,7 +10,7 @@ import { getSessionManager, updateSession } from "~/services/session.server";
 import merge from "lodash/merge";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { updateAbschnittenPersonenIds } from "~/domains/geldEinklagen/services/updateAbschnittenPersonenIds";
-import { reuseDialogPersonSchema } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungBeweise";
+import { reuseDialogPersonSchema } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BeweiseButtons";
 
 const BASE_URL_PAGE_REUSE_PERSON = "beweis-person-wiederverwenden";
 const BASE_URL_PAGE_UEBERSICHT =
