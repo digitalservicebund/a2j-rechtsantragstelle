@@ -1,4 +1,4 @@
-import { ValidatedForm } from "@rvf/react-router";
+import { useForm, FormProvider } from "@rvf/react-router";
 import { useEffect } from "react";
 import type z from "zod";
 import Button from "~/components/common/Button";
@@ -81,74 +81,88 @@ export const ReuseBeweiseDialogPerson = ({
     dialogOptions.splice(0, 1);
   }
 
+  const form = useForm({
+    schema: formSchema,
+    defaultValues: { "reuse-option": "" },
+    action: "/action/geld-einklagen/reuse-beweise-person",
+    preventScrollReset: true,
+    method: "post",
+    onSubmitSuccess: () => closeDialog(),
+  });
+
+  const clearErrorAndCloseDialog = () => {
+    form.clearError("reuse-option");
+    closeDialog();
+  };
+
   return (
-    <ValidatedForm
-      schema={formSchema}
-      defaultValues={{ "reuse-option": "" }}
-      method="post"
-      action={"/action/geld-einklagen/reuse-beweise-person"}
-      onSubmitSuccess={closeDialog}
-    >
-      <dialog
-        aria-modal="true"
-        ref={dialogRef}
-        tabIndex={-1}
-        aria-labelledby={dialogLabelId}
-        aria-describedby={dialogDescriptionId}
-        className="kern-dialog m-auto max-w-l rounded-2xl bg-white p-0"
-      >
-        <header className="kern-dialog__header">
-          <h2
-            id={dialogLabelId}
-            tabIndex={-1}
-            className="kern-title kern-title--large text-wrap"
-          >
-            {
-              translations.geldEinklagen
-                .begruendungBeschreibungReusePersonDialogTitle.de
-            }
-          </h2>
-          <Button
-            type="button"
-            look="ghost"
-            iconLeft={
-              <Icon name="close" className="fill-kern-action-default!" />
-            }
-            aria-label={translations.feedback.close.de}
-            onClick={closeDialog}
-          />
-        </header>
-        <section
-          id={dialogDescriptionId}
-          className="kern-dialog__body text-wrap"
+    <FormProvider scope={form.scope()}>
+      <form {...form.getFormProps()}>
+        <dialog
+          aria-modal="true"
+          ref={dialogRef}
+          tabIndex={-1}
+          aria-labelledby={dialogLabelId}
+          aria-describedby={dialogDescriptionId}
+          className="kern-dialog m-auto max-w-l rounded-2xl bg-white p-0"
         >
-          <CsrfInput />
-          <input
-            type="hidden"
-            name="itemIndexAbschnitt"
-            value={itemIndexAbschnitt}
-          />
-          <input type="hidden" name="nextItemBeweis" value={nextItemBeweis} />
-          <RadioGroup
-            name={"reuse-option"}
-            errorMessages={errorMessages}
-            options={dialogOptions}
-          />
-        </section>
-        <footer className="kern-dialog__footer">
-          <Button onClick={closeDialog} look="secondary" className="w-fit">
-            {translations.feedback.cancel.de}
-          </Button>
-          <Button
-            type="submit"
-            name="_dialog_action"
-            value="next"
-            className="w-fit"
+          <header className="kern-dialog__header">
+            <h2
+              id={dialogLabelId}
+              tabIndex={-1}
+              className="kern-title kern-title--large text-wrap"
+            >
+              {
+                translations.geldEinklagen
+                  .begruendungBeschreibungReusePersonDialogTitle.de
+              }
+            </h2>
+            <Button
+              type="button"
+              look="ghost"
+              iconLeft={
+                <Icon name="close" className="fill-kern-action-default!" />
+              }
+              aria-label={translations.feedback.close.de}
+              onClick={clearErrorAndCloseDialog}
+            />
+          </header>
+          <section
+            id={dialogDescriptionId}
+            className="kern-dialog__body text-wrap"
           >
-            {translations.buttonNavigation.nextButtonDefaultLabel.de}
-          </Button>
-        </footer>
-      </dialog>
-    </ValidatedForm>
+            <CsrfInput />
+            <input
+              type="hidden"
+              name="itemIndexAbschnitt"
+              value={itemIndexAbschnitt}
+            />
+            <input type="hidden" name="nextItemBeweis" value={nextItemBeweis} />
+            <RadioGroup
+              name={"reuse-option"}
+              errorMessages={errorMessages}
+              options={dialogOptions}
+            />
+          </section>
+          <footer className="kern-dialog__footer">
+            <Button
+              onClick={clearErrorAndCloseDialog}
+              look="secondary"
+              className="w-fit"
+            >
+              {translations.feedback.cancel.de}
+            </Button>
+            <Button
+              type="submit"
+              name="_dialog_action"
+              value="next"
+              className="w-fit"
+            >
+              {translations.buttonNavigation.nextButtonDefaultLabel.de}
+            </Button>
+          </footer>
+        </dialog>
+      </form>
+    </FormProvider>
   );
 };
