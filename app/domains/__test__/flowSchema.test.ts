@@ -185,7 +185,7 @@ function runTestcases<T extends UserData>(
   });
 }
 
-describe.sequential("flowSchemas", () => {
+describe("flowSchemas", { concurrent: false }, () => {
   const allVisitedSteps: VisitedSteps = {};
 
   Object.entries(flowSchemaTests).forEach(
