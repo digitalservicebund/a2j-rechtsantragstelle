@@ -4,7 +4,6 @@ import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDa
 import { arrayIsNonEmpty } from "~/util/array";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/klage-erstellen/userData";
 import { getPersonLocationsWithReference } from "./deleteBeweisPersonReference";
-import assign from "lodash/assign";
 import omit from "lodash/omit";
 import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
@@ -60,7 +59,7 @@ export const updateBeweisReferencePersons = async (
       ];
 
     if (person && person.personAuswahl === "anotherPerson") {
-      assign(
+      Object.assign(
         person,
         omit(currentPerson, ["personAuswahl", "personReference", "personId"]),
       );
