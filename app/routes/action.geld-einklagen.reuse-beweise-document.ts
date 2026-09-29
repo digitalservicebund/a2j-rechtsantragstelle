@@ -19,7 +19,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const itemIndexAbschnitt = formData.get("itemIndexAbschnitt");
   const reuseOption = formData.get("reuse-option");
   const BASE_URL_PAGE_ADD_NEW_DOCUMENT = `/dokumenten/${nextItemBeweis}/daten`;
-  const redirectUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/${
+  const redirectUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}${
     reuseOption === "reuse"
       ? BASE_URL_PAGE_REUSE_DOCUMENT
       : BASE_URL_PAGE_ADD_NEW_DOCUMENT

@@ -38,10 +38,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return validationError(result.error, result.submittedData);
   }
 
-  const itemIndexAbschnitt = result.submittedData["itemIndexAbschnitt"];
-  const nextItemBeweis = result.submittedData["nextItemBeweis"];
-  const reuseOption = result.submittedData["reuse-option"];
-  const BASE_URL_PAGE_ADD_NEW_PERSON = `/personen/${nextItemBeweis}/daten`;
+  const itemIndexAbschnitt = result.data["itemIndexAbschnitt"];
+  const nextItemBeweis = result.data["nextItemBeweis"];
+  const reuseOption = result.data["reuse-option"];
+  const BASE_URL_PAGE_ADD_NEW_PERSON = `personen/${nextItemBeweis}/daten`;
 
   switch (reuseOption) {
     case "reuse":
