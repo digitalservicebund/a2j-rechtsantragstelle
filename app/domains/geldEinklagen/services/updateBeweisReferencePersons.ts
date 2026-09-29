@@ -24,7 +24,7 @@ export const updateBeweisReferencePersons = async (
   const [abschnittIndex, personIndex] = arrayIndexes;
   const currentPerson = abschnitte[abschnittIndex]?.personen?.[personIndex];
 
-  if (!currentPerson || currentPerson.personAuswahl !== "anotherPerson") {
+  if (currentPerson?.personAuswahl !== "anotherPerson") {
     return;
   }
 
@@ -58,7 +58,7 @@ export const updateBeweisReferencePersons = async (
         location.personIndex
       ];
 
-    if (person && person.personAuswahl === "anotherPerson") {
+    if (person?.personAuswahl === "anotherPerson") {
       Object.assign(
         person,
         omit(currentPerson, ["personAuswahl", "personReference", "personId"]),

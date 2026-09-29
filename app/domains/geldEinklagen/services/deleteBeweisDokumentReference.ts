@@ -66,8 +66,8 @@ export const deleteBeweisDokumentReference = (
   const ownReuseBeweiseDokument = currentAbschnitt.reuseBeweiseDokument;
   if (
     currentDokument.dokumentReference &&
-    ownReuseBeweiseDokument &&
-    ownReuseBeweiseDokument[currentDokument.dokumentReference] === "on"
+    typeof ownReuseBeweiseDokument === "object" &&
+    ownReuseBeweiseDokument?.[currentDokument.dokumentReference] === "on"
   ) {
     ownReuseBeweiseDokument[currentDokument.dokumentReference] = "off";
   }

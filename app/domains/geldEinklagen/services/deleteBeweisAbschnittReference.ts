@@ -125,7 +125,7 @@ const fixPersonReferences = (
       const mainAbschnitt = updatedAbschnitte[mainLocation.abschnittIndex];
       const mainPerson = mainAbschnitt.personen?.[mainLocation.personIndex];
 
-      if (mainPerson && mainPerson.personAuswahl === "anotherPerson") {
+      if (mainPerson?.personAuswahl === "anotherPerson") {
         mainPerson.personReference = undefined;
       }
       if (mainAbschnitt.reuseBeweisePerson) {

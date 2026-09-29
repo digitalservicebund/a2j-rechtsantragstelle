@@ -67,8 +67,8 @@ export const deleteBeweisPersonReference = (
   if (
     currentPerson.personAuswahl === "anotherPerson" &&
     currentPerson.personReference &&
-    ownReuseBeweisePerson &&
-    ownReuseBeweisePerson[currentPerson.personReference] === "on"
+    typeof ownReuseBeweisePerson === "object" &&
+    ownReuseBeweisePerson?.[currentPerson.personReference] === "on"
   ) {
     ownReuseBeweisePerson[currentPerson.personReference] = "off";
   }
@@ -92,7 +92,7 @@ export const deleteBeweisPersonReference = (
     const mainAbschnitt = updatedAbschnitte[mainLocation.abschnittIndex];
     const mainPerson = mainAbschnitt.personen?.[mainLocation.personIndex];
 
-    if (mainPerson && mainPerson.personAuswahl === "anotherPerson") {
+    if (mainPerson?.personAuswahl === "anotherPerson") {
       mainPerson.personReference = undefined;
     }
     if (mainAbschnitt.reuseBeweisePerson) {
