@@ -91,6 +91,14 @@ const SummarySection = ({
                   {arrayItem.title && (
                     <div className="mb-8">{arrayItem.title}</div>
                   )}
+
+                  {arrayGroup.title.startsWith("Kinder") && (
+                    <div className="mb-8">{`Kind ${itemIndex + 1}`}</div>
+                  )}
+                  {arrayGroup.title.startsWith("Elternteile") && (
+                    <div className="mb-8">{`Elternteil ${itemIndex + 1}`}</div>
+                  )}
+
                   {arrayItem.multipleQuestions ? (
                     arrayItem.multipleQuestions.map((qa) => (
                       <dl
