@@ -63,6 +63,24 @@ export const extractZodDescription = (schema: z.ZodType) => {
   return schema.description ?? nestedDescription;
 };
 
+const getBeweisType = (fieldSchema: z.ZodType, fieldName: string) => {
+  let beweisType = fieldSchema.meta()?.beweisType;
+
+  if (fieldSchema instanceof z.ZodUnion && !beweisType) {
+    beweisType = fieldSchema.options
+      .map((innerSchema) => (innerSchema as z.ZodType).meta()?.beweisType)
+      .find(Boolean);
+  }
+
+  if (!beweisType) {
+    throw new Error(
+      `ReuseBeweisCheckbox field ${fieldName} is missing a beweisType in the Zod schema.`,
+    );
+  }
+
+  return beweisType;
+};
+
 export const isSpecialComponentDescriptions = (
   val?: any,
 ): val is SpecialComponentDescription =>
@@ -184,21 +202,7 @@ export const renderSpecialMetaDescriptions = (
       );
     }
     case reuseBeweisZodDescription: {
-      let beweisType = fieldSchema.meta()?.beweisType;
-
-      if (fieldSchema instanceof z.ZodUnion && !beweisType) {
-        beweisType = fieldSchema.options
-          .map((innerSchema) => (innerSchema as z.ZodType).meta()?.beweisType)
-          .find(Boolean);
-      }
-
-      if (!beweisType) {
-        throw new Error(
-          `ReuseBeweisCheckbox field ${fieldName} is missing a beweisType in the Zod schema.`,
-        );
-      }
-
-      let beweisOptions: Array<{ label: string; option: string }> = [];
+      const beweisType = getBeweisType(fieldSchema, fieldName);
 
       const abschnitte =
         (userData as GeldEinklagenFormularUserData).abschnitte ?? [];
@@ -206,19 +210,16 @@ export const renderSpecialMetaDescriptions = (
         ?.arrayIndexes;
       const itemIndexAbschnitte = arrayIndexes?.[0] ?? 0;
 
-      if (beweisType === "document") {
-        beweisOptions = getDocumentsToBeReusedFromOtherAbschnitte(
-          abschnitte,
-          itemIndexAbschnitte,
-        );
-      }
-
-      if (beweisType === "person") {
-        beweisOptions = getPersonenToBeReusedFromOtherAbschnitte(
-          abschnitte,
-          itemIndexAbschnitte,
-        );
-      }
+      const beweisOptions =
+        beweisType === "document"
+          ? getDocumentsToBeReusedFromOtherAbschnitte(
+              abschnitte,
+              itemIndexAbschnitte,
+            )
+          : getPersonenToBeReusedFromOtherAbschnitte(
+              abschnitte,
+              itemIndexAbschnitte,
+            );
 
       return (
         <ReuseBeweisCheckbox
