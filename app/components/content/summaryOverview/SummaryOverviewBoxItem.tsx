@@ -1,5 +1,4 @@
 import type { UserData } from "~/domains/userData";
-import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import { translations as staticTranslations } from "~/services/translations/translations";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
@@ -8,11 +7,13 @@ import {
   getItemValueBox,
 } from "./getItemValueBox";
 import { hasMoneyValidationSchema, hasNonEmptyLongTextField } from "./helper";
+import type { FieldItems, SummaryOverviewBoxItemType } from "./types";
 
 type Props = SummaryOverviewBoxItemType & {
   readonly userData: UserData;
   readonly translations: Translations;
   readonly pathname: string;
+  readonly elementId?: string;
 };
 
 const SCROLLABLE_BOX_ROWS = 10;
@@ -52,6 +53,7 @@ const SummaryOverviewBoxItem = ({
   title,
   inlineItems,
   pathname,
+  elementId,
 }: Props) => {
   const rawItemValue = getItemValueBox(translations, userData, inlineItems);
   if (rawItemValue.trim() === "") return null;
@@ -69,6 +71,7 @@ const SummaryOverviewBoxItem = ({
         <dt
           data-testid="summary-box-item-title"
           className="kern-label text-kern-static-medium w-full"
+          id={elementId}
         >
           {title}
         </dt>
