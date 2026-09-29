@@ -142,9 +142,9 @@ const SummarySection = ({
                       href={arrayItem.editUrl}
                       className="kern-link no-underline!"
                       aria-labelledby={
-                        arrayItem.multipleQuestions
-                          ? `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
-                          : arrayItem.id
+                        Boolean(arrayItem.title) || !arrayItem.multipleQuestions
+                          ? arrayItem.id
+                          : `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
                       }
                     >
                       <Icon name="edit" />
