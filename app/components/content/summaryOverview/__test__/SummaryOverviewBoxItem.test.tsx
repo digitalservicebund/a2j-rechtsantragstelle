@@ -3,8 +3,8 @@ import { describe, expect, test, vi } from "vitest";
 import { type UserData } from "~/domains/userData";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import {
-  getItemValueBox,
   extractFieldItemsFromInlineItems,
+  getItemValueBox,
 } from "../getItemValueBox";
 import SummaryOverviewBoxItem from "../SummaryOverviewBoxItem";
 
@@ -49,6 +49,8 @@ describe("SummaryOverviewBoxItem", () => {
       { fieldName: "status", fieldValue: "active" },
     ]);
 
+    const mockElementId = "status-element";
+
     const { getByText, queryByTestId } = render(
       <SummaryOverviewBoxItem
         title="Status"
@@ -56,12 +58,14 @@ describe("SummaryOverviewBoxItem", () => {
         translations={mockTranslations}
         inlineItems={[{ field: "status" }]}
         pathname={""}
+        elementId={mockElementId}
       />,
     );
 
     expect(queryByTestId("summary-box-item-title")).toBeInTheDocument();
     expect(queryByTestId("summary-box-item-value")).toBeInTheDocument();
     expect(getByText("Status")).toBeInTheDocument();
+    expect(getByText("Status")).toHaveAttribute("id", mockElementId);
     expect(getByText("Aktiv")).toBeInTheDocument();
   });
 

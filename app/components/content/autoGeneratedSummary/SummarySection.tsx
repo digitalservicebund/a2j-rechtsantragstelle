@@ -1,6 +1,7 @@
-import type { SummaryItem } from "~/services/summary/types";
 import { useRef } from "react";
+import type { SummaryItem } from "~/services/summary/types";
 import { Icon } from "../../common/Icon";
+
 const SummarySection = ({
   item,
   itemId,
@@ -43,7 +44,10 @@ const SummarySection = ({
                     key={qa.id}
                     className="flex items-start gap-kern-space-x-large"
                   >
-                    <dt className="kern-label text-kern-static-medium flex-1">
+                    <dt
+                      className="kern-label text-kern-static-medium flex-1"
+                      id={`${field.id}-${qa.id}`}
+                    >
                       {qa.question}
                     </dt>
                     <dd className="kern-body text-kern-static-medium  flex-1">
@@ -53,7 +57,10 @@ const SummarySection = ({
                 ))
               ) : (
                 <dl className="flex items-start gap-kern-space-x-large">
-                  <dt className="kern-label text-kern-static-medium flex-1">
+                  <dt
+                    className="kern-label text-kern-static-medium flex-1"
+                    id={field.id}
+                  >
                     {field.question}
                   </dt>
                   <dd className="kern-body text-kern-static-medium  flex-1">
@@ -66,6 +73,11 @@ const SummarySection = ({
                 <a
                   href={field.editUrl}
                   className="kern-link no-underline! hover:underline!"
+                  aria-labelledby={
+                    field.multipleQuestions
+                      ? `${field.id}-${field.multipleQuestions[0].id}`
+                      : field.id
+                  }
                 >
                   <Icon name="edit" />
                   Bearbeiten
@@ -89,7 +101,9 @@ const SummarySection = ({
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
                   {arrayItem.title && (
-                    <div className="mb-8">{arrayItem.title}</div>
+                    <div className="mb-8" id={arrayItem.id}>
+                      {arrayItem.title}
+                    </div>
                   )}
 
                   {arrayItem.multipleQuestions ? (
@@ -98,7 +112,10 @@ const SummarySection = ({
                         key={qa.id}
                         className="flex items-start gap-kern-space-x-large"
                       >
-                        <dt className="kern-label text-kern-static-medium flex-1">
+                        <dt
+                          className="kern-label text-kern-static-medium flex-1"
+                          id={`${arrayItem.id}-${qa.id}`}
+                        >
                           {qa.question}
                         </dt>
                         <dd className="kern-body text-kern-static-medium  flex-1">
@@ -108,7 +125,10 @@ const SummarySection = ({
                     ))
                   ) : (
                     <dl className="flex items-start  gap-kern-space-x-large">
-                      <dt className="kern-label text-kern-static-medium flex-1">
+                      <dt
+                        className="kern-label text-kern-static-medium flex-1"
+                        id={arrayItem.title ? undefined : arrayItem.id}
+                      >
                         {arrayItem.question}
                       </dt>
                       <dd className="kern-body text-kern-static-medium  flex-1">
@@ -121,6 +141,11 @@ const SummarySection = ({
                     <a
                       href={arrayItem.editUrl}
                       className="kern-link no-underline!"
+                      aria-labelledby={
+                        arrayItem.multipleQuestions
+                          ? `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
+                          : arrayItem.id
+                      }
                     >
                       <Icon name="edit" />
                       Bearbeiten
