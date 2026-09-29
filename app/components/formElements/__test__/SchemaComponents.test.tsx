@@ -8,6 +8,8 @@ import {
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { createMemoryRouter, RouterProvider } from "react-router";
+import { type FieldApi } from "@rvf/react-router";
+import type * as RvfReactRouter from "@rvf/react-router";
 import { getPageSchema } from "~/domains/pageSchemas";
 import { SchemaComponents } from "../SchemaComponents";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -37,6 +39,16 @@ vi.mock("react-router", async () => {
       flowId: "flowId",
     }),
   };
+});
+
+const mockUseField = vi.hoisted(() => vi.fn());
+
+vi.mock("@rvf/react-router", async (importActual) => {
+  const actual = await importActual<typeof RvfReactRouter>();
+  // Default to the real implementation so only tests that explicitly
+  // override mockUseField are affected.
+  mockUseField.mockImplementation(actual.useField);
+  return { ...actual, useField: mockUseField };
 });
 
 function WrappedSchemaComponents(
@@ -285,6 +297,10 @@ describe("SchemaComponents", () => {
   });
 
   it("should render a hidden input", () => {
+    mockUseField.mockReturnValueOnce({
+      getInputProps: vi.fn().mockReturnValue({ defaultValue: "someValue" }),
+      getHiddenInputProps: vi.fn(),
+    } as unknown as FieldApi<any>);
     const pageSchema = { field1: hiddenInputSchema(z.string()) };
 
     const { getByRole } = render(

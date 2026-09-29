@@ -31,9 +31,6 @@ const ausgabenArraySchema = z
   .min(1);
 
 export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
-  ausgaben: {
-    stepId: "finanzielle-angaben/ausgaben",
-  },
   ausgabenFrage: {
     stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
     pageSchema: {
@@ -42,33 +39,42 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   },
   ausgabenUebersicht: {
     stepId: "finanzielle-angaben/ausgaben/uebersicht",
-  },
-  ausgabenAusgaben: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben",
-    pageSchema: { ausgaben: ausgabenArraySchema },
-    arrayPages: {
-      art: {
-        pageSchema: {
-          "ausgaben#art": sharedAusgabenFields.art,
-          "ausgaben#zahlungsempfaenger":
-            sharedAusgabenFields.zahlungsempfaenger,
-        },
-      },
-      zahlungsinformation: {
-        pageSchema: { "ausgaben#beitrag": sharedAusgabenFields.beitrag },
-      },
-      laufzeit: {
-        pageSchema: {
-          "ausgaben#hasZahlungsfrist": sharedAusgabenFields.hasZahlungsfrist,
-        },
-      },
-      zahlungsfrist: {
-        pageSchema: { "ausgaben#zahlungsfrist": zahlungsfristSchema },
-      },
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "ausgaben",
+      schema: ausgabenArraySchema,
+      fieldName: "hasAusgaben",
+      hiddenFields: ["hasZahlungsfrist"],
     },
+  },
+  ausgabenArt: {
+    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/art",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "ausgaben#art": sharedAusgabenFields.art,
+      "ausgaben#zahlungsempfaenger": sharedAusgabenFields.zahlungsempfaenger,
+    },
+  },
+  ausgabenZahlungsinformation: {
+    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/zahlungsinformation",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: { "ausgaben#beitrag": sharedAusgabenFields.beitrag },
+  },
+  ausgabenLaufzeit: {
+    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/laufzeit",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "ausgaben#hasZahlungsfrist": sharedAusgabenFields.hasZahlungsfrist,
+    },
+  },
+  ausgabenZahlungsfrist: {
+    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/zahlungsfrist",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: { "ausgaben#zahlungsfrist": zahlungsfristSchema },
   },
   ausgabenWarnung: {
     stepId: "finanzielle-angaben/ausgaben/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
   ausgabenSituation: {
     stepId: "finanzielle-angaben/ausgaben/situation",

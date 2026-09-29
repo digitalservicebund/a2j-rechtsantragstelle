@@ -1,5 +1,6 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenWohnungUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/wohnung/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachWohnung } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 const finanzielleAngabenWohnungWohnsituation =
   "/finanzielle-angaben/wohnung/wohnsituation";
@@ -12,6 +13,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     {
       stepId: finanzielleAngabenWohnungWohnsituation,
       userInput: {
+        ...reachWohnung,
         livingSituation: "alone",
       },
     },
@@ -31,6 +33,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     {
       stepId: finanzielleAngabenWohnungWohnsituation,
       userInput: {
+        ...reachWohnung,
         livingSituation: "withRelatives",
       },
     },
@@ -57,6 +60,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
     {
       stepId: finanzielleAngabenWohnungWohnsituation,
       userInput: {
+        ...reachWohnung,
         livingSituation: "withOthers",
       },
     },
@@ -79,4 +83,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenWohnung = {
       stepId: finanzielleAngabenEigentumEigentumInfo,
     },
   ],
-} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenWohnungUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;

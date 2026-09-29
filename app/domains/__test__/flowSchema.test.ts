@@ -1,29 +1,23 @@
+import merge from "lodash/merge";
 import { createMachine } from "xstate";
 import z from "zod";
-import merge from "lodash/merge";
-import { getPageSchema } from "../pageSchemas";
+import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
+import { type SchemaObject, type UserData } from "~/domains/userData";
+import { type ArrayConfigServer } from "~/services/array";
+import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import {
   buildFlowController,
   type FlowController,
 } from "~/services/flow/server/buildFlowController";
-import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 import { type Config } from "~/services/flow/server/types";
-import { allStepsFromMachine } from "./allStepsFromMachine";
 import { removeArrayIndex } from "~/util/array";
-import { type SchemaObject, type UserData } from "~/domains/userData";
-import { type ArrayConfigServer } from "~/services/array";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
-import { beratungshilfeAntragTestCases } from "~/domains/beratungshilfe/formular/__test__/testcasesWithUserInputs";
-import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
-import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { prozesskostenhilfeFormularTestCases } from "~/domains/prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
+import { getPageSchema } from "../pageSchemas";
+import { allStepsFromMachine } from "./allStepsFromMachine";
+import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 
 const flowSchemaTests = {
-  beratungshilfeAntragTestCases,
-  beratungshilfeVorabcheckTestCases,
   prozesskostenhilfeFormularTestCases,
-  kontopfaendungWegweiserTestCases,
 };
 
 type VisitedSteps = Record<

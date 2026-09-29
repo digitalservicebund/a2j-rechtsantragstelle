@@ -35,6 +35,8 @@ export function parsePathname(pathname: string) {
     "/erbschein/erbfolge",
     "/erbschein/anfrage",
     "/erbausschlagung/anfrage",
+    "/beratungshilfe/antrag",
+    "/fluggastrechte/formular",
   ];
   const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
   const stepId = pathname

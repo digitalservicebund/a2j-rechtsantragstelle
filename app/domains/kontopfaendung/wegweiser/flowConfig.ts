@@ -1,10 +1,10 @@
+import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/newFlowEngine/compileFlow";
-import { kontopfaendungWegweiserPages } from "./pages";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+import { kontopfaendungWegweiserPages } from "./pages";
 
 const kontopfaendungWegweiserPagesWithLeadingSlash =
   addLeadingSlashToPageSchemas(kontopfaendungWegweiserPages);
@@ -16,11 +16,11 @@ export const kontopfaendungWegweiserFlowConfig = compileFlow({
     start: "kontopfaendung",
     kontopfaendung: [
       {
-        guard: (context) => context.hasKontopfaendung === "ja",
+        guard: (context) => context.hasKontopfaendung === "yes",
         target: "pKonto",
       },
       {
-        guard: (context) => context.hasKontopfaendung === "nein",
+        guard: (context) => context.hasKontopfaendung === "no",
         target: "ergebnisKeineKontopfaendung",
       },
     ],
@@ -28,7 +28,7 @@ export const kontopfaendungWegweiserFlowConfig = compileFlow({
     pKonto: [
       {
         guard: (context) =>
-          context.hasPKonto === "ja" || context.hasPKonto === "nein",
+          context.hasPKonto === "yes" || context.hasPKonto === "no",
         target: "zwischenseiteUnterhalt",
       },
       {
@@ -53,7 +53,7 @@ export const kontopfaendungWegweiserFlowConfig = compileFlow({
     kinderWohnenZusammen: [
       {
         guard: (context) =>
-          context.kinderWohnenZusammen === "nein" ||
+          context.kinderWohnenZusammen === "no" ||
           context.kinderWohnenZusammen === "teilweise",
         target: "kinderUnterhalt",
       },
@@ -68,7 +68,7 @@ export const kontopfaendungWegweiserFlowConfig = compileFlow({
         target: "partnerUnterhalt",
       },
       {
-        guard: (context) => context.verheiratet === "ja",
+        guard: (context) => context.verheiratet === "yes",
         target: "partnerWohnenZusammen",
       },
       {

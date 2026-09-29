@@ -1,30 +1,46 @@
-import { type TestCases } from "~/domains/__test__/TestCases";
+import { type FlowTestCases } from "~/domains/__test__/TestCases";
+import { fluggastrechteFormularHappyPathData } from "~/domains/fluggastrechte/formular/__test__/mockTestData";
 import { type FluggastrechteUserData } from "../../userData";
 
-export const testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse =
-  [
-    [
+const baseContext = {
+  ...fluggastrechteFormularHappyPathData,
+  pageData: {
+    subflowDoneStates: {
+      "/grundvoraussetzungen": true,
+    },
+  },
+} satisfies Partial<FluggastrechteUserData>;
+
+export const testCasesFluggastrechteFormularFlugdatenFluggesellschaftAddresse: FlowTestCases<FluggastrechteUserData> =
+  {
+    filledByUser: [
       {
-        fluggesellschaftAuswahlAdresse: "filledByUser",
-        fluggesellschaftStrasse: "Musterstr.",
-        fluggesellschaftHausnummer: "30",
-        fluggesellschaftPostleitzahl: "10970",
-        fluggesellschaftOrt: "Frankfurt",
-        fluggesellschaftLand: "Deutschland",
+        stepId: "/flugdaten/adresse-fluggesellschaft-auswahl",
+        userInput: {
+          ...baseContext,
+          fluggesellschaftAuswahlAdresse: "filledByUser",
+        },
       },
-      [
-        "/flugdaten/adresse-fluggesellschaft-auswahl",
-        "/flugdaten/adresse-fluggesellschaft",
-        "/flugdaten/geplanter-flug",
-      ],
-    ],
-    [
       {
-        fluggesellschaftAuswahlAdresse: "fromAirlineDB",
+        stepId: "/flugdaten/adresse-fluggesellschaft",
+        userInput: {
+          fluggesellschaftStrasse: "Musterstr.",
+          fluggesellschaftHausnummer: "30",
+          fluggesellschaftPostleitzahl: "10970",
+          fluggesellschaftOrt: "Frankfurt",
+          fluggesellschaftLand: "Deutschland",
+        },
       },
-      [
-        "/flugdaten/adresse-fluggesellschaft-auswahl",
-        "/flugdaten/geplanter-flug",
-      ],
+      { stepId: "/flugdaten/geplanter-flug" },
     ],
-  ] as const satisfies TestCases<FluggastrechteUserData>;
+    fromAirlineDB: [
+      {
+        stepId: "/flugdaten/adresse-fluggesellschaft-auswahl",
+        userInput: {
+          ...baseContext,
+          fluggesellschaftAuswahlAdresse: "fromAirlineDB",
+        },
+      },
+      { stepId: "/flugdaten/geplanter-flug" },
+    ],
+  };

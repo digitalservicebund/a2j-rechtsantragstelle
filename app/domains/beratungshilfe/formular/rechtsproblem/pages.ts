@@ -3,6 +3,9 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const berHAntragRechtsproblemPages = {
+  rechtsproblemStart: {
+    stepId: "rechtsproblem/start",
+  },
   bereich: {
     stepId: "rechtsproblem/bereich",
     pageSchema: {

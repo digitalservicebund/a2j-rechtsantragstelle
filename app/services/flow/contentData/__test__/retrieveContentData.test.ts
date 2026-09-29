@@ -9,6 +9,8 @@ import {
   type CMSContent,
 } from "../buildCmsContentAndTranslations";
 import { retrieveContentData } from "../retrieveContentData";
+import { getPageSchema } from "~/domains/pageSchemas";
+import z from "zod";
 
 const mockPathname = "/fluggastrechte/formular/intro/start";
 const mockParams = { "*": "intro/start" };
@@ -36,11 +38,21 @@ const mockTranslations = {
 
 vi.mock("~/services/cms/index.server");
 vi.mock("~/services/flow/contentData/buildCmsContentAndTranslations");
+vi.mock("~/domains/pageSchemas.ts", async () => {
+  const actual = await vi.importActual("~/domains/pageSchemas.ts");
+  return {
+    ...actual,
+    getPageSchema: vi.fn(),
+  };
+});
 
 const mockFetchData = () => {
   vi.mocked(fetchFlowPage).mockResolvedValue(mockFormPageContent);
   vi.mocked(fetchContentPageMeta);
   vi.mocked(fetchMultipleTranslations).mockResolvedValue(mockTranslations);
+  // vi.mocked(getContentData).mockResolvedValue({
+  //   getTranslations: () => mockTranslations,
+  // } as any);
 };
 
 beforeEach(() => {
@@ -111,7 +123,10 @@ describe("retrieveContentData", () => {
   });
 
   it("should call buildCmsContentAndTranslations with migrationData", async () => {
-    await retrieveContentData(
+    vi.mocked(getPageSchema).mockReturnValue({
+      startAirport: z.any(),
+    });
+    const actual = await retrieveContentData(
       "form-flow-pages",
       mockPathname,
       mockParams,
@@ -126,5 +141,6 @@ describe("retrieveContentData", () => {
         }),
       }),
     );
+    expect(actual.getStepData()).toEqual({ startAirport: "FRA" });
   });
 });

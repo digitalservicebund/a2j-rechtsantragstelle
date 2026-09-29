@@ -1,10 +1,14 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeAbgabeUserData } from "~/domains/beratungshilfe/formular/abgabe/userData";
-import { type BeratungshilfeWeitereAngabenUserData } from "~/domains/beratungshilfe/formular/weitereAngaben/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachPersoenlicheDaten } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 export const testCasesBeratungshilfeFormularAbgabe = {
   onlineAbgabe: [
-    { stepId: "/abgabe/zusammenfassung" },
+    {
+      stepId: "/abgabe/zusammenfassung",
+      skipPageSchemaValidation: true,
+      userInput: { ...reachPersoenlicheDaten },
+    },
     {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "online" },
@@ -12,7 +16,11 @@ export const testCasesBeratungshilfeFormularAbgabe = {
     { stepId: "/abgabe/online" },
   ],
   printedAbgabe: [
-    { stepId: "/abgabe/zusammenfassung" },
+    {
+      stepId: "/abgabe/zusammenfassung",
+      skipPageSchemaValidation: true,
+      userInput: { ...reachPersoenlicheDaten },
+    },
     {
       stepId: "/abgabe/art",
       userInput: { abgabeArt: "ausdrucken" },
@@ -32,6 +40,4 @@ export const testCasesBeratungshilfeFormularAbgabe = {
       stepId: "/abgabe/ueberpruefung",
     },
   ],
-} satisfies FlowTestCases<
-  BeratungshilfeAbgabeUserData & BeratungshilfeWeitereAngabenUserData
->;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;

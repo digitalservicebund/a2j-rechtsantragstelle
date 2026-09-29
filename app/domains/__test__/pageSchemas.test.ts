@@ -137,7 +137,7 @@ describe("getAllFieldsFromFlowId", () => {
   it("should return specific the fields for array pages in the flow id /beratungshilfe/antrag", () => {
     const fields = getAllFieldsFromFlowId("/beratungshilfe/antrag");
 
-    expect(fields["/finanzielle-angaben/kinder/kinder/name"]).toEqual([
+    expect(fields["/finanzielle-angaben/kinder/kinder/#/name"]).toEqual([
       "kinder#vorname",
       "kinder#nachname",
       "kinder#geburtsdatum",
@@ -159,7 +159,7 @@ describe("getRelevantPageSchemasForStepId", () => {
       getRelevantPageSchemasForStepId("/beratungshilfe/antrag", "/start"),
     ).toEqual({
       start: {
-        stepId: "start",
+        stepId: "start/start",
       },
     });
 

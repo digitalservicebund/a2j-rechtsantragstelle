@@ -44,6 +44,7 @@ export type NewFlowEnginePageConfig = {
      */
     fieldName?: string;
     isArrayRelevant?: (userData: UserData) => boolean;
+    shouldDisableAddButton?: (context: UserData) => boolean;
     indexOffset?: number;
     hiddenFields?: string[];
   };
@@ -72,7 +73,7 @@ export type InferredUserData<C extends PageConfigMap> = Partial<
 > & { pageData?: PageData };
 
 // --- Routing & Guards ---
-type Guard<Data> = (data: Data) => boolean;
+export type Guard<Data> = (data: Data) => boolean;
 
 type GuardedTransition<Key, Data> = {
   target: Key | null;

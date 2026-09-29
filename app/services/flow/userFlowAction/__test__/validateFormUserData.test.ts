@@ -1,4 +1,3 @@
-import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { validateFormData } from "~/services/validation/validateFormData.server";
 import { validateFormUserData } from "../validateFormUserData";
 
@@ -17,7 +16,7 @@ describe("validateFormUserData", () => {
       data: undefined,
     });
 
-    const result = await validateFormUserData(mockFormData, mockPathname, null);
+    const result = await validateFormUserData(mockFormData, mockPathname);
     expect(result.isErr).toBe(true);
     expect(result.isErr ? result.error : undefined).toEqual({
       error: { fieldErrors: { name: "wrongName" } },
@@ -32,15 +31,10 @@ describe("validateFormUserData", () => {
       submittedData: { name: "John Doe" },
     });
 
-    vi.mocked(getMigrationData).mockResolvedValue({
-      name: "John Migration Doe",
-    });
-
-    const result = await validateFormUserData(mockFormData, mockPathname, null);
+    const result = await validateFormUserData(mockFormData, mockPathname);
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toEqual({
       userData: { name: "John Doe" },
-      migrationData: { name: "John Migration Doe" },
     });
   });
 });

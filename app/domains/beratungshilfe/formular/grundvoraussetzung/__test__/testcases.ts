@@ -102,6 +102,9 @@ export const testCasesBeratungshilfeFormularGrundvoraussetzungen = {
     {
       stepId: hamburgBremen,
       userInput: {
+        rechtsschutzversicherung: "no",
+        wurdeVerklagt: "no",
+        klageEingereicht: "no",
         hamburgOderBremen: "yes",
       },
     },

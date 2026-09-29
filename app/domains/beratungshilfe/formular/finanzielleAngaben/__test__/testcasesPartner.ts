@@ -1,5 +1,6 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenPartnerUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/partner/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachPartner } from "~/domains/beratungshilfe/formular/__test__/reachData";
 const finanzielleAngabenPartnerPartnerschaft =
   "/finanzielle-angaben/partner/partnerschaft";
 const finanzielleAngabenKinderKinderFrage =
@@ -16,6 +17,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "no",
       },
     },
@@ -27,6 +29,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "separated",
       },
     },
@@ -38,6 +41,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "yes",
       },
     },
@@ -62,6 +66,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "yes",
       },
     },
@@ -86,6 +91,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "yes",
       },
     },
@@ -116,6 +122,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
     {
       stepId: finanzielleAngabenPartnerPartnerschaft,
       userInput: {
+        ...reachPartner,
         partnerschaft: "yes",
       },
     },
@@ -148,4 +155,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenPartner = {
       stepId: finanzielleAngabenKinderKinderFrage,
     },
   ],
-} satisfies FlowTestCases<BeratungshilfeFinanzielleAngabenPartnerUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;

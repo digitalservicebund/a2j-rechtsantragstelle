@@ -1,10 +1,10 @@
+import Heading from "~/components/common/Heading";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
+import { SummaryOverviewBoxBegruendungBeschreibungBeweise } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/SummaryOverviewBoxBegruendungBeschreibungBeweise";
 import { type UserData } from "~/domains/userData";
+import { Icon } from "../../common/Icon";
 import SummaryOverviewBoxItem from "./SummaryOverviewBoxItem";
 import { type SummaryOverviewBoxWrappedProps } from "./types";
-import { Icon } from "../../common/Icon";
-import Heading from "~/components/common/Heading";
-import { SummaryOverviewBoxBegruendungBeschreibungBeweise } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/SummaryOverviewBoxBegruendungBeschreibungBeweise";
 
 type Props = Pick<
   SummaryOverviewBoxWrappedProps,
@@ -24,6 +24,7 @@ const SummaryOverviewBox = ({
   arrayPositionTitle,
 }: Props) => {
   const { translations, flowId } = useFormFlow();
+  const firstBoxItemId = `${boxId}-item-0`;
 
   return (
     <div className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small ">
@@ -36,6 +37,7 @@ const SummaryOverviewBox = ({
               : title.text
           }
           className="mb-16"
+          elementId={String(boxId)}
           type="label"
           size="large"
           managedByParent
@@ -46,6 +48,7 @@ const SummaryOverviewBox = ({
           <SummaryOverviewBoxItem
             // oxlint-disable-next-line react/no-array-index-key
             key={`${boxId}-${boxItemTitle ?? index}`}
+            elementId={index === 0 ? firstBoxItemId : undefined}
             title={boxItemTitle}
             translations={translations}
             userData={userData}
@@ -66,6 +69,7 @@ const SummaryOverviewBox = ({
       <a
         href={`${flowId}${stepId}`}
         className="kern-link no-underline! hover:underline!"
+        aria-labelledby={title ? String(boxId) : firstBoxItemId}
       >
         <Icon name="edit" />
         Bearbeiten

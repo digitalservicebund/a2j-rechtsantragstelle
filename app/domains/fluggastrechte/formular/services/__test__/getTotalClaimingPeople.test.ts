@@ -1,3 +1,4 @@
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
 import type { FluggastrechteUserData } from "../../userData";
 import { getTotalClaimingPeople } from "../getTotalClaimingPeople";
 
@@ -16,7 +17,12 @@ describe("getTotalClaimingPeople", () => {
 
   it("should return 2 when there is one additional person", () => {
     const context: FluggastrechteUserData = {
-      weiterePersonen: [{ vorname: "erster", nachname: "person" }],
+      weiterePersonen: [
+        {
+          vorname: "erster",
+          nachname: "person",
+        },
+      ] as FluggastrechteFormularWeiterePersonen,
     };
     const result = getTotalClaimingPeople(context);
     expect(result).toBe(2);

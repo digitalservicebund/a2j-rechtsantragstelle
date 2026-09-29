@@ -49,6 +49,55 @@ describe("pruner", () => {
 
   describe("pruneIrrelevantData", () => {
     it("prunes irrelevant data", () => {
+      // Mock the config-derived pieces so the pruning logic is exercised
+      // independently of any flow's engine. Reachable pages: the grundvoraussetzungen /
+      // statement questions plus the geldanlagen array (two entries); the
+      // bankkonten and kinder arrays are not reachable, so they get pruned.
+      const getFieldsSpy = vi
+        .spyOn(getAllFieldsFromFlowId, "getAllFieldsFromFlowId")
+        .mockReturnValue({
+          "/grundvoraussetzungen": [
+            "rechtsschutzversicherung",
+            "wurdeVerklagt",
+            "klageEingereicht",
+            "beratungshilfeBeantragt",
+            "eigeninitiativeGrundvorraussetzung",
+          ],
+          "/einkommen": ["staatlicheLeistungen"],
+          "/bankkonten-frage": ["hasBankkonto"],
+          "/geldanlagen-frage": ["hasGeldanlage"],
+          "/wertsachen-frage": ["hasWertsache"],
+          "/grundeigentum-frage": ["hasGrundeigentum"],
+          "/kraftfahrzeuge-frage": ["hasKraftfahrzeug"],
+          "/kinder-frage": ["hasKinder"],
+          "/geldanlage": [
+            "geldanlagen#art",
+            "geldanlagen#eigentuemer",
+            "geldanlagen#befristetArt",
+            "geldanlagen#verwendungszweck",
+            "geldanlagen#wert",
+            "geldanlagen#auszahlungdatum",
+          ],
+        });
+      const validPathsSpy = vi
+        .spyOn(validFormPathsModule, "validFormPaths")
+        .mockReturnValue([
+          {
+            stepIds: [
+              "/grundvoraussetzungen",
+              "/einkommen",
+              "/bankkonten-frage",
+              "/geldanlagen-frage",
+              "/wertsachen-frage",
+              "/grundeigentum-frage",
+              "/kraftfahrzeuge-frage",
+              "/kinder-frage",
+            ],
+          },
+          { stepIds: ["/geldanlage"], arrayIndex: 0 },
+          { stepIds: ["/geldanlage"], arrayIndex: 1 },
+        ]);
+
       const userData: BeratungshilfeFormularUserData = {
         rechtsschutzversicherung: "no",
         wurdeVerklagt: "no",
@@ -130,6 +179,9 @@ describe("pruner", () => {
         ],
         pageData: { subflowDoneStates: { "/a": true } },
       });
+
+      getFieldsSpy.mockRestore();
+      validPathsSpy.mockRestore();
     });
 
     it("keeps array fields when valid paths include an array page", () => {
@@ -201,6 +253,22 @@ describe("pruner", () => {
         "kinder#geburtsdatum",
       ],
     });
+
+    // Mock the reachable paths so this stays independent of the flow's engine.
+    vi.spyOn(validFormPathsModule, "validFormPaths").mockReturnValue([
+      {
+        stepIds: [
+          "/grundvoraussetzungen/rechtsschutzversicherung",
+          "/grundvoraussetzungen/wurde-verklagt",
+          "/grundvoraussetzungen/klage-eingereicht",
+          "/grundvoraussetzungen/beratungshilfe-beantragt",
+          "/grundvoraussetzungen/eigeninitiative-grundvorraussetzung",
+          "/finanzielle-angaben/einkommen/staatliche-leistungen",
+          "/finanzielle-angaben/kinder/kinder-frage",
+        ],
+      },
+      { stepIds: ["/finanzielle-angaben/kinder/kinder/name"], arrayIndex: 0 },
+    ]);
 
     const userData = {
       rechtsschutzversicherung: "no",

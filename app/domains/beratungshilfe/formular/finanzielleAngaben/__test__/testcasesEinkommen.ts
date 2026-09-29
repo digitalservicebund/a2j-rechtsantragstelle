@@ -1,7 +1,6 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeFinanzielleAngabenEigentumUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/eigentum/userData";
-import { type BeratungshilfeFinanzielleAngabenEinkommenUserData } from "~/domains/beratungshilfe/formular/finanzielleAngaben/einkommen/userData";
-import { type BeratungshilfeRechtsproblemUserData } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachRechtsproblem } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 const finanzielleAngabenStart = "/finanzielle-angaben/einkommen/start";
 const finanzielleAngabenEinkommenStaatlicheLeistungen =
@@ -13,6 +12,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: "/rechtsproblem/situation-beschreibung",
       userInput: {
+        ...reachRechtsproblem,
         gegenseite: "gegenseite",
         beschreibung: "beschreibung",
         ziel: "ziel",
@@ -25,6 +25,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
       userInput: {
+        ...reachRechtsproblem,
         staatlicheLeistungen: "asylbewerberleistungen",
       },
     },
@@ -34,6 +35,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
       userInput: {
+        ...reachRechtsproblem,
         staatlicheLeistungen: "buergergeld",
       },
     },
@@ -80,6 +82,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
       userInput: {
+        ...reachRechtsproblem,
         staatlicheLeistungen: "grundsicherung",
       },
     },
@@ -91,6 +94,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
       userInput: {
+        ...reachRechtsproblem,
         staatlicheLeistungen: "keine",
       },
     },
@@ -145,6 +149,7 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
     {
       stepId: finanzielleAngabenEinkommenStaatlicheLeistungen,
       userInput: {
+        ...reachRechtsproblem,
         staatlicheLeistungen: "keine",
       },
     },
@@ -158,8 +163,4 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEinkommen = {
       stepId: "/finanzielle-angaben/einkommen/situation",
     },
   ],
-} satisfies FlowTestCases<
-  BeratungshilfeFinanzielleAngabenEinkommenUserData &
-    BeratungshilfeFinanzielleAngabenEigentumUserData &
-    BeratungshilfeRechtsproblemUserData
->;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;

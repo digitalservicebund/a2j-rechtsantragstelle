@@ -7,7 +7,7 @@ vi.mock("@rvf/react-router");
 describe("HiddenInput", () => {
   it("should render an input hidden", () => {
     vi.mocked(useField).mockReturnValue({
-      getInputProps: vi.fn().mockReturnValue({}),
+      getInputProps: vi.fn().mockReturnValue({ defaultValue: "someValue" }),
     } as unknown as FieldApi<any>);
     const { getByRole } = render(<HiddenInput name="hiddenInput" />);
     const hiddenInput = getByRole("textbox", { hidden: true });

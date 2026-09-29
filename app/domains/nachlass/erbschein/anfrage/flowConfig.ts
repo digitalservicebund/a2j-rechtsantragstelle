@@ -15,13 +15,7 @@ export const erbscheinAnfrageFlowConfig = compileFlow({
   pages: erbscheinAnfragePages,
   initialStep: "start",
   transitions: {
-    start: "datenverarbeitung",
-    datenverarbeitung: [
-      {
-        guard: (data) => data.datenverarbeitungZustimmung === "on",
-        target: "verstorbeneName",
-      },
-    ],
+    start: "verstorbeneName",
     ...verstorbenePersonFlowConfig,
     ...antragstellendePersonFlowConfig,
     ...testamentOderErbvertragFlowConfig,

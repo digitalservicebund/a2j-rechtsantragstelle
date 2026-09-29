@@ -9,13 +9,17 @@ import { berHAntragWeitereAngabenPages } from "./weitereAngaben/pages";
 
 export const beratungshilfeAntragPages = {
   start: {
-    stepId: "start",
+    // The old XState config wrapped this in a compound "start" state, so the
+    // page's real (CMS) URL is /start/start. Kept as-is to match existing content.
+    stepId: "start/start",
   },
   ...berHAntragGrundvoraussetzungenPages,
-  ...berHAntragRechtsproblemPages,
   ...berHAntragAnwaltlicheVertretungPages,
+  ...berHAntragRechtsproblemPages,
   ...berhAntragFinanzielleAngabenPages,
   ...berHAntragPersoenlicheDatenPages,
   ...berHAntragWeitereAngabenPages,
   ...berHAntragAbgabePages,
 } as const satisfies PagesConfig;
+
+export type BeratungshilfeFormularPages = typeof beratungshilfeAntragPages;

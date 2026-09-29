@@ -4,22 +4,28 @@ import {
   flowRoutes,
   newEngineFlowRoutes,
   newEngineVorabcheckRoutes,
-  vorabcheckRoutes,
 } from "./services/routing/flowRoutes";
 
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
-    ...prefix("antrag", flowRoutes("BHA")),
+    ...prefix("antrag", newEngineFlowRoutes("BHA")),
   ]),
   ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
   ...prefix("fluggastrechte", [
-    ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
-    ...prefix("formular", flowRoutes("FGRF")),
+    ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
+    ...prefix("formular", newEngineFlowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
-    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
+    ...prefix("anfrage", [
+      route("*", "routes/erbausschlagung.anfrage.$.tsx", {
+        id: "flowEAA",
+      }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfEAA",
+      }),
+    ]),
     ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
   ]),
   ...prefix("erbschein", [

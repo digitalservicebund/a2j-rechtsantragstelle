@@ -1,10 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type BeratungshilfeRechtsproblemUserData } from "~/domains/beratungshilfe/formular/rechtsproblem/userData";
+import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
+import { reachRechtsproblem } from "~/domains/beratungshilfe/formular/__test__/reachData";
 
 export const testCasesBeratungshilfeRechtsproblem = {
   rechtsProblem: [
     {
       stepId: "/rechtsproblem/start",
+      skipPageSchemaValidation: true,
+      userInput: { ...reachRechtsproblem },
     },
     {
       stepId: "/rechtsproblem/bereich",
@@ -25,4 +28,4 @@ export const testCasesBeratungshilfeRechtsproblem = {
       stepId: "/finanzielle-angaben/einkommen/start",
     },
   ],
-} satisfies FlowTestCases<BeratungshilfeRechtsproblemUserData>;
+} satisfies FlowTestCases<BeratungshilfeFormularUserData>;
