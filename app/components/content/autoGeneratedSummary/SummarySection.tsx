@@ -91,6 +91,7 @@ const SummarySection = ({
                   {arrayItem.title && (
                     <div className="mb-8">{arrayItem.title}</div>
                   )}
+
                   {arrayItem.multipleQuestions ? (
                     arrayItem.multipleQuestions.map((qa) => (
                       <dl
