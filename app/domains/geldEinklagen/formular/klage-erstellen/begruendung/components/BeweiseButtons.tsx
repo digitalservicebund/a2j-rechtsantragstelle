@@ -149,7 +149,7 @@ export const BeweiseButtons = ({
         )}
       </div>
 
-      {!jsAvailable && (
+      {!jsAvailable && (hasPersonsToBeReused || hasDocumentsToBeReused) && (
         <>
           <noscript className="order-2 sm:order-3">
             {hasDocumentsToBeReused && (
