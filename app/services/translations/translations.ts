@@ -505,7 +505,7 @@ export const translations = {
       de: "Wir wollen digitale Justiz-Angebote entwickeln, die für alle Menschen gut funktionieren. Ihre Hilfe und Unterstützung ist dabei sehr wertvoll. Teilen Sie Ihre Erfahrungen mit uns. Testen Sie neue Angebote. Für viele Tests und Gespräche bekommen Sie als Dankeschön eine Aufwandsentschädigung, zum Beispiel einen Einkaufsgutschein.",
     },
     cardButtonLabelStudie: {
-      de: "Jetzt mitmachen",
+      de: "An Befragungen teilnehmen",
     },
     boxZugangeZumRecht: {
       de: "Digitale Zugänge zum Recht entwickeln und testen",
