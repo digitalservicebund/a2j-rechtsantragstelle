@@ -89,7 +89,7 @@ const isOptionalArrayField = (
   // empty: a branch that does not model the field imposes no array there, and a
   // branch that does must declare it optional. This lets a recursive person
   // union (a child that may or may not have further children) settle as
-  // complete when the nested array is empty. 
+  // complete when the nested array is empty.
   if (schema instanceof z.ZodUnion) {
     return schema.options.every((option) => {
       const branch = unwrapLazy(option as z.ZodType);
