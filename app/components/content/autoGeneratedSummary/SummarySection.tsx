@@ -101,9 +101,9 @@ const SummarySection = ({
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
                   {arrayItem.title && (
-                    <div className="mb-8" id={arrayItem.id}>
+                    <h4 className="mb-8" id={arrayItem.id}>
                       {arrayItem.title}
-                    </div>
+                    </h4>
                   )}
 
                   {arrayItem.multipleQuestions ? (

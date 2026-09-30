@@ -41,12 +41,12 @@ export const Default: Story = {
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
-export const WithDescription: Story = {
+export const WithHelperText: Story = {
   args: {
     name: "comment",
     label: "Kommentar",
-    description:
-      "<p>Bitte teilen Sie uns Ihre Meinung mit. Ihre Rückmeldung hilft uns, unseren Service zu verbessern.</p>",
+    helperText:
+      "Bitte teilen Sie uns Ihre Meinung mit. Ihre Rückmeldung hilft uns, unseren Service zu verbessern.",
     placeholder: "Ihre Nachricht...",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
@@ -70,8 +70,8 @@ export const WithAllFeatures: Story = {
   args: {
     name: "detailed-feedback",
     label: "Ausführliches Feedback",
-    description:
-      "<p><strong>Hinweis:</strong> Bitte geben Sie keine persönlichen Daten wie Telefonnummern oder E-Mail-Adressen ein.</p>",
+    helperText:
+      "Hinweis: Bitte geben Sie keine persönlichen Daten wie Telefonnummern oder E-Mail-Adressen ein.",
     details: {
       title: "Datenschutzhinweis",
       content:

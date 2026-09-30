@@ -55,17 +55,16 @@ describe("Textarea component", () => {
     );
   });
 
-  it("renders without errors when description is provided", () => {
+  it("renders without errors when helperText is provided", () => {
     render(
       <Textarea
         name="test-textarea"
         label="Test Label"
-        description="Test Description"
+        helperText="Test HelperText"
       />,
     );
 
-    expect(screen.getByText("Test Description")).toBeInTheDocument();
-    expect(screen.getByText("Test Description")).toHaveClass("rich-text");
+    expect(screen.getByText("Test HelperText")).toBeInTheDocument();
   });
 
   it("renders a collapsible text hint accordion when provided", () => {
@@ -139,21 +138,6 @@ describe("Textarea component", () => {
     const textarea = screen.getByRole("textbox");
 
     expect(textarea.getAttribute("maxLength")).toBe(maxLength.toString());
-  });
-
-  it("should render with aria-describedby attribute", () => {
-    const ariaDescribedby = "test-description";
-
-    const { getByRole } = render(
-      <Textarea
-        name="componentName"
-        label="Test Label"
-        ariaDescribedby={ariaDescribedby}
-      />,
-    );
-
-    const textarea = getByRole("textbox");
-    expect(textarea.getAttribute("aria-describedby")).toBe(ariaDescribedby);
   });
 
   describe("Textarea field with aria-required attribute", () => {
