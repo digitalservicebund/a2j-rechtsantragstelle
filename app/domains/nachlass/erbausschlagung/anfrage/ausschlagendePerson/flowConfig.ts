@@ -17,8 +17,8 @@ const hasFilledAusschlagendePerson: ErbausschlagungAnfrageDaten = ({
 export const ausschlagendePersonFlowConfig = {
   awarenessDate: [
     {
-      guard: (data) =>
-        objectKeysNonEmpty(data.awarenessDate, ["day", "month", "year"]),
+      guard: (context) =>
+        objectKeysNonEmpty(context.awarenessDate, ["day", "month", "year"]),
       target: "ausschlagendePersonName",
     },
   ],
@@ -29,7 +29,7 @@ export const ausschlagendePersonFlowConfig = {
   ausschlagendePersonBirthday: "ausschlagendePersonRelationToErblasser",
   ausschlagendePersonRelationToErblasser: [
     {
-      guard: (data) => hasFilledAusschlagendePerson({ context: data }),
+      guard: (context) => hasFilledAusschlagendePerson({ context }),
       target: "kinderHasKid",
     },
   ],

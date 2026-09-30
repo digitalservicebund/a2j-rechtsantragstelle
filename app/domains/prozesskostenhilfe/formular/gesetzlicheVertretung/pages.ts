@@ -7,13 +7,13 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const pkhFormularGesetzlicheVertretungPages = {
   gesetzlicheVertretungFrage: {
-    stepId: "gesetzliche-vertretung/frage",
+    stepId: "/gesetzliche-vertretung/frage",
     pageSchema: {
       hasGesetzlicheVertretung: YesNoAnswer,
     },
   },
   gesetzlicheVertretungDaten: {
-    stepId: "gesetzliche-vertretung/daten",
+    stepId: "/gesetzliche-vertretung/daten",
     pageSchema: {
       gesetzlicheVertretungDaten: z.object({
         vorname: stringRequiredSchema,

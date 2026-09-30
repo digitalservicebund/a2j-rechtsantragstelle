@@ -1,11 +1,13 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { type PartnerEinkuenfteUserData } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/partner/userData";
+import type { ProzesskostenhilfeFormularUserData } from "../../userData";
+import { pkhTestcaseData } from "../../__test__/testcasesData";
 
 export const testCasesPKHFormularFinanzielleAngabenPartner = {
   widowed: [
     {
       stepId: "/finanzielle-angaben/partner/partnerschaft",
       userInput: {
+        ...pkhTestcaseData,
         partnerschaft: "widowed",
       },
     },
@@ -17,19 +19,19 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     {
       stepId: "/finanzielle-angaben/partner/partnerschaft",
       userInput: {
-        partnerschaft: "yes",
+        ...pkhTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/partner/zusammenleben",
       userInput: {
-        zusammenleben: "yes",
+        ...pkhTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/partner/partner-einkommen",
       userInput: {
-        partnerEinkommen: "yes",
+        ...pkhTestcaseData,
       },
     },
     {
@@ -41,12 +43,13 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     {
       stepId: "/finanzielle-angaben/partner/partnerschaft",
       userInput: {
-        partnerschaft: "yes",
+        ...pkhTestcaseData,
       },
     },
     {
       stepId: "/finanzielle-angaben/partner/zusammenleben",
       userInput: {
+        ...pkhTestcaseData,
         zusammenleben: "no",
       },
     },
@@ -58,7 +61,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     {
       stepId: "/finanzielle-angaben/partner/unterhalt",
       userInput: {
-        unterhalt: "yes",
+        ...pkhTestcaseData,
+        zusammenleben: "no",
       },
     },
     {
@@ -70,11 +74,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     {
       stepId: "/finanzielle-angaben/partner/partner-name",
       userInput: {
-        partnerVorname: "Maria",
-        partnerNachname: "Mustermann",
-        partnerschaft: "yes",
+        ...pkhTestcaseData,
         zusammenleben: "no",
-        unterhalt: "yes",
       },
     },
     {
@@ -85,7 +86,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     {
       stepId: "/finanzielle-angaben/partner/unterhalt",
       userInput: {
-        partnerschaft: "yes",
+        ...pkhTestcaseData,
         zusammenleben: "no",
         unterhalt: "no",
       },
@@ -102,21 +103,21 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
-        "partner-staatlicheLeistungen": "keine",
+        ...pkhTestcaseData,
       },
     },
     {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-erwerbstaetig",
       userInput: {
-        "partner-currentlyEmployed": "yes",
+        ...pkhTestcaseData,
       },
     },
     {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-einkommen/partner-art",
       userInput: {
-        "partner-employmentType": "employed",
+        ...pkhTestcaseData,
       },
     },
     {
@@ -130,6 +131,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsweg",
       userInput: {
+        ...pkhTestcaseData,
         "partner-arbeitsweg": "publicTransport",
       },
     },
@@ -144,13 +146,13 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsplatz-entfernung",
       userInput: {
+        "partner-arbeitsplatzEntfernung": 7,
         "partner-arbeitsplatz": {
           strasseHausnummer: "Prinzessinnenstraße 8-14",
           plz: "10969",
           ort: "Berlin",
           land: "Deutschland",
         },
-        "partner-arbeitsplatzEntfernung": 7,
       },
     },
     {
@@ -174,6 +176,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/partner-arbeitsausgaben-frage",
       userInput: {
+        ...pkhTestcaseData,
+        "partner-nettoEinkuenfteAlsArbeitnehmer": "2000",
         "partner-hasArbeitsausgaben": "yes",
       },
     },
@@ -195,12 +199,17 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsausgaben/uebersicht",
     },
+    {
+      stepId:
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-rente-frage",
+    },
   ],
   partnerArbeitswegPlaysNoRole: [
     {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-abzuege/partner-arbeitsweg",
       userInput: {
+        ...pkhTestcaseData,
         "partner-arbeitsweg": "bike",
       },
     },
@@ -214,7 +223,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-rente-frage",
       userInput: {
-        "partner-receivesPension": "yes",
+        ...pkhTestcaseData,
+        "partner-nettoEinkuenfteAlsArbeitnehmer": "2000",
       },
     },
     {
@@ -227,7 +237,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-unterhalt-frage",
       userInput: {
-        "partner-receivesSupport": "yes",
+        ...pkhTestcaseData,
       },
     },
     {
@@ -254,7 +264,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-frage",
       userInput: {
-        "partner-hasFurtherIncome": "yes",
+        ...pkhTestcaseData,
       },
     },
     {
@@ -271,7 +281,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-frage",
       userInput: {
-        "partner-hasFurtherIncome": "yes",
+        ...pkhTestcaseData,
+        "partner-nettoEinkuenfteAlsArbeitnehmer": "2000",
       },
     },
     {
@@ -298,18 +309,19 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-besonders-ausgaben",
       userInput: {
-        partnerHasBesondersAusgaben: "yes",
+        ...pkhTestcaseData,
+        "partner-nettoEinkuenfteAlsArbeitnehmer": "2000",
       },
     },
     {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/add-partner-besonders-ausgaben",
       userInput: {
+        ...pkhTestcaseData,
         partnerBesondersAusgabe: {
           beschreibung: "Besondere Ausgaben",
           betrag: "1000",
         },
-        partnerschaft: "yes",
       },
     },
     {
@@ -321,6 +333,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
+        ...pkhTestcaseData,
         "partner-staatlicheLeistungen": "buergergeld",
       },
     },
@@ -362,6 +375,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
+        ...pkhTestcaseData,
         "partner-staatlicheLeistungen": "buergergeld",
       },
     },
@@ -411,6 +425,7 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
+        ...pkhTestcaseData,
         "partner-staatlicheLeistungen": "arbeitslosengeld",
       },
     },
@@ -427,8 +442,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
+        ...pkhTestcaseData,
         "partner-staatlicheLeistungen": "grundsicherung",
-        partnerschaft: "yes",
       },
     },
     {
@@ -440,8 +455,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-staatliche-leistungen",
       userInput: {
+        ...pkhTestcaseData,
         "partner-staatlicheLeistungen": "asylbewerberleistungen",
-        partnerschaft: "yes",
       },
     },
     {
@@ -453,6 +468,8 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
       stepId:
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-leistungen/partner-frage",
       userInput: {
+        ...pkhTestcaseData,
+        "partner-nettoEinkuenfteAlsArbeitnehmer": "2000",
         partnerLeistungen: {
           wohngeld: "on",
           krankengeld: "on",
@@ -495,4 +512,4 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
         "/finanzielle-angaben/partner/partner-einkuenfte/partner-weitere-einkuenfte/partner-frage",
     },
   ],
-} satisfies FlowTestCases<PartnerEinkuenfteUserData>;
+} satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
