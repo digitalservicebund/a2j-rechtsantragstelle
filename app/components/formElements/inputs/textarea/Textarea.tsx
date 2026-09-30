@@ -25,7 +25,6 @@ type TextareaProps = Readonly<{
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   backgroundClass?: string;
-  ariaDescribedby?: string;
 }>;
 
 const Textarea = ({
@@ -37,7 +36,6 @@ const Textarea = ({
   helperText,
   placeholder,
   errorMessages,
-  ariaDescribedby,
   backgroundClass,
   maxLength = TEXTAREA_CHAR_LIMIT,
 }: TextareaProps) => {
@@ -50,7 +48,6 @@ const Textarea = ({
   const describedByIds = [
     field.error() ? errorId : null,
     helperText ? helperId : null,
-    ariaDescribedby,
     detailsId,
   ]
     .filter(Boolean)
