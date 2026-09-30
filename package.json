@@ -34,6 +34,8 @@
     "test": "vitest run --project=!integration",
     "test:watch": "vitest --project=!integration",
     "test:integration": "./tests/integration/runTests.sh",
+    "test:checkPerformanceUnit": "vitest doctor --project=unit",
+    "test:checkPerformanceComponent": "vitest doctor --project=component",
     "typecheck": "react-router typegen && tsc",
     "typecheck:watch": "react-router typegen && tsc -w",
     "update:courtData": "node ./scripts/vite-runner.ts courtDataUpdate",
