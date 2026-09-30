@@ -1,20 +1,21 @@
 import { type Flow } from "~/domains/flows.server";
-import { erbscheinAnfrageFlowConfig } from "./flowConfig";
-import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
-  getAmtsgerichtStrings,
   getAngehoerigeStrings,
+  getAntragstellendePersonCourtStrings,
   getBeguenstigteStrings,
   getEhepartnerName,
   getVerstorbeneName,
+  getVerstorbenePersonCourtStrings,
   getVerstorbenePostcodeCity,
   getVerstorbeneStreetnameHousenumber,
 } from "~/domains/nachlass/erbschein/anfrage/stringReplacements";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { type ErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { migrateElternteil, migrateKind } from "./personMigration";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyAntragstellendePersonData";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { erbscheinAnfrageFlowConfig } from "./flowConfig";
+import { migrateElternteil, migrateKind } from "./personMigration";
 
 export const erbscheinAnfrage = {
   flowType: "formFlow",
@@ -71,7 +72,8 @@ export const erbscheinAnfrage = {
     ...getEhepartnerName(context),
     ...getBeguenstigteStrings(context),
     ...getAngehoerigeStrings(context),
-    ...getAmtsgerichtStrings(context),
+    ...getVerstorbenePersonCourtStrings(context),
+    ...getAntragstellendePersonCourtStrings(context),
   }),
   summaryFieldOverride: getParentIndexSummaryOverride,
   newEngineConfig: erbscheinAnfrageFlowConfig,
