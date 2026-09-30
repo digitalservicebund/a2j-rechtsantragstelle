@@ -18,7 +18,14 @@ export default [
     ...prefix("formular", newEngineFlowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
-    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
+    ...prefix("anfrage", [
+      route("*", "routes/erbausschlagung.anfrage.$.tsx", {
+        id: "flowEAA",
+      }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfEAA",
+      }),
+    ]),
     ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
   ]),
   ...prefix("erbschein", [

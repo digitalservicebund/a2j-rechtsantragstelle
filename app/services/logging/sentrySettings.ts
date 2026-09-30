@@ -10,6 +10,18 @@ export const sentrySharedConfig: Sentry.BrowserOptions | Sentry.NodeOptions = {
   tracesSampleRate: 0.002, // aiming for for 100 transactions/day (check sentry stats)
   replaysSessionSampleRate: 0.0,
   replaysOnErrorSampleRate: 0.0,
-  sendDefaultPii: false,
   attachStacktrace: true,
+  dataCollection: {
+    userInfo: false,
+    cookies: false,
+    httpHeaders: {
+      request: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+      response: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+    },
+    httpBodies: [],
+    urlQueryParams: { deny: ["forwarded", "-ip", "remote-", "via", "-user"] },
+    genAI: { inputs: false, outputs: false },
+    databaseQueryData: false,
+    graphQL: { document: false, variables: false },
+  },
 };

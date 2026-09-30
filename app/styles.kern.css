@@ -76,6 +76,11 @@
     box-shadow: none !important;
   }
 
+  /* Kern stacks a top and bottom border per accordion; keep one 1px divider */
+  .kern-accordion-group + .kern-accordion-group .kern-accordion {
+    border-top: 0;
+  }
+
   .stepper-step-triangle::before {
     content: "";
     position: absolute;

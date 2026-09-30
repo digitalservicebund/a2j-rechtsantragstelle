@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
-import { describe, it, vi, expect } from "vitest";
-import { useFormFlow } from "~/components/hooks/formFlowContext";
-import SummaryOverviewBox from "~/components/content/summaryOverview/SummaryOverviewBox";
+import { describe, expect, it, vi } from "vitest";
 import { type HeadingProps } from "~/components/common/Heading";
+import SummaryOverviewBox from "~/components/content/summaryOverview/SummaryOverviewBox";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
 
 vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
@@ -107,5 +107,6 @@ describe("SummaryOverviewBox", () => {
     const editLink = getByRole("link");
     expect(editLink).toHaveAttribute("href", "/beratungshilfe/antrag/step-1");
     expect(editLink).toHaveTextContent("Bearbeiten");
+    expect(editLink).toHaveAttribute("aria-labelledby", String(boxId));
   });
 });
