@@ -45,7 +45,7 @@ export const ReuseBeweiseDialogDocument = ({
 }: Props) => {
   const form = useForm({
     schema: formSchema,
-    defaultValues: { "reuse-option": "" },
+    defaultValues: { "reuse-option-document": "" },
     action: "/action/geld-einklagen/reuse-beweise-document",
     preventScrollReset: true,
     method: "post",
@@ -64,7 +64,7 @@ export const ReuseBeweiseDialogDocument = ({
   }, [dialogRef]);
 
   const clearErrorAndCloseDialog = () => {
-    form.clearError("reuse-option");
+    form.clearError("reuse-option-document");
     closeDialog();
   };
 
@@ -112,7 +112,7 @@ export const ReuseBeweiseDialogDocument = ({
             />
             <input type="hidden" name="nextItemBeweis" value={nextItemBeweis} />
             <RadioGroup
-              name={"reuse-option"}
+              name={"reuse-option-document"}
               errorMessages={errorMessages}
               options={dialogOptions}
             />

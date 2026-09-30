@@ -83,7 +83,7 @@ export const ReuseBeweiseDialogPerson = ({
 
   const form = useForm({
     schema: formSchema,
-    defaultValues: { "reuse-option": "" },
+    defaultValues: { "reuse-option-person": "" },
     action: "/action/geld-einklagen/reuse-beweise-person",
     preventScrollReset: true,
     method: "post",
@@ -91,7 +91,7 @@ export const ReuseBeweiseDialogPerson = ({
   });
 
   const clearErrorAndCloseDialog = () => {
-    form.clearError("reuse-option");
+    form.clearError("reuse-option-person");
     closeDialog();
   };
 
@@ -139,7 +139,7 @@ export const ReuseBeweiseDialogPerson = ({
             />
             <input type="hidden" name="nextItemBeweis" value={nextItemBeweis} />
             <RadioGroup
-              name={"reuse-option"}
+              name={"reuse-option-person"}
               errorMessages={errorMessages}
               options={dialogOptions}
             />

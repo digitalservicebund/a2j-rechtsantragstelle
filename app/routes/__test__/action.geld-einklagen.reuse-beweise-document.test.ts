@@ -27,7 +27,7 @@ describe("action/geld-einklagen/reuse-beweise-document router", () => {
     const bodyWithoutCsrf = new FormData();
     bodyWithoutCsrf.append("nextItemBeweis", "0");
     bodyWithoutCsrf.append("itemIndexAbschnitt", "0");
-    bodyWithoutCsrf.append("reuse-option", "reuse");
+    bodyWithoutCsrf.append("reuse-option-document", "reuse");
 
     const request = new Request(actionURL, {
       method: "POST",
@@ -46,7 +46,7 @@ describe("action/geld-einklagen/reuse-beweise-document router", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "reuse");
+    formData.append("reuse-option-document", "reuse");
 
     const options = { method: "POST", body: formData };
 
@@ -64,7 +64,7 @@ describe("action/geld-einklagen/reuse-beweise-document router", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "new");
+    formData.append("reuse-option-document", "new");
 
     const options = { method: "POST", body: formData };
 

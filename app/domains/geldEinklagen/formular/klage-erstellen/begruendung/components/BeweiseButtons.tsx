@@ -19,17 +19,17 @@ const MAX_DOCUMENT_ITEMS = 20;
 const MAX_PERSON_ITEMS = 10;
 
 export const reuseDialogPersonSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new", "beklagte", "klagende"]),
+  "reuse-option-person": z.enum(["reuse", "new", "beklagte", "klagende"]),
 });
 
 const reuseDialogDocumentSchema = z.object({
-  "reuse-option": z.enum(["reuse", "new"]),
+  "reuse-option-document": z.enum(["reuse", "new"]),
 });
 
-const uncheckedRadios = () => {
+const uncheckedRadios = (option: "person" | "document") => {
   document
     .querySelectorAll<HTMLInputElement>(
-      'input[type="radio"][name="reuse-option"]:checked',
+      `input[type="radio"][name="reuse-option-${option}"]:checked`,
     )
     .forEach((radio) => (radio.checked = false));
 };
@@ -68,12 +68,12 @@ export const BeweiseButtons = ({
 
   const closePersonDialog = () => {
     dialogPersonRef.current?.close();
-    uncheckedRadios();
+    uncheckedRadios("person");
   };
 
   const closeDocumentDialog = () => {
     dialogDocumentRef.current?.close();
-    uncheckedRadios();
+    uncheckedRadios("document");
   };
 
   return (

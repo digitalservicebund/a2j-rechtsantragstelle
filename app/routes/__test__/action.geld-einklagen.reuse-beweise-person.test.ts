@@ -39,7 +39,7 @@ describe("action/geld-einklagen/reuse-beweise-person route", () => {
     const bodyWithoutCsrf = new FormData();
     bodyWithoutCsrf.append("nextItemBeweis", "0");
     bodyWithoutCsrf.append("itemIndexAbschnitt", "0");
-    bodyWithoutCsrf.append("reuse-option", "reuse");
+    bodyWithoutCsrf.append("reuse-option-person", "reuse");
 
     const request = new Request(actionURL, {
       method: "POST",
@@ -71,7 +71,7 @@ describe("action/geld-einklagen/reuse-beweise-person route", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "reuse");
+    formData.append("reuse-option-person", "reuse");
 
     const options = { method: "POST", body: formData };
 
@@ -89,7 +89,7 @@ describe("action/geld-einklagen/reuse-beweise-person route", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "beklagte");
+    formData.append("reuse-option-person", "beklagte");
 
     const options = { method: "POST", body: formData };
 
@@ -137,7 +137,7 @@ describe("action/geld-einklagen/reuse-beweise-person route", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "klagende");
+    formData.append("reuse-option-person", "klagende");
 
     const options = { method: "POST", body: formData };
     const request = new Request(actionURL, options);
@@ -184,7 +184,7 @@ describe("action/geld-einklagen/reuse-beweise-person route", () => {
     formData.append("nextItemBeweis", "0");
     formData.append("itemIndexAbschnitt", "0");
     formData.append(CSRFKey, mockCSRFToken);
-    formData.append("reuse-option", "new");
+    formData.append("reuse-option-person", "new");
 
     const options = { method: "POST", body: formData };
     const request = new Request(actionURL, options);

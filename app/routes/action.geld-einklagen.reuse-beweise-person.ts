@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const itemIndexAbschnitt = result.data["itemIndexAbschnitt"];
   const nextItemBeweis = result.data["nextItemBeweis"];
-  const reuseOption = result.data["reuse-option"];
+  const reuseOption = result.data["reuse-option-person"];
   const BASE_URL_PAGE_ADD_NEW_PERSON = `personen/${nextItemBeweis}/daten`;
 
   switch (reuseOption) {
