@@ -31,7 +31,10 @@ const BegruendungBeschreibungAbschnitt = ({
   };
 
   const onClickDeleteDialog = () => {
-    onAbschnittDelete(BASE_URL_BESCHREIBUNG_ABSCHNITTE, itemIndexAbschnitt);
+    void onAbschnittDelete(
+      BASE_URL_BESCHREIBUNG_ABSCHNITTE,
+      itemIndexAbschnitt,
+    );
     dialogRef.current?.close();
   };
 
