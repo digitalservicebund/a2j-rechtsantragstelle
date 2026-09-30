@@ -42,10 +42,13 @@ export const getDocumentsToBeReusedFromOtherAbschnitte = (
     }
 
     return abschnitt.dokumenten
+      .map((dokument, dokumentIndex) => {
+        return { ...dokument, dokumentIndex };
+      })
       .filter((dokument) => !dokument.dokumentReference)
-      .map((dokument, documentIndex) => ({
+      .map((dokument) => ({
         label: dokument.beschreibung,
-        option: `${abschnittIndex}-${documentIndex}`,
+        option: `${abschnittIndex}-${dokument.dokumentIndex}`,
       }));
   });
 
@@ -69,16 +72,16 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
     }
 
     return abschnitt.personen
-      .map((person, personIndex) => ({ person, personIndex }))
-      .filter(
-        ({ person }) => hasPersonDetails(person) && !person.personReference,
-      )
-      .map(({ person, personIndex }) => {
+      .map((person, personIndex) => {
+        return { ...person, personIndex };
+      })
+      .filter((person) => hasPersonDetails(person) && !person.personReference)
+      .map((person) => {
         const { label, labelBold } = getPersonLabels(person);
         return {
           labelBold,
           label,
-          option: `${abschnittIndex}-${personIndex}`,
+          option: `${abschnittIndex}-${person.personIndex}`,
         };
       });
   });
