@@ -10,6 +10,30 @@ import { addDocumentsFactsOfCase } from "./addDocumentsFactsOfCase";
 
 const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
 
+const buildDocumentIds = (
+  abschnitte: Exclude<GeldEinklagenFormularUserData["abschnitte"], undefined>,
+) => {
+  const documentIds: string[] = [];
+
+  abschnitte.forEach((abschnitt, abschnittIndex) => {
+    if (arrayIsNonEmpty(abschnitt.dokumenten)) {
+      abschnitt.dokumenten.forEach((document, documentIndex) => {
+        if (
+          !documentIds.includes(
+            document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`,
+          )
+        ) {
+          documentIds.push(
+            document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`,
+          );
+        }
+      });
+    }
+  });
+
+  return documentIds;
+};
+
 export const createFactsOfCase = (
   doc: PDFKit.PDFDocument,
   reasonSect: PDFKit.PDFStructureElement,
@@ -33,9 +57,9 @@ export const createFactsOfCase = (
 
   reasonSect.add(factsOfCasesSect);
 
-  let currentDocumentIndex = 0;
+  const documentIds = buildDocumentIds(abschnitte);
 
-  for (const abschnitt of abschnitte) {
+  for (const [abschnittIndex, abschnitt] of abschnitte.entries()) {
     factsOfCasesSect.add(
       doc.struct("P", {}, () => {
         doc
@@ -50,11 +74,10 @@ export const createFactsOfCase = (
       doc,
       factsOfCasesSect,
       abschnitt.dokumenten,
-      currentDocumentIndex,
+      documentIds,
+      abschnittIndex,
     );
     addWitnessOfCase(doc, factsOfCasesSect, abschnitt.personen);
-
-    currentDocumentIndex += abschnitt.dokumenten?.length ?? 0;
   }
 
   doc.moveDown(1.5);
