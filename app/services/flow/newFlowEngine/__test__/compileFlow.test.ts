@@ -229,4 +229,50 @@ describe("compileFlow", () => {
       expect(flow.getProgress("/unknown")).toBeUndefined();
     });
   });
+
+  describe("isOptionalArray", () => {
+    const buildFlow = (itemSchema: z.ZodType) =>
+      compileFlow({
+        pages: {
+          list: {
+            stepId: "/list",
+            arraySummary: { name: "items", schema: z.array(itemSchema) },
+          },
+        } as PagesConfig,
+        initialStep: "list",
+        transitions: { list: null },
+      });
+
+    it("treats a nested array as optional when it is optional or absent in every union branch of a lazy item schema", () => {
+      const recursiveOptional: z.ZodType = z.lazy(() =>
+        z.union([
+          z.object({ kind: z.literal("leaf") }),
+          z.object({
+            kind: z.literal("branch"),
+            items: z.array(recursiveOptional).optional(),
+          }),
+        ]),
+      );
+
+      expect(buildFlow(recursiveOptional).isOptionalArray("items#items")).toBe(
+        true,
+      );
+    });
+
+    it("treats a nested array as required when a union branch requires it", () => {
+      const recursiveRequired: z.ZodType = z.lazy(() =>
+        z.union([
+          z.object({ kind: z.literal("leaf") }),
+          z.object({
+            kind: z.literal("branch"),
+            items: z.array(recursiveRequired),
+          }),
+        ]),
+      );
+
+      expect(buildFlow(recursiveRequired).isOptionalArray("items#items")).toBe(
+        false,
+      );
+    });
+  });
 });
