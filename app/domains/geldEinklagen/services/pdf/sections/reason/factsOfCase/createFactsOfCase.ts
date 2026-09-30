@@ -18,14 +18,10 @@ const buildDocumentIds = (
   abschnitte.forEach((abschnitt, abschnittIndex) => {
     if (arrayIsNonEmpty(abschnitt.dokumenten)) {
       abschnitt.dokumenten.forEach((document, documentIndex) => {
-        if (
-          !documentIds.includes(
-            document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`,
-          )
-        ) {
-          documentIds.push(
-            document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`,
-          );
+        const reference =
+          document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`;
+        if (!documentIds.includes(reference)) {
+          documentIds.push(reference);
         }
       });
     }
