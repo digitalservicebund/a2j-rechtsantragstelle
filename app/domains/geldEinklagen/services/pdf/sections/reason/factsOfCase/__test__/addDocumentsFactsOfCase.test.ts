@@ -10,7 +10,7 @@ describe("addDocumentsFactsOfCase", () => {
     const mockStruct = mockPdfKitDocumentStructure();
     const mockDoc = mockPdfKitDocument(mockStruct);
 
-    addDocumentsFactsOfCase(mockDoc, mockStruct, [], 0);
+    addDocumentsFactsOfCase(mockDoc, mockStruct, [], [], 0);
 
     expect(mockDoc.text).not.toHaveBeenCalled();
   });
@@ -27,7 +27,7 @@ describe("addDocumentsFactsOfCase", () => {
       { beschreibung: "Dokument 2" },
     ];
 
-    addDocumentsFactsOfCase(mockDoc, mockStruct, dokumenten, 0);
+    addDocumentsFactsOfCase(mockDoc, mockStruct, dokumenten, ["0-0", "0-1"], 0);
 
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Beweis K1: ",
@@ -38,6 +38,42 @@ describe("addDocumentsFactsOfCase", () => {
     expect(mockDoc.text).toHaveBeenCalledWith("Dokument 1");
     expect(mockDoc.text).toHaveBeenCalledWith(
       "Beweis K2: ",
+      expect.any(Number),
+      undefined,
+      { continued: true },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Dokument 2");
+  });
+
+  it("should add documents to the PDF document based on the reference", () => {
+    const mockStruct = mockPdfKitDocumentStructure();
+    const mockDoc = mockPdfKitDocument(mockStruct);
+
+    const dokumenten: Exclude<
+      GeldEinklagenFormularUserData["abschnitte"],
+      undefined
+    >[number]["dokumenten"] = [
+      { beschreibung: "Dokument 1" },
+      { beschreibung: "Dokument 2", dokumentReference: "1-0" },
+    ];
+
+    addDocumentsFactsOfCase(
+      mockDoc,
+      mockStruct,
+      dokumenten,
+      ["0-0", "0-1", "1-0"],
+      0,
+    );
+
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Beweis K1: ",
+      expect.any(Number),
+      undefined,
+      { continued: true },
+    );
+    expect(mockDoc.text).toHaveBeenCalledWith("Dokument 1");
+    expect(mockDoc.text).toHaveBeenCalledWith(
+      "Beweis K3: ",
       expect.any(Number),
       undefined,
       { continued: true },

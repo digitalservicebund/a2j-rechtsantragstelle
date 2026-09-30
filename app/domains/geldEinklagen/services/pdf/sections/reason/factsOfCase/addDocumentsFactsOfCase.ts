@@ -25,7 +25,8 @@ export const addDocumentsFactsOfCase = (
       documentIds.findIndex(
         (value) =>
           value === dokument.dokumentReference ||
-          value === `${abschnittIndex}-${index}`,
+          (value === `${abschnittIndex}-${index}` &&
+            dokument.dokumentReference === undefined),
       ) + 1;
 
     factsOfCasesSect.add(
