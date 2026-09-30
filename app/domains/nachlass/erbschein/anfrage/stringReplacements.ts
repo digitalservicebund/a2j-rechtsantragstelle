@@ -60,7 +60,9 @@ export const getBeguenstigteStrings = (context: ErbscheinAnfrageUserData) => {
     };
 };
 
-export const getAmtsgerichtStrings = (userData: ErbscheinAnfrageUserData) => {
+export const getVerstorbenePersonCourtStrings = (
+  userData: ErbscheinAnfrageUserData,
+) => {
   const zipCode =
     userData.verstorbenePlz ??
     userData.verstorbeneHospizPlz ??
@@ -79,6 +81,25 @@ export const getAmtsgerichtStrings = (userData: ErbscheinAnfrageUserData) => {
     courtOrt: court?.ORT,
     courtWebsite: court?.URL1,
     courtTelephone: court?.TEL,
+  };
+};
+
+export const getAntragstellendePersonCourtStrings = (
+  userData: ErbscheinAnfrageUserData,
+) => {
+  const court = findCourt({
+    zipCode: userData.antragstellendePersonPlz,
+    streetName: userData.antragstellendePersonStrasse,
+    houseNumber: userData.antragstellendePersonHausnummer,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+  });
+  return {
+    antragstellendePersonCourtName: court?.BEZEICHNUNG,
+    antragstellendePersonCourtStreetNumber: court?.STR_HNR,
+    antragstellendePersonCourtPlz: court?.PLZ_ZUSTELLBEZIRK,
+    antragstellendePersonCourtOrt: court?.ORT,
+    antragstellendePersonCourtWebsite: court?.URL1,
+    antragstellendePersonCourtTelephone: court?.TEL,
   };
 };
 
