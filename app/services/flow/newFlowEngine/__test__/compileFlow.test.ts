@@ -20,6 +20,18 @@ const flow = compileFlow({
   transitions,
 });
 
+const buildArrayFlow = (itemSchema: z.ZodType) =>
+  compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: { name: "items", schema: z.array(itemSchema) },
+      },
+    } as PagesConfig,
+    initialStep: "list",
+    transitions: { list: null },
+  });
+
 describe("compileFlow", () => {
   describe("path round-trip", () => {
     it("getNodeKeyFromPath(getPathFromNodeKey(key)) === key for all nodes", () => {
@@ -231,18 +243,6 @@ describe("compileFlow", () => {
   });
 
   describe("isOptionalArray", () => {
-    const buildFlow = (itemSchema: z.ZodType) =>
-      compileFlow({
-        pages: {
-          list: {
-            stepId: "/list",
-            arraySummary: { name: "items", schema: z.array(itemSchema) },
-          },
-        } as PagesConfig,
-        initialStep: "list",
-        transitions: { list: null },
-      });
-
     it("treats a nested array as optional when it is optional or absent in every union branch of a lazy item schema", () => {
       const recursiveOptional: z.ZodType = z.lazy(() =>
         z.union([
@@ -254,9 +254,9 @@ describe("compileFlow", () => {
         ]),
       );
 
-      expect(buildFlow(recursiveOptional).isOptionalArray("items#items")).toBe(
-        true,
-      );
+      expect(
+        buildArrayFlow(recursiveOptional).isOptionalArray("items#items"),
+      ).toBe(true);
     });
 
     it("treats a nested array as required when a union branch requires it", () => {
@@ -270,9 +270,9 @@ describe("compileFlow", () => {
         ]),
       );
 
-      expect(buildFlow(recursiveRequired).isOptionalArray("items#items")).toBe(
-        false,
-      );
+      expect(
+        buildArrayFlow(recursiveRequired).isOptionalArray("items#items"),
+      ).toBe(false);
     });
   });
 });
