@@ -30,11 +30,13 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
   },
   opnvKosten: {
     stepId: "/finanzielle-angaben/abzuege/opnv-kosten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       monatlicheOPNVKosten: buildMoneyValidationSchema(),
     },
   },
   arbeitsplatzEntfernung: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
     pageSchema: {
       arbeitsplatz: z.object({
@@ -49,12 +51,15 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitswegKeineRolle: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/keine-rolle",
   },
   arbeitsausgaben: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben",
   },
   arbeitsausgabe: {
+    shouldCollapseIntoParentNavItem: true,
     stepId:
       "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgabe/#/daten",
     pageSchema: {
@@ -65,6 +70,7 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitsausgabenFrage: {
+    shouldCollapseIntoParentNavItem: true,
     stepId:
       "/finanzielle-angaben/abzuege/arbeitsausgaben/arbeitsausgaben-frage",
     pageSchema: {
@@ -72,6 +78,7 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitsausgabenUebersicht: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/uebersicht",
     arraySummary: {
       name: "arbeitsausgaben",
@@ -80,6 +87,7 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitsausgabenWarnung: {
+    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben/warnung",
   },
 } as const satisfies PagesConfig;
