@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { InputLabel } from "../label/InputLabel";
 
 type RadioInputProps = {
@@ -21,7 +21,9 @@ export const RadioInput = ({
   disabled,
 }: RadioInputProps) => {
   const field = useField(name);
-  const id = `${name}-${value}`;
+  const idRandom = useId();
+  // Radio group is rendering many times on the same page with the same name (modal TGA), but the id should be unique
+  const id = `${name}-${value}-${idRandom}`;
 
   return (
     <div className="kern-form-check">
