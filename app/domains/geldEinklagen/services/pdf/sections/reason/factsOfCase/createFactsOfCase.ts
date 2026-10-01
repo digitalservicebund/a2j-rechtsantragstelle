@@ -3,10 +3,13 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
+  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
 import { addWitnessOfCase } from "./addWitnessOfCase";
 import { addDocumentsFactsOfCase } from "./addDocumentsFactsOfCase";
+import { getHeightOfString } from "~/services/pdf/getHeightOfString";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
 
@@ -56,6 +59,17 @@ export const createFactsOfCase = (
   const documentIds = buildDocumentIds(abschnitte);
 
   for (const [abschnittIndex, abschnitt] of abschnitte.entries()) {
+    const abschnittBeschreibungTextHeight = getHeightOfString(
+      abschnitt.beschreibung,
+      doc,
+      PDF_WIDTH_SEIZE,
+    );
+
+    addNewPageInCaseMissingVerticalSpace(doc, {
+      extraYPosition: abschnittBeschreibungTextHeight,
+      moveDownFactor: 1,
+    });
+
     factsOfCasesSect.add(
       doc.struct("P", {}, () => {
         doc
