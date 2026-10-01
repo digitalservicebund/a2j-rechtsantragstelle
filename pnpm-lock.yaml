@@ -13,6 +13,7 @@ overrides:
   body-parser@<2.3.0: '>=2.3.0'
   '@babel/core@<=7.29.0': '>=7.29.6'
   brace-expansion@<=5.0.9: '>=5.0.12'
+  undici@^6.0.0: ^6.28.1
 
 importers:
 
@@ -68,7 +69,7 @@ importers:
         version: 2.5.1
       compression:
         specifier: ^1.8.2
-        version: 1.8.2(supports-color@7.2.0)
+        version: 1.8.2(supports-color@8.1.1)
       cookie:
         specifier: ^2.0.1
         version: 2.0.1
@@ -80,7 +81,7 @@ importers:
         version: 5.2.1(supports-color@8.1.1)
       express-rate-limit:
         specifier: ^8.7.0
-        version: 8.7.0(express@5.2.1)(supports-color@7.2.0)
+        version: 8.7.0(express@5.2.1)(supports-color@8.1.1)
       fflate:
         specifier: ^0.8.3
         version: 0.8.3
@@ -98,7 +99,7 @@ importers:
         version: 6.1.8(@types/react@19.3.0)(react@19.3.0)
       ioredis:
         specifier: ^6.0.0
-        version: 6.0.0(supports-color@7.2.0)
+        version: 6.0.0(supports-color@8.1.1)
       isbot:
         specifier: ^5.2.2
         version: 5.2.2
@@ -4798,10 +4799,6 @@ packages:
   stylis@4.2.0:
     resolution: {integrity: sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==}
 
-  supports-color@7.2.0:
-    resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
-    engines: {node: '>=8'}
-
   supports-color@8.1.1:
     resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==}
     engines: {node: '>=10'}
@@ -4936,8 +4933,8 @@ packages:
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
-  undici@6.26.0:
-    resolution: {integrity: sha512-4yqz8a3n5HmGTlsbADNtr/dJlhkh/55Rq798G6ibiULcXbDtaLpTl1pvdqcbFfeoj3iSi52lePFM7h9H21cw/A==}
+  undici@6.29.0:
+    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==}
     engines: {node: '>=18.17'}
 
   undici@8.10.2:
@@ -5739,7 +5736,7 @@ snapshots:
       '@babel/parser': 8.0.6
       '@babel/types': 8.0.6
 
-  '@babel/traverse@7.29.0(supports-color@7.2.0)':
+  '@babel/traverse@7.29.0(supports-color@8.1.1)':
     dependencies:
       '@babel/code-frame': 7.29.7
       '@babel/generator': 7.29.8
@@ -5747,7 +5744,7 @@ snapshots:
       '@babel/parser': 7.29.8
       '@babel/template': 7.28.6
       '@babel/types': 7.29.8
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -7862,11 +7859,11 @@ snapshots:
     dependencies:
       mime-db: 1.54.0
 
-  compression@1.8.2(supports-color@7.2.0):
+  compression@1.8.2(supports-color@8.1.1):
     dependencies:
       bytes: 3.1.2
       compressible: 2.0.18
-      debug: 2.6.9(supports-color@7.2.0)
+      debug: 2.6.9(supports-color@8.1.1)
       destroy: 1.2.0
       negotiator: 0.6.4
       on-headers: 1.1.0
@@ -7927,17 +7924,11 @@ snapshots:
     transitivePeerDependencies:
       - '@noble/hashes'
 
-  debug@2.6.9(supports-color@7.2.0):
+  debug@2.6.9(supports-color@8.1.1):
     dependencies:
       ms: 2.0.0
     optionalDependencies:
-      supports-color: 7.2.0
-
-  debug@4.4.3(supports-color@7.2.0):
-    dependencies:
-      ms: 2.1.3
-    optionalDependencies:
-      supports-color: 7.2.0
+      supports-color: 8.1.1
 
   debug@4.4.3(supports-color@8.1.1):
     dependencies:
@@ -8114,9 +8105,9 @@ snapshots:
 
   exponential-backoff@3.1.3: {}
 
-  express-rate-limit@8.7.0(express@5.2.1)(supports-color@7.2.0):
+  express-rate-limit@8.7.0(express@5.2.1)(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
       express: 5.2.1(supports-color@8.1.1)
       ip-address: 10.7.2
     transitivePeerDependencies:
@@ -8130,12 +8121,12 @@ snapshots:
       content-type: 1.0.5
       cookie: 0.7.2
       cookie-signature: 1.2.2
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
       depd: 2.0.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
-      finalhandler: 2.1.0(supports-color@7.2.0)
+      finalhandler: 2.1.0(supports-color@8.1.1)
       fresh: 2.0.0
       http-errors: 2.0.1
       merge-descriptors: 2.0.0
@@ -8146,8 +8137,8 @@ snapshots:
       proxy-addr: 2.0.7
       qs: 6.16.0
       range-parser: 1.2.1
-      router: 2.2.0(supports-color@7.2.0)
-      send: 1.2.0(supports-color@7.2.0)
+      router: 2.2.0(supports-color@8.1.1)
+      send: 1.2.0(supports-color@8.1.1)
       serve-static: 2.2.0(supports-color@8.1.1)
       statuses: 2.0.2
       type-is: 2.0.1
@@ -8175,9 +8166,9 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
-  finalhandler@2.1.0(supports-color@7.2.0):
+  finalhandler@2.1.0(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
       encodeurl: 2.0.0
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -8399,11 +8390,11 @@ snapshots:
 
   inline-style-parser@0.2.9: {}
 
-  ioredis@6.0.0(supports-color@7.2.0):
+  ioredis@6.0.0(supports-color@8.1.1):
     dependencies:
       '@ioredis/commands': 2.0.0
       cluster-key-slot: 1.1.1
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
       denque: 2.1.0
       redis-errors: 1.2.0
       standard-as-callback: 2.1.0
@@ -8824,7 +8815,7 @@ snapshots:
       semver: 7.8.5
       tar: 7.5.22
       tinyglobby: 0.2.17
-      undici: 6.26.0
+      undici: 6.29.0
       which: 6.0.1
 
   node-releases@2.0.51: {}
@@ -9295,7 +9286,7 @@ snapshots:
 
   rate-limit-redis@6.0.1(express-rate-limit@8.7.0):
     dependencies:
-      express-rate-limit: 8.7.0(express@5.2.1)(supports-color@7.2.0)
+      express-rate-limit: 8.7.0(express@5.2.1)(supports-color@8.1.1)
 
   raw-body@3.0.2:
     dependencies:
@@ -9481,9 +9472,9 @@ snapshots:
       fsevents: 2.3.3
     optional: true
 
-  router@2.2.0(supports-color@7.2.0):
+  router@2.2.0(supports-color@8.1.1):
     dependencies:
-      debug: 4.4.3(supports-color@7.2.0)
+      debug: 4.4.3(supports-color@8.1.1)
       depd: 2.0.0
       is-promise: 4.0.0
       parseurl: 1.3.3
@@ -9510,22 +9501,6 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.8.5: {}
-
-  send@1.2.0(supports-color@7.2.0):
-    dependencies:
-      debug: 4.4.3(supports-color@7.2.0)
-      encodeurl: 2.0.0
-      escape-html: 1.0.3
-      etag: 1.8.1
-      fresh: 2.0.0
-      http-errors: 2.0.1
-      mime-types: 3.0.2
-      ms: 2.1.3
-      on-finished: 2.4.1
-      range-parser: 1.2.1
-      statuses: 2.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   send@1.2.0(supports-color@8.1.1):
     dependencies:
@@ -9721,11 +9696,6 @@ snapshots:
 
   stylis@4.2.0: {}
 
-  supports-color@7.2.0:
-    dependencies:
-      has-flag: 4.0.0
-    optional: true
-
   supports-color@8.1.1:
     dependencies:
       has-flag: 4.0.0
@@ -9860,7 +9830,7 @@ snapshots:
 
   undici-types@8.9.0: {}
 
-  undici@6.26.0: {}
+  undici@6.29.0: {}
 
   undici@8.10.2: {}
 
@@ -9925,7 +9895,7 @@ snapshots:
       '@babel/core': 7.29.7(supports-color@8.1.1)
       '@babel/generator': 7.29.1
       '@babel/parser': 7.29.0
-      '@babel/traverse': 7.29.0(supports-color@7.2.0)
+      '@babel/traverse': 7.29.0(supports-color@8.1.1)
       '@babel/types': 7.29.0
       babel-dead-code-elimination: 1.0.10(supports-color@8.1.1)
       micromatch: 4.0.8
