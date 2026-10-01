@@ -92,7 +92,6 @@ export default defineConfig((config) => ({
           include: ["app/**/__test__/*.test.tsx"],
           name: "component",
           environment: "jsdom",
-          pool: "vmThreads",
         },
       },
       {
