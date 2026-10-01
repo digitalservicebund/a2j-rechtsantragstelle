@@ -1,6 +1,7 @@
 import { screen, render, waitFor } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 
+// TODO - Check this test, it's failing due the vmThreads config on vite.config
 // oxlint-disable-next-line vitest/no-disabled-tests
 describe.skip("Persoenliche Daten", () => {
   afterEach(() => {
