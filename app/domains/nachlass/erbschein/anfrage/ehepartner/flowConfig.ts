@@ -11,7 +11,9 @@ export const ehepartnerFlowConfig = {
     {
       guard: (data) =>
         data.verstorbeneFamilienstand === "geschieden" &&
-        data.testamentArt === "none",
+        (data.testamentArt === "none" ||
+          (data.allNamedBeneficiariesKnown === "yes" &&
+            data.erbeCompletelyAllocated === "no")),
       target: "hatteKinder",
     },
     {
@@ -46,7 +48,10 @@ export const ehepartnerFlowConfig = {
   ehevertrag: [
     {
       guard: (data) =>
-        data.hasEhevertrag !== undefined && data.testamentArt === "none",
+        data.hasEhevertrag !== undefined &&
+        (data.testamentArt === "none" ||
+          (data.allNamedBeneficiariesKnown === "yes" &&
+            data.erbeCompletelyAllocated === "no")),
       target: "hatteKinder",
     },
     {
@@ -58,7 +63,9 @@ export const ehepartnerFlowConfig = {
     {
       guard: (data) =>
         objectKeysNonEmpty(data, ["spouseSterbedatum", "spouseSterbeort"]) &&
-        data.testamentArt === "none",
+        (data.testamentArt === "none" ||
+          (data.allNamedBeneficiariesKnown === "yes" &&
+            data.erbeCompletelyAllocated === "no")),
       target: "hatteKinder",
     },
     {
