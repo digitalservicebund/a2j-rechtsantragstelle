@@ -17,7 +17,7 @@ const airportsGermanCitiesContent = fs.readFileSync(CITIES_AIRPORTS_DE, {
 
 const pilotCourt = {
   BRE: "28199",
-  //BER: "12529", enable it later
+  BER: "12529",
   DUS: "40474",
   FRA: "60549",
   HAM: "22335",
