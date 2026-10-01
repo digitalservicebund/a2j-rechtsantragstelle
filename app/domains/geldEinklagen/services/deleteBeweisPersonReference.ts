@@ -10,11 +10,10 @@ export const getPersonLocationsWithReference = (
   reference: string,
 ) =>
   abschnitte.flatMap((abschnitt, abschnittIndex) => {
-    if (
-      !abschnitt.reuseBeweisePerson ||
-      abschnitt.reuseBeweisePerson[reference] !== "on" ||
-      !arrayIsNonEmpty(abschnitt.personen)
-    ) {
+    const reusePersons = abschnitt.reuseBeweiseDokument;
+    const isReuseEnabled = !!reusePersons && reusePersons[reference] === "on";
+
+    if (isReuseEnabled || !arrayIsNonEmpty(abschnitt.personen)) {
       return [];
     }
 

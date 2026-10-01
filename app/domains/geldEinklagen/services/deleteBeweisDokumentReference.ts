@@ -10,11 +10,10 @@ export const getDokumentLocationsWithReference = (
   reference: string,
 ) =>
   abschnitte.flatMap((abschnitt, abschnittIndex) => {
-    if (
-      !abschnitt.reuseBeweiseDokument ||
-      abschnitt.reuseBeweiseDokument[reference] !== "on" ||
-      !arrayIsNonEmpty(abschnitt.dokumenten)
-    ) {
+    const reuseDocs = abschnitt.reuseBeweiseDokument;
+    const isReuseEnabled = !!reuseDocs && reuseDocs[reference] === "on";
+
+    if (!isReuseEnabled || !arrayIsNonEmpty(abschnitt.dokumenten)) {
       return [];
     }
 
