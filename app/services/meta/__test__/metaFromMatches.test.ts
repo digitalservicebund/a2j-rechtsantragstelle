@@ -78,4 +78,34 @@ describe("metaFromMatches", () => {
       description: "Description Override",
     });
   });
+
+  it("should remove html elements from content.html when is present", () => {
+    const matches: ReturnType<typeof useMatches> = [
+      {
+        loaderData: {
+          meta: {
+            title: "Title Override",
+            ogTitle: "OG Title 2",
+          },
+          content: [
+            {
+              __component: "page.hero",
+              content: {
+                html: "<p>Description <strong>Override</strong></p>",
+              },
+            },
+          ],
+        },
+        id: "",
+        pathname: "",
+        params: {},
+        handle: undefined,
+      },
+    ];
+    expect(metaFromMatches(matches)).toEqual({
+      title: "Title Override",
+      ogTitle: "OG Title 2",
+      description: "Description Override",
+    });
+  });
 });
