@@ -13,33 +13,33 @@ export const addDocumentsFactsOfCase = (
     GeldEinklagenFormularUserData["abschnitte"],
     undefined
   >[number]["dokumenten"],
-  currentDocumentIndex: number,
+  documentIds: string[],
+  abschnittIndex: number,
 ) => {
   if (!arrayIsNonEmpty(dokumenten)) {
     return;
   }
 
-  let currentDocumentNumber = currentDocumentIndex + 1;
+  for (const [index, dokument] of dokumenten.entries()) {
+    const documentId =
+      documentIds.findIndex(
+        (value) =>
+          value === dokument.dokumentReference ||
+          (value === `${abschnittIndex}-${index}` &&
+            dokument.dokumentReference === undefined),
+      ) + 1;
 
-  for (const dokument of dokumenten) {
     factsOfCasesSect.add(
       doc.struct("P", {}, () => {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
-          .text(
-            `Beweis K${currentDocumentNumber}: `,
-            MARGIN_RIGHT_SPACE,
-            undefined,
-            {
-              continued: true,
-            },
-          )
+          .text(`Beweis K${documentId}: `, MARGIN_RIGHT_SPACE, undefined, {
+            continued: true,
+          })
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(dokument.beschreibung ?? "")
           .moveDown(1);
       }),
     );
-
-    currentDocumentNumber += 1;
   }
 };

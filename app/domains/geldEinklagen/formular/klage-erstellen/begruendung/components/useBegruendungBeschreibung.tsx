@@ -4,9 +4,6 @@ import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 import { type RootLoader } from "~/root";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
-const UPDATE_PERSONEN_URL_ENDPOINT =
-  "/geld-einklagen/formular/action/update-abschnitten-personen-ids";
-
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 
 const focusOnBeweisTitle = (abschnittId: string) => {
@@ -84,11 +81,6 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
-        await fetch(UPDATE_PERSONEN_URL_ENDPOINT, {
-          body: formData,
-          method: "post",
-        });
-
         await revalidator.revalidate();
         focusOnBeweisTitle(String(abschnittIndex));
       }
@@ -110,11 +102,6 @@ export const useBegruendungBeschreibung = () => {
       });
 
       if (response.ok) {
-        await fetch(UPDATE_PERSONEN_URL_ENDPOINT, {
-          body: formData,
-          method: "post",
-        });
-
         await revalidator.revalidate();
         focusOnBeweisTitle(String(abschnittIndex));
       }

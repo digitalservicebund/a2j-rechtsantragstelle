@@ -16,24 +16,26 @@ export const BeweisItemRow = ({
   buttons,
   classNameParent,
   classNameChild,
-}: Props) => (
-  <div
-    className={classNames(
-      "flex sm:flex-row sm:items-center flex-col gap-kern-space-default py-kern-space-default",
-      classNameParent,
-    )}
-  >
+}: Props) => {
+  return (
     <div
       className={classNames(
-        "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
-        classNameChild,
+        "flex sm:flex-row sm:items-center flex-col gap-kern-space-default py-kern-space-default",
+        classNameParent,
       )}
     >
-      <Icon name={icon} className="shrink-0" />
-      {content}
+      <div
+        className={classNames(
+          "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+          classNameChild,
+        )}
+      >
+        <Icon name={icon} className="shrink-0" />
+        {content}
+      </div>
+      {buttons && (
+        <div className="flex items-center gap-24 shrink-0">{buttons}</div>
+      )}
     </div>
-    {buttons && (
-      <div className="flex items-center gap-24 shrink-0">{buttons}</div>
-    )}
-  </div>
-);
+  );
+};

@@ -21,9 +21,9 @@ export class Vorabcheck {
   }
 
   async select(field: string, option: string) {
-    // We have to click the label because the input is covered by the before element
-    // The label text itself is unknown due to using a cms
-    await this.page.locator(`label[for="${field}-${option}"]`).click();
+    await this.page
+      .locator(`input[name="${field}"][value="${option}"]`)
+      .check();
   }
 
   async clickNext() {
