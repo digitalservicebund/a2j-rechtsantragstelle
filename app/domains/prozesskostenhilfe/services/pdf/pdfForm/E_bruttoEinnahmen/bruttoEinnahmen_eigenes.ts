@@ -22,7 +22,7 @@ export const fillStaatlicheLeistungen: PkhPdfFillFunction = ({
 }) => {
   if (userData.staatlicheLeistungen === "buergergeld") {
     pdfValues.e20.value = true;
-    pdfValues.monatlicheBruttoeinnahmendurchBuergergeldinEuro.value = `${removeDecimalsFromCurrencyString(userData.buergergeld)} ${nettoString}`;
+    pdfValues.monatlicheBruttoeinnahmendurchBuergergeldinEuro.value = `${removeDecimalsFromCurrencyString(userData.grundsicherungsgeld)} ${nettoString}`;
   } else {
     pdfValues.e19.value = true;
   }
