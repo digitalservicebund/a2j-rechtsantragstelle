@@ -1,10 +1,10 @@
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { erbfolgePages } from "./pages";
-import { kinderFlowConfig } from "./kinderFlowConfig";
-import { elternteilFlowConfig } from "./elternteilFlowConfig";
-import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
-import { elternteileRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
 import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/shared/determineHeirs";
+import { elternteileRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
+import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
+import { elternteilFlowConfig } from "./elternteilFlowConfig";
+import { kinderFlowConfig } from "./kinderFlowConfig";
+import { erbfolgePages } from "./pages";
 
 export const erbfolgeStaticFlow = compileFlow({
   pages: erbfolgePages,
@@ -15,7 +15,7 @@ export const erbfolgeStaticFlow = compileFlow({
     // determines, so any "yes" exits to the "keine gesetzliche Erbfolge" page.
     testamentOderErbvertrag: [
       {
-        target: "keineGesetzlicheErbfolge",
+        target: "testamentPruefen",
         guard: (d) =>
           d.testamentArt === "handwritten" ||
           d.testamentArt === "notarized" ||
@@ -23,6 +23,7 @@ export const erbfolgeStaticFlow = compileFlow({
       },
       { target: "verstorbenePerson" },
     ],
+    testamentPruefen: "verstorbenePerson",
     verstorbenePerson: "familienstand",
     familienstand: [
       { target: "ehepartner", guard: (d) => d.familienstand === "verheiratet" },
@@ -93,6 +94,5 @@ export const erbfolgeStaticFlow = compileFlow({
     nichtErmitteltWeitereGenerationen: null,
     nichtErmitteltWeitereOrdnungen: null,
     kinderFehlen: null,
-    keineGesetzlicheErbfolge: null,
   },
 });
