@@ -7,6 +7,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@aws-sdk/client-s3/LICENSE",
     "direct": true
   },
+  "@digitalservicebund/a2j-xjustiz-bridge": {
+    "licenses": "MIT",
+    "repository": "https://github.com/digitalservicebund/a2j-xjustiz-bridge",
+    "publisher": "Team Court Communication",
+    "path": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/a2j-xjustiz-bridge",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@digitalservicebund/a2j-xjustiz-bridge/LICENSE",
+    "direct": true
+  },
   "@digitalservicebund/kern-ux-tailwind-theme": {
     "licenses": "MIT",
     "repository": "https://github.com/digitalservicebund/kern-ux-tailwind-theme",
@@ -18,10 +26,10 @@
   },
   "@kern-ux/native": {
     "licenses": "EUPL-1.2",
-    "repository": "https://gitlab.opencode.de/kern-ux/kern-ux-plain",
+    "repository": "git+https://gitlab.opencode.de/kern-ux/kern-ux-plain",
     "publisher": "Kern-UX",
-    "path": "a2j-rechtsantragstelle/node_modules/@kern-ux/native",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@kern-ux/native/LICENSE.md",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native/LICENSE.md",
     "direct": true
   },
   "@node-saml/node-saml": {
@@ -40,6 +48,14 @@
     "email": "andrew.dillon.j@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/@pdf-lib/fontkit",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@pdf-lib/fontkit/README.md",
+    "direct": true
+  },
+  "@prometheus-io/client": {
+    "licenses": "Apache-2.0",
+    "repository": "https://github.com/prometheus/client_js",
+    "publisher": "Simon Nyberg",
+    "path": "a2j-rechtsantragstelle/node_modules/@prometheus-io/client",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/@prometheus-io/client/LICENSE",
     "direct": true
   },
   "@react-router/express": {
@@ -72,6 +88,19 @@
     "path": "a2j-rechtsantragstelle/node_modules/@rvf/react-router",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@rvf/react-router/README.md",
     "direct": true
+  },
+  "@sentry/cli-darwin": {
+    "licenses": "FSL-1.1-MIT",
+    "repository": "https://github.com/getsentry/sentry-cli",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+cli@2.58.6_supports-color@8.1.1/node_modules/@sentry/cli-darwin",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+cli@2.58.6_supports-color@8.1.1/node_modules/@sentry/cli-darwin/README.md"
+  },
+  "@sentry/cli": {
+    "licenses": "FSL-1.1-MIT",
+    "repository": "https://github.com/getsentry/sentry-cli",
+    "publisher": "Sentry",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.65.0_rollup@4.60.4_supports-color@8.1.1/node_modules/@sentry/cli",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.65.0_rollup@4.60.4_supports-color@8.1.1/node_modules/@sentry/cli/LICENSE"
   },
   "@sentry/react-router": {
     "licenses": "MIT",
@@ -106,6 +135,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/axios/LICENSE",
     "direct": true
   },
+  "caniuse-lite": {
+    "licenses": "CC-BY-4.0",
+    "repository": "https://github.com/browserslist/caniuse-lite",
+    "publisher": "Ben Briggs",
+    "email": "beneb.info@gmail.com",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.28.7/node_modules/caniuse-lite",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.28.7/node_modules/caniuse-lite/LICENSE"
+  },
   "classnames": {
     "licenses": "MIT",
     "repository": "https://github.com/JedWatson/classnames",
@@ -130,6 +167,14 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/cookie/LICENSE",
     "direct": true
   },
+  "dompurify": {
+    "licenses": "(MPL-2.0 OR Apache-2.0)",
+    "repository": "https://github.com/cure53/DOMPurify",
+    "publisher": "Dr.-Ing. Mario Heiderich, Cure53",
+    "email": "mario@cure53.de",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.434.15_@types+react@19.3.0_react@19.3.0/node_modules/dompurify",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.434.15_@types+react@19.3.0_react@19.3.0/node_modules/dompurify/LICENSE"
+  },
   "dotenv": {
     "licenses": "BSD-2-Clause",
     "repository": "https://github.com/motdotla/dotenv",
@@ -142,7 +187,7 @@
     "repository": "https://github.com/express-rate-limit/express-rate-limit",
     "publisher": "Nathan Friedly",
     "path": "a2j-rechtsantragstelle/node_modules/express-rate-limit",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/express-rate-limit/license.md",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/express-rate-limit/license",
     "direct": true
   },
   "express": {
@@ -200,7 +245,7 @@
   },
   "ioredis": {
     "licenses": "MIT",
-    "repository": "https://github.com/luin/ioredis",
+    "repository": "https://github.com/redis/ioredis",
     "publisher": "Zihua Li",
     "email": "i@zihua.li",
     "path": "a2j-rechtsantragstelle/node_modules/ioredis",
@@ -249,6 +294,12 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/mustache/LICENSE",
     "direct": true
   },
+  "pako": {
+    "licenses": "(MIT AND Zlib)",
+    "repository": "https://github.com/nodeca/pako",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@pdf-lib+standard-fonts@1.0.0/node_modules/pako",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@pdf-lib+standard-fonts@1.0.0/node_modules/pako/LICENSE"
+  },
   "pdf-lib": {
     "licenses": "MIT",
     "repository": "https://github.com/Hopding/pdf-lib",
@@ -276,7 +327,7 @@
     "direct": true
   },
   "posthog-js": {
-    "licenses": "Custom: LICENSE",
+    "licenses": "(Apache-2.0 AND MIT)",
     "repository": "https://github.com/PostHog/posthog-js",
     "publisher": "engineering@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-js",
@@ -290,14 +341,6 @@
     "email": "engineering@posthog.com",
     "path": "a2j-rechtsantragstelle/node_modules/posthog-node",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/posthog-node/LICENSE",
-    "direct": true
-  },
-  "prom-client": {
-    "licenses": "Apache-2.0",
-    "repository": "https://github.com/siimon/prom-client",
-    "publisher": "Simon Nyberg",
-    "path": "a2j-rechtsantragstelle/node_modules/prom-client",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/prom-client/LICENSE",
     "direct": true
   },
   "rate-limit-redis": {
@@ -319,7 +362,7 @@
   },
   "react-dom": {
     "licenses": "MIT",
-    "repository": "https://github.com/facebook/react",
+    "repository": "https://github.com/react/react",
     "path": "a2j-rechtsantragstelle/node_modules/react-dom",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react-dom/LICENSE",
     "direct": true
@@ -351,10 +394,16 @@
   },
   "react": {
     "licenses": "MIT",
-    "repository": "https://github.com/facebook/react",
+    "repository": "https://github.com/react/react",
     "path": "a2j-rechtsantragstelle/node_modules/react",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/react/LICENSE",
     "direct": true
+  },
+  "sentry": {
+    "licenses": "Apache*",
+    "repository": "https://github.com/getsentry/cli",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.0.0_rollup@4.60.4/node_modules/sentry",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.0.0_rollup@4.60.4/node_modules/sentry/LICENSE.md"
   },
   "tiny-invariant": {
     "licenses": "MIT",
