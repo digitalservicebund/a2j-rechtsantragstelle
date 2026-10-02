@@ -60,6 +60,21 @@ export const testamentOderErbvertragPages = {
       testamentArt: z.enum(["none", "handwritten", "notarized", "erbvertrag"]),
     },
   },
+  allNamedBeneficiariesKnown: {
+    stepId: "/testament-oder-erbvertrag/bekannte-beguenstigten",
+    pageSchema: {
+      allNamedBeneficiariesKnown: YesNoAnswer,
+    },
+  },
+  namedBeneficiariesUnknown: {
+    stepId: "/testament-oder-erbvertrag/unbekannte-beguenstigten",
+  },
+  erbeCompletelyAllocated: {
+    stepId: "/testament-oder-erbvertrag/verteiltes-erbe",
+    pageSchema: {
+      erbeCompletelyAllocated: YesNoAnswer,
+    },
+  },
   namedBeneficiariesOverview: {
     stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
     shouldCollapseIntoParentNavItem: true,
