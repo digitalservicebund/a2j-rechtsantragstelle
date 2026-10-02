@@ -75,7 +75,12 @@ export const getPersonenToBeReusedFromOtherAbschnitte = (
       .map((person, personIndex) => {
         return { ...person, personIndex };
       })
-      .filter((person) => hasPersonDetails(person) && !person.personReference)
+      .filter(
+        (person) =>
+          hasPersonDetails(person) &&
+          person.personAuswahl === "anotherPerson" &&
+          !person.personReference,
+      )
       .map((person) => {
         const { label, labelBold } = getPersonLabels(person);
         return {
