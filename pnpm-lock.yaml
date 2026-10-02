@@ -43,8 +43,8 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(react-router@8.3.0)(typescript@7.0.2)
       '@remix-run/form-data-parser':
-        specifier: ^0.17.6
-        version: 0.17.6
+        specifier: ^0.17.7
+        version: 0.17.7
       '@rvf/react-router':
         specifier: ^8.2.0
         version: 8.2.0(@types/react@19.3.0)(react-dom@19.3.0)(react-router@8.3.0)(react@19.3.0)(scheduler@0.28.0)(use-sync-external-store@1.6.0)
@@ -121,8 +121,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.434.15
-        version: 1.434.15(@types/react@19.3.0)(react@19.3.0)
+        specifier: 1.434.17
+        version: 1.434.17(@types/react@19.3.0)(react@19.3.0)
       posthog-node:
         specifier: 5.54.1
         version: 5.54.1
@@ -1856,14 +1856,14 @@ packages:
       typescript:
         optional: true
 
-  '@remix-run/form-data-parser@0.17.6':
-    resolution: {integrity: sha512-/pFSz67srxk+4pVXFsJCyF6vPMVtkp+15p66DChdn8Os0LvRt1U4E+0OaXv25VRx5/FsTVwuCr7cPJVI/k4wJQ==}
+  '@remix-run/form-data-parser@0.17.7':
+    resolution: {integrity: sha512-stjc3WUyA42xegdGaS3/1SBxIi7DDfrCQvT9TKtchTSgTODTE9IlBd4Sg2TWhe5QP54W3ioihqrOch4SKEEyxQ==}
 
-  '@remix-run/headers@0.21.2':
-    resolution: {integrity: sha512-M5KagifodhXZglUiYjf16TrqxYce8N7h3pKt7FUX47Vgy7mYG7PSrGN7HtJg7VX7HbOhY3bd2CuRwOojwnNDHg==}
+  '@remix-run/headers@0.21.3':
+    resolution: {integrity: sha512-DEKN39YqaDx2m8l38hsfnIq4i5CUmeXhE4U8cfjkHZTMlGUQl9Ty1YF3v/8vQeZKoG8ccxz/h638a8jYmlBPeA==}
 
-  '@remix-run/multipart-parser@0.16.5':
-    resolution: {integrity: sha512-Pt4JxLl10z8xSYw7Fo9VNCCajzNbNXoWNPeOb2JlWSsAcdWV8LoWiUmUu3sLvWsKHoDl7oqErVzp4DYcPElRQg==}
+  '@remix-run/multipart-parser@0.16.6':
+    resolution: {integrity: sha512-v7rmfCiUq7Udj4bD908bjg1tUUwYGlXL2hwoWAjD/6yQ8dah7SkhknSGj9wOjiQL8zuYip4fFGrFBHr1qJYHkA==}
 
   '@remix-run/node-fetch-server@0.13.3':
     resolution: {integrity: sha512-UfjOXed/DQteaM5VyTfqTeGpHwyL2J5aoRGY6cydip4tt1ehNNeSwuXCC7AEGE0RWBs/7bgKxYkL/B/+UDe4AA==}
@@ -4344,8 +4344,8 @@ packages:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.434.15:
-    resolution: {integrity: sha512-ZfBkNrQiFr1Q43G3dR0USzTRdfx+6gKPebyoWDmKnLUhG3yRgYjLH914J6ifEDRnH+RaGOx7rsWKxKcvaSJXHg==}
+  posthog-js@1.434.17:
+    resolution: {integrity: sha512-R5Tb+YrDnZLVtMKXASXklXpfPwzwJ6YJKvcdL/UWV8OHigLm+ZveXtSsz3zwfidMpmSXHI0g2PJkeArO51qnAA==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -6670,16 +6670,16 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  '@remix-run/form-data-parser@0.17.6':
+  '@remix-run/form-data-parser@0.17.7':
     dependencies:
-      '@remix-run/headers': 0.21.2
-      '@remix-run/multipart-parser': 0.16.5
+      '@remix-run/headers': 0.21.3
+      '@remix-run/multipart-parser': 0.16.6
 
-  '@remix-run/headers@0.21.2': {}
+  '@remix-run/headers@0.21.3': {}
 
-  '@remix-run/multipart-parser@0.16.5':
+  '@remix-run/multipart-parser@0.16.6':
     dependencies:
-      '@remix-run/headers': 0.21.2
+      '@remix-run/headers': 0.21.3
 
   '@remix-run/node-fetch-server@0.13.3': {}
 
@@ -9150,7 +9150,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.434.15(@types/react@19.3.0)(react@19.3.0):
+  posthog-js@1.434.17(@types/react@19.3.0)(react@19.3.0):
     dependencies:
       '@posthog/browser-common': 0.9.0
       '@posthog/core': 1.55.2
