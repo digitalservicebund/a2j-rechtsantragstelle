@@ -1,11 +1,13 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import { emailSchema } from "~/services/validation/email";
+import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { ibanSchema } from "~/services/validation/iban";
 import {
-  buildOptionalMoneyValidationSchema,
   buildMoneyValidationSchema,
+  buildOptionalMoneyValidationSchema,
   formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -15,10 +17,9 @@ import {
   schemaOrEmptyStringOptional,
 } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
-import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import {
-  stringRequiredSchema,
   stringRequiredMaxSchema,
+  stringRequiredSchema,
 } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { reuseBeweisSchema } from "~/services/validation/reuseBeweis";
@@ -74,7 +75,7 @@ const beweisePersonenSchema = z.object({
   hausnummer: germanHouseNumberSchema.check(datatypeB),
   plz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
   ort: stringRequiredSchema.check(datatypeB),
-  land: stringRequiredSchema,
+  land: autoSuggestSchema(stringOptionalSchema)("countries"),
   telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
   email: schemaOrEmptyString(emailSchema).check(datatypeC),
   personReference: hiddenInputSchema(

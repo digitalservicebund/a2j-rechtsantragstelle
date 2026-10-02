@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
-import { createFinancialEntry } from "./createFinancialEntry";
 import {
   fillAndereLeistungen,
   fillEinkommenType,
@@ -11,6 +10,7 @@ import {
   fillStaatlicheLeistungen,
   fillWeitereEinkuenfte,
 } from "../bruttoEinnahmen_eigenes";
+import { createFinancialEntry } from "./createFinancialEntry";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -24,7 +24,7 @@ describe("bruttoEinnahmen_eigenes", () => {
       const { pdfValues } = fillStaatlicheLeistungen({
         userData: {
           staatlicheLeistungen: "buergergeld",
-          buergergeld: "100",
+          grundsicherungsgeld: "100",
         },
         pdfValues: pdfParams,
       });

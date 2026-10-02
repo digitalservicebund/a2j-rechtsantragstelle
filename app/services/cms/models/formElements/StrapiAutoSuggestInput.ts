@@ -9,6 +9,7 @@ const DataListSchema = z.enum([
   "airlines",
   "streetNames",
   "nationalities",
+  "countries",
 ]);
 
 export const StrapiAutoSuggestInputComponentSchema = z
