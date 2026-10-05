@@ -93,7 +93,6 @@ const DeleteButtonWithoutJavaScript = ({
         type="submit"
         name={"abschnitte"}
         value={itemIndexAbschnitt}
-        aria-haspopup="dialog"
         look="secondary"
         className="border-0!"
         textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
