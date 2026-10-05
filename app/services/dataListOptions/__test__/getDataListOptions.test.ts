@@ -15,6 +15,15 @@ describe("getDataListOptions", () => {
     expect(actual.find((airline) => airline.value === "LH")).toBeTruthy();
   });
 
+  it("should return data options for countries and find an arbitrary country", async () => {
+    const actual = getDataListOptions("countries");
+
+    expect(actual.length).greaterThan(0);
+    expect(
+      actual.find((country) => country.value === "Deutschland"),
+    ).toBeTruthy();
+  });
+
   it("should return no data options when the given argument is undefined", async () => {
     const actual = getDataListOptions();
 
