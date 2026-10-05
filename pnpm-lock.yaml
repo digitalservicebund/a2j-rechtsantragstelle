@@ -124,8 +124,8 @@ importers:
         specifier: 1.435.6
         version: 1.435.6(@types/react@19.3.0)(react@19.3.0)
       posthog-node:
-        specifier: 5.54.1
-        version: 5.54.1
+        specifier: 5.55.0
+        version: 5.55.0
       prom-client:
         specifier: ^15.1.3
         version: 15.1.3
@@ -1795,14 +1795,8 @@ packages:
   '@posthog/browser-common@0.9.1':
     resolution: {integrity: sha512-Dl8uV2OZAxfHfWyC7K0Y3HtT7ld+WGLbXIwgCgAGziOMGDIa/bepCRrCxy7IxsEzqY1HOrq/VDdcoNN7hBTSQQ==}
 
-  '@posthog/core@1.55.2':
-    resolution: {integrity: sha512-2mYxGbDmTLUs096VbcZqSWo0lrI48/BrX65r54NynxxFq409BOx9w73HxOAtOKZ1vblkdV6/GxQTe7KDcIQidg==}
-
   '@posthog/core@1.55.3':
     resolution: {integrity: sha512-XnmG9jo7WlxTeN4oCNWH4ESLQHR6ZPZ+mcq+8JxU62k5i1BAe3BSrybnmXHjqKp7e3rUvLK2bOzGZGSlfHvlNA==}
-
-  '@posthog/types@1.412.4':
-    resolution: {integrity: sha512-Q7lV9O9TbLngjOYw1ucm3bS3tn48xb1B4ZQdDy8gv7yfKe99hCTeWYG4xZ36nJM80VxpTF9TriiJt5hngDOkBg==}
 
   '@posthog/types@1.413.0':
     resolution: {integrity: sha512-tYAVzNojWckuG/wxBB0fwE70sFruQQq4xbhkci7eH2ARU3mMfUTkvpN1HwBMpm0AtbxidLiH0IFvagmdJ8opPw==}
@@ -4364,8 +4358,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.54.1:
-    resolution: {integrity: sha512-3+tg86gLKRaR+MjQOdALGUJQDAXHWVyDUJI2h3EJa0c4GWTQu3+R62C3t49dz1T3QWyJq1msq5Qa+B55/ZEHxg==}
+  posthog-node@5.55.0:
+    resolution: {integrity: sha512-8dFtlDTqs0CKGZ8t4mUnk4NdShAgzru3B9D0MfM/NTBzlRyAjctivzWINLtMLRQxYjvgBohxy7RTwiQf4mPycQ==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -6620,15 +6614,9 @@ snapshots:
       '@posthog/core': 1.55.3
       '@posthog/types': 1.413.0
 
-  '@posthog/core@1.55.2':
-    dependencies:
-      '@posthog/types': 1.412.4
-
   '@posthog/core@1.55.3':
     dependencies:
       '@posthog/types': 1.413.0
-
-  '@posthog/types@1.412.4': {}
 
   '@posthog/types@1.413.0': {}
 
@@ -9190,9 +9178,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.54.1:
+  posthog-node@5.55.0:
     dependencies:
-      '@posthog/core': 1.55.2
+      '@posthog/core': 1.55.3
 
   preact@10.29.8: {}
 
