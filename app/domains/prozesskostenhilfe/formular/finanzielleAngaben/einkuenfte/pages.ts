@@ -35,10 +35,10 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
       ]),
     },
   },
-  buergergeld: {
-    stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+  grundsicherungsgeld: {
+    stepId: "/finanzielle-angaben/einkuenfte/grundsicherungsgeld",
     pageSchema: {
-      buergergeld: buildMoneyValidationSchema(),
+      grundsicherungsgeld: buildMoneyValidationSchema(),
     },
   },
   arbeitslosengeld: {

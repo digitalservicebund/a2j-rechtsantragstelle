@@ -66,9 +66,9 @@ export function FormFlowPage() {
       <GridSection pt="40" pb="40" className="bg-kern-neutral-025">
         <Grid>
           <GridItem
-            mdColumn={{ start: 1, span: 11 }}
-            lgColumn={{ start: 1, span: 11 }}
-            xlColumn={{ start: 1, span: 11 }}
+            mdColumn={{ start: 1, span: 12 }}
+            lgColumn={{ start: 1, span: 12 }}
+            xlColumn={{ start: 1, span: 12 }}
             row={1}
             className="hidden lg:block pb-kern-space-default"
           >

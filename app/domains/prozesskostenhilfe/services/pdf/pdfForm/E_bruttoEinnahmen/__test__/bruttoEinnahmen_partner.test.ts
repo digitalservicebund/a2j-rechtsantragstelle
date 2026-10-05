@@ -3,7 +3,6 @@ import type { ProzesskostenhilfePDF } from "data/pdf/prozesskostenhilfe/prozessk
 import { getProzesskostenhilfeParameters } from "data/pdf/prozesskostenhilfe/prozesskostenhilfe.generated";
 import { SEE_IN_ATTACHMENT_DESCRIPTION } from "~/services/pdf/attachment";
 import * as fillOutFunctions from "~/services/pdf/fillOutFunction";
-import { createFinancialEntry } from "./createFinancialEntry";
 import {
   fillAndereLeistungenPartner,
   fillBesondersHoheAusgabenPartner,
@@ -14,6 +13,7 @@ import {
   fillSupportPartner,
   fillWeitereEinkuenftePartner,
 } from "../bruttoEinnahmen_partner";
+import { createFinancialEntry } from "./createFinancialEntry";
 
 let pdfParams: ProzesskostenhilfePDF;
 
@@ -28,7 +28,7 @@ describe("bruttoEinnahmen_partner", () => {
       const { pdfValues } = fillStaatlicheLeistungenPartner({
         userData: {
           "partner-staatlicheLeistungen": "buergergeld",
-          "partner-buergergeld": "100",
+          "partner-grundsicherungsgeld": "100",
         },
         pdfValues: pdfParams,
       });

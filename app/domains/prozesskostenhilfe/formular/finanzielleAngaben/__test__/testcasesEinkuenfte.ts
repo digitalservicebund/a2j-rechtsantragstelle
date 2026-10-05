@@ -23,7 +23,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       stepId: "/finanzielle-angaben/einkuenfte/einkommen/art",
     },
   ],
-  buergergeldEmployed: [
+  grundsicherungsgeldEmployed: [
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
@@ -32,9 +32,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+      stepId: "/finanzielle-angaben/einkuenfte/grundsicherungsgeld",
       userInput: {
-        buergergeld: "1000",
+        grundsicherungsgeld: "1000",
       },
     },
     {
@@ -59,7 +59,7 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
     },
   ],
-  buergergeldSelfEmployed: [
+  grundsicherungsgeldSelfEmployed: [
     {
       stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
       userInput: {
@@ -68,9 +68,9 @@ export const testCasesPKHFormularFinanzielleAngabenEinkuenfte = {
       },
     },
     {
-      stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
+      stepId: "/finanzielle-angaben/einkuenfte/grundsicherungsgeld",
       userInput: {
-        buergergeld: "1000",
+        grundsicherungsgeld: "1000",
       },
     },
     {

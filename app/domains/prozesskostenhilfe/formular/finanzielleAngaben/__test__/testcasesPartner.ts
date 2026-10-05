@@ -339,9 +339,9 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-buergergeld",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-grundsicherungsgeld",
       userInput: {
-        "partner-buergergeld": "1000",
+        "partner-grundsicherungsgeld": "1000",
       },
     },
     {
@@ -381,9 +381,9 @@ export const testCasesPKHFormularFinanzielleAngabenPartner = {
     },
     {
       stepId:
-        "/finanzielle-angaben/partner/partner-einkuenfte/partner-buergergeld",
+        "/finanzielle-angaben/partner/partner-einkuenfte/partner-grundsicherungsgeld",
       userInput: {
-        "partner-buergergeld": "1000",
+        "partner-grundsicherungsgeld": "1000",
       },
     },
     {

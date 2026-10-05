@@ -1,7 +1,8 @@
-import { type Params } from "react-router";
+import { Staaten } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
 import nationalities from "data/nationalities/data.json";
+import { type Params } from "react-router";
 import type { DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import { getStreetsNameByZipCode } from "~/services/streetNames";
 
@@ -43,6 +44,12 @@ export function getDataListOptions(
       return nationalities.map((nationality) => ({
         value: nationality.displayName,
         label: nationality.displayName,
+      }));
+    }
+    case "countries": {
+      return Object.keys(Staaten).map((country) => ({
+        value: country,
+        label: country,
       }));
     }
     case undefined:

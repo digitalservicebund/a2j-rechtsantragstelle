@@ -1,7 +1,7 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import {
-  mockBeguenstigtenArray,
   erbscheinAnfrageHappyPathData,
+  mockBeguenstigtenArray,
 } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
@@ -36,7 +36,7 @@ export const ehepartnerTestCases = {
       stepId: "/angehoerige/hatte-kinder",
     },
   ],
-  widowedWithTestament: [
+  widowedWithTestamentErbeCompletelyAllocated: [
     {
       stepId: "/ehepartner-oder-ehepartnerin/name",
       userInput: {
@@ -63,6 +63,35 @@ export const ehepartnerTestCases = {
       stepId: "/nachlass/grundbesitz/grundbesitz-frage",
     },
   ],
+  widowedWithTestamentErbePartiallyAllocated: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/name",
+      userInput: {
+        ...happyPathData,
+        testamentArt: "erbvertrag",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "no",
+        verstorbeneFamilienstand: "verwitwet",
+        beguenstigten: mockBeguenstigtenArray,
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+      },
+    },
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/sterbedatum-ort",
+      userInput: {
+        spouseSterbedatum: {
+          day: "01",
+          month: "01",
+          year: "2020",
+        },
+        spouseSterbeort: "Musterstadt",
+      },
+    },
+    {
+      stepId: "/angehoerige/hatte-kinder",
+    },
+  ],
   divorced: [
     {
       stepId: "/ehepartner-oder-ehepartnerin/name",
@@ -77,7 +106,7 @@ export const ehepartnerTestCases = {
       stepId: "/angehoerige/hatte-kinder",
     },
   ],
-  divorcedWithTestament: [
+  divorcedWithTestamentErbeCompletelyAllocated: [
     {
       stepId: "/ehepartner-oder-ehepartnerin/name",
       userInput: {
@@ -90,6 +119,23 @@ export const ehepartnerTestCases = {
     },
     {
       stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+    },
+  ],
+  divorcedWithTestamentErbePartiallyAllocated: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/name",
+      userInput: {
+        ...happyPathData,
+        verstorbeneFamilienstand: "geschieden",
+        testamentArt: "handwritten",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "no",
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+      },
+    },
+    {
+      stepId: "/angehoerige/hatte-kinder",
     },
   ],
   marriedSameAddressSingleNationality: [
@@ -268,6 +314,52 @@ export const ehepartnerTestCases = {
       stepId: "/ehepartner-oder-ehepartnerin/ehevertrag",
       userInput: {
         hasEhevertrag: "yes",
+      },
+    },
+    {
+      stepId: "/angehoerige/hatte-kinder",
+    },
+  ],
+  marriedWithTestamentErbeCompletelyAllocated: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/ehevertrag",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...happyPathData,
+        hasEhevertrag: "no",
+        testamentArt: "erbvertrag",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "yes",
+        beguenstigten: mockBeguenstigtenArray,
+        verstorbeneFamilienstand: "verheiratet",
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+        spouseHasSameAddress: "yes",
+        ehepartnerStaatsangehoerigkeit: "deutsch",
+        ehepartnerHadSecondNationality: "no",
+      },
+    },
+    {
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
+    },
+  ],
+  marriedWithTestamentErbePartiallyAllocated: [
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/ehevertrag",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...happyPathData,
+        hasEhevertrag: "no",
+        testamentArt: "erbvertrag",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "no",
+        beguenstigten: mockBeguenstigtenArray,
+        verstorbeneFamilienstand: "verheiratet",
+        ehepartnerVorname: "Max",
+        ehepartnerNachname: "Mustermann",
+        spouseHasSameAddress: "yes",
+        ehepartnerStaatsangehoerigkeit: "deutsch",
+        ehepartnerHadSecondNationality: "no",
       },
     },
     {

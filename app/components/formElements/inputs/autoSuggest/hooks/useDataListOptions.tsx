@@ -17,6 +17,8 @@ function getResourcePath(
       return `${API_PATH}/streetNames/list/${dataListArgument}`;
     case "nationalities":
       return `${API_PATH}/nationalities/list`;
+    case "countries":
+      return `${API_PATH}/countries/list`;
     default: {
       throw new Error(`Unhandled type: ${String(type)}`);
     }

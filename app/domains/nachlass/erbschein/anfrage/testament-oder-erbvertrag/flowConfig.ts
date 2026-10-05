@@ -1,8 +1,8 @@
+import { z } from "zod";
 import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
 import { beguenstigtenArray } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
-import { z } from "zod";
 
 export const testamentOderErbvertragFlowConfig = {
   testamentArt: [
@@ -21,9 +21,20 @@ export const testamentOderErbvertragFlowConfig = {
       target: "hatteKinder",
     },
     {
-      target: "namedBeneficiariesOverview",
+      target: "allNamedBeneficiariesKnown",
     },
   ],
+  allNamedBeneficiariesKnown: [
+    {
+      guard: (data) => data.allNamedBeneficiariesKnown === "no",
+      target: "namedBeneficiariesUnknown",
+    },
+    {
+      target: "erbeCompletelyAllocated",
+    },
+  ],
+  namedBeneficiariesUnknown: null,
+  erbeCompletelyAllocated: "namedBeneficiariesOverview",
   namedBeneficiariesOverview: [
     { type: "addArrayItem", target: "namedBeneficiaryName" },
     {
@@ -40,8 +51,8 @@ export const testamentOderErbvertragFlowConfig = {
     },
     {
       guard: (data) =>
-        data.verstorbeneFamilienstand === "ledig" &&
-        data.testamentArt === "none" &&
+        data.allNamedBeneficiariesKnown === "yes" &&
+        data.erbeCompletelyAllocated === "no" &&
         z.validate(beguenstigtenArray, data.beguenstigten),
       target: "hatteKinder",
     },
