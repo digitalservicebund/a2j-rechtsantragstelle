@@ -12,6 +12,11 @@ import { Badge } from "~/components/content/Badge";
 import { useRef } from "react";
 import { DeleteDialog } from "./DeleteDialog";
 import classNames from "classnames";
+import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySummaryItemActions";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import { useFetcher, useLocation } from "react-router";
+import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 type Props = {
   dokumenten: BegruendungBeschreibungAbschnittProps["abschnitt"]["dokumenten"];
@@ -95,14 +100,12 @@ type ItemButtonsProps = {
   deleteDialogDescription: React.ReactNode;
 };
 
-const ItemButtons = ({
-  editUrl,
+const DeleteButtonWithJavaScript = ({
   onDelete,
   ariaLabel,
-  shouldRenderEditButton = true,
   deleteDialogTitle,
   deleteDialogDescription,
-}: ItemButtonsProps) => {
+}: Omit<ItemButtonsProps, "editUrl" | "shouldRenderEditButton">) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const onDeleteClicked = () => {
@@ -116,14 +119,6 @@ const ItemButtons = ({
 
   return (
     <>
-      <Button
-        href={editUrl}
-        look="secondary"
-        className="w-full"
-        hidden={!shouldRenderEditButton}
-        aria-label={ariaLabel.editButtonLabel}
-        iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
-      />
       <Button
         type="button"
         look="secondary"
@@ -140,6 +135,88 @@ const ItemButtons = ({
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
       />
+    </>
+  );
+};
+
+type DeleteButtonWithoutJavaScriptProps = {
+  itemIndexDelete: number;
+  itemCategory: "abschnitte#dokumenten" | "abschnitte#personen";
+  itemIndexAbschnitt: number;
+};
+
+const DeleteButtonWithoutJavaScript = ({
+  itemIndexDelete,
+  itemCategory,
+  itemIndexAbschnitt,
+  ariaLabel,
+}: DeleteButtonWithoutJavaScriptProps & { ariaLabel: string }) => {
+  const fetcher = useFetcher();
+  const pathnameArrayItem = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/${itemCategory.replace("abschnitte#", "")}`;
+  const { pathname } = useLocation();
+
+  return (
+    <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
+      <CsrfInput />
+      <input type="hidden" name="pathnameArrayItem" value={pathnameArrayItem} />
+      <input type="hidden" name="_jsEnabled" value={"false"} />
+      <input type="hidden" name="_redirectPathname" value={pathname} />
+
+      <Button
+        type="submit"
+        name={itemCategory}
+        value={itemIndexDelete}
+        look="secondary"
+        className="border-kern-feedback-danger! w-full"
+        iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
+        aria-label={ariaLabel}
+      />
+    </fetcher.Form>
+  );
+};
+
+const ItemButtons = ({
+  editUrl,
+  onDelete,
+  ariaLabel,
+  shouldRenderEditButton = true,
+  deleteDialogTitle,
+  deleteDialogDescription,
+  itemIndexDelete,
+  itemCategory,
+  itemIndexAbschnitt,
+}: ItemButtonsProps & DeleteButtonWithoutJavaScriptProps) => {
+  const jsAvailable = useJsAvailable();
+  return (
+    <>
+      <Button
+        href={editUrl}
+        look="secondary"
+        className="w-full"
+        hidden={!shouldRenderEditButton}
+        aria-label={ariaLabel.editButtonLabel}
+        iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
+      />
+
+      <NoscriptWrapper jsAvailable={jsAvailable}>
+        {jsAvailable && (
+          <DeleteButtonWithJavaScript
+            ariaLabel={ariaLabel}
+            deleteDialogDescription={deleteDialogDescription}
+            deleteDialogTitle={deleteDialogTitle}
+            onDelete={onDelete}
+          />
+        )}
+
+        {!jsAvailable && (
+          <DeleteButtonWithoutJavaScript
+            itemIndexDelete={itemIndexDelete}
+            itemCategory={itemCategory}
+            ariaLabel={ariaLabel.deleteButtonLabel}
+            itemIndexAbschnitt={itemIndexAbschnitt}
+          />
+        )}
+      </NoscriptWrapper>
     </>
   );
 };
@@ -270,6 +347,9 @@ export const BegruendungBeschreibungBeweisItems = ({
                       .de
                   }
                   deleteDialogDescription={deleteDialogDescription}
+                  itemCategory="abschnitte#dokumenten"
+                  itemIndexDelete={dokumentIndex}
+                  itemIndexAbschnitt={itemIndexAbschnitt}
                 />
               }
             />
@@ -331,6 +411,9 @@ export const BegruendungBeschreibungBeweisItems = ({
                       .begruendungBeschreibungBeweisePersonDeleteDialogTitle.de
                   }
                   deleteDialogDescription={deleteDialogDescription}
+                  itemCategory="abschnitte#personen"
+                  itemIndexDelete={personIndex}
+                  itemIndexAbschnitt={itemIndexAbschnitt}
                 />
               }
             />
