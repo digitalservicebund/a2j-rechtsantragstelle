@@ -71,6 +71,17 @@ const getValueAndArrayData = (
   fieldName: string,
 ) => {
   if (!fieldInfo.isArrayField) {
+    // Sub-field of an object, e.g. "arbeitsplatz.plz"
+    const [parentField, subField] = fieldName.split(".");
+    const parentValue = userData[parentField];
+    if (
+      subField &&
+      parentValue &&
+      typeof parentValue === "object" &&
+      !Array.isArray(parentValue)
+    ) {
+      return { value: parentValue[subField] as AllowedUserTypes };
+    }
     return { value: userData[fieldName] };
   }
 
