@@ -132,18 +132,15 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenVersicherungenWarnung: {
     stepId: "/finanzielle-angaben/ausgaben/versicherungen-warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
   ausgabenRatenzahlungenFrage: {
     stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       hasRatenzahlungen: YesNoAnswer,
     },
   },
   ausgabenRatenzahlungenUebersicht: {
     stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "ratenzahlungen",
       schema: ratenZahlungArraySchema,
@@ -151,7 +148,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     },
   },
   ausgabenRatenzahlung: {
-    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen",
+    stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "ratenzahlungen#art": sharedRatenZahlungFields.art,
@@ -206,7 +203,6 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenRatenzahlungenWarnung: {
     stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
   ausgabenSonstigeAusgabenFrage: {
     stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-frage",
@@ -216,7 +212,6 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenSonstigeAusgabenUebersicht: {
     stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "sonstigeAusgaben",
       schema: sonstigeZahlungArraySchema,
@@ -265,11 +260,9 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
   },
   ausgabenSonstigeAusgabenWarnung: {
     stepId: "/finanzielle-angaben/ausgaben/sonstige-ausgaben-warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
   ausgabenBesondereBelastungen: {
     stepId: "/finanzielle-angaben/ausgaben/besondere-belastungen",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       besondereBelastungen: besondereBelastungenInputSchema,
     },

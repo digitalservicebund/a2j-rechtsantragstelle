@@ -30,13 +30,11 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
   },
   opnvKosten: {
     stepId: "/finanzielle-angaben/abzuege/opnv-kosten",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       monatlicheOPNVKosten: buildMoneyValidationSchema(),
     },
   },
   arbeitsplatzEntfernung: {
-    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsplatz-entfernung",
     pageSchema: {
       arbeitsplatz: z.object({
@@ -51,11 +49,9 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     },
   },
   arbeitswegKeineRolle: {
-    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/keine-rolle",
   },
   arbeitsausgaben: {
-    shouldCollapseIntoParentNavItem: true,
     stepId: "/finanzielle-angaben/abzuege/arbeitsausgaben",
   },
   arbeitsausgabe: {

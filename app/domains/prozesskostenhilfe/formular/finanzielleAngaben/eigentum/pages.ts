@@ -184,11 +184,9 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumHeiratInfo: {
     stepId: "/finanzielle-angaben/eigentum/heirat-info",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumBankkonten: {
     stepId: "/finanzielle-angaben/eigentum/bankkonten",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumBankkontenFrage: {
     stepId: "/finanzielle-angaben/eigentum/bankkonten/bankkonten-frage",
@@ -225,7 +223,6 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumGeldanlagen: {
     stepId: "/finanzielle-angaben/eigentum/geldanlagen",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumGeldanlagenFrage: {
     stepId: "/finanzielle-angaben/eigentum/geldanlagen/geldanlagen-frage",
@@ -327,7 +324,6 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumKraftfahrzeuge: {
     stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumKraftfahrzeugeFrage: {
     stepId: "/finanzielle-angaben/eigentum/kraftfahrzeuge/kraftfahrzeuge-frage",
@@ -392,7 +388,6 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumWertgegenstaende: {
     stepId: "/finanzielle-angaben/eigentum/wertgegenstaende",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumWertgegenstaendeFrage: {
     stepId:
@@ -427,7 +422,6 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
   },
   eigentumGrundeigentum: {
     stepId: "/finanzielle-angaben/eigentum/grundeigentum",
-    shouldCollapseIntoParentNavItem: true,
   },
   eigentumGrundeigentumFrage: {
     stepId: "/finanzielle-angaben/eigentum/grundeigentum/grundeigentum-frage",

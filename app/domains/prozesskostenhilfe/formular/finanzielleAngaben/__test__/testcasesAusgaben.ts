@@ -8,6 +8,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
       userInput: {
+        ...pkhTestcaseData,
         hasAusgaben: "yes",
       },
     },
@@ -77,6 +78,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
       addArrayItemEvent: "add-ratenzahlungen",
     },
     {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
+      userInput: {
+        "ratenzahlungen#art": "art",
+        "ratenzahlungen#zahlungsempfaenger": "empfaenger",
+      },
+    },
+    {
       stepId:
         "/finanzielle-angaben/ausgaben/ratenzahlungen/0/zahlungspflichtiger",
       userInput: { "ratenzahlungen#zahlungspflichtiger": "myself" },
@@ -109,6 +117,13 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen-uebersicht",
       addArrayItemEvent: "add-ratenzahlungen",
+    },
+    {
+      stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/daten",
+      userInput: {
+        "ratenzahlungen#art": "art",
+        "ratenzahlungen#zahlungsempfaenger": "empfaenger",
+      },
     },
     {
       stepId:

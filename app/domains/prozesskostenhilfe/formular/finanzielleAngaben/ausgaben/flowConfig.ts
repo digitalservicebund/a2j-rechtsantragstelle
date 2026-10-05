@@ -56,7 +56,6 @@ export const ausgabenFlowConfig = {
     },
   ],
   ausgabenVersicherungSonstigeArt: "ausgabenVersicherungenUebersicht",
-  ausgabenRatenzahlung: null,
   ausgabenRatenzahlungenFrage: [
     {
       guard: (context) => hasRatenzahlungenYes({ context }),
@@ -69,7 +68,7 @@ export const ausgabenFlowConfig = {
   ausgabenRatenzahlungenUebersicht: [
     {
       type: "addArrayItem",
-      target: "ausgabenRatenzahlungZahlungspflichtiger",
+      target: "ausgabenRatenzahlung",
     },
     {
       guard: (context) =>
@@ -82,6 +81,7 @@ export const ausgabenFlowConfig = {
     },
   ],
   ausgabenRatenzahlungenWarnung: "ausgabenSonstigeAusgabenFrage",
+  ausgabenRatenzahlung: "ausgabenRatenzahlungZahlungspflichtiger",
   ausgabenRatenzahlungZahlungspflichtiger: [
     {
       guard: (context) => ratenzahlungAnteiligYes({ context }),

@@ -589,6 +589,7 @@ export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTran
       {
         stepId: "/antragstellende-person/empfaenger",
         userInput: {
+          ...pkhTestcaseData,
           empfaenger: "child",
         },
       },

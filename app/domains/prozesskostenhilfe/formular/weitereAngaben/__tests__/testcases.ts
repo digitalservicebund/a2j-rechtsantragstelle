@@ -18,10 +18,13 @@ export const testCasesPKHFormularWeitereAngaben = {
       },
     },
     {
+      stepId: "/abgabe/ueberpruefung",
+    },
+    {
       stepId: "/abgabe/zusammenfassung",
-      userInput: {
-        weitereAngaben: "",
-      },
+    },
+    {
+      stepId: "/abgabe/ende",
     },
   ],
 } satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
