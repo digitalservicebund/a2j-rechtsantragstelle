@@ -102,7 +102,7 @@ describe("SummarySection", () => {
     expect(editLink).toBeInTheDocument();
     expect(editLink).toHaveAttribute("href", "/edit/name");
     expect(editLink).toHaveAttribute(
-      "aria-labelledby",
+      "aria-describedby",
       String(mockItem.fields[0].id),
     );
   });
@@ -152,7 +152,7 @@ describe("SummarySection", () => {
     const firstEditLink = getAllByRole("link")[0];
 
     expect(firstEditLink).toHaveAttribute("href", "/edit/child/1");
-    expect(firstEditLink).toHaveAttribute("aria-labelledby", "child1");
+    expect(firstEditLink).toHaveAttribute("aria-describedby", "child1");
   });
 
   it("should call onToggle when section is toggled", () => {
