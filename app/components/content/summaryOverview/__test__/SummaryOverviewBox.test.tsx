@@ -107,6 +107,6 @@ describe("SummaryOverviewBox", () => {
     const editLink = getByRole("link");
     expect(editLink).toHaveAttribute("href", "/beratungshilfe/antrag/step-1");
     expect(editLink).toHaveTextContent("Bearbeiten");
-    expect(editLink).toHaveAttribute("aria-labelledby", String(boxId));
+    expect(editLink).toHaveAttribute("aria-describedby", String(boxId));
   });
 });

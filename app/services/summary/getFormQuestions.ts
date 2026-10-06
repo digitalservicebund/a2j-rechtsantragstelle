@@ -1,10 +1,50 @@
+import type { z } from "zod";
 import type { FlowId } from "~/domains/flowIds";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildArrayKeyPrefix, parseField } from "./fieldParsingUtils";
 import type { FieldOption, FieldQuestion } from "./types";
-import { type FormFieldsMap } from "~/domains/pageSchemas";
+import { type FormFieldsMap, pages } from "~/domains/pageSchemas";
+
+const objectShapeKeys = (schema: z.ZodType): string[] => {
+  const { def } = schema._zod;
+  if (def.type === "object")
+    return Object.keys((def as z.core.$ZodObjectDef).shape);
+  if (def.type === "optional" || def.type === "nullable")
+    return objectShapeKeys(
+      (def as z.core.$ZodOptionalDef).innerType as z.ZodType,
+    );
+  return [];
+};
+
+/**
+ * Adds "field.subField" entries for object fields (e.g. "arbeitsplatz.plz"),
+ * so each sub-field resolves to the page that asks it, even when one object is
+ * split across several pages.
+ */
+export function addObjectSubFields(
+  formFieldsMap: FormFieldsMap,
+  flowId: FlowId,
+): FormFieldsMap {
+  const result = { ...formFieldsMap };
+
+  for (const page of Object.values(pages[flowId] ?? {})) {
+    if (!page.pageSchema) continue;
+    const stepId = page.stepId.startsWith("/")
+      ? page.stepId
+      : `/${page.stepId}`;
+
+    const subFields = Object.entries(page.pageSchema).flatMap(
+      ([fieldName, schema]) =>
+        objectShapeKeys(schema).map((key) => `${fieldName}.${key}`),
+    );
+    if (subFields.length > 0)
+      result[stepId] = [...(result[stepId] ?? []), ...subFields];
+  }
+
+  return result;
+}
 
 /**
  * Creates a mapping of field names to their step IDs from the form fields map

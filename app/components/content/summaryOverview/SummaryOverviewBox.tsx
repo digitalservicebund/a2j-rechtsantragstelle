@@ -69,7 +69,7 @@ const SummaryOverviewBox = ({
       <a
         href={`${flowId}${stepId}`}
         className="kern-link no-underline! hover:underline!"
-        aria-labelledby={title ? String(boxId) : firstBoxItemId}
+        aria-describedby={title ? String(boxId) : firstBoxItemId}
       >
         <Icon name="edit" />
         Bearbeiten
