@@ -54,6 +54,7 @@ const SplitDateInput = ({
     yearErrorMessage ??
     groupErrorMessage;
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
 
   return (
     <fieldset
@@ -61,6 +62,7 @@ const SplitDateInput = ({
         "kern-fieldset--error":
           Boolean(fieldErrorMessage) && shouldDisplayErrors,
       })}
+      aria-describedby={helperId}
     >
       {label && (
         <legend className="kern-label">
@@ -68,7 +70,7 @@ const SplitDateInput = ({
           {suffix && <span className="kern-label__optional">{suffix}</span>}
         </legend>
       )}
-      <div className="kern-hint">
+      <div className="kern-hint" id={helperId}>
         {translations.splitDateComponent.hintText.de}
       </div>
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">

@@ -346,7 +346,7 @@ export const translations = {
       de: "Geburtsdatum",
     },
     hintText: {
-      de: "Beispielsweise: 17 3 2015",
+      de: "Beispielsweise: 17.3.2015",
     },
   },
   numberIncrementComponent: {
