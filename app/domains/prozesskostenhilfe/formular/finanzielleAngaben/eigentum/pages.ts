@@ -98,20 +98,20 @@ const befristetSchema = z.object({
     "buildingSavingsContract",
     "fixedDepositAccount",
   ]),
-  verwendungszweck: stringOptionalSchema,
+  verwendungszweck: stringRequiredSchema,
   auszahlungdatum: stringOptionalSchema,
 });
 
 const forderungSchema = z.object({
   ...sharedGeldanlagenFields,
   art: z.literal(geldanlagenArtSchema.enum.forderung),
-  forderung: stringOptionalSchema,
+  forderung: stringRequiredSchema,
 });
 
 const sonstigesSchema = z.object({
   ...sharedGeldanlagenFields,
   art: z.literal(geldanlagenArtSchema.enum.sonstiges),
-  verwendungszweck: stringOptionalSchema,
+  verwendungszweck: stringRequiredSchema,
 });
 
 export const geldanlagenArraySchema = z
