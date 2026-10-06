@@ -12,7 +12,7 @@ import {
 export const kinderFlowConfig = {
   kinderHasKid: [
     {
-      guard: (data) => data.hasKid === "no",
+      guard: (context) => context.hasKid === "no",
       target: "abgabeWeitereInformation",
     },
     {

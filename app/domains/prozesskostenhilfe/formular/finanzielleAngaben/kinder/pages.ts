@@ -49,7 +49,6 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
   },
   kinderUebersicht: {
     stepId: "/finanzielle-angaben/kinder/uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "kinder",
       schema: kinderArraySchema,
@@ -58,7 +57,6 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
   },
   kinderWarnung: {
     stepId: "/finanzielle-angaben/kinder/warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
   kindName: {
     stepId: "/finanzielle-angaben/kinder/kinder/#/name",

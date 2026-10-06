@@ -29,7 +29,7 @@ export const erbausschlagungAnfragePages = {
   gerichtsterminBestaetigt: {
     stepId: "/start/gerichtstermin-bestaetigt",
     pageSchema: {
-      gerichtsterminBestaetigt: z.enum(["yes", "no"]),
+      gerichtsterminBestaetigt: z.enum(["yes", "no", "angabenNoetig"]),
     },
   },
   gerichtsterminVereinbaren: {

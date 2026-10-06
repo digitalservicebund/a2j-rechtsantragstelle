@@ -25,7 +25,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   staatlicheLeistungen: {
     stepId: "/finanzielle-angaben/einkuenfte/staatliche-leistungen",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       staatlicheLeistungen: z.enum([
         "buergergeld",
@@ -36,16 +35,14 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
       ]),
     },
   },
-  buergergeld: {
-    stepId: "/finanzielle-angaben/einkuenfte/buergergeld",
-    shouldCollapseIntoParentNavItem: true,
+  grundsicherungsgeld: {
+    stepId: "/finanzielle-angaben/einkuenfte/grundsicherungsgeld",
     pageSchema: {
-      buergergeld: buildMoneyValidationSchema(),
+      grundsicherungsgeld: buildMoneyValidationSchema(),
     },
   },
   arbeitslosengeld: {
     stepId: "/finanzielle-angaben/einkuenfte/arbeitslosengeld",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       arbeitslosengeld: buildMoneyValidationSchema(),
     },
@@ -92,14 +89,12 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   renteFrage: {
     stepId: "/finanzielle-angaben/einkuenfte/rente-frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       receivesPension: YesNoAnswer,
     },
   },
   rente: {
     stepId: "/finanzielle-angaben/einkuenfte/rente",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       pensionAmount: buildMoneyValidationSchema(),
     },
@@ -147,7 +142,6 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
   },
   weitereEinkuenfte: {
     stepId: "/finanzielle-angaben/einkuenfte/weitere-einkuenfte",
-    shouldCollapseIntoParentNavItem: true,
   },
   weitereEinkunft: {
     stepId:

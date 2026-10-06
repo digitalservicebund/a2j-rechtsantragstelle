@@ -24,7 +24,6 @@ import {
   isKraftfahrzeugWertAbove10000OrUnsure,
   staatlicheLeistungenIsBuergergeld,
 } from "../guards";
-import { arrayIsNonEmpty } from "~/util/array";
 
 export const eigentumFlowConfig = {
   eigentumInfo: [
@@ -47,7 +46,7 @@ export const eigentumFlowConfig = {
     { type: "addArrayItem", target: "eigentumBankkonto" },
     {
       guard: (context) =>
-        context.hasBankkonto === "yes" && !arrayIsNonEmpty(context.bankkonten),
+        !z.validate(bankkontenArraySchema, context.bankkonten),
       target: "eigentumBankkontoWarnung",
     },
     { target: "eigentumGeldanlagenFrage" },
@@ -65,8 +64,7 @@ export const eigentumFlowConfig = {
     { type: "addArrayItem", target: "eigentumGeldanlageArt" },
     {
       guard: (context) =>
-        context.hasGeldanlage === "yes" &&
-        !arrayIsNonEmpty(context.geldanlagen),
+        !z.validate(geldanlagenArraySchema, context.geldanlagen),
       target: "eigentumGeldanlagenWarnung",
     },
     { target: "eigentumKraftfahrzeugeFrage" },
@@ -121,8 +119,7 @@ export const eigentumFlowConfig = {
     { type: "addArrayItem", target: "eigentumKraftfahrzeugArbeitsweg" },
     {
       guard: (context) =>
-        context.hasKraftfahrzeug === "yes" &&
-        !arrayIsNonEmpty(context.kraftfahrzeuge),
+        !z.validate(kraftfahrzeugeArraySchema, context.kraftfahrzeuge),
       target: "eigentumKraftfahrzeugeWarnung",
     },
     { target: "eigentumWertgegenstaendeFrage" },
@@ -148,7 +145,7 @@ export const eigentumFlowConfig = {
     { type: "addArrayItem", target: "eigentumWertgegenstand" },
     {
       guard: (context) =>
-        context.hasWertsache === "yes" && !arrayIsNonEmpty(context.wertsachen),
+        !z.validate(wertsachenArraySchema, context.wertsachen),
       target: "eigentumWertgegenstaendeWarnung",
     },
     { target: "eigentumGrundeigentumFrage" },
@@ -170,8 +167,7 @@ export const eigentumFlowConfig = {
     { type: "addArrayItem", target: "eigentumGrundeigentumBewohntFrage" },
     {
       guard: (context) =>
-        context.hasGrundeigentum === "yes" &&
-        !arrayIsNonEmpty(context.grundeigentum),
+        !z.validate(grundeigentumArraySchema, context.grundeigentum),
       target: "eigentumGrundeigentumWarnung",
     },
     {

@@ -19,7 +19,11 @@ function isMatchesWithLoaderData(
 }
 
 function headerTextFromContent(content?: StrapiContentComponent[]) {
-  return content?.find(isStrapiHero)?.content?.html;
+  const htmlContent = content?.find(isStrapiHero)?.content?.html;
+
+  if (htmlContent) {
+    return htmlContent.replace(/<[^>]+>/g, "");
+  }
 }
 
 export function metaFromMatches(matches: ReturnType<typeof useMatches>) {

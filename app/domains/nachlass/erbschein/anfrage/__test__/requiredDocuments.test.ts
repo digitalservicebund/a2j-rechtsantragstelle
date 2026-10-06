@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { collectRequiredDocuments } from "../../requiredDocuments";
 import {
   type Elternteil,
   type Kind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import { translations } from "~/services/translations/translations";
+import { collectRequiredDocuments } from "../../requiredDocuments";
 
 describe("collectRequiredDocuments", () => {
   it("requires only the Sterbeurkunde for the deceased without second-order heirs", () => {
@@ -89,27 +89,6 @@ describe("collectRequiredDocuments", () => {
       ]);
     });
 
-    it("Displays the erbanteil for the spouse when there are no children", () => {
-      expect(
-        collectRequiredDocuments({
-          verstorbeneVorname: "Erblasser",
-          verstorbeneFamilienstand: "verwitwet",
-          ehepartnerVorname: "Ehefrau",
-          ehepartnerNachname: "Mustermann",
-        }),
-      ).toEqual([
-        expect.objectContaining({
-          name: "Erblasser",
-          documents: "Sterbeurkunde",
-        }),
-        expect.objectContaining({
-          name: "Letzter Ehepartner oder letzte Ehepartnerin",
-          additionalDisplayText: "(erhält das gesamte Erbe)",
-          documents: "Sterbeurkunde",
-        }),
-      ]);
-    });
-
     it("lists no spouse when single", () => {
       expect(
         collectRequiredDocuments({
@@ -150,40 +129,6 @@ describe("collectRequiredDocuments", () => {
           additionalDisplayText: `(${translations.nachlass.deceased.de})`,
         },
         { name: "Enkelkind", documents: "Geburtsurkunde" },
-      ]);
-    });
-
-    it("displays the erbanteil for the heirs", () => {
-      expect(
-        collectRequiredDocuments({
-          verstorbeneVorname: "Erblasser",
-          hatteKinder: "yes",
-          kinder: [
-            {
-              vorname: "Kind",
-              isAlive: "yes",
-            } as Kind,
-            {
-              vorname: "Kind2",
-              isAlive: "yes",
-            } as Kind,
-          ],
-        }),
-      ).toEqual([
-        expect.objectContaining({
-          name: "Erblasser",
-          documents: "Sterbeurkunde",
-        }),
-        expect.objectContaining({
-          name: "Kind",
-          additionalDisplayText: "(erhält 1/2 des Erbes)",
-          documents: "Geburtsurkunde",
-        }),
-        expect.objectContaining({
-          name: "Kind2",
-          additionalDisplayText: "(erhält 1/2 des Erbes)",
-          documents: "Geburtsurkunde",
-        }),
       ]);
     });
   });
@@ -255,7 +200,6 @@ describe("collectRequiredDocuments", () => {
         {
           name: "Nichte",
           documents: "Geburtsurkunde",
-          additionalDisplayText: "(erhält das gesamte Erbe)",
         },
       ]);
     });

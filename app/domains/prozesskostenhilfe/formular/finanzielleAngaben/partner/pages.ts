@@ -25,39 +25,33 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerZusammenleben: {
     stepId: "/finanzielle-angaben/partner/zusammenleben",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       zusammenleben: YesNoAnswer,
     },
   },
   partnerUnterhalt: {
     stepId: "/finanzielle-angaben/partner/unterhalt",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       unterhalt: YesNoAnswer,
     },
   },
   partnerUnterhaltsSumme: {
     stepId: "/finanzielle-angaben/partner/unterhalts-summe",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       partnerUnterhaltsSumme: buildMoneyValidationSchema(),
     },
   },
   partnerKeineRolle: {
     stepId: "/finanzielle-angaben/partner/keine-rolle",
-    shouldCollapseIntoParentNavItem: true,
   },
   partnerEinkommen: {
     stepId: "/finanzielle-angaben/partner/partner-einkommen",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       partnerEinkommen: YesNoAnswer,
     },
   },
   partnerEinkuenfte: {
     stepId: "/finanzielle-angaben/partner/partner-einkuenfte",
-    shouldCollapseIntoParentNavItem: true,
   },
   partnerStaatlicheLeistungen: {
     stepId:
@@ -107,10 +101,10 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerBuergergeld: {
     stepId:
-      "/finanzielle-angaben/partner/partner-einkuenfte/partner-buergergeld",
+      "/finanzielle-angaben/partner/partner-einkuenfte/partner-grundsicherungsgeld",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "partner-buergergeld": buildMoneyValidationSchema(),
+      "partner-grundsicherungsgeld": buildMoneyValidationSchema(),
     },
   },
   partnerArbeitslosengeld: {
@@ -176,7 +170,6 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerName: {
     stepId: "/finanzielle-angaben/partner/partner-name",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       partnerVorname: stringRequiredSchema,
       partnerNachname: stringRequiredSchema,

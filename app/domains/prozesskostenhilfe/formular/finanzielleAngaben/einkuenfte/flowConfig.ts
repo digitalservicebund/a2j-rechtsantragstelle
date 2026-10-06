@@ -7,7 +7,7 @@ export const einkuenfteFlowConfig = {
   staatlicheLeistungen: [
     {
       guard: (context) => context.staatlicheLeistungen === "buergergeld",
-      target: "buergergeld",
+      target: "grundsicherungsgeld",
     },
     {
       guard: (context) => context.staatlicheLeistungen === "arbeitslosengeld",
@@ -19,7 +19,7 @@ export const einkuenfteFlowConfig = {
     },
     { target: "gesetzlicheVertretungFrage" },
   ],
-  buergergeld: "erwerbstaetig",
+  grundsicherungsgeld: "erwerbstaetig",
   arbeitslosengeld: "erwerbstaetig",
   erwerbstaetig: [
     {

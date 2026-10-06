@@ -83,7 +83,7 @@ afterAll(() => {
   );
 });
 
-describe.sequential("state machine form flows", () => {
+describe("state machine form flows", { concurrent: false }, () => {
   const testCases = {
     testCasesGeldEinklagenFormular,
   } as const;

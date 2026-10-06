@@ -3,7 +3,6 @@ import { erbfolgeStaticFlow } from "../flowConfig";
 
 type UserData = Parameters<typeof createFlowSession>[1];
 
-const EXIT_PATH = "/ergebnis/keine-gesetzliche-erbfolge";
 const emptyPageData = { pageData: { arrayIndexes: [] } };
 
 describe("testament / Erbvertrag entry question", () => {
@@ -36,7 +35,7 @@ describe("testament / Erbvertrag entry question", () => {
         "/testamentOderErbvertrag",
       );
 
-      expect(session.nextPath).toBe(EXIT_PATH);
+      expect(session.nextPath).toBe("/testament-pruefen");
     },
   );
 });

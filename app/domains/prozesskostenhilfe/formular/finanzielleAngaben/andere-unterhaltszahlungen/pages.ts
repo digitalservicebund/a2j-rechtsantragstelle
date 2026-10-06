@@ -42,7 +42,6 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenUebersicht: {
     stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "unterhaltszahlungen",
       schema: unterhaltszahlungenArraySchema,
@@ -51,7 +50,6 @@ export const pkhFormularFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   },
   andereUnterhaltszahlungenWarnung: {
     stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
   andereUnterhaltszahlungenPerson: {
     stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
