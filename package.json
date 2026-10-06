@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1145.0",
+    "@aws-sdk/client-s3": "^3.1146.0",
     "@digitalservicebund/a2j-xjustiz-bridge": "^0.10.0",
     "@digitalservicebund/kern-ux-tailwind-theme": "^4.0.0",
     "@kern-ux/native": "^2.8.2",
@@ -55,7 +55,7 @@
     "@react-router/node": "8.3.0",
     "@remix-run/form-data-parser": "^1.0.0",
     "@rvf/react-router": "^8.2.0",
-    "@sentry/react-router": "^11.2.0",
+    "@sentry/react-router": "^11.4.0",
     "@sentry/vite-plugin": "^5.4.0",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.20.0",
