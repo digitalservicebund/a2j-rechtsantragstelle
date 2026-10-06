@@ -364,6 +364,7 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
             },
           ],
@@ -376,7 +377,7 @@ describe("G_eigentum", () => {
           .versicherungVersicherungsnehmerDatumdesVertragesHandeltessichumeinezusaetzlicheAltersvor
           .value,
       ).toBe(
-        "Art: Befristete Geldanlage, Art der Befristung: Lebensversicherung",
+        "Art: Befristete Geldanlage, Art der Befristung: Lebensversicherung, Verwendungszweck: Festgeldkonto",
       );
       expect(pdfValues.rueckkaufswert.value).toBe("1000 €");
       ({ pdfValues } = fillLebensversicherung({
@@ -396,12 +397,14 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
             },
             {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
             },
           ],
@@ -427,6 +430,7 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              verwendungszweck: "Festgeldkonto",
               befristetArt: "fixedDepositAccount",
             },
           ],
@@ -434,7 +438,7 @@ describe("G_eigentum", () => {
         pdfValues: pdfParams,
       });
       expect(pdfValues.bezeichnungAlleinoderMiteigentum.value).toBe(
-        "Art: Befristete Geldanlage, Art der Befristung: Festgeldkonto",
+        "Art: Befristete Geldanlage, Art der Befristung: Festgeldkonto, Verwendungszweck: Festgeldkonto",
       );
       expect(pdfValues.verkehrswertsonstigeVermoegenswerte.value).toBe(
         "1000 €",
@@ -457,11 +461,13 @@ describe("G_eigentum", () => {
               art: "befristet",
               eigentuemer: "myselfAndPartner",
               wert: "1000",
+              verwendungszweck: "Festgeldkonto",
               befristetArt: "fixedDepositAccount",
             },
             {
               art: "forderung",
               eigentuemer: "myself",
+              forderung: "Meine Forderung",
               wert: "10000",
             },
           ],
@@ -486,6 +492,7 @@ describe("G_eigentum", () => {
             {
               art: "befristet",
               eigentuemer: "partner",
+              verwendungszweck: "Lebensversicherung",
               wert: "1000",
               befristetArt: "lifeInsurance",
             },
