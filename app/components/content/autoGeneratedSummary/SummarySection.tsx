@@ -73,7 +73,7 @@ const SummarySection = ({
                 <a
                   href={field.editUrl}
                   className="kern-link no-underline! hover:underline!"
-                  aria-labelledby={
+                  aria-describedby={
                     field.multipleQuestions
                       ? `${field.id}-${field.multipleQuestions[0].id}`
                       : field.id
@@ -141,7 +141,7 @@ const SummarySection = ({
                     <a
                       href={arrayItem.editUrl}
                       className="kern-link no-underline!"
-                      aria-labelledby={
+                      aria-describedby={
                         Boolean(arrayItem.title) || !arrayItem.multipleQuestions
                           ? arrayItem.id
                           : `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
