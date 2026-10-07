@@ -20,6 +20,8 @@ export const addDocumentsFactsOfCase = (
     return;
   }
 
+  const documents: Array<{ id: number; text: string }> = [];
+
   for (const [index, dokument] of dokumenten.entries()) {
     const documentId =
       documentIds.findIndex(
@@ -29,17 +31,26 @@ export const addDocumentsFactsOfCase = (
             dokument.dokumentReference === undefined),
       ) + 1;
 
-    factsOfCasesSect.add(
-      doc.struct("P", {}, () => {
-        doc
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text(`Beweis K${documentId}: `, MARGIN_RIGHT_SPACE, undefined, {
-            continued: true,
-          })
-          .font(FONTS_BUNDESSANS_REGULAR)
-          .text(dokument.beschreibung ?? "")
-          .moveDown(1);
-      }),
-    );
+    documents.push({
+      id: documentId,
+      text: dokument.beschreibung,
+    });
   }
+
+  documents
+    .toSorted((a, b) => a.id - b.id)
+    .forEach((document) => {
+      factsOfCasesSect.add(
+        doc.struct("P", {}, () => {
+          doc
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(`Beweis K${document.id}: `, MARGIN_RIGHT_SPACE, undefined, {
+              continued: true,
+            })
+            .font(FONTS_BUNDESSANS_REGULAR)
+            .text(document.text ?? "")
+            .moveDown(1);
+        }),
+      );
+    });
 };
