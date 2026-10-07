@@ -1,3 +1,5 @@
+import { flowIdFromPathname } from "~/domains/flowIds";
+import { pages } from "~/domains/pageSchemas";
 import type { ArrayData, UserData } from "~/domains/userData";
 import { parseField } from "./fieldParsingUtils";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -121,6 +123,20 @@ export function createArrayEditUrl(
 
   if (!fieldInfo.isArrayField) {
     return representativeStepId;
+  }
+
+  // Link to the page that shows this array's summary
+  const flowId = flowIdFromPathname(representativeStepId);
+  const overviewPage =
+    flowId &&
+    Object.values(pages[flowId] ?? {}).find(
+      (page) =>
+        "arraySummary" in page &&
+        page.arraySummary?.name === fieldInfo.baseFieldName,
+    );
+  if (overviewPage) {
+    const overviewStepId = overviewPage.stepId.replace(/^\/?/, "/");
+    return `${flowId}${overviewStepId}`;
   }
 
   // Array edit URLs: remove last 2 segments and add "uebersicht"

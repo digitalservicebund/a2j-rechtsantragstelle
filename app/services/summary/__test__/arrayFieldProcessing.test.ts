@@ -35,6 +35,37 @@ describe("createArrayEditUrl", () => {
     });
   });
 
+  describe("new engine item pages with a '#' segment", () => {
+    it("links to the array's overview page", () => {
+      expect(
+        createArrayEditUrl(
+          "weiterePersonen[0].vorname",
+          "/fluggastrechte/formular/persoenliche-daten/weitere-personen/person/#/daten",
+        ),
+      ).toBe(
+        "/fluggastrechte/formular/persoenliche-daten/weitere-personen/uebersicht",
+      );
+    });
+
+    it("links to an overview page that is not named uebersicht", () => {
+      expect(
+        createArrayEditUrl(
+          "kinder[0].vorname",
+          "/erbschein/erbfolge/kinder/#/name",
+        ),
+      ).toBe("/erbschein/erbfolge/kinder");
+    });
+
+    it("links to the overview for a flow whose stepIds have no leading slash", () => {
+      expect(
+        createArrayEditUrl(
+          "kinder[0].vorname",
+          "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/#/name",
+        ),
+      ).toBe("/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht");
+    });
+  });
+
   it("should return original URL for non-array fields", () => {
     const originalUrl = "/some/regular/field/url";
     const result = createArrayEditUrl("regularField", originalUrl);
