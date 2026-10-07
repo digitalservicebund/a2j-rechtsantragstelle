@@ -54,7 +54,7 @@ describe("E_unterhalt", () => {
           familyRelationship: "grandchild",
           firstName: "firstName",
           surname: "surname",
-          birthday: "10.10.2000",
+          birthday: { day: "10", month: "10", year: "2020" },
           monthlyPayment: "100",
         },
       ],
@@ -100,7 +100,7 @@ describe("E_unterhalt", () => {
     expect(pdfValues.e1Person4.value).toEqual(
       `${other.firstName} ${other.surname}`,
     );
-    expect(pdfValues.e2Geburtsdatum4.value).toEqual(other.birthday);
+    expect(pdfValues.e2Geburtsdatum4.value).toEqual("10.10.2020");
     expect(pdfValues.e3Familienverhaeltnis4.value).toEqual(
       familyRelationshipMap[other.familyRelationship],
     );

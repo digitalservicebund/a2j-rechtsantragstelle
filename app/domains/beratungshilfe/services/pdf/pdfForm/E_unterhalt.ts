@@ -3,6 +3,7 @@ import {
   familyRelationshipMap,
 } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import type { BerHPdfFillFunction } from "../types";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_E = "Feld E: Unterhaltszahlungen";
 
@@ -79,7 +80,7 @@ const enumerateSupportRecipients: BerHPdfFillFunction = ({
         `${supportRecipient.firstName} ${supportRecipient.surname}`;
       pdfValues[
         `e2Geburtsdatum${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
-      ].value = supportRecipient.birthday;
+      ].value = toDateString(supportRecipient.birthday);
       pdfValues[
         `e3Familienverhaeltnis${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
       ].value = familyRelationshipMap[supportRecipient.familyRelationship];
