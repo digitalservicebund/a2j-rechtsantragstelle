@@ -6,6 +6,12 @@ import { type GeldEinklagenFormularUserData } from "./userData";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 import { hasPersonDetails } from "./klage-erstellen/begruendung/components/BegruendungBeschreibungBeweisItems";
+import {
+  getDocumentsToBeReusedFromOtherAbschnitte,
+  getPersonenToBeReusedFromOtherAbschnitte,
+} from "./klage-erstellen/begruendung/components/reuseBeweise";
+import { getDokumentLocationsWithReference } from "../services/deleteBeweisDokumentReference";
+import { getPersonLocationsWithReference } from "../services/deleteBeweisPersonReference";
 
 export const isBeklagtePerson = (context: GeldEinklagenFormularUserData) => {
   return { isBeklagtePerson: context.gegenWenBeklagen === "person" };
@@ -185,4 +191,112 @@ export const getAbschnitteWithInvalidAnotherPerson = ({
     .join(", ");
 
   return { abschnitteWithInvalidAnotherPerson: invalidAbschnitte };
+};
+
+export const hasMoreThanOneReusePersonen = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(pageData);
+
+  if (!arrayIsNonEmpty(abschnitte) || arrayIndex === undefined) {
+    return { hasMoreThanOneReusePersonen: false };
+  }
+
+  return {
+    hasMoreThanOneReusePersonen:
+      getPersonenToBeReusedFromOtherAbschnitte(abschnitte, arrayIndex).length >
+      1,
+  };
+};
+
+export const hasMoreThanOneReuseDokumenten = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  const arrayIndex = firstArrayIndex(pageData);
+
+  if (!arrayIsNonEmpty(abschnitte) || arrayIndex === undefined) {
+    return { hasMoreThanOneReuseDokumenten: false };
+  }
+
+  return {
+    hasMoreThanOneReuseDokumenten:
+      getDocumentsToBeReusedFromOtherAbschnitte(abschnitte, arrayIndex).length >
+      1,
+  };
+};
+
+export const isDocumentBeingReused = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  if (
+    !arrayIsNonEmpty(abschnitte) ||
+    pageData === undefined ||
+    !arrayIsNonEmpty(pageData.arrayIndexes)
+  ) {
+    return { isDocumentBeingReused: false };
+  }
+
+  const [abschnittIndex, dokumentIndex] = pageData.arrayIndexes;
+
+  const currentDokument =
+    abschnitte[abschnittIndex]?.dokumenten?.[dokumentIndex];
+
+  if (!currentDokument) {
+    return { isDocumentBeingReused: false };
+  }
+
+  if (currentDokument.dokumentReference) {
+    return { isDocumentBeingReused: true };
+  }
+
+  const otherAbschnitten = abschnitte.filter(
+    (_, index) => index !== abschnittIndex,
+  );
+  const documentReferences = getDokumentLocationsWithReference(
+    otherAbschnitten,
+    `${abschnittIndex}-${dokumentIndex}`,
+  );
+
+  return { isDocumentBeingReused: arrayIsNonEmpty(documentReferences) };
+};
+
+export const isPersonBeingReused = ({
+  abschnitte,
+  pageData,
+}: GeldEinklagenFormularUserData) => {
+  if (
+    !arrayIsNonEmpty(abschnitte) ||
+    pageData === undefined ||
+    !arrayIsNonEmpty(pageData.arrayIndexes)
+  ) {
+    return { isPersonBeingReused: false };
+  }
+
+  const [abschnittIndex, personIndex] = pageData.arrayIndexes;
+
+  const currentPerson = abschnitte[abschnittIndex]?.personen?.[personIndex];
+
+  if (!currentPerson) {
+    return { isPersonBeingReused: false };
+  }
+
+  if (
+    currentPerson.personAuswahl === "anotherPerson" &&
+    currentPerson.personReference
+  ) {
+    return { isPersonBeingReused: true };
+  }
+
+  const otherAbschnitten = abschnitte.filter(
+    (_, index) => index !== abschnittIndex,
+  );
+  const personReferences = getPersonLocationsWithReference(
+    otherAbschnitten,
+    `${abschnittIndex}-${personIndex}`,
+  );
+
+  return { isPersonBeingReused: arrayIsNonEmpty(personReferences) };
 };

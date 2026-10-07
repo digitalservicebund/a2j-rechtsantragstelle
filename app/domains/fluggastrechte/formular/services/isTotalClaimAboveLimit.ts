@@ -1,11 +1,13 @@
-import { getCompensationPayment } from "../../services/airports/getCompensationPayment";
-import type { FluggastrechteUserData } from "../userData";
+import {
+  type CompensationClaimContext,
+  getCompensationPayment,
+} from "../../services/airports/getCompensationPayment";
 import { getTotalCompensationClaim } from "./getTotalCompensationClaim";
 
 export const MAX_TOTAL_COMPENSATION = 10000;
 
 export const isTotalClaimWillSucceddedAboveLimit = (
-  context: FluggastrechteUserData,
+  context: CompensationClaimContext,
 ): boolean => {
   const { startAirport, endAirport } = context;
   const currentTotalCompensation = getTotalCompensationClaim(context);

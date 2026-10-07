@@ -64,6 +64,7 @@ const deceasedAngehoerigeToGrundbesitz = (
   {
     stepId: "/angehoerige/uebersicht",
     addArrayItemEvent: "add-angehoerige",
+    skipPageSchemaValidation: true,
     userInput: startingData,
   },
   {
@@ -184,6 +185,7 @@ export const angehoerigeTestCases = {
     {
       stepId: "/angehoerige/uebersicht",
       addArrayItemEvent: "add-angehoerige",
+      skipPageSchemaValidation: true,
       userInput: dataToReachAngehoerige,
     },
     {

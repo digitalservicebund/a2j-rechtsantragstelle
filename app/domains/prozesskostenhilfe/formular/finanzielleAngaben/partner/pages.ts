@@ -95,9 +95,9 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
   },
   partnerBuergergeld: {
     stepId:
-      "finanzielle-angaben/partner/partner-einkuenfte/partner-buergergeld",
+      "finanzielle-angaben/partner/partner-einkuenfte/partner-grundsicherungsgeld",
     pageSchema: {
-      "partner-buergergeld": buildMoneyValidationSchema(),
+      "partner-grundsicherungsgeld": buildMoneyValidationSchema(),
     },
   },
   partnerArbeitslosengeld: {

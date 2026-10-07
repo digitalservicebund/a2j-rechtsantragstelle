@@ -66,15 +66,41 @@ const unwrapArray = (schema: z.ZodType): z.ZodArray | undefined => {
   return inner instanceof z.ZodArray ? inner : undefined;
 };
 
+// Resolves a ZodLazy to its wrapped schema so recursive item schemas (e.g. a
+// self-referential person union) can be inspected like any other schema.
+const unwrapLazy = (schema: z.ZodType): z.ZodType =>
+  schema instanceof z.ZodLazy
+    ? unwrapLazy(
+        (schema.def as unknown as { getter: () => z.ZodType }).getter(),
+      )
+    : schema;
+
 // Follows the "#"-path of field names down an array's item schema and reports
 // whether the array field at the end is declared `.optional()`.
 // e.g. path ["dokumenten"] on the abschnitte item, or ["a", "b"] one level deeper.
 const isOptionalArrayField = (
   itemSchema: z.ZodType,
-  [field, ...deeper]: string[],
+  fields: string[],
 ): boolean => {
-  if (!(itemSchema instanceof z.ZodObject)) return false;
-  const fieldSchema = itemSchema.shape[field] as z.ZodType | undefined;
+  const schema = unwrapLazy(itemSchema);
+  const [field, ...deeper] = fields;
+
+  // A union item's array is optional only when every branch allows it to be
+  // empty: a branch that does not model the field imposes no array there, and a
+  // branch that does must declare it optional. This lets a recursive person
+  // union (a child that may or may not have further children) settle as
+  // complete when the nested array is empty.
+  if (schema instanceof z.ZodUnion) {
+    return schema.options.every((option) => {
+      const branch = unwrapLazy(option as z.ZodType);
+      const branchHasField =
+        branch instanceof z.ZodObject && field in branch.shape;
+      return branchHasField ? isOptionalArrayField(branch, fields) : true;
+    });
+  }
+
+  if (!(schema instanceof z.ZodObject)) return false;
+  const fieldSchema = schema.shape[field] as z.ZodType | undefined;
   if (!fieldSchema) return false;
   if (deeper.length === 0) return z.validate(fieldSchema, undefined);
   const innerArray = unwrapArray(fieldSchema);
@@ -115,6 +141,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryNodeKey?: NodeKey<C>;
         fieldName?: string;
         isArrayRelevant?: (userData: UserData) => boolean;
+        shouldDisableAddButton?: (context: UserData) => boolean;
         indexOffset?: number;
         hiddenFields?: string[];
       }
@@ -155,6 +182,7 @@ export const compileFlow = <C extends PageConfigMap>({
         entryNodeKey: addTransition?.target ?? undefined,
         fieldName: pageNode.arraySummary.fieldName,
         isArrayRelevant: pageNode.arraySummary.isArrayRelevant,
+        shouldDisableAddButton: pageNode.arraySummary.shouldDisableAddButton,
         indexOffset: pageNode.arraySummary.indexOffset,
         hiddenFields: pageNode.arraySummary.hiddenFields,
       };

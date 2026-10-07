@@ -1,9 +1,4 @@
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import escape from "lodash/escape";
-import {
-  type PersonDocuments,
-  collectRequiredDocuments,
-} from "~/domains/nachlass/erbschein/requiredDocuments";
 import { erbfolgeStringReplacements } from "~/domains/nachlass/erbschein/shared/stringReplacements";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
@@ -65,7 +60,9 @@ export const getBeguenstigteStrings = (context: ErbscheinAnfrageUserData) => {
     };
 };
 
-export const getAmtsgerichtStrings = (userData: ErbscheinAnfrageUserData) => {
+export const getVerstorbenePersonCourtStrings = (
+  userData: ErbscheinAnfrageUserData,
+) => {
   const zipCode =
     userData.verstorbenePlz ??
     userData.verstorbeneHospizPlz ??
@@ -87,6 +84,25 @@ export const getAmtsgerichtStrings = (userData: ErbscheinAnfrageUserData) => {
   };
 };
 
+export const getAntragstellendePersonCourtStrings = (
+  userData: ErbscheinAnfrageUserData,
+) => {
+  const court = findCourt({
+    zipCode: userData.antragstellendePersonPlz,
+    streetName: userData.antragstellendePersonStrasse,
+    houseNumber: userData.antragstellendePersonHausnummer,
+    angelegenheitInfo: ANGELEGENHEIT_INFO.NACHLASSSACHEN,
+  });
+  return {
+    antragstellendePersonCourtName: court?.BEZEICHNUNG,
+    antragstellendePersonCourtStreetNumber: court?.STR_HNR,
+    antragstellendePersonCourtPlz: court?.PLZ_ZUSTELLBEZIRK,
+    antragstellendePersonCourtOrt: court?.ORT,
+    antragstellendePersonCourtWebsite: court?.URL1,
+    antragstellendePersonCourtTelephone: court?.TEL,
+  };
+};
+
 const angehoerigeName = (context: ErbscheinAnfrageUserData) => {
   const arrayIndex = firstArrayIndex(context.pageData);
   if (
@@ -101,35 +117,11 @@ const angehoerigeName = (context: ErbscheinAnfrageUserData) => {
     };
 };
 
-function getAdditionalDisplayText(
-  additionalDisplayText: PersonDocuments["additionalDisplayText"],
-) {
-  return additionalDisplayText ? ` ${additionalDisplayText}` : "";
-}
-
-// The documents every person in the result needs to provide, as a table.
-// Rendered into the result page via the triple-brace {{{requiredDocumentsHtml}}}.
-function buildRequiredDocumentsHtml(
-  requiredDocuments: PersonDocuments[],
-): string {
-  const rows = requiredDocuments
-    .map(
-      ({ name, documents, additionalDisplayText }) =>
-        `<tr><td class="font-semibold p-kern-space-default pr-kern-space-none align-top">${escape(name)}${getAdditionalDisplayText(additionalDisplayText)}</td>` +
-        `<td class="p-kern-space-default pl-kern-space-none">${documents}</td></tr>`,
-    )
-    .join("");
-  return `<table class="w-full bg-kern-white border-kern-neutral-200 rounded-kern-default"><tbody>${rows}</tbody></table>`;
-}
-
 export const getAngehoerigeStrings = (
   context: ErbscheinAnfrageUserData,
 ): Replacements => {
   return {
     ...angehoerigeName(context),
     ...erbfolgeStringReplacements(context),
-    requiredDocumentsHtml: buildRequiredDocumentsHtml(
-      collectRequiredDocuments(context),
-    ),
   };
 };

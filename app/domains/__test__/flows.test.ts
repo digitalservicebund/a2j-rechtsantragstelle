@@ -1,4 +1,3 @@
-import { testCasesFluggastrechteFormular } from "~/domains/fluggastrechte/formular/__test__/testCasesFluggastrechteFormular";
 import { type UserData } from "~/domains/userData";
 import { allStepsFromMachine } from "./allStepsFromMachine";
 import { nextStepId } from "~/services/flow/server/buildFlowController";
@@ -84,9 +83,8 @@ afterAll(() => {
   );
 });
 
-describe.sequential("state machine form flows", () => {
+describe("state machine form flows", { concurrent: false }, () => {
   const testCases = {
-    testCasesFluggastrechteFormular,
     testCasesGeldEinklagenFormular,
   } as const;
   const transitionTypes = ["SUBMIT", "BACK"] as const;

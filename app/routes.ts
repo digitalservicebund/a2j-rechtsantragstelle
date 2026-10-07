@@ -15,10 +15,17 @@ export default [
   ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
   ...prefix("fluggastrechte", [
     ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
-    ...prefix("formular", flowRoutes("FGRF")),
+    ...prefix("formular", newEngineFlowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
-    ...prefix("anfrage", newEngineFlowRoutes("EAA")),
+    ...prefix("anfrage", [
+      route("*", "routes/erbausschlagung.anfrage.$.tsx", {
+        id: "flowEAA",
+      }),
+      route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
+        id: "pdfEAA",
+      }),
+    ]),
     ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
   ]),
   ...prefix("erbschein", [
@@ -46,6 +53,7 @@ export default [
     ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
+    ...prefix("anwaltschaft", newEngineFlowRoutes("GEA")),
     ...prefix("formular", [
       route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {

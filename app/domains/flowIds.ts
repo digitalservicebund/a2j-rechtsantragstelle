@@ -4,6 +4,7 @@ export const flowIds = [
   "/beratungshilfe/antrag",
   "/beratungshilfe/vorabcheck",
   "/geld-einklagen/formular",
+  "/geld-einklagen/anwaltschaft",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",
@@ -36,6 +37,7 @@ export function parsePathname(pathname: string) {
     "/erbschein/anfrage",
     "/erbausschlagung/anfrage",
     "/beratungshilfe/antrag",
+    "/fluggastrechte/formular",
   ];
   const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
   const stepId = pathname

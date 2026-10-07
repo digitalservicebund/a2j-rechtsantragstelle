@@ -34,12 +34,12 @@ const TableOfContents = ({ identifier, label, links, buttons }: Props) => {
                 >
                   <a
                     href={link.url}
-                    className="kern-link no-underline! hover:underline!"
+                    className="flex items-center! kern-link no-underline! hover:underline!"
                     aria-label={link.text}
                   >
                     <Icon
                       name="arrow-downward"
-                      className="h-[1em] w-[1em] shrink-0 my-[0.25em]"
+                      className="h-[1em] w-[1em] shrink-0"
                     />
                     {link.text ?? ""}
                   </a>

@@ -1,11 +1,6 @@
-import {
-  determineHeirs,
-  shareLabel,
-  type Heir,
-} from "~/domains/nachlass/erbschein/shared/determineHeirs";
-import { personName } from "./shared/personName";
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { translations } from "~/services/translations/translations";
+import { personName } from "./shared/personName";
 
 type FamilyMember = {
   vorname?: string;
@@ -94,29 +89,12 @@ function elternteilEntries(elternteile: FamilyMember[]): PersonDocuments[] {
   ]);
 }
 
-function addErbanteile(entry: PersonDocuments, heirs: Heir[]) {
-  const matchingHeir = heirs.find((heir) => {
-    // Can't perform simple name matching against heirs, but order=0 depth=0 is always spouse
-    if (entry.name === LAST_SPOUSE_LABEL) {
-      return heir.order === 0 && heir.depth === 0;
-    }
-    return heir.name === entry.name;
-  });
-  return {
-    ...entry,
-    additionalDisplayText: matchingHeir
-      ? `(erhält ${shareLabel(matchingHeir.share)})`
-      : entry.additionalDisplayText,
-  };
-}
-
 // One entry per person. With second-order heirs the deceased also needs their
 // own Geburtsurkunde as proof of who the parents are.
 export function collectRequiredDocuments(
   data: ErbscheinAnfrageUserData,
 ): PersonDocuments[] {
   const hasSecondOrderHeirs = (data.elternteile ?? []).length > 0;
-  const heirs = determineHeirs(data);
 
   return [
     {
@@ -132,5 +110,5 @@ export function collectRequiredDocuments(
     ...spouseEntries(data),
     ...walkFamilyTree(data.kinder ?? []),
     ...elternteilEntries(data.elternteile ?? []),
-  ].map((entry) => addErbanteile(entry, heirs));
+  ];
 }

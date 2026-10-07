@@ -1,9 +1,17 @@
 import { type FlowTestCases } from "~/domains/__test__/TestCases";
 import {
-  mockBeguenstigtenArray,
   erbscheinAnfrageHappyPathData,
+  mockBeguenstigtenArray,
 } from "~/domains/nachlass/erbschein/anfrage/__test__/mockTestData";
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+
+const namedBeneficiaryHappyPathData: Partial<ErbscheinAnfrageUserData> = {
+  ...erbscheinAnfrageHappyPathData,
+  testamentArt: "erbvertrag",
+  allNamedBeneficiariesKnown: "yes",
+  erbeCompletelyAllocated: "yes",
+  beguenstigten: mockBeguenstigtenArray,
+};
 
 export const testamentOderErbvertragTestCases = {
   noTestamentOrErbvertragSingle: [
@@ -32,12 +40,42 @@ export const testamentOderErbvertragTestCases = {
       stepId: "/ehepartner-oder-ehepartnerin/name",
     },
   ],
+  testamentUnknownBeneficiaries: [
+    {
+      stepId: "/testament-oder-erbvertrag/art",
+      userInput: {
+        ...erbscheinAnfrageHappyPathData,
+        testamentArt: "erbvertrag",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/bekannte-beguenstigten",
+      userInput: {
+        allNamedBeneficiariesKnown: "no",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/unbekannte-beguenstigten",
+    },
+  ],
   testamentNoBeneficiariesNamed: [
     {
       stepId: "/testament-oder-erbvertrag/art",
       userInput: {
         ...erbscheinAnfrageHappyPathData,
         testamentArt: "erbvertrag",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/bekannte-beguenstigten",
+      userInput: {
+        allNamedBeneficiariesKnown: "yes",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/verteiltes-erbe",
+      userInput: {
+        erbeCompletelyAllocated: "yes",
       },
     },
     {
@@ -56,6 +94,18 @@ export const testamentOderErbvertragTestCases = {
       userInput: {
         ...erbscheinAnfrageHappyPathData,
         testamentArt: "erbvertrag",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/bekannte-beguenstigten",
+      userInput: {
+        allNamedBeneficiariesKnown: "yes",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/verteiltes-erbe",
+      userInput: {
+        erbeCompletelyAllocated: "yes",
       },
     },
     {
@@ -115,6 +165,18 @@ export const testamentOderErbvertragTestCases = {
       },
     },
     {
+      stepId: "/testament-oder-erbvertrag/bekannte-beguenstigten",
+      userInput: {
+        allNamedBeneficiariesKnown: "yes",
+      },
+    },
+    {
+      stepId: "/testament-oder-erbvertrag/verteiltes-erbe",
+      userInput: {
+        erbeCompletelyAllocated: "yes",
+      },
+    },
+    {
       stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
       addArrayItemEvent: "add-beguenstigten",
     },
@@ -158,6 +220,49 @@ export const testamentOderErbvertragTestCases = {
     },
     {
       stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+    },
+  ],
+  namedBeneficiaryToSpouseTransition: [
+    {
+      stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...namedBeneficiaryHappyPathData,
+        verstorbeneFamilienstand: "verheiratet",
+      },
+    },
+    {
+      stepId: "/ehepartner-oder-ehepartnerin/name",
+    },
+  ],
+  namedBeneficiaryToAngehoerigeTransition: [
+    {
+      stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...namedBeneficiaryHappyPathData,
+        verstorbeneFamilienstand: "ledig",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "no",
+      },
+    },
+    {
+      stepId: "/angehoerige/hatte-kinder",
+    },
+  ],
+  namedBeneficiaryToGrundbesitzTransition: [
+    {
+      stepId: "/testament-oder-erbvertrag/beguenstigten/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        ...namedBeneficiaryHappyPathData,
+        verstorbeneFamilienstand: "ledig",
+        allNamedBeneficiariesKnown: "yes",
+        erbeCompletelyAllocated: "yes",
+      },
+    },
+    {
+      stepId: "/nachlass/grundbesitz/grundbesitz-frage",
     },
   ],
 } satisfies FlowTestCases<ErbscheinAnfrageUserData>;

@@ -3,13 +3,19 @@ import {
   COMPENSATION_VALUE_400,
   COMPENSATION_VALUE_600,
 } from "~/domains/fluggastrechte/vorabcheck/stringReplacements";
-import type { FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { getRouteCompensationBetweenAirports } from "./getRouteCompensationBetweenAirports";
+import { type FluggastrechteFormularWeiterePersonen } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
+
+export type CompensationClaimContext = {
+  startAirport?: string;
+  endAirport?: string;
+  weiterePersonen?: FluggastrechteFormularWeiterePersonen;
+};
 
 export function getCompensationPayment({
   startAirport = "",
   endAirport = "",
-}: FluggastrechtVorabcheckUserData) {
+}: CompensationClaimContext) {
   const routeCompensation = getRouteCompensationBetweenAirports(
     startAirport,
     endAirport,
