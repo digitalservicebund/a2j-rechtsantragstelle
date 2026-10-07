@@ -30,7 +30,10 @@ export const expressApp = (
     app.use(pinoHttpLogger);
   }
 
-  app.use(createPrometheusMetricsMiddleware());
+  // Disabled create prometheus metrics to avoid issues during re-build app
+  if (config().ENVIRONMENT !== "development") {
+    app.use(createPrometheusMetricsMiddleware());
+  }
 
   // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
   app.disable("x-powered-by");
