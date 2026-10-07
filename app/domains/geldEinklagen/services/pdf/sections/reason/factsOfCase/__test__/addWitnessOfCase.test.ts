@@ -61,6 +61,7 @@ describe("addWitnessOfCase", () => {
     >[number]["personen"] = [
       {
         personAuswahl: "anotherPerson",
+        personId: "person-id",
         anrede: "herr",
         title: "Dr.",
         vorname: "Max",
@@ -72,7 +73,6 @@ describe("addWitnessOfCase", () => {
         land: "Deutschland",
         telefonnummer: "0123456789",
         email: "max.mustermann@example.com",
-        personId: "person-id",
       },
     ];
 

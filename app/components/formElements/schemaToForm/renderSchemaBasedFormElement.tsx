@@ -26,6 +26,13 @@ import {
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 import { useFlowLoaderDataContext } from "~/components/hooks/useFlowLoaderDataContext";
 import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
+import { reuseBeweisZodDescription } from "~/services/validation/reuseBeweis";
+import { ReuseBeweisCheckbox } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/ReuseBeweisCheckbox";
+import {
+  getDocumentsToBeReusedFromOtherAbschnitte,
+  getPersonenToBeReusedFromOtherAbschnitte,
+} from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
+import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -35,6 +42,7 @@ const specialComponentDescriptions = [
   numberIncrementZodDescription,
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
+  reuseBeweisZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -53,6 +61,24 @@ export const extractZodDescription = (schema: z.ZodType) => {
       (schema.in as z.ZodType).description;
   }
   return schema.description ?? nestedDescription;
+};
+
+const getBeweisType = (fieldSchema: z.ZodType, fieldName: string) => {
+  let beweisType = fieldSchema.meta()?.beweisType;
+
+  if (fieldSchema instanceof z.ZodUnion && !beweisType) {
+    beweisType = fieldSchema.options
+      .map((innerSchema) => (innerSchema as z.ZodType).meta()?.beweisType)
+      .find(Boolean);
+  }
+
+  if (!beweisType) {
+    throw new Error(
+      `ReuseBeweisCheckbox field ${fieldName} is missing a beweisType in the Zod schema.`,
+    );
+  }
+
+  return beweisType;
 };
 
 export const isSpecialComponentDescriptions = (
@@ -172,6 +198,34 @@ export const renderSpecialMetaDescriptions = (
           dataList={dataListType}
           dataListArgument={dataListArgument}
           key={fieldName}
+        />
+      );
+    }
+    case reuseBeweisZodDescription: {
+      const beweisType = getBeweisType(fieldSchema, fieldName);
+
+      const abschnitte =
+        (userData as GeldEinklagenFormularUserData).abschnitte ?? [];
+      const arrayIndexes = (userData as GeldEinklagenFormularUserData).pageData
+        ?.arrayIndexes;
+      const itemIndexAbschnitte = arrayIndexes?.[0] ?? 0;
+
+      const beweisOptions =
+        beweisType === "document"
+          ? getDocumentsToBeReusedFromOtherAbschnitte(
+              abschnitte,
+              itemIndexAbschnitte,
+            )
+          : getPersonenToBeReusedFromOtherAbschnitte(
+              abschnitte,
+              itemIndexAbschnitte,
+            );
+
+      return (
+        <ReuseBeweisCheckbox
+          key={fieldName}
+          name={fieldName}
+          options={beweisOptions}
         />
       );
     }
