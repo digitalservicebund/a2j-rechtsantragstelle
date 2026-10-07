@@ -1,19 +1,19 @@
 import { Result } from "true-myth";
 import { emailCaptureConsentName } from "~/components/content/emailCapture/emailCaptureHelpers";
+import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
-import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
-import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { type UserDataWithPageData } from "../pageData";
-import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { type FlowSession } from "../newFlowEngine/createFlowSession";
-import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
-import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
-import { getSessionAndEngine } from "./getSessionAndEngine";
-import { type PageConfigMap } from "../newFlowEngine/types";
-import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
+import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { getMigrationData } from "~/services/session.server/getMigrationData";
+import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { type FlowSession } from "../newFlowEngine/createFlowSession";
+import { type PageConfigMap } from "../newFlowEngine/types";
+import { type UserDataWithPageData } from "../pageData";
+import { getSessionAndEngine } from "./getSessionAndEngine";
+import { validateStepIdFlowNewEngine } from "./validateStepIdFlowNewEngine";
 
 const buildValidFlowPaths = (
   flowSessionEngine: FlowSession<PageConfigMap>,
@@ -56,6 +56,7 @@ const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/erbausschlagung/anfrage": "showErbausschlagungFlow",
   "/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
   "/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow",
+  "/geld-einklagen/anwaltschaft": "showGeldEinklagenAnwaltschaftFlow",
 } as const;
 
 export const getUserDataAndFlowNewEngine = async (
