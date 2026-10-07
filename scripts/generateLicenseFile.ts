@@ -73,6 +73,10 @@ async function allRelevantLicenses() {
         dropVersion(name),
         {
           ...dependency,
+          repository: dependency.repository?.replace(
+            "git+https://",
+            "https://",
+          ),
           path: stripLocalPath(dependency.path ?? ""),
           licenseFile: stripLocalPath(dependency.licenseFile ?? ""),
         },

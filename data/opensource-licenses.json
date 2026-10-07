@@ -26,7 +26,7 @@
   },
   "@kern-ux/native": {
     "licenses": "EUPL-1.2",
-    "repository": "git+https://gitlab.opencode.de/kern-ux/kern-ux-plain",
+    "repository": "https://gitlab.opencode.de/kern-ux/kern-ux-plain",
     "publisher": "Kern-UX",
     "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native/LICENSE.md",
@@ -68,8 +68,8 @@
   "@react-router/node": {
     "licenses": "MIT",
     "repository": "https://github.com/remix-run/react-router",
-    "path": "a2j-rechtsantragstelle/node_modules/@react-router/node",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@react-router/node/LICENSE.md",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@react-router+express@8.3.0_express@5.2.1_react-router@8.3.0_typescript@7.0.2/node_modules/@react-router/node",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@react-router+express@8.3.0_express@5.2.1_react-router@8.3.0_typescript@7.0.2/node_modules/@react-router/node/LICENSE.md",
     "direct": true
   },
   "@remix-run/form-data-parser": {
@@ -99,8 +99,8 @@
     "licenses": "FSL-1.1-MIT",
     "repository": "https://github.com/getsentry/sentry-cli",
     "publisher": "Sentry",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.65.0_rollup@4.60.4_supports-color@8.1.1/node_modules/@sentry/cli",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.65.0_rollup@4.60.4_supports-color@8.1.1/node_modules/@sentry/cli/LICENSE"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.76.0_supports-color@8.1.1/node_modules/@sentry/cli",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@10.76.0_supports-color@8.1.1/node_modules/@sentry/cli/LICENSE"
   },
   "@sentry/react-router": {
     "licenses": "MIT",
@@ -140,8 +140,8 @@
     "repository": "https://github.com/browserslist/caniuse-lite",
     "publisher": "Ben Briggs",
     "email": "beneb.info@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.28.7/node_modules/caniuse-lite",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.28.7/node_modules/caniuse-lite/LICENSE"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.29.3/node_modules/caniuse-lite",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/browserslist@4.29.3/node_modules/caniuse-lite/LICENSE"
   },
   "classnames": {
     "licenses": "MIT",
@@ -172,8 +172,8 @@
     "repository": "https://github.com/cure53/DOMPurify",
     "publisher": "Dr.-Ing. Mario Heiderich, Cure53",
     "email": "mario@cure53.de",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.434.15_@types+react@19.3.0_react@19.3.0/node_modules/dompurify",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.434.15_@types+react@19.3.0_react@19.3.0/node_modules/dompurify/LICENSE"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.435.8_@types+react@19.3.0_react@19.3.0/node_modules/dompurify",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.435.8_@types+react@19.3.0_react@19.3.0/node_modules/dompurify/LICENSE"
   },
   "dotenv": {
     "licenses": "BSD-2-Clause",
@@ -402,8 +402,8 @@
   "sentry": {
     "licenses": "Apache*",
     "repository": "https://github.com/getsentry/cli",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.0.0_rollup@4.60.4/node_modules/sentry",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.0.0_rollup@4.60.4/node_modules/sentry/LICENSE.md"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.4.0_@babel+core@7.29.7/node_modules/sentry",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.4.0_@babel+core@7.29.7/node_modules/sentry/LICENSE.md"
   },
   "tiny-invariant": {
     "licenses": "MIT",
