@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createSplitDateSchema, toDate } from "../dateObject";
+import { createSplitDateSchema, toDate, toDateObject } from "../dateObject";
 
 describe("createSplitDateSchema", () => {
   describe("success cases", () => {
@@ -174,5 +174,47 @@ describe("createSplitDateSchema", () => {
       },
     );
     expect(actual).toBe(false);
+  });
+});
+
+describe("toDateObject", () => {
+  const cases = [
+    {
+      input: new Date("2023-03-01"),
+      expected: {
+        day: "01",
+        month: "03",
+        year: "2023",
+      },
+    },
+    {
+      input: new Date("2023-03-20"),
+      expected: {
+        day: "20",
+        month: "03",
+        year: "2023",
+      },
+    },
+    {
+      input: new Date("2026-12-31"),
+      expected: {
+        day: "31",
+        month: "12",
+        year: "2026",
+      },
+    },
+    {
+      input: new Date("2026-01-01"),
+      expected: {
+        day: "01",
+        month: "01",
+        year: "2026",
+      },
+    },
+  ];
+
+  test.each(cases)("given $input, returns $expected", ({ input, expected }) => {
+    const actual = toDateObject(input);
+    expect(actual).toEqual(expected);
   });
 });
