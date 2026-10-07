@@ -8,6 +8,7 @@ import {
 } from "~/services/pdf/attachment";
 import { type StringField } from "~/services/pdf/fileTypes";
 import type { PdfFillFunctionProps } from "~/services/pdf/fillOutFunction";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const familyRelationshipMap = {
   mother: "Mutter",
@@ -67,7 +68,13 @@ export const addSupportRecipientsToAttachment =
           title: "Name",
           text: `${kind.vorname} ${kind.nachname}`,
         });
-        attachment.push({ title: "Geburtsdatum", text: kind.geburtsdatum });
+        attachment.push({
+          title: "Geburtsdatum",
+          text:
+            typeof kind.geburtsdatum === "string"
+              ? kind.geburtsdatum
+              : toDateString(kind.geburtsdatum),
+        });
         if ("unterhaltsSumme" in kind) {
           attachment.push({
             title: "Monatliche Unterhaltszahlungen",
@@ -101,7 +108,13 @@ export const addSupportRecipientsToAttachment =
           title: "Name",
           text: `${person.firstName} ${person.surname}`,
         });
-        attachment.push({ title: "Geburtsdatum", text: person.birthday });
+        attachment.push({
+          title: "Geburtsdatum",
+          text:
+            typeof person.birthday === "string"
+              ? person.birthday
+              : toDateString(person.birthday),
+        });
         attachment.push({
           title: "Familienverhältnis",
           text: familyRelationshipMap[person.familyRelationship],

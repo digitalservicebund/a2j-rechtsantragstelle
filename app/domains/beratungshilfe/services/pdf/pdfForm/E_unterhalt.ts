@@ -55,7 +55,7 @@ const enumerateSupportRecipients: BerHPdfFillFunction = ({
         `${kind.vorname} ${kind.nachname}`;
       pdfValues[
         `e2Geburtsdatum${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
-      ].value = kind.geburtsdatum;
+      ].value = toDateString(kind.geburtsdatum);
       pdfValues[
         `e3Familienverhaeltnis${startCell === 1 ? "" : startCell}` as keyof typeof pdfValues
       ].value = "Kind";
