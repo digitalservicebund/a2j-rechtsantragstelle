@@ -26,7 +26,19 @@ export const beratungshilfeFormularFlowConfig = compileFlow({
     ...rechtsproblemFlowConfig,
     ...finanzielleAngabenFlowConfig,
     ...persoenlicheDatenFlowConfig,
-    weitereAngaben: "ueberpruefung",
+    weitereAngaben: [
+      {
+        guard: (context) =>
+          !!context.pageData?.subflowDoneStates &&
+          Object.entries(context.pageData.subflowDoneStates)
+            .filter(([stepId]) => !stepId.startsWith(`/abgabe`))
+            .every(([, subflowDone]) => Boolean(subflowDone)),
+        target: "zusammenfassung",
+      },
+      {
+        target: "ueberpruefung",
+      },
+    ],
     ...abgabeFlowConfig,
   },
   pruningStrategy: "cascading",
