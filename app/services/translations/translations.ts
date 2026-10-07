@@ -603,7 +603,7 @@ export const translations = {
       de: "Beweis: Welches Dokument möchten Sie angeben?",
     },
     begruendungBeschreibungReusePersonDialogTitle: {
-      de: "Beweis: Bereits genannte Zeugen oder Zeuginnen erneut angeben?",
+      de: "Beweis: Welche Person möchten Sie angeben?",
     },
     begruendungBeschreibungReuseDocumentDialogDescription: {
       de: "Dokument wiederverwenden",
