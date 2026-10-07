@@ -10,6 +10,14 @@ export const klageErstellenBegruendungFlowConfig = {
   begruendungBeschreibungUebersicht: [
     { type: "addArrayItem", target: "begruendungBeschreibungAbschnitte" },
     {
+      type: "addArrayItem",
+      target: "begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden",
+    },
+    {
+      type: "addArrayItem",
+      target: "begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden",
+    },
+    {
       guard: (context) => !z.validate(abschnitteArray, context.abschnitte),
       target: "begruendungBeschreibungWarnung",
     },
@@ -30,6 +38,16 @@ export const klageErstellenBegruendungFlowConfig = {
     },
   ],
   begruendungBeschreibungAbschnitteBeweisDocument: [
+    {
+      target: "begruendungBeschreibungUebersicht",
+    },
+  ],
+  begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: [
+    {
+      target: "begruendungBeschreibungUebersicht",
+    },
+  ],
+  begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: [
     {
       target: "begruendungBeschreibungUebersicht",
     },

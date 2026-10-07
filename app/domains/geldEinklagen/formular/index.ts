@@ -17,6 +17,10 @@ import {
   getArrayIndex,
   hasZeroAbschnitte,
   getAbschnitteWithInvalidAnotherPerson,
+  hasMoreThanOneReusePersonen,
+  hasMoreThanOneReuseDokumenten,
+  isDocumentBeingReused,
+  isPersonBeingReused,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
@@ -25,7 +29,11 @@ import {
   updateIfUserNotPrefilledBeklagte,
   updateIfUserNotPrefilledKlagendePerson,
 } from "../services/prefillZipCodeAndCity";
+import { copyOrRemoveReferenceDocuments } from "../services/copyOrRemoveReferenceDocuments";
 import { geldEinklagenFlowConfig } from "./flowConfig";
+import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferencePersons";
+import { updateBeweisReferenceDocuments } from "../services/updateBeweisRefereceDocuments";
+import { updateBeweisReferencePersons } from "../services/updateBeweisReferencePersons";
 import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
 
 export const geldEinklagenFormular = {
@@ -49,6 +57,10 @@ export const geldEinklagenFormular = {
     ...getArrayIndex(context),
     ...hasZeroAbschnitte(context),
     ...getAbschnitteWithInvalidAnotherPerson(context),
+    ...hasMoreThanOneReusePersonen(context),
+    ...hasMoreThanOneReuseDokumenten(context),
+    ...isDocumentBeingReused(context),
+    ...isPersonBeingReused(context),
   }),
   config: {
     id: "/geld-einklagen/formular",
@@ -80,5 +92,13 @@ export const geldEinklagenFormular = {
       updateAbschnittenPersonenIds,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten":
       updateAbschnittenPersonenIds,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden":
+      copyOrRemoveReferenceDocuments,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden":
+      copyOrRemoveReferencePersons,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten":
+      updateBeweisReferenceDocuments,
+    "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten":
+      updateBeweisReferencePersons,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

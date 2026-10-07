@@ -1,6 +1,17 @@
-import BegruendungBeschreibungAbschnitte from "../BegruendungBeschreibungAbschnitte";
+import BegruendungBeschreibungAbschnitt from "../BegruendungBeschreibungAbschnitt";
 import { render } from "@testing-library/react";
 import { useBegruendungBeschreibung } from "../useBegruendungBeschreibung";
+import { createMemoryRouter, RouterProvider } from "react-router";
+import { type Abschnitte } from "../reuseBeweise";
+
+// Needed as jsdom doesn't support dialog API yet
+// https://github.com/jsdom/jsdom/issues/3294
+HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+  this.open = true;
+};
+HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+  this.open = false;
+};
 
 vi.mock("../useBegruendungBeschreibung");
 
@@ -13,26 +24,44 @@ beforeEach(() => {
   }));
 });
 
-describe("BegruendungBeschreibungAbschnitte", () => {
+function renderBegruendungBeschreibungAbschnitt(abschnitt: Abschnitte[number]) {
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <BegruendungBeschreibungAbschnitt
+            abschnitt={abschnitt}
+            itemIndexAbschnitt={0}
+          />
+        ),
+
+        action() {
+          return true;
+        },
+      },
+    ],
+    {
+      initialEntries: ["/"],
+    },
+  );
+  return render(<RouterProvider router={router} />);
+}
+
+describe("BegruendungBeschreibungAbschnitt", () => {
   it("should render the correct heading and description texts", () => {
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
     expect(getByText("Abschnitt 1")).toBeInTheDocument();
     expect(getByText("Test Beschreibung")).toBeInTheDocument();
   });
 
   it("should render the edit and delete buttons", () => {
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
     const editButton = getByText("Beschreibung bearbeiten");
     expect(editButton).toHaveAttribute(
@@ -51,15 +80,12 @@ describe("BegruendungBeschreibungAbschnitte", () => {
       onAbschnittPersonDelete: vi.fn(),
     }));
 
-    const { getByText } = render(
-      <BegruendungBeschreibungAbschnitte
-        abschnitte={{ beschreibung: "Test Beschreibung" }}
-        itemIndexAbschnitte={0}
-      />,
-    );
+    const { getByText } = renderBegruendungBeschreibungAbschnitt({
+      beschreibung: "Test Beschreibung",
+    });
 
-    const deleteButton = getByText("Abschnitt löschen");
-    deleteButton.click();
+    getByText("Abschnitt löschen").click();
+    getByText("Ja, löschen").click();
 
     expect(onAbschnittDeleteMock).toHaveBeenCalledWith(
       "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte",
