@@ -6,8 +6,8 @@ import { Details } from "~/components/content/Details";
 import { getGeldEinklagenTextareaRows } from "~/domains/geldEinklagen/formular/klage-erstellen/longTextFieldConfig";
 import { TEXTAREA_CHAR_LIMIT } from "~/services/validation/inputlimits";
 import InputError from "../error/InputError";
-import { InputLabel } from "../label/InputLabel";
 import { InputHelperText } from "../helperText/InputHelperText";
+import { InputLabel } from "../label/InputLabel";
 
 export const TEXT_AREA_ROWS = 3;
 
@@ -59,10 +59,14 @@ const Textarea = ({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <InputLabel name={name} label={label} suffix={suffix} />}
+      {(label || helperText) && (
+        <div>
+          {label && <InputLabel name={name} label={label} suffix={suffix} />}
 
-      {helperText && (
-        <InputHelperText helperText={helperText} helperId={helperId} />
+          {helperText && (
+            <InputHelperText helperText={helperText} helperId={helperId} />
+          )}
+        </div>
       )}
 
       {details && <Details {...details} setDetailsId={setDetailsId} />}
