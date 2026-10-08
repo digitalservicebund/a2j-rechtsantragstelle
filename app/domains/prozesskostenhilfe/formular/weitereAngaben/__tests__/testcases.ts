@@ -57,4 +57,30 @@ export const testCasesPKHFormularWeitereAngaben = {
       stepId: "/abgabe/ende",
     },
   ],
+  // Nachueberpruefung skips rechtsschutzversicherung, so it is never done
+  weitereAngabenNachueberpruefungAllSectionsDone: [
+    {
+      stepId: "/persoenliche-daten/beruf",
+      userInput: {
+        ...pkhTestcaseData,
+        formularArt: "nachueberpruefung",
+        beruf: "Softwareentwickler:in",
+      },
+    },
+    {
+      stepId: "/weitere-angaben",
+      userInput: {
+        weitereAngaben: "",
+      },
+      pageData: {
+        subflowDoneStates: {
+          ...allSectionsDone.subflowDoneStates,
+          "/rechtsschutzversicherung": false,
+        },
+      },
+    },
+    {
+      stepId: "/abgabe/zusammenfassung",
+    },
+  ],
 } satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;

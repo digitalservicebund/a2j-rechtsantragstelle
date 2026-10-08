@@ -5,6 +5,7 @@ import {
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { prozesskostenhilfeFormularPages } from "./pages";
 import { grundvoraussetzungenFlowConfig } from "./grundvoraussetzungen/flowConfig";
+import { isNachueberpruefung } from "./grundvoraussetzungen/guards";
 import { rechtsschutzversicherungFlowConfig } from "./rechtsschutzversicherung/flowConfig";
 import { antragstellendePersonFlowConfig } from "./antragstellendePerson/flowConfig";
 import { gesetzlicheVertretungFlowConfig } from "./gesetzlicheVertretung/flowConfig";
@@ -32,6 +33,14 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
             .filter(
               ([stepId]) =>
                 stepId.split("/").length === 2 && stepId !== "/abgabe",
+            )
+            // Nachueberpruefung skips rechtsschutzversicherung, so it is never done
+            .filter(
+              ([stepId]) =>
+                !(
+                  stepId === "/rechtsschutzversicherung" &&
+                  isNachueberpruefung({ context })
+                ),
             )
             .every(([, subflowDone]) => Boolean(subflowDone)),
         target: "zusammenfassung",
