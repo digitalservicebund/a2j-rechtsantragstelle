@@ -10,7 +10,8 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
     pages: geldEinklagenAnwaltschaftPages,
     initialStep: "voraussetzungen",
     transitions: {
-      voraussetzungen: null,
+      voraussetzungen: "klageInhalt",
+      klageInhalt: null,
       //   downloadKlageschrift: null,
     },
     pruningStrategy: "cascading",

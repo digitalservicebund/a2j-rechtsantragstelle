@@ -99,6 +99,7 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
       "/erbschein/erbfolge",
       "/erbschein/anfrage",
       "/erbausschlagung/anfrage",
+      "/geld-einklagen/anwaltschaft",
     ].includes(flowId)
   ) {
     return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
