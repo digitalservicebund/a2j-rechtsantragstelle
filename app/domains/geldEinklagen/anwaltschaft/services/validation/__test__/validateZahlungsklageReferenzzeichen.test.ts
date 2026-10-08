@@ -9,27 +9,29 @@ const schema = z.object({
 });
 
 describe("validateZahlungsklageReferenzzeichen", () => {
-  it("Should return an error if bezeichnung is given but no number", () => {
+  it("Should return an error on the number if bezeichnung is given", () => {
     const result = validateZahlungsklageReferenzzeichen()(schema).safeParse({
       zahlungsklageBezeichnung: "Bezeichnung",
     });
-    expect(result.error?.issues.length).toBe(2);
+    expect(result.error?.issues.length).toBe(1);
     expect(result.error?.issues[0].message).toBe(
       translations.geldEinklagenAnwaltschaft.zahlungsklageReferenzzeichenError
         .de,
     );
+    expect(result.error?.issues[0].path).toEqual(["zahlungsklageNummer"]);
   });
 
-  it("Should return an error if number is given but no bezeichnung", () => {
+  it("Should return an error on bezeichnung if number is given", () => {
     const result = validateZahlungsklageReferenzzeichen()(schema).safeParse({
       zahlungsklageNummer: "12345",
     });
     expect(result.success).toBe(false);
-    expect(result.error?.issues.length).toBe(2);
-    expect(result.error?.issues[1].message).toBe(
+    expect(result.error?.issues.length).toBe(1);
+    expect(result.error?.issues[0].message).toBe(
       translations.geldEinklagenAnwaltschaft.zahlungsklageReferenzzeichenError
         .de,
     );
+    expect(result.error?.issues[0].path).toEqual(["zahlungsklageBezeichnung"]);
   });
 
   it("Should return no errors if both bezeichnung and number are given", () => {

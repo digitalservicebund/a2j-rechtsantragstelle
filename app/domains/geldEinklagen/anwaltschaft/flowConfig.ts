@@ -11,7 +11,8 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
     initialStep: "voraussetzungen",
     transitions: {
       voraussetzungen: "klageInhalt",
-      klageInhalt: null,
+      klageInhalt: "pilotgericht",
+      pilotgericht: null,
       //   downloadKlageschrift: null,
     },
     pruningStrategy: "cascading",

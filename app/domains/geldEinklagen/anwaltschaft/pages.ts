@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import {
+  buildMoneyValidationSchema,
+  formatCurrencyZodDescription,
+} from "~/services/validation/money/buildMoneyValidationSchema";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -25,9 +28,33 @@ export const geldEinklagenAnwaltschaftPages = {
         .max(50, { message: "max" })
         .optional(),
       zahlungsklageGesamtstreitwert: buildMoneyValidationSchema({
-        min: 0,
-        max: 10000,
-      }),
+        min: 1,
+        max: 1000000,
+      }).meta({ description: formatCurrencyZodDescription }),
+    },
+  },
+  pilotgericht: {
+    stepId: "/pilotgericht",
+    pageSchema: {
+      pilotgericht: z.enum([
+        "bitburg",
+        "bonn",
+        "bremen",
+        "duesseldorf",
+        "eilenburg",
+        "erding",
+        "essen",
+        "frankfurt-am-main",
+        "hamburg-mitte",
+        "koenigs-wusterhausen",
+        "leipzig",
+        "mannheim",
+        "nuernberg",
+        "nuertingen",
+        "schoeneberg",
+        "sinzig",
+        "steinfurt",
+      ]),
     },
   },
   //   downloadKlageschrift: {

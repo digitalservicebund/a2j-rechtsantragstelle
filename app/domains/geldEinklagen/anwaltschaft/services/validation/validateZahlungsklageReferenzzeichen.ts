@@ -15,27 +15,26 @@ export function validateZahlungsklageReferenzzeichen(): FunctionMultiFieldsValid
         string | undefined;
       const nummer = ctx.value["zahlungsklageNummer"] as string | undefined;
 
-      if ((bezeichnung && !nummer) || (!bezeichnung && nummer)) {
-        ctx.issues.push(
-          {
-            code: "custom",
-            message:
-              translations.geldEinklagenAnwaltschaft
-                .zahlungsklageReferenzzeichenError.de,
-            path: ["zahlungsklageBezeichnung"],
-            fatal: true,
-            input: ctx.value["zahlungsklageBezeichnung"],
-          },
-          {
-            code: "custom",
-            message:
-              translations.geldEinklagenAnwaltschaft
-                .zahlungsklageReferenzzeichenError.de,
-            path: ["zahlungsklageNummer"],
-            fatal: true,
-            input: ctx.value["zahlungsklageNummer"],
-          },
-        );
+      if (bezeichnung && !nummer) {
+        ctx.issues.push({
+          code: "custom",
+          message:
+            translations.geldEinklagenAnwaltschaft
+              .zahlungsklageReferenzzeichenError.de,
+          path: ["zahlungsklageNummer"],
+          fatal: true,
+          input: ctx.value["zahlungsklageNummer"],
+        });
+      } else if (!bezeichnung && nummer) {
+        ctx.issues.push({
+          code: "custom",
+          message:
+            translations.geldEinklagenAnwaltschaft
+              .zahlungsklageReferenzzeichenError.de,
+          path: ["zahlungsklageBezeichnung"],
+          fatal: true,
+          input: ctx.value["zahlungsklageBezeichnung"],
+        });
       }
 
       return z.NEVER;
