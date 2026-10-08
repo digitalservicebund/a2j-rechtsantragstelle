@@ -1,3 +1,5 @@
+// oxlint-disable-next-line no-unassigned-import
+import "~/services/xjustiz/installTemporalPolyfill.server";
 import {
   createFortlaufendeNummerGenerator,
   createRollennummerGenerator,

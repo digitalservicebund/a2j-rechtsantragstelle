@@ -1,7 +1,5 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-// oxlint-disable-next-line no-unassigned-import
-import "~/services/xjustiz/installTemporalPolyfill.server";
 import { flows } from "~/domains/flows.server";
 import { parsePathname } from "~/domains/flowIds";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
