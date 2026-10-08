@@ -11,7 +11,7 @@ export const createSplitTimeSchema = () => {
             const num = Number(val);
             return !Number.isNaN(num) && val.length <= 2;
           },
-          { error: "Ungültiger Stunden" },
+          { error: "Ungültiger Stunde" },
         )
         .transform((val) => val.padStart(2, "0")),
       minute: stringRequiredSchema
@@ -20,17 +20,29 @@ export const createSplitTimeSchema = () => {
             const num = Number(val);
             return !Number.isNaN(num) && val.length <= 2;
           },
-          { error: "Ungültiger Minuten" },
+          { error: "Ungültiger Minute" },
         )
         .transform((val) => val.padStart(2, "0")),
     })
     .meta({ description: "split_time" })
-    .refine(
-      (timeObj) => isTime(toTimeString(timeObj), { hourFormat: "hour24" }),
-      {
-        error: "Ungültige Uhrzeit",
-      },
-    );
+    .check((ctx) => {
+      if (isTime(toTimeString(ctx.value), { hourFormat: "hour24" })) return;
+
+      // attach to the leaf fields (not the parent path) so RVF's
+      // per-field validation picks the error back up after it clears
+      ctx.issues.push({
+        code: "custom",
+        message: "Ungültige Uhrzeit",
+        path: ["hour"],
+        input: ctx.value,
+      });
+      ctx.issues.push({
+        code: "custom",
+        message: "Ungültige Uhrzeit",
+        path: ["minute"],
+        input: ctx.value,
+      });
+    });
 };
 
 export type TimeObject = { hour: string; minute: string };
