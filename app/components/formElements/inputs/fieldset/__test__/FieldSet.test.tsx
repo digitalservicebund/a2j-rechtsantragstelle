@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
-import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import z from "zod";
 import { getPageSchema } from "~/domains/pageSchemas";
+import type { StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import { Fieldset } from "../Fieldset";
 
 vi.mock("~/components/formElements/SchemaComponents", () => ({
@@ -93,5 +93,19 @@ describe("FieldSet", () => {
     );
 
     expect(getByText(helperText)).toBeInTheDocument();
+  });
+
+  it("should render suffix when it is available", () => {
+    const suffix = "This is some suffix for the fieldset.";
+    const { getByText } = render(
+      <Fieldset
+        heading="anyHeading"
+        formComponents={mockFieldSetGroup.formComponents}
+        suffix={suffix}
+        readOnlyFieldNames={[]}
+      />,
+    );
+
+    expect(getByText(suffix)).toBeInTheDocument();
   });
 });

@@ -644,6 +644,11 @@ export const translations = {
       de: "Bitte wählen Sie mindestens eine Person aus.",
     },
   },
+  geldEinklagenAnwaltschaft: {
+    zahlungsklageReferenzzeichenError: {
+      de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
+    },
+  },
   nachlass: {
     childOf: {
       de: "Kind von",
