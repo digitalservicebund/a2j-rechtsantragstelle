@@ -38,7 +38,7 @@ export const SplitTimeInput = ({
 
   const groupErrorMessage = field.error();
   /**
-   * Should only display errors as soon as all 3 fields have been visited
+   * Should only display errors as soon as all 2 fields have been visited
    */
   const shouldDisplayErrors =
     Boolean(groupErrorMessage) ||
