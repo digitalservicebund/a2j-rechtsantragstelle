@@ -12,6 +12,7 @@ import {
 } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { removeArrayIndexWithWildcard } from "~/util/array";
+import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { fluggastrechteFormularTestCases } from "../fluggastrechte/formular/__test__/testcasesWithUserInput";
 import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/newFlowEngine/testcasesWithUserInput";
@@ -37,6 +38,7 @@ const flowSchemaTests = {
   erbausschlagungAnfrageTestCases,
   erbscheinWegweiserTestCases,
   beratungshilfeVorabcheckTestCases,
+  beratungshilfeAntragTestCases,
   fluggastrechteVorabcheckTestCases,
   fluggastrechteFormularTestCases,
 };
