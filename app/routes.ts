@@ -1,21 +1,17 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
-import {
-  flowRoutes,
-  newEngineFlowRoutes,
-  newEngineVorabcheckRoutes,
-} from "./services/routing/flowRoutes";
+import { flowRoutes, vorabcheckRoutes } from "./services/routing/flowRoutes";
 
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...prefix("beratungshilfe", [
-    ...prefix("vorabcheck", newEngineVorabcheckRoutes("BHV")),
-    ...prefix("antrag", newEngineFlowRoutes("BHA")),
+    ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
+    ...prefix("antrag", flowRoutes("BHA")),
   ]),
   ...prefix("prozesskostenhilfe", [...prefix("formular", flowRoutes("PKH"))]),
   ...prefix("fluggastrechte", [
-    ...prefix("vorabcheck", newEngineVorabcheckRoutes("FGRV")),
-    ...prefix("formular", newEngineFlowRoutes("FGRF")),
+    ...prefix("vorabcheck", vorabcheckRoutes("FGRV")),
+    ...prefix("formular", flowRoutes("FGRF")),
   ]),
   ...prefix("erbausschlagung", [
     ...prefix("anfrage", [
@@ -26,11 +22,11 @@ export default [
         id: "pdfEAA",
       }),
     ]),
-    ...prefix("gericht-finden", newEngineVorabcheckRoutes("EAGF")),
+    ...prefix("gericht-finden", vorabcheckRoutes("EAGF")),
   ]),
   ...prefix("erbschein", [
-    ...prefix("wegweiser", newEngineVorabcheckRoutes("ESW")),
-    ...prefix("nachlassgericht", newEngineVorabcheckRoutes("ESN")),
+    ...prefix("wegweiser", vorabcheckRoutes("ESW")),
+    ...prefix("nachlassgericht", vorabcheckRoutes("ESN")),
     ...prefix("erbfolge", [
       route("ergebnis/*", "routes/erbschein.erbfolge.ergebnis.$.tsx", {
         id: "erbfolgeResult",
@@ -49,11 +45,11 @@ export default [
     ]),
   ]),
   ...prefix("kontopfaendung", [
-    ...prefix("wegweiser", newEngineVorabcheckRoutes("KPW")),
-    ...prefix("pkonto/antrag", newEngineFlowRoutes("KPPA")),
+    ...prefix("wegweiser", vorabcheckRoutes("KPW")),
+    ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
-    ...prefix("anwaltschaft", newEngineFlowRoutes("GEA")),
+    ...prefix("anwaltschaft", flowRoutes("GEA")),
     ...prefix("formular", [
       route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {

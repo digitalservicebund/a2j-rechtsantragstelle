@@ -1,15 +1,10 @@
-import { firstArrayIndex, isValidArrayIndex } from "~/services/flow/pageData";
+import { firstArrayIndex } from "~/services/flow/pageData";
 import { arrayIsNonEmpty } from "~/util/array";
 import { type ProzesskostenhilfeFinanzielleAngabenUserData } from "./userData";
 import { yesNoGuards, type GenericGuard } from "../../../guards.server";
 
 type FinanzielleAngabenGuard =
   GenericGuard<ProzesskostenhilfeFinanzielleAngabenUserData>;
-
-export const hasKinderYesAndEmptyArray: FinanzielleAngabenGuard = ({
-  context,
-}) => context.hasKinder === "yes" && !arrayIsNonEmpty(context.kinder);
-
 export const isSonstigeVersicherung: FinanzielleAngabenGuard = ({
   context: { pageData, versicherungen },
 }) => {
@@ -39,17 +34,6 @@ export const { hasAusgabenYes } = yesNoGuards("hasAusgaben");
 export const { hasVersicherungenYes } = yesNoGuards("hasVersicherungen");
 export const { hasRatenzahlungenYes } = yesNoGuards("hasRatenzahlungen");
 export const { hasSonstigeAusgabenYes } = yesNoGuards("hasSonstigeAusgaben");
-
-export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben == "no" &&
-    context.unterhalt === "yes";
-export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: FinanzielleAngabenGuard =
-  ({ context }) =>
-    context.partnerschaft === "yes" &&
-    context.zusammenleben == "no" &&
-    context.unterhalt == "no";
 export const kindWohnortBeiAntragstellerYes: FinanzielleAngabenGuard = ({
   context: { pageData, kinder },
 }) => {
@@ -96,9 +80,6 @@ export const kindUnterhaltNo: FinanzielleAngabenGuard = ({
   if (kind && "unterhalt" in kind) return kind.unterhalt === "no";
   return false;
 };
-export const isValidKinderArrayIndex: FinanzielleAngabenGuard = ({
-  context: { pageData, kinder },
-}) => isValidArrayIndex(kinder, pageData);
 export const isGeldanlageBargeld: FinanzielleAngabenGuard = ({
   context: { pageData, geldanlagen },
 }) => {

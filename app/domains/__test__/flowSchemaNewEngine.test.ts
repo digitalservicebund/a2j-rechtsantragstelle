@@ -25,6 +25,7 @@ import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagu
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { getPageSchema } from "../pageSchemas";
+import { prozesskostenhilfeFormularTestCases } from "../prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 
 const flowSchemaTests = {
@@ -37,6 +38,7 @@ const flowSchemaTests = {
   erbscheinNachlassgerichtTestCases,
   erbausschlagungAnfrageTestCases,
   erbscheinWegweiserTestCases,
+  prozesskostenhilfeFormularTestCases,
   beratungshilfeVorabcheckTestCases,
   beratungshilfeAntragTestCases,
   fluggastrechteVorabcheckTestCases,
