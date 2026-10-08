@@ -1,4 +1,8 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
+import { deleteBeweisAbschnittReference } from "~/domains/geldEinklagen/services/deleteBeweisAbschnittReference";
+import { deleteBeweisDokumentReference } from "~/domains/geldEinklagen/services/deleteBeweisDokumentReference";
+import { deleteBeweisPersonReference } from "~/domains/geldEinklagen/services/deleteBeweisPersonReference";
+import { updateAbschnittenPersonenIds } from "~/domains/geldEinklagen/services/updateAbschnittenPersonenIds";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
@@ -28,14 +32,47 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
 
+  // Handle TGA Beweis references
+  if (flowId === "/geld-einklagen/formular") {
+    const deleteArrayIndexes = [arrayIndexes[0], index];
+    if (arrayName === "abschnitte#dokumenten") {
+      deleteBeweisDokumentReference(flowSession, deleteArrayIndexes);
+    }
+
+    if (arrayName === "abschnitte#personen") {
+      deleteBeweisPersonReference(flowSession, deleteArrayIndexes);
+      await updateAbschnittenPersonenIds(
+        request,
+        flowSession.data,
+        flowSession,
+      );
+    }
+
+    if (arrayName === "abschnitte") {
+      deleteBeweisAbschnittReference(flowSession, index);
+    }
+  }
+
   const resultDeletion = deleteArrayItem(
     arrayName,
     index,
     flowSession,
     arrayIndexes,
   );
+
   if (resultDeletion.isErr) {
     return new Response(resultDeletion.error.message, { status: 422 });
+  }
+
+  // TGA Handle persons Ids
+  if (flowId === "/geld-einklagen/formular") {
+    if (arrayName === "abschnitte#personen") {
+      await updateAbschnittenPersonenIds(
+        request,
+        flowSession.data,
+        flowSession,
+      );
+    }
   }
 
   const headers = await commitSession(flowSession);

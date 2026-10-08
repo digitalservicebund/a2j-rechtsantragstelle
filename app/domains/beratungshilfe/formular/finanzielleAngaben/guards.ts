@@ -15,9 +15,6 @@ const hasStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard = ({
 export const staatlicheLeistungenIsBuergergeld: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) => context.staatlicheLeistungen === "buergergeld";
 
-export const staatlicheLeistungenIsKeine: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) => context.staatlicheLeistungen === "keine";
-
 export const grundeigentumIsBewohnt: BeratungshilfeFinanzielleAngabenGuard = ({
   context: { pageData, grundeigentum },
 }) => {
@@ -38,28 +35,6 @@ export const { hasKraftfahrzeugYes } = yesNoGuards("hasKraftfahrzeug");
 export const hasPartnerschaftYes: BeratungshilfeFinanzielleAngabenGuard = ({
   context,
 }) => context.partnerschaft === "yes";
-
-export const hasPartnerschaftYesAndPartnerEinkommenYes: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.partnerEinkommen == "yes";
-
-export const hasPartnerschaftYesAndZusammenlebenNo: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.zusammenleben == "no";
-
-export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltNo: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
-    context.unterhalt == "no";
-
-export const hasPartnerschaftYesAndZusammenlebenNoAndUnterhaltYes: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYesAndZusammenlebenNo({ context }) &&
-    context.unterhalt === "yes";
-
-export const hasPartnerschaftYesAndZusammenlebenYes: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context }) =>
-    hasPartnerschaftYes({ context }) && context.zusammenleben == "yes";
 
 export const { hasWeitereUnterhaltszahlungenYes } = yesNoGuards(
   "hasWeitereUnterhaltszahlungen",
@@ -189,20 +164,6 @@ export const kindWohnortBeiAntragstellerYes: BeratungshilfeFinanzielleAngabenGua
 export const hasPartnerschaftYesAndNoStaatlicheLeistungen: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>
     context.partnerschaft === "yes" && !hasStaatlicheLeistungen({ context });
-
-export const livesAlone: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) => context.livingSituation === "alone";
-
-export const livesNotAlone: BeratungshilfeFinanzielleAngabenGuard = ({
-  context,
-}) =>
-  context.livingSituation === "withRelatives" ||
-  context.livingSituation === "withOthers";
-
-export const isValidAusgabenArrayIndex: BeratungshilfeFinanzielleAngabenGuard =
-  ({ context: { pageData, ausgaben } }) =>
-    isValidArrayIndex(ausgaben, pageData);
 
 export const hasAusgabenYesAndEmptyArray: BeratungshilfeFinanzielleAngabenGuard =
   ({ context }) =>

@@ -20,6 +20,18 @@ const flow = compileFlow({
   transitions,
 });
 
+const buildArrayFlow = (itemSchema: z.ZodType) =>
+  compileFlow({
+    pages: {
+      list: {
+        stepId: "/list",
+        arraySummary: { name: "items", schema: z.array(itemSchema) },
+      },
+    } as PagesConfig,
+    initialStep: "list",
+    transitions: { list: null },
+  });
+
 describe("compileFlow", () => {
   describe("path round-trip", () => {
     it("getNodeKeyFromPath(getPathFromNodeKey(key)) === key for all nodes", () => {
@@ -227,6 +239,40 @@ describe("compileFlow", () => {
 
     it("returns undefined for an unknown path", () => {
       expect(flow.getProgress("/unknown")).toBeUndefined();
+    });
+  });
+
+  describe("isOptionalArray", () => {
+    it("treats a nested array as optional when it is optional or absent in every union branch of a lazy item schema", () => {
+      const recursiveOptional: z.ZodType = z.lazy(() =>
+        z.union([
+          z.object({ kind: z.literal("leaf") }),
+          z.object({
+            kind: z.literal("branch"),
+            items: z.array(recursiveOptional).optional(),
+          }),
+        ]),
+      );
+
+      expect(
+        buildArrayFlow(recursiveOptional).isOptionalArray("items#items"),
+      ).toBe(true);
+    });
+
+    it("treats a nested array as required when a union branch requires it", () => {
+      const recursiveRequired: z.ZodType = z.lazy(() =>
+        z.union([
+          z.object({ kind: z.literal("leaf") }),
+          z.object({
+            kind: z.literal("branch"),
+            items: z.array(recursiveRequired),
+          }),
+        ]),
+      );
+
+      expect(
+        buildArrayFlow(recursiveRequired).isOptionalArray("items#items"),
+      ).toBe(false);
     });
   });
 });

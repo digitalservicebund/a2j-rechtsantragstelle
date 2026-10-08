@@ -21,7 +21,7 @@
     "resolveJsonModule": true,
     "target": "es2024",
     "types": [
-      "@testing-library/jest-dom",
+      "@testing-library/jest-dom/vitest",
       "node",
       "vitest/globals",
       "@react-router/node",

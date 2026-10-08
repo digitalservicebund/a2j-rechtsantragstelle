@@ -6,11 +6,11 @@ import {
 import { pdfFillReducer } from "~/services/pdf/fillOutFunction";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { removeDecimalsFromCurrencyString } from "~/util/strings";
+import type { PkhPdfFillFunction } from "../../types";
 import {
   nettoString,
   zahlungsfrequenzMapping,
 } from "./bruttoEinnahmen_eigenes";
-import type { PkhPdfFillFunction } from "../../types";
 
 export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
   userData,
@@ -18,7 +18,7 @@ export const fillStaatlicheLeistungenPartner: PkhPdfFillFunction = ({
 }) => {
   if (guards.staatlicheLeistungenIsBuergergeld({ context: userData })) {
     pdfValues.e46.value = true;
-    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-buergergeld"])} ${nettoString}`;
+    pdfValues.monatlicheBruttoeinnahmenPartnerPartnerindurchBuergergeldinEuro.value = `${removeDecimalsFromCurrencyString(userData["partner-grundsicherungsgeld"])} ${nettoString}`;
   } else {
     pdfValues.e45.value = true;
   }

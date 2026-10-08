@@ -3,12 +3,35 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
+  PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
 import { addWitnessOfCase } from "./addWitnessOfCase";
 import { addDocumentsFactsOfCase } from "./addDocumentsFactsOfCase";
+import { getHeightOfString } from "~/services/pdf/getHeightOfString";
+import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 const FACTS_OF_CASES_TEXT = "I. Sachverhalt";
+
+const buildDocumentIds = (
+  abschnitte: Exclude<GeldEinklagenFormularUserData["abschnitte"], undefined>,
+) => {
+  const documentIds: string[] = [];
+
+  abschnitte.forEach((abschnitt, abschnittIndex) => {
+    if (arrayIsNonEmpty(abschnitt.dokumenten)) {
+      abschnitt.dokumenten.forEach((document, documentIndex) => {
+        const reference =
+          document.dokumentReference ?? `${abschnittIndex}-${documentIndex}`;
+        if (!documentIds.includes(reference)) {
+          documentIds.push(reference);
+        }
+      });
+    }
+  });
+
+  return documentIds;
+};
 
 export const createFactsOfCase = (
   doc: PDFKit.PDFDocument,
@@ -33,9 +56,20 @@ export const createFactsOfCase = (
 
   reasonSect.add(factsOfCasesSect);
 
-  let currentDocumentIndex = 0;
+  const documentIds = buildDocumentIds(abschnitte);
 
-  for (const abschnitt of abschnitte) {
+  for (const [abschnittIndex, abschnitt] of abschnitte.entries()) {
+    const abschnittBeschreibungTextHeight = getHeightOfString(
+      abschnitt.beschreibung,
+      doc,
+      PDF_WIDTH_SEIZE,
+    );
+
+    addNewPageInCaseMissingVerticalSpace(doc, {
+      extraYPosition: abschnittBeschreibungTextHeight,
+      moveDownFactor: 1,
+    });
+
     factsOfCasesSect.add(
       doc.struct("P", {}, () => {
         doc
@@ -50,11 +84,10 @@ export const createFactsOfCase = (
       doc,
       factsOfCasesSect,
       abschnitt.dokumenten,
-      currentDocumentIndex,
+      documentIds,
+      abschnittIndex,
     );
     addWitnessOfCase(doc, factsOfCasesSect, abschnitt.personen);
-
-    currentDocumentIndex += abschnitt.dokumenten?.length ?? 0;
   }
 
   doc.moveDown(1.5);

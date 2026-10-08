@@ -26,7 +26,7 @@ export function validatePersonenAuswahl(
 
     if (
       personAuswahl === "beklagte" &&
-      ctx.value["abschnitte#personIdAsBeklagte"] !== "" &&
+      ctx.value["abschnitte#personIdAsBeklagte"] &&
       ctx.value["abschnitte#personen#personId"] !==
         ctx.value["abschnitte#personIdAsBeklagte"]
     ) {
@@ -41,7 +41,7 @@ export function validatePersonenAuswahl(
 
     if (
       personAuswahl === "klagende" &&
-      ctx.value["abschnitte#personIdAsKlagende"] !== "" &&
+      ctx.value["abschnitte#personIdAsKlagende"] &&
       ctx.value["abschnitte#personen#personId"] !==
         ctx.value["abschnitte#personIdAsKlagende"]
     ) {

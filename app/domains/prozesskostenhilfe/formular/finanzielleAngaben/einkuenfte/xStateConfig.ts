@@ -7,16 +7,16 @@ import {
   isOrganizationCoverageNone,
   isOrganizationCoveragePartly,
 } from "~/domains/prozesskostenhilfe/formular/rechtsschutzversicherung/guards";
+import type { Config } from "~/services/flow/server/types";
 import {
   couldLiveFromUnterhalt,
   empfaengerIsAnderePerson,
   empfaengerIsChild,
 } from "../../antragstellendePerson/guards";
-import type { Config } from "~/services/flow/server/types";
-import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 import type { ProzesskostenhilfeAntragstellendePersonUserData } from "../../antragstellendePerson/userData";
 import type { ProzesskostenhilfeGrundvoraussetzungenUserData } from "../../grundvoraussetzungen/userData";
 import type { ProzesskostenhilfeRechtsschutzversicherungUserData } from "../../rechtsschutzversicherung/userData";
+import type { ProzesskostenhilfeFinanzielleAngabenUserData } from "../userData";
 
 const steps = xStateTargetsFromPagesConfig(
   pkhFormularFinanzielleAngabenEinkuenftePages,
@@ -106,7 +106,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
           {
             guard: ({ context }) =>
               context.staatlicheLeistungen === "buergergeld",
-            target: steps.buergergeld.relative,
+            target: steps.grundsicherungsgeld.relative,
           },
           {
             guard: einkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,
@@ -121,7 +121,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
         BACK: steps.einkuenfteStart.relative,
       },
     },
-    [steps.buergergeld.relative]: {
+    [steps.grundsicherungsgeld.relative]: {
       on: {
         SUBMIT: "einkommen",
         BACK: steps.staatlicheLeistungen.relative,
@@ -150,7 +150,7 @@ export const finanzielleAngabenEinkuenfteXstateConfig = {
               {
                 guard: ({ context }) =>
                   context.staatlicheLeistungen === "buergergeld",
-                target: steps.buergergeld.absolute,
+                target: steps.grundsicherungsgeld.absolute,
               },
               {
                 guard: einkuenfteGuards.staatlicheLeistungenIsArbeitslosengeld,

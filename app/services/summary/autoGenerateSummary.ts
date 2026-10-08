@@ -3,6 +3,7 @@ import type { StepState } from "~/services/flow/server/buildFlowController";
 import type { FieldItem, SummaryItem } from "./types";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {
+  addObjectSubFields,
   getFormQuestionsForFields,
   createFieldToStepMapping,
 } from "./getFormQuestions";
@@ -13,6 +14,12 @@ import { expandArrayFields } from "./arrayFieldProcessing";
 import { processBoxFields } from "./fieldEntryCreation";
 import { groupFieldsByArrayType, buildArrayGroups } from "./arrayGrouping";
 import { getAllFieldsFromFlowId } from "~/domains/pageSchemas";
+
+const isPlainObject = (value: unknown): value is Record<string, unknown> =>
+  !!value && typeof value === "object" && !Array.isArray(value);
+
+const isCheckboxGroup = (value: Record<string, unknown>) =>
+  Object.values(value).every((entry) => entry === "on" || entry === "off");
 
 function createSummarySection(
   sectionName: string,
@@ -44,7 +51,10 @@ export async function generateSummaryFromUserData(
     return [];
   }
 
-  const formFieldsMap = getAllFieldsFromFlowId(flowId);
+  const formFieldsMap = addObjectSubFields(
+    getAllFieldsFromFlowId(flowId),
+    flowId,
+  );
   const fieldToStepMapping = createFieldToStepMapping(formFieldsMap);
 
   // Expand array fields into individual items
@@ -55,19 +65,13 @@ export async function generateSummaryFromUserData(
   );
 
   const filteredFields = expandedFields.filter((field) => {
-    if (field.includes(".") && !field.includes("[")) {
-      const parentField = field.split(".")[0];
-      // If parent exists and is a non-array object, don't render the nested field separately
-      const parentValue = userData[parentField];
-      if (
-        parentValue &&
-        typeof parentValue === "object" &&
-        !Array.isArray(parentValue)
-      ) {
-        return false;
-      }
-    }
-    return true;
+    const isNestedField = field.includes(".") && !field.includes("[");
+    const value = userData[isNestedField ? field.split(".")[0] : field];
+    if (!isPlainObject(value)) return true;
+
+    // Checkbox groups render as one row on the parent field, any other
+    // object renders one row per sub-field
+    return isCheckboxGroup(value) ? !isNestedField : isNestedField;
   });
 
   const fieldQuestions = await getFormQuestionsForFields(

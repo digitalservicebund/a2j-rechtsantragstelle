@@ -73,7 +73,7 @@ const SummarySection = ({
                 <a
                   href={field.editUrl}
                   className="kern-link no-underline! hover:underline!"
-                  aria-labelledby={
+                  aria-describedby={
                     field.multipleQuestions
                       ? `${field.id}-${field.multipleQuestions[0].id}`
                       : field.id
@@ -101,9 +101,9 @@ const SummarySection = ({
                   className="bg-white p-kern-space-default flex flex-col gap-kern-space-x-large mb-kern-space-small "
                 >
                   {arrayItem.title && (
-                    <div className="mb-8" id={arrayItem.id}>
+                    <h4 className="mb-8" id={arrayItem.id}>
                       {arrayItem.title}
-                    </div>
+                    </h4>
                   )}
 
                   {arrayItem.multipleQuestions ? (
@@ -141,10 +141,10 @@ const SummarySection = ({
                     <a
                       href={arrayItem.editUrl}
                       className="kern-link no-underline!"
-                      aria-labelledby={
-                        arrayItem.multipleQuestions
-                          ? `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
-                          : arrayItem.id
+                      aria-describedby={
+                        Boolean(arrayItem.title) || !arrayItem.multipleQuestions
+                          ? arrayItem.id
+                          : `${arrayItem.id}-${arrayItem.multipleQuestions[0].id}`
                       }
                     >
                       <Icon name="edit" />

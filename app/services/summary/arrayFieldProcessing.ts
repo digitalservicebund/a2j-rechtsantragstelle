@@ -125,6 +125,9 @@ export function createArrayEditUrl(
 
   // Array edit URLs: remove last 2 segments and add "uebersicht"
   // "/path/to/collection/item/details" → "/path/to/collection/uebersicht"
-  const pathParts = representativeStepId.split("/");
+  // The new engine "#" array index segment is skipped
+  const pathParts = representativeStepId
+    .split("/")
+    .filter((segment) => segment !== "#");
   return pathParts.slice(0, -2).join("/") + "/uebersicht";
 }

@@ -1,5 +1,5 @@
 import { ValidatedForm } from "@rvf/react-router";
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router";
 import { z } from "zod";
 import { useJsAvailable } from "~/components/hooks/useJsAvailable";
@@ -50,7 +50,6 @@ export const FeedbackFormBox = ({
   const textAreaReference = useRef<HTMLTextAreaElement | null>(null);
 
   const feedbackTranslations = useFeedbackTranslations();
-  const headingPersonalFeedbackId = useId();
 
   useEffect(() => {
     if (shouldFocus && textAreaReference.current) {
@@ -70,7 +69,7 @@ export const FeedbackFormBox = ({
     ["negative"]: feedbackTranslations["negative-feedback-question"],
   }[feedback];
 
-  const textAreaDescription = `<p id="${headingPersonalFeedbackId}">${feedbackTranslations["heading-personal-data-feedback"]}</p>`;
+  const textareaHelperText = `${feedbackTranslations["heading-personal-data-feedback"]}`;
 
   return (
     <ValidatedForm
@@ -94,10 +93,9 @@ export const FeedbackFormBox = ({
                 {feedbackText}
               </>
             }
-            description={textAreaDescription}
+            helperText={textareaHelperText}
             placeholder={feedbackTranslations["placeholder-feedback"]}
             innerRef={textAreaReference}
-            ariaDescribedby={headingPersonalFeedbackId}
           />
           <Button
             look="secondary"

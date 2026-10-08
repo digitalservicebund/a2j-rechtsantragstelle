@@ -1,4 +1,4 @@
-import { register, Histogram, Counter } from "prom-client";
+import { register, Histogram, Counter } from "@prometheus-io/client";
 import type { Request, Response, NextFunction } from "express";
 import { isbot } from "isbot";
 

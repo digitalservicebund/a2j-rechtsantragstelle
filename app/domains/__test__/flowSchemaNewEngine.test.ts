@@ -1,32 +1,35 @@
-import z from "zod";
 import merge from "lodash/merge";
-import { getPageSchema } from "../pageSchemas";
-import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
-import { removeArrayIndexWithWildcard } from "~/util/array";
+import z from "zod";
+import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ArrayConfigServer } from "~/services/array";
-import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import {
   createFlowSession,
   type FlowSession,
 } from "~/services/flow/newFlowEngine/createFlowSession";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
-import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
-import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
-import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
-import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
-import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
-import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
-import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { removeArrayIndexWithWildcard } from "~/util/array";
+import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
-import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/newFlowEngine/testcasesWithUserInput";
 import { fluggastrechteFormularTestCases } from "../fluggastrechte/formular/__test__/testcasesWithUserInput";
+import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/newFlowEngine/testcasesWithUserInput";
+import { geldEinklagenAnwaltschaftTestCases } from "../geldEinklagen/anwaltschaft/__test__/testCasesWithUserInput";
+import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
+import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
+import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
+import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
+import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { getPageSchema } from "../pageSchemas";
+import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
 
 const flowSchemaTests = {
   geldEinklagenFormularTestCases,
+  geldEinklagenAnwaltschaftTestCases,
   erbscheinAnfrageTestCases,
   kontopfaendungWegweiserTestCases,
   kontopfaendungPkontoAntragTestCases,
@@ -35,6 +38,7 @@ const flowSchemaTests = {
   erbausschlagungAnfrageTestCases,
   erbscheinWegweiserTestCases,
   beratungshilfeVorabcheckTestCases,
+  beratungshilfeAntragTestCases,
   fluggastrechteVorabcheckTestCases,
   fluggastrechteFormularTestCases,
 };
