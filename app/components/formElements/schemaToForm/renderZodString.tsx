@@ -39,6 +39,7 @@ export const renderZodString = (
           "suffix",
           "details",
           "description",
+          "helperText",
           "maxLength",
         ])}
       />
