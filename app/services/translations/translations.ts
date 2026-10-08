@@ -349,6 +349,14 @@ export const translations = {
       de: "Beispielsweise: 17.3.2015",
     },
   },
+  splitTimeComponent: {
+    hourInputLabel: {
+      de: "Stunde",
+    },
+    minuteInputLabel: {
+      de: "Minute",
+    },
+  },
   numberIncrementComponent: {
     incrementButtonLabel: {
       de: "Erhöhen",
