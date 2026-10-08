@@ -22,9 +22,6 @@ export const reachRechtsproblem = {
   anwaltskanzlei: "no",
 } satisfies Partial<BeratungshilfeFormularUserData>;
 
-// einkommen start is reached by the same answers (rechtsproblem -> einkommen is unconditional).
-export const reachEinkommen = reachRechtsproblem;
-
 // Reaches the partner section (no state benefits, not employed).
 export const reachPartner = {
   ...reachRechtsproblem,

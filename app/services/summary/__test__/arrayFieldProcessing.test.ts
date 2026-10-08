@@ -24,6 +24,16 @@ describe("createArrayEditUrl", () => {
       );
     });
 
+    it("should ignore the new engine '#' array index segment", () => {
+      const result = createArrayEditUrl(
+        "kinder[0].vorname",
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/#/name",
+      );
+      expect(result).toBe(
+        "/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
+      );
+    });
+
     it("should handle unterhaltszahlungen contains matching", () => {
       const result = createArrayEditUrl(
         "unterhaltszahlungen[0].firstName",

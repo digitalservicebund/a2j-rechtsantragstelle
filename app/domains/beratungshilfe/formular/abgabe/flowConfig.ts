@@ -2,7 +2,7 @@ import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 import { type BeratungshilfeFormularPages } from "../pages";
 
 export const abgabeFlowConfig = {
-  ueberpruefung: "zusammenfassung",
+  ueberpruefung: null,
   zusammenfassung: "art",
   art: [
     {
