@@ -23,7 +23,23 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     ...finanzielleAngabenFlowConfig,
     ...gesetzlicheVertretungFlowConfig,
     ...persoenlicheDatenFlowConfig,
-    weitereAngaben: "abgabeUeberpruefung",
+    weitereAngaben: [
+      {
+        guard: (context) =>
+          !!context.pageData?.subflowDoneStates &&
+          Object.entries(context.pageData.subflowDoneStates)
+            // Top level sections only, subsections can be unreachable and therefore never done
+            .filter(
+              ([stepId]) =>
+                stepId.split("/").length === 2 && stepId !== "/abgabe",
+            )
+            .every(([, subflowDone]) => Boolean(subflowDone)),
+        target: "zusammenfassung",
+      },
+      {
+        target: "abgabeUeberpruefung",
+      },
+    ],
     ...abgabeFlowConfig,
   },
   pruningStrategy: "cascading",

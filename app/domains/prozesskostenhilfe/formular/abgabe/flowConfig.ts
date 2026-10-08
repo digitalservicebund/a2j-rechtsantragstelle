@@ -3,7 +3,7 @@ import { type prozesskostenhilfeFormularPages } from "../pages";
 
 export const abgabeFlowConfig = {
   abgabe: "abgabeUeberpruefung",
-  abgabeUeberpruefung: "zusammenfassung",
+  abgabeUeberpruefung: null,
   zusammenfassung: "ende",
   ende: null,
 } satisfies Partial<
