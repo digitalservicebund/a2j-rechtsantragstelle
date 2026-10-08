@@ -102,7 +102,7 @@ export const SplitTimeInput = ({
           />
         </div>
 
-        <div className="flex items-center pt-kern-space-x-large py-kern-space-2x-small justify-center items-stretch">
+        <div className="flex items-center pt-kern-space-3x-large py-kern-space-2x-small justify-center items-stretch">
           :
         </div>
 
