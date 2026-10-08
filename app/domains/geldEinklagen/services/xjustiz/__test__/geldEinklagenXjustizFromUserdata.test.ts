@@ -74,6 +74,100 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     });
   });
 
+  it("nimmt Zeugen mit eindeutigen Rollen- und Beweisnummern auf", async () => {
+    const zeugin = {
+      personAuswahl: "anotherPerson" as const,
+      personId: "zeugin-1",
+      anrede: "frau" as const,
+      title: "",
+      vorname: "Erika",
+      nachname: "Mustermann",
+      strasse: "Hauptstraße",
+      hausnummer: "1",
+      plz: "10115",
+      ort: "Berlin",
+      land: "Deutschland",
+      telefonnummer: "",
+      email: "",
+    };
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        abschnitte: [
+          { ...userDataWithBegruendung.abschnitte[0], personen: [zeugin] },
+          {
+            ...userDataWithBegruendung.abschnitte[0],
+            personen: [
+              {
+                ...zeugin,
+                personId: "zeugin-1-kopie",
+                personReference: "0-0",
+              },
+              {
+                ...zeugin,
+                personId: "zeuge-2",
+                anrede: "herr" as const,
+                vorname: "Max",
+              },
+            ],
+          },
+        ],
+      },
+      gericht: Gerichte["Amtsgericht Schöneberg"],
+      baseUrl,
+    });
+
+    const payload = JSON.parse(receivedBody ?? "null") as {
+      grunddaten: {
+        verfahrensdaten: {
+          beteiligung: Array<{
+            rolle: Array<{
+              rollennummer: string;
+              rollenbezeichnung: { code: string };
+            }>;
+            beteiligter: unknown;
+          }>;
+        };
+      };
+      inhaltsdaten: {
+        beweis: Array<{
+          beweisNummer: number;
+          auswahlBeweismittel: { zeugen: { refRollennummer: string } };
+        }>;
+        auswahlBegruendetheit: {
+          anderesKlageverfahren: {
+            vortrag: Array<{ ausfuehrungen: { refBeweisNummer: number[] } }>;
+          };
+        };
+      };
+    };
+
+    const beteiligung = payload.grunddaten.verfahrensdaten.beteiligung;
+    expect(beteiligung).toHaveLength(4);
+    const rollennummern = beteiligung.map((b) => b.rolle[0].rollennummer);
+    expect(new Set(rollennummern).size).toBe(rollennummern.length);
+    const zeugeBeteiligung = beteiligung[2];
+    expect(zeugeBeteiligung.rolle[0].rollenbezeichnung.code).toBe("202");
+    expect(zeugeBeteiligung.beteiligter).toMatchObject({
+      auswahlBeteiligter: {
+        natuerlichePerson: {
+          vollerName: { vorname: "Erika", nachname: "Mustermann" },
+          anschrift: [{ strasse: "Hauptstraße", postleitzahl: "10115" }],
+        },
+      },
+    });
+
+    const { beweis, auswahlBegruendetheit } = payload.inhaltsdaten;
+    expect(beweis.map((b) => b.beweisNummer)).toStrictEqual([1, 2]);
+    expect(
+      beweis.map((b) => b.auswahlBeweismittel.zeugen.refRollennummer),
+    ).toStrictEqual(rollennummern.slice(2));
+    expect(
+      auswahlBegruendetheit.anderesKlageverfahren.vortrag[0].ausfuehrungen
+        .refBeweisNummer,
+    ).toStrictEqual([1, 2]);
+  });
+
   it("referenziert im Anspruch die deklarierten Rollennummern", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,

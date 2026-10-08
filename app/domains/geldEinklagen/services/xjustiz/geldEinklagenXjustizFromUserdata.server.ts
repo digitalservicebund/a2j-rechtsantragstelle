@@ -2,12 +2,10 @@ import {
   createFortlaufendeNummerGenerator,
   createRollennummerGenerator,
   createUuidGenerator,
-  datatypeA,
-  datatypeB,
   datatypeC,
   datatypeE,
   ergonomics,
-  Geschlecht,
+  reference,
   Rollenbezeichnung,
   verifyZahlungsklage,
   zahlungsklage,
@@ -16,62 +14,14 @@ import {
   type Klaeger,
   type ScopeToken,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
-import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-
-type StandardSchemaV1<Input, Output> = {
-  readonly "~standard": {
-    readonly validate: (
-      value: unknown,
-    ) => StandardSchemaResult<Output> | Promise<StandardSchemaResult<Output>>;
-  };
-  readonly _input?: Input;
-};
-
-type StandardSchemaResult<Output> =
-  | { readonly value: Output; readonly issues?: undefined }
-  | { readonly issues: ReadonlyArray<{ readonly message: string }> };
-
-function convertStandardSchemaToZod<Input, Output>(
-  schema: StandardSchemaV1<Input, Output>,
-): z.ZodType<Output, Input> {
-  return z.any().transform((input: unknown, context) => {
-    const result = schema["~standard"].validate(input);
-    if (result instanceof Promise)
-      throw new Error("Asynchronous schemas are not supported");
-    if (result.issues) {
-      result.issues.forEach((issue) => context.addIssue(issue.message));
-      return z.NEVER;
-    }
-    return result.value;
-  }) as unknown as z.ZodType<Output, Input>;
-}
-
-const typeA = convertStandardSchemaToZod(datatypeA);
-const typeB = convertStandardSchemaToZod(datatypeB);
-const typeC = convertStandardSchemaToZod(datatypeC);
-
-const xjustizScalarsSchema = z.object({
-  klagendePersonVorname: typeA,
-  klagendePersonNachname: typeA,
-  klagendePersonStrasse: typeB,
-  klagendePersonHausnummer: typeB,
-  klagendePersonPlz: typeC,
-  klagendePersonOrt: typeB,
-  beklagteVorname: typeA,
-  beklagteNachname: typeA,
-  beklagteStrasse: typeB,
-  beklagteHausnummer: typeB,
-  beklagtePlz: typeC,
-  beklagteOrt: typeB,
-});
-
-const anredeToGeschlecht = (anrede?: string) => {
-  if (anrede === "herr") return Geschlecht["männlich"];
-  if (anrede === "frau") return Geschlecht["weiblich"];
-  return Geschlecht["unbekannt"];
-};
+import {
+  beteiligteFromUserData,
+  beteiligteSchema,
+  composeZeugen,
+  toBeteiligung,
+} from "./beteiligte";
 
 type CompositionInput = {
   readonly userData: GeldEinklagenFormularUserData;
@@ -84,8 +34,11 @@ export async function geldEinklagenXjustizFromUserdata({
   gericht,
   baseUrl,
 }: CompositionInput) {
-  const scalars = xjustizScalarsSchema.safeParse(userData);
-  if (!scalars.success) return { ok: false as const, issues: scalars.error };
+  const beteiligte = beteiligteSchema.safeParse(
+    beteiligteFromUserData(userData),
+  );
+  if (!beteiligte.success)
+    return { ok: false as const, issues: beteiligte.error };
 
   const forderungInEuro = parseCurrencyStringDE(userData.forderungGesamtbetrag);
 
@@ -100,8 +53,6 @@ export async function geldEinklagenXjustizFromUserdata({
   );
   if (begruendungText.issues)
     return { ok: false as const, issues: begruendungText.issues };
-
-  const person = scalars.data;
 
   return zahlungsklage(
     <NachrichtenScope>(scope: ScopeToken<NachrichtenScope>) => {
@@ -120,61 +71,23 @@ export async function geldEinklagenXjustizFromUserdata({
         Rollenbezeichnung["Beklagte(r)"],
       );
 
-      const klaeger = {
-        rolle: [
-          {
-            rollennummer: rollennummerKlaeger,
-            rollenbezeichnung: Rollenbezeichnung["Kläger(in)"],
-          },
-        ],
-        beteiligter: {
-          auswahlBeteiligter: {
-            natuerlichePerson: {
-              vollerName: {
-                vorname: person.klagendePersonVorname,
-                nachname: person.klagendePersonNachname,
-              },
-              geschlecht: anredeToGeschlecht(userData.klagendePersonAnrede),
-              anschrift: [
-                {
-                  strasse: person.klagendePersonStrasse,
-                  hausnummer: person.klagendePersonHausnummer,
-                  postleitzahl: person.klagendePersonPlz,
-                  ort: person.klagendePersonOrt,
-                },
-              ],
-            },
-          },
-        },
-      } satisfies Klaeger<NachrichtenScope>;
+      const klaeger = toBeteiligung(
+        rollennummerKlaeger,
+        Rollenbezeichnung["Kläger(in)"],
+        beteiligte.data.klaeger,
+      ) satisfies Klaeger<NachrichtenScope>;
 
-      const beklagter = {
-        rolle: [
-          {
-            rollennummer: rollennummerBeklagter,
-            rollenbezeichnung: Rollenbezeichnung["Beklagte(r)"],
-          },
-        ],
-        beteiligter: {
-          auswahlBeteiligter: {
-            natuerlichePerson: {
-              vollerName: {
-                vorname: person.beklagteVorname,
-                nachname: person.beklagteNachname,
-              },
-              geschlecht: anredeToGeschlecht(userData.beklagteAnrede),
-              anschrift: [
-                {
-                  strasse: person.beklagteStrasse,
-                  hausnummer: person.beklagteHausnummer,
-                  postleitzahl: person.beklagtePlz,
-                  ort: person.beklagteOrt,
-                },
-              ],
-            },
-          },
-        },
-      } satisfies Beklagter<NachrichtenScope>;
+      const beklagter = toBeteiligung(
+        rollennummerBeklagter,
+        Rollenbezeichnung["Beklagte(r)"],
+        beteiligte.data.beklagter,
+      ) satisfies Beklagter<NachrichtenScope>;
+
+      const zeugen = composeZeugen(
+        scope,
+        rollennummerBeklagter,
+        beteiligte.data.zeugen,
+      );
 
       const sachanspruch = ergonomics.antragAufAnwaltskosten(
         scope,
@@ -194,7 +107,7 @@ export async function geldEinklagenXjustizFromUserdata({
         ),
         grunddaten: {
           verfahrensdaten: {
-            beteiligung: [klaeger, beklagter],
+            beteiligung: [klaeger, beklagter, ...zeugen.beteiligungen],
           },
         },
         inhaltsdaten: {
@@ -206,6 +119,7 @@ export async function geldEinklagenXjustizFromUserdata({
             nebenantraegeZinsen: undefined,
             auswahlSonstigeAntraege: [ergonomics.antragAufVersaeumnisurteil()],
           },
+          beweis: zeugen.beweise.length > 0 ? zeugen.beweise : undefined,
           auswahlBegruendetheit: {
             anderesKlageverfahren: {
               vortrag: [
@@ -217,7 +131,9 @@ export async function geldEinklagenXjustizFromUserdata({
                       tatsachenvortragSachverhaltsbeschreibung:
                         begruendungText.value,
                     },
-                    refBeweisNummer: [],
+                    refBeweisNummer: zeugen.beweise.map((beweis) =>
+                      reference(beweis.beweisNummer),
+                    ),
                   },
                 },
               ],
