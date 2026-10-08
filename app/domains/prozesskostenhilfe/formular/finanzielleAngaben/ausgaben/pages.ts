@@ -145,6 +145,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       name: "ratenzahlungen",
       schema: ratenZahlungArraySchema,
       fieldName: "hasRatenzahlungen",
+      hiddenFields: ["zahlungspflichtiger"],
     },
   },
   ausgabenRatenzahlung: {
@@ -216,6 +217,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
       name: "sonstigeAusgaben",
       schema: sonstigeZahlungArraySchema,
       fieldName: "hasSonstigeAusgaben",
+      hiddenFields: ["zahlungspflichtiger"],
     },
   },
   ausgabenSonstigeAusgabe: {

@@ -53,6 +53,7 @@ export const pkhFormularFinanzielleAngabenKinderPages = {
       name: "kinder",
       schema: kinderArraySchema,
       fieldName: "hasKinder",
+      hiddenFields: ["eigeneEinnahmen", "unterhalt"],
     },
   },
   kinderWarnung: {
