@@ -1,7 +1,6 @@
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
-import { type StepState } from "~/services/flow/server/buildFlowController";
 import { type FlowId } from "~/domains/flowIds";
 import {
   type InferredUserData,
@@ -16,17 +15,6 @@ type UpcomingUserData<C extends PageConfigMap> = {
   formUserData: InferredUserData<C>;
   migrationData: InferredUserData<C> | undefined;
 };
-
-// Unreachable subsections are never done, so they are left out like in the old engine
-const filterUnreachableSubStates = (stepStates: StepState[]): StepState[] =>
-  stepStates.map((stepState) => ({
-    ...stepState,
-    subStates:
-      stepState.subStates &&
-      filterUnreachableSubStates(
-        stepState.subStates.filter((subState) => subState.isReachable),
-      ),
-  }));
 
 export const generateUserDataToSave = <C extends PageConfigMap>(
   stepId: string,
@@ -50,13 +38,7 @@ export const generateUserDataToSave = <C extends PageConfigMap>(
   const statusTree = flowSessionEngine.statusTree;
 
   const subflowDoneStates = stepStatesToSubflowDoneStates(
-    filterUnreachableSubStates(
-      buildStepStatesFromStatusTree(
-        statusTree,
-        flowId,
-        flowSessionEngine.paths,
-      ),
-    ),
+    buildStepStatesFromStatusTree(statusTree, flowId, flowSessionEngine.paths),
   );
 
   const userDataToSave = {
