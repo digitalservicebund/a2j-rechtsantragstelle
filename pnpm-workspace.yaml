@@ -34,5 +34,5 @@ trustPolicyExclude:
   - why-is-node-running@3.2.2 # vitest 5
 
 minimumReleaseAgeExclude:
-  - "@digitalservicebund/a2j-xjustiz-bridge@0.9.0"
+  - "@digitalservicebund/a2j-xjustiz-bridge@0.10.1"
   - "@digitalservicebund/kern-ux-tailwind-theme@4.0.0"
