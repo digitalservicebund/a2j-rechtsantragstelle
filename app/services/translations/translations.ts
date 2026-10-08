@@ -638,7 +638,7 @@ export const translations = {
   },
   geldEinklagenAnwaltschaft: {
     zahlungsklageReferenzzeichenError: {
-      de: "Sie müssen entweder 'Bezeichnung' und 'Nummer' angeben oder keines von beiden.",
+      de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
   },
   nachlass: {

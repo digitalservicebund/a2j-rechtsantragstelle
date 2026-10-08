@@ -4,6 +4,7 @@ import {
   buildMoneyValidationSchema,
   formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
+import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -55,6 +56,14 @@ export const geldEinklagenAnwaltschaftPages = {
         "sinzig",
         "steinfurt",
       ]),
+    },
+  },
+  rechtlicheWuerdigung: {
+    stepId: "/rechtliche-wuerdigung",
+    pageSchema: {
+      rechtlicheWuerdigung: schemaOrEmptyString(
+        z.string().trim().max(60000, { message: "max" }),
+      ),
     },
   },
   //   downloadKlageschrift: {
