@@ -30,17 +30,14 @@ export const createSplitTimeSchema = () => {
 
       // attach to the leaf fields (not the parent path) so RVF's
       // per-field validation picks the error back up after it clears
-      ctx.issues.push({
-        code: "custom",
-        message: "Ungültige Uhrzeit",
-        path: ["hour"],
-        input: ctx.value,
-      });
-      ctx.issues.push({
-        code: "custom",
-        message: "Ungültige Uhrzeit",
-        path: ["minute"],
-        input: ctx.value,
+
+      ["hour", "minute"].forEach((path) => {
+        ctx.issues.push({
+          code: "custom",
+          message: "Ungültige Uhrzeit",
+          path: [path],
+          input: ctx.value,
+        });
       });
     });
 };
