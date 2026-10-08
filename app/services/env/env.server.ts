@@ -29,6 +29,7 @@ type Config = {
   S3_DATA_STORAGE_ACCESS_KEY?: string;
   S3_DATA_STORAGE_SECRET_KEY?: string;
   S3_DATA_STORAGE_BUCKET_NAME?: string;
+  XJUSTIZ_TOOLS_BASE_URL?: string;
   ENABLE_SESSION_ENCRYPTION: boolean;
 };
 
@@ -97,5 +98,6 @@ export function config(): Config {
     ),
     S3_DATA_STORAGE_BUCKET_NAME:
       process.env.S3_DATA_STORAGE_BUCKET_NAME ?? "a2j-data-storage",
+    XJUSTIZ_TOOLS_BASE_URL: process.env.XJUSTIZ_TOOLS_BASE_URL?.trim(),
   };
 }
