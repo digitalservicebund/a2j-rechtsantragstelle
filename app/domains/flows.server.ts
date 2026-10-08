@@ -1,30 +1,31 @@
-import { kontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser";
+import { type Session } from "react-router";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
 import { fluggastrechtFlow } from "~/domains/fluggastrechte/formular";
 import { fluggastrechteVorabcheck } from "~/domains/fluggastrechte/vorabcheck";
-import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import type { Config } from "~/services/flow/server/types";
-import type { Replacements } from "~/util/applyStringReplacement";
-import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
-import type { FlowId } from "./flowIds";
-import type { Guards } from "./guards.server";
-import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
-import type { UserData, AllowedUserTypes } from "./userData";
-import { geldEinklagenFormular } from "./geldEinklagen/formular";
-import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
-import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
-import { erbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
-import { type Session } from "react-router";
+import { geldEinklagenAnwaltschaft } from "~/domains/geldEinklagen/anwaltschaft";
+import { kontopfaendungWegweiser } from "~/domains/kontopfaendung/wegweiser";
 import { erbausschlagungAnfrage } from "~/domains/nachlass/erbausschlagung/anfrage";
 import { erbausschlagungGerichtFinden } from "~/domains/nachlass/erbausschlagung/gericht-finden";
+import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
+import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
+import { erbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
+import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import {
   type InferredUserData,
   type PageConfigMap,
 } from "~/services/flow/newFlowEngine/types";
-import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
-import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
+import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
+import type { Config } from "~/services/flow/server/types";
+import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
+import type { Replacements } from "~/util/applyStringReplacement";
+import type { FlowId } from "./flowIds";
+import { geldEinklagenFormular } from "./geldEinklagen/formular";
+import type { Guards } from "./guards.server";
+import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
+import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
+import type { AllowedUserTypes, UserData } from "./userData";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
   sourceData: InferredUserData<PageConfigMap>,
@@ -88,6 +89,7 @@ export const flows = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormular,
   "/kontopfaendung/wegweiser": kontopfaendungWegweiser,
   "/geld-einklagen/formular": geldEinklagenFormular,
+  "/geld-einklagen/anwaltschaft": geldEinklagenAnwaltschaft,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntrag,
   "/erbschein/erbfolge": erbscheinErbfolge,
   "/erbschein/wegweiser": erbscheinWegweiser,

@@ -1,6 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -12,12 +12,17 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
-import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import {
+  schemaOrEmptyString,
+  schemaOrEmptyStringOptional,
+} from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import {
   stringRequiredMaxSchema,
   stringRequiredSchema,
 } from "~/services/validation/stringRequired";
+import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
+import { reuseBeweisSchema } from "~/services/validation/reuseBeweis";
 import {
   datatypeA,
   datatypeB,
@@ -25,7 +30,6 @@ import {
   datatypeD,
   datatypeE,
 } from "~/services/validation/xjustiz/xjustizDatatype";
-import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const TEXTAREA_MAX_LENGTH = 60000;
 
@@ -56,6 +60,9 @@ const sharedBeklagteAddress = {
 const beweiseDokumentenArray = z.array(
   z.object({
     beschreibung: stringRequiredSchema.check(datatypeC),
+    dokumentReference: hiddenInputSchema(
+      schemaOrEmptyStringOptional(stringOptionalSchema),
+    ),
   }),
 );
 
@@ -68,9 +75,12 @@ const beweisePersonenSchema = z.object({
   hausnummer: germanHouseNumberSchema.check(datatypeB),
   plz: stringRequiredSchema.pipe(postcodeSchema).check(datatypeC),
   ort: stringRequiredSchema.check(datatypeB),
-  land: autoSuggestSchema(stringOptionalSchema)("countries"),
+  land: autoSuggestStringRequiredSchema("countries"),
   telefonnummer: schemaOrEmptyString(phoneNumberSchema).check(datatypeC),
   email: schemaOrEmptyString(emailSchema).check(datatypeC),
+  personReference: hiddenInputSchema(
+    schemaOrEmptyStringOptional(stringOptionalSchema),
+  ),
 });
 
 const beweisePersonenArray = z.array(
@@ -94,6 +104,12 @@ export const abschnitteArray = z.array(
     personIdAsKlagende: personIdOnAbschnittSchema,
     dokumenten: beweiseDokumentenArray.optional(),
     personen: beweisePersonenArray.optional(),
+    reuseBeweiseDokument: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("document"),
+    ),
+    reuseBeweisePerson: schemaOrEmptyStringOptional(
+      reuseBeweisSchema("person"),
+    ),
   }),
 );
 
@@ -237,6 +253,24 @@ export const geldEinklagenKlageErstellenPages = {
         abschnitteArray.element.shape.personIdAsKlagende,
     },
   },
+  begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweiseDokument":
+        abschnitteArray.element.shape.reuseBeweiseDokument,
+    },
+  },
+  begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
+    shouldCollapseIntoParentNavItem: true,
+    stepId:
+      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
+    pageSchema: {
+      "abschnitte#reuseBeweisePerson":
+        abschnitteArray.element.shape.reuseBeweisePerson,
+    },
+  },
   begruendungBeschreibungAbschnitteBeweisDocument: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
@@ -244,6 +278,8 @@ export const geldEinklagenKlageErstellenPages = {
     pageSchema: {
       "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
+      "abschnitte#dokumenten#dokumentReference":
+        beweiseDokumentenArray.element.shape.dokumentReference,
     },
   },
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
@@ -280,6 +316,8 @@ export const geldEinklagenKlageErstellenPages = {
       "abschnitte#personen#telefonnummer":
         beweisePersonenSchema.shape.telefonnummer,
       "abschnitte#personen#email": beweisePersonenSchema.shape.email,
+      "abschnitte#dokumenten#personReference":
+        beweisePersonenSchema.shape.personReference,
     },
   },
   begruendungBeschreibungWarnung: {

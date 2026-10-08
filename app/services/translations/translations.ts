@@ -346,7 +346,7 @@ export const translations = {
       de: "Geburtsdatum",
     },
     hintText: {
-      de: "Beispielsweise: 17 3 2015",
+      de: "Beispielsweise: 17.3.2015",
     },
   },
   numberIncrementComponent: {
@@ -539,7 +539,7 @@ export const translations = {
     begruendungBeschreibungEvidenceDescription: {
       de: "Dokumente: zum Beispiel Fotos, Videos, Verträge, Rechnungen, sonstige Unterlagen. Personen: Zeugen oder Zeuginnen, in Ausnahmefällen Sie selbst oder die beklagte Person.",
     },
-    begruendungBeschreibungEvidenceAddButton: {
+    begruendungBeschreibungEvidenceAddDocumentButton: {
       de: "Dokument beschreiben",
     },
     begruendungBeschreibungEvidenceAddPersonButton: {
@@ -574,6 +574,66 @@ export const translations = {
     },
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
+    },
+    begruendungBeschreibungBeweiseDialogDeleteCancel: {
+      de: "Nein, behalten",
+    },
+    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
+      de: "Ja, löschen",
+    },
+    begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
+      de: "Beweis: Dokument löschen?",
+    },
+    begruendungBeschreibungBeweisePersonDeleteDialogTitle: {
+      de: "Beweis: Person löschen?",
+    },
+    begruendungBeschreibungBeweiseDeleteDialogDocumentDescription: {
+      de: "Das folgende Dokument wird aus diesem Abschnitt entfernt:",
+    },
+    begruendungBeschreibungBeweiseDeleteDialogPersonDescription: {
+      de: "Die folgende Person wird aus diesem Abschnitt entfernt:",
+    },
+    begruendungBeschreibungDeleteDialogTitle: {
+      de: "und dazugehörige Beweise löschen?",
+    },
+    begruendungBeschreibungDeleteDialogDescription: {
+      de: "Falls Sie hier genannte Beweise auch in einem anderen Abschnitt angegeben haben, bleiben sie dort erhalten.",
+    },
+    begruendungBeschreibungReuseDocumentDialogTitle: {
+      de: "Beweis: Welches Dokument möchten Sie angeben?",
+    },
+    begruendungBeschreibungReusePersonDialogTitle: {
+      de: "Beweis: Welche Person möchten Sie angeben?",
+    },
+    begruendungBeschreibungReuseDocumentDialogDescription: {
+      de: "Dokument wiederverwenden",
+    },
+    begruendungBeschreibungReusePersonDialogDescription: {
+      de: "Person wiederverwenden",
+    },
+    dialogDocumentReuseOption: {
+      de: "Ein bereits genanntes Dokument erneut angeben",
+    },
+    dialogDocumentNewOption: {
+      de: "Ein neues Dokument beschreiben",
+    },
+    dialogPersonReuseOption: {
+      de: "Eine bereits genannte Person erneut angeben",
+    },
+    dialogPersonNewOption: {
+      de: "Eine neue Person beschreiben",
+    },
+    dialogPersonKlagendeOption: {
+      de: "Die klagende Person (mich selbst)",
+    },
+    dialogPersonBeklagteOption: {
+      de: "Die beklagte Person",
+    },
+    reuseBeweisDocumentSelectionRequired: {
+      de: "Bitte wählen Sie mindestens ein Dokument aus.",
+    },
+    reuseBeweisPersonSelectionRequired: {
+      de: "Bitte wählen Sie mindestens eine Person aus.",
     },
   },
   nachlass: {

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { init } from "license-checker-rseidelsohn";
-import type { ModuleInfos, InitOpts } from "license-checker-rseidelsohn";
+import { runLicenseCheck } from "@lizenz/checker";
+import type { ModuleInfos } from "@lizenz/checker";
 
 type Dependency = ModuleInfos[0] & { direct?: boolean };
 
@@ -32,15 +32,9 @@ async function licensesFromPackageJson(direct = false): Promise<ModuleInfos> {
     start: "./",
     production: true,
     direct: direct ? 0 : undefined,
-  } satisfies InitOpts;
+  };
 
-  return new Promise((resolve, reject) => {
-    const callback = (err: Error | undefined, ret: ModuleInfos) => {
-      if (err !== undefined) reject(err);
-      resolve(ret);
-    };
-    init(opts, callback);
-  });
+  return runLicenseCheck(opts);
 }
 
 const licenseMentionable = (dependency: Dependency) =>
@@ -79,6 +73,10 @@ async function allRelevantLicenses() {
         dropVersion(name),
         {
           ...dependency,
+          repository: dependency.repository?.replace(
+            "git+https://",
+            "https://",
+          ),
           path: stripLocalPath(dependency.path ?? ""),
           licenseFile: stripLocalPath(dependency.licenseFile ?? ""),
         },
@@ -86,7 +84,7 @@ async function allRelevantLicenses() {
   );
 }
 
-export default async function updateLicenseList() {
+async function updateLicenseList() {
   const licenses = await allRelevantLicenses();
   const licenseCount = Object.keys(licenses).length;
   const directLicenses = Object.values(licenses).filter((val) => val.direct);
@@ -96,3 +94,5 @@ export default async function updateLicenseList() {
   );
   fs.writeFileSync(filepath, JSON.stringify(licenses));
 }
+
+await updateLicenseList();

@@ -6,7 +6,7 @@ vi.mock("~/services/translations/translations", () => ({
   translations: {
     splitDateComponent: {
       legend: { de: "Geburtsdatum" },
-      hintText: { de: "Beispielsweise: 17 3 2015" },
+      hintText: { de: "Beispielsweise: 17.3.2015" },
       tagInputLabel: { de: "Tag" },
       monatInputLabel: { de: "Monat" },
       jahrInputLabel: { de: "Jahr" },
@@ -66,10 +66,16 @@ describe("SplitDateInput", () => {
     expect(screen.getByText("Optional")).toBeInTheDocument();
   });
 
-  it("renders hint text", () => {
-    render(<SplitDateInput name="birthdate" />);
+  it("renders hint text as accessible fieldset description", () => {
+    render(<SplitDateInput name="birthdate" label="Geburtsdatum" />);
 
-    expect(screen.getByText("Beispielsweise: 17 3 2015")).toBeInTheDocument();
+    const hintText = screen.getByText("Beispielsweise: 17.3.2015");
+    expect(hintText).toBeInTheDocument();
+    expect(hintText).toHaveAttribute("id", "birthdate-helper");
+    expect(screen.getByText("Geburtsdatum").parentElement).toHaveAttribute(
+      "aria-describedby",
+      "birthdate-helper",
+    );
   });
 
   describe("Error display and handling", () => {

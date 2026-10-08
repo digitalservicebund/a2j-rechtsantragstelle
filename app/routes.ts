@@ -49,6 +49,7 @@ export default [
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
   ...prefix("geld-einklagen", [
+    ...prefix("anwaltschaft", flowRoutes("GEA")),
     ...prefix("formular", [
       route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {

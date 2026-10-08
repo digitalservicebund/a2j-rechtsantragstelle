@@ -3,6 +3,7 @@ import mapValues from "lodash/mapValues";
 import { type MaybePromise } from "p-map";
 import { type Dispatch, type SetStateAction } from "react";
 import { type z } from "zod";
+import { geldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
 import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
@@ -28,6 +29,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/prozesskostenhilfe/formular": prozesskostenhilfeFormularPages,
   "/beratungshilfe/antrag": beratungshilfeAntragPages,
   "/geld-einklagen/formular": geldEinklagenFormularPages,
+  "/geld-einklagen/anwaltschaft": geldEinklagenAnwaltschaftPages,
   "/fluggastrechte/formular": fluggastrechteFormularPages,
   "/fluggastrechte/vorabcheck": fluggastrechteVorabcheckPages,
   "/kontopfaendung/pkonto/antrag": kontopfaendungPkontoAntragPages,

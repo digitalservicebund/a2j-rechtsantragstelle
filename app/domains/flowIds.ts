@@ -4,6 +4,7 @@ export const flowIds = [
   "/beratungshilfe/antrag",
   "/beratungshilfe/vorabcheck",
   "/geld-einklagen/formular",
+  "/geld-einklagen/anwaltschaft",
   "/fluggastrechte/vorabcheck",
   "/fluggastrechte/formular",
   "/prozesskostenhilfe/formular",

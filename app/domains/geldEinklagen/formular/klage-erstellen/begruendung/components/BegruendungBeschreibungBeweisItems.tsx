@@ -1,5 +1,5 @@
 import { arrayIsNonEmpty } from "~/util/array";
-import { type BegruendungBeschreibungAbschnitteProps } from "./BegruendungBeschreibungAbschnitte";
+import { type BegruendungBeschreibungAbschnittProps } from "./BegruendungBeschreibungAbschnitt";
 import { Icon } from "~/components/common/Icon";
 import Button from "~/components/common/Button";
 import { translations } from "~/services/translations/translations";
@@ -9,12 +9,20 @@ import { BeweisItemRow } from "./BeweisItemRow";
 import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { Badge } from "~/components/content/Badge";
+import { useRef } from "react";
+import { DeleteDialog } from "./DeleteDialog";
+import classNames from "classnames";
+import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySummaryItemActions";
+import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
+import { useFetcher, useLocation } from "react-router";
+import { NoscriptWrapper } from "~/components/common/NoscriptWrapper";
+import { useJsAvailable } from "~/components/hooks/useJsAvailable";
 
 type Props = {
-  dokumenten: BegruendungBeschreibungAbschnitteProps["abschnitte"]["dokumenten"];
-  personen: BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"];
+  dokumenten: BegruendungBeschreibungAbschnittProps["abschnitt"]["dokumenten"];
+  personen: BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"];
 } & {
-  itemIndexAbschnitte: number;
+  itemIndexAbschnitt: number;
 };
 
 const editButtonLabelLowercase =
@@ -80,38 +88,142 @@ const renderArialLabelForPersonItem = (
   };
 };
 
-const renderItemButtons = (
-  editUrl: string,
-  onDelete: () => void,
+type ItemButtonsProps = {
+  editUrl: string;
+  onDelete: () => void;
   ariaLabel: {
     editButtonLabel: string;
     deleteButtonLabel: string;
-  },
+  };
+  shouldRenderEditButton?: boolean;
+  deleteDialogTitle: string;
+  deleteDialogDescription: React.ReactNode;
+};
+
+const DeleteButtonWithJavaScript = ({
+  onDelete,
+  ariaLabel,
+  deleteDialogTitle,
+  deleteDialogDescription,
+}: Omit<ItemButtonsProps, "editUrl" | "shouldRenderEditButton">) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const onDeleteClicked = () => {
+    dialogRef.current?.showModal();
+  };
+
+  const onClickDeleteDialog = () => {
+    onDelete();
+    dialogRef.current?.close();
+  };
+
+  return (
+    <>
+      <Button
+        type="button"
+        look="secondary"
+        aria-haspopup="dialog"
+        className="border-kern-feedback-danger! w-full"
+        aria-label={ariaLabel.deleteButtonLabel}
+        iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
+        onClick={onDeleteClicked}
+      />
+      <DeleteDialog
+        title={deleteDialogTitle}
+        description={deleteDialogDescription}
+        onClick={onClickDeleteDialog}
+        closeDialog={() => dialogRef.current?.close()}
+        dialogRef={dialogRef}
+      />
+    </>
+  );
+};
+
+type DeleteButtonWithoutJavaScriptProps = {
+  itemIndexDelete: number;
+  itemCategory: "abschnitte#dokumenten" | "abschnitte#personen";
+  itemIndexAbschnitt: number;
+};
+
+const DeleteButtonWithoutJavaScript = ({
+  itemIndexDelete,
+  itemCategory,
+  itemIndexAbschnitt,
+  ariaLabel,
+}: DeleteButtonWithoutJavaScriptProps & { ariaLabel: string }) => {
+  const fetcher = useFetcher();
+  const pathnameArrayItem = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/${itemCategory.replace("abschnitte#", "")}`;
+  const { pathname } = useLocation();
+
+  return (
+    <fetcher.Form method="post" action={DELETE_URL_ENDPOINT}>
+      <CsrfInput />
+      <input type="hidden" name="pathnameArrayItem" value={pathnameArrayItem} />
+      <input type="hidden" name="_jsEnabled" value={"false"} />
+      <input type="hidden" name="_redirectPathname" value={pathname} />
+
+      <Button
+        type="submit"
+        name={itemCategory}
+        value={itemIndexDelete}
+        look="secondary"
+        className="border-kern-feedback-danger! w-full"
+        iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
+        aria-label={ariaLabel}
+      />
+    </fetcher.Form>
+  );
+};
+
+const ItemButtons = ({
+  editUrl,
+  onDelete,
+  ariaLabel,
   shouldRenderEditButton = true,
-) => (
-  <>
-    <Button
-      href={editUrl}
-      look="secondary"
-      className="w-full"
-      hidden={!shouldRenderEditButton}
-      aria-label={ariaLabel.editButtonLabel}
-      iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
-    />
-    <Button
-      type="button"
-      look="secondary"
-      className="border-kern-feedback-danger! w-full"
-      aria-label={ariaLabel.deleteButtonLabel}
-      iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
-      onClick={onDelete}
-    />
-  </>
-);
+  deleteDialogTitle,
+  deleteDialogDescription,
+  itemIndexDelete,
+  itemCategory,
+  itemIndexAbschnitt,
+}: ItemButtonsProps & DeleteButtonWithoutJavaScriptProps) => {
+  const jsAvailable = useJsAvailable();
+  return (
+    <>
+      <Button
+        href={editUrl}
+        look="secondary"
+        className="w-full"
+        hidden={!shouldRenderEditButton}
+        aria-label={ariaLabel.editButtonLabel}
+        iconLeft={<Icon name="edit" className="fill-kern-action-default!" />}
+      />
+
+      <NoscriptWrapper jsAvailable={jsAvailable}>
+        {jsAvailable && (
+          <DeleteButtonWithJavaScript
+            ariaLabel={ariaLabel}
+            deleteDialogDescription={deleteDialogDescription}
+            deleteDialogTitle={deleteDialogTitle}
+            onDelete={onDelete}
+          />
+        )}
+
+        {!jsAvailable && (
+          <DeleteButtonWithoutJavaScript
+            itemIndexDelete={itemIndexDelete}
+            itemCategory={itemCategory}
+            ariaLabel={ariaLabel.deleteButtonLabel}
+            itemIndexAbschnitt={itemIndexAbschnitt}
+          />
+        )}
+      </NoscriptWrapper>
+    </>
+  );
+};
 
 export const renderPersonItem = (
   person: Exclude<
-    BegruendungBeschreibungAbschnitteProps["abschnitte"]["personen"],
+    BegruendungBeschreibungAbschnittProps["abschnitt"]["personen"],
     undefined
   >[number],
 ) => {
@@ -168,7 +280,7 @@ export const renderPersonItem = (
 export const BegruendungBeschreibungBeweisItems = ({
   dokumenten,
   personen,
-  itemIndexAbschnitte,
+  itemIndexAbschnitt,
 }: Props) => {
   const { onAbschnittDocumentDelete, onAbschnittPersonDelete } =
     useBegruendungBeschreibung();
@@ -185,28 +297,61 @@ export const BegruendungBeschreibungBeweisItems = ({
       {hasDocumentItems &&
         dokumenten.map((dokument, dokumentIndex) => {
           const dokumentItemIndex = String(dokumentIndex);
-          const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten/${dokumentItemIndex}/daten`;
+          const editDocumentUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten/${dokumentItemIndex}/daten`;
+          const contentDescription = (
+            <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
+              {dokument.beschreibung}
+            </span>
+          );
+
+          const deleteDialogDescription = (
+            <>
+              <span>
+                {
+                  translations.geldEinklagen
+                    .begruendungBeschreibungBeweiseDeleteDialogDocumentDescription
+                    .de
+                }
+              </span>
+              <div
+                className={classNames(
+                  "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+                )}
+              >
+                <Icon name="draft" className="shrink-0" />
+                {contentDescription}
+              </div>
+            </>
+          );
 
           return (
             <BeweisItemRow
               key={editDocumentUrl}
               icon="draft"
               classNameParent="border-b border-kern-neutral-200"
-              content={
-                <span className="kern-body kern-body--default kern-body--regular text-pretty p-0!">
-                  {dokument.beschreibung}
-                </span>
+              content={contentDescription}
+              buttons={
+                <ItemButtons
+                  editUrl={editDocumentUrl}
+                  onDelete={() =>
+                    onAbschnittDocumentDelete(
+                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/dokumenten`,
+                      itemIndexAbschnitt,
+                      dokumentIndex,
+                    )
+                  }
+                  ariaLabel={renderArialLabelForDocumentItem(dokument)}
+                  deleteDialogTitle={
+                    translations.geldEinklagen
+                      .begruendungBeschreibungBeweiseDocumentDeleteDialogTitle
+                      .de
+                  }
+                  deleteDialogDescription={deleteDialogDescription}
+                  itemCategory="abschnitte#dokumenten"
+                  itemIndexDelete={dokumentIndex}
+                  itemIndexAbschnitt={itemIndexAbschnitt}
+                />
               }
-              buttons={renderItemButtons(
-                editDocumentUrl,
-                () =>
-                  onAbschnittDocumentDelete(
-                    `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/dokumenten`,
-                    itemIndexAbschnitte,
-                    dokumentIndex,
-                  ),
-                renderArialLabelForDocumentItem(dokument),
-              )}
             />
           );
         })}
@@ -218,8 +363,29 @@ export const BegruendungBeschreibungBeweisItems = ({
           const shouldRenderEditButton =
             person.personAuswahl === "anotherPerson";
 
-          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen/${personItemIndex}/daten`;
+          const editPersonUrl = `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen/${personItemIndex}/daten`;
           const hasDetails = hasPersonDetails(person);
+          const contentDescription = renderPersonItem(person);
+
+          const deleteDialogDescription = (
+            <>
+              <span>
+                {
+                  translations.geldEinklagen
+                    .begruendungBeschreibungBeweiseDeleteDialogPersonDescription
+                    .de
+                }
+              </span>
+              <div
+                className={classNames(
+                  "flex sm:flex-row flex-col items-start gap-kern-space-small flex-1 min-w-0",
+                )}
+              >
+                <Icon name="person" className="shrink-0" />
+                {contentDescription}
+              </div>
+            </>
+          );
 
           return (
             <BeweisItemRow
@@ -227,18 +393,29 @@ export const BegruendungBeschreibungBeweisItems = ({
               icon="person"
               classNameParent="border-b border-kern-neutral-200"
               classNameChild={hasDetails ? "" : "sm:items-center!"}
-              content={renderPersonItem(person)}
-              buttons={renderItemButtons(
-                editPersonUrl,
-                () =>
-                  onAbschnittPersonDelete(
-                    `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitte}/personen`,
-                    itemIndexAbschnitte,
-                    personIndex,
-                  ),
-                renderArialLabelForPersonItem(person),
-                shouldRenderEditButton,
-              )}
+              content={contentDescription}
+              buttons={
+                <ItemButtons
+                  editUrl={editPersonUrl}
+                  onDelete={() =>
+                    onAbschnittPersonDelete(
+                      `${BASE_URL_BESCHREIBUNG_ABSCHNITTE}/${itemIndexAbschnitt}/personen`,
+                      itemIndexAbschnitt,
+                      personIndex,
+                    )
+                  }
+                  ariaLabel={renderArialLabelForPersonItem(person)}
+                  shouldRenderEditButton={shouldRenderEditButton}
+                  deleteDialogTitle={
+                    translations.geldEinklagen
+                      .begruendungBeschreibungBeweisePersonDeleteDialogTitle.de
+                  }
+                  deleteDialogDescription={deleteDialogDescription}
+                  itemCategory="abschnitte#personen"
+                  itemIndexDelete={personIndex}
+                  itemIndexAbschnitt={itemIndexAbschnitt}
+                />
+              }
             />
           );
         })}
