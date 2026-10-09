@@ -1,6 +1,7 @@
 import z from "zod";
 import { stringRequiredSchema } from "./stringRequired";
 import { isTime } from "validator";
+import { translations } from "../translations/translations";
 
 export const createSplitTimeSchema = () => {
   return z
@@ -34,7 +35,7 @@ export const createSplitTimeSchema = () => {
       ["hour", "minute"].forEach((path) => {
         ctx.issues.push({
           code: "custom",
-          message: "Ungültige Uhrzeit",
+          message: translations.splitTimeComponent.errorWrongTime.de,
           path: [path],
           input: ctx.value,
         });

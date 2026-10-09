@@ -356,6 +356,9 @@ export const translations = {
     minuteInputLabel: {
       de: "Minute",
     },
+    errorWrongTime: {
+      de: "Ungültige Uhrzeit",
+    },
   },
   numberIncrementComponent: {
     incrementButtonLabel: {
