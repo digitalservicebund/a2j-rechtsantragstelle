@@ -2,13 +2,31 @@ import type {
   FieldItems,
   InlineItems,
 } from "~/components/content/summaryOverview/types";
-import type { UserData } from "~/domains/userData";
+import type { AllowedUserTypes, UserData } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
+import {
+  toTimeString,
+  type TimeObject,
+} from "~/services/validation/timeObject";
+
+const isItemValueTimeObject = (
+  itemValue: AllowedUserTypes,
+): itemValue is TimeObject => {
+  return (
+    typeof itemValue === "object" &&
+    "hour" in itemValue &&
+    "minute" in itemValue
+  );
+};
 
 const getNestedValue = (userData: UserData, fieldName: string): string => {
   const [nestedObjectName, nestedValueName] = fieldName.split(".");
   const nestedObject = userData[nestedObjectName];
+
+  if (isItemValueTimeObject(nestedObject)) {
+    return toTimeString(nestedObject);
+  }
 
   if (typeof nestedObject === "object") {
     return (nestedObject as Record<string, string>)[nestedValueName] ?? "";
@@ -40,9 +58,11 @@ export const getItemValueBox = (
 ) => {
   const itemValues = inlineItems.map(({ field, emptyValuePlaceholder }) => {
     const fieldName = getFieldName(field);
-    const itemValue = fieldName.includes(".")
-      ? getNestedValue(userData, fieldName)
-      : userData[fieldName];
+    const fieldValueType = typeof userData[fieldName];
+    const itemValue =
+      fieldName.includes(".") || fieldValueType === "object"
+        ? getNestedValue(userData, fieldName)
+        : userData[fieldName];
 
     // Check if a direct translation exists
     const directTranslation = translations[`${fieldName}.${itemValue}`];

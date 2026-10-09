@@ -7,7 +7,7 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { timeSchema } from "~/services/validation/time";
+import { createSplitTimeSchema } from "~/services/validation/timeObject";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
@@ -40,10 +40,10 @@ export const fluggastrechteFlugdatenPages = {
       direktFlugnummer: stringRequiredSchema,
       buchungsNummer: stringRequiredSchema,
       direktAbflugsDatum: fourYearsAgoSchema,
-      direktAbflugsZeit: timeSchema,
+      direktAbflugsZeit: createSplitTimeSchema(),
       zwischenstoppAnzahl: z.enum(["no", "oneStop", "twoStop", "threeStop"]),
       direktAnkunftsDatum: fourYearsAgoSchema,
-      direktAnkunftsZeit: timeSchema,
+      direktAnkunftsZeit: createSplitTimeSchema(),
     },
   },
   flugdatenZwischenstoppUebersicht1: {
@@ -132,9 +132,9 @@ export const fluggastrechteFlugdatenPages = {
     stepId: "flugdaten/tatsaechlicher-flug-ankunft",
     pageSchema: {
       tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
-      tatsaechlicherAnkunftsZeit: timeSchema,
+      tatsaechlicherAnkunftsZeit: createSplitTimeSchema(),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),
-      direktAnkunftsZeit: hiddenInputSchema(timeSchema),
+      direktAnkunftsZeit: hiddenInputSchema(createSplitTimeSchema()),
     },
   },
   flugdatenErsatzverbindungDaten: {
@@ -144,14 +144,18 @@ export const fluggastrechteFlugdatenPages = {
         schemaOrEmptyString(stringOptionalSchema),
       annullierungErsatzverbindungAbflugsDatum:
         schemaOrEmptyString(fourYearsAgoSchema),
-      annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(timeSchema),
+      annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(
+        createSplitTimeSchema(),
+      ),
       annullierungErsatzverbindungAnkunftsDatum:
         schemaOrEmptyString(fourYearsAgoSchema),
-      annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(timeSchema),
+      annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(
+        createSplitTimeSchema(),
+      ),
       direktAbflugsDatum: hiddenInputSchema(fourYearsAgoSchema),
-      direktAbflugsZeit: hiddenInputSchema(timeSchema),
+      direktAbflugsZeit: hiddenInputSchema(createSplitTimeSchema()),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),
-      direktAnkunftsZeit: hiddenInputSchema(timeSchema),
+      direktAnkunftsZeit: hiddenInputSchema(createSplitTimeSchema()),
       ersatzflugStartenEinStunde: hiddenInputSchema(stringOptionalSchema),
       ersatzflugLandenZweiStunden: hiddenInputSchema(stringOptionalSchema),
       ersatzflugStartenZweiStunden: hiddenInputSchema(stringOptionalSchema),
@@ -174,10 +178,10 @@ export const fluggastrechteFlugdatenPages = {
     pageSchema: {
       ersatzFlugnummer: stringRequiredSchema,
       ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
-      ersatzFlugAnkunftsZeit: timeSchema,
+      ersatzFlugAnkunftsZeit: createSplitTimeSchema(),
       bereich: hiddenInputSchema(stringOptionalSchema),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),
-      direktAnkunftsZeit: hiddenInputSchema(timeSchema),
+      direktAnkunftsZeit: hiddenInputSchema(createSplitTimeSchema()),
     },
   },
   flugdatenErsatzverbindungBeschreibung: {
@@ -185,10 +189,10 @@ export const fluggastrechteFlugdatenPages = {
     pageSchema: {
       andereErsatzverbindungBeschreibung: stringOptionalSchema,
       andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
-      andereErsatzverbindungAnkunftsZeit: timeSchema,
+      andereErsatzverbindungAnkunftsZeit: createSplitTimeSchema(),
       bereich: hiddenInputSchema(stringOptionalSchema),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),
-      direktAnkunftsZeit: hiddenInputSchema(timeSchema),
+      direktAnkunftsZeit: hiddenInputSchema(createSplitTimeSchema()),
     },
   },
   flugdatenZusaetzlicheAngaben: {

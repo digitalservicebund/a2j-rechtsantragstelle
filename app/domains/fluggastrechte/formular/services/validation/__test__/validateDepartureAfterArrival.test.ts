@@ -29,9 +29,15 @@ describe("validateDepartureAfterArrival", () => {
   it("should return success false given a departure time after the arrival", () => {
     const result = z.validate(validator, {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "14:00",
+      direktAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "11:00",
+      direktAnkunftsZeit: {
+        hour: "11",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(false);
@@ -40,9 +46,15 @@ describe("validateDepartureAfterArrival", () => {
   it("should return success false given a departure date after the arrival", () => {
     const result = z.validate(validator, {
       direktAbflugsDatum: "02.01.2024",
-      direktAbflugsZeit: "14:00",
+      direktAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "15:00",
+      direktAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(false);
@@ -51,9 +63,15 @@ describe("validateDepartureAfterArrival", () => {
   it("should return success true given a departure date before the arrival", () => {
     const result = z.validate(validator, {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "14:00",
+      direktAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "10:00",
+      direktAnkunftsZeit: {
+        hour: "10",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(true);
@@ -62,9 +80,15 @@ describe("validateDepartureAfterArrival", () => {
   it("should return success true given a departure time before the arrival", () => {
     const result = z.validate(validator, {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "14:00",
+      direktAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "15:00",
+      direktAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(true);
@@ -73,9 +97,15 @@ describe("validateDepartureAfterArrival", () => {
   it("should return success false given a departure date time equal arrival", () => {
     const result = z.validate(validator, {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "14:00",
+      direktAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(false);
