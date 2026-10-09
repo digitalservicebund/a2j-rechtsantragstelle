@@ -7,6 +7,7 @@ import {
 } from "~/services/pdf/attachment";
 import { checkboxListToString } from "~/services/pdf/checkboxListToString";
 import type { BerHPdfFillFunction } from "../types";
+import { toDateString } from "~/services/validation/dateObject";
 
 const AUSGABEN_MAX_COUNT_FIELDS = 4;
 const AUSGABEN_MAX_CHARS_FIELD = 19;
@@ -72,7 +73,7 @@ export const fillAusgaben: BerHPdfFillFunction = ({ userData, pdfValues }) => {
       if ("zahlungsfrist" in ausgabe) {
         attachment.push({
           title: "Raten laufen bis",
-          text: ausgabe.zahlungsfrist,
+          text: toDateString(ausgabe.zahlungsfrist),
         });
       }
     });
@@ -103,7 +104,7 @@ function fillAusgabenInPDF(
       pdfValues[zahlungsempfaengerKey].value = ausgabe.zahlungsempfaenger;
     }
     if (hasFrist && zahlungsfristKey in pdfValues) {
-      pdfValues[zahlungsfristKey].value = ausgabe.zahlungsfrist;
+      pdfValues[zahlungsfristKey].value = toDateString(ausgabe.zahlungsfrist);
     }
     if (beitragKey in pdfValues) {
       pdfValues[beitragKey].value = ausgabe.beitrag;
