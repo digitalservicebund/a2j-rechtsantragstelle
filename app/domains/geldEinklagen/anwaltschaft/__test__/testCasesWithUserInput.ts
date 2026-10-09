@@ -26,5 +26,16 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
     ],
+    rechtlicheWuerdigung: [
+      {
+        stepId: "/rechtliche-wuerdigung",
+        userInput: {
+          rechtlicheWuerdigung: "Some kind of Würdigung",
+        },
+      },
+      {
+        stepId: "/klage-herunterladen",
+      },
+    ],
   },
 } satisfies FlowTestConfig<GeldEinklagenAnwaltschaftUserData>;
