@@ -7,7 +7,7 @@ const localFeatureFlags = {
   showErbausschlagungGerichtFindenVorabcheck: true,
   showNachlassErbscheinAnfrageFlow: false,
   showNachlassErbscheinErbfolgeFlow: false,
-  showGeldEinklagenAnwaltschaftFlow: true,
+  showGeldEinklagenAnwaltschaftFlow: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

@@ -66,9 +66,9 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
-  //   downloadKlageschrift: {
-  //     stepId: "/klageschrift-herunterladen",
-  //   },
+  downloadKlage: {
+    stepId: "/klage-herunterladen",
+  },
 } as const satisfies PagesConfig;
 
 export type GeldEinklagenAnwaltschaftPages =
