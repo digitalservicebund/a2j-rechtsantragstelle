@@ -1,7 +1,7 @@
-import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import { Fieldset } from "../inputs/fieldset/Fieldset";
 import { type SchemaObject } from "~/domains/userData";
+import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { Fieldset } from "../inputs/fieldset/Fieldset";
 
 export const getFieldSetByFieldName = (
   fieldName: string,
@@ -29,6 +29,7 @@ export const renderFieldSet = (
     heading,
     id,
     helperText,
+    suffix,
   } = fieldSet;
 
   // Avoid rendering the FieldSet if the fieldName is not the first field in the FieldSet
@@ -47,6 +48,7 @@ export const renderFieldSet = (
       heading={heading}
       image={image}
       helperText={helperText}
+      suffix={suffix}
       readOnlyFieldNames={readOnlyFieldNames}
     />
   );

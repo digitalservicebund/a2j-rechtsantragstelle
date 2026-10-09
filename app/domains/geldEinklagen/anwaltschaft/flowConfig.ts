@@ -10,8 +10,11 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
     pages: geldEinklagenAnwaltschaftPages,
     initialStep: "voraussetzungen",
     transitions: {
-      voraussetzungen: null,
-      //   downloadKlageschrift: null,
+      voraussetzungen: "klageInhalt",
+      klageInhalt: "pilotgericht",
+      pilotgericht: "rechtlicheWuerdigung", // TODO: wire up to Klagende
+      rechtlicheWuerdigung: "downloadKlage",
+      downloadKlage: null,
     },
     pruningStrategy: "cascading",
   });
