@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { dateAndTimeToTimestamp } from "~/services/validation/time";
+import { dateAndTimeToTimestamp } from "~/services/validation/timeObject";
 import { isStartTimestampLessThanThreeHours } from "./isStartTimestampLessThanThreeHours";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 

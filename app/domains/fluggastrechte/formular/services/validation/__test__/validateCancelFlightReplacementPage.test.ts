@@ -10,9 +10,15 @@ describe("validateCancelFlightReplacementPage", () => {
 
   const mockData = {
     direktAbflugsDatum: toGermanDateString(today()),
-    direktAbflugsZeit: "10:00",
+    direktAbflugsZeit: {
+      hour: "10",
+      minute: "00",
+    },
     direktAnkunftsDatum: toGermanDateString(today()),
-    direktAnkunftsZeit: "11:00",
+    direktAnkunftsZeit: {
+      hour: "11",
+      minute: "00",
+    },
     ankuendigung: "no",
   };
 
@@ -37,7 +43,10 @@ describe("validateCancelFlightReplacementPage", () => {
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
       annullierungErsatzverbindungAbflugsDatum: "",
-      annullierungErsatzverbindungAbflugsZeit: "14:00",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       annullierungErsatzverbindungAnkunftsDatum: "",
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
@@ -77,7 +86,10 @@ describe("validateCancelFlightReplacementPage", () => {
       annullierungErsatzverbindungAbflugsDatum: "",
       annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: "",
-      annullierungErsatzverbindungAnkunftsZeit: "14:00",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
     });
 
     expect(result.success).toBe(false);
@@ -163,9 +175,15 @@ describe("validateCancelFlightReplacementPage", () => {
         ...mockData,
         annullierungErsatzverbindungFlugnummer: "AB123",
         annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-        annullierungErsatzverbindungAbflugsZeit: "10:00",
+        annullierungErsatzverbindungAbflugsZeit: {
+          hour: "10",
+          minute: "00",
+        },
         annullierungErsatzverbindungAnkunftsDatum: "02.01.2024",
-        annullierungErsatzverbindungAnkunftsZeit: "12:00",
+        annullierungErsatzverbindungAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
       }),
     ).toBe(true);
   });
@@ -178,17 +196,29 @@ describe("validateCancelFlightReplacementPage", () => {
 
     const validValuesForDeparture = {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "11:00",
+      direktAbflugsZeit: {
+        hour: "11",
+        minute: "00",
+      },
       ersatzflugStartenEinStunde: "yes",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: "09:30",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "09",
+        minute: "30",
+      },
     };
 
     const validValuesForArrivals = {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "11:30",
+      direktAnkunftsZeit: {
+        hour: "11",
+        minute: "30",
+      },
       annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-      annullierungErsatzverbindungAnkunftsZeit: "14:00",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzflugLandenZweiStunden: "yes",
     };
 
@@ -198,10 +228,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "11:00",
+          direktAbflugsZeit: {
+            hour: "11",
+            minute: "00",
+          },
           ersatzflugStartenEinStunde: "yes",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:00",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "00",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -235,10 +271,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "11:00",
+          direktAbflugsZeit: {
+            hour: "11",
+            minute: "00",
+          },
           ersatzflugStartenEinStunde: "no",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "09:45",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "09",
+            minute: "45",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -263,10 +305,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForArrivals,
             direktAbflugsDatum: "01.01.2024",
-            direktAbflugsZeit: "11:00",
+            direktAbflugsZeit: {
+              hour: "11",
+              minute: "00",
+            },
             ersatzflugStartenEinStunde: "no",
             annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-            annullierungErsatzverbindungAbflugsZeit: "10:01",
+            annullierungErsatzverbindungAbflugsZeit: {
+              hour: "10",
+              minute: "01",
+            },
           }),
         ).toBe(true);
       });
@@ -278,10 +326,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "11:30",
+          direktAnkunftsZeit: {
+            hour: "11",
+            minute: "30",
+          },
           ersatzflugLandenZweiStunden: "yes",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "13:30",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "13",
+            minute: "30",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -315,10 +369,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "12:00",
+          direktAnkunftsZeit: {
+            hour: "12",
+            minute: "00",
+          },
           ersatzflugLandenZweiStunden: "no",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "14:01",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "14",
+            minute: "01",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -343,10 +403,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForDeparture,
             direktAnkunftsDatum: "01.01.2024",
-            direktAnkunftsZeit: "12:00",
+            direktAnkunftsZeit: {
+              hour: "12",
+              minute: "00",
+            },
             ersatzflugLandenZweiStunden: "no",
             annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-            annullierungErsatzverbindungAnkunftsZeit: "14:00",
+            annullierungErsatzverbindungAnkunftsZeit: {
+              hour: "14",
+              minute: "00",
+            },
           }),
         ).toBe(true);
       });
@@ -361,17 +427,29 @@ describe("validateCancelFlightReplacementPage", () => {
 
     const validValuesForDeparture = {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "11:00",
+      direktAbflugsZeit: {
+        hour: "11",
+        minute: "00",
+      },
       ersatzflugStartenEinStunde: "yes",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: "09:30",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "09",
+        minute: "30",
+      },
     };
 
     const validValuesForArrivals = {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "11:30",
+      direktAnkunftsZeit: {
+        hour: "11",
+        minute: "30",
+      },
       annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-      annullierungErsatzverbindungAnkunftsZeit: "14:00",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzflugLandenZweiStunden: "yes",
     };
 
@@ -381,10 +459,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "11:00",
+          direktAbflugsZeit: {
+            hour: "11",
+            minute: "00",
+          },
           ersatzflugStartenEinStunde: "yes",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:00",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "00",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -418,10 +502,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "11:00",
+          direktAbflugsZeit: {
+            hour: "11",
+            minute: "00",
+          },
           ersatzflugStartenEinStunde: "no",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "09:45",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "09",
+            minute: "45",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -446,10 +536,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForArrivals,
             direktAbflugsDatum: "01.01.2024",
-            direktAbflugsZeit: "11:00",
+            direktAbflugsZeit: {
+              hour: "11",
+              minute: "00",
+            },
             ersatzflugStartenEinStunde: "no",
             annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-            annullierungErsatzverbindungAbflugsZeit: "10:01",
+            annullierungErsatzverbindungAbflugsZeit: {
+              hour: "10",
+              minute: "01",
+            },
           }),
         ).toBe(true);
       });
@@ -461,10 +557,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "11:30",
+          direktAnkunftsZeit: {
+            hour: "11",
+            minute: "30",
+          },
           ersatzflugLandenZweiStunden: "yes",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "13:30",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "13",
+            minute: "30",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -498,10 +600,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "12:00",
+          direktAnkunftsZeit: {
+            hour: "12",
+            minute: "00",
+          },
           ersatzflugLandenZweiStunden: "no",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "14:01",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "14",
+            minute: "01",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -526,10 +634,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForDeparture,
             direktAnkunftsDatum: "01.01.2024",
-            direktAnkunftsZeit: "12:00",
+            direktAnkunftsZeit: {
+              hour: "12",
+              minute: "00",
+            },
             ersatzflugLandenZweiStunden: "no",
             annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-            annullierungErsatzverbindungAnkunftsZeit: "14:00",
+            annullierungErsatzverbindungAnkunftsZeit: {
+              hour: "14",
+              minute: "00",
+            },
           }),
         ).toBe(true);
       });
@@ -544,17 +658,29 @@ describe("validateCancelFlightReplacementPage", () => {
 
     const validValuesForDeparture = {
       direktAbflugsDatum: "01.01.2024",
-      direktAbflugsZeit: "12:00",
+      direktAbflugsZeit: {
+        hour: "12",
+        minute: "00",
+      },
       ersatzflugStartenZweiStunden: "yes",
       annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-      annullierungErsatzverbindungAbflugsZeit: "09:30",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "09",
+        minute: "30",
+      },
     };
 
     const validValuesForArrivals = {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "11:30",
+      direktAnkunftsZeit: {
+        hour: "11",
+        minute: "30",
+      },
       annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-      annullierungErsatzverbindungAnkunftsZeit: "16:00",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "16",
+        minute: "00",
+      },
       ersatzflugLandenVierStunden: "yes",
     };
 
@@ -564,10 +690,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "12:00",
+          direktAbflugsZeit: {
+            hour: "12",
+            minute: "00",
+          },
           ersatzflugStartenZweiStunden: "yes",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:00",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "00",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -601,10 +733,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForArrivals,
           direktAbflugsDatum: "01.01.2024",
-          direktAbflugsZeit: "12:00",
+          direktAbflugsZeit: {
+            hour: "12",
+            minute: "00",
+          },
           ersatzflugStartenZweiStunden: "no",
           annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-          annullierungErsatzverbindungAbflugsZeit: "09:30",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "09",
+            minute: "30",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -629,10 +767,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForArrivals,
             direktAbflugsDatum: "01.01.2024",
-            direktAbflugsZeit: "12:00",
+            direktAbflugsZeit: {
+              hour: "12",
+              minute: "00",
+            },
             ersatzflugStartenZweiStunden: "no",
             annullierungErsatzverbindungAbflugsDatum: "01.01.2024",
-            annullierungErsatzverbindungAbflugsZeit: "10:30",
+            annullierungErsatzverbindungAbflugsZeit: {
+              hour: "10",
+              minute: "30",
+            },
           }),
         ).toBe(true);
       });
@@ -644,10 +788,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "11:30",
+          direktAnkunftsZeit: {
+            hour: "11",
+            minute: "30",
+          },
           ersatzflugLandenVierStunden: "yes",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "15:30",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "15",
+            minute: "30",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -681,10 +831,16 @@ describe("validateCancelFlightReplacementPage", () => {
           ...defaultValues,
           ...validValuesForDeparture,
           direktAnkunftsDatum: "01.01.2024",
-          direktAnkunftsZeit: "12:00",
+          direktAnkunftsZeit: {
+            hour: "12",
+            minute: "00",
+          },
           ersatzflugLandenVierStunden: "no",
           annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "16:01",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "16",
+            minute: "01",
+          },
         });
 
         expect(result.success).toBe(false);
@@ -709,10 +865,16 @@ describe("validateCancelFlightReplacementPage", () => {
             ...defaultValues,
             ...validValuesForDeparture,
             direktAnkunftsDatum: "01.01.2024",
-            direktAnkunftsZeit: "12:00",
+            direktAnkunftsZeit: {
+              hour: "12",
+              minute: "00",
+            },
             ersatzflugLandenVierStunden: "no",
             annullierungErsatzverbindungAnkunftsDatum: "01.01.2024",
-            annullierungErsatzverbindungAnkunftsZeit: "09:30",
+            annullierungErsatzverbindungAnkunftsZeit: {
+              hour: "09",
+              minute: "30",
+            },
           }),
         ).toBe(true);
       });
