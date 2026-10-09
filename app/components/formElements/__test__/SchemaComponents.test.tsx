@@ -1,23 +1,24 @@
 import { FormProvider, useForm } from "@rvf/react";
-import { render, waitFor } from "@testing-library/react";
+import type * as RvfReactRouter from "@rvf/react-router";
+import { type FieldApi } from "@rvf/react-router";
+import { fireEvent, render, waitFor } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { z } from "zod";
+import * as useDataListOptions from "~/components/formElements/inputs/autoSuggest/hooks/useDataListOptions";
+import { getPageSchema } from "~/domains/pageSchemas";
+import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import {
+  checkedOptional,
   checkedRequired,
   exclusiveCheckboxesSchema,
 } from "~/services/validation/checkedCheckbox";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
-import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { createMemoryRouter, RouterProvider } from "react-router";
-import { type FieldApi } from "@rvf/react-router";
-import type * as RvfReactRouter from "@rvf/react-router";
-import { getPageSchema } from "~/domains/pageSchemas";
-import { SchemaComponents } from "../SchemaComponents";
-import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { ibanSchema } from "~/services/validation/iban";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
-import { autoSuggestSchema } from "~/services/validation/autoSuggest";
-import * as useDataListOptions from "~/components/formElements/inputs/autoSuggest/hooks/useDataListOptions";
-import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
+import { phoneNumberSchema } from "~/services/validation/phoneNumber";
+import { SchemaComponents } from "../SchemaComponents";
 
 vi.mock("~/domains/pageSchemas");
 const dataListSpy = vi.spyOn(useDataListOptions, "default");
@@ -232,6 +233,46 @@ describe("SchemaComponents", () => {
     expect(checkboxes[1]).toHaveAttribute("value", "off");
     expect(checkboxes[1]).not.toBeRequired();
     expect(checkboxes[1].parentElement).toHaveTextContent("none");
+  });
+
+  it("should render a standalone checkbox and render a hidden input for the value='off' fallback", async () => {
+    const pageSchema = { field: checkedOptional };
+    const { getByRole } = render(
+      <WrappedSchemaComponents
+        pageConfig={{ pageSchema }}
+        readOnlyFieldNames={[]}
+        formComponents={[
+          {
+            __component: "form-elements.standalone-checkbox",
+            text: "option",
+            label: "Label",
+            errorMessage: undefined,
+            id: 10,
+            name: "field",
+            required: false,
+          },
+        ]}
+      />,
+    );
+    const checkbox = getByRole("checkbox");
+    expect(checkbox).toHaveAttribute("name", "field");
+    expect(checkbox).toHaveAttribute("value", "on");
+    expect(checkbox).not.toBeRequired();
+    expect(checkbox.parentElement).toHaveTextContent("option");
+    const fieldset = checkbox.closest("fieldset")!;
+    expect(fieldset.querySelector('input[type="hidden"]')).toHaveValue("off");
+
+    fireEvent.click(checkbox);
+    await waitFor(() => {
+      expect(checkbox).toBeChecked();
+      expect(fieldset.querySelector('input[type="hidden"]')).toBeNull();
+    });
+
+    fireEvent.click(checkbox);
+    await waitFor(() => {
+      expect(checkbox).not.toBeChecked();
+      expect(fieldset.querySelector('input[type="hidden"]')).toHaveValue("off");
+    });
   });
 
   it("should render multiple nested fields", () => {

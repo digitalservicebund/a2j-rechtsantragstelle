@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { StrapiIncrementComponentSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
+import { StrapiStandaloneCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiStandaloneCheckbox";
 import { StrapiAutoSuggestInputComponentSchema } from "./StrapiAutoSuggestInput";
 import { StrapiCheckboxComponentSchema } from "./StrapiCheckbox";
 import { StrapiDateInputComponentSchema } from "./StrapiDateInput";
@@ -10,7 +12,6 @@ import { StrapiSelectComponentSchema } from "./StrapiSelect";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTileGroupComponentSchema } from "./StrapiTileGroup";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
-import { StrapiIncrementComponentSchema } from "~/services/cms/models/formElements/StrapiNumberIncrement";
 
 export const StrapiFormComponentSchema = z.union([
   StrapiInputComponentSchema,
@@ -21,6 +22,7 @@ export const StrapiFormComponentSchema = z.union([
   StrapiSelectComponentSchema,
   StrapiDropdownComponentSchema,
   StrapiCheckboxComponentSchema,
+  StrapiStandaloneCheckboxComponentSchema,
   StrapiTileGroupComponentSchema,
   StrapiAutoSuggestInputComponentSchema,
   StrapiFieldSetComponentSchema,

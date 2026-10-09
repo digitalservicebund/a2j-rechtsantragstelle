@@ -1,20 +1,21 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import {
-  createFieldToStepMapping,
-  findStepIdForField,
-  getFormQuestionsForFields,
-  extractOptionsFromComponent,
-  createFieldQuestionFromComponent,
-  processNestedComponents,
-  processFieldForQuestions,
-} from "../getFormQuestions";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { z } from "zod";
 import { fetchFlowPage } from "~/services/cms/index.server";
+import { type StrapiCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiCheckbox";
 import { type StrapiInputComponentSchema } from "~/services/cms/models/formElements/StrapiInput";
 import { type StrapiSelectComponentSchema } from "~/services/cms/models/formElements/StrapiSelect";
+import { type StrapiStandaloneCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiStandaloneCheckbox";
 import { type StrapiTileGroupComponentSchema } from "~/services/cms/models/formElements/StrapiTileGroup";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
-import type { z } from "zod";
-import { type StrapiCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiCheckbox";
+import {
+  createFieldQuestionFromComponent,
+  createFieldToStepMapping,
+  extractOptionsFromComponent,
+  findStepIdForField,
+  getFormQuestionsForFields,
+  processFieldForQuestions,
+  processNestedComponents,
+} from "../getFormQuestions";
 
 type StrapiInputComponentOutput = z.output<typeof StrapiInputComponentSchema>;
 type StrapiSelectComponentOutput = z.output<typeof StrapiSelectComponentSchema>;
@@ -23,6 +24,9 @@ type StrapiTileGroupComponentOutput = z.output<
 >;
 type StrapiCheckboxComponentOutput = z.output<
   typeof StrapiCheckboxComponentSchema
+>;
+type StrapiStandaloneCheckboxComponentOutput = z.output<
+  typeof StrapiStandaloneCheckboxComponentSchema
 >;
 
 vi.mock("~/domains/flows.server", () => ({
@@ -321,7 +325,7 @@ describe("extractOptionsFromComponent", () => {
     ]);
   });
 
-  it("should generate default options for a standalone checkbox component", () => {
+  it("should generate default options for a single checkbox component", () => {
     const component: StrapiCheckboxComponentOutput = {
       __component: "form-elements.checkbox",
       name: "checkbox",
@@ -329,6 +333,25 @@ describe("extractOptionsFromComponent", () => {
       id: 1,
       required: false,
       errorMessage: undefined,
+    };
+
+    const result = extractOptionsFromComponent(component);
+
+    expect(result).toEqual([
+      { text: "Ja", value: "on" },
+      { text: "Nein", value: "off" },
+    ]);
+  });
+
+  it("should generate default options for a standalone checkbox component (with label)", () => {
+    const component: StrapiStandaloneCheckboxComponentOutput = {
+      __component: "form-elements.standalone-checkbox",
+      name: "checkbox",
+      text: "Check me!",
+      label: "Checkbox Label",
+      required: false,
+      errorMessage: undefined,
+      id: 1,
     };
 
     const result = extractOptionsFromComponent(component);
@@ -411,7 +434,37 @@ describe("createFieldQuestionFromComponent", () => {
     });
   });
 
-  it("should use page heading when no label is provided", () => {
+  it("should use the label field of a standalone checkbox component when provided", () => {
+    const component: StrapiStandaloneCheckboxComponentOutput = {
+      __component: "form-elements.standalone-checkbox",
+      name: "vorname",
+      text: "Option text",
+      label: "Checkbox Label",
+      required: false,
+      errorMessage: undefined,
+      id: 1,
+    };
+
+    const formPage: StrapiFormFlowPage = {
+      heading: "Wie ist Ihr Vorname?",
+      stepId: "/test",
+      flow_ids: [],
+      preHeading: undefined,
+      nextButtonLabel: undefined,
+      backButtonLabel: undefined,
+      pre_form: [],
+      form: [],
+      post_form: [],
+      locale: "de",
+      pageTitle: "Test Page",
+    };
+
+    const result = createFieldQuestionFromComponent(component, formPage);
+
+    expect(result.question).toEqual("Checkbox Label");
+  });
+
+  it("should use page heading when no label or text is provided", () => {
     const component: StrapiInputComponentOutput = {
       __component: "form-elements.input",
       name: "vorname",

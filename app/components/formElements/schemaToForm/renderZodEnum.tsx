@@ -1,11 +1,12 @@
 import get from "lodash/get";
 import type { z } from "zod";
-import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 import RadioGroup from "~/components/formElements/inputs/radio/RadioGroup";
-import Tile from "../inputs/tile/Tile";
+import StandaloneCheckbox from "~/components/formElements/inputs/standaloneCheckbox/StandaloneCheckbox";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import Checkbox from "../inputs/checkbox/Checkbox";
 import Select from "../inputs/select/Select";
+import Tile from "../inputs/tile/Tile";
+import { sortSchemaOptionsByFormComponents } from "./sortSchemaOptionsByFormComponents";
 
 type ZodEnum = z.ZodEnum<Record<string, string>>;
 
@@ -37,6 +38,17 @@ export function renderZodEnum(
           required={matchingElement.required}
           errorMessage={matchingElement.errorMessage}
           suffix={suffix}
+        />
+      );
+    case "form-elements.standalone-checkbox":
+      return (
+        <StandaloneCheckbox
+          key={fieldName}
+          name={fieldName}
+          label={label}
+          text={matchingElement.text}
+          required={matchingElement.required}
+          errorMessage={matchingElement.errorMessage}
         />
       );
     case "form-elements.tile-group": {
