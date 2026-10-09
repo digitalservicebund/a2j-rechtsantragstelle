@@ -132,6 +132,19 @@ describe("getItemValueBox", () => {
 
     expect(actual).toBe("No Status admin");
   });
+
+  it("should handle time object", () => {
+    const translations: Translations = {};
+    const userData: UserData = {
+      direktAbflugsZeit: { hour: "10", minute: "08" },
+    };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "direktAbflugsZeit" },
+    ]);
+
+    expect(actual).toBe("10:08");
+  });
 });
 
 describe("extractFieldItemsFromInlineItems", () => {
