@@ -1,6 +1,6 @@
 import z from "zod";
 import { stringRequiredSchema } from "./stringRequired";
-import { isTime } from "validator";
+import isTime from "validator/lib/isTime";
 import { translations } from "../translations/translations";
 
 export const createSplitTimeSchema = () => {
