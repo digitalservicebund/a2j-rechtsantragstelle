@@ -1,5 +1,6 @@
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
 import { type pkhFormularGrundvoraussetzungenPages } from "~/domains/prozesskostenhilfe/formular/grundvoraussetzungen/pages";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 
-export type ProzesskostenhilfeGrundvoraussetzungenUserData =
-  UserDataFromPagesSchema<typeof pkhFormularGrundvoraussetzungenPages>;
+export type ProzesskostenhilfeGrundvoraussetzungenUserData = InferredUserData<
+  typeof pkhFormularGrundvoraussetzungenPages
+>;
