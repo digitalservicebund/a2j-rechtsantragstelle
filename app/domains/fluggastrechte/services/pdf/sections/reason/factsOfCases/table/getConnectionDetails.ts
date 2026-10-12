@@ -94,7 +94,11 @@ const formatAnnullierungDateHour = (
     return "--";
   }
 
-  if (typeof hour === "string" || hour === undefined) {
+  if (typeof hour === "string") {
+    return `${date}, ${hour}`;
+  }
+
+  if (hour === undefined) {
     return "--";
   }
 
