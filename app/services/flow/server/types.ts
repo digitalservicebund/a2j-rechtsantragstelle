@@ -44,11 +44,6 @@ type XstateStates<T extends UserData = UserData> = NonNullable<
 export type TransitionConfigOrTarget<T extends UserData = UserData> =
   NonNullable<XstateStates<T>[string]["on"]>["SUBMIT"];
 
-export type FlowConfigTransitions = {
-  backToCallingFlow?: TransitionConfigOrTarget;
-  nextFlowEntrypoint?: TransitionConfigOrTarget;
-};
-
 export type Meta = {
   excludedFromValidation?: boolean;
   triggerValidation?: boolean;
