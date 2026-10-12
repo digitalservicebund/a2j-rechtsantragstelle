@@ -8,14 +8,14 @@ import { familyRelationshipSchema } from "../finanzielleAngaben/andere-unterhalt
 
 export const pkhFormularAntragstellendePersonPages = {
   empfaenger: {
-    stepId: "antragstellende-person/empfaenger",
+    stepId: "/antragstellende-person/empfaenger",
     pageSchema: {
       empfaenger: z.enum(["myself", "child", "otherPerson"]),
     },
   },
   ...pkhFormularVereinfachteErklaerungPages,
   unterhaltsanspruch: {
-    stepId: "antragstellende-person/unterhaltsanspruch",
+    stepId: "/antragstellende-person/unterhaltsanspruch",
     pageSchema: {
       unterhaltsanspruch: z.enum([
         "keine",
@@ -26,43 +26,43 @@ export const pkhFormularAntragstellendePersonPages = {
     },
   },
   unterhaltsbeschreibung: {
-    stepId: "antragstellende-person/unterhaltsbeschreibung",
+    stepId: "/antragstellende-person/unterhaltsbeschreibung",
     pageSchema: {
       unterhaltsbeschreibung: stringRequiredSchema,
     },
   },
   unterhaltLebenFrage: {
-    stepId: "antragstellende-person/unterhalt-leben-frage",
+    stepId: "/antragstellende-person/unterhalt-leben-frage",
     pageSchema: {
       couldLiveFromUnterhalt: YesNoAnswer,
     },
   },
   unterhalt: {
-    stepId: "antragstellende-person/unterhalt",
+    stepId: "/antragstellende-person/unterhalt",
     pageSchema: {
       unterhaltsSumme: buildMoneyValidationSchema(),
     },
   },
   unterhaltspflichtigePersonBeziehung: {
-    stepId: "antragstellende-person/unterhaltspflichtige-person-beziehung",
+    stepId: "/antragstellende-person/unterhaltspflichtige-person-beziehung",
     pageSchema: {
       personWhoCouldPayUnterhaltBeziehung: familyRelationshipSchema,
     },
   },
   warumKeinerUnterhalt: {
-    stepId: "antragstellende-person/warum-keiner-unterhalt",
+    stepId: "/antragstellende-person/warum-keiner-unterhalt",
     pageSchema: {
       whyNoUnterhalt: stringRequiredSchema,
     },
   },
   unterhaltHauptsaechlichesLeben: {
-    stepId: "antragstellende-person/unterhalt-hauptsaechliches-leben",
+    stepId: "/antragstellende-person/unterhalt-hauptsaechliches-leben",
     pageSchema: {
       livesPrimarilyFromUnterhalt: YesNoAnswer,
     },
   },
   unterhaltspflichtigePerson: {
-    stepId: "antragstellende-person/unterhaltspflichtige-person",
+    stepId: "/antragstellende-person/unterhaltspflichtige-person",
     pageSchema: {
       unterhaltspflichtigePerson: z
         .object({
@@ -74,9 +74,9 @@ export const pkhFormularAntragstellendePersonPages = {
     },
   },
   eigenesExemplar: {
-    stepId: "antragstellende-person/eigenes-exemplar",
+    stepId: "/antragstellende-person/eigenes-exemplar",
   },
   zweiFormulare: {
-    stepId: "antragstellende-person/zwei-formulare",
+    stepId: "/antragstellende-person/zwei-formulare",
   },
 } as const satisfies PagesConfig;

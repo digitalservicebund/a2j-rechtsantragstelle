@@ -1,11 +1,11 @@
 import type { z } from "zod";
 import type { FlowId } from "~/domains/flowIds";
+import { type FormFieldsMap, pages } from "~/domains/pageSchemas";
 import { fetchFlowPage } from "~/services/cms/index.server";
 import type { StrapiFormFlowPage } from "~/services/cms/models/StrapiFormFlowPage";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { buildArrayKeyPrefix, parseField } from "./fieldParsingUtils";
 import type { FieldOption, FieldQuestion } from "./types";
-import { type FormFieldsMap, pages } from "~/domains/pageSchemas";
 
 const objectShapeKeys = (schema: z.ZodType): string[] => {
   const { def } = schema._zod;
@@ -113,6 +113,7 @@ export function extractOptionsFromComponent(
 ): FieldOption[] | undefined {
   if (
     formComponent.__component !== "form-elements.checkbox" &&
+    formComponent.__component !== "form-elements.standalone-checkbox" &&
     (!("options" in formComponent) || !Array.isArray(formComponent.options))
   ) {
     return undefined;
@@ -126,7 +127,10 @@ export function extractOptionsFromComponent(
         value: opt.value,
       }),
     );
-  } else if (formComponent.__component === "form-elements.checkbox") {
+  } else if (
+    formComponent.__component === "form-elements.checkbox" ||
+    formComponent.__component === "form-elements.standalone-checkbox"
+  ) {
     // Standalone checkbox e.g. required Datenverarbeitung consent, simple yes/no
     return [
       { text: "Ja", value: "on" },

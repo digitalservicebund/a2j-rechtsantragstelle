@@ -8,9 +8,33 @@ export const geldEinklagenAnwaltschaftTestCases = {
   },
   newEngineConfig: geldEinklagenAnwaltschaftFlowConfig,
   testcases: {
-    voraussetzungen: [
+    basePagesUntilKlagendePartei: [
       {
-        stepId: "/geld-einklagen/anwaltschaft/voraussetzungen",
+        stepId: "/voraussetzungen/intro",
+      },
+      {
+        stepId: "/inhalt-klage",
+        userInput: {
+          zahlungsklageSubjectLine: "Subject",
+          zahlungsklageGesamtstreitwert: "1000",
+        },
+      },
+      {
+        stepId: "/pilotgericht",
+        userInput: {
+          pilotgericht: "steinfurt",
+        },
+      },
+    ],
+    rechtlicheWuerdigung: [
+      {
+        stepId: "/rechtliche-wuerdigung",
+        userInput: {
+          rechtlicheWuerdigung: "Some kind of Würdigung",
+        },
+      },
+      {
+        stepId: "/klage-herunterladen",
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Textarea, {
   TEXT_AREA_ROWS,
 } from "~/components/formElements/inputs/textarea/Textarea";
@@ -55,7 +55,7 @@ describe("Textarea component", () => {
     );
   });
 
-  it("renders without errors when helperText is provided", () => {
+  it("renders helperText when provided", () => {
     render(
       <Textarea
         name="test-textarea"

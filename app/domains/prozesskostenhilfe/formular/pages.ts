@@ -10,13 +10,13 @@ import { pkhFormularRechtsschutzversicherungPages } from "./rechtsschutzversiche
 
 export const prozesskostenhilfeFormularPages = {
   start: {
-    stepId: "start",
+    stepId: "/start/start",
   },
   ...pkhFormularGrundvoraussetzungenPages,
+  ...pkhFormularAntragstellendePersonPages,
   ...pkhFormularRechtsschutzversicherungPages,
   ...pkhFormularFinanzielleAngabenPages,
   ...pkhFormularGesetzlicheVertretungPages,
-  ...pkhFormularAntragstellendePersonPages,
   ...pkhFormularPersoenlicheDatenPages,
   ...pkhFormularWeitereAngabenPages,
   ...pkhFormularAbgabePages,

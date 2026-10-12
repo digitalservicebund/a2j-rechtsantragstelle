@@ -1,11 +1,11 @@
 import pick from "lodash/pick";
 import type { z } from "zod";
-import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import Textarea from "~/components/formElements/inputs/textarea/Textarea";
+import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import DateInput from "../inputs/date/DateInput";
-import TimeInput from "../inputs/time/TimeInput";
-import TextInput, { type InputProps } from "../inputs/text/TextInput";
 import NumberInput from "../inputs/number/NumberInput";
+import TextInput, { type InputProps } from "../inputs/text/TextInput";
+import TimeInput from "../inputs/time/TimeInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -20,7 +20,7 @@ export const renderZodString = (
   const sharedProps = {
     name: fieldName,
     readonly: isFieldReadOnly,
-    label: fieldName, // fallback, will get written if there's a matchingElement
+    label: !matchingElement ? fieldName : undefined, // Only use the fieldName as the label if there's no matchingElement
     ...pick(matchingElement, ["label", "placeholder", "errorMessages"]),
     controlled: isControlled,
   };
@@ -39,6 +39,7 @@ export const renderZodString = (
           "suffix",
           "details",
           "description",
+          "helperText",
           "maxLength",
         ])}
       />

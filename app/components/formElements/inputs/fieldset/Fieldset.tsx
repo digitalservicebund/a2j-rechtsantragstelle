@@ -1,13 +1,13 @@
-import { useLocation } from "react-router";
-import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
-import Image from "~/components/common/Image.tsx";
 import classNames from "classnames";
-import { getPageSchema } from "~/domains/pageSchemas";
+import { useLocation } from "react-router";
+import Image from "~/components/common/Image.tsx";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
+import { getPageSchema } from "~/domains/pageSchemas";
+import { type StrapiFieldSet } from "~/services/cms/models/formElements/StrapiFieldSet";
 import RichText from "../../../common/RichText";
 
 type FieldsetProps = Readonly<
-  Pick<StrapiFieldSet, "heading" | "image" | "helperText"> & {
+  Pick<StrapiFieldSet, "heading" | "image" | "helperText" | "suffix"> & {
     formComponents: StrapiFieldSet["fieldSetGroup"]["formComponents"];
     readOnlyFieldNames: string[];
     isStorybook?: boolean;
@@ -40,6 +40,7 @@ export const Fieldset = ({
   image,
   helperText,
   readOnlyFieldNames,
+  suffix,
   isStorybook = false,
 }: FieldsetProps) => {
   const { pathname } = useLocation();
@@ -73,6 +74,11 @@ export const Fieldset = ({
           html={heading}
           className="text-kern-adaptive-medium! kern-label"
         />
+        {suffix && (
+          <span className="text-kern-adaptive-medium! kern-label mb-8! kern-label__optional">
+            {suffix}
+          </span>
+        )}
       </legend>
       {hasHelperText && (
         <div

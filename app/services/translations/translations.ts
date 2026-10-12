@@ -349,6 +349,17 @@ export const translations = {
       de: "Beispielsweise: 17.3.2015",
     },
   },
+  splitTimeComponent: {
+    hourInputLabel: {
+      de: "Stunde",
+    },
+    minuteInputLabel: {
+      de: "Minute",
+    },
+    errorWrongTime: {
+      de: "Ungültige Uhrzeit",
+    },
+  },
   numberIncrementComponent: {
     incrementButtonLabel: {
       de: "Erhöhen",
@@ -634,6 +645,11 @@ export const translations = {
     },
     reuseBeweisPersonSelectionRequired: {
       de: "Bitte wählen Sie mindestens eine Person aus.",
+    },
+  },
+  geldEinklagenAnwaltschaft: {
+    zahlungsklageReferenzzeichenError: {
+      de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
   },
   nachlass: {
