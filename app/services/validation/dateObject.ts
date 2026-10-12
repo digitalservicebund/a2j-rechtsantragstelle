@@ -1,5 +1,6 @@
 import z from "zod";
 import { isValidDate } from "./dateString";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
@@ -77,3 +78,16 @@ export const toDate = (date: DateObject) =>
   new Date(
     Date.UTC(Number(date.year), Number(date.month) - 1, Number(date.day)),
   );
+
+export const toDateObject = (date: Date): DateObject => {
+  const month = date.getUTCMonth() + 1;
+  return {
+    day: date.getUTCDate().toString().padStart(2, "0"),
+    month: month.toString().padStart(2, "0"),
+    year: date.getUTCFullYear().toString(),
+  };
+};
+
+export const hasDateObject = (date: DateObject | undefined) => {
+  return objectKeysNonEmpty(date, ["day", "month", "year"]);
+};

@@ -16,7 +16,9 @@ export async function startFinanzielleAngabenKinder(
   // /finanzielle-angaben/kinder/kinder/0/name
   await formular.fillInput("kinder#vorname", "Clara");
   await formular.fillInput("kinder#nachname", "Musterian");
-  await formular.fillInput("kinder#geburtsdatum", "12.12.2020");
+  await formular.fillInput("kinder#geburtsdatum.day", "12");
+  await formular.fillInput("kinder#geburtsdatum.month", "12");
+  await formular.fillInput("kinder#geburtsdatum.year", "2020");
   await formular.clickNext();
 
   // /finanzielle-angaben/kinder/kinder/0/wohnort
