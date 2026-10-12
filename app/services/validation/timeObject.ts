@@ -7,27 +7,41 @@ import { toDate } from "./dateString";
 export const createSplitTimeSchema = () => {
   return z
     .object({
-      hour: stringRequiredSchema
-        .refine(
-          (val) => {
-            const num = Number(val);
-            return !Number.isNaN(num) && val.length <= 2;
-          },
-          { error: "Ungültiger Stunde" },
-        )
-        .transform((val) => val.padStart(2, "0")),
-      minute: stringRequiredSchema
-        .refine(
-          (val) => {
-            const num = Number(val);
-            return !Number.isNaN(num) && val.length <= 2;
-          },
-          { error: "Ungültiger Minute" },
-        )
-        .transform((val) => val.padStart(2, "0")),
+      hour: stringRequiredSchema,
+      minute: stringRequiredSchema,
     })
     .meta({ description: "split_time" })
     .check((ctx) => {
+
+      const hour = ctx.value.hour;
+      const minute = ctx.value.minute;
+      let hasFieldError = false
+
+      if (Number.isNaN(Number(hour)) || hour.length !== 2) {
+        ctx.issues.push({
+          code: "custom",
+          message: "Ungültiger Stunde",
+          path: ["hour"],
+          input: ctx.value,
+        });
+        hasFieldError = true;
+      }
+
+      if (Number.isNaN(Number(minute)) || minute.length !== 2) {
+        ctx.issues.push({
+          code: "custom",
+          message: "Ungültiger Minute",
+          path: ["minute"],
+          input: ctx.value,
+        });
+
+        hasFieldError = true;
+      }
+
+      if (hasFieldError) {
+        return;
+      }
+
       if (isTime(toTimeString(ctx.value), { hourFormat: "hour24" })) return;
 
       // attach to the leaf fields (not the parent path) so RVF's

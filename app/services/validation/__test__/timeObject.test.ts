@@ -86,6 +86,14 @@ describe("timeObject", () => {
         errorPath: "minute",
         errorMessage: "Ungültiger Minute",
       },
+      {
+        input: {
+          hour: "23",
+          minute: "aa",
+        },
+        errorPath: "minute",
+        errorMessage: "Ungültiger Minute",
+      },
     ];
 
     test.each(cases)(
