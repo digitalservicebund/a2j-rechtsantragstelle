@@ -1,9 +1,9 @@
 import mapValues from "lodash/mapValues";
 import { addYears, today } from "~/util/date";
-import { toDate } from "~/services/validation/dateString";
 import type { BeratungshilfeVorabcheckUserData } from "./userData";
 import type { KinderArraySchema } from "../formular/finanzielleAngaben/kinder/pages";
 import { logWarning, sendSentryMessage } from "~/services/logging";
+import { toDate } from "~/services/validation/dateObject";
 
 type Freibetraege = {
   selfAllowance: number;

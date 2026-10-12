@@ -1,7 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { reachAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/__test__/reachData";
-import { addDays, today, toGermanDateString } from "~/util/date";
+import { addDays, today } from "~/util/date";
+import { toDateObject } from "~/services/validation/dateObject";
 
 const rechtsproblemStart = "/rechtsproblem/start";
 const anwaltlicheVertretungStart = "/anwaltliche-vertretung/start";
@@ -65,7 +66,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     {
       stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
       userInput: {
-        beratungStattgefundenDatum: toGermanDateString(addDays(today(), -7)),
+        beratungStattgefundenDatum: toDateObject(addDays(today(), -7)),
       },
     },
     { stepId: "/anwaltliche-vertretung/frist-hinweis" },
@@ -94,7 +95,7 @@ export const testCasesBeratungshilfeFormularAnwaltlicheVertretung = {
     {
       stepId: anwaltlicheVertretungBeratungStattgefundenDatum,
       userInput: {
-        beratungStattgefundenDatum: toGermanDateString(addDays(today(), -30)),
+        beratungStattgefundenDatum: toDateObject(addDays(today(), -30)),
       },
     },
     { stepId: "/anwaltliche-vertretung/anwalt-ende" },
