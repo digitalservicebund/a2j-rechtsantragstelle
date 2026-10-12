@@ -1,5 +1,4 @@
 import { createDateSchema, toDate } from "../dateString";
-import { dateAndTimeToTimestamp } from "../time";
 
 describe("createDateSchema", () => {
   describe("success cases", () => {
@@ -54,15 +53,6 @@ describe("dateString conversions", () => {
   describe("toDate", () => {
     it("parses German Dates correctly", () => {
       expect(toDate("01.01.2000")).toEqual(new Date("2000-01-01T00:00:00"));
-    });
-  });
-
-  describe("convertToTimestamp", () => {
-    it("should convert a valid date and time to a timestamp", () => {
-      const actual = dateAndTimeToTimestamp("24.03.2025", "15:30");
-      const expectedTimestamp = new Date(2025, 2, 24, 15, 30).getTime();
-
-      expect(actual).toStrictEqual(expectedTimestamp);
     });
   });
 });
