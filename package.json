@@ -129,7 +129,7 @@
     "i18n-iso-countries": "^7.14.0",
     "jsdom": "^30.1.1",
     "knip": "^6.39.0",
-    "lefthook": "^2.1.17",
+    "lefthook": "^2.2.1",
     "oxlint": "^1.87.0",
     "p-map": "^7.0.8",
     "prettier": "^3.9.9",
