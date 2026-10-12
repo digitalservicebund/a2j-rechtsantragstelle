@@ -1,4 +1,16 @@
+import classNames from "classnames";
+import {
+  extractZodDescription,
+  isSpecialComponentDescriptions,
+  renderSpecialMetaDescriptions,
+} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
+import {
+  hasControlledFieldConfig,
+  type ArrayPage,
+  type PageConfig,
+} from "~/domains/pageSchemas";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
 import {
   getFieldSetByFieldName,
@@ -17,18 +29,6 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
-import classNames from "classnames";
-import {
-  extractZodDescription,
-  isSpecialComponentDescriptions,
-  renderSpecialMetaDescriptions,
-} from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
-import {
-  hasControlledFieldConfig,
-  type ArrayPage,
-  type PageConfig,
-} from "~/domains/pageSchemas";
-import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
 type Props = {
   pageConfig: ArrayPage | PageConfig;
@@ -49,6 +49,8 @@ export const SchemaComponents = ({
     pageSchema ?? {},
     formComponents,
   );
+
+  if (Object.entries(sortedFieldsSchema).length === 0) return null;
 
   return (
     <div

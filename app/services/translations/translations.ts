@@ -349,6 +349,17 @@ export const translations = {
       de: "Beispielsweise: 17.3.2015",
     },
   },
+  splitTimeComponent: {
+    hourInputLabel: {
+      de: "Stunde",
+    },
+    minuteInputLabel: {
+      de: "Minute",
+    },
+    errorWrongTime: {
+      de: "Ungültige Uhrzeit",
+    },
+  },
   numberIncrementComponent: {
     incrementButtonLabel: {
       de: "Erhöhen",

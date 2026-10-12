@@ -3,17 +3,26 @@ import { redirect, type LoaderFunctionArgs } from "react-router";
 import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
 import { parsePathname, type FlowId } from "~/domains/flowIds";
+import { flows } from "~/domains/flows.server";
 import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
 import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
+import { geldEinklagenAnwaltschaftPdfFromUserdata } from "~/domains/geldEinklagen/anwaltschaft/services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
+import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/pdf/geldEinklagenPdfFromUserdata";
 import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
 import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
-import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
 import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
+import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
+import { type UserData } from "~/domains/userData";
 import { fetchTranslations } from "~/services/cms/index.server";
+import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
@@ -21,14 +30,7 @@ import {
   getSessionIdByFlowId,
 } from "~/services/session.server";
 import type { Translations } from "~/services/translations/getTranslationByKey";
-import { today, pdfDateFormat } from "~/util/date";
-import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
-import { type UserData } from "~/domains/userData";
-import { flows } from "~/domains/flows.server";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { pdfDateFormat, today } from "~/util/date";
 
 type PdfFlowContexts =
   | BeratungshilfeFormularUserData
@@ -85,6 +87,11 @@ const pdfConfigs = {
   "/geld-einklagen/formular": {
     pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
       await geldEinklagenPdfFromUserdata(userData),
+    name: `Geld_Einklagen_Klage`,
+  },
+  "/geld-einklagen/anwaltschaft": {
+    pdfFunction: async (userData: GeldEinklagenAnwaltschaftUserData) =>
+      await geldEinklagenAnwaltschaftPdfFromUserdata(userData),
     name: `Geld_Einklagen_Klage`,
   },
   "/erbausschlagung/anfrage": {
