@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
   buildMoneyValidationSchema,
   formatCurrencyZodDescription,
@@ -58,6 +59,16 @@ export const geldEinklagenAnwaltschaftPages = {
       ]),
     },
   },
+  prozessualeAusfuehrungen: {
+    stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+    pageSchema: {
+      muendlicheVerhandlung: schemaOrEmptyString(checkedOptional),
+      videoverhandlung: schemaOrEmptyString(
+        z.enum(["yes", "no", "noSpecification"]).optional(),
+      ),
+      versaeumnisurteil: schemaOrEmptyString(checkedOptional),
+    },
+  },
   rechtlicheWuerdigung: {
     stepId: "/rechtliche-wuerdigung",
     pageSchema: {
@@ -66,9 +77,9 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
-  //   downloadKlageschrift: {
-  //     stepId: "/klageschrift-herunterladen",
-  //   },
+  downloadKlage: {
+    stepId: "/klage-herunterladen",
+  },
 } as const satisfies PagesConfig;
 
 export type GeldEinklagenAnwaltschaftPages =
