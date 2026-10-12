@@ -12,10 +12,9 @@ export const createSplitTimeSchema = () => {
     })
     .meta({ description: "split_time" })
     .check((ctx) => {
-
       const hour = ctx.value.hour;
       const minute = ctx.value.minute;
-      let hasFieldError = false
+      let hasFieldError = false;
 
       if (Number.isNaN(Number(hour)) || hour.length !== 2) {
         ctx.issues.push({
