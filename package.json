@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/client-s3": "^3.1148.0",
     "@digitalservicebund/a2j-xjustiz-bridge": "^0.10.1",
     "@digitalservicebund/kern-ux-tailwind-theme": "^4.1.0",
     "@kern-ux/native": "^2.8.2",
@@ -56,7 +56,7 @@
     "@react-router/node": "8.3.0",
     "@remix-run/form-data-parser": "^1.0.0",
     "@rvf/react-router": "^8.2.0",
-    "@sentry/react-router": "^11.4.0",
+    "@sentry/react-router": "^11.6.0",
     "@sentry/vite-plugin": "^5.4.1",
     "@xstate/graph": "^3.0.4",
     "axios": "^1.20.0",
@@ -101,7 +101,7 @@
     "@faker-js/faker": "^10.6.0",
     "@fast-csv/parse": "^5.0.8",
     "@lizenz/checker": "^0.0.2",
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.64.0",
     "@react-router/dev": "8.3.0",
     "@react-router/fs-routes": "8.3.0",
     "@rvf/react": "^8.1.3",
