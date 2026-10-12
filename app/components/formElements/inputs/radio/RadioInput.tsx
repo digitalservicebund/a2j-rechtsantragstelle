@@ -24,15 +24,18 @@ export const RadioInput = ({
   const idRandom = useId();
   // Radio group is rendering many times on the same page with the same name (modal TGA), but the id should be unique
   const id = `${name}-${value}-${idRandom}`;
+  const hasError = Boolean(field.error());
+  const errorId = `${name}-error`;
 
   return (
     <div className="kern-form-check">
       <input
         {...field.getInputProps({ type: "radio", id, value })}
         className={classNames("kern-form-check__radio", {
-          "kern-form-check__radio--error": Boolean(field.error()),
+          "kern-form-check__radio--error": hasError,
         })}
         ref={ref}
+        aria-describedby={hasError ? errorId : undefined}
         disabled={disabled}
       />
       <InputLabel name={id} label={text} suffix={suffix} />

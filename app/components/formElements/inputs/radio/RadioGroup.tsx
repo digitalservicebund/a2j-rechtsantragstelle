@@ -40,7 +40,7 @@ const RadioGroup = ({
         "kern-fieldset--error": hasError,
       })}
       aria-invalid={hasError}
-      aria-errormessage={hasError ? errorId : undefined}
+      aria-describedby={hasError ? errorId : undefined}
     >
       {altLabel && <legend className="sr-only">{altLabel}</legend>}
 
