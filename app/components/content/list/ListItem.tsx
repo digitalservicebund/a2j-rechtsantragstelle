@@ -60,7 +60,7 @@ const ListItem = ({
   return (
     <div
       id={identifier}
-      className="flex lg:flex-row flex-col gap-kern-space-default pb-48"
+      className="flex flex-col gap-kern-space-default pb-48"
     >
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
         <ListMarker index={index} variant={variant} image={image} />
