@@ -1,4 +1,4 @@
-import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { type DataListType } from "~/services/validation/autoSuggest";
 import { type ErrorMessageProps } from "../../../common/types";
 
 export type AutoSuggestInputProps = Readonly<{
