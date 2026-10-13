@@ -19,7 +19,7 @@ export const createSplitTimeSchema = () => {
       if (Number.isNaN(Number(hour)) || hour.length !== 2) {
         ctx.issues.push({
           code: "custom",
-          message: "Ungültiger Stunde",
+          message: translations.splitTimeComponent.invalidHour.de,
           path: ["hour"],
           input: ctx.value,
         });
@@ -29,7 +29,7 @@ export const createSplitTimeSchema = () => {
       if (Number.isNaN(Number(minute)) || minute.length !== 2) {
         ctx.issues.push({
           code: "custom",
-          message: "Ungültiger Minute",
+          message: translations.splitTimeComponent.invalidMinute.de,
           path: ["minute"],
           input: ctx.value,
         });
@@ -49,7 +49,7 @@ export const createSplitTimeSchema = () => {
       ["hour", "minute"].forEach((path) => {
         ctx.issues.push({
           code: "custom",
-          message: translations.splitTimeComponent.errorWrongTime.de,
+          message: translations.splitTimeComponent.invalidTime.de,
           path: [path],
           input: ctx.value,
         });
