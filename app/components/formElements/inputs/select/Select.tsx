@@ -2,7 +2,6 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { widthClassname } from "~/components/common/width";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { translations } from "~/services/translations/translations";
@@ -11,7 +10,6 @@ import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDr
 type SelectProps = {
   name: string;
   label?: ReactNode;
-  width?: "16" | "24" | "36" | "54";
   options: DropdownOption[];
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
@@ -20,7 +18,6 @@ type SelectProps = {
 const Select = ({
   name,
   label,
-  width,
   options,
   suffix,
   errorMessages,
@@ -37,13 +34,9 @@ const Select = ({
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div
         data-testid="select-wrapper"
-        className={classNames(
-          "kern-form-input__select-wrapper",
-          {
-            "kern-form-input__select-wrapper--error": field.error(),
-          },
-          widthClassname(width),
-        )}
+        className={classNames("kern-form-input__select-wrapper", {
+          "kern-form-input__select-wrapper--error": field.error(),
+        })}
       >
         <select
           className="kern-form-input__select bg-white!"
