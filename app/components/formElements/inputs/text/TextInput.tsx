@@ -6,6 +6,7 @@ import InputError from "../error/InputError";
 import { type InputHTMLAttributes } from "react";
 import { InputLabel } from "../label/InputLabel";
 import { InputHelperText } from "../helperText/InputHelperText";
+import { widthClassname, type Size } from "../inputWidth";
 
 export type InputProps = Readonly<{
   name: string;
@@ -18,6 +19,7 @@ export type InputProps = Readonly<{
   placeholder?: string;
   errorMessages?: ErrorMessageProps[];
   ariaDescribedBy?: InputHTMLAttributes<HTMLInputElement>["aria-describedby"];
+  size?: Size;
   /**
    * Any TextInput could theoretically be controlled by another input on the same page,
    * for example, the IbanInput and bank name.
@@ -54,6 +56,7 @@ const TextInput = function InputComponent({
   ariaDescribedBy,
   controlled = false,
   charLimit = INPUT_CHAR_LIMIT,
+  size = "large",
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -70,9 +73,13 @@ const TextInput = function InputComponent({
         <InputHelperText helperText={helperText} helperId={helperId} />
       )}
       <input
-        className={classNames("kern-form-input__input bg-white!", {
-          "kern-form-input__input--error": field.error(),
-        })}
+        className={classNames(
+          "kern-form-input__input bg-white!",
+          {
+            "kern-form-input__input--error": field.error(),
+          },
+          widthClassname(size),
+        )}
         {...field.getInputProps({
           id: name,
         })}

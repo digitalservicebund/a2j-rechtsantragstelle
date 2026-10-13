@@ -1,20 +1,10 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { InputHelperText } from "../helperText/InputHelperText";
-
-type InputProps = Readonly<{
-  name: string;
-  label?: string;
-  suffix?: string;
-  readonly?: boolean;
-  charLimit?: number;
-  helperText?: string;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-}>;
+import { type InputProps } from "../text/TextInput";
+import { widthClassname } from "../inputWidth";
 
 const NumberInput = function InputComponent({
   name,
@@ -24,6 +14,7 @@ const NumberInput = function InputComponent({
   helperText,
   placeholder,
   errorMessages,
+  size = "large",
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -42,9 +33,13 @@ const NumberInput = function InputComponent({
       )}
 
       <input
-        className={classNames("kern-form-input__input bg-white!", {
-          "kern-form-input__input--error": field.error(),
-        })}
+        className={classNames(
+          "kern-form-input__input bg-white!",
+          {
+            "kern-form-input__input--error": field.error(),
+          },
+          widthClassname(size),
+        )}
         {...field.getInputProps({
           id: name,
           inputMode: "decimal",

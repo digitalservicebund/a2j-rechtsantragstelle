@@ -6,6 +6,7 @@ import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { translations } from "~/services/translations/translations";
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
+import { widthClassname, type Size } from "../inputWidth";
 
 type SelectProps = {
   name: string;
@@ -13,6 +14,7 @@ type SelectProps = {
   options: DropdownOption[];
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
+  size?: Size;
 };
 
 const Select = ({
@@ -21,6 +23,7 @@ const Select = ({
   options,
   suffix,
   errorMessages,
+  size = "large",
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -34,9 +37,13 @@ const Select = ({
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       <div
         data-testid="select-wrapper"
-        className={classNames("kern-form-input__select-wrapper", {
-          "kern-form-input__select-wrapper--error": field.error(),
-        })}
+        className={classNames(
+          "kern-form-input__select-wrapper",
+          {
+            "kern-form-input__select-wrapper--error": field.error(),
+          },
+          widthClassname(size),
+        )}
       >
         <select
           className="kern-form-input__select bg-white!"
