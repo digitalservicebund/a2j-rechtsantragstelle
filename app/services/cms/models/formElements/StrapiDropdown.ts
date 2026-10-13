@@ -2,6 +2,7 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
 import { z } from "zod";
+import { StrapiSize } from "../StrapiInputSize";
 
 const StrapiOptionSchema = z.object({
   value: z.string(),
@@ -21,6 +22,7 @@ export const StrapiDropdownComponentSchema = z
     placeholder: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
+    size: StrapiSize,
     ...HasStrapiIdSchema.shape,
   })
   .transform(({ errors, ...cmsData }) => ({

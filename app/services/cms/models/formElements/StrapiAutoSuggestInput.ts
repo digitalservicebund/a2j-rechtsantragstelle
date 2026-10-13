@@ -3,8 +3,7 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
-
-
+import { StrapiSize } from "../StrapiInputSize";
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({
@@ -17,6 +16,7 @@ export const StrapiAutoSuggestInputComponentSchema = z
     minSuggestCharacters: StrapiOptionalIntegerSchema,
     supportsFreeText: z.boolean().nullable().transform(Boolean),
     helperText: StrapiStringOptionalSchema,
+    size: StrapiSize,
     __component: z.literal("form-elements.auto-suggest-input"),
     ...HasStrapiIdSchema.shape,
   })
