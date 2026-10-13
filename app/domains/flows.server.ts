@@ -21,7 +21,6 @@ import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
-import type { Guards } from "./guards.server";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { AllowedUserTypes, UserData } from "./userData";
@@ -65,7 +64,6 @@ export type AsyncFlowAction<TUserData extends UserData = UserData> = (
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   newEngineConfig?: CompiledFlow<C>;
-  guards?: Guards;
   migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
