@@ -58,14 +58,14 @@ const ListItem = ({
   image,
 }: ListItemProps & { variant: ListVariant }) => {
   return (
-    <div id={identifier} className="flex flex-col gap-kern-space-default pb-48">
+    <div id={identifier} className="flex lg:flex-row flex-col gap-kern-space-default pb-48">
       <div className="text-center shrink-0 flex flex-col items-center w-[40px]">
         <ListMarker index={index} variant={variant} image={image} />
         {variant === "stepByStep" && (
           <div className="w-2 h-full group-last:hidden"></div>
         )}
       </div>
-      <div className="gap-kern-space-x-large">
+      <div className="flex-1 min-w-0 gap-kern-space-x-large">
         {headline && (
           <Heading
             {...headline}
