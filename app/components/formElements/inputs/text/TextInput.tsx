@@ -64,22 +64,22 @@ const TextInput = function InputComponent({
 
   return (
     <div
-      className={classNames("kern-form-input", {
-        "kern-form-input--error": field.error(),
-      })}
+      className={classNames(
+        "kern-form-input",
+        {
+          "kern-form-input--error": field.error(),
+        },
+        widthClassname(size),
+      )}
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
       {helperText && (
         <InputHelperText helperText={helperText} helperId={helperId} />
       )}
       <input
-        className={classNames(
-          "kern-form-input__input bg-white!",
-          {
-            "kern-form-input__input--error": field.error(),
-          },
-          widthClassname(size),
-        )}
+        className={classNames("kern-form-input__input bg-white!", {
+          "kern-form-input__input--error": field.error(),
+        })}
         {...field.getInputProps({
           id: name,
         })}
