@@ -2,7 +2,6 @@ import { StrapiDropdownComponentSchema } from "../StrapiDropdown";
 
 describe("StrapiDropdownComponentSchema", () => {
   test("schema conversion", () => {
-
     const parsed = StrapiDropdownComponentSchema.safeParse({
       __component: "form-elements.dropdown",
       name: "name",
