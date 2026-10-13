@@ -9,6 +9,12 @@ const meta = {
   title: "form/AutoSuggestionInput",
   component: AutoSuggestInput,
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
 } satisfies Meta<typeof AutoSuggestInput>;
 
 export default meta;

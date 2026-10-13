@@ -10,6 +10,12 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
 } satisfies Meta<typeof IbanInput>;
 
 export default meta;
@@ -19,8 +25,11 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "iban",
+
     controlledFieldConfig:
       kontopfaendungPkontoAntragPages.bankdatenKontodaten.controlledFieldConfig,
+
+    size: "medium",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

@@ -10,6 +10,12 @@ const meta = {
   title: "form/inputs/NumberInput",
   component: NumberInput,
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
   decorators: [
     (Story) => (
       <GridSection>
@@ -37,6 +43,7 @@ export const Default: Story = {
     name: "number-input",
     label: "Number Input",
     placeholder: "Zahl eingeben...",
+    size: "small",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
