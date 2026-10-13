@@ -40,7 +40,9 @@ vi.mock("~/domains/pageSchemas");
 const mockGetPageConfigOrArrayPageByPathname = (
   pageSchema: SchemaObject | undefined,
 ) => {
-  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({ pageSchema });
+  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({
+    pageSchema,
+  } as ReturnType<typeof getPageConfigOrArrayPageByPathname>);
 };
 
 vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({

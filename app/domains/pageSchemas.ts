@@ -56,83 +56,31 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
-  // TODO: Remove after old page configs are migrated to the new leading-slash format
   const normalizedPageConfigs = Object.values(pagesConfig).map((page) => ({
     ...page,
     stepId: page.stepId.startsWith("/") ? page.stepId : `/${page.stepId}`,
   }));
 
   for (const page of normalizedPageConfigs) {
-    if (page.pageSchema && !isArrayParentPage(page)) {
-      const stepId = page.stepId;
-      fieldsMap[stepId] = Object.keys(page.pageSchema);
-    }
-
-    if (isArrayParentPage(page)) {
-      for (const [arrayPageKey, arrayPage] of Object.entries(page.arrayPages)) {
-        if (
-          !arrayPage.pageSchema ||
-          Object.keys(arrayPage.pageSchema).length === 0
-        ) {
-          continue;
-        }
-
-        const stepId = `${page.stepId}/${arrayPageKey}`;
-        fieldsMap[stepId] = Object.keys(arrayPage.pageSchema);
-      }
+    if (page.pageSchema) {
+      fieldsMap[page.stepId] = Object.keys(page.pageSchema);
     }
   }
 
   return fieldsMap;
 };
 
-// TODO: Remove this line after migration is completed
 export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) return undefined;
 
-  const { stepId, arrayIndexes } = parsePathname(pathname);
+  const { stepId } = parsePathname(pathname);
   const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  if (
-    [
-      "/prozesskostenhilfe/formular",
-      "/erbschein/erbfolge",
-      "/erbschein/anfrage",
-      "/erbausschlagung/anfrage",
-      "/geld-einklagen/anwaltschaft",
-    ].includes(flowId)
-  ) {
-    return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
-  }
-
-  if (
-    arrayIndexes.length > 0 &&
-    // TODO - Remove this condition after migrating all flows to the new flow engine
-    ![
-      "/geld-einklagen/formular",
-      "/beratungshilfe/antrag",
-      "/fluggastrechte/formular",
-    ].includes(flowId)
-  ) {
-    // An index in the URL tells us we are on a page that belongs to an array
-    // To return its pageConfig, we need to find the parent first, which should be one or two levels above
-    const stepPathParts = stepIdWithoutLeadingSlash.split("/");
-
-    // The arrayParentPage matches our array page and its stepId should match the beginning of the current stepId
-    const parentPageConfig = Object.values(pagesConfig)
-      .filter(isArrayParentPage)
-      .find(({ stepId }) => stepIdWithoutLeadingSlash.startsWith(stepId));
-
-    if (!parentPageConfig) return undefined;
-
-    // Try to find the array page by navigating through the path
-    return arrayPageFromNestedArrayPages(parentPageConfig, stepPathParts);
-  }
-
   return Object.values(pagesConfig).find(
-    (page) => page.stepId === stepIdWithoutLeadingSlash,
+    (entry) =>
+      entry.stepId === stepId || entry.stepId === stepIdWithoutLeadingSlash,
   );
 };
 
@@ -146,37 +94,6 @@ export function getReadOnlyFields(pathname: string) {
   return pageConfigOrArrayPage && "readonlyFields" in pageConfigOrArrayPage
     ? pageConfigOrArrayPage.readonlyFields
     : undefined;
-}
-
-function arrayPageFromNestedArrayPages(
-  pageConfig: ArrayPage,
-  stepPathParts: string[],
-): ArrayPage | undefined {
-  const finalPageConfig = stepPathParts.reduce<ArrayPage | undefined>(
-    (currentPage, part, index) => {
-      if (!currentPage?.arrayPages) return undefined;
-
-      // If this is the last part, return the array page config
-      if (index === stepPathParts.length - 1) {
-        return currentPage.arrayPages[part];
-      }
-
-      // Navigate to the next level, handling page identifiers gracefully
-      const arrayPageConfig = currentPage.arrayPages[part];
-
-      // If no nested arrayPages, this might be a page identifier, try the next part
-      if (!arrayPageConfig?.arrayPages) {
-        return currentPage; // Keep current page to try next part
-      }
-
-      // Move to the nested level
-      return arrayPageConfig;
-    },
-    pageConfig,
-  );
-
-  // Return the schema from the final result
-  return finalPageConfig;
 }
 
 export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
@@ -239,9 +156,6 @@ type ArrayParentPage = {
   controlledFieldConfig?: ControlledFieldConfig;
   arrayPages: Record<string, ArrayPage>;
 };
-
-const isArrayParentPage = (page: PageConfig): page is ArrayParentPage =>
-  page && "arrayPages" in page;
 
 export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
 
