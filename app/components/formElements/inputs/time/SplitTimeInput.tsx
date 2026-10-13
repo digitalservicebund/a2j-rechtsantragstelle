@@ -37,12 +37,6 @@ export const SplitTimeInput = ({
   const minuteField = useField(minute);
 
   const groupErrorMessage = field.error();
-  /**
-   * Should only display errors as soon as all 2 fields have been visited
-   */
-  const shouldDisplayErrors =
-    Boolean(groupErrorMessage) ||
-    (hourField.touched() && minuteField.touched());
 
   const hourErrorMessage = hourField.error();
   const minuteErrorMessage = minuteField.error();
@@ -54,8 +48,7 @@ export const SplitTimeInput = ({
   return (
     <fieldset
       className={classNames("kern-fieldset", {
-        "kern-fieldset--error":
-          Boolean(fieldErrorMessage) && shouldDisplayErrors,
+        "kern-fieldset--error": Boolean(fieldErrorMessage),
       })}
       aria-describedby={helperText && helperId}
     >
@@ -91,14 +84,11 @@ export const SplitTimeInput = ({
               sharedClassnames,
               "kern-form-input__input--width-2",
               {
-                "kern-form-input__input--error":
-                  hourErrorMessage && shouldDisplayErrors,
+                "kern-form-input__input--error": hourErrorMessage,
               },
             )}
-            aria-invalid={Boolean(hourErrorMessage) && shouldDisplayErrors}
-            aria-describedby={
-              hourErrorMessage && shouldDisplayErrors ? errorId : undefined
-            }
+            aria-invalid={Boolean(hourErrorMessage)}
+            aria-describedby={hourErrorMessage ? errorId : undefined}
           />
         </div>
 
@@ -122,18 +112,15 @@ export const SplitTimeInput = ({
               sharedClassnames,
               "kern-form-input__input--width-2",
               {
-                "kern-form-input__input--error":
-                  minuteErrorMessage && shouldDisplayErrors,
+                "kern-form-input__input--error": minuteErrorMessage,
               },
             )}
-            aria-invalid={Boolean(minuteErrorMessage) && shouldDisplayErrors}
-            aria-describedby={
-              minuteErrorMessage && shouldDisplayErrors ? errorId : undefined
-            }
+            aria-invalid={Boolean(minuteErrorMessage)}
+            aria-describedby={minuteErrorMessage ? errorId : undefined}
           />
         </div>
       </div>
-      {Boolean(fieldErrorMessage) && shouldDisplayErrors && (
+      {Boolean(fieldErrorMessage) && (
         <InputError id={errorId}>
           {errorMessages?.find((err) => err.code === fieldErrorMessage)?.text ??
             fieldErrorMessage}

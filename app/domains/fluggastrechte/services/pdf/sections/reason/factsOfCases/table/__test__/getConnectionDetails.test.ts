@@ -17,9 +17,15 @@ describe("getConnectionDetails", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
+        direktAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
         tatsaechlicherAnkunftsDatum: "10.11.2024",
-        tatsaechlicherAnkunftsZeit: "15:30",
+        tatsaechlicherAnkunftsZeit: {
+          hour: "15",
+          minute: "30",
+        },
       };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
@@ -33,9 +39,15 @@ describe("getConnectionDetails", () => {
         bereich: "verspaetet",
         ersatzverbindungArt: "flug",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
+        direktAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
         ersatzFlugAnkunftsDatum: "10.11.2024",
-        ersatzFlugAnkunftsZeit: "15:30",
+        ersatzFlugAnkunftsZeit: {
+          hour: "15",
+          minute: "30",
+        },
         ersatzFlugnummer: "AB123",
       };
       const result = getConnectionDetails(userData);
@@ -50,9 +62,15 @@ describe("getConnectionDetails", () => {
         bereich: "verspaetet",
         ersatzverbindungArt: "etwasAnderes",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
+        direktAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
         andereErsatzverbindungAnkunftsDatum: "10.11.2024",
-        andereErsatzverbindungAnkunftsZeit: "14:30",
+        andereErsatzverbindungAnkunftsZeit: {
+          hour: "14",
+          minute: "30",
+        },
       };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
@@ -87,9 +105,15 @@ describe("getConnectionDetails", () => {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "15:00",
+        direktAnkunftsZeit: {
+          hour: "15",
+          minute: "00",
+        },
         tatsaechlicherAnkunftsDatum: "10.11.2024",
-        tatsaechlicherAnkunftsZeit: "12:00", // end time before start time
+        tatsaechlicherAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        }, // end time before start time
       };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
@@ -206,9 +230,15 @@ describe("getConnectionDetails", () => {
           ankuendigung: "no",
           ersatzflug: "no",
           annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "20",
+          },
           annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "11",
+            minute: "40",
+          },
           annullierungErsatzverbindungFlugnummer: "ABCD1",
         };
         const result = getConnectionDetails(userData);
@@ -314,9 +344,15 @@ describe("getConnectionDetails", () => {
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
           annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "20",
+          },
           annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "11",
+            minute: "40",
+          },
           annullierungErsatzverbindungFlugnummer: "ABCD1",
         };
         const result = getConnectionDetails(userData);
@@ -422,9 +458,15 @@ describe("getConnectionDetails", () => {
           ersatzflugStartenZweiStunden: "no",
           ersatzflugLandenVierStunden: "yes",
           annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
-          annullierungErsatzverbindungAbflugsZeit: "10:20",
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "10",
+            minute: "20",
+          },
           annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
-          annullierungErsatzverbindungAnkunftsZeit: "11:40",
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "11",
+            minute: "40",
+          },
           annullierungErsatzverbindungFlugnummer: "ABCD1",
         };
         const result = getConnectionDetails(userData);
@@ -443,9 +485,15 @@ describe("getConnectionDetails", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
+        direktAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
         ersatzFlugAnkunftsDatum: "10.11.2024",
-        ersatzFlugAnkunftsZeit: "15:30",
+        ersatzFlugAnkunftsZeit: {
+          hour: "15",
+          minute: "30",
+        },
         ersatzFlugnummer: "AB123",
       };
       const result = getConnectionDetails(userData);
@@ -460,9 +508,15 @@ describe("getConnectionDetails", () => {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "etwasAnderes",
         direktAnkunftsDatum: "10.11.2024",
-        direktAnkunftsZeit: "12:00",
+        direktAnkunftsZeit: {
+          hour: "12",
+          minute: "00",
+        },
         andereErsatzverbindungAnkunftsDatum: "10.11.2024",
-        andereErsatzverbindungAnkunftsZeit: "14:30",
+        andereErsatzverbindungAnkunftsZeit: {
+          hour: "14",
+          minute: "30",
+        },
       };
       const result = getConnectionDetails(userData);
       expect(result).toEqual({
