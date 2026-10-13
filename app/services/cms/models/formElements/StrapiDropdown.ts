@@ -1,7 +1,6 @@
 import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRelationSchema";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
-import { strapiWidthLookupMap } from "../StrapiWidth";
 import { z } from "zod";
 
 const StrapiOptionSchema = z.object({
@@ -22,10 +21,6 @@ export const StrapiDropdownComponentSchema = z
     placeholder: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
-    width: z
-      .enum(["characters16", "characters24", "characters36", "characters54"])
-      .nullable()
-      .transform((val) => strapiWidthLookupMap[val ?? ""]),
     ...HasStrapiIdSchema.shape,
   })
   .transform(({ errors, ...cmsData }) => ({
