@@ -5,7 +5,7 @@ import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import type {
   ResultExtrasContext,
   ResultLoaderExtras,
-} from "~/routes/shared/newEngineResult.server";
+} from "~/routes/shared/result.server";
 import {
   determineHeirs,
   shareLabel,

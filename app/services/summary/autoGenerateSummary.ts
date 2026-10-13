@@ -1,5 +1,5 @@
 import type { UserData } from "~/domains/userData";
-import type { StepState } from "~/services/flow/server/buildFlowController";
+import type { StepState } from "~/services/navigation/buildStepStatesFromStatusTree";
 import type { FieldItem, SummaryItem } from "./types";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import {

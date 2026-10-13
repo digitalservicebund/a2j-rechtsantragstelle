@@ -19,9 +19,6 @@ import { migrateElternteil, migrateKind } from "./personMigration";
 
 export const erbscheinAnfrage = {
   flowType: "formFlow",
-  config: {
-    states: {},
-  },
   migration: {
     source: "/erbschein/erbfolge",
     sortedFields: [

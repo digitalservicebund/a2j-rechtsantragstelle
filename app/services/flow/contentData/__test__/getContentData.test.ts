@@ -1,17 +1,8 @@
-import { type NavItem } from "~/components/navigation/types";
-import {
-  type ArraySummaryData,
-  getArraySummaryData,
-} from "~/services/array/getArraySummaryData";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
 import { type CMSContent } from "../buildCmsContentAndTranslations";
 import { getContentData } from "../getContentData";
-import * as navItemsFromStepStates from "~/services/navigation/navItemsFromStepStates";
 import { type SchemaObject } from "~/domains/userData";
 import { getPageSchema } from "~/domains/pageSchemas";
 import z from "zod";
-import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSummary";
-import { type SummaryItem } from "~/services/summary/types";
 import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
 
 const mockCmsElement = {
@@ -45,15 +36,6 @@ const mockTranslations = {
   translation: "translation",
 };
 
-const mockBuildFlowController = {
-  getRootMeta: vi.fn().mockReturnValue(undefined),
-  isFinal: vi.fn().mockReturnValue(false),
-  getPrevious: vi.fn().mockReturnValue(""),
-  stepStates: vi.fn().mockReturnValue(undefined),
-  getInitialSubState: vi.fn().mockReturnValue(""),
-  getMeta: vi.fn().mockReturnValue(undefined),
-} as unknown as ReturnType<typeof buildFlowController>;
-
 const mockUserData = {
   name: "testName",
   pageData: {},
@@ -67,9 +49,6 @@ const callContentData = getContentData(
   mockUserData,
   "/",
 );
-
-vi.mock("~/services/array/getArraySummaryData");
-vi.mock("~/services/summary/autoGenerateSummary");
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -90,28 +69,6 @@ const mockGetPageSchema = (pageSchema: SchemaObject | undefined) => {
 };
 
 describe("getContentData", () => {
-  describe("arraySummaryData", () => {
-    it("should return correctly the array summary data", () => {
-      const mockSummaryData = {
-        bankkonten: {
-          data: [],
-          configuration: {
-            url: "/bankkontenUrl",
-            initialInputUrl: "daten",
-            disableAddButton: false,
-          },
-          itemLabels: {},
-          buttonLabel: "Add Bankkonto",
-        },
-      } satisfies ArraySummaryData;
-      vi.mocked(getArraySummaryData).mockReturnValue(mockSummaryData);
-
-      const actual = callContentData.arraySummaryData(mockBuildFlowController);
-
-      expect(actual).toEqual(mockSummaryData);
-    });
-  });
-
   describe("getFormElements", () => {
     it("should return correctly the form elements", () => {
       const actual = callContentData.getFormElements();
@@ -154,35 +111,13 @@ describe("getContentData", () => {
 
   describe("getButtonNavigation", () => {
     it("should return correctly the button navigation", () => {
-      vi.mocked(mockBuildFlowController.getPrevious).mockReturnValue("/back");
-
-      const actual = callContentData.getButtonNavigation(
-        mockBuildFlowController,
-        "/",
-        [],
-      );
-
-      expect(actual).toEqual({
-        back: {
-          destination: "/back",
-          label: "Zurück",
-        },
-        next: {
-          label: "Weiter",
-        },
-      });
-    });
-  });
-
-  describe("getButtonNavigationNewEngine", () => {
-    it("should return correctly the button navigation", () => {
       const mockFlowSession = {
         isFinal: false,
         prevPath: "/back",
         getArrayInfoByPath: () => undefined,
       } as unknown as ReturnType<typeof createFlowSession>;
 
-      const actual = callContentData.getButtonNavigationNewEngine(
+      const actual = callContentData.getButtonNavigation(
         "/beratungshilfe/antrag",
         mockFlowSession,
         [],
@@ -206,7 +141,7 @@ describe("getContentData", () => {
         getArrayInfoByPath: () => undefined,
       } as unknown as ReturnType<typeof createFlowSession>;
 
-      const actual = callContentData.getButtonNavigationNewEngine(
+      const actual = callContentData.getButtonNavigation(
         "/beratungshilfe/antrag",
         mockFlowSession,
         [2],
@@ -224,7 +159,7 @@ describe("getContentData", () => {
         getArrayInfoByPath: () => ({ name: "kinder" }),
       } as unknown as ReturnType<typeof createFlowSession>;
 
-      const actual = callContentData.getButtonNavigationNewEngine(
+      const actual = callContentData.getButtonNavigation(
         "/beratungshilfe/antrag",
         mockFlowSession,
         [2],
@@ -233,179 +168,6 @@ describe("getContentData", () => {
       expect(actual.back.destination).toEqual(
         "/beratungshilfe/antrag/kinder/uebersicht#array-summary-item-edit-kinder-2",
       );
-    });
-  });
-
-  describe("getNavItems", () => {
-    it("should return correctly the nav items", () => {
-      const mockNavItems = [
-        {
-          destination: "/",
-          label: "/a",
-          subflows: undefined,
-          state: "Done",
-        },
-      ] satisfies NavItem[];
-
-      vi.spyOn(
-        navItemsFromStepStates,
-        "navItemsFromStepStates",
-      ).mockReturnValue(mockNavItems);
-
-      const actual = callContentData.getNavProps(
-        mockBuildFlowController,
-        "/",
-        false,
-      );
-
-      expect(actual).toEqual({
-        navItems: mockNavItems,
-        expandAll: undefined,
-        stepsStepper: [],
-      });
-    });
-
-    it("should return empty array when nav items returns undefined", () => {
-      vi.spyOn(
-        navItemsFromStepStates,
-        "navItemsFromStepStates",
-      ).mockReturnValue(undefined);
-
-      const actual = callContentData.getNavProps(
-        mockBuildFlowController,
-        "/",
-        false,
-      );
-
-      expect(actual).toEqual({
-        expandAll: undefined,
-        navItems: [],
-        stepsStepper: [],
-      });
-    });
-
-    it("should return the stepsStepper and the navItems if the parameter useStepper is true", () => {
-      vi.mocked(mockBuildFlowController.stepStates).mockReturnValue([
-        {
-          stepId: "/somePath/menu",
-          url: "/somePath/menu",
-          isDone: true,
-          isReachable: true,
-          subStates: [
-            {
-              stepId: "/somePath/menu/page1",
-              url: "/somePath/menu/page1",
-              isDone: true,
-              isReachable: true,
-            },
-            {
-              stepId: "/somePath/menu/page2",
-              url: "/somePath/menu/page2",
-              isDone: false,
-              isReachable: true,
-            },
-          ],
-        },
-        {
-          stepId: "/anotherPath/menu",
-          url: "/anotherPath/menu",
-          isDone: false,
-          isReachable: false,
-          subStates: [
-            {
-              stepId: "/anotherPath/menu/page3",
-              url: "/anotherPath/menu/page3",
-              isDone: false,
-              isReachable: false,
-            },
-          ],
-        },
-      ]);
-
-      vi.mocked(mockBuildFlowController.getInitialSubState).mockReturnValue(
-        "/somePath/menu/page1",
-      );
-
-      const actual = callContentData.getNavProps(
-        mockBuildFlowController,
-        "/somePath/menu/page1",
-        true,
-      );
-
-      expect(actual).toEqual({
-        navItems: [
-          {
-            destination: "/somePath/menu/page1",
-            label: "/somePath/menu/page1",
-            state: "DoneCurrent",
-          },
-          {
-            destination: "/somePath/menu/page2",
-            label: "/somePath/menu/page2",
-            state: "Open",
-          },
-        ],
-        stepsStepper: [
-          {
-            href: "/somePath/menu/page1",
-            label: "/somePath/menu",
-            state: "Current",
-          },
-          {
-            href: "/somePath/menu/page1",
-            label: "/anotherPath/menu",
-            state: "Disabled",
-          },
-        ],
-        expandAll: undefined,
-      });
-    });
-  });
-
-  describe("getAutoSummarySections", () => {
-    it("should return empty array if pathname does not end with /abgabe/zusammenfassung", async () => {
-      const actual = await callContentData.getAutoSummarySections(
-        mockBuildFlowController,
-        "/beratungshilfe/antrag",
-      );
-
-      expect(actual).toEqual([]);
-    });
-
-    it("should call generateSummaryFromUserData with the correct parameters and return its result", async () => {
-      const mockSummarySections: SummaryItem[] = [
-        {
-          id: "section1",
-          title: "Section 1",
-          fields: [],
-        },
-      ];
-
-      vi.mocked(generateSummaryFromUserData).mockResolvedValue(
-        mockSummarySections,
-      );
-
-      const callContentDataOnSummaryPage = getContentData(
-        {
-          cmsContent: mockCmsElement,
-          translations: mockTranslations,
-        },
-        mockUserData,
-        "/somePath/abgabe/zusammenfassung",
-      );
-
-      const actual = await callContentDataOnSummaryPage.getAutoSummarySections(
-        mockBuildFlowController,
-        "/beratungshilfe/antrag",
-      );
-
-      expect(generateSummaryFromUserData).toHaveBeenCalledWith(
-        mockUserData,
-        "/beratungshilfe/antrag",
-        mockBuildFlowController.stepStates(),
-        mockTranslations,
-      );
-      expect(actual).toEqual(mockSummarySections);
     });
   });
 });

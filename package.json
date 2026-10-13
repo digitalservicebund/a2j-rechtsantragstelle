@@ -58,7 +58,6 @@
     "@rvf/react-router": "^8.2.0",
     "@sentry/react-router": "^11.6.0",
     "@sentry/vite-plugin": "^5.4.1",
-    "@xstate/graph": "^3.0.4",
     "axios": "^1.20.0",
     "classnames": "^2.5.1",
     "compression": "^1.8.2",
@@ -93,7 +92,6 @@
     "true-myth": "^9.4.0",
     "validator": "^13.15.35",
     "xss": "^1.0.15",
-    "xstate": "^5.33.2",
     "zod": "^4.6.5"
   },
   "devDependencies": {

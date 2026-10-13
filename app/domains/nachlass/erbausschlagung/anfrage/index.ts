@@ -27,7 +27,6 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const erbausschlagungAnfrage = {
   flowType: "formFlow",
-  config: { states: {} },
   newEngineConfig: erbausschlagungAnfrageFlowConfig,
   stringReplacements: (context: ErbausschlagungAnfrageUserData) => ({
     ...getVerstorbeneName(context),

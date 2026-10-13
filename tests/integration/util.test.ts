@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { Flow } from "~/domains/flows.server";
 import {
   compileAllStrapiPages,
   getAllPossibleStates,
@@ -6,6 +7,14 @@ import {
   invertStrapiFormFields,
   zodKeys,
 } from "tests/integration/util";
+
+const flowWithPages = (stepIds: string[]) =>
+  ({
+    flowType: "formFlow",
+    newEngineConfig: {
+      pages: Object.fromEntries(stepIds.map((stepId) => [stepId, { stepId }])),
+    },
+  }) as unknown as Flow;
 
 describe("integration testing helper functions", () => {
   describe("compileAllStrapiPages", () => {
@@ -98,55 +107,18 @@ describe("integration testing helper functions", () => {
   });
 
   describe("allPossibleStates", () => {
-    it("should return an array of all possible states", () => {
-      const allPossibleStates = getAllPossibleStates({
-        config: {
-          states: {
-            state1: {},
-            state2: {
-              states: {
-                state3: {},
-              },
-            },
-          },
-        },
-        flowType: "formFlow",
-      });
-      expect(allPossibleStates).toEqual([
-        "/state1",
-        "/state2",
-        "/state2/state3",
-      ]);
+    it("should return an array of all possible page stepIds", () => {
+      const allPossibleStates = getAllPossibleStates(
+        flowWithPages(["/state1", "/state2/state3"]),
+      );
+      expect(allPossibleStates).toEqual(["/state1", "/state2/state3"]);
     });
 
     it.each(ignoreList)("should skip state %s", (ignoredPath: string) => {
-      const allPossibleStates = getAllPossibleStates({
-        config: {
-          states: {
-            [ignoredPath]: {},
-          },
-        },
-        flowType: "formFlow",
-      });
+      const allPossibleStates = getAllPossibleStates(
+        flowWithPages([`/${ignoredPath}`]),
+      );
       expect(allPossibleStates).toEqual([]);
-    });
-
-    it("should skip redundant states with an initial state", () => {
-      const allPossibleStates = getAllPossibleStates({
-        config: {
-          states: {
-            state1: {},
-            state2: {
-              initial: "state3",
-              states: {
-                state3: {},
-              },
-            },
-          },
-        },
-        flowType: "formFlow",
-      });
-      expect(allPossibleStates).toEqual(["/state1", "/state2/state3"]);
     });
   });
 

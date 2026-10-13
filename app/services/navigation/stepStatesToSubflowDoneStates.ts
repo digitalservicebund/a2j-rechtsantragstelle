@@ -1,4 +1,4 @@
-import type { StepState } from "../flow/server/buildFlowController";
+import type { StepState } from "./buildStepStatesFromStatusTree";
 
 export const stepStatesToSubflowDoneStates = (
   stepStates: StepState[],

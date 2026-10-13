@@ -215,9 +215,6 @@ importers:
       '@sentry/vite-plugin':
         specifier: ^5.4.1
         version: 5.4.1(supports-color@8.1.1)
-      '@xstate/graph':
-        specifier: ^3.0.4
-        version: 3.0.4(xstate@5.33.2)
       axios:
         specifier: ^1.20.0
         version: 1.20.0(debug@4.4.3)(supports-color@8.1.1)
@@ -320,9 +317,6 @@ importers:
       xss:
         specifier: ^1.0.15
         version: 1.0.15
-      xstate:
-        specifier: ^5.33.2
-        version: 5.33.2
       zod:
         specifier: ^4.6.5
         version: 4.6.5
@@ -2844,11 +2838,6 @@ packages:
     resolution: {integrity: sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==}
     engines: {node: '>=14.6'}
 
-  '@xstate/graph@3.0.4':
-    resolution: {integrity: sha512-b12RA7E//+7FJVrD09Td+BhHRJbeKZnK+98xXBd+JmccG360xVP1lyzVhUZPgBgwPdmIGBJqhKzmWYJQ9c8ojQ==}
-    peerDependencies:
-      xstate: ^5.19.4
-
   abbrev@4.0.0:
     resolution: {integrity: sha512-a1wflyaL0tHtJSmLSOVybYhy22vRih4eduhhrkcjgrWGnRfrZtovJ2FRjxuTtkkj47O/baf0R86QU5OuYpz8fA==}
     engines: {node: ^20.17.0 || >=22.9.0}
@@ -5178,9 +5167,6 @@ packages:
     engines: {node: '>= 0.10.0'}
     hasBin: true
 
-  xstate@5.33.2:
-    resolution: {integrity: sha512-8tC7yXgeCvpT8gKEeEje6ikJJG1wpnoLiXe+HfECW8m10ubMd3QxKOwWA8KxPJVBcLwfdRoMKYxIBGYKmo37/A==}
-
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
 
@@ -7459,10 +7445,6 @@ snapshots:
   '@xmldom/is-dom-node@1.0.1': {}
 
   '@xmldom/xmldom@0.9.12': {}
-
-  '@xstate/graph@3.0.4(xstate@5.33.2)':
-    dependencies:
-      xstate: 5.33.2
 
   abbrev@4.0.0: {}
 
@@ -9798,8 +9780,6 @@ snapshots:
     dependencies:
       commander: 2.20.3
       cssfilter: 0.0.10
-
-  xstate@5.33.2: {}
 
   yallist@3.1.1: {}
 

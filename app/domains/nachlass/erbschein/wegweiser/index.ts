@@ -4,7 +4,6 @@ import { erbscheinWegweiserFlowConfig } from "./flowConfig";
 
 export const erbscheinWegweiser = {
   flowType: "vorabCheck",
-  config: { states: {} },
   guards: {},
   stringReplacements: (userData: ErbscheinWegweiserUserData) => ({
     hasGrundeigentumAndHandwrittenTestament:

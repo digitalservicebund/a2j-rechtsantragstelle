@@ -11,7 +11,7 @@ import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nach
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
-import { type ArrayConfigurations } from "~/services/flow/server/isStepDone";
+import { type ArrayConfigurations } from "~/services/array";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
