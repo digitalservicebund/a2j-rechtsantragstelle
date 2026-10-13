@@ -33,6 +33,7 @@ describe("sortSchemaByFormComponents", () => {
         id: 1,
         errorMessages: [],
         type: "text",
+        size: "large",
       },
       {
         __component: "form-elements.input",
@@ -40,12 +41,14 @@ describe("sortSchemaByFormComponents", () => {
         id: 1,
         errorMessages: [],
         type: "text",
+        size: "large",
       },
       {
         __component: "form-elements.input",
         name: "email",
         id: 1,
         errorMessages: [],
+        size: "large",
         type: "text",
       },
     ] satisfies StrapiFormComponent[];
@@ -73,12 +76,14 @@ describe("sortSchemaByFormComponents", () => {
               id: 3,
               errorMessages: [],
               type: "text",
+              size: "large",
             },
             {
               __component: "form-elements.input",
               name: "lastName",
               id: 4,
               errorMessages: [],
+              size: "large",
               type: "text",
             },
           ],
@@ -89,6 +94,7 @@ describe("sortSchemaByFormComponents", () => {
         name: "email",
         id: 1,
         errorMessages: [],
+        size: "large",
         type: "text",
       },
     ] satisfies StrapiFormComponent[];
@@ -109,6 +115,7 @@ describe("sortSchemaByFormComponents", () => {
         name: "firstName",
         id: 1,
         errorMessages: [],
+        size: "large",
         type: "text",
       },
     ] satisfies StrapiFormComponent[];

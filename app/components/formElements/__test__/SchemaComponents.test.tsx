@@ -316,6 +316,7 @@ describe("SchemaComponents", () => {
             errorMessages: [],
             helperText: "helperText",
             __component: "form-elements.input",
+            size: "large",
           },
           {
             name: "field2",
@@ -323,6 +324,7 @@ describe("SchemaComponents", () => {
             id: 10,
             errorMessages: [],
             __component: "form-elements.input",
+            size: "large",
           },
         ]}
       />,
@@ -403,7 +405,7 @@ describe("SchemaComponents", () => {
               label: "Field that doesn't exist in the pageSchema",
               placeholder: undefined,
               type: "text",
-              width: "10",
+              size: "large",
               errorMessages: [],
               id: 40,
               __component: "form-elements.input",
@@ -473,6 +475,7 @@ describe("SchemaComponents", () => {
             type: "text",
             id: 76,
             __component: "form-elements.input",
+            size: "large",
           },
         ]}
       />,
