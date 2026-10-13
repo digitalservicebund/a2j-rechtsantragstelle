@@ -10,9 +10,15 @@ const baseContext = {
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "01.05.2023",
-  direktAbflugsZeit: "10:00",
+  direktAbflugsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   direktAnkunftsDatum: "02.05.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   pageData: {
     subflowDoneStates: {
       "/grundvoraussetzungen": true,
@@ -24,16 +30,28 @@ const baseContext = {
 const andererFlugAnkunftInput = {
   ersatzFlugnummer: "BCA4321",
   ersatzFlugAnkunftsDatum: "10.03.2024",
-  ersatzFlugAnkunftsZeit: "10:10",
+  ersatzFlugAnkunftsZeit: {
+    hour: "10",
+    minute: "10",
+  },
   direktAnkunftsDatum: "02.05.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
 } satisfies Partial<FluggastrechteUserData>;
 
 const ersatzverbindungBeschreibungInput = {
   andereErsatzverbindungAnkunftsDatum: "10.03.2024",
-  andereErsatzverbindungAnkunftsZeit: "10:10",
+  andereErsatzverbindungAnkunftsZeit: {
+    hour: "10",
+    minute: "10",
+  },
   direktAnkunftsDatum: "02.05.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
 } satisfies Partial<FluggastrechteUserData>;
 
 export const testCasesFluggastrechteFormularFlugdatenNichtBefoerderung: FlowTestCases<FluggastrechteUserData> =

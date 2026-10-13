@@ -36,9 +36,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success false given an original arrival time after the arrival", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "01.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "11:00",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "11",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -48,9 +54,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success false given an original arrival date after the arrival", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "01.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "15:00",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -60,9 +72,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success false given an original arrival date before three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "15:00",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -72,9 +90,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success true given an original arrival date after three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "19:01",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "19",
+        minute: "01",
+      },
       bereich: "verspaetet",
     });
 
@@ -84,9 +108,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success true given an original arrival date before three hours after the arrival and bereich annullierung", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "15:00",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "annullierung",
     });
 
@@ -96,9 +126,15 @@ describe("validateReplacementConnectionPage", () => {
   it("should return success true given an original arrival date before three hours after the arrival and bereich nichtbefoerderung", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       andereErsatzverbindungAnkunftsDatum: "02.01.2024",
-      andereErsatzverbindungAnkunftsZeit: "15:00",
+      andereErsatzverbindungAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "nichtbefoerderung",
     });
 

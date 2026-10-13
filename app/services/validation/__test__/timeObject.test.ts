@@ -68,7 +68,7 @@ describe("timeObject", () => {
           minute: "59",
         },
         errorPath: "hour",
-        errorMessage: "Ungültiger Stunde",
+        errorMessage: "Ungültige Stunde",
       },
       {
         input: {
@@ -76,12 +76,20 @@ describe("timeObject", () => {
           minute: "59",
         },
         errorPath: "hour",
-        errorMessage: "Ungültiger Stunde",
+        errorMessage: "Ungültige Stunde",
       },
       {
         input: {
           hour: "23",
           minute: "599",
+        },
+        errorPath: "minute",
+        errorMessage: "Ungültiger Minute",
+      },
+      {
+        input: {
+          hour: "23",
+          minute: "aa",
         },
         errorPath: "minute",
         errorMessage: "Ungültiger Minute",

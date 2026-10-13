@@ -59,10 +59,12 @@ export async function startFluggastrechteFormular(
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
   await formular.fillInput("direktAbflugsDatum", toGermanDateString(today()));
-  await formular.fillInput("direktAbflugsZeit", "08:10");
+  await formular.fillInput("direktAbflugsZeit.hour", "08");
+  await formular.fillInput("direktAbflugsZeit.minute", "00");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
   await formular.fillInput("direktAnkunftsDatum", toGermanDateString(today()));
-  await formular.fillInput("direktAnkunftsZeit", "10:10");
+  await formular.fillInput("direktAnkunftsZeit.hour", "10");
+  await formular.fillInput("direktAnkunftsZeit.minute", "10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zwischenstopp-uebersicht-1
@@ -93,7 +95,8 @@ export async function startFluggastrechteFormular(
     "ersatzFlugAnkunftsDatum",
     toGermanDateString(today()),
   );
-  await formular.fillInput("ersatzFlugAnkunftsZeit", "15:10");
+  await formular.fillInput("ersatzFlugAnkunftsZeit.hour", "15");
+  await formular.fillInput("ersatzFlugAnkunftsZeit.minute", "10");
   await formular.clickNext();
 
   // /fluggastrechte/formular/flugdaten/zusaetzliche-angaben
