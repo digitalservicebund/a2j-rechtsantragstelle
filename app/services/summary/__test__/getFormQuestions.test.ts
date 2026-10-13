@@ -473,7 +473,6 @@ describe("createFieldQuestionFromComponent", () => {
       placeholder: undefined,
       suffix: undefined,
       errorMessages: [],
-      width: undefined,
       helperText: undefined,
       id: 1,
     };
@@ -519,7 +518,6 @@ describe("processNestedComponents", () => {
           placeholder: "",
           suffix: "",
           errorMessages: [],
-          width: "3",
           helperText: undefined,
           id: 1,
         },
@@ -560,7 +558,6 @@ describe("processNestedComponents", () => {
           placeholder: "",
           suffix: "",
           errorMessages: [],
-          width: "3",
           helperText: undefined,
           id: 1,
         },

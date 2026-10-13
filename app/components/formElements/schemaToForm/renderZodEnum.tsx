@@ -88,7 +88,6 @@ export function renderZodEnum(
             preSelected: cmsObject[value]?.preSelected,
           }))}
           errorMessages={errorMessages}
-          width={get(matchingElement, "width")}
           suffix={suffix}
         />
       );
