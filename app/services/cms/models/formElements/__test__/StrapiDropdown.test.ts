@@ -2,6 +2,7 @@ import { StrapiDropdownComponentSchema } from "../StrapiDropdown";
 
 describe("StrapiDropdownComponentSchema", () => {
   test("schema conversion", () => {
+
     const parsed = StrapiDropdownComponentSchema.safeParse({
       __component: "form-elements.dropdown",
       name: "name",
@@ -11,15 +12,16 @@ describe("StrapiDropdownComponentSchema", () => {
       placeholder: null,
       errors: null,
       id: 10,
-      width: "characters16",
+      size: "large",
     });
+
     expect(parsed.success).toBe(true);
     expect(parsed.data).toEqual({
       __component: "form-elements.dropdown",
       name: "name",
       options: [{ value: "value", text: "text", preSelected: false }],
       errorMessages: undefined,
-      width: "16",
+      size: "large",
       id: 10,
     });
   });
