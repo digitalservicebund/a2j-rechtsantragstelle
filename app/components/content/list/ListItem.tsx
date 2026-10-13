@@ -68,7 +68,7 @@ const ListItem = ({
           <div className="w-2 h-full group-last:hidden"></div>
         )}
       </div>
-      <div className="gap-kern-space-x-large">
+      <div className="flex-1 min-w-0 gap-kern-space-x-large">
         {headline && (
           <Heading
             {...headline}
