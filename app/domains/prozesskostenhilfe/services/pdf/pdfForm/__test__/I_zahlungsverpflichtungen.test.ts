@@ -21,7 +21,11 @@ describe("I_zahlungsverpflichtungen", () => {
           betragEigenerAnteil: "50",
           betragGesamt: "100",
           restschuld: "1000",
-          laufzeitende: "31.12.2050",
+          laufzeitende: {
+            day: "31",
+            month: "12",
+            year: "2050"
+          },
         },
       ],
       sonstigeAusgaben: [],
@@ -62,7 +66,11 @@ describe("I_zahlungsverpflichtungen", () => {
           zahlungspflichtiger: "myself",
           betragGesamt: "100",
           restschuld: "1000",
-          laufzeitende: "31.12.2050",
+          laufzeitende: {
+            day: "31",
+            month: "12",
+            year: "2050"
+          },
         },
       ],
       sonstigeAusgaben: [
@@ -118,7 +126,11 @@ describe("I_zahlungsverpflichtungen", () => {
           zahlungspflichtiger: "myself",
           betragGesamt: "100",
           restschuld: "1000",
-          laufzeitende: "31.12.2050",
+          laufzeitende: {
+            day: "31",
+            month: "12",
+            year: "2050"
+          },
         },
       ],
       sonstigeAusgaben: [
@@ -182,7 +194,11 @@ describe("I_zahlungsverpflichtungen", () => {
           betragEigenerAnteil: "50",
           betragGesamt: "100",
           restschuld: "1000",
-          laufzeitende: "31.12.2050",
+          laufzeitende: {
+            day: "31",
+            month: "12",
+            year: "2050"
+          },
         },
       ],
       sonstigeAusgaben: [
@@ -251,7 +267,11 @@ describe("I_zahlungsverpflichtungen", () => {
           betragEigenerAnteil: "50",
           betragGesamt: "100",
           restschuld: "100",
-          laufzeitende: "31.12.2050",
+          laufzeitende: {
+            day: "31",
+            month: "12",
+            year: "2050"
+          },
         },
       ],
       sonstigeAusgaben: [],

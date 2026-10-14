@@ -1,6 +1,7 @@
 import z from "zod";
 import { isValidDate } from "./dateString";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { addYears, today } from "~/util/date";
 
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
@@ -91,3 +92,8 @@ export const toDateObject = (date: Date): DateObject => {
 export const hasDateObject = (date: DateObject | undefined) => {
   return objectKeysNonEmpty(date, ["day", "month", "year"]);
 };
+
+export const childBirthdaySchema = createSplitDateSchema({
+  earliest: () => addYears(today(), -24),
+  latest: () => today(),
+});

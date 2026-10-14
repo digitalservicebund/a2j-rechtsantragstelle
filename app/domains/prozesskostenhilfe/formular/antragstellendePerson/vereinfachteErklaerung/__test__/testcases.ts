@@ -9,7 +9,11 @@ const vereinfachteErklaerungBaseContext = {
   child: {
     vorname: "Max",
     nachname: "Mustermann",
-    geburtsdatum: "10.10.2005",
+    geburtsdatum: {
+      day: "10",
+      month: "10",
+      year: "2005"
+    },
   },
   livesTogether: "yes",
   unterhaltsOrAbstammungssachen: "yes",
@@ -29,7 +33,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2005"
+          },
         },
       },
     },
@@ -69,7 +77,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2005"
+          },
         },
       },
     },
@@ -109,7 +121,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2005"
+          },
         },
       },
     },
@@ -149,7 +165,11 @@ const frageVermoegenFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2005"
+          },
         },
       },
     },
@@ -228,7 +248,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2005"
+          },
         },
       },
     },
@@ -270,7 +294,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2015"
+          },
         },
       },
     },
@@ -304,7 +332,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2015",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2015"
+          },
         },
       },
     },
@@ -345,7 +377,11 @@ const frageVermoegenNotFulfilled = {
       stepId: "/antragstellende-person/vereinfachte-erklaerung/geburtsdatum",
       userInput: {
         child: {
-          geburtsdatum: "10.10.2005",
+          geburtsdatum: {
+            day: "10",
+            month: "10",
+            year: "2015"
+          },
         },
       },
     },
@@ -412,176 +448,176 @@ const frageVermoegenNotFulfilled = {
 } satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
 
 export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerung: FlowTestCases<ProzesskostenhilfeFormularUserData> =
-  {
-    veChildData: [
-      {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
+{
+  veChildData: [
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/kind",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/zusammenleben",
+      userInput: {
+        livesTogether: "no",
+      },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/unterhalt",
+      userInput: {
+        child: {
+          unterhaltsSumme: "100",
         },
       },
-      {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/zusammenleben",
-        userInput: {
-          livesTogether: "no",
-        },
+    },
+    {
+      stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
+      userInput: {
+        minderjaehrig: "yes",
       },
-      {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/unterhalt",
-        userInput: {
-          child: {
-            unterhaltsSumme: "100",
-          },
-        },
+    },
+  ],
+  ...frageVermoegenFulfilled,
+  ...frageVermoegenNotFulfilled,
+  veEinnahmenNotEntered: [
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+        hasEinnahmen: "yes",
       },
-      {
-        stepId: "/antragstellende-person/vereinfachte-erklaerung/minderjaehrig",
-        userInput: {
-          minderjaehrig: "yes",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
+      userInput: {
+        hohesEinkommen: "no",
       },
-    ],
-    ...frageVermoegenFulfilled,
-    ...frageVermoegenNotFulfilled,
-    veEinnahmenNotEntered: [
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-frage",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
-          hasEinnahmen: "yes",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/einnahmen/warnung",
+    },
+  ],
+  veNoVermoegen: [
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+        livesTogether: "no",
+        hasVermoegen: "no",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/einnahmen-value",
-        userInput: {
-          hohesEinkommen: "no",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+    },
+  ],
+  veVermoegenOver10000: [
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+        hasEinnahmen: "no",
+        hasVermoegen: "yes",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/uebersicht",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
+      userInput: {
+        vermoegenUnder10000: "no",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/einnahmen/warnung",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+  ],
+  veVermoegenNotEntered: [
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+        hasEinnahmen: "no",
+        hasVermoegen: "yes",
       },
-    ],
-    veNoVermoegen: [
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
-          livesTogether: "no",
-          hasVermoegen: "no",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
+      userInput: {
+        vermoegenUnder10000: "yes",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
+    },
+  ],
+  veVermoegenUnder10000: [
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
+      userInput: {
+        ...pkhTestcaseData,
+        ...vereinfachteErklaerungBaseContext,
+        hasEinnahmen: "no",
+        hasVermoegen: "yes",
       },
-    ],
-    veVermoegenOver10000: [
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
-          hasEinnahmen: "no",
-          hasVermoegen: "yes",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
+      userInput: {
+        vermoegenUnder10000: "yes",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
-        userInput: {
-          vermoegenUnder10000: "no",
-        },
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
+      addArrayItemEvent: "add-vermoegen",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag/0/daten",
+      userInput: {
+        "vermoegen#beschreibung": "Test",
+        "vermoegen#wert": "1000",
       },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/hinweis-weiteres-formular",
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
+      skipPageSchemaValidation: true,
+      userInput: {
+        hasVermoegen: "yes",
+        vermoegen: [{ beschreibung: "Test", wert: "1000" }],
       },
-    ],
-    veVermoegenNotEntered: [
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
-          hasEinnahmen: "no",
-          hasVermoegen: "yes",
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
-        userInput: {
-          vermoegenUnder10000: "yes",
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/warnung",
-      },
-    ],
-    veVermoegenUnder10000: [
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/frage",
-        userInput: {
-          ...pkhTestcaseData,
-          ...vereinfachteErklaerungBaseContext,
-          hasEinnahmen: "no",
-          hasVermoegen: "yes",
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/value",
-        userInput: {
-          vermoegenUnder10000: "yes",
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
-        addArrayItemEvent: "add-vermoegen",
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/eintrag/0/daten",
-        userInput: {
-          "vermoegen#beschreibung": "Test",
-          "vermoegen#wert": "1000",
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/vermoegen/uebersicht",
-        skipPageSchemaValidation: true,
-        userInput: {
-          hasVermoegen: "yes",
-          vermoegen: [{ beschreibung: "Test", wert: "1000" }],
-        },
-      },
-      {
-        stepId:
-          "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
-      },
-    ],
-  };
+    },
+    {
+      stepId:
+        "/antragstellende-person/vereinfachte-erklaerung/hinweis-vereinfachte-erklaerung",
+    },
+  ],
+};
 
 export const testCasesPKHFormularAntragstellendePersonVereinfachteErklaerungTransitions =
   {
