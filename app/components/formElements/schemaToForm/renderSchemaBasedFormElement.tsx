@@ -20,7 +20,7 @@ import {
 import Select from "../inputs/select/Select";
 import {
   autoSuggestZodDescription,
-  DataListType,
+  type DataListType,
 } from "~/services/validation/autoSuggest";
 import { type StrapiAutoSuggestComponent } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
