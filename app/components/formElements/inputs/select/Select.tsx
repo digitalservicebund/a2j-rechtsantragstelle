@@ -1,6 +1,5 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
@@ -10,7 +9,7 @@ import { widthClassname, type Size } from "../inputWidth";
 
 type SelectProps = {
   name: string;
-  label?: ReactNode;
+  label?: string;
   options: DropdownOption[];
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
