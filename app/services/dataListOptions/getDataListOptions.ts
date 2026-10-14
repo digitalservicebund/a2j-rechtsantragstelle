@@ -3,7 +3,7 @@ import airlines from "data/airlines/data.json";
 import airports from "data/airports/data.json";
 import nationalities from "data/nationalities/data.json";
 import { type Params } from "react-router";
-import type { DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { type DataListType } from "~/services/validation/autoSuggest";
 import { getStreetsNameByZipCode } from "~/services/streetNames";
 
 export type DataListOptions = {

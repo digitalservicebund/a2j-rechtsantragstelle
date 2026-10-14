@@ -39,6 +39,7 @@ import {
 } from "./accessibilityConfig/ariaLiveMessages";
 import { InputLabel } from "../label/InputLabel";
 import { InputHelperText } from "../helperText/InputHelperText";
+import { widthClassname } from "../inputWidth";
 
 const MINIMUM_SEARCH_SUGGESTION_CHARACTERS = 3;
 const AIRPORT_CODE_LENGTH = 3;
@@ -104,6 +105,7 @@ const AutoSuggestInput = ({
   suffix,
   minSuggestCharacters = MINIMUM_SEARCH_SUGGESTION_CHARACTERS,
   supportsFreeText: isCreatable = false,
+  size = "large",
 }: AutoSuggestInputProps) => {
   const items = useDataListOptions(dataList, dataListArgument);
   const [currentItemValue, setCurrentItemValue] =
@@ -217,7 +219,7 @@ const AutoSuggestInput = ({
         )}
       </div>
 
-      <div className="w-full">
+      <div className={classNames(widthClassname(size))}>
         <SelectComponent
           aria-describedby={[
             field.error() && errorId,

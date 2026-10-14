@@ -1,6 +1,6 @@
 import { type ZodType } from "zod";
 import { type UserData } from "~/domains/userData";
-import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { type DataListType } from "~/services/validation/autoSuggest";
 import { arrayIsNonEmpty } from "~/util/array";
 
 export const getDataListArgumentToAutoSuggestionInput = (

@@ -1,19 +1,10 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ErrorMessageProps } from "~/components/common/types";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { InputHelperText } from "../helperText/InputHelperText";
-
-type InputProps = Readonly<{
-  name: string;
-  label?: string;
-  suffix?: string;
-  readonly?: boolean;
-  helperText?: string;
-  placeholder?: string;
-  errorMessages?: ErrorMessageProps[];
-}>;
+import { type InputProps } from "../text/TextInput";
+import { widthClassname } from "../inputWidth";
 
 const TelephoneInput = function InputComponent({
   name,
@@ -23,6 +14,7 @@ const TelephoneInput = function InputComponent({
   helperText,
   placeholder,
   errorMessages,
+  size = "large",
 }: InputProps) {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -30,9 +22,13 @@ const TelephoneInput = function InputComponent({
 
   return (
     <div
-      className={classNames("kern-form-input", {
-        "kern-form-input--error": field.error(),
-      })}
+      className={classNames(
+        "kern-form-input",
+        {
+          "kern-form-input--error": field.error(),
+        },
+        widthClassname(size),
+      )}
     >
       {label && <InputLabel name={name} label={label} suffix={suffix} />}
 
