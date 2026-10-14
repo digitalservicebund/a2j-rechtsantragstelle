@@ -7,6 +7,7 @@ import {
   formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import { beklagteParteiPages } from "./beklagte-partei/pages";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -79,6 +80,7 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
+  ...beklagteParteiPages,
   downloadKlage: {
     stepId: "/klage-herunterladen",
   },
