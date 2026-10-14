@@ -1,6 +1,8 @@
-import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import type { ZodType } from "zod";
 import { stringRequiredSchema } from "./stringRequired";
+
+export type DataListType =
+  "airports" | "airlines" | "streetNames" | "nationalities" | "countries";
 
 export const autoSuggestZodDescription = "auto_suggest";
 

@@ -26,7 +26,7 @@ export const renderZodString = (
 
   const inputProps = {
     ...sharedProps,
-    ...pick(matchingElement, ["suffix", "width", "helperText"]),
+    ...pick(matchingElement, ["suffix", "width", "helperText", "size"]),
   } satisfies InputProps;
 
   if (matchingElement?.__component === "form-elements.textarea")

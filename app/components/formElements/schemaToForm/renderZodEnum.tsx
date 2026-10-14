@@ -74,6 +74,7 @@ export function renderZodEnum(
     }
     case "form-elements.dropdown": {
       const cmsOptions = get(matchingElement, "options");
+      const size = get(matchingElement, "size");
       const cmsObject = Object.fromEntries(
         cmsOptions?.map(({ value, ...rest }) => [value, rest]),
       );
@@ -88,7 +89,7 @@ export function renderZodEnum(
             preSelected: cmsObject[value]?.preSelected,
           }))}
           errorMessages={errorMessages}
-          width={get(matchingElement, "width")}
+          size={size}
           suffix={suffix}
         />
       );

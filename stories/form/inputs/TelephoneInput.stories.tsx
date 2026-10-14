@@ -10,6 +10,12 @@ const meta = {
   title: "form/inputs/TelephoneInput",
   component: TelephoneInput,
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
   decorators: [
     (Story) => (
       <GridSection>

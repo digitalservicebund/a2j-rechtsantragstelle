@@ -18,11 +18,11 @@ import {
   type DynamicOptions,
 } from "~/services/validation/dynamicSelect";
 import Select from "../inputs/select/Select";
-import { autoSuggestZodDescription } from "~/services/validation/autoSuggest";
 import {
+  autoSuggestZodDescription,
   type DataListType,
-  type StrapiAutoSuggestComponent,
-} from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+} from "~/services/validation/autoSuggest";
+import { type StrapiAutoSuggestComponent } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
 import AutoSuggestInput from "~/components/formElements/inputs/autoSuggest/AutoSuggestInput";
 import { useFlowLoaderDataContext } from "~/components/hooks/useFlowLoaderDataContext";
 import { getDataListArgumentToAutoSuggestionInput } from "./getDataListArgumentToAutoSuggestionInput";
