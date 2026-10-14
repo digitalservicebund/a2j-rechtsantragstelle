@@ -285,8 +285,8 @@ importers:
         specifier: 1.438.7
         version: 1.438.7(@types/react@19.3.0)(react@19.3.0)
       posthog-node:
-        specifier: 5.55.1
-        version: 5.55.1
+        specifier: 5.55.2
+        version: 5.55.2
       rate-limit-redis:
         specifier: ^6.0.1
         version: 6.0.1(express-rate-limit@8.7.1)
@@ -430,8 +430,8 @@ importers:
         specifier: ^1.87.0
         version: 1.87.0
       p-map:
-        specifier: ^7.1.0
-        version: 7.1.0
+        specifier: ^7.1.1
+        version: 7.1.1
       prettier:
         specifier: ^3.9.10
         version: 3.9.10
@@ -1919,11 +1919,11 @@ packages:
   '@posthog/browser-common@0.9.4':
     resolution: {integrity: sha512-QlG0WZFG9iTp9cmXTypB4cgnxBAD3GImrj9AwmA84uh8uy5vIVgVLjoTTdOAW29XL+kh/eLn/5ZtBQt2JQfR+w==}
 
-  '@posthog/core@1.57.3':
-    resolution: {integrity: sha512-lag+QZE61kcYSjYN9lKwri6P4/DACOtyRsA41MSI6tdKHbSIyrPfQPkDQiPbq413AMbTXFjcN/N6bqxPhei93Q==}
-
   '@posthog/core@1.57.4':
     resolution: {integrity: sha512-JM2r3ab7D8HvxquB06jesAM7EBLf3pXIwYIOj/wwq59cML0aicSoJRZdDREruhbIHzc7iFgSgAqTqJQZxxvq9w==}
+
+  '@posthog/core@1.58.0':
+    resolution: {integrity: sha512-vluXIlVF6WGeHoQbsQK8Y1ywXZlJDU7YHEKiXAArQU38yFBpgxxfD0kInbYHtura4Fr7Z7H8WiDFvtMpCGehGg==}
 
   '@posthog/types@1.415.2':
     resolution: {integrity: sha512-BIIHPyXcPZuNTImrR1qLqLKFw7j9o8co6LG/9OpLtpWJ3RT0y89Lx6VCtd37N9/dkr/qW7y0uPjJxAxjsALHtw==}
@@ -4212,8 +4212,8 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
-  p-map@7.1.0:
-    resolution: {integrity: sha512-HaSJ9hNZOxTUSATfB48Qi7U2+GF1eECjI39nkeLmCWQrSOYr1z4NepR0rpWiZO77pYwUWU2cJ5NIgsmoFCsYDQ==}
+  p-map@7.1.1:
+    resolution: {integrity: sha512-6Lh3jQPLthYujSrlw6ccWXBGZTkoTCz27Hd92g79LH/kjAbgoEu0t442cCCNbegPSJsA0lwDX8z0bcKtkpA32g==}
     engines: {node: '>=18'}
 
   package-manager-detector@1.8.0:
@@ -4339,8 +4339,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.55.1:
-    resolution: {integrity: sha512-YLnILmFn1zxGYBuCaBldqMjTq9OZBNNbHIr2F0am3iLfU+6ZTvuRmUbTmys//+LnCA6DfZNGgqTb4goFa93u+Q==}
+  posthog-node@5.55.2:
+    resolution: {integrity: sha512-iDAleFns2KSEr67i1/DQ5qxseJHp5t3zhk6UHr+48vualuB1QvresneO25Qmv29fzTDmunS/JCPNcpaP9/QmKg==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       rxjs: ^7.0.0
@@ -6565,11 +6565,11 @@ snapshots:
       '@posthog/core': 1.57.4
       '@posthog/types': 1.415.2
 
-  '@posthog/core@1.57.3':
+  '@posthog/core@1.57.4':
     dependencies:
       '@posthog/types': 1.415.2
 
-  '@posthog/core@1.57.4':
+  '@posthog/core@1.58.0':
     dependencies:
       '@posthog/types': 1.415.2
 
@@ -6599,7 +6599,7 @@ snapshots:
       isbot: 5.2.2
       jsesc: 3.1.0
       lodash: 4.18.1
-      p-map: 7.1.0
+      p-map: 7.1.1
       pathe: 2.0.3
       picocolors: 1.1.1
       pkg-types: 2.3.3
@@ -7615,7 +7615,7 @@ snapshots:
       minipass-collect: 2.0.1
       minipass-flush: 1.0.7
       minipass-pipeline: 1.2.4
-      p-map: 7.1.0
+      p-map: 7.1.1
       ssri: 13.0.1
 
   call-bind-apply-helpers@1.0.2:
@@ -8868,7 +8868,7 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
-  p-map@7.1.0: {}
+  p-map@7.1.1: {}
 
   package-manager-detector@1.8.0: {}
 
@@ -9032,9 +9032,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.55.1:
+  posthog-node@5.55.2:
     dependencies:
-      '@posthog/core': 1.57.3
+      '@posthog/core': 1.58.0
 
   preact@10.29.8: {}
 
