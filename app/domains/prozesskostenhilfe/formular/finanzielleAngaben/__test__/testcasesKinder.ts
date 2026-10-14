@@ -64,7 +64,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
         "kinder#geburtsdatum": {
           day: "01",
           month: "01",
-          year: "2005"
+          year: "2005",
         },
       },
     },
@@ -109,7 +109,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
         "kinder#geburtsdatum": {
           day: "01",
           month: "01",
-          year: "2005"
+          year: "2005",
         },
       },
     },
@@ -153,7 +153,7 @@ export const testCasesPKHFormularFinanzielleAngabenKinder = {
         "kinder#geburtsdatum": {
           day: "01",
           month: "01",
-          year: "2005"
+          year: "2005",
         },
       },
     },

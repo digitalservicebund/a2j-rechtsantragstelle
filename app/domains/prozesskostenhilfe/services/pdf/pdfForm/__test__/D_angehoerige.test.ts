@@ -37,7 +37,7 @@ describe("D_angehoerige", () => {
           geburtsdatum: {
             day: "01",
             month: "01",
-            year: "2010"
+            year: "2010",
           },
           wohnortBeiAntragsteller: "yes",
           eigeneEinnahmen: "yes",
@@ -49,7 +49,7 @@ describe("D_angehoerige", () => {
           geburtsdatum: {
             day: "01",
             month: "01",
-            year: "2010"
+            year: "2010",
           },
           wohnortBeiAntragsteller: "no",
           unterhalt: "yes",
@@ -64,7 +64,7 @@ describe("D_angehoerige", () => {
           birthday: {
             day: "10",
             month: "10",
-            year: "2000"
+            year: "2000",
           },
           monthlyPayment: "100",
         },
@@ -136,7 +136,7 @@ describe("D_angehoerige", () => {
         geburtsdatum: {
           day: "01",
           month: "01",
-          year: "2010"
+          year: "2010",
         },
         wohnortBeiAntragsteller: "no",
         unterhaltsSumme: "100",

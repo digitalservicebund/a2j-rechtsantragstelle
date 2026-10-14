@@ -50,7 +50,6 @@ const sharedRatenZahlungFields = {
   laufzeitende: createSplitDateSchema({
     earliest: () => today(),
   }),
-
 };
 
 export const ratenZahlungArraySchema = z

@@ -56,23 +56,23 @@ describe("guards", () => {
   describe("vereinfachteErklaerungDone", () => {
     it("should return true when the Vereinfachte Erklärung section is done", () => {
       const askVermoegenHappyPathContext: Partial<ProzesskostenhilfeVereinfachteErklaerungUserData> =
-      {
-        child: {
-          vorname: "Max",
-          nachname: "Mustermann",
-          geburtsdatum: {
-            day: "01",
-            month: "01",
-            year: "2020"
+        {
+          child: {
+            vorname: "Max",
+            nachname: "Mustermann",
+            geburtsdatum: {
+              day: "01",
+              month: "01",
+              year: "2020",
+            },
+            unterhaltsSumme: "100",
           },
-          unterhaltsSumme: "100",
-        },
-        livesTogether: "no",
-        minderjaehrig: "yes",
-        unterhaltsOrAbstammungssachen: "yes",
-        rechtlichesThema: "abstammung",
-        hasEinnahmen: "no",
-      };
+          livesTogether: "no",
+          minderjaehrig: "yes",
+          unterhaltsOrAbstammungssachen: "yes",
+          rechtlichesThema: "abstammung",
+          hasEinnahmen: "no",
+        };
 
       expect(
         vereinfachteErklaerungDone({
@@ -83,7 +83,7 @@ describe("guards", () => {
               geburtsdatum: {
                 day: "01",
                 month: "01",
-                year: "2020"
+                year: "2020",
               },
               unterhaltsSumme: "100",
             },

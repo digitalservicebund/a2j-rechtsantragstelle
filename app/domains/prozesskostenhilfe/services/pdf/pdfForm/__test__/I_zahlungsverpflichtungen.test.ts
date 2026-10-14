@@ -24,7 +24,7 @@ describe("I_zahlungsverpflichtungen", () => {
           laufzeitende: {
             day: "31",
             month: "12",
-            year: "2050"
+            year: "2050",
           },
         },
       ],
@@ -69,7 +69,7 @@ describe("I_zahlungsverpflichtungen", () => {
           laufzeitende: {
             day: "31",
             month: "12",
-            year: "2050"
+            year: "2050",
           },
         },
       ],
@@ -129,7 +129,7 @@ describe("I_zahlungsverpflichtungen", () => {
           laufzeitende: {
             day: "31",
             month: "12",
-            year: "2050"
+            year: "2050",
           },
         },
       ],
@@ -197,7 +197,7 @@ describe("I_zahlungsverpflichtungen", () => {
           laufzeitende: {
             day: "31",
             month: "12",
-            year: "2050"
+            year: "2050",
           },
         },
       ],
@@ -270,7 +270,7 @@ describe("I_zahlungsverpflichtungen", () => {
           laufzeitende: {
             day: "31",
             month: "12",
-            year: "2050"
+            year: "2050",
           },
         },
       ],
