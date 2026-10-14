@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { klagendeParteiPages } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/pages";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
@@ -59,6 +60,7 @@ export const geldEinklagenAnwaltschaftPages = {
       ]),
     },
   },
+  ...klagendeParteiPages,
   prozessualeAusfuehrungen: {
     stepId: "/prozessantraege-prozessuale-ausfuehrungen",
     pageSchema: {

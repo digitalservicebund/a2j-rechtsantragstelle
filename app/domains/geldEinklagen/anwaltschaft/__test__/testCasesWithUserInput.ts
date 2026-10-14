@@ -1,5 +1,6 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
 import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/flowConfig";
+import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 
 export const geldEinklagenAnwaltschaftTestCases = {
@@ -26,6 +27,7 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
     ],
+    ...klagendeParteiTestCases,
     rechtlicheWuerdigung: [
       {
         stepId: "/rechtliche-wuerdigung",
