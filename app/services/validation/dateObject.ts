@@ -188,7 +188,7 @@ export const toDateObject = (date: Date): DateObject => {
   };
 };
 
-export const hasDateObject = (date: DateObject | undefined) => {
+export const hasDateObject = (date: Partial<DateObject> | undefined) => {
   return objectKeysNonEmpty(date, ["day", "month", "year"]);
 };
 

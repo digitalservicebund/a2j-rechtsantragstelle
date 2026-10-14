@@ -125,7 +125,11 @@ describe("pruner", () => {
             befristetArt: "lifeInsurance",
             verwendungszweck: "123",
             wert: "123",
-            auszahlungdatum: "11.11.2032",
+            auszahlungdatum: {
+              day: "11",
+              month: "11",
+              year: "2032",
+            },
           },
           {
             art: "bargeld",
@@ -169,7 +173,11 @@ describe("pruner", () => {
             befristetArt: "lifeInsurance",
             verwendungszweck: "123",
             wert: "123",
-            auszahlungdatum: "11.11.2032",
+            auszahlungdatum: {
+              day: "11",
+              month: "11",
+              year: "2032",
+            },
           },
           {
             art: "bargeld",

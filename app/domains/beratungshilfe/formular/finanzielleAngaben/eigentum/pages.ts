@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { eigentuemerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
+import { createSplitDateSchemaOptional } from "~/services/validation/dateObject";
 import { ibanSchema } from "~/services/validation/iban";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -60,7 +61,7 @@ const befristetSchema = z.object({
     "fixedDepositAccount",
   ]),
   verwendungszweck: stringOptionalSchema,
-  auszahlungdatum: stringOptionalSchema,
+  auszahlungdatum: createSplitDateSchemaOptional(),
 });
 
 const forderungSchema = z.object({
