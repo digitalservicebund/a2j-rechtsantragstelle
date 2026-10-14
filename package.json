@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1148.0",
+    "@aws-sdk/client-s3": "^3.1149.0",
     "@digitalservicebund/a2j-xjustiz-bridge": "^0.10.1",
     "@digitalservicebund/kern-ux-tailwind-theme": "^4.1.0",
     "@kern-ux/native": "^2.8.2",
@@ -131,7 +131,7 @@
     "knip": "^6.41.0",
     "lefthook": "^2.2.1",
     "oxlint": "^1.87.0",
-    "p-map": "^7.0.8",
+    "p-map": "^7.1.0",
     "prettier": "^3.9.10",
     "size-limit": "^14.2.0",
     "storybook": "^10.6.1",
