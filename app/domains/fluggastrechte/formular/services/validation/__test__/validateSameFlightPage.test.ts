@@ -33,9 +33,15 @@ describe("validateSameFlightPage", () => {
   it("should return success false given an original arrival time after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       tatsaechlicherAnkunftsDatum: "01.01.2024",
-      tatsaechlicherAnkunftsZeit: "11:00",
+      tatsaechlicherAnkunftsZeit: {
+        hour: "11",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(false);
@@ -44,9 +50,15 @@ describe("validateSameFlightPage", () => {
   it("should return success false given an original arrival date after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       tatsaechlicherAnkunftsDatum: "01.01.2024",
-      tatsaechlicherAnkunftsZeit: "15:00",
+      tatsaechlicherAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
     });
 
     expect(result).toBe(false);
@@ -66,9 +78,15 @@ describe("validateSameFlightPage", () => {
   it("should return success true given an original arrival date after three hours after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       tatsaechlicherAnkunftsDatum: "02.01.2024",
-      tatsaechlicherAnkunftsZeit: "19:01",
+      tatsaechlicherAnkunftsZeit: {
+        hour: "19",
+        minute: "01",
+      },
     });
 
     expect(result).toBe(true);

@@ -9,6 +9,12 @@ const meta = {
   title: "form/AutoSuggestionInput",
   component: AutoSuggestInput,
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
 } satisfies Meta<typeof AutoSuggestInput>;
 
 export default meta;
@@ -30,7 +36,12 @@ export const Airports: Story = {
       reactRouterFormContext(
         <GridSection>
           <Grid>
-            <GridItem>
+            <GridItem
+              smColumn={{ start: 1, span: 12 }}
+              mdColumn={{ start: 1, span: 8 }}
+              lgColumn={{ start: 3, span: 8 }}
+              xlColumn={{ start: 3, span: 8 }}
+            >
               <Story />
             </GridItem>
           </Grid>
@@ -54,7 +65,12 @@ export const WithHelperText: Story = {
       reactRouterFormContext(
         <GridSection>
           <Grid>
-            <GridItem>
+            <GridItem
+              smColumn={{ start: 1, span: 12 }}
+              mdColumn={{ start: 1, span: 8 }}
+              lgColumn={{ start: 3, span: 8 }}
+              xlColumn={{ start: 3, span: 8 }}
+            >
               <Story />
             </GridItem>
           </Grid>

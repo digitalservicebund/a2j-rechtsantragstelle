@@ -255,7 +255,11 @@ export const testCasesPKHFormularFinanzielleAngabenEigentum = {
         "geldanlagen#wert": "1000",
         "geldanlagen#befristetArt": "lifeInsurance",
         "geldanlagen#verwendungszweck": "Zweck",
-        "geldanlagen#auszahlungdatum": "01.01.2035",
+        "geldanlagen#auszahlungdatum": {
+          day: "01",
+          month: "01",
+          year: "2035",
+        },
       },
     },
     {

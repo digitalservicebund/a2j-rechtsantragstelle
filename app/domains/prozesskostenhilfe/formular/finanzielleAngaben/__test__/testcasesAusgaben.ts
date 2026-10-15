@@ -1,7 +1,8 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
-import { addYears, today, toGermanDateString } from "~/util/date";
+import { addYears, today } from "~/util/date";
 import { type ProzesskostenhilfeFormularUserData } from "../../userData";
 import { pkhTestcaseData } from "../../__test__/testcasesData";
+import { toDateObject } from "~/services/validation/dateObject";
 
 export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
   ausgabenYes: [
@@ -100,7 +101,7 @@ export const testCasesPKHFormularFinanzielleAngabenAusgaben = {
     {
       stepId: "/finanzielle-angaben/ausgaben/ratenzahlungen/0/laufzeitende",
       userInput: {
-        "ratenzahlungen#laufzeitende": toGermanDateString(addYears(today(), 1)),
+        "ratenzahlungen#laufzeitende": toDateObject(addYears(today(), 1)),
       },
     },
     {

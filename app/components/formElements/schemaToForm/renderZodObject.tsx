@@ -5,6 +5,19 @@ import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
+import { SplitTimeInput } from "../inputs/time/SplitTimeInput";
+
+const getContentData = (element?: StrapiFormComponent) => {
+  const errorMessages =
+    element && "errorMessages" in element ? element.errorMessages : undefined;
+
+  const label = element && "label" in element ? element.label : undefined;
+  const suffix = element && "suffix" in element ? element.suffix : undefined;
+  const helperText =
+    element && "helperText" in element ? element.helperText : undefined;
+
+  return { errorMessages, label, suffix, helperText };
+};
 
 export const renderZodObject = (
   nestedSchema: ZodObject,
@@ -19,6 +32,9 @@ export const renderZodObject = (
         formComponents.__component !== "form-elements.fieldset",
     )
     .find(({ name }) => name === fieldName);
+
+  const { errorMessages, label, helperText, suffix } =
+    getContentData(matchingElement);
 
   if (nestedSchema.meta()?.description === "exclusive_checkbox") {
     const labels = Object.fromEntries(
@@ -38,20 +54,24 @@ export const renderZodObject = (
     );
   }
   if (nestedSchema.meta()?.description === "split_date") {
-    const errorMessages =
-      matchingElement && "errorMessages" in matchingElement
-        ? matchingElement.errorMessages
-        : undefined;
-
-    const label =
-      matchingElement && "label" in matchingElement
-        ? matchingElement.label
-        : undefined;
-
     return (
       <SplitDateInput
         key={fieldName}
         name={fieldName}
+        suffix={suffix}
+        label={label}
+        errorMessages={errorMessages}
+      />
+    );
+  }
+
+  if (nestedSchema.meta()?.description === "split_time") {
+    return (
+      <SplitTimeInput
+        key={fieldName}
+        name={fieldName}
+        suffix={suffix}
+        helperText={helperText}
         label={label}
         errorMessages={errorMessages}
       />

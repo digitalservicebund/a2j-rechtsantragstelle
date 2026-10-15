@@ -1,29 +1,28 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { type ReactNode } from "react";
 import { type ErrorMessageProps } from "~/components/common/types";
-import { widthClassname } from "~/components/common/width";
 import InputError from "../error/InputError";
 import { InputLabel } from "../label/InputLabel";
 import { translations } from "~/services/translations/translations";
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
+import { widthClassname, type Size } from "../inputWidth";
 
 type SelectProps = {
   name: string;
-  label?: ReactNode;
-  width?: "16" | "24" | "36" | "54";
+  label?: string;
   options: DropdownOption[];
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
+  size?: Size;
 };
 
 const Select = ({
   name,
   label,
-  width,
   options,
   suffix,
   errorMessages,
+  size = "large",
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -42,7 +41,7 @@ const Select = ({
           {
             "kern-form-input__select-wrapper--error": field.error(),
           },
-          widthClassname(width),
+          widthClassname(size),
         )}
       >
         <select

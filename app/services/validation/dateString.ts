@@ -1,6 +1,5 @@
 import isDate from "validator/lib/isDate";
 import { z } from "zod";
-import { addYears, today } from "~/util/date";
 
 export const isValidDate = (date: string) =>
   isDate(date, {
@@ -51,11 +50,6 @@ export const createDateSchema = (args?: {
       }
     });
 };
-
-export const childBirthdaySchema = createDateSchema({
-  earliest: () => addYears(today(), -24),
-  latest: () => today(),
-});
 
 export function toDate(date: string) {
   const [day, month, year] = date.split(".").map(Number);

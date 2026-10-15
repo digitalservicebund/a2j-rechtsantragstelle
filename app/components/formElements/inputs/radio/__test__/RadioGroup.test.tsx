@@ -89,4 +89,16 @@ describe("RadioGroup", () => {
     const fieldset = screen.getByRole("group");
     expect(fieldset).toHaveAttribute("aria-invalid", "true");
   });
+  it("should announce error message", () => {
+    mockUseField("required");
+    renderRadioGroup();
+
+    const errorMessage = screen.getByTestId("inputError");
+    const fieldset = screen.getByRole("group");
+
+    expect(errorMessage).toHaveTextContent("This field is required");
+    expect(errorMessage).toHaveAttribute("id", "test-error");
+    expect(errorMessage).toHaveAttribute("role", "alert");
+    expect(fieldset).toHaveAttribute("aria-describedby", "test-error");
+  });
 });

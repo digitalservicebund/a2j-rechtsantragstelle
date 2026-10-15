@@ -1,5 +1,6 @@
-import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { type DataListType } from "~/services/validation/autoSuggest";
 import { type ErrorMessageProps } from "../../../common/types";
+import { type Size } from "../inputWidth";
 
 export type AutoSuggestInputProps = Readonly<{
   name: string;
@@ -14,4 +15,5 @@ export type AutoSuggestInputProps = Readonly<{
   minSuggestCharacters?: number;
   supportsFreeText?: boolean;
   suffix?: string;
+  size?: Size;
 }>;

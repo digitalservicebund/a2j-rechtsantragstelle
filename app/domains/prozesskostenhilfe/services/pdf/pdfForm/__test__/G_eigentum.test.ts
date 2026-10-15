@@ -366,6 +366,11 @@ describe("G_eigentum", () => {
               wert: "1000",
               verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
           ],
         },
@@ -399,6 +404,11 @@ describe("G_eigentum", () => {
               wert: "1000",
               verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
             {
               art: "befristet",
@@ -406,6 +416,11 @@ describe("G_eigentum", () => {
               wert: "1000",
               verwendungszweck: "Festgeldkonto",
               befristetArt: "lifeInsurance",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
           ],
         },
@@ -432,6 +447,11 @@ describe("G_eigentum", () => {
               wert: "1000",
               verwendungszweck: "Festgeldkonto",
               befristetArt: "fixedDepositAccount",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
           ],
         },
@@ -463,6 +483,11 @@ describe("G_eigentum", () => {
               wert: "1000",
               verwendungszweck: "Festgeldkonto",
               befristetArt: "fixedDepositAccount",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
             {
               art: "forderung",
@@ -495,6 +520,11 @@ describe("G_eigentum", () => {
               verwendungszweck: "Lebensversicherung",
               wert: "1000",
               befristetArt: "lifeInsurance",
+              auszahlungdatum: {
+                day: undefined,
+                month: undefined,
+                year: undefined,
+              },
             },
           ],
         },

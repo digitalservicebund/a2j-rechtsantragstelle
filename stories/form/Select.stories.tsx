@@ -12,6 +12,28 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
+  decorators: [
+    (Story) => (
+      <GridSection>
+        <Grid>
+          <GridItem
+            smColumn={{ start: 1, span: 12 }}
+            mdColumn={{ start: 1, span: 8 }}
+            lgColumn={{ start: 3, span: 8 }}
+            xlColumn={{ start: 3, span: 8 }}
+          >
+            <Story />
+          </GridItem>
+        </Grid>
+      </GridSection>
+    ),
+  ],
 } satisfies Meta<typeof Select>;
 
 export default meta;
@@ -29,18 +51,7 @@ export const Default: Story = {
     ],
     errorMessages: undefined,
   },
-  decorators: [
-    (Story) =>
-      reactRouterFormContext(
-        <GridSection>
-          <Grid>
-            <GridItem>
-              <Story />
-            </GridItem>
-          </Grid>
-        </GridSection>,
-      ),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithLabel: Story = {
@@ -54,18 +65,7 @@ export const WithLabel: Story = {
       { value: "koeln", text: "Köln", preSelected: false },
     ],
   },
-  decorators: [
-    (Story) =>
-      reactRouterFormContext(
-        <GridSection>
-          <Grid>
-            <GridItem>
-              <Story />
-            </GridItem>
-          </Grid>
-        </GridSection>,
-      ),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
 
 export const WithPlaceholder: Story = {
@@ -84,16 +84,5 @@ export const WithPlaceholder: Story = {
       { value: "bremen", text: "Bremen", preSelected: false },
     ],
   },
-  decorators: [
-    (Story) =>
-      reactRouterFormContext(
-        <GridSection>
-          <Grid>
-            <GridItem>
-              <Story />
-            </GridItem>
-          </Grid>
-        </GridSection>,
-      ),
-  ],
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
