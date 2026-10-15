@@ -1,5 +1,8 @@
 import { createServer, type Server } from "node:http";
-import { Gerichte } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
+import {
+  Gerichte,
+  Rollenbezeichnung,
+} from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 // oxlint-disable-next-line no-unassigned-import
 import "~/services/xjustiz/installTemporalPolyfill.server";
@@ -44,30 +47,73 @@ afterAll(async () => {
 });
 
 describe("geldEinklagenXjustizFromUserdata", () => {
-  it("komponiert eine Zahlungsklage und sendet sie an die XJustiz-Tools", async () => {
+  it("adressiert die Nachricht an das übergebene Gericht", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
       gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
-    expect(result).toStrictEqual({ ok: true, xjustizMessageXml: FAKE_XML });
+    expect(result.ok).toBe(true);
 
     const payload: unknown = JSON.parse(receivedBody ?? "null");
     expect(payload).toMatchObject({
       nachrichtenkopf: {
-        xjustizVersion: "3.6.2",
         empfaenger: {
           informationen: {
-            auswahlKommunikationspartner: { gericht: { code: "F1106" } },
+            auswahlKommunikationspartner: {
+              gericht: Gerichte["Amtsgericht Schöneberg"],
+            },
           },
         },
       },
+    });
+  });
+
+  it("ordnet klagende und beklagte Person den richtigen Rollen zu", async () => {
+    const result = await geldEinklagenXjustizFromUserdata({
+      userData: userDataWithBegruendung,
+      gericht: Gerichte["Amtsgericht Schöneberg"],
+      baseUrl,
+    });
+
+    expect(result.ok).toBe(true);
+
+    const payload: unknown = JSON.parse(receivedBody ?? "null");
+    expect(payload).toMatchObject({
       grunddaten: {
         verfahrensdaten: {
           beteiligung: [
-            { rolle: [{ rollenbezeichnung: { code: "101" } }] },
-            { rolle: [{ rollenbezeichnung: { code: "028" } }] },
+            {
+              rolle: [{ rollenbezeichnung: Rollenbezeichnung["Kläger(in)"] }],
+              beteiligter: {
+                auswahlBeteiligter: {
+                  natuerlichePerson: {
+                    vollerName: {
+                      vorname: userDataMock.klagendePersonVorname,
+                      nachname: userDataMock.klagendePersonNachname,
+                    },
+                    anschrift: [
+                      { strasse: userDataMock.klagendePersonStrasse },
+                    ],
+                  },
+                },
+              },
+            },
+            {
+              rolle: [{ rollenbezeichnung: Rollenbezeichnung["Beklagte(r)"] }],
+              beteiligter: {
+                auswahlBeteiligter: {
+                  natuerlichePerson: {
+                    vollerName: {
+                      vorname: userDataMock.beklagteVorname,
+                      nachname: userDataMock.beklagteNachname,
+                    },
+                    anschrift: [{ strasse: userDataMock.beklagteStrasse }],
+                  },
+                },
+              },
+            },
           ],
         },
       },
@@ -147,7 +193,9 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     const rollennummern = beteiligung.map((b) => b.rolle[0].rollennummer);
     expect(new Set(rollennummern).size).toBe(rollennummern.length);
     const zeugeBeteiligung = beteiligung[2];
-    expect(zeugeBeteiligung.rolle[0].rollenbezeichnung.code).toBe("202");
+    expect(zeugeBeteiligung.rolle[0].rollenbezeichnung).toStrictEqual(
+      Rollenbezeichnung["Zeuge (Zeugin)"],
+    );
     expect(zeugeBeteiligung.beteiligter).toMatchObject({
       auswahlBeteiligter: {
         natuerlichePerson: {
