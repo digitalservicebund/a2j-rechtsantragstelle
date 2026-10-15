@@ -5,11 +5,11 @@ export const hauptUndNebenantraegeFlowConfig = {
   sonstigeNebenUndProzessantraegeUebersicht: [
     {
       type: "addArrayItem",
-      target: "sonstigeNebenUndProzessantraege",
+      target: "sonstigeNebenUndProzessantraegeAntrag",
     },
     {
       target: "downloadKlage"
     }
   ],
-  sonstigeNebenUndProzessantraege: "sonstigeNebenUndProzessantraegeUebersicht",
+  sonstigeNebenUndProzessantraegeAntrag: "sonstigeNebenUndProzessantraegeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

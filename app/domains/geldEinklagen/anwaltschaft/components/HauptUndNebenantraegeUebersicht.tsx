@@ -6,11 +6,12 @@ import { arrayIsNonEmpty } from "~/util/array";
 import { GeldEinklagenAnwaltschaftUserData } from "../userData";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag";
 
-const SONSTIGE_NEBEN_UND_PROZESSANTRAEGE = 10;
+const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 10;
 const HauptUndNebenantraegeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
+
   if (flowId !== "/geld-einklagen/anwaltschaft") {
     return null;
   }
@@ -32,7 +33,7 @@ const HauptUndNebenantraegeUebersicht = () => {
   console.log("nextItemIndex:", nextItemIndex, "addButtonUrl:", addButtonUrl);
 
   const shouldDisableAddButton =
-    nextItemIndex >= SONSTIGE_NEBEN_UND_PROZESSANTRAEGE;
+    nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
   return (
     <div className="flex flex-col gap-kern-space-default">

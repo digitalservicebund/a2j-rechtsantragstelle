@@ -19,8 +19,8 @@ export const hauptUndNebenantraegePages = {
       isArrayRelevant: () => true,
     },
   },
-  sonstigeNebenUndProzessantraege: {
-    stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/#/daten",
+  sonstigeNebenUndProzessantraegeAntrag: {
+    stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag/#/daten",
     pageSchema: {
       "sonstigeNebenUndProzessantraege#internesSchlagwort": sonstigeNebenUndProzessantraegeArraySchema.element.shape.internesSchlagwort,
       "sonstigeNebenUndProzessantraege#antrag": sonstigeNebenUndProzessantraegeArraySchema.element.shape.antrag,
