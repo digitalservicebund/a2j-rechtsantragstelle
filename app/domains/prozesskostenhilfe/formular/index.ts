@@ -16,7 +16,6 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const prozesskostenhilfeFormular = {
   flowType: "formFlow",
-  config: { states: {} },
   newEngineConfig: prozesskostenhilfeFormularFlowConfig,
   stringReplacements: (context: ProzesskostenhilfeFormularUserData) => ({
     ...getKinderStrings(context),

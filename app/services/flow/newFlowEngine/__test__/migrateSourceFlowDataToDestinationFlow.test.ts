@@ -18,16 +18,10 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
     const mockMigrationDataMerger = vi.fn();
     const sourceFlow = {
       flowType: "formFlow",
-      config: {
-        states: {},
-      },
     } satisfies Flow;
 
     const destinationFlow = {
       flowType: "formFlow",
-      config: {
-        states: {},
-      },
       migration: {
         source: "/erbschein/erbfolge",
         sortedFields: [],
@@ -52,9 +46,6 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
     });
     const sourceFlow = {
       flowType: "formFlow",
-      config: {
-        states: {},
-      },
       newEngineConfig: compileFlow({
         initialStep: "ergebnis",
         transitions: {
@@ -75,9 +66,6 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
 
     const destinationFlow = {
       flowType: "formFlow",
-      config: {
-        states: {},
-      },
       newEngineConfig: {} as CompiledFlow<PageConfigMap>,
       migration: {
         source: "/erbschein/erbfolge",

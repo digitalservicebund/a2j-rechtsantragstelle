@@ -28,8 +28,8 @@
     "licenses": "EUPL-1.2",
     "repository": "https://gitlab.opencode.de/kern-ux/kern-ux-plain",
     "publisher": "Kern-UX",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.0.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native/LICENSE.md",
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.1.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@digitalservicebund+kern-ux-tailwind-theme@4.1.0_@kern-ux+native@2.8.2_tailwindcss@4.3.3/node_modules/@kern-ux/native/LICENSE.md",
     "direct": true
   },
   "@node-saml/node-saml": {
@@ -118,15 +118,6 @@
     "licenseFile": "a2j-rechtsantragstelle/node_modules/@sentry/vite-plugin/LICENSE",
     "direct": true
   },
-  "@xstate/graph": {
-    "licenses": "MIT",
-    "repository": "https://github.com/statelyai/xstate",
-    "publisher": "David Khourshid",
-    "email": "davidkpiano@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/@xstate/graph",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/@xstate/graph/LICENSE",
-    "direct": true
-  },
   "axios": {
     "licenses": "MIT",
     "repository": "https://github.com/axios/axios",
@@ -172,8 +163,8 @@
     "repository": "https://github.com/cure53/DOMPurify",
     "publisher": "Dr.-Ing. Mario Heiderich, Cure53",
     "email": "mario@cure53.de",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.435.8_@types+react@19.3.0_react@19.3.0/node_modules/dompurify",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.435.8_@types+react@19.3.0_react@19.3.0/node_modules/dompurify/LICENSE"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.438.3_@types+react@19.3.0_react@19.3.0/node_modules/dompurify",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/posthog-js@1.438.3_@types+react@19.3.0_react@19.3.0/node_modules/dompurify/LICENSE"
   },
   "dotenv": {
     "licenses": "BSD-2-Clause",
@@ -402,8 +393,8 @@
   "sentry": {
     "licenses": "Apache*",
     "repository": "https://github.com/getsentry/cli",
-    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.4.0_@babel+core@7.29.7/node_modules/sentry",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.4.0_@babel+core@7.29.7/node_modules/sentry/LICENSE.md"
+    "path": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.6.0_@babel+core@7.29.7/node_modules/sentry",
+    "licenseFile": "a2j-rechtsantragstelle/node_modules/.pnpm/@sentry+bundler-plugins@11.6.0_@babel+core@7.29.7/node_modules/sentry/LICENSE.md"
   },
   "tiny-invariant": {
     "licenses": "MIT",
@@ -437,15 +428,6 @@
     "email": "leizongmin@gmail.com",
     "path": "a2j-rechtsantragstelle/node_modules/xss",
     "licenseFile": "a2j-rechtsantragstelle/node_modules/xss/LICENSE",
-    "direct": true
-  },
-  "xstate": {
-    "licenses": "MIT",
-    "repository": "https://github.com/statelyai/xstate",
-    "publisher": "David Khourshid",
-    "email": "davidkpiano@gmail.com",
-    "path": "a2j-rechtsantragstelle/node_modules/xstate",
-    "licenseFile": "a2j-rechtsantragstelle/node_modules/xstate/LICENSE",
     "direct": true
   },
   "zod": {

@@ -23,7 +23,6 @@ import { fetchTranslations } from "~/services/cms/index.server";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
   getSessionData,
@@ -116,15 +115,12 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const sessionData = await getSessionData(flowId, cookieHeader);
 
-  // TODO: remove after migration to new flow engine
-  let userData: UserData;
-  if ("newEngineConfig" in flows[flowId]) {
-    const compiledStaticFlow = flows[flowId]
-      .newEngineConfig as CompiledFlow<PageConfigMap>;
-    userData = getPrunedUserDataFromSimulation(compiledStaticFlow, sessionData);
-  } else {
-    userData = pruneIrrelevantData(sessionData, flowId).prunedData;
-  }
+  const compiledStaticFlow = flows[flowId]
+    .newEngineConfig as CompiledFlow<PageConfigMap>;
+  const userData: UserData = getPrunedUserDataFromSimulation(
+    compiledStaticFlow,
+    sessionData,
+  );
   if (isEmpty(userData)) return redirect(flowId);
   const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
 

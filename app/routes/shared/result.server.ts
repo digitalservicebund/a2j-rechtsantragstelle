@@ -4,7 +4,7 @@ import {
   fetchFlowPage,
   fetchContentPageMeta,
 } from "~/services/cms/index.server";
-import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { composePageTitle } from "~/services/meta/composePageTitle";
 import { translations } from "~/services/translations/translations";
 import {
@@ -47,7 +47,7 @@ export const loadResultData = async (
 ) => {
   const { request, url } = args;
 
-  const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);

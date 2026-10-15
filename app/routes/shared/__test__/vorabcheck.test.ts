@@ -1,203 +1,137 @@
-import { type ActionFunctionArgs } from "react-router";
 import { Result } from "true-myth";
-import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { postValidationFlowAction } from "~/services/flow/userFlowAction/postValidationFlowAction";
 import { validateFormUserData } from "~/services/flow/userFlowAction/validateFormUserData";
-import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager, updateSession } from "~/services/session.server";
-import { action } from "../vorabcheck";
-import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
-import {
-  assertResponse,
-  assertValidationError,
-} from "~/routes/__test__/isResponse";
+import { loadVorabcheckData, runVorabcheckAction } from "../vorabcheck.server";
+import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromRequest";
+import { assertResponse } from "~/routes/__test__/isResponse";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type Replacements } from "~/util/applyStringReplacement";
+import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 
 vi.mock("~/services/security/csrf/validatedSession.server", () => ({
   validatedSession: vi.fn(),
 }));
-
-vi.mock("~/services/logging", () => ({
-  logWarning: vi.fn(),
-}));
-
-vi.mock("~/services/flow/formular/fileUpload/processUserFile.server");
 vi.mock("~/services/session.server");
 vi.mock("~/services/flow/userFlowAction/validateFormUserData");
 vi.mock("~/services/flow/userFlowAction/postValidationFlowAction");
-vi.mock("~/services/flow/userFlowAction/flowDestination");
-vi.mock("~/services/flow/pruner/pruner");
+vi.mock("~/services/flow/userDataAndFlow/getUserDataAndFlow");
+vi.mock("~/services/flow/contentData/retrieveContentData");
 
-vi.mocked(getSessionManager).mockReturnValue({
-  getSession: vi.fn().mockReturnValue({ get: () => ({}), set: vi.fn() }),
-  commitSession: vi.fn(),
-  destroySession: vi.fn(),
-});
+const mockRetrieveContentData = vi.mocked(retrieveContentData);
 
-const mockRequestUrl = `http://localhost:3000/fluggastrechte/formular/abgabe/start`;
-const mockDefaultOptions = {
-  method: "POST",
-  body: new FormData(),
-};
-
-const mockPrunerData = (userDataMock?: Record<string, string>) => {
-  vi.mocked(pruneIrrelevantData).mockReturnValue({
-    prunedData: userDataMock ?? {},
-    validFlowPaths: {},
-  });
+// The session already holds the array item the user just submitted, resolved into
+// the kinder array (isAlive="no"). The action must derive pageData.arrayIndexes from
+// the URL so the kinder guards can route the dead child on to /hatteKinder.
+const sessionData = {
+  name: "Erblasser",
+  familienstand: "ledig",
+  hatteKinder: "yes",
+  kinder: [{ name: "Kind", isAlive: "no" }],
+  elternteile: [],
 };
 
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(validatedSession).mockResolvedValue(Result.ok());
-  mockPrunerData();
+  vi.mocked(validateFormUserData).mockResolvedValue(
+    Result.ok({ userData: sessionData, migrationData: undefined }),
+  );
+  vi.mocked(postValidationFlowAction).mockResolvedValue(undefined);
+  vi.mocked(getSessionManager).mockReturnValue({
+    getSession: vi.fn().mockResolvedValue({ data: sessionData }),
+    commitSession: vi.fn().mockResolvedValue({}),
+    destroySession: vi.fn(),
+  } as unknown as ReturnType<typeof getSessionManager>);
+  vi.mocked(updateSession).mockReturnValue(undefined);
+  vi.mocked(getUserDataAndFlow).mockResolvedValue(
+    Result.ok({
+      userData: { pageData: { arrayIndexes: [0] } },
+      flow: {
+        id: "/erbschein/erbfolge",
+        flowSessionEngine: {
+          currentStepId: "/kinder/0/daten",
+          stepConfigMap: {},
+        } as unknown as FlowSession<PageConfigMap>,
+        validFlowPaths: [] as any,
+        triggerValidation: false,
+        userVisitedValidationPage: false,
+        useStepper: false,
+      },
+      page: { stepId: "/kinder/0/daten", arrayIndexes: [0] },
+      emailCaptureConsent: undefined,
+      migration: { userData: undefined },
+    }),
+  );
+  mockRetrieveContentData.mockResolvedValue({
+    getCMSContent: vi.fn(),
+    getFormElements: vi.fn(),
+    getStepData: vi.fn(),
+    getButtonNavigation: vi.fn(),
+    getProgress: vi.fn(),
+  } as any);
 });
 
-describe("vorabcheck.server", () => {
-  describe("action", () => {
-    it("should throw a response error if no CSRF token is provided", async () => {
-      vi.mocked(validatedSession).mockResolvedValue(
-        Result.err("Invalid CSRF token"),
-      );
+describe("loadVorabcheckData (new engine array flow)", () => {
+  it("Optionally allows for injection of flow extras", async () => {
+    const request = new Request(
+      "http://localhost/erbschein/erbfolge/kinder/0/daten",
+      { method: "POST", body: new FormData() },
+    );
+    const mockReplacements: Replacements = { replacement1: "value1" };
+    const extrasBuildReplacementsMock = vi.fn();
 
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-
-      const thrown = await action({
-        request: mockDefaultRequest,
+    extrasBuildReplacementsMock.mockImplementation(() => mockReplacements);
+    const mockFormElements = [{ id: "foo" }];
+    const mockExtraData = { foo: "bar", formElements: mockFormElements };
+    const extrasBuildLoaderDataMock = vi
+      .fn()
+      .mockImplementation(() => mockExtraData);
+    const response = await loadVorabcheckData(
+      {
+        request,
         params: {},
-        context: {},
-      } as ActionFunctionArgs).catch((error) => error);
+        context: { get: vi.fn(), set: vi.fn() },
+        pattern: "",
+        url: new URL(request.url),
+      },
+      {
+        buildReplacements: extrasBuildReplacementsMock,
+        buildLoaderData: extrasBuildLoaderDataMock,
+      },
+    );
+    expect(extrasBuildReplacementsMock).toHaveBeenCalled();
+    expect(mockRetrieveContentData).toHaveBeenCalledWith(
+      "vorab-check-pages",
+      "/erbschein/erbfolge/kinder/0/daten",
+      {},
+      { pageData: { arrayIndexes: [0] } },
+      undefined,
+      mockReplacements,
+    );
+    expect(extrasBuildLoaderDataMock).toHaveBeenCalled();
+    expect((response as any).data.extraData).toBe(mockExtraData);
+    expect((response as any).data.formElements).toBe(mockFormElements);
+  });
+});
 
-      expect(thrown).toBeInstanceOf(Response);
-      expect(thrown.status).toBe(403);
-      expect(logWarning).toHaveBeenCalledWith("Invalid CSRF token");
-    });
+describe("runVorabcheckAction (new engine array flow)", () => {
+  it("routes a dead child from /kinder/#/daten on to /kinder/#/hatteKinder", async () => {
+    const request = new Request(
+      "http://localhost/erbschein/erbfolge/kinder/0/daten",
+      { method: "POST", body: new FormData() },
+    );
 
-    it("should return an error response in case the form data is invalid", async () => {
-      vi.mocked(validateFormUserData).mockResolvedValue(
-        Result.err({
-          error: { fieldErrors: { name: "Name is required" } },
-          submittedData: { name: "" },
-        }),
-      );
+    const response = await runVorabcheckAction(
+      mockRouteArgsFromRequest(request),
+    );
 
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
-      const response = await action(routeArgs);
-      assertValidationError(response);
-      expect(response.init?.status).toBe(422);
-      expect(response.data.fieldErrors).toEqual({
-        name: "Name is required",
-      });
-      expect(response.data.repopulateFields).toEqual({ name: "" });
-    });
-
-    it("should update session once when form validation succeeds", async () => {
-      vi.mocked(validateFormUserData).mockResolvedValue(
-        Result.ok({
-          userData: { name: "Valid Name" },
-          migrationData: undefined,
-        }),
-      );
-
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
-
-      expect(updateSession).toHaveBeenCalledTimes(1);
-      expect(updateSession).toHaveBeenCalledWith(expect.anything(), {
-        name: "Valid Name",
-      });
-    });
-
-    it("should call postValidationFormUserData once when form validation succeeds", async () => {
-      vi.mocked(getSessionManager).mockReturnValue({
-        getSession: vi.fn().mockReturnValue({
-          data: { name: "Valid Name" },
-        }),
-        commitSession: vi.fn(),
-        destroySession: vi.fn(),
-      });
-      vi.mocked(validateFormUserData).mockResolvedValue(
-        Result.ok({
-          userData: { name: "Valid Name" },
-          migrationData: undefined,
-        }),
-      );
-      mockPrunerData({ name: "Valid Name" });
-
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
-
-      expect(postValidationFlowAction).toHaveBeenCalledTimes(1);
-      expect(postValidationFlowAction).toHaveBeenCalledWith(
-        mockDefaultRequest,
-        { name: "Valid Name" },
-        expect.anything(),
-        expect.anything(),
-      );
-    });
-
-    it("should redirect to url /next-step in case validateFormUserData returns ok", async () => {
-      vi.mocked(validateFormUserData).mockResolvedValue(
-        Result.ok({
-          userData: { name: "Valid Name" },
-          migrationData: undefined,
-        }),
-      );
-      vi.mocked(flowDestination).mockReturnValue("/next-step");
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-      const routeArgs = mockRouteArgsFromRequest(mockDefaultRequest);
-      const response = await action(routeArgs);
-      assertResponse(response);
-      expect(response.status).toEqual(302);
-      expect(response.headers.get("location")).toEqual("/next-step");
-    });
-
-    it("should return call pruneIrrelevantData and use the pruned data the function flowDestination", async () => {
-      const userDataMock = { someData: "someValue" };
-      mockPrunerData(userDataMock);
-
-      vi.mocked(validateFormUserData).mockResolvedValue(
-        Result.ok({
-          userData: { name: "Valid Name" },
-          migrationData: { name: "Migration Name" },
-        }),
-      );
-
-      const mockDefaultRequest = new Request(
-        mockRequestUrl,
-        mockDefaultOptions,
-      );
-
-      const flowDestinationMock = vi
-        .mocked(flowDestination)
-        .mockResolvedValue("/next-step");
-
-      await action(mockRouteArgsFromRequest(mockDefaultRequest));
-
-      expect(pruneIrrelevantData).toBeCalledTimes(1);
-      expect(flowDestinationMock).toHaveBeenCalledWith(
-        "/fluggastrechte/formular/abgabe/start",
-        userDataMock,
-      );
-    });
+    assertResponse(response);
+    expect(response.headers.get("Location")).toBe(
+      "/erbschein/erbfolge/kinder/0/hatteKinder",
+    );
   });
 });

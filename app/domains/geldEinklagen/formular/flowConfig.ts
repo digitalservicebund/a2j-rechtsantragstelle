@@ -10,7 +10,7 @@ import { gerichtPruefenKlagendePersonFlowConfig } from "./gericht-pruefen/klagen
 import { gerichtPruefenBeklagtePersonFlowConfig } from "./gericht-pruefen/beklagtePerson/flowConfig";
 import { gerichtPruefenGerichtSuchenFlowConfig } from "./gericht-pruefen/gericht-suchen/flowConfig";
 import { zustaendigesGerichtDone } from "./gericht-pruefen/zustaendiges-gericht/doneFunctions";
-import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/xStateConfig";
+import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/doneFunctions";
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";

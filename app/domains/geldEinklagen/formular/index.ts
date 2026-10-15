@@ -1,5 +1,4 @@
 import type { Flow } from "~/domains/flows.server";
-import { gerichtPruefenXstateConfig } from "./gericht-pruefen/xstateConfig";
 import {
   getOptionsCourts,
   getResponsibleCourtString,
@@ -23,7 +22,6 @@ import {
   isPersonBeingReused,
 } from "./stringReplacements";
 import { type GeldEinklagenFormularUserData } from "./userData";
-import { klageErstellenXstateConfig } from "./klage-erstellen/xStateConfig";
 import {
   prefillZipCodeAndCity,
   updateIfUserNotPrefilledBeklagte,
@@ -62,14 +60,6 @@ export const geldEinklagenFormular = {
     ...isDocumentBeingReused(context),
     ...isPersonBeingReused(context),
   }),
-  config: {
-    id: "/geld-einklagen/formular",
-    initial: "gericht-pruefen",
-    states: {
-      "gericht-pruefen": gerichtPruefenXstateConfig,
-      "klage-erstellen": klageErstellenXstateConfig,
-    },
-  },
   newEngineConfig: geldEinklagenFlowConfig,
   useStepper: true,
   asyncFlowActions: {

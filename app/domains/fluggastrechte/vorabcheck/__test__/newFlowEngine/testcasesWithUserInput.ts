@@ -14,9 +14,7 @@ import { testcasesFluggastrechtOtherErfolgsNewFlowEngine } from "./testcasesOthe
 import { testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine } from "./testcasesVerspaetetAbbruchNewFlowEngine";
 
 export const fluggastrechteVorabcheckTestCases = {
-  xstateConfig: {
-    id: "/fluggastrechte/vorabcheck",
-  },
+  flowId: "/fluggastrechte/vorabcheck",
   newEngineConfig: fluggastrechteVorabcheckFlowConfig,
   testcases: {
     ...testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine,

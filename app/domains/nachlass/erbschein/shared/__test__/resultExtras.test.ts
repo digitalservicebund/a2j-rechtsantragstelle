@@ -1,4 +1,4 @@
-import type { ResultExtrasContext } from "~/routes/shared/newEngineResult.server";
+import type { ResultExtrasContext } from "~/routes/shared/result.server";
 import type { StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 import { erbfolgeResultExtras, HEIRS_LIST_IDENTIFIER } from "../resultExtras";
 

@@ -7,32 +7,13 @@ import {
   type StrapiSchemasOutput,
   type StrapiSchemas,
 } from "~/services/cms/schemas";
-import { type Config } from "~/services/flow/server/types";
-
+import { toCmsStepId } from "~/services/cms/toCmsStepId";
 const contentFilePath = "./content.json";
 
 type MinimalPage = {
   flow_ids: StrapiSchemas["form-flow-pages"][0]["flow_ids"];
   stepId: StrapiSchemas["form-flow-pages"][0]["stepId"];
 };
-
-// recursively traverse states object, while concatenating nested names. Returns a flat list
-function allStateNames(xstateConfigStates: Config["states"]): string[] {
-  if (!xstateConfigStates) return [];
-  return Object.entries(xstateConfigStates).flatMap(
-    ([stateName, stateConfig]) => {
-      if (stateConfig.states) {
-        // there are nested states -> recursion
-        return allStateNames(stateConfig.states).map(
-          (subStateName) => stateName + "/" + subStateName,
-        );
-      } else {
-        // stepId in xstate config use ergebnis/ prefix to indicate ErgebnisPage
-        return stateName.replace("ergebnis/", "");
-      }
-    },
-  );
-}
 
 function urlsFromPages(pages: MinimalPage[]) {
   // A page containing multiple flowIDs results in multiple URLs
@@ -81,15 +62,15 @@ export default async function unusedStrapiEntry() {
     }
 
     // oxlint-disable-next-line prefer-set-has
-    const allUrlsFromXstateConfigs = Object.entries(flows).flatMap(
-      ([flowId, { config }]) =>
-        allStateNames(config.states).map(
-          (stateName) => `${flowId}/${stateName}`,
+    const allUrlsFromFlows = Object.entries(flows).flatMap(
+      ([flowId, { newEngineConfig }]) =>
+        Object.values(newEngineConfig?.pages ?? {}).map(
+          (page) => `${flowId}${toCmsStepId(page.stepId)}`,
         ),
     );
 
     const unusedUrls = urlsFromPages(pages).filter(
-      (url) => !allUrlsFromXstateConfigs.includes(url),
+      (url) => !allUrlsFromFlows.includes(url),
     );
 
     console.log(

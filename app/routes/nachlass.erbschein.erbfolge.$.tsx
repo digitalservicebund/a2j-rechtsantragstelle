@@ -3,7 +3,7 @@ import { erbfolgeLoaderExtras } from "~/domains/nachlass/erbschein/shared/erbfol
 import {
   loadVorabcheckData,
   runVorabcheckAction,
-} from "~/routes/shared/newEngineVorabcheck.server";
+} from "~/routes/shared/vorabcheck.server";
 export { VorabcheckPage as default } from "~/routes/shared/components/VorabcheckPage";
 
 export const loader = (args: LoaderFunctionArgs) =>

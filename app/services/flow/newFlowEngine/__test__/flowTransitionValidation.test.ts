@@ -7,7 +7,7 @@ import {
 import {
   type FlowTransitionConfig,
   validateFlowTransition,
-} from "~/services/flow/newFlowEngine/flowTransitionValidationNewEngine";
+} from "~/services/flow/newFlowEngine/flowTransitionValidation";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 
 import { getSessionData } from "~/services/session.server";
@@ -21,7 +21,6 @@ const mockFlowTransitionConfig: FlowTransitionConfig = {
 };
 
 const createMockFlow = (flowType: FlowType): Flow => ({
-  config: {},
   flowType,
   newEngineConfig: compileFlow({
     pages: {
@@ -93,7 +92,6 @@ describe("flowTransitionValidation", () => {
 
   it("should throw an error if the source flow does not have a newEngineConfig", async () => {
     const sourceFlowWithoutNewEngineConfig: Flow = {
-      config: {},
       flowType: "vorabCheck",
     };
 

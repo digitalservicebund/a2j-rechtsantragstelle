@@ -1,14 +1,10 @@
-import {
-  flowAndResultRoutes,
-  flowRoutes,
-  vorabcheckRoutes,
-} from "../flowRoutes";
+import { flowRoutes, vorabcheckRoutes } from "../flowRoutes";
 
 describe("flowRoutes", () => {
   it("should return the correct routes", () => {
     expect(flowRoutes("BHA")).toEqual([
       {
-        file: "routes/shared/newEngineFormular.ts",
+        file: "routes/shared/formular.ts",
         id: "flowBHA",
         path: "*",
       },
@@ -25,46 +21,14 @@ describe("vorabcheckRoutes", () => {
   it("should return the correct routes", () => {
     expect(vorabcheckRoutes("BHA")).toEqual([
       {
-        file: "routes/shared/newEngineVorabcheck.ts",
+        file: "routes/shared/vorabcheck.ts",
         id: "flowBHA",
         path: "*",
       },
       {
-        file: "routes/shared/newEngineResult.ts",
+        file: "routes/shared/result.ts",
         id: "resBHA",
         path: "ergebnis/*",
-      },
-    ]);
-  });
-});
-
-describe("flowAndResultRoutes", () => {
-  it("should return the correct routes", () => {
-    expect(flowAndResultRoutes("GEF")).toEqual([
-      {
-        file: "routes/shared/lastFlowStepLoader.ts",
-        id: "indexGEF",
-        index: true,
-      },
-      {
-        file: "routes/shared/formular.ts",
-        id: "flowGEF",
-        path: "*",
-      },
-      {
-        file: "routes/shared/pdfDownloadLoader.ts",
-        id: "pdfGEF",
-        path: "download/pdf",
-      },
-      {
-        file: "routes/shared/visualisierung.ts",
-        id: "visGEF",
-        path: "visualisierung",
-      },
-      {
-        file: "routes/shared/result.ts",
-        id: "resGEF",
-        path: ":path/:path2/ergebnis/*",
       },
     ]);
   });
