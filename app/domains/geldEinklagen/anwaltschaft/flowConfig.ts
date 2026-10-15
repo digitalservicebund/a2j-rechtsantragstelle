@@ -19,12 +19,11 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       ...klagendeParteiFlowConfig,
       ...beklagteParteiFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
-      rechtlicheWuerdigung: "beklagteUebersicht",
+      rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
       beklagteNatuerlichePerson: null,
       beklagteOrganisation: null,
       ...hauptUndNebenantraegeFlowConfig,
       downloadKlage: null,
-      sonstigeNebenUndProzessantraegeUebersicht: null
     },
     pruningStrategy: "cascading",
   });

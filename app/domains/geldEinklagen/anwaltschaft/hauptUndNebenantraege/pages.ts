@@ -6,7 +6,7 @@ import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 const sonstigeNebenUndProzessantraegeArraySchema = z.array(
   z.object({
     internesSchlagwort: stringOptionalSchema,
-    antrag: stringRequiredMaxSchema,
+    antrag: stringRequiredMaxSchema(),
   })
 );
 
@@ -19,6 +19,14 @@ export const hauptUndNebenantraegePages = {
       isArrayRelevant: () => true,
     },
   },
+  sonstigeNebenUndProzessantraege: {
+    stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/#/daten",
+    pageSchema: {
+      "sonstigeNebenUndProzessantraege#internesSchlagwort": sonstigeNebenUndProzessantraegeArraySchema.element.shape.internesSchlagwort,
+      "sonstigeNebenUndProzessantraege#antrag": sonstigeNebenUndProzessantraegeArraySchema.element.shape.antrag,
+    }
+  }
+
 } as const satisfies PagesConfig;
 
 export type HauptUndNebenantraegePages = typeof hauptUndNebenantraegePages;
