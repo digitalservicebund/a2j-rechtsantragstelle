@@ -58,11 +58,33 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/geplanter-flug
   await formular.fillInput("direktFlugnummer", "AB1234");
   await formular.fillInput("buchungsNummer", "X36Q9C");
-  await formular.fillInput("direktAbflugsDatum", toGermanDateString(today()));
+  await formular.fillInput(
+    "direktAbflugsDatum.day",
+    today().getDate().toString(),
+  );
+  await formular.fillInput(
+    "direktAbflugsDatum.month",
+    (today().getUTCMonth() + 1).toString(),
+  );
+  await formular.fillInput(
+    "direktAbflugsDatum.year",
+    today().getUTCFullYear().toString(),
+  );
   await formular.fillInput("direktAbflugsZeit.hour", "08");
   await formular.fillInput("direktAbflugsZeit.minute", "00");
   await formular.fillDropdown("zwischenstoppAnzahl", "oneStop");
-  await formular.fillInput("direktAnkunftsDatum", toGermanDateString(today()));
+  await formular.fillInput(
+    "direktAnkunftsDatum.day",
+    today().getDate().toString(),
+  );
+  await formular.fillInput(
+    "direktAnkunftsDatum.month",
+    (today().getUTCMonth() + 1).toString(),
+  );
+  await formular.fillInput(
+    "direktAnkunftsDatum.year",
+    today().getUTCFullYear().toString(),
+  );
   await formular.fillInput("direktAnkunftsZeit.hour", "10");
   await formular.fillInput("direktAnkunftsZeit.minute", "10");
   await formular.clickNext();

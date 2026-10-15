@@ -63,22 +63,26 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
   ),
-  departureDateTime: data.annullierungErsatzverbindungAbflugsZeit
-    ? dateAndTimeToTimestamp(
-        data.annullierungErsatzverbindungAbflugsDatum,
-        data.annullierungErsatzverbindungAbflugsZeit,
-      )
-    : Number.NaN,
+  departureDateTime:
+    data.annullierungErsatzverbindungAbflugsZeit &&
+    data.annullierungErsatzverbindungAbflugsDatum
+      ? dateAndTimeToTimestamp(
+          data.annullierungErsatzverbindungAbflugsDatum,
+          data.annullierungErsatzverbindungAbflugsZeit,
+        )
+      : Number.NaN,
   originalArrivalDateTime: dateAndTimeToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
-  arrivalDateTime: data.annullierungErsatzverbindungAnkunftsZeit
-    ? dateAndTimeToTimestamp(
-        data.annullierungErsatzverbindungAnkunftsDatum,
-        data.annullierungErsatzverbindungAnkunftsZeit,
-      )
-    : Number.NaN,
+  arrivalDateTime:
+    data.annullierungErsatzverbindungAnkunftsZeit &&
+    data.annullierungErsatzverbindungAnkunftsDatum
+      ? dateAndTimeToTimestamp(
+          data.annullierungErsatzverbindungAnkunftsDatum,
+          data.annullierungErsatzverbindungAnkunftsZeit,
+        )
+      : Number.NaN,
 });
 
 const addIssue = (

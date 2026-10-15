@@ -19,7 +19,7 @@ type ArraySummaryItemProps = {
   readonly itemLabels: ItemLabels;
 };
 
-const isItemValueDateObject = (
+export const isItemValueDateObject = (
   itemValue: BasicTypes | ObjectType | ArrayData,
 ): itemValue is DateObject => {
   return (

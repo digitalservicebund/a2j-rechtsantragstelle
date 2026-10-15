@@ -2,7 +2,7 @@ import z from "zod";
 import { stringRequiredSchema } from "./stringRequired";
 import isTime from "validator/lib/isTime";
 import { translations } from "../translations/translations";
-import { toDate } from "./dateString";
+import { toDate, type DateObject } from "./dateObject";
 
 export const createSplitTimeSchema = () => {
   return z
@@ -63,7 +63,7 @@ export const toTimeString = (date?: TimeObject) => {
   return date === undefined ? "" : `${date.hour}:${date.minute}`;
 };
 
-export function dateAndTimeToTimestamp(date: string, time: TimeObject) {
+export function dateAndTimeToTimestamp(date: DateObject, time: TimeObject) {
   return new Date(
     toDate(date).setHours(Number(time.hour), Number(time.minute), 0, 0),
   ).getTime();

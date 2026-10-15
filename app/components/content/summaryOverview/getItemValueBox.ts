@@ -9,6 +9,8 @@ import {
   toTimeString,
   type TimeObject,
 } from "~/services/validation/timeObject";
+import { isItemValueDateObject } from "../arraySummary/ArraySummaryDataItems";
+import { toDateString } from "~/services/validation/dateObject";
 
 const isItemValueTimeObject = (
   itemValue: AllowedUserTypes,
@@ -26,6 +28,10 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
 
   if (isItemValueTimeObject(nestedObject)) {
     return toTimeString(nestedObject);
+  }
+
+  if (isItemValueDateObject(nestedObject)) {
+    return toDateString(nestedObject);
   }
 
   if (typeof nestedObject === "object") {

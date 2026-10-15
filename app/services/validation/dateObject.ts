@@ -171,8 +171,8 @@ export const createSplitDateSchemaOptional = (args?: {
 
 export type DateObject = { day: string; month: string; year: string };
 
-export const toDateString = (date: DateObject) =>
-  `${date.day}.${date.month}.${date.year}`;
+export const toDateString = (date?: DateObject) =>
+  hasDateObject(date) ? `${date.day}.${date.month}.${date.year}` : "";
 
 export const toDate = (date: DateObject) =>
   new Date(
