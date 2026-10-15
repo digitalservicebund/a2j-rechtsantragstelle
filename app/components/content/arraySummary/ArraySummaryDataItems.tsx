@@ -6,7 +6,7 @@ import ArraySummaryItemActions from "./ArraySummaryItemActions";
 import { getTranslationByKey } from "~/services/translations/getTranslationByKey";
 import Heading, { type HeadingProps } from "~/components/common/Heading";
 import {
-  type DateObject,
+  isItemValueDateObject,
   toDateString,
 } from "~/services/validation/dateObject";
 
@@ -17,17 +17,6 @@ type ArraySummaryItemProps = {
   readonly configuration: ArrayConfigClient;
   readonly subtitle?: HeadingProps;
   readonly itemLabels: ItemLabels;
-};
-
-export const isItemValueDateObject = (
-  itemValue: BasicTypes | ObjectType | ArrayData,
-): itemValue is DateObject => {
-  return (
-    typeof itemValue === "object" &&
-    "day" in itemValue &&
-    "month" in itemValue &&
-    "year" in itemValue
-  );
 };
 
 const ArraySummaryDataItems = ({

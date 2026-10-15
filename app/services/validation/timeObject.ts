@@ -3,6 +3,7 @@ import { stringRequiredSchema } from "./stringRequired";
 import isTime from "validator/lib/isTime";
 import { translations } from "../translations/translations";
 import { toDate, type DateObject } from "./dateObject";
+import { type AllowedUserTypes } from "~/domains/userData";
 
 export const createSplitTimeSchema = () => {
   return z
@@ -68,3 +69,13 @@ export function dateAndTimeToTimestamp(date: DateObject, time: TimeObject) {
     toDate(date).setHours(Number(time.hour), Number(time.minute), 0, 0),
   ).getTime();
 }
+
+export const isItemValueTimeObject = (
+  itemValue: AllowedUserTypes,
+): itemValue is TimeObject => {
+  return (
+    typeof itemValue === "object" &&
+    "hour" in itemValue &&
+    "minute" in itemValue
+  );
+};

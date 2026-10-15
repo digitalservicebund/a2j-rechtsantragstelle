@@ -31,9 +31,17 @@ describe("validateCancelFlightReplacementPage", () => {
       z.validate(validatorCancelFlightReplacementPage, {
         ...mockData,
         annullierungErsatzverbindungFlugnummer: "",
-        annullierungErsatzverbindungAbflugsDatum: "",
+        annullierungErsatzverbindungAbflugsDatum: {
+          day: "",
+          month: "",
+          year: "",
+        },
         annullierungErsatzverbindungAbflugsZeit: "",
-        annullierungErsatzverbindungAnkunftsDatum: "",
+        annullierungErsatzverbindungAnkunftsDatum: {
+          day: "",
+          month: "",
+          year: "",
+        },
         annullierungErsatzverbindungAnkunftsZeit: "",
       }),
     ).toBe(true);
@@ -43,12 +51,20 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
-      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAbflugsZeit: {
         hour: "14",
         minute: "00",
       },
-      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
@@ -71,7 +87,11 @@ describe("validateCancelFlightReplacementPage", () => {
         year: "2024",
       },
       annullierungErsatzverbindungAbflugsZeit: "",
-      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
@@ -88,9 +108,17 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
-      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAbflugsZeit: "",
-      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAnkunftsZeit: {
         hour: "14",
         minute: "00",
@@ -110,7 +138,11 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "",
-      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAbflugsZeit: "",
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "01",
@@ -133,9 +165,17 @@ describe("validateCancelFlightReplacementPage", () => {
     const result = validatorCancelFlightReplacementPage.safeParse({
       ...mockData,
       annullierungErsatzverbindungFlugnummer: "AB1234",
-      annullierungErsatzverbindungAbflugsDatum: "",
+      annullierungErsatzverbindungAbflugsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAbflugsZeit: "",
-      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
@@ -158,7 +198,11 @@ describe("validateCancelFlightReplacementPage", () => {
         year: "2024",
       },
       annullierungErsatzverbindungAbflugsZeit: "",
-      annullierungErsatzverbindungAnkunftsDatum: "",
+      annullierungErsatzverbindungAnkunftsDatum: {
+        day: "",
+        month: "",
+        year: "",
+      },
       annullierungErsatzverbindungAnkunftsZeit: "",
     });
 
