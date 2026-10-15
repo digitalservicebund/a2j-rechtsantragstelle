@@ -1,7 +1,7 @@
 import { type Page, expect } from "@playwright/test";
 import type { FluggastrechteFormular } from "tests/e2e/domains/fluggastrechte/formular/FluggastrechteFormular";
 import { expectPageToBeAccessible } from "tests/e2e/util/expectPageToBeAccessible";
-import { today, toGermanDateString } from "~/util/date";
+import { today } from "~/util/date";
 
 export async function startFluggastrechteFormular(
   page: Page,
@@ -114,8 +114,16 @@ export async function startFluggastrechteFormular(
   // /fluggastrechte/formular/flugdaten/anderer-flug-ankunft
   await formular.fillInput("ersatzFlugnummer", "BCA4321");
   await formular.fillInput(
-    "ersatzFlugAnkunftsDatum",
-    toGermanDateString(today()),
+    "ersatzFlugAnkunftsDatum.day",
+    today().getDate().toString(),
+  );
+  await formular.fillInput(
+    "ersatzFlugAnkunftsDatum.month",
+    (today().getUTCMonth() + 1).toString(),
+  );
+  await formular.fillInput(
+    "ersatzFlugAnkunftsDatum.year",
+    today().getUTCFullYear().toString(),
   );
   await formular.fillInput("ersatzFlugAnkunftsZeit.hour", "15");
   await formular.fillInput("ersatzFlugAnkunftsZeit.minute", "10");
