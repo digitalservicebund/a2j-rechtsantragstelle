@@ -8,6 +8,7 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { beklagteParteiPages } from "./beklagte-partei/pages";
+import { hauptUndNebenantraegePages } from "./hauptUndNebenantraege/pages";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -81,6 +82,7 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
+  ...hauptUndNebenantraegePages,
   downloadKlage: {
     stepId: "/klage-herunterladen",
   },
