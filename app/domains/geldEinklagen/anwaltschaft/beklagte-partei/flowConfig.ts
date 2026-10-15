@@ -2,5 +2,5 @@ import { type GeldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anw
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const beklagteParteiFlowConfig = {
-  beklagteUebersicht: "downloadKlage", // TODO: Wire up to Prozessbevollmächtigte
+  beklagteUebersicht: "prozessualeAusfuehrungen", // TODO: Wire up to Prozessbevollmächtigte
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
