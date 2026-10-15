@@ -7,12 +7,13 @@ const sonstigeNebenUndProzessantraegeArraySchema = z.array(
   z.object({
     internesSchlagwort: stringOptionalSchema,
     antrag: stringRequiredMaxSchema(),
-  })
+  }),
 );
 
 export const hauptUndNebenantraegePages = {
   sonstigeNebenUndProzessantraegeUebersicht: {
-    stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht",
+    stepId:
+      "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht",
     arraySummary: {
       name: "sonstigeNebenUndProzessantraege",
       schema: sonstigeNebenUndProzessantraegeArraySchema,
@@ -20,13 +21,17 @@ export const hauptUndNebenantraegePages = {
     },
   },
   sonstigeNebenUndProzessantraegeAntrag: {
-    stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag/#/daten",
+    stepId:
+      "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "sonstigeNebenUndProzessantraege#internesSchlagwort": sonstigeNebenUndProzessantraegeArraySchema.element.shape.internesSchlagwort,
-      "sonstigeNebenUndProzessantraege#antrag": sonstigeNebenUndProzessantraegeArraySchema.element.shape.antrag,
-    }
-  }
-
+      "sonstigeNebenUndProzessantraege#internesSchlagwort":
+        sonstigeNebenUndProzessantraegeArraySchema.element.shape
+          .internesSchlagwort,
+      "sonstigeNebenUndProzessantraege#antrag":
+        sonstigeNebenUndProzessantraegeArraySchema.element.shape.antrag,
+    },
+  },
 } as const satisfies PagesConfig;
 
 export type HauptUndNebenantraegePages = typeof hauptUndNebenantraegePages;
