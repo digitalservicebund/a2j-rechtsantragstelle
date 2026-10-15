@@ -16,16 +16,16 @@ const HauptUndNebenantraegeUebersicht = () => {
     return null;
   }
 
-  const userDataGeldEinklagen =
-    userData as GeldEinklagenAnwaltschaftUserData;
+  const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
-//   const sonstigeNebenUndProzessantraegeContextValue = useMemo(
-//     () => ({ sonstigeNebenUndProzessantraege: userDataGeldEinklagen.sonstigeNebenUndProzessantraege ?? [] }),
-//     [userDataGeldEinklagen.sonstigeNebenUndProzessantraege],
-//   );
+  //   const sonstigeNebenUndProzessantraegeContextValue = useMemo(
+  //     () => ({ sonstigeNebenUndProzessantraege: userDataGeldEinklagen.sonstigeNebenUndProzessantraege ?? [] }),
+  //     [userDataGeldEinklagen.sonstigeNebenUndProzessantraege],
+  //   );
 
-
-  const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.sonstigeNebenUndProzessantraege)
+  const nextItemIndex = arrayIsNonEmpty(
+    userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
+  )
     ? (userDataGeldEinklagen.sonstigeNebenUndProzessantraege?.length ?? 0)
     : 0;
 

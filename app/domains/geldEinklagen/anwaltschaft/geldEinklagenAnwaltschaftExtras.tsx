@@ -16,7 +16,8 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           {loaderData.stepId === "/klagende-partei/klagende/uebersicht" && (
             <BegruendungBeschreibungUebersicht /> // TODO: replace w Anwaltschaft component
           )}
-          {loaderData.stepId === "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht" && (
+          {loaderData.stepId ===
+            "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht" && (
             <HauptUndNebenantraegeUebersicht />
           )}
         </>

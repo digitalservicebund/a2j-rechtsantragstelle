@@ -8,8 +8,9 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "sonstigeNebenUndProzessantraegeAntrag",
     },
     {
-      target: "downloadKlage"
-    }
+      target: "downloadKlage",
+    },
   ],
-  sonstigeNebenUndProzessantraegeAntrag: "sonstigeNebenUndProzessantraegeUebersicht",
+  sonstigeNebenUndProzessantraegeAntrag:
+    "sonstigeNebenUndProzessantraegeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

@@ -39,7 +39,7 @@ export function parsePathname(pathname: string) {
     "/erbausschlagung/anfrage",
     "/beratungshilfe/antrag",
     "/fluggastrechte/formular",
-    "/geld-einklagen/anwaltschaft"
+    "/geld-einklagen/anwaltschaft",
   ];
   const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
   const stepId = pathname
