@@ -114,6 +114,20 @@ describe("integration testing helper functions", () => {
       expect(allPossibleStates).toEqual(["/state1", "/state2/state3"]);
     });
 
+    it("should return result pages without the ergebnis prefix, as stored in Strapi", () => {
+      const allPossibleStates = getAllPossibleStates(
+        flowWithPages(["/ergebnis/auslandsbezug"]),
+      );
+      expect(allPossibleStates).toEqual(["/auslandsbezug"]);
+    });
+
+    it("should return array pages without wildcards, as stored in Strapi", () => {
+      const allPossibleStates = getAllPossibleStates(
+        flowWithPages(["/elternteile/#/kinder/#/daten"]),
+      );
+      expect(allPossibleStates).toEqual(["/elternteile/kinder/daten"]);
+    });
+
     it.each(ignoreList)("should skip state %s", (ignoredPath: string) => {
       const allPossibleStates = getAllPossibleStates(
         flowWithPages([`/${ignoredPath}`]),

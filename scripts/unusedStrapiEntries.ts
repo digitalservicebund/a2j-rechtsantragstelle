@@ -7,6 +7,7 @@ import {
   type StrapiSchemasOutput,
   type StrapiSchemas,
 } from "~/services/cms/schemas";
+import { toCmsStepId } from "~/services/cms/toCmsStepId";
 const contentFilePath = "./content.json";
 
 type MinimalPage = {
@@ -64,7 +65,7 @@ export default async function unusedStrapiEntry() {
     const allUrlsFromFlows = Object.entries(flows).flatMap(
       ([flowId, { newEngineConfig }]) =>
         Object.values(newEngineConfig?.pages ?? {}).map(
-          (page) => `${flowId}${page.stepId}`,
+          (page) => `${flowId}${toCmsStepId(page.stepId)}`,
         ),
     );
 
