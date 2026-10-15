@@ -17,5 +17,3 @@ export const beklagteParteiPages = {
     stepId: "/beklagte-partei/beklagte/organisation",
   },
 } as const satisfies PagesConfig;
-
-export type BeklagteParteiPages = typeof beklagteParteiPages;

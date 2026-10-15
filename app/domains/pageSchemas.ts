@@ -190,7 +190,7 @@ export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
 
 export type PagesConfig = Record<string, PageConfig>;
 
-export type FieldValueChangeHandlerProps = {
+type FieldValueChangeHandlerProps = {
   value: AllowedUserTypes;
   originalValue: AllowedUserTypes;
   controlledField: FieldApi<any>;

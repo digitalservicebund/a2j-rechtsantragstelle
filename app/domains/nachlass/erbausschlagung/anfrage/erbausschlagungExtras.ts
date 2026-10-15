@@ -1,5 +1,5 @@
-import { LoaderExtras } from "~/services/flow/server/loaderExtras";
-import { SummaryItem } from "~/services/summary/types";
+import type { LoaderExtras } from "~/services/flow/server/loaderExtras";
+import type { SummaryItem } from "~/services/summary/types";
 
 function kindLabel(sections: SummaryItem[]): SummaryItem[] {
   return sections.map((section) => {
