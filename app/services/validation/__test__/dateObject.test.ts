@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { createSplitDateSchema, toDate, toDateObject } from "../dateObject";
+import {
+  createSplitDateSchema,
+  createSplitDateSchemaOptional,
+  toDate,
+  toDateObject,
+} from "../dateObject";
 
 describe("createSplitDateSchema", () => {
   describe("success cases", () => {
@@ -174,6 +179,49 @@ describe("createSplitDateSchema", () => {
       },
     );
     expect(actual).toBe(false);
+  });
+});
+
+describe("createSplitDateSchemaOptional", () => {
+  test("all fields empty strings succeeds", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "",
+      month: "",
+      year: "",
+    });
+    expect(actual).toEqual({
+      data: { day: "", month: "", year: "" },
+      success: true,
+    });
+  });
+
+  test("all fields missing succeeds", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({});
+    expect(actual.success).toBe(true);
+  });
+
+  test("valid full date succeeds and pads values", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "1",
+      month: "3",
+      year: "2023",
+    });
+    expect(actual).toEqual({
+      data: { day: "01", month: "03", year: "2023" },
+      success: true,
+    });
+  });
+
+  test("partially filled date fails with invalid date error", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "1",
+      month: "",
+      year: "2023",
+    });
+    expect(actual.success).toBe(false);
+
+    const issue = actual.error?.issues.find((i) => i.path.length === 0);
+    expect(issue?.message).toBe("Ungültiges Datum");
   });
 });
 

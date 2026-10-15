@@ -274,7 +274,11 @@ describe("F_besitz", () => {
             art: "befristet",
             eigentuemer: "myselfAndSomeoneElse",
             wert: "10000",
-            auszahlungdatum: "01.01.2000",
+            auszahlungdatum: {
+              day: "01",
+              month: "01",
+              year: "2000",
+            },
             befristetArt: "fixedDepositAccount",
             verwendungszweck: "zweck",
           },

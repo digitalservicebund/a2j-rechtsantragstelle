@@ -10,6 +10,7 @@ import type {
   ratenZahlungArraySchema,
   versicherungenArraySchema,
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/ausgaben/pages";
+import { toDateString } from "~/services/validation/dateObject";
 
 type Ratenzahlung = z.infer<typeof ratenZahlungArraySchema.element>;
 type SonstigeAusgabe = z.infer<typeof sonstigeZahlungArraySchema.element>;
@@ -44,7 +45,7 @@ const mapRatenzahlungAndSonstigeAusgabeToZahlungsverpflichtung = (
   description:
     `${ratenzahlungOrSonstigeAusgabe.art}, ${ratenzahlungOrSonstigeAusgabe.zahlungsempfaenger}` +
     ("laufzeitende" in ratenzahlungOrSonstigeAusgabe
-      ? `, bis ${ratenzahlungOrSonstigeAusgabe.laufzeitende}`
+      ? `, bis ${toDateString(ratenzahlungOrSonstigeAusgabe.laufzeitende)}`
       : ""),
   restschuld:
     "restschuld" in ratenzahlungOrSonstigeAusgabe
@@ -107,7 +108,7 @@ const pushRatenzahlungenAndSonstigeAusgabenToAttachment = (
     if ("laufzeitende" in zahlung)
       attachment.push({
         title: "Laufzeitende",
-        text: zahlung.laufzeitende,
+        text: toDateString(zahlung.laufzeitende),
       });
   });
 };
