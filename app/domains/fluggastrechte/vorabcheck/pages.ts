@@ -21,186 +21,186 @@ export const ankuendigungSchema = z.enum([
 
 export const fluggastrechteVorabcheckPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   bereich: {
-    stepId: "bereich",
+    stepId: "/bereich",
     pageSchema: {
       bereich: fluggastBereichSchema,
     },
   },
   verspaetung: {
-    stepId: "verspaetung",
+    stepId: "/verspaetung",
     pageSchema: { verspaetung: YesNoAnswer },
   },
   ausgleich: {
-    stepId: "ausgleich",
+    stepId: "/ausgleich",
     pageSchema: { ausgleich: YesNoAnswer },
   },
   gruende: {
-    stepId: "gruende",
+    stepId: "/gruende",
     pageSchema: { gruende: YesNoAnswer },
   },
   ankuendigung: {
-    stepId: "ankuendigung",
+    stepId: "/ankuendigung",
     pageSchema: {
       ankuendigung: ankuendigungSchema,
     },
   },
   ersatzflug: {
-    stepId: "ersatzflug",
+    stepId: "/ersatzflug",
     pageSchema: { ersatzflug: YesNoAnswer },
   },
   ausgleichAngenommen: {
-    stepId: "ausgleich-angenommen",
+    stepId: "/ausgleich-angenommen",
     pageSchema: { ausgleichAngenommen: YesNoAnswer },
   },
   "ausgleich-angenommen-info": {
-    stepId: "ausgleich-angenommen-info",
+    stepId: "/ausgleich-angenommen-info",
   },
   "gruende-hinweis": {
-    stepId: "gruende-hinweis",
+    stepId: "/gruende-hinweis",
   },
   verjaehrung: {
-    stepId: "verjaehrung",
+    stepId: "/verjaehrung",
     pageSchema: { verjaehrung: YesNoAnswer },
   },
   "vertretbare-gruende-annullierung": {
-    stepId: "vertretbare-gruende-annullierung",
+    stepId: "/vertretbare-gruende-annullierung",
     pageSchema: { vertretbareGruendeAnnullierung: YesNoAnswer },
   },
   flughaefen: {
-    stepId: "flughaefen",
+    stepId: "/flughaefen",
     pageSchema: {
       startAirport: autoSuggestSchema(airportSchema)("airports"),
       endAirport: autoSuggestSchema(airportSchema)("airports"),
     },
   },
   fluggesellschaft: {
-    stepId: "fluggesellschaft",
+    stepId: "/fluggesellschaft",
     pageSchema: {
       fluggesellschaft: autoSuggestSchema(airlineSchema)("airlines"),
     },
   },
   checkin: {
-    stepId: "checkin",
+    stepId: "/checkin",
     pageSchema: { checkin: YesNoAnswer },
   },
   "checkin-nicht-befoerderung": {
-    stepId: "checkin-nicht-befoerderung",
+    stepId: "/checkin-nicht-befoerderung",
     pageSchema: { checkin: YesNoAnswer },
   },
   "vertretbare-gruende": {
-    stepId: "vertretbare-gruende",
+    stepId: "/vertretbare-gruende",
     pageSchema: { vertretbareGruende: YesNoAnswer },
   },
   "vertretbare-gruende-info": {
-    stepId: "vertretbare-gruende-info",
+    stepId: "/vertretbare-gruende-info",
   },
   kostenlos: {
-    stepId: "kostenlos",
+    stepId: "/kostenlos",
     pageSchema: { kostenlos: YesNoAnswer },
   },
   rabatt: {
-    stepId: "rabatt",
+    stepId: "/rabatt",
     pageSchema: { rabatt: YesNoAnswer },
   },
   buchung: {
-    stepId: "buchung",
+    stepId: "/buchung",
     pageSchema: { buchung: YesNoAnswer },
   },
   abtretung: {
-    stepId: "abtretung",
+    stepId: "/abtretung",
     pageSchema: { abtretung: YesNoAnswer },
   },
   entschaedigung: {
-    stepId: "entschaedigung",
+    stepId: "/entschaedigung",
     pageSchema: { entschaedigung: YesNoAnswer },
   },
   gericht: {
-    stepId: "gericht",
+    stepId: "/gericht",
     pageSchema: { gericht: YesNoAnswer },
   },
   "ersatzflug-starten-eine-stunde": {
-    stepId: "ersatzflug-starten-eine-stunde",
+    stepId: "/ersatzflug-starten-eine-stunde",
     pageSchema: { ersatzflugStartenEinStunde: YesNoAnswer },
   },
   "ersatzflug-starten-zwei-stunden": {
-    stepId: "ersatzflug-starten-zwei-stunden",
+    stepId: "/ersatzflug-starten-zwei-stunden",
     pageSchema: { ersatzflugStartenZweiStunden: YesNoAnswer },
   },
   "ersatzflug-landen-zwei-stunden": {
-    stepId: "ersatzflug-landen-zwei-stunden",
+    stepId: "/ersatzflug-landen-zwei-stunden",
     pageSchema: { ersatzflugLandenZweiStunden: YesNoAnswer },
   },
   "ersatzflug-landen-vier-stunden": {
-    stepId: "ersatzflug-landen-vier-stunden",
+    stepId: "/ersatzflug-landen-vier-stunden",
     pageSchema: { ersatzflugLandenVierStunden: YesNoAnswer },
   },
   "bereich-abbruch": {
-    stepId: "ergebnis/bereich-abbruch",
+    stepId: "/ergebnis/bereich-abbruch",
   },
   "verspaetung-abbruch": {
-    stepId: "ergebnis/verspaetung-abbruch",
+    stepId: "/ergebnis/verspaetung-abbruch",
   },
   "checkin-abbruch": {
-    stepId: "ergebnis/checkin-abbruch",
+    stepId: "/ergebnis/checkin-abbruch",
   },
   "erfolg-kontakt": {
-    stepId: "ergebnis/erfolg-kontakt",
+    stepId: "/ergebnis/erfolg-kontakt",
   },
   "kostenlos-abbruch": {
-    stepId: "ergebnis/kostenlos-abbruch",
+    stepId: "/ergebnis/kostenlos-abbruch",
   },
   "rabatt-abbruch": {
-    stepId: "ergebnis/rabatt-abbruch",
+    stepId: "/ergebnis/rabatt-abbruch",
   },
   "buchung-abbruch": {
-    stepId: "ergebnis/buchung-abbruch",
+    stepId: "/ergebnis/buchung-abbruch",
   },
   erfolg: {
-    stepId: "ergebnis/erfolg",
+    stepId: "/ergebnis/erfolg",
   },
   "flughaefen-abbruch": {
-    stepId: "ergebnis/flughaefen-abbruch",
+    stepId: "/ergebnis/flughaefen-abbruch",
   },
   "abtretung-abbruch": {
-    stepId: "ergebnis/abtretung-abbruch",
+    stepId: "/ergebnis/abtretung-abbruch",
   },
   "fluggesellschaft-abbruch": {
-    stepId: "ergebnis/fluggesellschaft-abbruch",
+    stepId: "/ergebnis/fluggesellschaft-abbruch",
   },
   "flughaefen-entfernung-abbruch": {
-    stepId: "ergebnis/flughaefen-entfernung-abbruch",
+    stepId: "/ergebnis/flughaefen-entfernung-abbruch",
   },
   "verjaehrung-abbruch": {
-    stepId: "ergebnis/verjaehrung-abbruch",
+    stepId: "/ergebnis/verjaehrung-abbruch",
   },
   "erfolg-gericht": {
-    stepId: "ergebnis/erfolg-gericht",
+    stepId: "/ergebnis/erfolg-gericht",
   },
   "ankuendigung-abbruch": {
-    stepId: "ergebnis/ankuendigung-abbruch",
+    stepId: "/ergebnis/ankuendigung-abbruch",
   },
   "ersatzflug-starten-eine-landen-zwei-abbruch": {
-    stepId: "ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
+    stepId: "/ergebnis/ersatzflug-starten-eine-landen-zwei-abbruch",
   },
   "ersatzflug-starten-zwei-landen-vier-abbruch": {
-    stepId: "ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
+    stepId: "/ergebnis/ersatzflug-starten-zwei-landen-vier-abbruch",
   },
   "fluggesellschaft-nicht-eu-abbruch": {
-    stepId: "ergebnis/fluggesellschaft-nicht-eu-abbruch",
+    stepId: "/ergebnis/fluggesellschaft-nicht-eu-abbruch",
   },
   "erfolg-eu": {
-    stepId: "ergebnis/erfolg-eu",
+    stepId: "/ergebnis/erfolg-eu",
   },
   "fluggesellschaft-abbruch-eu": {
-    stepId: "ergebnis/fluggesellschaft-abbruch-eu",
+    stepId: "/ergebnis/fluggesellschaft-abbruch-eu",
   },
   "erfolg-analog": {
-    stepId: "ergebnis/erfolg-analog",
+    stepId: "/ergebnis/erfolg-analog",
   },
   "erfolg-per-post-klagen": {
-    stepId: "ergebnis/erfolg-per-post-klagen",
+    stepId: "/ergebnis/erfolg-per-post-klagen",
   },
 } as const satisfies PagesConfig;

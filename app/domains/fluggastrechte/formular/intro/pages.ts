@@ -1,9 +1,9 @@
 import type { PagesConfig } from "~/domains/pageSchemas";
 export const fluggastrechteIntroPages = {
   intro: {
-    stepId: "intro/start",
+    stepId: "/intro/start",
   },
   redirectVorabcheckErgebnis: {
-    stepId: "intro/redirect-vorabcheck-ergebnis",
+    stepId: "/intro/redirect-vorabcheck-ergebnis",
   },
 } satisfies PagesConfig;

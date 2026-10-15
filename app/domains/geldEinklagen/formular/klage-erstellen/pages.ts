@@ -115,16 +115,16 @@ export const abschnitteArray = z.array(
 
 export const geldEinklagenKlageErstellenPages = {
   klageErstellenIntroStart: {
-    stepId: "klage-erstellen/intro/start",
+    stepId: "/klage-erstellen/intro/start",
   },
   streitWertKostenGerichtskostenvorschuss: {
-    stepId: "klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
+    stepId: "/klage-erstellen/streitwert-kosten/gerichtskostenvorschuss",
   },
   streitwertKostenWeitereKosten: {
-    stepId: "klage-erstellen/streitwert-kosten/weitere-kosten",
+    stepId: "/klage-erstellen/streitwert-kosten/weitere-kosten",
   },
   klagendePersonKontaktdaten: {
-    stepId: "klage-erstellen/klagende-person/kontaktdaten",
+    stepId: "/klage-erstellen/klagende-person/kontaktdaten",
     pageSchema: {
       klagendePersonAnrede: schemaOrEmptyString(
         z.enum(["herr", "frau", "none"]),
@@ -153,7 +153,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   klagendePersonAnwaltschaft: {
-    stepId: "klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
+    stepId: "/klage-erstellen/klagende-person/kontaktdaten-anwaltschaft",
     pageSchema: {
       klagendePersonAnwaltschaftWerProzessBevollmaechtigt: z.enum([
         "berufsausuebungsgesellschaft",
@@ -184,7 +184,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   beklagtePersonMenschen: {
-    stepId: "klage-erstellen/beklagte-person/mensch",
+    stepId: "/klage-erstellen/beklagte-person/mensch",
     pageSchema: {
       beklagteAnrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
       beklagteTitle: schemaOrEmptyString(z.enum(["none", "dr"])),
@@ -200,7 +200,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   beklagtePersonOrganisation: {
-    stepId: "klage-erstellen/beklagte-person/organisation",
+    stepId: "/klage-erstellen/beklagte-person/organisation",
     pageSchema: {
       beklagteNameOrganisation: stringRequiredSchema.check(datatypeD),
       ...sharedBeklagteAddress,
@@ -223,7 +223,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   forderungGesamtbetrag: {
-    stepId: "klage-erstellen/forderung/gesamtbetrag",
+    stepId: "/klage-erstellen/forderung/gesamtbetrag",
     pageSchema: {
       forderungGesamtbetrag: buildMoneyValidationSchema({
         min: 1,
@@ -232,10 +232,10 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   begruendungEinfuehrungStart: {
-    stepId: "klage-erstellen/begruendung/einfuehrung/start",
+    stepId: "/klage-erstellen/begruendung/einfuehrung/start",
   },
   begruendungBeschreibungUebersicht: {
-    stepId: "klage-erstellen/begruendung/beschreibung/uebersicht",
+    stepId: "/klage-erstellen/begruendung/beschreibung/uebersicht",
     arraySummary: {
       name: "abschnitte",
       schema: abschnitteArray,
@@ -244,7 +244,7 @@ export const geldEinklagenKlageErstellenPages = {
   },
   begruendungBeschreibungAbschnitte: {
     shouldCollapseIntoParentNavItem: true,
-    stepId: "klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
+    stepId: "/klage-erstellen/begruendung/beschreibung/abschnitte/#/daten",
     pageSchema: {
       "abschnitte#beschreibung": abschnitteArray.element.shape.beschreibung,
       "abschnitte#personIdAsBeklagte":
@@ -256,7 +256,7 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisDocumentWiederverwenden: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
+      "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-dokument-wiederverwenden",
     pageSchema: {
       "abschnitte#reuseBeweiseDokument":
         abschnitteArray.element.shape.reuseBeweiseDokument,
@@ -265,7 +265,7 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisPersonWiederverwenden: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
+      "/klage-erstellen/begruendung/beschreibung/abschnitte/#/beweis-person-wiederverwenden",
     pageSchema: {
       "abschnitte#reuseBeweisePerson":
         abschnitteArray.element.shape.reuseBeweisePerson,
@@ -274,7 +274,7 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisDocument: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten",
+      "/klage-erstellen/begruendung/beschreibung/abschnitte/#/dokumenten/#/daten",
     pageSchema: {
       "abschnitte#dokumenten#beschreibung":
         beweiseDokumentenArray.element.shape.beschreibung,
@@ -285,7 +285,7 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisPersonAuswahl: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl",
+      "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/auswahl",
     pageSchema: {
       "abschnitte#personen#personAuswahl": z.enum([
         "klagende",
@@ -302,7 +302,7 @@ export const geldEinklagenKlageErstellenPages = {
   begruendungBeschreibungAbschnitteBeweisPerson: {
     shouldCollapseIntoParentNavItem: true,
     stepId:
-      "klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten",
+      "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten",
     pageSchema: {
       "abschnitte#personen#anrede": beweisePersonenSchema.shape.anrede,
       "abschnitte#personen#title": beweisePersonenSchema.shape.title,
@@ -321,10 +321,10 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   begruendungBeschreibungWarnung: {
-    stepId: "klage-erstellen/begruendung/beschreibung/warnung",
+    stepId: "/klage-erstellen/begruendung/beschreibung/warnung",
   },
   prozessfuehrungAnwaltskosten: {
-    stepId: "klage-erstellen/prozessfuehrung/anwaltskosten",
+    stepId: "/klage-erstellen/prozessfuehrung/anwaltskosten",
     pageSchema: {
       anwaltskosten: buildOptionalMoneyValidationSchema({
         min: 1,
@@ -332,42 +332,42 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   prozessfuehrungProzesszinsen: {
-    stepId: "klage-erstellen/prozessfuehrung/prozesszinsen",
+    stepId: "/klage-erstellen/prozessfuehrung/prozesszinsen",
     pageSchema: {
       prozesszinsen: YesNoAnswer,
     },
   },
   prozessfuehrungStreitbeilegung: {
-    stepId: "klage-erstellen/prozessfuehrung/streitbeilegung",
+    stepId: "/klage-erstellen/prozessfuehrung/streitbeilegung",
     pageSchema: {
       streitbeilegung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungStreitbeilegungGruende: {
-    stepId: "klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
+    stepId: "/klage-erstellen/prozessfuehrung/streitbeilegung-gruende",
     pageSchema: {
       streitbeilegungGruende: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungMuendlicheVerhandlung: {
-    stepId: "klage-erstellen/prozessfuehrung/muendliche-verhandlung",
+    stepId: "/klage-erstellen/prozessfuehrung/muendliche-verhandlung",
     pageSchema: {
       muendlicheVerhandlung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungVideoVerhandlung: {
-    stepId: "klage-erstellen/prozessfuehrung/videoverhandlung",
+    stepId: "/klage-erstellen/prozessfuehrung/videoverhandlung",
     pageSchema: { videoVerhandlung: z.enum(["yes", "no", "noSpecification"]) },
   },
   prozessfuehrungVersaeumnisurteil: {
-    stepId: "klage-erstellen/prozessfuehrung/versaeumnisurteil",
+    stepId: "/klage-erstellen/prozessfuehrung/versaeumnisurteil",
     pageSchema: { versaeumnisurteil: YesNoAnswer },
   },
   prozessfuehrungZahlungNachKlageeinreichung: {
-    stepId: "klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
+    stepId: "/klage-erstellen/prozessfuehrung/zahlung-nach-klageeinreichung",
   },
   rechtlicherZusatzWeitereAntraege: {
-    stepId: "klage-erstellen/rechtlicher-zusatz/weitere-antraege",
+    stepId: "/klage-erstellen/rechtlicher-zusatz/weitere-antraege",
     pageSchema: {
       weitereAntraege: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
@@ -375,7 +375,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   rechtlicherZusatzRechtlicheWuerdigung: {
-    stepId: "klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
+    stepId: "/klage-erstellen/rechtlicher-zusatz/rechtliche-wuerdigung",
     pageSchema: {
       rechtlicheWuerdigung: schemaOrEmptyString(
         stringRequiredMaxSchema({ max: TEXTAREA_MAX_LENGTH }),
@@ -383,7 +383,7 @@ export const geldEinklagenKlageErstellenPages = {
     },
   },
   zusammenfassungUebersicht: {
-    stepId: "klage-erstellen/zusammenfassung/uebersicht",
+    stepId: "/klage-erstellen/zusammenfassung/uebersicht",
   },
 } as const satisfies PagesConfig;
 

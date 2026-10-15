@@ -11,7 +11,7 @@ export const beratungshilfeAntragPages = {
   start: {
     // The old XState config wrapped this in a compound "start" state, so the
     // page's real (CMS) URL is /start/start. Kept as-is to match existing content.
-    stepId: "start/start",
+    stepId: "/start/start",
   },
   ...berHAntragGrundvoraussetzungenPages,
   ...berHAntragAnwaltlicheVertretungPages,

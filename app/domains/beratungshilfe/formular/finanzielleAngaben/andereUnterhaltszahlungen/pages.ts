@@ -33,13 +33,13 @@ const unterhaltszahlungenArraySchema = z
 
 export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/frage",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     pageSchema: {
       hasWeitereUnterhaltszahlungen: YesNoAnswer,
     },
   },
   andereUnterhaltszahlungenUebersicht: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "unterhaltszahlungen",
@@ -48,11 +48,11 @@ export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
     },
   },
   andereUnterhaltszahlungenWarnung: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
   andereUnterhaltszahlungenPerson: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "unterhaltszahlungen#familyRelationship":

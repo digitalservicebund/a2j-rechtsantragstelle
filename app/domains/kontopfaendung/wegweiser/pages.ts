@@ -5,82 +5,82 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungWegweiserPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   kontopfaendung: {
-    stepId: "kontopfaendung",
+    stepId: "/kontopfaendung",
     pageSchema: {
       hasKontopfaendung: YesNoAnswer,
     },
   },
   ergebnisKeineKontopfaendung: {
-    stepId: "ergebnis/keine-kontopfaendung",
+    stepId: "/ergebnis/keine-kontopfaendung",
   },
   pKonto: {
-    stepId: "p-konto",
+    stepId: "/p-konto",
     pageSchema: {
       hasPKonto: z.enum(["no", "yes", "nichtAktiv", "nichtEingerichtet"]),
     },
   },
   zwischenseiteUnterhalt: {
-    stepId: "zwischenseite-unterhalt",
+    stepId: "/zwischenseite-unterhalt",
   },
   pKontoProbleme: {
-    stepId: "p-konto-probleme",
+    stepId: "/p-konto-probleme",
   },
   kinder: {
-    stepId: "kinder",
+    stepId: "/kinder",
     pageSchema: { hasKinder: YesNoAnswer },
   },
   kinderWohnenZusammen: {
-    stepId: "kinder-wohnen-zusammen",
+    stepId: "/kinder-wohnen-zusammen",
     pageSchema: {
       kinderWohnenZusammen: z.enum(["no", "yes", "teilweise"]),
     },
   },
   kinderUnterhalt: {
-    stepId: "kinder-unterhalt",
+    stepId: "/kinder-unterhalt",
     pageSchema: { kinderUnterhalt: YesNoAnswer },
   },
   partner: {
-    stepId: "partner",
+    stepId: "/partner",
     pageSchema: {
       verheiratet: z.enum(["no", "yes", "geschieden", "verwitwet"]),
     },
   },
   partnerWohnenZusammen: {
-    stepId: "partner-wohnen-zusammen",
+    stepId: "/partner-wohnen-zusammen",
     pageSchema: {
       partnerWohnenZusammen: YesNoAnswer,
     },
   },
   partnerUnterhalt: {
-    stepId: "partner-unterhalt",
+    stepId: "/partner-unterhalt",
     pageSchema: { partnerUnterhalt: YesNoAnswer },
   },
   zwischenseiteEinkuenfte: {
-    stepId: "zwischenseite-einkuenfte",
+    stepId: "/zwischenseite-einkuenfte",
   },
   arbeit: {
-    stepId: "arbeit",
+    stepId: "/arbeit",
     pageSchema: { hasArbeit: YesNoAnswer },
   },
   arbeitArt: {
-    stepId: "arbeit-art",
+    stepId: "/arbeit-art",
     pageSchema: {
       arbeitArt: z.enum(["angestellt", "selbstaendig", "beides"]),
     },
   },
   nachzahlungArbeitgeber: {
-    stepId: "nachzahlung-arbeitgeber",
+    stepId: "/nachzahlung-arbeitgeber",
     pageSchema: { nachzahlungArbeitgeber: YesNoAnswer },
   },
   hoeheNachzahlungArbeitgeber: {
-    stepId: "hoehe-nachzahlung-arbeitgeber",
+    stepId: "/hoehe-nachzahlung-arbeitgeber",
     pageSchema: { arbeitgeberNachzahlungGreaterThan500: YesNoAnswer },
   },
   einmalzahlungArbeitgeber: {
-    stepId: "einmalzahlung-arbeitgeber",
+    stepId: "/einmalzahlung-arbeitgeber",
     pageSchema: {
       zahlungArbeitgeber: exclusiveCheckboxesSchema([
         "urlaubsgeld",
@@ -93,7 +93,7 @@ export const kontopfaendungWegweiserPages = {
     },
   },
   sozialleistungen: {
-    stepId: "sozialleistungen",
+    stepId: "/sozialleistungen",
     pageSchema: {
       hasSozialleistungen: z.enum([
         "buergergeld",
@@ -104,56 +104,56 @@ export const kontopfaendungWegweiserPages = {
     },
   },
   sozialleistungNachzahlung: {
-    stepId: "sozialleistung-nachzahlung",
+    stepId: "/sozialleistung-nachzahlung",
     pageSchema: { hasSozialleistungNachzahlung: YesNoAnswer },
   },
   sozialleistungenEinmalzahlung: {
-    stepId: "sozialleistungen-einmalzahlung",
+    stepId: "/sozialleistungen-einmalzahlung",
     pageSchema: {
       hasSozialleistungenEinmalzahlung: YesNoAnswer,
     },
   },
   pflegegeld: {
-    stepId: "pflegegeld",
+    stepId: "/pflegegeld",
     pageSchema: {
       hasPflegegeld: YesNoAnswer,
     },
   },
   wohngeld: {
-    stepId: "wohngeld",
+    stepId: "/wohngeld",
     pageSchema: {
       hasWohngeld: YesNoAnswer,
     },
   },
   wohngeldEmpfaenger: {
-    stepId: "wohngeld-empfaenger",
+    stepId: "/wohngeld-empfaenger",
     pageSchema: {
       wohngeld: z.enum(["selbst", "fremd"]),
     },
   },
   wohngeldNachzahlung: {
-    stepId: "wohngeld-nachzahlung",
+    stepId: "/wohngeld-nachzahlung",
     pageSchema: { hasWohngeldNachzahlung: YesNoAnswer },
   },
   kindergeld: {
-    stepId: "kindergeld",
+    stepId: "/kindergeld",
     pageSchema: {
       hasKindergeld: YesNoAnswer,
     },
   },
   kindergeldNachzahlung: {
-    stepId: "kindergeld-nachzahlung",
+    stepId: "/kindergeld-nachzahlung",
     pageSchema: {
       hasKindergeldNachzahlung: YesNoAnswer,
     },
   },
   rente: {
-    stepId: "rente",
+    stepId: "/rente",
     pageSchema: {
       hasRente: YesNoAnswer,
     },
   },
   ergebnisNaechsteSchritte: {
-    stepId: "ergebnis/naechste-schritte",
+    stepId: "/ergebnis/naechste-schritte",
   },
 } as const satisfies PagesConfig;

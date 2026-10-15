@@ -1,5 +1,4 @@
 import { type FieldApi } from "@rvf/react";
-import mapValues from "lodash/mapValues";
 import { type MaybePromise } from "p-map";
 import { type Dispatch, type SetStateAction } from "react";
 import { type z } from "zod";
@@ -11,7 +10,6 @@ import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nach
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
 import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
-import { type ArrayConfigurations } from "~/services/array";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
@@ -56,12 +54,8 @@ export const getAllPageSchemaByFlowId = (flowId: FlowId) => {
 export const getAllFieldsFromFlowId = (flowId: FlowId): FormFieldsMap => {
   const pagesConfig = pages[flowId];
   const fieldsMap: FormFieldsMap = {};
-  const normalizedPageConfigs = Object.values(pagesConfig).map((page) => ({
-    ...page,
-    stepId: page.stepId.startsWith("/") ? page.stepId : `/${page.stepId}`,
-  }));
 
-  for (const page of normalizedPageConfigs) {
+  for (const page of Object.values(pagesConfig)) {
     if (page.pageSchema) {
       fieldsMap[page.stepId] = Object.keys(page.pageSchema);
     }
@@ -75,13 +69,9 @@ export const getPageConfigOrArrayPageByPathname = (pathname: string) => {
   if (!flowId) return undefined;
 
   const { stepId } = parsePathname(pathname);
-  const stepIdWithoutLeadingSlash = stepId.slice(1);
   const pagesConfig = pages[flowId];
 
-  return Object.values(pagesConfig).find(
-    (entry) =>
-      entry.stepId === stepId || entry.stepId === stepIdWithoutLeadingSlash,
-  );
+  return Object.values(pagesConfig).find((entry) => entry.stepId === stepId);
 };
 
 export function getPageSchema(pathname: string) {
@@ -94,15 +84,6 @@ export function getReadOnlyFields(pathname: string) {
   return pageConfigOrArrayPage && "readonlyFields" in pageConfigOrArrayPage
     ? pageConfigOrArrayPage.readonlyFields
     : undefined;
-}
-
-export function xStateTargetsFromPagesConfig<T extends PagesConfig>(
-  pageSchema: T,
-) {
-  return mapValues(pageSchema, (v) => ({
-    absolute: "#" + v.stepId.replaceAll("/", "."),
-    relative: v.stepId.split("/").pop()!,
-  }));
 }
 
 export type PagesConfig = Record<string, PageConfig>;
@@ -174,36 +155,3 @@ type UnionToIntersection<U> = (
 export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
   UnionToIntersection<ExtractSchemas<T>>
 >;
-export function getRelevantPageSchemasForStepId(
-  flowId: FlowId,
-  stepId: string,
-): PagesConfig {
-  return Object.fromEntries(
-    Object.entries(pages[flowId] ?? {}).filter(([, pageConfig]) =>
-      pageConfig.stepId.startsWith(stepId.substring(1)),
-    ),
-  );
-}
-
-export const filterPageSchemasByReachableSteps =
-  <T extends PagesConfig>(
-    userData: UserDataFromPagesSchema<T>,
-    reachableSteps: string[],
-    arrayConfigurations?: ArrayConfigurations,
-  ) =>
-  (config: PageConfig) => {
-    if ("arrayPages" in config) {
-      const matchingArrayConfig = Object.values(arrayConfigurations ?? {}).find(
-        (arrayConfig) => arrayConfig.url.endsWith(config.stepId),
-      );
-      const statementKey =
-        matchingArrayConfig?.statementKey as keyof typeof userData;
-      return (
-        userData[statementKey] === "yes" ||
-        Boolean(matchingArrayConfig?.isArrayRelevant?.(userData as UserData))
-      );
-    }
-    return (
-      "pageSchema" in config && reachableSteps?.includes(`/${config.stepId}`)
-    );
-  };
