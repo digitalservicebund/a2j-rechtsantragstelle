@@ -29,7 +29,7 @@ const vertretungFields = {
 /**
  * Represents a party to a legal case, which can be either a natural person or an organization.
  */
-export const klageParteiSchema = z.union([
+const klageParteiSchema = z.union([
   z.object({
     ...adresseFields,
     ...personFields,

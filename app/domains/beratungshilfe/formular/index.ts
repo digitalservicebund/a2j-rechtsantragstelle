@@ -10,7 +10,6 @@ import {
   weiteresEinkommenStrings,
 } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
-import { beratungshilfeXstateConfig } from "./xstateConfig";
 import { beratungshilfeFormularFlowConfig } from "./flowConfig";
 import {
   geldAnlagenStrings,
@@ -20,7 +19,6 @@ import {
 
 export const beratungshilfeFormular = {
   flowType: "formFlow",
-  config: beratungshilfeXstateConfig,
   newEngineConfig: beratungshilfeFormularFlowConfig,
   metaConfiguration: {
     "/abgabe": { excludedFromValidation: true },

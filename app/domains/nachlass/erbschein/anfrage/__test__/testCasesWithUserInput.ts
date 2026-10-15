@@ -13,9 +13,7 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/__test__/testCasesWithUserInput";
 
 export const erbscheinAnfrageTestCases = {
-  xstateConfig: {
-    id: "/erbschein/anfrage",
-  },
+  flowId: "/erbschein/anfrage",
   newEngineConfig: erbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
   testcases: {
     datenverarbeitung: [

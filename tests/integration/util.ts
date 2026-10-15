@@ -3,6 +3,7 @@ import type { FlowId } from "~/domains/flowIds";
 import type { Flow } from "~/domains/flows.server";
 import { type FormFieldsMap } from "~/domains/pageSchemas";
 import { defaultLocale } from "~/services/cms/models/StrapiLocale";
+import { toCmsStepId } from "~/services/cms/toCmsStepId";
 import { flowPageSchemas } from "~/services/cms/schemas";
 
 const _flowPageSchemas = z.object(flowPageSchemas);
@@ -60,27 +61,14 @@ export function zodKeys<T extends z.ZodType | null | undefined>(
 }
 
 export function getAllPossibleStates(flow: Flow) {
-  const allPossibleStates: string[] = [];
+  const pages = flow.newEngineConfig?.pages ?? {};
 
-  function _getAllPossibleStates(
-    states: Flow["config"]["states"],
-    path: string,
-  ) {
-    for (const state in states) {
-      if (ignoreList.includes(state)) continue;
-      const stateString = `${path}/${state.replace(/^ergebnis\//, "")}`;
-      if (!states[state].initial) {
-        allPossibleStates.push(stateString);
-      }
-      if (states[state].states) {
-        _getAllPossibleStates(states[state].states, stateString);
-      }
-    }
-  }
-
-  _getAllPossibleStates(flow.config.states, "");
-
-  return allPossibleStates;
+  return Object.values(pages)
+    .map((page) => toCmsStepId(page.stepId))
+    .filter(
+      (stepId) =>
+        !stepId.split("/").some((segment) => ignoreList.includes(segment)),
+    );
 }
 
 export function invertStrapiFormFields(formFields: FormFieldsMap) {

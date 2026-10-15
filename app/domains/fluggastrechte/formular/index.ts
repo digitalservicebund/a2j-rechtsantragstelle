@@ -1,5 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
-import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
+import type { FlowTransitionConfig } from "~/services/flow/newFlowEngine/flowTransitionValidation";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import {
   getAirlineAddressFromDB,
@@ -42,10 +42,6 @@ const flowTransitionConfig: FlowTransitionConfig = {
 
 export const fluggastrechtFlow = {
   flowType: "formFlow",
-  config: {
-    id: "/fluggastrechte/formular",
-    states: {},
-  },
   newEngineConfig: fluggastrechteFormularFlowConfig,
   migration: {
     source: "/fluggastrechte/vorabcheck",

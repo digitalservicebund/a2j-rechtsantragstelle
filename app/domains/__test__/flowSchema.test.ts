@@ -231,7 +231,7 @@ function runTestcases<T extends UserData>(
   });
 }
 
-describe("flowSchemasNewEngine", { concurrent: false }, () => {
+describe("flowSchemas", { concurrent: false }, () => {
   const allVisitedSteps: VisitedSteps = {};
 
   afterAll(() => {
@@ -260,10 +260,7 @@ describe("flowSchemasNewEngine", { concurrent: false }, () => {
   });
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { xstateConfig, testcases, newEngineConfig }]) => {
-      //TODO: Add later the flowId in the Testcase type, so we don't depend of the xstateConfig.id here. This is a temporary solution to get the flowId for the testcases.
-      const flowId = xstateConfig.id!;
-
+    ([testConfigName, { flowId, testcases, newEngineConfig }]) => {
       if (newEngineConfig === undefined) {
         throw new Error(
           `Missing newEngineConfig for flowId: ${flowId}. Please provide a valid newEngineConfig in the testcases for ${testConfigName}.`,
