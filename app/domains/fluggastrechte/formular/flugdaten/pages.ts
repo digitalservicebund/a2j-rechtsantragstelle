@@ -10,7 +10,10 @@ import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { createSplitTimeSchema } from "~/services/validation/timeObject";
+import {
+  createSplitTimeSchema,
+  createSplitTimeSchemaOptional,
+} from "~/services/validation/timeObject";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
@@ -151,13 +154,9 @@ export const fluggastrechteFlugdatenPages = {
       annullierungErsatzverbindungFlugnummer:
         schemaOrEmptyString(stringOptionalSchema),
       annullierungErsatzverbindungAbflugsDatum: fourYearsAgoOptionalSchema,
-      annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(
-        createSplitTimeSchema(),
-      ),
+      annullierungErsatzverbindungAbflugsZeit: createSplitTimeSchemaOptional(),
       annullierungErsatzverbindungAnkunftsDatum: fourYearsAgoOptionalSchema,
-      annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(
-        createSplitTimeSchema(),
-      ),
+      annullierungErsatzverbindungAnkunftsZeit: createSplitTimeSchemaOptional(),
       direktAbflugsDatum: hiddenInputSchema(fourYearsAgoSchema),
       direktAbflugsZeit: hiddenInputSchema(createSplitTimeSchema()),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),

@@ -242,10 +242,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);
@@ -362,10 +376,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);
@@ -484,10 +512,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenZweiStunden: "no",
           ersatzflugLandenVierStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);

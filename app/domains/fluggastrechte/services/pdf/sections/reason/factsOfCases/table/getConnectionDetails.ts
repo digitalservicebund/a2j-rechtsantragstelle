@@ -1,13 +1,14 @@
-import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { calculateDuration } from "./calculateDuration";
 import {
+  hasTimeObject,
   type TimeObject,
   toTimeString,
 } from "~/services/validation/timeObject";
 import {
   type DateObject,
+  hasDateObject,
   toDateString,
 } from "~/services/validation/dateObject";
 
@@ -91,18 +92,10 @@ const getReplacementFlightDescription = (
 };
 
 const formatAnnullierungDateHour = (
-  date?: DateObject | string,
-  hour?: TimeObject | string,
+  date?: Partial<DateObject>,
+  hour?: Partial<TimeObject>,
 ) => {
-  if (isEmpty(date) || isEmpty(hour)) {
-    return "--";
-  }
-
-  if (typeof hour === "string" || typeof date === "string") {
-    return `${date}, ${hour}`;
-  }
-
-  if (hour === undefined || date === undefined) {
+  if (!hasDateObject(date) || !hasTimeObject(hour)) {
     return "--";
   }
 

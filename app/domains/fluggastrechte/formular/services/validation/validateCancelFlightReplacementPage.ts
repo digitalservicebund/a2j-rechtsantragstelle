@@ -1,7 +1,10 @@
 import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { dateAndTimeToTimestamp } from "~/services/validation/timeObject";
+import {
+  dateAndTimeToTimestamp,
+  hasTimeObject,
+} from "~/services/validation/timeObject";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 import { hasDateObject } from "~/services/validation/dateObject";
 
@@ -21,6 +24,11 @@ const FIELDS_FOR_VALIDATION = [
 const DATE_FIELDS = new Set<(typeof FIELDS_FOR_VALIDATION)[number]>([
   "annullierungErsatzverbindungAbflugsDatum",
   "annullierungErsatzverbindungAnkunftsDatum",
+]);
+
+const TIME_FIELDS = new Set<(typeof FIELDS_FOR_VALIDATION)[number]>([
+  "annullierungErsatzverbindungAbflugsZeit",
+  "annullierungErsatzverbindungAnkunftsZeit",
 ]);
 
 const _schema =
@@ -45,13 +53,13 @@ type SubsetCtx = ParsePayload<z.infer<z.ZodObject<SchemaSubset>>>;
 const getFieldsForValidation = (data: SubsetCtx["value"]) => {
   return FIELDS_FOR_VALIDATION.map((path) => {
     const value = data[path];
-    return {
-      value,
-      path: [path],
-      isFilled: DATE_FIELDS.has(path)
-        ? hasDateObject(value as Parameters<typeof hasDateObject>[0])
-        : Boolean(value),
-    };
+    const isFilled = DATE_FIELDS.has(path)
+      ? hasDateObject(value as Parameters<typeof hasDateObject>[0])
+      : TIME_FIELDS.has(path)
+        ? hasTimeObject(value as Parameters<typeof hasTimeObject>[0])
+        : Boolean(value);
+
+    return { value, path: [path], isFilled };
   });
 };
 
@@ -77,7 +85,7 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAbflugsZeit,
   ),
   departureDateTime:
-    data.annullierungErsatzverbindungAbflugsZeit &&
+    hasTimeObject(data.annullierungErsatzverbindungAbflugsZeit) &&
     hasDateObject(data.annullierungErsatzverbindungAbflugsDatum)
       ? dateAndTimeToTimestamp(
           data.annullierungErsatzverbindungAbflugsDatum,
@@ -89,7 +97,7 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAnkunftsZeit,
   ),
   arrivalDateTime:
-    data.annullierungErsatzverbindungAnkunftsZeit &&
+    hasTimeObject(data.annullierungErsatzverbindungAnkunftsZeit) &&
     hasDateObject(data.annullierungErsatzverbindungAnkunftsDatum)
       ? dateAndTimeToTimestamp(
           data.annullierungErsatzverbindungAnkunftsDatum,

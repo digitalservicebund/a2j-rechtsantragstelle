@@ -36,13 +36,19 @@ describe("validateCancelFlightReplacementPage", () => {
           month: "",
           year: "",
         },
-        annullierungErsatzverbindungAbflugsZeit: "",
+        annullierungErsatzverbindungAbflugsZeit: {
+          hour: "",
+          minute: "",
+        },
         annullierungErsatzverbindungAnkunftsDatum: {
           day: "",
           month: "",
           year: "",
         },
-        annullierungErsatzverbindungAnkunftsZeit: "",
+        annullierungErsatzverbindungAnkunftsZeit: {
+          hour: "",
+          minute: "",
+        },
       }),
     ).toBe(true);
   });
@@ -65,7 +71,10 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAnkunftsZeit: "",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "",
+        minute: "",
+      },
     });
 
     expect(result.success).toBe(false);
@@ -86,13 +95,19 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "01",
         year: "2024",
       },
-      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "",
+        minute: "",
+      },
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "",
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAnkunftsZeit: "",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "",
+        minute: "",
+      },
     });
 
     expect(result.success).toBe(false);
@@ -113,7 +128,10 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "",
+        minute: "",
+      },
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "",
         month: "",
@@ -143,13 +161,19 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "",
+        minute: "",
+      },
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "01",
         month: "01",
         year: "2024",
       },
-      annullierungErsatzverbindungAnkunftsZeit: "",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "",
+        minute: "",
+      },
     });
 
     expect(result.success).toBe(false);
@@ -170,13 +194,19 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "",
+        minute: "",
+      },
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "",
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAnkunftsZeit: "",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "",
+        minute: "",
+      },
     });
 
     expect(result.success).toBe(false);
@@ -197,13 +227,19 @@ describe("validateCancelFlightReplacementPage", () => {
         month: "01",
         year: "2024",
       },
-      annullierungErsatzverbindungAbflugsZeit: "",
+      annullierungErsatzverbindungAbflugsZeit: {
+        hour: "",
+        minute: "",
+      },
       annullierungErsatzverbindungAnkunftsDatum: {
         day: "",
         month: "",
         year: "",
       },
-      annullierungErsatzverbindungAnkunftsZeit: "",
+      annullierungErsatzverbindungAnkunftsZeit: {
+        hour: "",
+        minute: "",
+      },
     });
 
     expect(result.success).toBe(false);
