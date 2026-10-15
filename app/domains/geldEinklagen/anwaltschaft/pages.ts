@@ -62,6 +62,7 @@ export const geldEinklagenAnwaltschaftPages = {
     },
   },
   ...klagendeParteiPages,
+  ...beklagteParteiPages,
   prozessualeAusfuehrungen: {
     stepId: "/prozessantraege-prozessuale-ausfuehrungen",
     pageSchema: {
@@ -80,7 +81,6 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
-  ...beklagteParteiPages,
   downloadKlage: {
     stepId: "/klage-herunterladen",
   },

@@ -1,3 +1,4 @@
+import { beklagteParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/flowConfig";
 import { klagendeParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/flowConfig";
 import {
   type CompiledFlow,
@@ -5,7 +6,6 @@ import {
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
-import { beklagteParteiFlowConfig } from "./beklagte-partei/flowConfig";
 
 export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
   compileFlow({
@@ -16,9 +16,9 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       klageInhalt: "pilotgericht",
       pilotgericht: "klagendeUebersicht",
       ...klagendeParteiFlowConfig,
+      ...beklagteParteiFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
       rechtlicheWuerdigung: "beklagteUebersicht",
-      ...beklagteParteiFlowConfig,
       beklagteNatuerlichePerson: null,
       beklagteOrganisation: null,
       downloadKlage: null,
