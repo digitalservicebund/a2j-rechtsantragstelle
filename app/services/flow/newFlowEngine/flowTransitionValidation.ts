@@ -14,6 +14,12 @@ type FlowTransitionResult = {
   redirectTo?: string;
 };
 
+export function getFlowTransitionConfig(currentFlow: Flow) {
+  return "flowTransitionConfig" in currentFlow
+    ? currentFlow.flowTransitionConfig
+    : undefined;
+}
+
 export async function validateFlowTransition(
   sourceFlow: Flow,
   cookieHeader: CookieHeader,

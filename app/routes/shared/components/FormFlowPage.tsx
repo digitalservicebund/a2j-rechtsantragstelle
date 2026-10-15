@@ -4,7 +4,6 @@ import ContentComponents from "~/components/content/ContentComponents";
 import { FormFlowContext } from "~/components/hooks/formFlowContext";
 import { useFocusFirstH1 } from "~/components/hooks/useFocusFirstH1";
 import type { loader as loaderFormular } from "../formular";
-import type { loader as loaderNewEngineFormular } from "../newEngineFormular";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
@@ -22,10 +21,7 @@ import { ReportProblem } from "~/components/content/reportProblem/ReportProblem"
 import { useFlowExtras } from "~/domains/extraLoaderConfiguration";
 
 export function FormFlowPage() {
-  const loaderData = useLoaderData<
-    // TODO: remove after migration to new flow engine is complete.
-    typeof loaderFormular | typeof loaderNewEngineFormular
-  >();
+  const loaderData = useLoaderData<typeof loaderFormular>();
   const {
     arraySummaryData,
     userData,
@@ -53,11 +49,7 @@ export function FormFlowPage() {
   );
 
   const { extraComponents: additionalComponents, dynamicOptions } =
-    useFlowExtras(
-      // TODO: remove after migration to new flow engine is complete.
-      "extraData" in loaderData ? loaderData.extraData : {},
-      flowId,
-    ) ?? {};
+    useFlowExtras(loaderData.extraData ?? {}, flowId) ?? {};
 
   useFocusFirstH1();
 

@@ -11,5 +11,3 @@ export const klagendeParteiPages = {
     },
   },
 } as const satisfies PagesConfig;
-
-export type KlagendeParteiPages = typeof klagendeParteiPages;

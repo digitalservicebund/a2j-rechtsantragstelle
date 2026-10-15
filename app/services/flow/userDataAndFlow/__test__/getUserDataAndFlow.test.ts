@@ -1,61 +1,80 @@
-import { Result } from "true-myth";
-import { getPrunedUserDataFromPathname } from "~/services/flow/getPrunedUserDataFromPathname";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getSessionManager } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/getMigrationData";
-import { getUserDataAndFlow } from "../getUserDataAndFlow";
-import { validateStepIdFlow } from "../validateStepIdFlow";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
+import { getUserDataAndFlow } from "../getUserDataAndFlow";
+import { getSessionAndEngine } from "../getSessionAndEngine";
+import { Result } from "true-myth/result";
+import { validateStepIdFlow } from "../validateStepIdFlow";
+import { createSession } from "react-router";
+import { compileFlow } from "../../newFlowEngine/compileFlow";
+import { createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { getMetaConfigurationByStepId } from "../../getMetaConfigurationByStepId";
 
-vi.mock("~/services/flow/server/buildFlowController");
-vi.mock("~/services/session.server");
-vi.mock("~/services/flow/getPrunedUserDataFromPathname");
-vi.mock("../validateStepIdFlow");
-vi.mock("~/services/session.server/getMigrationData");
 vi.mock("~/services/isFeatureFlagEnabled.server");
+vi.mock("../getSessionAndEngine");
+vi.mock("../validateStepIdFlow");
+vi.mock("../../getMetaConfigurationByStepId");
 
 const mockRequest = new Request(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
 );
-
 const mockURL = new URL(
   "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/uebersicht",
 );
+const mockSession = createSession();
 
-const mockBuildFlowController = vi.fn() as unknown as ReturnType<
-  typeof buildFlowController
->;
+const pages = {
+  start: { stepId: "/start" },
+  middle: { stepId: "/middle" },
+  end: { stepId: "/end" },
+} as const;
 
-const mockPrunerData = {
-  userDataWithPageData: {
-    name: "someName",
-    pageData: {},
-  },
-  validFlowPaths: {
-    "/grundvoraussetzungen/klage-eingereicht": {
-      isArrayPage: false,
-    },
-  },
-};
+const transitions = {
+  start: "middle",
+  middle: "end",
+  end: null,
+} as const;
 
-const mockMigrationUserData = {
-  name: "migrationName",
-};
-
-const mockEmailCaptureConsent = true;
-
-vi.mocked(getPrunedUserDataFromPathname).mockResolvedValue(mockPrunerData);
-vi.mocked(buildFlowController).mockReturnValue(mockBuildFlowController);
-vi.mocked(getSessionManager).mockReturnValue({
-  getSession: vi.fn().mockResolvedValue({
-    get: vi.fn(() => mockEmailCaptureConsent),
-  }),
-  commitSession: vi.fn(),
-  destroySession: vi.fn(),
+const compiledFlow = compileFlow({
+  pages,
+  initialStep: "start",
+  transitions,
 });
 
+const mockFlowSessionEngine = createFlowSession(
+  compiledFlow,
+  { pageData: { arrayIndexes: [] } },
+  "/start",
+);
+
 describe("getUserDataAndFlow", () => {
+  it("should thrown an exception in case feature flag is disabled", async () => {
+    vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
+    await expect(
+      getUserDataAndFlow(
+        new Request("http://example.com/erbausschlagung/anfrage"),
+        new URL("http://example.com/erbausschlagung/anfrage"),
+      ),
+    ).rejects.toThrow(expect.anything());
+  });
+
+  it("should return an error and redirect in case is not possible to get session and engine", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.err({ redirectTo: "redirectToPage" }),
+    );
+
+    const result = await getUserDataAndFlow(mockRequest, mockURL);
+
+    expect(result.isErr).toBe(true);
+    expect(result.isErr ? result.error.redirectTo : "").toBe("redirectToPage");
+  });
+
   it("should return an error and redirect in case the stepId is not valid", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
+    );
+
     vi.mocked(validateStepIdFlow).mockResolvedValue(
       Result.err({ redirectTo: "redirectToPage" }),
     );
@@ -66,32 +85,31 @@ describe("getUserDataAndFlow", () => {
     expect(result.isErr ? result.error.redirectTo : "").toBe("redirectToPage");
   });
 
-  it("should return a 404 when the requested FlowId is feature flagged and false", async () => {
-    vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
-    const result = await getUserDataAndFlow(
-      new Request("http://example.com/erbausschlagung/anfrage"),
-      new URL("http://example.com/erbausschlagung/anfrage"),
+  it("should return ok and with all the correct data", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
     );
 
-    expect(result.isErr).toBe(true);
-    expect(result.isErr ? result.error.redirectTo : "").toBe("redirectToPage");
-  });
-
-  it("should return ok and with all the correct data", async () => {
     vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
-    vi.mocked(getMigrationData).mockResolvedValue(undefined);
 
     const result = await getUserDataAndFlow(mockRequest, mockURL);
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({
-      userData: mockPrunerData.userDataWithPageData,
+      userData: {
+        pageData: {
+          arrayIndexes: [],
+        },
+      },
       flow: {
         id: "/beratungshilfe/antrag",
-        controller: mockBuildFlowController,
-        validFlowPaths: mockPrunerData.validFlowPaths,
+        userVisitedValidationPage: false,
+        useStepper: false,
+        flowSessionEngine: mockFlowSessionEngine,
       },
-      emailCaptureConsent: mockEmailCaptureConsent,
       page: {
         stepId: "/finanzielle-angaben/kinder/uebersicht",
         arrayIndexes: [],
@@ -99,18 +117,60 @@ describe("getUserDataAndFlow", () => {
     });
   });
 
-  it("should return Ok with expected migration object when migration data exists", async () => {
-    vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
-    vi.mocked(getMigrationData).mockResolvedValue(mockMigrationUserData);
+  it("should return ok and with the trigger validation set to true if the meta configuration for the triggerValidation is true", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
+    );
 
-    const result = await getUserDataAndFlow(mockRequest, mockURL);
+    vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
+    vi.mocked(getMetaConfigurationByStepId).mockReturnValue({
+      triggerValidation: true,
+    });
+
+    const result = await getUserDataAndFlow(
+      new Request(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+      new URL(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+    );
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value : undefined).toMatchObject({
-      migration: {
-        userData: mockMigrationUserData,
-        sortedFields: undefined,
-        buttonUrl: undefined,
+      flow: {
+        triggerValidation: true,
+      },
+    });
+  });
+
+  it("should return ok and with the trigger validation set to false if the meta configuration for the triggerValidation does not exist", async () => {
+    vi.mocked(getSessionAndEngine).mockResolvedValue(
+      Result.ok({
+        flowSession: mockSession,
+        flowSessionEngine: mockFlowSessionEngine,
+      }),
+    );
+
+    vi.mocked(validateStepIdFlow).mockResolvedValue(Result.ok());
+    vi.mocked(getMetaConfigurationByStepId).mockReturnValue({});
+
+    const result = await getUserDataAndFlow(
+      new Request(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+      new URL(
+        "http://example.com/beratungshilfe/antrag/finanzielle-angaben/kinder/kinder/address",
+      ),
+    );
+
+    expect(result.isOk).toBe(true);
+    expect(result.isOk ? result.value : undefined).toMatchObject({
+      flow: {
+        triggerValidation: false,
       },
     });
   });

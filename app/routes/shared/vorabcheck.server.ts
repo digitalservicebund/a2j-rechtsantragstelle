@@ -9,8 +9,8 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager, updateSession } from "~/services/session.server";
 import { shouldShowReportProblem } from "~/components/content/reportProblem/showReportProblem";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
-import { getUserDataAndFlowNewEngine } from "~/services/flow/userDataAndFlow/getUserDataAndFlowNewEngine";
-import { flowDestinationNewEngine } from "~/services/flow/userFlowAction/flowDestinationNewEngine";
+import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
+import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import type {
@@ -31,7 +31,7 @@ export const loadVorabcheckData = async <
   const redirectDestination = getRedirect(url.pathname);
   if (redirectDestination) return redirect(redirectDestination, 301);
 
-  const resultUserAndFlow = await getUserDataAndFlowNewEngine(request, url);
+  const resultUserAndFlow = await getUserDataAndFlow(request, url);
 
   if (resultUserAndFlow.isErr) {
     return redirectDocument(resultUserAndFlow.error.redirectTo);
@@ -65,15 +65,12 @@ export const loadVorabcheckData = async <
   const cmsContent = contentData.getCMSContent();
   const formElements = contentData.getFormElements();
   const stepData = contentData.getStepData();
-  const buttonNavigationProps = contentData.getButtonNavigationNewEngine(
+  const buttonNavigationProps = contentData.getButtonNavigation(
     flowId,
     flowSessionEngine,
     arrayIndexes,
   );
-  const progressProps = contentData.getProgressNewEngine(
-    flowSessionEngine,
-    stepId,
-  );
+  const progressProps = contentData.getProgress(flowSessionEngine, stepId);
 
   const extraData = await extras?.buildLoaderData?.({
     ...context,
@@ -109,10 +106,8 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
   const { flowId, currentFlow, stepId, arrayIndexes } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const compiledStaticFlow =
-    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
+  const compiledStaticFlow = currentFlow.newEngineConfig;
 
-  // TODO - Remove this check later, once we migrated all the flows to the new engine
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });
   }
@@ -153,10 +148,7 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
     url,
   );
 
-  const destination = flowDestinationNewEngine(
-    pathname,
-    flowSessionEngineSaved,
-  );
+  const destination = flowDestination(pathname, flowSessionEngineSaved);
   const headers = await commitSession(flowSession);
   return redirectDocument(destination, { headers });
 };

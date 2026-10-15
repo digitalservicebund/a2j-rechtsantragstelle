@@ -3,10 +3,7 @@ import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/w
 import { kontopfaendungWegweiserFlowConfig } from "../flowConfig";
 
 export const kontopfaendungWegweiserTestCases = {
-  xstateConfig: {
-    id: "/kontopfaendung/wegweiser",
-    states: {},
-  },
+  flowId: "/kontopfaendung/wegweiser",
   newEngineConfig: kontopfaendungWegweiserFlowConfig,
   testcases: {
     yesKontopfaendung: [

@@ -16,13 +16,11 @@ import {
   type InferredUserData,
   type PageConfigMap,
 } from "~/services/flow/newFlowEngine/types";
-import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import type { Config } from "~/services/flow/server/types";
+import type { FlowTransitionConfig } from "~/services/flow/newFlowEngine/flowTransitionValidation";
 import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
-import type { Guards } from "./guards.server";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { AllowedUserTypes, UserData } from "./userData";
@@ -65,9 +63,7 @@ export type AsyncFlowAction<TUserData extends UserData = UserData> = (
 
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
-  config: Config;
   newEngineConfig?: CompiledFlow<C>;
-  guards?: Guards;
   migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;

@@ -1,4 +1,4 @@
-import type { StepState } from "~/services/flow/server/buildFlowController";
+import type { StepState } from "~/services/navigation/buildStepStatesFromStatusTree";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import { createArrayBoxKey } from "./fieldParsingUtils";
 import { findStepIdForField } from "./getFormQuestions";
