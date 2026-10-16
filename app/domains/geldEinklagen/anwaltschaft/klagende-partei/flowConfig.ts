@@ -2,5 +2,11 @@ import { type GeldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anw
 import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const klagendeParteiFlowConfig = {
-  klagendeUebersicht: "beklagteUebersicht",
+  klagendeUebersicht: [
+    { type: "addArrayItem", target: "klagendeNaturalPersonDaten" },
+    { type: "addArrayItem", target: "klagendeOrganizationDaten" },
+    { target: "beklagteUebersicht" },
+  ],
+  klagendeNaturalPersonDaten: "klagendeUebersicht",
+  klagendeOrganizationDaten: "klagendeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

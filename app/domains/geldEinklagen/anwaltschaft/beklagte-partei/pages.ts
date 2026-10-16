@@ -3,7 +3,7 @@ import { type PagesConfig } from "~/domains/pageSchemas";
 
 export const beklagteParteiPages = {
   beklagteUebersicht: {
-    stepId: "/beklagte-partei/beklagte/uebersicht",
+    stepId: "/beklagte-partei/beklagten/uebersicht",
     arraySummary: {
       name: "beklagten",
       schema: klageParteinArraySchema,
@@ -11,9 +11,9 @@ export const beklagteParteiPages = {
     },
   },
   beklagteNatuerlichePerson: {
-    stepId: "/beklagte-partei/beklagte/natuerliche-person",
+    stepId: "/beklagte-partei/beklagten/natuerliche-person",
   },
   beklagteOrganisation: {
-    stepId: "/beklagte-partei/beklagte/organisation",
+    stepId: "/beklagte-partei/beklagten/organisation",
   },
 } as const satisfies PagesConfig;

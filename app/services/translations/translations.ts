@@ -657,6 +657,36 @@ export const translations = {
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
+    natuerlichePersonHeadline: {
+      de: "Natürliche Person",
+    },
+    natuerlichePersonenMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an natürlichen Personen erreicht",
+    },
+    natuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende natürliche Personen hinzufügen.",
+    },
+    beklagteNatuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte natürliche Personen hinzufügen.",
+    },
+    klagendeParteiHeadline: {
+      de: "Klagende zu",
+    },
+    beklagteParteiHeadline: {
+      de: "Beklagte zu",
+    },
+    organisationHeadline: {
+      de: "Organisation",
+    },
+    organisationMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an Organisationen erreicht",
+    },
+    organisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende Organisationen hinzufügen.",
+    },
+    beklagteOrganisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
+    },
   },
   nachlass: {
     childOf: {

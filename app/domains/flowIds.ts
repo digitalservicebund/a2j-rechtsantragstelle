@@ -33,6 +33,7 @@ export function parsePathname(pathname: string) {
   // TODO: remove after migration to new flow engine
   const arrayFlows: FlowId[] = [
     "/geld-einklagen/formular",
+    "/geld-einklagen/anwaltschaft",
     "/prozesskostenhilfe/formular",
     "/erbschein/erbfolge",
     "/erbschein/anfrage",
