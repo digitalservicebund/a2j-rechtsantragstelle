@@ -11,8 +11,7 @@ const sonstigeNebenUndProzessantraegeArraySchema = z.array(
 
 export const sonstigeNebenUndProzessantraegePages = {
   sonstigeNebenUndProzessantraegeUebersicht: {
-    stepId:
-      "/sonstige-neben-und-prozessantraege/uebersicht",
+    stepId: "/sonstige-neben-und-prozessantraege/uebersicht",
     arraySummary: {
       name: "sonstigeNebenUndProzessantraege",
       schema: sonstigeNebenUndProzessantraegeArraySchema,
@@ -20,8 +19,7 @@ export const sonstigeNebenUndProzessantraegePages = {
     },
   },
   sonstigeNebenUndProzessantraegeAntrag: {
-    stepId:
-      "/sonstige-neben-und-prozessantraege/antrag/#/daten",
+    stepId: "/sonstige-neben-und-prozessantraege/antrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "sonstigeNebenUndProzessantraege#internesSchlagwort":

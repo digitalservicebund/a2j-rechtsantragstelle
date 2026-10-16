@@ -74,7 +74,7 @@ export const geldEinklagenAnwaltschaftPages = {
       versaeumnisurteil: schemaOrEmptyString(checkedOptional),
     },
   },
-    ...sonstigeNebenUndProzessantraegePages,
+  ...sonstigeNebenUndProzessantraegePages,
   rechtlicheWuerdigung: {
     stepId: "/rechtliche-wuerdigung",
     pageSchema: {
