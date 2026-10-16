@@ -4,10 +4,10 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const berHAntragRechtsproblemPages = {
   rechtsproblemStart: {
-    stepId: "rechtsproblem/start",
+    stepId: "/rechtsproblem/start",
   },
   bereich: {
-    stepId: "rechtsproblem/bereich",
+    stepId: "/rechtsproblem/bereich",
     pageSchema: {
       bereich: z.enum([
         "authorities",
@@ -23,7 +23,7 @@ export const berHAntragRechtsproblemPages = {
     },
   },
   situationBeschreibung: {
-    stepId: "rechtsproblem/situation-beschreibung",
+    stepId: "/rechtsproblem/situation-beschreibung",
     pageSchema: {
       gegenseite: stringRequiredSchema,
       beschreibung: stringRequiredSchema,

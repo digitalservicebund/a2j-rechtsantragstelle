@@ -30,20 +30,8 @@ export function parsePathname(pathname: string) {
   const flowId = flowIdFromPathname(pathname);
   if (!flowId) throw new Error(`Unknown flow ID for path ${pathname}`);
   const arrayIndexes = parseArrayIndexesFromPathname(pathname);
-  // TODO: remove after migration to new flow engine
-  const arrayFlows: FlowId[] = [
-    "/geld-einklagen/formular",
-    "/prozesskostenhilfe/formular",
-    "/erbschein/erbfolge",
-    "/erbschein/anfrage",
-    "/erbausschlagung/anfrage",
-    "/beratungshilfe/antrag",
-    "/fluggastrechte/formular",
-    "/geld-einklagen/anwaltschaft",
-  ];
-  const numSubstitute = arrayFlows.includes(flowId) ? "/#" : "";
-  const stepId = pathname
-    .replace(flowId, "")
-    .replaceAll(/(\/\d+)/g, numSubstitute);
+  // Numeric URL segments are always array indexes, so normalize them to the
+  // "#" wildcard used in array page stepIds.
+  const stepId = pathname.replace(flowId, "").replaceAll(/(\/\d+)/g, "/#");
   return { flowId, stepId, arrayIndexes };
 }

@@ -6,10 +6,10 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const berhAntragFinanzielleAngabenEinkommenPages = {
   einkommenStart: {
-    stepId: "finanzielle-angaben/einkommen/start",
+    stepId: "/finanzielle-angaben/einkommen/start",
   },
   staatlicheLeistungen: {
-    stepId: "finanzielle-angaben/einkommen/staatliche-leistungen",
+    stepId: "/finanzielle-angaben/einkommen/staatliche-leistungen",
     pageSchema: {
       staatlicheLeistungen: z.enum([
         "grundsicherung",
@@ -20,25 +20,25 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
     },
   },
   erwerbstaetig: {
-    stepId: "finanzielle-angaben/einkommen/erwerbstaetig",
+    stepId: "/finanzielle-angaben/einkommen/erwerbstaetig",
     pageSchema: {
       erwerbstaetig: YesNoAnswer,
     },
   },
   berufart: {
-    stepId: "finanzielle-angaben/einkommen/art",
+    stepId: "/finanzielle-angaben/einkommen/art",
     pageSchema: {
       berufart: z.enum(["selbststaendig", "festangestellt", "beides"]),
     },
   },
   situation: {
-    stepId: "finanzielle-angaben/einkommen/situation",
+    stepId: "/finanzielle-angaben/einkommen/situation",
     pageSchema: {
       berufsituation: z.enum(["pupil", "student", "retiree", "no"]),
     },
   },
   weiteresEinkommen: {
-    stepId: "finanzielle-angaben/einkommen/weiteres-einkommen",
+    stepId: "/finanzielle-angaben/einkommen/weiteres-einkommen",
     pageSchema: {
       weitereseinkommen: exclusiveCheckboxesSchema([
         "unterhaltszahlungen",
@@ -57,7 +57,7 @@ export const berhAntragFinanzielleAngabenEinkommenPages = {
     },
   },
   einkommen: {
-    stepId: "finanzielle-angaben/einkommen/einkommen",
+    stepId: "/finanzielle-angaben/einkommen/einkommen",
     pageSchema: {
       einkommen: buildMoneyValidationSchema(),
     },

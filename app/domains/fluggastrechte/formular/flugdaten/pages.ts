@@ -18,13 +18,13 @@ const fourYearsAgoSchema = createDateSchema({
 
 export const fluggastrechteFlugdatenPages = {
   flugdatenAdresseFluggesellschaftAuswahl: {
-    stepId: "flugdaten/adresse-fluggesellschaft-auswahl",
+    stepId: "/flugdaten/adresse-fluggesellschaft-auswahl",
     pageSchema: {
       fluggesellschaftAuswahlAdresse: z.enum(["fromAirlineDB", "filledByUser"]),
     },
   },
   flugdatenAdresseFluggesellschaft: {
-    stepId: "flugdaten/adresse-fluggesellschaft",
+    stepId: "/flugdaten/adresse-fluggesellschaft",
     pageSchema: {
       fluggesellschaft: autoSuggestSchema(stringOptionalSchema)("airlines"),
       fluggesellschaftStrasse: stringRequiredSchema,
@@ -35,7 +35,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenGeplanterFlug: {
-    stepId: "flugdaten/geplanter-flug",
+    stepId: "/flugdaten/geplanter-flug",
     pageSchema: {
       direktFlugnummer: stringRequiredSchema,
       buchungsNummer: stringRequiredSchema,
@@ -47,7 +47,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenZwischenstoppUebersicht1: {
-    stepId: "flugdaten/zwischenstopp-uebersicht-1",
+    stepId: "/flugdaten/zwischenstopp-uebersicht-1",
     pageSchema: {
       ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
         "airports",
@@ -57,7 +57,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenZwischenstoppUebersicht2: {
-    stepId: "flugdaten/zwischenstopp-uebersicht-2",
+    stepId: "/flugdaten/zwischenstopp-uebersicht-2",
     pageSchema: {
       ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
         "airports",
@@ -70,7 +70,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenZwischenstoppUebersicht3: {
-    stepId: "flugdaten/zwischenstopp-uebersicht-3",
+    stepId: "/flugdaten/zwischenstopp-uebersicht-3",
     pageSchema: {
       ersterZwischenstopp: autoSuggestSchema(airportSchema.optional())(
         "airports",
@@ -86,7 +86,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenVerspaeteterFlug1: {
-    stepId: "flugdaten/verspaeteter-flug-1",
+    stepId: "/flugdaten/verspaeteter-flug-1",
     pageSchema: {
       verspaeteterFlugOneStop: z.enum([
         "startAirportFirstZwischenstopp",
@@ -95,7 +95,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenVerspaeteterFlug2: {
-    stepId: "flugdaten/verspaeteter-flug-2",
+    stepId: "/flugdaten/verspaeteter-flug-2",
     pageSchema: {
       verspaeteterFlugTwoStops: z.enum([
         "startAirportFirstZwischenstopp",
@@ -105,7 +105,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenVerspaeteterFlug3: {
-    stepId: "flugdaten/verspaeteter-flug-3",
+    stepId: "/flugdaten/verspaeteter-flug-3",
     pageSchema: {
       verspaeteterFlugThreeStops: z.enum([
         "startAirportFirstZwischenstopp",
@@ -116,20 +116,20 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenAnschlussFlugVerpasst: {
-    stepId: "flugdaten/anschluss-flug-verpasst",
+    stepId: "/flugdaten/anschluss-flug-verpasst",
     pageSchema: {
       anschlussFlugVerpasst: YesNoAnswer,
       ersatzflug: hiddenInputSchema(schemaOrEmptyString(stringOptionalSchema)),
     },
   },
   flugdatenTatsaechlicherFlug: {
-    stepId: "flugdaten/tatsaechlicher-flug",
+    stepId: "/flugdaten/tatsaechlicher-flug",
     pageSchema: {
       tatsaechlicherFlug: YesNoAnswer,
     },
   },
   flugdatenTatsaechlicherFlugAnkunft: {
-    stepId: "flugdaten/tatsaechlicher-flug-ankunft",
+    stepId: "/flugdaten/tatsaechlicher-flug-ankunft",
     pageSchema: {
       tatsaechlicherAnkunftsDatum: fourYearsAgoSchema,
       tatsaechlicherAnkunftsZeit: createSplitTimeSchema(),
@@ -138,7 +138,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenErsatzverbindungDaten: {
-    stepId: "flugdaten/ersatzverbindung-daten",
+    stepId: "/flugdaten/ersatzverbindung-daten",
     pageSchema: {
       annullierungErsatzverbindungFlugnummer:
         schemaOrEmptyString(stringOptionalSchema),
@@ -168,13 +168,13 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenErsatzverbindungArt: {
-    stepId: "flugdaten/ersatzverbindung-art",
+    stepId: "/flugdaten/ersatzverbindung-art",
     pageSchema: {
       ersatzverbindungArt: z.enum(["flug", "etwasAnderes", "keineAnkunft"]),
     },
   },
   flugdatenAndererFlugAnkunft: {
-    stepId: "flugdaten/anderer-flug-ankunft",
+    stepId: "/flugdaten/anderer-flug-ankunft",
     pageSchema: {
       ersatzFlugnummer: stringRequiredSchema,
       ersatzFlugAnkunftsDatum: fourYearsAgoSchema,
@@ -185,7 +185,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenErsatzverbindungBeschreibung: {
-    stepId: "flugdaten/ersatzverbindung-beschreibung",
+    stepId: "/flugdaten/ersatzverbindung-beschreibung",
     pageSchema: {
       andereErsatzverbindungBeschreibung: stringOptionalSchema,
       andereErsatzverbindungAnkunftsDatum: fourYearsAgoSchema,
@@ -196,7 +196,7 @@ export const fluggastrechteFlugdatenPages = {
     },
   },
   flugdatenZusaetzlicheAngaben: {
-    stepId: "flugdaten/zusaetzliche-angaben",
+    stepId: "/flugdaten/zusaetzliche-angaben",
     pageSchema: {
       zusaetzlicheAngaben: schemaOrEmptyString(stringRequiredSchema),
     },

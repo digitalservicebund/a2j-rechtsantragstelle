@@ -19,8 +19,6 @@ export type ArrayConfigServer = {
   hiddenFields?: string[];
 };
 
-export type ArrayConfigurations = Record<string, ArrayConfigServer>;
-
 export type ArrayConfigClient = Pick<
   ArrayConfigServer,
   "url" | "initialInputUrl" | "hiddenFields" | "displayIndexOffset"

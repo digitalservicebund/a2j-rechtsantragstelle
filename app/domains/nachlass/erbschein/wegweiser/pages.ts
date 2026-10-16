@@ -4,63 +4,63 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const erbscheinWegweiserPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   staatsangehoerigkeit: {
-    stepId: "staatsangehoerigkeit",
+    stepId: "/staatsangehoerigkeit",
     pageSchema: {
       staatsangehoerigkeit: z.enum(["german", "germanAndOther", "other"]),
     },
   },
   lebensmittelpunkt: {
-    stepId: "lebensmittelpunkt",
+    stepId: "/lebensmittelpunkt",
     pageSchema: {
       lebensmittelpunkt: z.enum(["deutschland", "ausland"]),
     },
   },
   auslaendischerErbfall: {
-    stepId: "ergebnis/auslandsbezug",
+    stepId: "/ergebnis/auslandsbezug",
   },
   testamentOderErbvertrag: {
-    stepId: "testament-oder-erbvertrag",
+    stepId: "/testament-oder-erbvertrag",
     pageSchema: {
       testamentType: z.enum(["none", "handwritten", "notarized", "erbvertrag"]),
     },
   },
   notarizedTestament: {
-    stepId: "ergebnis/erbschein-nicht-erforderlich-notarielles-testament",
+    stepId: "/ergebnis/erbschein-nicht-erforderlich-notarielles-testament",
   },
   erbvertrag: {
-    stepId: "ergebnis/erbschein-nicht-erforderlich-erbvertrag",
+    stepId: "/ergebnis/erbschein-nicht-erforderlich-erbvertrag",
   },
   grundeigentum: {
-    stepId: "grundeigentum",
+    stepId: "/grundeigentum",
     pageSchema: {
       hasGrundeigentum: YesNoAnswer,
     },
   },
   erbscheinRequiredHandwrittenTestament: {
-    stepId: "ergebnis/erbschein-erforderlich-handschriftliches-testament",
+    stepId: "/ergebnis/erbschein-erforderlich-handschriftliches-testament",
   },
   erbscheinRequiredNoTestament: {
-    stepId: "ergebnis/erbschein-erforderlich-kein-testament",
+    stepId: "/ergebnis/erbschein-erforderlich-kein-testament",
   },
   erbscheinRequiredAndRequested: {
-    stepId: "ergebnis/erbschein-erforderlich-verlangt",
+    stepId: "/ergebnis/erbschein-erforderlich-verlangt",
   },
   unternehmen: {
-    stepId: "unternehmen",
+    stepId: "/unternehmen",
     pageSchema: {
       hasUnternehmen: YesNoAnswer,
     },
   },
   bankRequestedErbschein: {
-    stepId: "erbschein-verlangt",
+    stepId: "/erbschein-verlangt",
     pageSchema: {
       bankRequestedErbschein: YesNoAnswer,
     },
   },
   erbscheinNotRequired: {
-    stepId: "ergebnis/erbschein-nicht-erforderlich-nicht-verlangt",
+    stepId: "/ergebnis/erbschein-nicht-erforderlich-nicht-verlangt",
   },
 } as const satisfies PagesConfig;
