@@ -1,11 +1,6 @@
 import axios from "axios";
 import type { Filter } from "./filters";
-import type {
-  ApiId,
-  StrapiSchemas,
-  GetStrapiEntry,
-  GetStrapiEntryOpts,
-} from "./schemas";
+import type { ApiId, StrapiSchemas, GetStrapiEntryApiOpts } from "./schemas";
 import { config } from "../env/env.server";
 
 function buildFilters(filters?: Filter[]) {
@@ -34,16 +29,18 @@ const buildUrl = <T extends ApiId>({
   fields,
   populate = "*",
   pLevel,
-}: GetStrapiEntryOpts<T>) =>
+  showDraftVersion,
+}: GetStrapiEntryApiOpts<T>) =>
   [
     config().STRAPI_API,
     apiId,
     `?populate=${populate}`,
     fields ? `&fields=${fields}` : "",
     pLevel ? `&pLevel=${pLevel}` : "",
-    `&locale=${locale}`,
+    locale ? `&locale=${locale}` : "",
     pageSize ? `&pagination[pageSize]=${pageSize}` : "",
     buildFilters(filters),
+    showDraftVersion ? "&status=draft" : "",
   ].join("");
 
 const makeStrapiRequest = async <T extends ApiId>(url: string) =>
@@ -54,9 +51,9 @@ const makeStrapiRequest = async <T extends ApiId>(url: string) =>
     },
   });
 
-export const getStrapiEntryFromApi: GetStrapiEntry = async <T extends ApiId>(
-  opts: GetStrapiEntryOpts<T>,
-) => {
+export const getStrapiEntryFromApi = async <T extends ApiId>(
+  opts: GetStrapiEntryApiOpts<T>,
+): Promise<StrapiSchemas[T] | [null]> => {
   const returnData = (await makeStrapiRequest<T>(buildUrl(opts))).data.data;
   return Array.isArray(returnData) ? returnData : [returnData];
 };
