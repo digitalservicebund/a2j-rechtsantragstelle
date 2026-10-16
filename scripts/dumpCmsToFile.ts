@@ -78,6 +78,7 @@ export default async function execute() {
         locale,
         pageSize: "900",
         pLevel: 6,
+        showDraftVersion: false, // MUST BE ALWAYS False, we do not generate files with draft version
       });
       if (entries.length > 0 && entries[0] !== null) {
         process.stdout.write(` ${locale} (${entries.length}) |`);
