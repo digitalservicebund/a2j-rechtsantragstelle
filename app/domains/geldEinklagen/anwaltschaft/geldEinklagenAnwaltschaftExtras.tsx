@@ -2,7 +2,7 @@ import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
 import BegruendungBeschreibungUebersicht from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
-import HauptUndNebenantraegeUebersicht from "./components/HauptUndNebenantraegeUebersicht";
+import HauptUndNebenantraegeUebersicht from "./hauptUndNebenantraege/components/HauptUndNebenantraegeUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;

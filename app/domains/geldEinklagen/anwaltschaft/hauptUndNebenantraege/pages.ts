@@ -32,5 +32,3 @@ export const hauptUndNebenantraegePages = {
     },
   },
 } as const satisfies PagesConfig;
-
-export type HauptUndNebenantraegePages = typeof hauptUndNebenantraegePages;

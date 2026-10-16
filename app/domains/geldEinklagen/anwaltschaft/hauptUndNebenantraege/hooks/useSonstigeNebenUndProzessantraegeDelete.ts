@@ -5,9 +5,7 @@ import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 
-const focusOnSonstigeNebenUndProzessantraege = (
-  itemIndex: number,
-) => {
+const focusOnSonstigeNebenUndProzessantraege = (itemIndex: number) => {
   setTimeout(() => {
     let element = document.getElementById(
       `sonstigeNebenUndProzessantraege-${itemIndex}`,
@@ -34,10 +32,7 @@ export const useSonstigeNebenUndProzessantraegeDelete = () => {
 
     formData.append("pathnameArrayItem", pathnameArrayItem);
     formData.append("_jsEnabled", "true");
-    formData.append(
-      "sonstigeNebenUndProzessantraege",
-      String(itemIndex),
-    );
+    formData.append("sonstigeNebenUndProzessantraege", String(itemIndex));
     formData.append(CSRFKey, csrf);
 
     const response = await fetch(DELETE_URL_ENDPOINT, {

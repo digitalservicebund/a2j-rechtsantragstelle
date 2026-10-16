@@ -2,15 +2,18 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { GeldEinklagenAnwaltschaftUserData } from "../userData";
 import HauptUndNebenantraege from "./HauptUndNebenantraege";
-import { useSonstigeNebenUndProzessantraegeDelete } from "../hauptUndNebenantraege/useSonstigeNebenUndProzessantraegeDelete";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import { useSonstigeNebenUndProzessantraegeDelete } from "../hooks/useSonstigeNebenUndProzessantraegeDelete";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag";
 
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 10;
+
 const HauptUndNebenantraegeUebersicht = () => {
+  const { onSonstigeNebenUndProzessantraegeDelete } =
+    useSonstigeNebenUndProzessantraegeDelete();
   const { userData, flowId } = useFormFlow();
 
   if (flowId !== "/geld-einklagen/anwaltschaft") {
@@ -18,9 +21,6 @@ const HauptUndNebenantraegeUebersicht = () => {
   }
 
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
-
-  const { onSonstigeNebenUndProzessantraegeDelete } =
-    useSonstigeNebenUndProzessantraegeDelete();
 
   const nextItemIndex = arrayIsNonEmpty(
     userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
@@ -42,7 +42,7 @@ const HauptUndNebenantraegeUebersicht = () => {
           userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
             (item, index) => (
               <HauptUndNebenantraege
-                key={index}
+                key={item.antrag}
                 itemIndex={index}
                 item={item}
                 onDelete={onSonstigeNebenUndProzessantraegeDelete}

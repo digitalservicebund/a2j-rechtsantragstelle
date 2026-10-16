@@ -1,6 +1,6 @@
 import { Icon } from "~/components/common/Icon";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { Badge } from "~/components/content/Badge";
-import { GeldEinklagenAnwaltschaftUserData } from "../userData";
 import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./HauptUndNebenantraegeUebersicht";
 import { DeleteButtonWithJavaScript } from "./HauptUndNebenantraegeDeleteButton";
 

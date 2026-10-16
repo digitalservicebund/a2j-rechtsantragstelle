@@ -3,6 +3,7 @@ import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anw
 import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
+import { hauptUndNebenantraegeTestCases } from "../hauptUndNebenantraege/__test__/tescaseWithUserInput";
 
 export const geldEinklagenAnwaltschaftTestCases = {
   flowId: "/geld-einklagen/anwaltschaft",
@@ -35,9 +36,10 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
       {
-        stepId: "/beklagte-partei/beklagte/uebersicht",
+        stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht",
       },
     ],
     ...beklagteParteiTestCases,
+    ...hauptUndNebenantraegeTestCases,
   },
 } satisfies FlowTestConfig<GeldEinklagenAnwaltschaftUserData>;
