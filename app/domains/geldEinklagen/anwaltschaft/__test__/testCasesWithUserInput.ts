@@ -1,7 +1,7 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
+import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/__test__/testCasesWithUserInput";
 import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/flowConfig";
 import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
-import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 
 export const geldEinklagenAnwaltschaftTestCases = {
@@ -27,6 +27,7 @@ export const geldEinklagenAnwaltschaftTestCases = {
       },
     ],
     ...klagendeParteiTestCases,
+    ...beklagteParteiTestCases,
     rechtlicheWuerdigung: [
       {
         stepId: "/rechtliche-wuerdigung",
@@ -35,9 +36,8 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
       {
-        stepId: "/beklagte-partei/beklagte/uebersicht",
+        stepId: "/klage-herunterladen",
       },
     ],
-    ...beklagteParteiTestCases,
   },
 } satisfies FlowTestConfig<GeldEinklagenAnwaltschaftUserData>;

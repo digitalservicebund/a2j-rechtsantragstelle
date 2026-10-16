@@ -1,15 +1,16 @@
 import type { z } from "zod";
 import { type FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import { type FluggastrechtVorabcheckUserData } from "~/domains/fluggastrechte/vorabcheck/userData";
+import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
+import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
+import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
+import type { ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
+import type { ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import { type ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
 import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/userData";
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
-import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/wegweiser/userData";
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
-import type { ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbschein/nachlassgericht/userData";
-import type { ErbscheinWegweiserUserData } from "~/domains/nachlass/erbschein/wegweiser/userData";
 import { type ErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
-import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
@@ -27,6 +28,7 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type AllUserDataKeys = KeysOfUnion<
   | BeratungshilfeVorabcheckUserData
   | BeratungshilfeFormularUserData
+  | GeldEinklagenAnwaltschaftUserData
   | FluggastrechtVorabcheckUserData
   | FluggastrechteUserData
   | ProzesskostenhilfeFormularUserData
