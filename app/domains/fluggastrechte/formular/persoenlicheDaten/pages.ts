@@ -37,7 +37,7 @@ export type FluggastrechteFormularWeiterePersonen = z.infer<
 
 export const fluggastrechtePersoenlicheDatenPages = {
   personDaten: {
-    stepId: "persoenliche-daten/person/daten",
+    stepId: "/persoenliche-daten/person/daten",
     pageSchema: {
       ...persoenlicheDatenSchema,
       iban: schemaOrEmptyString(ibanSchema),
@@ -45,13 +45,13 @@ export const fluggastrechtePersoenlicheDatenPages = {
     },
   },
   weiterePersonenFrage: {
-    stepId: "persoenliche-daten/weitere-personen/frage",
+    stepId: "/persoenliche-daten/weitere-personen/frage",
     pageSchema: {
       isWeiterePersonen: YesNoAnswer,
     },
   },
   weiterePersonenUebersicht: {
-    stepId: "persoenliche-daten/weitere-personen/uebersicht",
+    stepId: "/persoenliche-daten/weitere-personen/uebersicht",
     arraySummary: {
       name: "weiterePersonen",
       schema: weiterePersonenArraySchema,
@@ -62,7 +62,7 @@ export const fluggastrechtePersoenlicheDatenPages = {
     },
   },
   weiterePersonenDaten: {
-    stepId: "persoenliche-daten/weitere-personen/person/#/daten",
+    stepId: "/persoenliche-daten/weitere-personen/person/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "weiterePersonen#buchungsnummer":
@@ -87,6 +87,6 @@ export const fluggastrechtePersoenlicheDatenPages = {
     },
   },
   weiterePersonenWarnung: {
-    stepId: "persoenliche-daten/weitere-personen/warnung",
+    stepId: "/persoenliche-daten/weitere-personen/warnung",
   },
 } as const satisfies PagesConfig;
