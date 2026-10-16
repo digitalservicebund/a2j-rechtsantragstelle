@@ -3,4 +3,6 @@ import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const beklagteParteiFlowConfig = {
   beklagteUebersicht: "prozessualeAusfuehrungen", // TODO: Wire up to Prozessbevollmächtigte
+  beklagteNatuerlichePerson: null,
+  beklagteOrganisation: null,
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

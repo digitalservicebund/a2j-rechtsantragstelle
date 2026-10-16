@@ -1,5 +1,5 @@
 import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
-import BegruendungBeschreibungUebersicht from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
+import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlageParteienUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 
@@ -12,8 +12,8 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
     renderExtraComponents: (loaderData) => {
       return (
         <>
-          {loaderData.stepId === "/klagende-partei/klagende/uebersicht" && (
-            <BegruendungBeschreibungUebersicht /> // TODO: replace w Anwaltschaft component
+          {loaderData.stepId === "/klagende-partei/klagenden/uebersicht" && (
+            <KlageParteienUebersicht relationship="klagende" />
           )}
         </>
       );
