@@ -1,9 +1,11 @@
 import {
   klageParteinArraySchema,
+  naturalPersonGesetzlicheVertretungArt,
   naturalPersonSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
 export const klagendeParteiPages = {
   klagendeUebersicht: {
@@ -26,8 +28,16 @@ export const klagendeParteiPages = {
       "klagenden#plz": naturalPersonSchema.shape.plz,
       "klagenden#ort": naturalPersonSchema.shape.ort,
       "klagenden#land": naturalPersonSchema.shape.land,
-      "klagenden#index": hiddenInputSchema(naturalPersonSchema.shape.index),
-      "klagenden#type": hiddenInputSchema(naturalPersonSchema.shape.type),
+      "klagenden#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(naturalPersonSchema.shape.type),
+      ),
+    },
+  },
+  klagendeNaturalPersonGesetzlicheVertretungDaten: {
+    stepId: "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten",
+    pageSchema: {
+      "klagenden#gesetzliche-vertretung#art":
+        naturalPersonGesetzlicheVertretungArt,
     },
   },
   klagendeOrganizationDaten: {

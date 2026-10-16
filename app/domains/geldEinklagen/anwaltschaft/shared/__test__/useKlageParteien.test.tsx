@@ -24,10 +24,10 @@ describe("useKlageParteien", () => {
     );
 
     expect(result.current).toEqual({
-      klageParteien: {
-        naturalPersonen: [naturalPerson],
-        organizations: [organization],
-      },
+      klageParteienWithIndex: [
+        { partei: naturalPerson, arrayIndex: 0 },
+        { partei: organization, arrayIndex: 1 },
+      ],
       nextItemIndex: 2,
     });
   });
@@ -42,10 +42,7 @@ describe("useKlageParteien", () => {
     );
 
     expect(result.current).toEqual({
-      klageParteien: {
-        naturalPersonen: [],
-        organizations: [],
-      },
+      klageParteienWithIndex: [],
       nextItemIndex: 0,
     });
   });

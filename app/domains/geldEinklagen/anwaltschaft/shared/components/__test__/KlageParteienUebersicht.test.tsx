@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import {
+  MAX_NATURAL_PERSON_REPRESENTATIVES,
   type KlageParteien,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
@@ -23,6 +24,7 @@ const naturalPerson = {
 
 const organization = {
   type: "organisation",
+  orgName: "Example Org",
   index: 2,
   parteiverhaeltnis: "klagende",
 } as Partial<KlageParteien[number]>;
@@ -51,15 +53,108 @@ beforeEach(() => {
 });
 
 describe("KlageParteienUebersicht", () => {
+  it("links to the next representative from the overview below the natural-person limit", () => {
+    renderOverview({
+      klagenden: [
+        {
+          ...naturalPerson,
+          "gesetzliche-vertretung": Array.from(
+            { length: MAX_NATURAL_PERSON_REPRESENTATIVES - 1 },
+            () => ({ art: "Elternteil" as const }),
+          ),
+        },
+      ],
+    });
+
+    expect(
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/4/daten",
+    );
+  });
+
+  it("does not offer a sixth representative for a natural person", () => {
+    renderOverview({
+      klagenden: [
+        {
+          ...naturalPerson,
+          "gesetzliche-vertretung": Array.from(
+            { length: MAX_NATURAL_PERSON_REPRESENTATIVES },
+            () => ({ art: "Elternteil" as const }),
+          ),
+        },
+      ],
+    });
+
+    expect(
+      screen.queryByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders the flat organization representative and allows additional representatives", () => {
+    renderOverview({
+      klagenden: [
+        {
+          ...organization,
+          orgVertretungArt: "Vorstand / Vorständin",
+          orgVertretungAnrede: "herr",
+          orgVertretungTitel: "",
+          orgVertretungVorname: "Max",
+          orgVertretungNachname: "Mustermann",
+          "gesetzliche-vertretung": Array.from({ length: 6 }, () => ({
+            art: "Vorstand / Vorständin" as const,
+          })),
+        },
+      ],
+    });
+
+    expect(
+      screen.getByText("Vorstand / Vorständin: herr Max Mustermann"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/6/daten",
+    );
+  });
+
   it("renders both party types and links to the next claimant index", () => {
-    renderOverview({ klagenden: [naturalPerson, organization] });
+    renderOverview({ klagenden: [organization, naturalPerson] });
 
     expect(screen.getAllByTestId("klage-partei")).toHaveLength(2);
     expect(
-      screen.getByRole("heading", {
-        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} {1})`,
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 2) ${translations.arraySummary.arrayEditButtonLabel.de}`,
       }),
-    ).toBeInTheDocument();
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/1/natuerliche-person-daten",
+    );
+    expect(
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 1) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/organisation-daten",
+    );
+    const naturalPersonsHeading = screen.getByRole("heading", {
+      name: translations.geldEinklagenAnwaltschaft.natuerlichePersonenHeadline
+        .de,
+    });
+    const organizationsHeading = screen.getByRole("heading", {
+      name: translations.geldEinklagenAnwaltschaft.organisationenHeadline.de,
+    });
+    expect(naturalPersonsHeading.closest(".kern-summary")).toBeInTheDocument();
+    expect(organizationsHeading.closest(".kern-summary")).toBeInTheDocument();
     expect(screen.getByTestId("add-natuerliche-person")).toHaveAttribute(
       "href",
       "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/2/natuerliche-person-daten",
@@ -75,8 +170,8 @@ describe("KlageParteienUebersicht", () => {
 
     expect(screen.getAllByTestId("klage-partei")).toHaveLength(1);
     expect(
-      screen.getByRole("heading", {
-        name: `${translations.geldEinklagenAnwaltschaft.beklagteParteiHeadline.de} {2})`,
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.beklagteParteiHeadline.de} 1) ${translations.arraySummary.arrayEditButtonLabel.de}`,
       }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("add-organisation")).toHaveAttribute(

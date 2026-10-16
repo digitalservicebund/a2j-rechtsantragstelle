@@ -660,6 +660,15 @@ export const translations = {
     natuerlichePersonHeadline: {
       de: "Natürliche Person",
     },
+    natuerlichePersonenHeadline: {
+      de: "Natürliche Personen",
+    },
+    gesetzlicheVetretungHeadline: {
+      de: "Gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungSubheader: {
+      de: "Maximal 5",
+    },
     natuerlichePersonenMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an natürlichen Personen erreicht",
     },
@@ -677,6 +686,9 @@ export const translations = {
     },
     organisationHeadline: {
       de: "Organisation",
+    },
+    organisationenHeadline: {
+      de: "Organisationen",
     },
     organisationMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an Organisationen erreicht",
