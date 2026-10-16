@@ -1,12 +1,11 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
 const sonstigeNebenUndProzessantraegeArraySchema = z.array(
   z.object({
-    internesSchlagwort: stringOptionalSchema,
-    antrag: stringRequiredMaxSchema(),
+    internesSchlagwort: z.string().max(50).optional(),
+    antrag: stringRequiredMaxSchema({ max: 2000 }),
   }),
 );
 

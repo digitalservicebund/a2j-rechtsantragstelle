@@ -3,8 +3,10 @@ import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../userData";
+import HauptUndNebenantraege from "./HauptUndNebenantraege";
+import { useSonstigeNebenUndProzessantraegeDelete } from "../hauptUndNebenantraege/useSonstigeNebenUndProzessantraegeDelete";
 
-const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
+export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag";
 
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 10;
@@ -17,10 +19,8 @@ const HauptUndNebenantraegeUebersicht = () => {
 
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
-  //   const sonstigeNebenUndProzessantraegeContextValue = useMemo(
-  //     () => ({ sonstigeNebenUndProzessantraege: userDataGeldEinklagen.sonstigeNebenUndProzessantraege ?? [] }),
-  //     [userDataGeldEinklagen.sonstigeNebenUndProzessantraege],
-  //   );
+  const { onSonstigeNebenUndProzessantraegeDelete } =
+    useSonstigeNebenUndProzessantraegeDelete();
 
   const nextItemIndex = arrayIsNonEmpty(
     userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
@@ -36,6 +36,19 @@ const HauptUndNebenantraegeUebersicht = () => {
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
+        {arrayIsNonEmpty(
+          userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
+        ) &&
+          userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
+            (item, index) => (
+              <HauptUndNebenantraege
+                key={index}
+                itemIndex={index}
+                item={item}
+                onDelete={onSonstigeNebenUndProzessantraegeDelete}
+              />
+            ),
+          )}
         <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
           <Button
             look="secondary"
