@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
-import { stagingLocale } from "~/services/cms/models/StrapiLocale";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
 import type { GetStrapiEntryApiOpts } from "../schemas";
 
 const API_URL = "test://cms/api/";
@@ -18,11 +18,11 @@ describe("services/cms", () => {
     const dataResponse = [{ testField: "testData" }];
     const defaultOptions: GetStrapiEntryApiOpts<"pages"> = {
       apiId: "pages",
-      locale: stagingLocale,
+      locale: defaultLocale,
       pLevel: 5,
       showDraftVersion: false,
     };
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=5&locale=sg`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=5&locale=de`;
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 
