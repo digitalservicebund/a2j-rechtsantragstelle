@@ -10,25 +10,25 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 export const fluggastrechteGrundvoraussetzungenPages = {
   grundvoraussetzungenStreitbeilegung: {
-    stepId: "grundvoraussetzungen/streitbeilegung",
+    stepId: "/grundvoraussetzungen/streitbeilegung",
     pageSchema: {
       streitbeilegung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   grundvoraussetzungenStreitbeilegungGruende: {
-    stepId: "grundvoraussetzungen/streitbeilegung-gruende",
+    stepId: "/grundvoraussetzungen/streitbeilegung-gruende",
     pageSchema: {
       streitbeilegungGruende: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   grundvorraussetzungenProzessfaehig: {
-    stepId: "grundvoraussetzungen/prozessfaehig",
+    stepId: "/grundvoraussetzungen/prozessfaehig",
   },
   grundvoraussetzungenAusgleichszahlung: {
-    stepId: "grundvoraussetzungen/ausgleichszahlung",
+    stepId: "/grundvoraussetzungen/ausgleichszahlung",
   },
   grundvoraussetzungenDatenUebernahme: {
-    stepId: "grundvoraussetzungen/daten-uebernahme",
+    stepId: "/grundvoraussetzungen/daten-uebernahme",
     pageSchema: {
       fluggesellschaft: hiddenInputSchema(schemaOrEmptyString(z.string())),
       startAirport: hiddenInputSchema(schemaOrEmptyString(airportSchema)),
@@ -46,6 +46,6 @@ export const fluggastrechteGrundvoraussetzungenPages = {
     },
   },
   grundvoraussetzungenAmtsgericht: {
-    stepId: "grundvoraussetzungen/amtsgericht",
+    stepId: "/grundvoraussetzungen/amtsgericht",
   },
 } satisfies PagesConfig;

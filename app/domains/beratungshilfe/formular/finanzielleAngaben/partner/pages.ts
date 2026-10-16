@@ -6,46 +6,46 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const berhAntragFinanzielleAngabenPartnerPages = {
   partnerschaft: {
-    stepId: "finanzielle-angaben/partner/partnerschaft",
+    stepId: "/finanzielle-angaben/partner/partnerschaft",
     pageSchema: {
       partnerschaft: z.enum(["yes", "no", "separated", "widowed"]),
     },
   },
   zusammenleben: {
-    stepId: "finanzielle-angaben/partner/zusammenleben",
+    stepId: "/finanzielle-angaben/partner/zusammenleben",
     pageSchema: {
       zusammenleben: YesNoAnswer,
     },
   },
   partnerEinkommen: {
-    stepId: "finanzielle-angaben/partner/partner-einkommen",
+    stepId: "/finanzielle-angaben/partner/partner-einkommen",
     pageSchema: {
       partnerEinkommen: YesNoAnswer,
     },
   },
   partnerEinkommenSumme: {
-    stepId: "finanzielle-angaben/partner/partner-einkommen-summe",
+    stepId: "/finanzielle-angaben/partner/partner-einkommen-summe",
     pageSchema: {
       partnerEinkommenSumme: buildMoneyValidationSchema(),
     },
   },
   unterhalt: {
-    stepId: "finanzielle-angaben/partner/unterhalt",
+    stepId: "/finanzielle-angaben/partner/unterhalt",
     pageSchema: {
       unterhalt: YesNoAnswer,
     },
   },
   keineRolle: {
-    stepId: "finanzielle-angaben/partner/keine-rolle",
+    stepId: "/finanzielle-angaben/partner/keine-rolle",
   },
   partnerUnterhaltsSumme: {
-    stepId: "finanzielle-angaben/partner/unterhalts-summe",
+    stepId: "/finanzielle-angaben/partner/unterhalts-summe",
     pageSchema: {
       partnerUnterhaltsSumme: buildMoneyValidationSchema(),
     },
   },
   partnerName: {
-    stepId: "finanzielle-angaben/partner/partner-name",
+    stepId: "/finanzielle-angaben/partner/partner-name",
     pageSchema: {
       partnerVorname: stringRequiredSchema,
       partnerNachname: stringRequiredSchema,
