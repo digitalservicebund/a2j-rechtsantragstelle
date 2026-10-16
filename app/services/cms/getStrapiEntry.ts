@@ -2,23 +2,36 @@ import { getStrapiEntryFromApi } from "./getStrapiEntryFromApi";
 import { getStrapiEntryFromFile } from "./getStrapiEntryFromFile";
 import { config } from "../env/env.server";
 import { config as publicConfig } from "../env/public";
-import { defaultLocale, stagingLocale } from "./models/StrapiLocale";
-import { type GetStrapiEntry } from "./schemas";
+import {
+  type ApiId,
+  type GetStrapiEntry,
+  type GetStrapiEntryOpts,
+} from "./schemas";
+import { defaultLocale } from "./models/StrapiLocale";
 
-const getterFunction =
-  config().CMS === "FILE" ? getStrapiEntryFromFile : getStrapiEntryFromApi;
+// We fetch all the locales at once
+async function getEntries<T extends ApiId>(
+  opts: GetStrapiEntryOpts<T> & { apiId: T },
+) {
+  // In case the CMS is File or environment is production, get entries from the file
+  return config().CMS === "FILE" || publicConfig().ENVIRONMENT === "production"
+    ? await getStrapiEntryFromFile({ ...opts, locale: "*" })
+    : await getStrapiEntryFromApi({
+        ...opts,
+        showDraftVersion: true, // Always get the draft version when get the entries via Api and running the application
+      });
+}
 
-export const getStrapiEntry: GetStrapiEntry = async (opts) => {
-  if (opts.locale) return getterFunction(opts);
+export const getStrapiEntry: GetStrapiEntry = async <T extends ApiId>(
+  opts: GetStrapiEntryOpts<T> & { apiId: T },
+) => {
+  const entries = await getEntries<T>(opts);
 
-  if (publicConfig().ENVIRONMENT === "production")
-    return getterFunction({ ...opts, locale: defaultLocale });
-
-  // Fetch all locales at once, then try to return stagingLocale first.
-  // Not really any but the filtering breaks type inference from getterFunction
-  const entries = await getterFunction({ ...opts, locale: "*" });
-  const stagingEntry: any = entries.find(
-    (entry) => entry && "locale" in entry && entry.locale === stagingLocale,
+  // In case the locale has value on the opts, filter for the locale, otherwise for the defaultLocale
+  const filterLocale = opts.locale ?? defaultLocale;
+  const localeEntry: any = entries.find(
+    (entry) => entry && "locale" in entry && entry.locale === filterLocale,
   );
-  return stagingEntry ? [stagingEntry] : entries;
+
+  return localeEntry ? [localeEntry] : entries;
 };
