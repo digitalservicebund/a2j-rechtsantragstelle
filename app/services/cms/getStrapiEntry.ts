@@ -18,6 +18,7 @@ async function getEntries<T extends ApiId>(
     ? await getStrapiEntryFromFile({ ...opts, locale: "*" })
     : await getStrapiEntryFromApi({
         ...opts,
+        locale: undefined,
         showDraftVersion: true, // Always get the draft version when get the entries via Api and running the application
       });
 }
