@@ -1,10 +1,10 @@
 import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { Badge } from "~/components/content/Badge";
-import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./HauptUndNebenantraegeUebersicht";
-import { DeleteButtonWithJavaScript } from "./HauptUndNebenantraegeDeleteButton";
+import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./SonstigeNebenUndProzessantraegeUebersicht";
+import { SonstigeNebenUndProzessantraegeDeleteButton } from "./SonstigeNebenUndProzessantraegeDeleteButton";
 
-type HauptUndNebenantraegeProps = {
+type SonstigeNebenUndProzessantraegeProps = {
   readonly itemIndex: number;
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["sonstigeNebenUndProzessantraege"]
@@ -14,11 +14,11 @@ type HauptUndNebenantraegeProps = {
     itemIndex: number,
   ) => Promise<void>;
 };
-const HauptUndNebenantraege = ({
+const SonstigeNebenUndProzessantraege = ({
   itemIndex,
   item,
   onDelete,
-}: HauptUndNebenantraegeProps) => {
+}: SonstigeNebenUndProzessantraegeProps) => {
   return (
     <>
       <div
@@ -44,7 +44,7 @@ const HauptUndNebenantraege = ({
               </a>
             </div>
             <div className="flex justify-end">
-              <DeleteButtonWithJavaScript
+              <SonstigeNebenUndProzessantraegeDeleteButton
                 itemIndex={itemIndex}
                 onDelete={onDelete}
               />
@@ -56,4 +56,4 @@ const HauptUndNebenantraege = ({
   );
 };
 
-export default HauptUndNebenantraege;
+export default SonstigeNebenUndProzessantraege;

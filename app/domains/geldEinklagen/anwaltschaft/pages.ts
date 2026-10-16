@@ -8,7 +8,7 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { beklagteParteiPages } from "./beklagte-partei/pages";
-import { hauptUndNebenantraegePages } from "./hauptUndNebenantraege/pages";
+import { sonstigeNebenUndProzessantraegePages } from "./sonstigeNebenUndProzessantraege/pages";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -74,6 +74,7 @@ export const geldEinklagenAnwaltschaftPages = {
       versaeumnisurteil: schemaOrEmptyString(checkedOptional),
     },
   },
+    ...sonstigeNebenUndProzessantraegePages,
   rechtlicheWuerdigung: {
     stepId: "/rechtliche-wuerdigung",
     pageSchema: {
@@ -82,7 +83,6 @@ export const geldEinklagenAnwaltschaftPages = {
       ),
     },
   },
-  ...hauptUndNebenantraegePages,
   downloadKlage: {
     stepId: "/klage-herunterladen",
   },

@@ -1,6 +1,6 @@
 import { beklagteParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/flowConfig";
 import { klagendeParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/flowConfig";
-import { hauptUndNebenantraegeFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/flowConfig";
+import { sonstigeNebenUndProzessantraegeFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/sonstigeNebenUndProzessantraege/flowConfig";
 import {
   type CompiledFlow,
   compileFlow,
@@ -22,7 +22,7 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
       beklagteNatuerlichePerson: null,
       beklagteOrganisation: null,
-      ...hauptUndNebenantraegeFlowConfig,
+      ...sonstigeNebenUndProzessantraegeFlowConfig,
       downloadKlage: null,
     },
     pruningStrategy: "cascading",

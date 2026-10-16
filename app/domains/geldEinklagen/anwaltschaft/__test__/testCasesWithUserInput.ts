@@ -3,7 +3,7 @@ import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anw
 import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import { hauptUndNebenantraegeTestCases } from "../hauptUndNebenantraege/__test__/tescaseWithUserInput";
+import { sonstigeNebenUndProzessantraegeTestCases } from "../sonstigeNebenUndProzessantraege/__test__/testcasesSonstigeNebenUndProzessantraege";
 
 export const geldEinklagenAnwaltschaftTestCases = {
   flowId: "/geld-einklagen/anwaltschaft",
@@ -28,6 +28,8 @@ export const geldEinklagenAnwaltschaftTestCases = {
       },
     ],
     ...klagendeParteiTestCases,
+    ...beklagteParteiTestCases,
+    ...sonstigeNebenUndProzessantraegeTestCases,
     rechtlicheWuerdigung: [
       {
         stepId: "/rechtliche-wuerdigung",
@@ -36,10 +38,11 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
       {
-        stepId: "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht",
+        stepId: "/sonstige-neben-und-prozessantraege/uebersicht",
       },
     ],
-    ...beklagteParteiTestCases,
-    ...hauptUndNebenantraegeTestCases,
   },
-} satisfies FlowTestConfig<GeldEinklagenAnwaltschaftUserData>;
+} satisfies FlowTestConfig<
+  GeldEinklagenAnwaltschaftUserData,
+  typeof geldEinklagenAnwaltschaftFlowConfig.pages
+>;

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
-import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./HauptUndNebenantraegeUebersicht";
+import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./SonstigeNebenUndProzessantraegeUebersicht";
 import { DeleteDialog } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/DeleteDialog";
 
 type DeleteButtonProps = {
@@ -12,7 +12,7 @@ type DeleteButtonProps = {
   ) => Promise<void>;
 };
 
-export const DeleteButtonWithJavaScript = ({
+export const SonstigeNebenUndProzessantraegeDeleteButton = ({
   itemIndex,
   onDelete,
 }: DeleteButtonProps) => {

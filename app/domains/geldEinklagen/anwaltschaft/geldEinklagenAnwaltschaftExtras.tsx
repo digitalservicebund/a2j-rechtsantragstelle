@@ -2,7 +2,7 @@ import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
 import BegruendungBeschreibungUebersicht from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/BegruendungBeschreibungUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
-import HauptUndNebenantraegeUebersicht from "./hauptUndNebenantraege/components/HauptUndNebenantraegeUebersicht";
+import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -17,8 +17,8 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
             <BegruendungBeschreibungUebersicht /> // TODO: replace w Anwaltschaft component
           )}
           {loaderData.stepId ===
-            "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht" && (
-            <HauptUndNebenantraegeUebersicht />
+            "/sonstige-neben-und-prozessantraege/uebersicht" && (
+            <SonstigeNebenUndProzessantraegeUebersicht />
           )}
         </>
       );

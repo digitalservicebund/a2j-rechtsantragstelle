@@ -9,10 +9,10 @@ const sonstigeNebenUndProzessantraegeArraySchema = z.array(
   }),
 );
 
-export const hauptUndNebenantraegePages = {
+export const sonstigeNebenUndProzessantraegePages = {
   sonstigeNebenUndProzessantraegeUebersicht: {
     stepId:
-      "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/uebersicht",
+      "/sonstige-neben-und-prozessantraege/uebersicht",
     arraySummary: {
       name: "sonstigeNebenUndProzessantraege",
       schema: sonstigeNebenUndProzessantraegeArraySchema,
@@ -21,7 +21,7 @@ export const hauptUndNebenantraegePages = {
   },
   sonstigeNebenUndProzessantraegeAntrag: {
     stepId:
-      "/haupt-und-nebenantraege/sonstige-neben-und-prozessantraege/antrag/#/daten",
+      "/sonstige-neben-und-prozessantraege/antrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "sonstigeNebenUndProzessantraege#internesSchlagwort":
