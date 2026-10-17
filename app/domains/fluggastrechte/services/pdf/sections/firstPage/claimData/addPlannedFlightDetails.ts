@@ -5,6 +5,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const AFFECTED_FLIGHT_TEXT = "Betroffener Flug:";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer:";
@@ -49,7 +50,11 @@ export const addPlannedFlightDetails = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(PLANNED_DEPARTURE_DATE_TEXT, { continued: true })
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(` ${userData?.direktAbflugsDatum ?? ""}`);
+        .text(
+          userData?.direktAbflugsDatum
+            ? ` ${toDateString(userData?.direktAbflugsDatum)}`
+            : "",
+        );
       doc.moveDown(0.2);
     }),
   );

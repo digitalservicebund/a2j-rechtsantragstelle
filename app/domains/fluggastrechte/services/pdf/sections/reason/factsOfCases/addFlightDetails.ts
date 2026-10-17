@@ -6,6 +6,7 @@ import {
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
 import { addReasonCaption } from "./addReasonCaption";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const BOOKING_NUMBER_TEXT = "Buchungsnummer: ";
 export const FLIGHT_NUMBER_TEXT = "Flugnummer: ";
@@ -62,7 +63,7 @@ const getFlightDetails = (userData: FluggastrechteUserData): FlightDetail[] => {
 
   flightDetails.push({
     text: PLANNED_DEPARTURE_DATE_TEXT,
-    value: userData.direktAbflugsDatum ?? "",
+    value: toDateString(userData.direktAbflugsDatum),
   });
 
   flightDetails.push({

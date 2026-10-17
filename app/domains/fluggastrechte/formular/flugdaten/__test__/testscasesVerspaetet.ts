@@ -9,12 +9,20 @@ const baseContext = {
   bereich: "verspaetet",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "01.05.2023",
+  direktAbflugsDatum: {
+    day: "01",
+    month: "05",
+    year: "2023",
+  },
   direktAbflugsZeit: {
     hour: "10",
     minute: "00",
   },
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: {
+    day: "02",
+    month: "05",
+    year: "2023",
+  },
   direktAnkunftsZeit: {
     hour: "10",
     minute: "00",
@@ -29,12 +37,20 @@ const baseContext = {
 
 const andererFlugAnkunftInput = {
   ersatzFlugnummer: "BCA4321",
-  ersatzFlugAnkunftsDatum: "10.03.2024",
+  ersatzFlugAnkunftsDatum: {
+    day: "10",
+    month: "03",
+    year: "2024",
+  },
   ersatzFlugAnkunftsZeit: {
     hour: "10",
     minute: "10",
   },
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: {
+    day: "02",
+    month: "05",
+    year: "2023",
+  },
   direktAnkunftsZeit: {
     hour: "10",
     minute: "00",
@@ -42,12 +58,20 @@ const andererFlugAnkunftInput = {
 } satisfies Partial<FluggastrechteUserData>;
 
 const ersatzverbindungBeschreibungInput = {
-  andereErsatzverbindungAnkunftsDatum: "10.03.2024",
+  andereErsatzverbindungAnkunftsDatum: {
+    day: "10",
+    month: "03",
+    year: "2024",
+  },
   andereErsatzverbindungAnkunftsZeit: {
     hour: "10",
     minute: "10",
   },
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: {
+    day: "02",
+    month: "05",
+    year: "2023",
+  },
   direktAnkunftsZeit: {
     hour: "10",
     minute: "00",
@@ -189,12 +213,20 @@ export const testCasesFluggastrechteFormularFlugdatenVerspaetet: FlowTestCases<F
       {
         stepId: "/flugdaten/tatsaechlicher-flug-ankunft",
         userInput: {
-          tatsaechlicherAnkunftsDatum: "10.03.2024",
+          tatsaechlicherAnkunftsDatum: {
+            day: "10",
+            month: "03",
+            year: "2024",
+          },
           tatsaechlicherAnkunftsZeit: {
             hour: "10",
             minute: "10",
           },
-          direktAnkunftsDatum: "02.05.2023",
+          direktAnkunftsDatum: {
+            day: "02",
+            month: "05",
+            year: "2023",
+          },
           direktAnkunftsZeit: {
             hour: "10",
             minute: "00",

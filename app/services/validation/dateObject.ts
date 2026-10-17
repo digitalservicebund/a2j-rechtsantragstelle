@@ -3,6 +3,7 @@ import { isValidDate } from "./dateString";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { addYears, today } from "~/util/date";
 import { stringOptionalSchema } from "./stringOptional";
+import { type AllowedUserTypes } from "~/domains/userData";
 
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
@@ -171,8 +172,8 @@ export const createSplitDateSchemaOptional = (args?: {
 
 export type DateObject = { day: string; month: string; year: string };
 
-export const toDateString = (date: DateObject) =>
-  `${date.day}.${date.month}.${date.year}`;
+export const toDateString = (date?: DateObject) =>
+  hasDateObject(date) ? `${date.day}.${date.month}.${date.year}` : "";
 
 export const toDate = (date: DateObject) =>
   new Date(
@@ -196,3 +197,14 @@ export const childBirthdaySchema = createSplitDateSchema({
   earliest: () => addYears(today(), -24),
   latest: () => today(),
 });
+
+export const isItemValueDateObject = (
+  itemValue: AllowedUserTypes,
+): itemValue is DateObject => {
+  return (
+    typeof itemValue === "object" &&
+    "day" in itemValue &&
+    "month" in itemValue &&
+    "year" in itemValue
+  );
+};

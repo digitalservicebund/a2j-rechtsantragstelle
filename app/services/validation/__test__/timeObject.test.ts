@@ -1,4 +1,7 @@
-import { createSplitTimeSchema } from "../timeObject";
+import {
+  createSplitTimeSchema,
+  createSplitTimeSchemaOptional,
+} from "../timeObject";
 
 describe("timeObject", () => {
   describe("check sucessfull results", () => {
@@ -117,5 +120,62 @@ describe("timeObject", () => {
       expect(actual.success).toBe(false);
       expect(actual.error?.issues[0].message).toBe("Ungültige Uhrzeit");
     });
+  });
+});
+
+describe("createSplitTimeSchemaOptional", () => {
+  it("succeeds when both fields are blank", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({
+      hour: "",
+      minute: "",
+    });
+    expect(actual).toEqual({ data: { hour: "", minute: "" }, success: true });
+  });
+
+  it("succeeds when both fields are missing", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({});
+    expect(actual.success).toBe(true);
+  });
+
+  it("succeeds when a valid time is provided", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({
+      hour: "10",
+      minute: "30",
+    });
+    expect(actual).toEqual({
+      data: { hour: "10", minute: "30" },
+      success: true,
+    });
+  });
+
+  it("fails when only the hour is provided", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({
+      hour: "10",
+      minute: "",
+    });
+    expect(actual.success).toBe(false);
+
+    const issue = actual.error?.issues.find((i) => i.path.includes("minute"));
+    expect(issue?.message).toBe("Ungültiger Minute");
+  });
+
+  it("fails when only the minute is provided", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({
+      hour: "",
+      minute: "30",
+    });
+    expect(actual.success).toBe(false);
+
+    const issue = actual.error?.issues.find((i) => i.path.includes("hour"));
+    expect(issue?.message).toBe("Ungültige Stunde");
+  });
+
+  it("fails when the time is not valid", () => {
+    const actual = createSplitTimeSchemaOptional().safeParse({
+      hour: "24",
+      minute: "59",
+    });
+    expect(actual.success).toBe(false);
+    expect(actual.error?.issues[0].message).toBe("Ungültige Uhrzeit");
   });
 });
