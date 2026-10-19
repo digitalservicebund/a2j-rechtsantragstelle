@@ -9,21 +9,18 @@ describe("getArraySummaryData", () => {
 
   const bankkontenUrl =
     "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten";
-  const addBankkonten = "add-bankkonten";
 
   const bankkontenArrayConfig = {
     url: bankkontenUrl,
     initialInputUrl: "daten",
-    statementKey: "hasBankkonto",
-    event: addBankkonten,
-  } as const;
+    isArrayRelevant: (data) => data.hasBankkonto === "yes",
+  } satisfies ArrayConfigServer;
 
   const kfzArrayConfig = {
     url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/kraftfahrzeuge",
     initialInputUrl: "daten",
-    statementKey: "hasKraftfahrzeug",
-    event: "add-kraftfahrzeuge",
-  } as const;
+    isArrayRelevant: (data) => data.hasKraftfahrzeug === "yes",
+  } satisfies ArrayConfigServer;
 
   it("returns array configuration and data", () => {
     expect(
@@ -60,9 +57,8 @@ describe("getArraySummaryData", () => {
         {
           bankkonten: {
             url: bankkontenUrl,
-            event: addBankkonten,
             initialInputUrl: "daten",
-            statementKey: "hasBankkonto",
+            isArrayRelevant: (data) => data.hasBankkonto === "yes",
           },
         },
         { hasBankkonto: "no" },
@@ -75,10 +71,8 @@ describe("getArraySummaryData", () => {
     const arrayConfig = {
       url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
       initialInputUrl: "daten",
-      statementKey: "hasBankkonto",
-      event: addBankkonten,
       isArrayRelevant: () => false,
-    } as const;
+    } satisfies ArrayConfigServer;
 
     const summaryData = getArraySummaryData(
       ["bankkonten"],
@@ -90,11 +84,10 @@ describe("getArraySummaryData", () => {
     expect(summaryData).toEqual({});
   });
 
-  it("should filter arrays when isRelevantArray is present and evaluates to false and it does not have statementKey", () => {
+  it("should filter arrays when isArrayRelevant evaluates to false based on user data", () => {
     const arrayConfig = {
       url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum-zusammenfassung/bankkonten",
       initialInputUrl: "daten",
-      event: addBankkonten,
       isArrayRelevant: (data) => data.hasBankkonto === "yes",
     } satisfies ArrayConfigServer;
 

@@ -37,7 +37,7 @@ export const nachlassPages = {
     arraySummary: {
       name: "grundbesitz",
       schema: grundbesitzArraySchema,
-      fieldName: "hasGrundbesitz",
+      isArrayRelevant: (context) => context["hasGrundbesitz"] === "yes",
     },
   },
   grundbesitzAdresse: {
@@ -68,7 +68,7 @@ export const nachlassPages = {
     arraySummary: {
       name: "unternehmen",
       schema: unternehmenArraySchema,
-      fieldName: "hasUnternehmen",
+      isArrayRelevant: (context) => context["hasUnternehmen"] === "yes",
     },
   },
   unternehmenWarnung: {
