@@ -356,8 +356,14 @@ export const translations = {
     minuteInputLabel: {
       de: "Minute",
     },
-    errorWrongTime: {
+    invalidTime: {
       de: "Ungültige Uhrzeit",
+    },
+    invalidHour: {
+      de: "Ungültige Stunde",
+    },
+    invalidMinute: {
+      de: "Ungültiger Minute",
     },
   },
   numberIncrementComponent: {
@@ -650,6 +656,48 @@ export const translations = {
   geldEinklagenAnwaltschaft: {
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
+    },
+    natuerlichePersonHeadline: {
+      de: "Natürliche Person",
+    },
+    natuerlichePersonenHeadline: {
+      de: "Natürliche Personen",
+    },
+    gesetzlicheVetretungHeadline: {
+      de: "Gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungSubheader: {
+      de: "Maximal 5",
+    },
+    natuerlichePersonenMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an natürlichen Personen erreicht",
+    },
+    natuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende natürliche Personen hinzufügen.",
+    },
+    beklagteNatuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte natürliche Personen hinzufügen.",
+    },
+    klagendeParteiHeadline: {
+      de: "Klagende zu",
+    },
+    beklagteParteiHeadline: {
+      de: "Beklagte zu",
+    },
+    organisationHeadline: {
+      de: "Organisation",
+    },
+    organisationenHeadline: {
+      de: "Organisationen",
+    },
+    organisationMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an Organisationen erreicht",
+    },
+    organisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende Organisationen hinzufügen.",
+    },
+    beklagteOrganisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
     },
   },
   nachlass: {

@@ -1,7 +1,7 @@
 import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { dateAndTimeToTimestamp } from "~/services/validation/time";
+import { dateAndTimeToTimestamp } from "~/services/validation/timeObject";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
@@ -63,18 +63,22 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
   ),
-  departureDateTime: dateAndTimeToTimestamp(
-    data.annullierungErsatzverbindungAbflugsDatum,
-    data.annullierungErsatzverbindungAbflugsZeit,
-  ),
+  departureDateTime: data.annullierungErsatzverbindungAbflugsZeit
+    ? dateAndTimeToTimestamp(
+        data.annullierungErsatzverbindungAbflugsDatum,
+        data.annullierungErsatzverbindungAbflugsZeit,
+      )
+    : Number.NaN,
   originalArrivalDateTime: dateAndTimeToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
-  arrivalDateTime: dateAndTimeToTimestamp(
-    data.annullierungErsatzverbindungAnkunftsDatum,
-    data.annullierungErsatzverbindungAnkunftsZeit,
-  ),
+  arrivalDateTime: data.annullierungErsatzverbindungAnkunftsZeit
+    ? dateAndTimeToTimestamp(
+        data.annullierungErsatzverbindungAnkunftsDatum,
+        data.annullierungErsatzverbindungAnkunftsZeit,
+      )
+    : Number.NaN,
 });
 
 const addIssue = (

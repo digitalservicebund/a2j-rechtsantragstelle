@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
-import { createDateSchema } from "~/services/validation/dateString";
+import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -13,7 +13,7 @@ const sharedAusgabenFields = {
   beitrag: buildMoneyValidationSchema(),
   hasZahlungsfrist: YesNoAnswer,
 };
-const zahlungsfristSchema = createDateSchema({ earliest: () => today() });
+const zahlungsfristSchema = createSplitDateSchema({ earliest: () => today() });
 
 const ausgabenArraySchema = z
   .union([
@@ -32,13 +32,13 @@ const ausgabenArraySchema = z
 
 export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
   ausgabenFrage: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben-frage",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben-frage",
     pageSchema: {
       hasAusgaben: YesNoAnswer,
     },
   },
   ausgabenUebersicht: {
-    stepId: "finanzielle-angaben/ausgaben/uebersicht",
+    stepId: "/finanzielle-angaben/ausgaben/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "ausgaben",
@@ -48,7 +48,7 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
     },
   },
   ausgabenArt: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/art",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben/#/art",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "ausgaben#art": sharedAusgabenFields.art,
@@ -56,28 +56,28 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
     },
   },
   ausgabenZahlungsinformation: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/zahlungsinformation",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben/#/zahlungsinformation",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: { "ausgaben#beitrag": sharedAusgabenFields.beitrag },
   },
   ausgabenLaufzeit: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/laufzeit",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben/#/laufzeit",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "ausgaben#hasZahlungsfrist": sharedAusgabenFields.hasZahlungsfrist,
     },
   },
   ausgabenZahlungsfrist: {
-    stepId: "finanzielle-angaben/ausgaben/ausgaben/#/zahlungsfrist",
+    stepId: "/finanzielle-angaben/ausgaben/ausgaben/#/zahlungsfrist",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: { "ausgaben#zahlungsfrist": zahlungsfristSchema },
   },
   ausgabenWarnung: {
-    stepId: "finanzielle-angaben/ausgaben/warnung",
+    stepId: "/finanzielle-angaben/ausgaben/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
   ausgabenSituation: {
-    stepId: "finanzielle-angaben/ausgaben/situation",
+    stepId: "/finanzielle-angaben/ausgaben/situation",
     pageSchema: {
       ausgabensituation: besondereBelastungenInputSchema,
     },

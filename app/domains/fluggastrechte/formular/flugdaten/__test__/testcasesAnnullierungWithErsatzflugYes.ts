@@ -11,9 +11,15 @@ const baseContext = {
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
   direktAbflugsDatum: "01.05.2023",
-  direktAbflugsZeit: "10:00",
+  direktAbflugsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   direktAnkunftsDatum: "02.05.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   pageData: {
     subflowDoneStates: {
       "/grundvoraussetzungen": true,
@@ -25,13 +31,25 @@ const baseContext = {
 const ersatzverbindungDatenInput = {
   annullierungErsatzverbindungFlugnummer: "BCA4321",
   annullierungErsatzverbindungAbflugsDatum: "10.03.2024",
-  annullierungErsatzverbindungAbflugsZeit: "10:10",
+  annullierungErsatzverbindungAbflugsZeit: {
+    hour: "10",
+    minute: "10",
+  },
   annullierungErsatzverbindungAnkunftsDatum: "10.03.2024",
-  annullierungErsatzverbindungAnkunftsZeit: "10:10",
+  annullierungErsatzverbindungAnkunftsZeit: {
+    hour: "10",
+    minute: "10",
+  },
   direktAbflugsDatum: "01.05.2023",
-  direktAbflugsZeit: "10:00",
+  direktAbflugsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   direktAnkunftsDatum: "02.05.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   ankuendigung: "",
 } satisfies Partial<FluggastrechteUserData>;
 

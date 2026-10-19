@@ -18,10 +18,6 @@ import { fluggastrechteVorabcheckFlowConfig } from "~/domains/fluggastrechte/vor
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
-  config: {
-    id: "/fluggastrechte/vorabcheck",
-    states: {},
-  },
   newEngineConfig: fluggastrechteVorabcheckFlowConfig,
   stringReplacements: (context: FluggastrechtVorabcheckUserData) => ({
     ...getCompensationPaymentString(context),

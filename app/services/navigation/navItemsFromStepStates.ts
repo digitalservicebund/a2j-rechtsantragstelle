@@ -1,5 +1,5 @@
 import { type NavItem } from "~/components/navigation/types";
-import { type StepState } from "../flow/server/buildFlowController";
+import { type StepState } from "./buildStepStatesFromStatusTree";
 import { navState, stateIsCurrent } from "./navState";
 import type { Translations } from "../translations/getTranslationByKey";
 import { isStepStateIdCurrent } from "./isStepStateIdCurrent";

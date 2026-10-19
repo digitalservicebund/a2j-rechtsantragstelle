@@ -1,11 +1,11 @@
 import { type FlowTestConfig } from "~/domains/__test__/TestCases";
+import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/__test__/testCasesWithUserInput";
 import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/flowConfig";
+import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 
 export const geldEinklagenAnwaltschaftTestCases = {
-  xstateConfig: {
-    id: "/geld-einklagen/anwaltschaft",
-  },
+  flowId: "/geld-einklagen/anwaltschaft",
   newEngineConfig: geldEinklagenAnwaltschaftFlowConfig,
   testcases: {
     basePagesUntilKlagendePartei: [
@@ -26,6 +26,8 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
     ],
+    ...klagendeParteiTestCases,
+    ...beklagteParteiTestCases,
     rechtlicheWuerdigung: [
       {
         stepId: "/rechtliche-wuerdigung",

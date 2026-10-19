@@ -1,4 +1,3 @@
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 import {
   type CompiledFlow,
   compileFlow,
@@ -6,11 +5,8 @@ import {
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { kontopfaendungWegweiserPages } from "./pages";
 
-const kontopfaendungWegweiserPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(kontopfaendungWegweiserPages);
-
 export const kontopfaendungWegweiserFlowConfig = compileFlow({
-  pages: kontopfaendungWegweiserPagesWithLeadingSlash,
+  pages: kontopfaendungWegweiserPages,
   initialStep: "start",
   transitions: {
     start: "kontopfaendung",

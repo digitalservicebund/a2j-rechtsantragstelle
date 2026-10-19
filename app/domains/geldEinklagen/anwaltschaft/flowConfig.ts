@@ -1,3 +1,5 @@
+import { beklagteParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/beklagte-partei/flowConfig";
+import { klagendeParteiFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/flowConfig";
 import {
   type CompiledFlow,
   compileFlow,
@@ -12,7 +14,9 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
     transitions: {
       voraussetzungen: "klageInhalt",
       klageInhalt: "pilotgericht",
-      pilotgericht: "prozessualeAusfuehrungen", // TODO: wire up to Klagende
+      pilotgericht: "klagendeUebersicht",
+      ...klagendeParteiFlowConfig,
+      ...beklagteParteiFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
       rechtlicheWuerdigung: "downloadKlage",
       downloadKlage: null,

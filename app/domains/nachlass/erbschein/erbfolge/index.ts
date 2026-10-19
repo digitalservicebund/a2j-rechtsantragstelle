@@ -6,7 +6,6 @@ import { erbfolgeStringReplacements } from "../shared/stringReplacements";
 
 export const erbscheinErbfolge = {
   flowType: "vorabCheck",
-  config: { states: {} },
   // The compiled flow keeps its precise per-page types for direct consumers (the
   // result route). Here it is widened to the shared registry's flow type, where
   // every flow is handled generically as CompiledFlow<PageConfigMap>.

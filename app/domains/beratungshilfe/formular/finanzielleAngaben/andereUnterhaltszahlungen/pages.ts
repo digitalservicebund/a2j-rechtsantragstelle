@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createDateSchema } from "~/services/validation/dateString";
+import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -22,7 +22,7 @@ const unterhaltszahlungenArraySchema = z
     ]),
     firstName: stringRequiredSchema,
     surname: stringRequiredSchema,
-    birthday: createDateSchema({
+    birthday: createSplitDateSchema({
       earliest: () => addYears(today(), MINUS_150_YEARS),
       latest: () => today(),
     }),
@@ -33,13 +33,13 @@ const unterhaltszahlungenArraySchema = z
 
 export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
   andereUnterhaltszahlungenFrage: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/frage",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/frage",
     pageSchema: {
       hasWeitereUnterhaltszahlungen: YesNoAnswer,
     },
   },
   andereUnterhaltszahlungenUebersicht: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/uebersicht",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "unterhaltszahlungen",
@@ -48,11 +48,11 @@ export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
     },
   },
   andereUnterhaltszahlungenWarnung: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/warnung",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
   andereUnterhaltszahlungenPerson: {
-    stepId: "finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
+    stepId: "/finanzielle-angaben/andere-unterhaltszahlungen/person/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "unterhaltszahlungen#familyRelationship":

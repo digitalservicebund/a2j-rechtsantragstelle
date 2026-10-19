@@ -4,14 +4,15 @@ import TextInput, { type InputProps } from "../text/TextInput";
 import { useControlledField } from "~/components/hooks/useControlledField";
 import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 
-type MaskedIbanInputProps = InputProps & IMaskMixinProps<HTMLInputElement>;
+type MaskedInputProps = Omit<InputProps, "size">;
+type MaskedIbanInputProps = MaskedInputProps &
+  IMaskMixinProps<HTMLInputElement> & { size?: InputProps["size"] };
 
-const MaskedIbanInput: FunctionComponent<MaskedIbanInputProps> = IMaskMixin<
-  HTMLInputElement,
-  InputProps
->((props) => {
-  return <TextInput {...props} />;
-});
+const MaskedIbanInput = IMaskMixin<HTMLInputElement, MaskedInputProps>(
+  (props) => {
+    return <TextInput {...(props as InputProps)} />;
+  },
+) as unknown as FunctionComponent<MaskedIbanInputProps>;
 
 const IbanInput = (
   props: InputProps & {

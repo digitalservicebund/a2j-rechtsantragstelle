@@ -1,28 +1,28 @@
 import { Result, type Unit } from "true-myth";
-import { flows, type Flow } from "~/domains/flows.server";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
+import { skipFlowParamAllowedAndEnabled } from "~/services/params";
+import { type FlowSession } from "../newFlowEngine/createFlowSession";
+import { type PageConfigMap } from "../newFlowEngine/types";
 import {
   getFlowTransitionConfig,
   validateFlowTransition,
-} from "~/services/flow/server/flowTransitionValidation";
-import { skipFlowParamAllowedAndEnabled } from "~/services/params";
+} from "~/services/flow/newFlowEngine/flowTransitionValidation";
+import { type Flow, flows } from "~/domains/flows.server";
+import { type FlowId } from "~/domains/flowIds";
 
 export const validateStepIdFlow = async (
+  flowId: FlowId,
   stepId: string,
-  request: Request,
-  flowController: ReturnType<typeof buildFlowController>,
+  searchParams: URLSearchParams,
+  cookieHeader: string | null,
+  currentFlowSessionEngine: FlowSession<PageConfigMap>,
   currentFlow: Flow,
-  url: URL,
 ): Promise<Result<Unit, { redirectTo: string }>> => {
-  const { searchParams } = url;
-  const cookieHeader = request.headers.get("Cookie");
-
   if (
-    !flowController.isReachable(stepId) &&
+    !currentFlowSessionEngine.isReachable(stepId) &&
     !skipFlowParamAllowedAndEnabled(searchParams)
   )
     return Result.err({
-      redirectTo: flowController.getInitial(),
+      redirectTo: flowId + currentFlowSessionEngine.initialPath,
     });
 
   const flowTransitionConfig = getFlowTransitionConfig(currentFlow);

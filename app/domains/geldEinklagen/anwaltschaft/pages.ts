@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { klagendeParteiPages } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/pages";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
@@ -6,6 +7,7 @@ import {
   formatCurrencyZodDescription,
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
+import { beklagteParteiPages } from "./beklagte-partei/pages";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -59,6 +61,8 @@ export const geldEinklagenAnwaltschaftPages = {
       ]),
     },
   },
+  ...klagendeParteiPages,
+  ...beklagteParteiPages,
   prozessualeAusfuehrungen: {
     stepId: "/prozessantraege-prozessuale-ausfuehrungen",
     pageSchema: {

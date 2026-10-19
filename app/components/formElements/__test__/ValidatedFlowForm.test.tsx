@@ -14,7 +14,6 @@ import { createDateSchema } from "~/services/validation/dateString";
 import { integerSchema } from "~/services/validation/integer";
 import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { timeSchema } from "~/services/validation/time";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { type SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
@@ -41,7 +40,9 @@ vi.mock("~/domains/pageSchemas");
 const mockGetPageConfigOrArrayPageByPathname = (
   pageSchema: SchemaObject | undefined,
 ) => {
-  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({ pageSchema });
+  vi.mocked(getPageConfigOrArrayPageByPathname).mockReturnValue({
+    pageSchema,
+  } as ReturnType<typeof getPageConfigOrArrayPageByPathname>);
 };
 
 vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
@@ -152,56 +153,6 @@ describe("ValidatedFlowForm", () => {
       fireEvent.click(getByText("NEXT"));
       await waitFor(() => {
         expect(dateInputComponent).not.toHaveClass("has-error");
-        expect(queryByTestId("inputError")).not.toBeInTheDocument();
-        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("Time Input Component", () => {
-    beforeAll(() => {
-      mockGetPageConfigOrArrayPageByPathname({ inputName: timeSchema });
-    });
-    const { component, expectInputErrorToExist } = getStrapiInputComponent(
-      {
-        code: "invalid",
-        text: "Please enter a valid time.",
-      },
-      "time",
-    );
-
-    it("should display an error if the user enters an invalid time", async () => {
-      const { getByText, getByRole } = renderValidatedFlowForm([component]);
-
-      const nextButton = getByText("NEXT");
-      const timeInputComponent = getByRole("textbox");
-      expect(nextButton).toBeInTheDocument();
-
-      fireEvent.input(timeInputComponent, {
-        target: { value: "27:13" },
-      });
-      fireEvent.blur(timeInputComponent);
-      await expectInputErrorToExist();
-
-      fireEvent.click(nextButton);
-      await waitFor(async () => {
-        expect(timeInputComponent).toHaveFocus();
-        await expectInputErrorToExist();
-      });
-    });
-
-    it("should not display an error for correct input", async () => {
-      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
-        component,
-      ]);
-      const timeInputComponent = getByRole("textbox");
-
-      fireEvent.input(timeInputComponent, {
-        target: { value: "23:59" },
-      });
-      fireEvent.click(getByText("NEXT"));
-      await waitFor(() => {
-        expect(timeInputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });

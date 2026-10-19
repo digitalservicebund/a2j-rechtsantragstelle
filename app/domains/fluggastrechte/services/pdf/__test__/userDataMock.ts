@@ -10,15 +10,24 @@ export const userDataMock = {
   direktFlugnummer: "AB6303",
   buchungsNummer: "AB6303",
   direktAbflugsDatum: "10.10.2023",
-  direktAbflugsZeit: "09:00",
+  direktAbflugsZeit: {
+    hour: "09",
+    minute: "00",
+  },
   zwischenstoppAnzahl: "no",
   direktAnkunftsDatum: "10.10.2023",
-  direktAnkunftsZeit: "10:00",
+  direktAnkunftsZeit: {
+    hour: "10",
+    minute: "00",
+  },
   tatsaechlicherFlug: "no",
   ersatzverbindungArt: "flug",
   ersatzFlugnummer: "AB6303",
   ersatzFlugAnkunftsDatum: "10.02.2024",
-  ersatzFlugAnkunftsZeit: "10:10",
+  ersatzFlugAnkunftsZeit: {
+    hour: "10",
+    minute: "10",
+  },
   zusaetzlicheAngaben:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   anrede: "herr",

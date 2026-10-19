@@ -5,6 +5,7 @@ import { getFinancialEntryMonthlyAverage } from "~/domains/prozesskostenhilfe/se
 import { createHeading } from "~/services/pdf/createHeading";
 import { createHeader } from "~/services/pdf/header/createHeader";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
+import { toDateString } from "~/services/validation/dateObject";
 import { arrayIsNonEmpty } from "~/util/array";
 import { today, toGermanDateString } from "~/util/date";
 
@@ -55,7 +56,11 @@ export const createVereinfachteErklaerungAnhang = (
         .font(pdfStyles.bold.font)
         .text("Geburtsdatum")
         .font(pdfStyles.page.font)
-        .text(userData.child?.geburtsdatum ?? "")
+        .text(
+          userData.child?.geburtsdatum
+            ? toDateString(userData.child?.geburtsdatum)
+            : "",
+        )
         .moveDown()
         .font(pdfStyles.bold.font)
         .text("Kind lebt im Haushalt")

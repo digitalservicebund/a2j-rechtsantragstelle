@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { createSplitDateSchema, toDate } from "../dateObject";
+import {
+  createSplitDateSchema,
+  createSplitDateSchemaOptional,
+  toDate,
+  toDateObject,
+} from "../dateObject";
 
 describe("createSplitDateSchema", () => {
   describe("success cases", () => {
@@ -174,5 +179,90 @@ describe("createSplitDateSchema", () => {
       },
     );
     expect(actual).toBe(false);
+  });
+});
+
+describe("createSplitDateSchemaOptional", () => {
+  test("all fields empty strings succeeds", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "",
+      month: "",
+      year: "",
+    });
+    expect(actual).toEqual({
+      data: { day: "", month: "", year: "" },
+      success: true,
+    });
+  });
+
+  test("all fields missing succeeds", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({});
+    expect(actual.success).toBe(true);
+  });
+
+  test("valid full date succeeds and pads values", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "1",
+      month: "3",
+      year: "2023",
+    });
+    expect(actual).toEqual({
+      data: { day: "01", month: "03", year: "2023" },
+      success: true,
+    });
+  });
+
+  test("partially filled date fails with invalid date error", () => {
+    const actual = createSplitDateSchemaOptional().safeParse({
+      day: "1",
+      month: "",
+      year: "2023",
+    });
+    expect(actual.success).toBe(false);
+
+    const issue = actual.error?.issues.find((i) => i.path.length === 0);
+    expect(issue?.message).toBe("Ungültiges Datum");
+  });
+});
+
+describe("toDateObject", () => {
+  const cases = [
+    {
+      input: new Date("2023-03-01"),
+      expected: {
+        day: "01",
+        month: "03",
+        year: "2023",
+      },
+    },
+    {
+      input: new Date("2023-03-20"),
+      expected: {
+        day: "20",
+        month: "03",
+        year: "2023",
+      },
+    },
+    {
+      input: new Date("2026-12-31"),
+      expected: {
+        day: "31",
+        month: "12",
+        year: "2026",
+      },
+    },
+    {
+      input: new Date("2026-01-01"),
+      expected: {
+        day: "01",
+        month: "01",
+        year: "2026",
+      },
+    },
+  ];
+
+  test.each(cases)("given $input, returns $expected", ({ input, expected }) => {
+    const actual = toDateObject(input);
+    expect(actual).toEqual(expected);
   });
 });

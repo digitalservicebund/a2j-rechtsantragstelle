@@ -1,33 +1,33 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createDateSchema } from "~/services/validation/dateString";
+import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const berHAntragAnwaltlicheVertretungPages = {
   anwaltskanzlei: {
-    stepId: "anwaltliche-vertretung/start",
+    stepId: "/anwaltliche-vertretung/start",
     pageSchema: {
       anwaltskanzlei: YesNoAnswer,
     },
   },
   beratungStattgefunden: {
-    stepId: "anwaltliche-vertretung/beratung-stattgefunden",
+    stepId: "/anwaltliche-vertretung/beratung-stattgefunden",
     pageSchema: {
       beratungStattgefunden: YesNoAnswer,
     },
   },
   beratungStattgefundenDatum: {
-    stepId: "anwaltliche-vertretung/beratung-stattgefunden-datum",
+    stepId: "/anwaltliche-vertretung/beratung-stattgefunden-datum",
     pageSchema: {
-      beratungStattgefundenDatum: createDateSchema(),
+      beratungStattgefundenDatum: createSplitDateSchema(),
     },
   },
   fristHinweis: {
-    stepId: "anwaltliche-vertretung/frist-hinweis",
+    stepId: "/anwaltliche-vertretung/frist-hinweis",
   },
   anwaltKontaktdaten: {
-    stepId: "anwaltliche-vertretung/anwalt-kontaktdaten",
+    stepId: "/anwaltliche-vertretung/anwalt-kontaktdaten",
     pageSchema: {
       anwaltName: stringRequiredSchema,
       anwaltStrasseUndHausnummer: stringRequiredSchema,
@@ -36,6 +36,6 @@ export const berHAntragAnwaltlicheVertretungPages = {
     },
   },
   anwaltEnde: {
-    stepId: "anwaltliche-vertretung/anwalt-ende",
+    stepId: "/anwaltliche-vertretung/anwalt-ende",
   },
 } as const satisfies PagesConfig;

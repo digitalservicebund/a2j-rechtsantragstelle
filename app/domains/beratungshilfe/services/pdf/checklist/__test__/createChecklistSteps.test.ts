@@ -68,6 +68,11 @@ describe("createChecklistSteps", () => {
           befristetArt: "lifeInsurance",
           eigentuemer: "myself",
           wert: "100",
+          auszahlungdatum: {
+            day: undefined,
+            month: undefined,
+            year: undefined,
+          },
         },
       ],
     };

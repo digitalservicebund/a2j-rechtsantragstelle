@@ -1,4 +1,3 @@
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 import { erbausschlagungGerichtFindenPages } from "./pages";
 import {
   type CompiledFlow,
@@ -8,11 +7,8 @@ import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
-const erbausschlagungGerichtFindenPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(erbausschlagungGerichtFindenPages);
-
 export const erbausschlagungGerichtFindenFlowConfig = compileFlow({
-  pages: erbausschlagungGerichtFindenPagesWithLeadingSlash,
+  pages: erbausschlagungGerichtFindenPages,
   initialStep: "start",
   transitions: {
     start: "lebensmittelpunkt",

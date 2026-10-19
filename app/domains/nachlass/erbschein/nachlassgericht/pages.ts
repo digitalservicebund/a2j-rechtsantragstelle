@@ -7,49 +7,49 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const erbscheinNachlassgerichtPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   lebensmittelpunkt: {
-    stepId: "lebensmittelpunkt",
+    stepId: "/lebensmittelpunkt",
     pageSchema: {
       lebensmittelpunkt: z.enum(["deutschland", "ausland"]),
     },
   },
   auslaendischerErbfall: {
-    stepId: "ergebnis/auslaendische-erbfaelle",
+    stepId: "/ergebnis/auslaendische-erbfaelle",
   },
   wohnsituationPflegeheim: {
-    stepId: "wohnsituation-pflegeheim",
+    stepId: "/wohnsituation-pflegeheim",
     pageSchema: {
       wohnsituationPflegeheim: YesNoAnswer,
     },
   },
   wohnsituationHospiz: {
-    stepId: "wohnsituation-hospiz",
+    stepId: "/wohnsituation-hospiz",
     pageSchema: {
       wohnsituationHospiz: YesNoAnswer,
     },
   },
   plzPflegeheim: {
-    stepId: "plz-pflegeheim",
+    stepId: "/plz-pflegeheim",
     pageSchema: {
       plzPflegeheim: postcodeSchema,
     },
   },
   plzHospiz: {
-    stepId: "plz-hospiz",
+    stepId: "/plz-hospiz",
     pageSchema: {
       plzHospiz: postcodeSchema,
     },
   },
   plzLebensmittelpunkt: {
-    stepId: "plz-lebensmittelpunkt",
+    stepId: "/plz-lebensmittelpunkt",
     pageSchema: {
       plzLebensmittelpunkt: postcodeSchema,
     },
   },
   strasseHausnummer: {
-    stepId: "strasse-hausnummer",
+    stepId: "/strasse-hausnummer",
     pageSchema: {
       strasse: autoSuggestStreetNames([
         "plzPflegeheim",
@@ -60,6 +60,6 @@ export const erbscheinNachlassgerichtPages = {
     },
   },
   nachlassgerichtErgebnis: {
-    stepId: "ergebnis/nachlassgericht",
+    stepId: "/ergebnis/nachlassgericht",
   },
 } as const satisfies PagesConfig;

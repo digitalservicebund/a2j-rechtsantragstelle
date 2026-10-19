@@ -26,7 +26,6 @@ export const getSessionAndEngine = async (
   stepId: string,
   arrayIndexes?: number[],
 ): Promise<Result<OkResult, ErrorResult>> => {
-  // TODO - Remove this later, once we migrated all the flows to the new engine
   if (!newEngineConfig) {
     throw new Response(null, { status: 404 });
   }

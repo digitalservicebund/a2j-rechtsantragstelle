@@ -6,6 +6,7 @@ import {
 } from "~/domains/shared/services/pdf/unterhaltHelpers";
 import type { PkhPdfFillFunction } from "../types";
 import type { KinderArraySchema } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/kinder/pages";
+import { toDateString } from "~/services/validation/dateObject";
 
 export const ATTACHMENT_DESCRIPTION_SECTION_D =
   "FELD D: Angehörige, denen Sie Bar- oder Naturalunterhalt gewähren";
@@ -27,7 +28,7 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
         ? {
             vorname: vorname ?? "",
             nachname: nachname ?? "",
-            geburtsdatum: geburtsdatum ?? "",
+            geburtsdatum: geburtsdatum ?? { day: "", month: "", year: "" },
             wohnortBeiAntragsteller: "yes",
             eigeneEinnahmen: "yes",
             einnahmen: getTotalMonthlyFinancialEntries(userData.einnahmen),
@@ -35,7 +36,7 @@ export const fillUnterhaltAngehoerige: PkhPdfFillFunction = ({
         : {
             vorname: vorname ?? "",
             nachname: nachname ?? "",
-            geburtsdatum: geburtsdatum ?? "",
+            geburtsdatum: geburtsdatum ?? { day: "", month: "", year: "" },
             wohnortBeiAntragsteller: "no",
             unterhalt: "yes",
             unterhaltsSumme: unterhaltsSumme ?? "",
@@ -89,7 +90,9 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
     userData.kinder.forEach((kind) => {
       pdfValues[`angehoerigerNr${startCell}`].value =
         `${kind.vorname} ${kind.nachname}`;
-      pdfValues[`geburtsdatum${startCell}`].value = kind.geburtsdatum;
+      pdfValues[`geburtsdatum${startCell}`].value = toDateString(
+        kind.geburtsdatum,
+      );
       pdfValues[`verhaeltnis${startCell}`].value = "Kind";
       if ("unterhaltsSumme" in kind) {
         pdfValues[`monatsbetrag${startCell}`].value =
@@ -108,7 +111,9 @@ const enumerateSupportRecipients: PkhPdfFillFunction = ({
     userData.unterhaltszahlungen.forEach((supportRecipient) => {
       pdfValues[`angehoerigerNr${startCell}`].value =
         `${supportRecipient.firstName} ${supportRecipient.surname}`;
-      pdfValues[`geburtsdatum${startCell}`].value = supportRecipient.birthday;
+      pdfValues[`geburtsdatum${startCell}`].value = toDateString(
+        supportRecipient.birthday,
+      );
       pdfValues[`verhaeltnis${startCell}`].value =
         familyRelationshipMap[supportRecipient.familyRelationship];
       pdfValues[`monatsbetrag${startCell}`].value =

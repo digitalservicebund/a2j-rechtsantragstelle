@@ -7,6 +7,7 @@ import {
   COLUMN_WIDTH,
   START_TABLE_X,
 } from "./tableConfigurations";
+import { toTimeString } from "~/services/validation/timeObject";
 
 const HEADERS = [
   { title: "Flugnummer", subtitle: "betroffener Flug" },
@@ -90,8 +91,8 @@ export function drawTableRows(
 
   const plannedFlight = [
     userData.direktFlugnummer ?? "",
-    `${userData.direktAbflugsDatum ?? ""}, ${userData.direktAbflugsZeit ?? ""}`,
-    `${userData.direktAnkunftsDatum ?? ""}, ${userData.direktAnkunftsZeit ?? ""}`,
+    `${userData.direktAbflugsDatum ?? ""}, ${toTimeString(userData.direktAbflugsZeit)}`,
+    `${userData.direktAnkunftsDatum ?? ""}, ${toTimeString(userData.direktAnkunftsZeit)}`,
   ];
 
   const connectionTimetable = [...plannedFlight, ...timeTable];
