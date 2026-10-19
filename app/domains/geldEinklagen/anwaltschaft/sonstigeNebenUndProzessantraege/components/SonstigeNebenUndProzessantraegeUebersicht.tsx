@@ -5,6 +5,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import SonstigeNebenUndProzessantraege from "./SonstigeNebenUndProzessantraege";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useSonstigeNebenUndProzessantraegeDelete } from "../hooks/useSonstigeNebenUndProzessantraegeDelete";
+import { translations } from "~/services/translations/translations";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag";
@@ -59,7 +60,10 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
             disabled={shouldDisableAddButton}
             aria-disabled={shouldDisableAddButton}
           >
-            Neben- oder Prozessantrag hinzufügen
+            {
+              translations.geldEinklagenAnwaltschaft
+                .soenstigeProzessantragArrayButton.de
+            }
           </Button>
         </div>
       </div>

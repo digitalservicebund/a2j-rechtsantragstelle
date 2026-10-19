@@ -3,6 +3,7 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./SonstigeNebenUndProzessantraegeUebersicht";
 import { DeleteDialog } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/DeleteDialog";
+import { translations } from "~/services/translations/translations";
 
 type DeleteButtonProps = {
   readonly itemIndex: number;
@@ -39,12 +40,17 @@ export const SonstigeNebenUndProzessantraegeDeleteButton = ({
         onClick={onDeleteClicked}
         aria-label="Antrag löschen"
       >
-        Antrag Löschen
+        {translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete.de}
       </Button>
 
       <DeleteDialog
-        title="Antrag Löschen"
-        description="Möchten Sie diesen Antrag wirklich löschen?"
+        title={
+          translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete.de
+        }
+        description={
+          translations.geldEinklagenAnwaltschaft
+            .soenstigeProzessantragDescription.de
+        }
         onClick={onClickDeleteDialog}
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}

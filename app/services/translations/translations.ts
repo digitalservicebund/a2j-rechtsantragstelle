@@ -699,6 +699,15 @@ export const translations = {
     beklagteOrganisationMaximumReachedContentNotice: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
     },
+    soenstigeProzessantragArrayButton: {
+      de: "Neben- oder Prozessantrag hinzufügen",
+    },
+    soenstigeProzessantragDelete: {
+      de: "Antrag Löschen",
+    },
+    soenstigeProzessantragDescription: {
+      de: "Möchten Sie diesen Antrag wirklich löschen?",
+    },
   },
   nachlass: {
     childOf: {
