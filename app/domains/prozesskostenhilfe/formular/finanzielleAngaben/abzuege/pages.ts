@@ -79,7 +79,7 @@ export const pkhFormularFinanzielleAngabenAbzuegePages = {
     arraySummary: {
       name: "arbeitsausgaben",
       schema: arbeitsausgabenArraySchema,
-      fieldName: "hasArbeitsausgaben",
+      isArrayRelevant: (context) => context["hasArbeitsausgaben"] === "yes",
     },
   },
   arbeitsausgabenWarnung: {

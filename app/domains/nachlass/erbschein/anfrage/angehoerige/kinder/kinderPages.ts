@@ -87,7 +87,7 @@ export const kinderPages = {
     arraySummary: {
       name: "kinder",
       schema: kinderArray,
-      fieldName: "hatteKinder",
+      isArrayRelevant: (context) => context["hatteKinder"] === "yes",
     },
   },
   ...kinderLevelPages(1),

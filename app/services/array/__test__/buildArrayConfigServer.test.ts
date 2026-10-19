@@ -2,6 +2,8 @@ import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSessio
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { buildArrayConfigServer } from "../buildArrayConfigServer";
 
+const isArrayRelevant = () => true;
+
 describe("buildArrayConfigServer", () => {
   it("should return undefined when flowSessionEngine.arrayInfo is undefined", () => {
     const flowSessionEngine = {
@@ -22,7 +24,7 @@ describe("buildArrayConfigServer", () => {
       arrayInfo: {
         name: "arrayName",
         entryPoint: "daten",
-        fieldName: "fieldName",
+        isArrayRelevant,
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
         shouldDisableAddButton: false,
@@ -42,17 +44,12 @@ describe("buildArrayConfigServer", () => {
       arrayName: {
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
         initialInputUrl: "daten",
-        isArrayRelevant: expect.any(Function),
+        isArrayRelevant,
         shouldDisableAddButton: false,
         displayIndexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
     });
-
-    // Without an explicit isArrayRelevant, relevance defaults to fieldName === "yes"
-    const { isArrayRelevant } = result!.arrayName;
-    expect(isArrayRelevant?.({ fieldName: "yes" })).toBe(true);
-    expect(isArrayRelevant?.({ fieldName: "no" })).toBe(false);
   });
 
   it("builds the url from nextArrayPath when the array is empty (item page not yet visited)", () => {

@@ -21,17 +21,11 @@ export const buildArrayConfigServer = (
     ?.split(`/${ARRAY_WILDCARD}`)
     .at(0);
 
-  const relevanceField = arrayInfo.fieldName;
-
   return {
     [arrayInfo.name]: {
       url: flowId + targetPath,
       initialInputUrl: arrayInfo.entryPoint,
-      isArrayRelevant:
-        arrayInfo.isArrayRelevant ??
-        (relevanceField
-          ? (userData) => userData[relevanceField] === "yes"
-          : () => false),
+      isArrayRelevant: arrayInfo.isArrayRelevant,
       shouldDisableAddButton: arrayInfo.shouldDisableAddButton,
       displayIndexOffset: arrayInfo.indexOffset,
       hiddenFields: arrayInfo.hiddenFields,
