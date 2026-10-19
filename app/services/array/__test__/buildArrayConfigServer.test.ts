@@ -40,15 +40,19 @@ describe("buildArrayConfigServer", () => {
 
     expect(result).toEqual({
       arrayName: {
-        event: "add-arrayName",
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
         initialInputUrl: "daten",
-        statementKey: "fieldName",
+        isArrayRelevant: expect.any(Function),
         shouldDisableAddButton: false,
         displayIndexOffset: 1,
         hiddenFields: ["field1", "field2"],
       },
     });
+
+    // Without an explicit isArrayRelevant, relevance defaults to fieldName === "yes"
+    const { isArrayRelevant } = result!.arrayName;
+    expect(isArrayRelevant?.({ fieldName: "yes" })).toBe(true);
+    expect(isArrayRelevant?.({ fieldName: "no" })).toBe(false);
   });
 
   it("builds the url from nextArrayPath when the array is empty (item page not yet visited)", () => {

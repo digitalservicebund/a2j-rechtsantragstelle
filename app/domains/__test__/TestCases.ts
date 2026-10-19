@@ -1,6 +1,6 @@
 import type { FlowId } from "../flowIds";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
-import { type ArrayConfigServer } from "~/services/array";
+import { type AddArrayItemEvent } from "~/services/array";
 import { type PageData } from "~/services/flow/pageData";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
@@ -14,7 +14,7 @@ export type ExpectedStepUserInput<T extends UserData> = T & {
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
-  addArrayItemEvent?: ArrayConfigServer["event"];
+  addArrayItemEvent?: AddArrayItemEvent;
   /**
    * Used to test transitions; here the current page's pageSchema is irrelevant,
    * but the guard uses pre-exising data to determine transition target
