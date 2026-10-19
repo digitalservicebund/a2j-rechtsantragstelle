@@ -23,10 +23,8 @@ export const buildArrayConfigServer = (
 
   return {
     [arrayInfo.name]: {
-      event: `add-${arrayInfo.name}` as const,
       url: flowId + targetPath,
       initialInputUrl: arrayInfo.entryPoint,
-      statementKey: arrayInfo.fieldName,
       isArrayRelevant: arrayInfo.isArrayRelevant,
       shouldDisableAddButton: arrayInfo.shouldDisableAddButton,
       displayIndexOffset: arrayInfo.indexOffset,

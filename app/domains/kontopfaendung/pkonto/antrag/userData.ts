@@ -1,6 +1,6 @@
-import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import type { InferredUserData } from "~/services/flow/newFlowEngine/types";
 import type { kontopfaendungPkontoAntragPages } from "./pages";
 
-export type KontopfaendungPkontoAntragUserData = UserDataFromPagesSchema<
+export type KontopfaendungPkontoAntragUserData = InferredUserData<
   typeof kontopfaendungPkontoAntragPages
 >;

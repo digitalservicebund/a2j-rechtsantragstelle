@@ -44,7 +44,8 @@ export const berhAntragFinanzielleAngabenAndereUnterhaltszahlungenPages = {
     arraySummary: {
       name: "unterhaltszahlungen",
       schema: unterhaltszahlungenArraySchema,
-      fieldName: "hasWeitereUnterhaltszahlungen",
+      isArrayRelevant: (context) =>
+        context["hasWeitereUnterhaltszahlungen"] === "yes",
     },
   },
   andereUnterhaltszahlungenWarnung: {

@@ -57,7 +57,7 @@ export const berhAntragFinanzielleAngabenKinderPages = {
     arraySummary: {
       name: "kinder",
       schema: kinderArraySchema,
-      fieldName: "hasKinder",
+      isArrayRelevant: (context) => context["hasKinder"] === "yes",
       hiddenFields: ["eigeneEinnahmen", "unterhalt"],
     },
   },

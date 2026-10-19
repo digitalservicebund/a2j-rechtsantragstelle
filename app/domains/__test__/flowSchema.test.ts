@@ -2,7 +2,7 @@ import merge from "lodash/merge";
 import z from "zod";
 import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { type SchemaObject, type UserData } from "~/domains/userData";
-import { type ArrayConfigServer } from "~/services/array";
+import { type AddArrayItemEvent } from "~/services/array";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
 import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
@@ -101,7 +101,7 @@ const buildFullUserInput = <T extends UserData>(
 function testPageSchema<T extends UserData>(
   userInput: ExpectedStepUserInput<T>,
   pageSchema: SchemaObject | undefined,
-  addArrayItemEvent?: ArrayConfigServer["event"],
+  addArrayItemEvent?: AddArrayItemEvent,
 ) {
   // Without userInput we don't expect a pageSchema. Same for Array Overview pages
   if (!userInput || addArrayItemEvent) {
@@ -117,7 +117,7 @@ function testArrayLinkPages(
   stepId: string,
   nextStepId: string,
   previousStepId?: string,
-  addArrayItemEvent?: ArrayConfigServer["event"],
+  addArrayItemEvent?: AddArrayItemEvent,
   summaryPageStepId?: string,
 ) {
   // Special handling if we're starting from an Overview page
