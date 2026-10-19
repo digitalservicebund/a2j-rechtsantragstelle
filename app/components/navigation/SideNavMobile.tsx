@@ -137,9 +137,12 @@ export default function SideNavMobile({
       className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
     >
+      <label className="hidden" id="side-nav-toggle-menu">
+        {translations.navigationMobile.toggleMenu.de}
+      </label>
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
-        aria-label={translations.navigationMobile.toggleMenu.de}
+        aria-labelledby="side-nav-toggle-menu"
         data-testid="side-nav-summary"
         ref={summaryRef}
       >
