@@ -38,7 +38,7 @@ export const SonstigeNebenUndProzessantraegeDeleteButton = ({
         textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
         iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
         onClick={onDeleteClicked}
-        aria-label="Antrag löschen"
+        aria-label={translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete.de}
       >
         {translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete.de}
       </Button>
