@@ -9,20 +9,24 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { updateSession } from "~/services/session.server";
 
-export const updatePartei =
+export const setParteiType =
   (
     relationship: KlageParteiVerhaeltnis,
     type: KlageParteiType,
   ): AsyncFlowAction =>
   async (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const arrayIndex = parseArrayIndexesFromPathname(request.url).at(0);
-    const updatedParteien = userData[
-      getPluralOfKlageParteiRelationship(relationship)
-    ]?.map((partei) => ({
-      ...partei,
-      type,
-      index: (arrayIndex ?? 0) + 1,
-    }));
+    const targetArray =
+      userData[getPluralOfKlageParteiRelationship(relationship)];
+    if (arrayIndex === undefined) return;
+
+    const currentParty = targetArray?.at(arrayIndex);
+
+    if (!currentParty) return;
+
+    const updatedParteien = targetArray?.map((partei, idx) =>
+      idx === arrayIndex ? { ...partei, type } : partei,
+    );
 
     const updatedUserData = merge({}, userData, {
       [getPluralOfKlageParteiRelationship(relationship)]: updatedParteien,
