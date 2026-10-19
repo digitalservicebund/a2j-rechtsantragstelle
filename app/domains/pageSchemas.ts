@@ -1,7 +1,6 @@
 import { type FieldApi } from "@rvf/react";
 import { type MaybePromise } from "p-map";
 import { type Dispatch, type SetStateAction } from "react";
-import { type z } from "zod";
 import { geldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
@@ -139,19 +138,3 @@ type ArrayParentPage = {
 };
 
 export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
-
-type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
-    ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
-    : never;
-}[keyof T];
-
-type UnionToIntersection<U> = (
-  U extends unknown ? (x: U) => void : never
-) extends (x: infer R) => void
-  ? R
-  : never;
-
-export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
-  UnionToIntersection<ExtractSchemas<T>>
->;

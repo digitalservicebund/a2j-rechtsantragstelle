@@ -1,6 +1,6 @@
-import type { UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import type { InferredUserData } from "~/services/flow/newFlowEngine/types";
 import type { erbscheinNachlassgerichtPages } from "./pages";
 
-export type ErbscheinNachlassGerichtUserData = UserDataFromPagesSchema<
+export type ErbscheinNachlassGerichtUserData = InferredUserData<
   typeof erbscheinNachlassgerichtPages
 >;
