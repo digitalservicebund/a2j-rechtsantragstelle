@@ -125,16 +125,8 @@ type ReadOnlyFields = {
 
 export type ArrayPage = {
   pageSchema?: SchemaObject;
-  arrayPages?: Record<string, ArrayPage>;
   controlledFieldConfig?: ControlledFieldConfig;
   readonlyFields?: ReadOnlyFields;
 };
 
-type ArrayParentPage = {
-  stepId: string;
-  pageSchema: SchemaObject;
-  controlledFieldConfig?: ControlledFieldConfig;
-  arrayPages: Record<string, ArrayPage>;
-};
-
-export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
+export type PageConfig = FlowPage | NewFlowEnginePageConfig;
