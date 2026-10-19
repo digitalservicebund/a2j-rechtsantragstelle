@@ -1,6 +1,7 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import {
+  getGesetzlicheVertretungArtLabel,
   type KlageParteiVerhaeltnis,
   type KlageParteien,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
@@ -28,34 +29,56 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
             {headingText}
           </span>
           <div className="flex gap-kern-space-default justify-between items-center">
-            <div className="flex flex-col">
-              <span className="kern-body kern-body--default kern-body--bold text-pretty p-0!">
-                {nameText}
-              </span>
+            <div className="flex flex-col kern-body kern-body--default text-pretty gap-20">
+              <div className="flex flex-col">
+                <span className="kern-body--bold p-0!">{nameText}</span>
 
-              <span className="kern-body kern-body--default text-pretty p-0!">
-                {partei.strasse} {partei.hausnummer}
-              </span>
-              <span className="kern-body kern-body--default text-pretty p-0!">
-                {partei.plz} {partei.ort}
-              </span>
-              <span className="kern-body kern-body--default text-pretty p-0!">
-                {partei.land}
-              </span>
-              {partei.type === "organisation" && (
-                <span className="kern-body kern-body--default text-pretty p-0!">
-                  {partei.orgVertretungArt}: {partei.orgVertretungAnrede}{" "}
-                  {partei.orgVertretungTitel} {partei.orgVertretungVorname}{" "}
-                  {partei.orgVertretungNachname}
+                <span className="text-pretty p-0!">
+                  {partei.strasse} {partei.hausnummer}
                 </span>
+                <span className="text-pretty p-0!">
+                  {partei.plz} {partei.ort}
+                </span>
+                <span className="text-pretty p-0!">{partei.land}</span>
+              </div>
+              {partei.type === "organisation" && (
+                <div className="flex flex-col">
+                  <span className="kern-body--bold text-pretty p-0!">
+                    {
+                      translations.geldEinklagenAnwaltschaft
+                        .gesetzlicheVetretungHeadline.de
+                    }
+                  </span>
+                  <span className="text-pretty p-0!">
+                    {
+                      translations.geldEinklagenAnwaltschaft
+                        .gesetzlicheVertretungArt.de
+                    }
+                    :{" "}
+                    <span className="kern-body--bold">
+                      {getGesetzlicheVertretungArtLabel(
+                        partei.orgVertretungArt,
+                      )}
+                    </span>
+                  </span>
+                  <span>
+                    {partei.orgVertretungAnrede} {partei.orgVertretungTitel}{" "}
+                    {partei.orgVertretungVorname} {partei.orgVertretungNachname}
+                  </span>
+                </div>
               )}
             </div>
             <Button
               look="secondary"
-              iconLeft={<Icon name="edit" className="size-[1em]" />}
+              iconLeft={
+                <Icon
+                  name="edit"
+                  className="size-kern-dimension-default text-kern-action-default"
+                />
+              }
               aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
               href={`${getBaseKlageParteiUrl(relationship)}/${index}/${"orgName" in partei ? "organisation" : "natuerliche-person"}-daten`}
-              className="p-kern-space-small! min-h-0!"
+              className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
           </div>
         </div>

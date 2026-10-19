@@ -33,7 +33,7 @@ const representative = {
   plz: "54321",
   ort: "Beispielstadt",
   land: "Deutschland",
-  art: "Elternteil",
+  art: "elternteil",
 } as const;
 
 const overviewData = (klagenden: Array<Record<string, unknown>>) => {
@@ -82,7 +82,7 @@ describe("klagendeParteiPages", () => {
       ...omit(naturalPerson, ["anrede", "titel", "vorname", "nachname"]),
       type: "organisation",
       orgName: "Beispiel GmbH",
-      orgVertretungArt: "Vorstand / Vorständin",
+      orgVertretungArt: "vorstand-vorstaendin",
       orgVertretungAnrede: "herr",
       orgVertretungTitel: "",
       orgVertretungVorname: "Max",
@@ -133,7 +133,7 @@ describe("klagendeParteiPages", () => {
         ...naturalPerson,
         "gesetzliche-vertretung": [
           representative,
-          { ...representative, vorname: "Maria", art: "Vormund / Vormundin" },
+          { ...representative, vorname: "Maria", art: "vormund-vormundin" },
         ],
       },
       {
@@ -150,13 +150,9 @@ describe("klagendeParteiPages", () => {
     const pruned = overviewData(klagenden);
 
     expect(pruned).toEqual({
-      klagenden: klagenden.map((plaintiff) => ({
-        ...omit(plaintiff, "parteiverhaeltnis"),
-        "gesetzliche-vertretung": plaintiff["gesetzliche-vertretung"].map(
-          // TODO: Fix when more gesetzliche vertretung fields are present
-          ({ art }) => ({ art }),
-        ),
-      })),
+      klagenden: klagenden.map((plaintiff) =>
+        omit(plaintiff, "parteiverhaeltnis"),
+      ),
     });
   });
 

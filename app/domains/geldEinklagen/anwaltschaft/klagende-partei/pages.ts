@@ -2,6 +2,9 @@ import {
   klageParteinArraySchema,
   naturalPersonGesetzlicheVertretungArt,
   naturalPersonSchema,
+  organizationGesetzlicheVertretungArt,
+  organizationSchema,
+  vertretungFields,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -38,9 +41,57 @@ export const klagendeParteiPages = {
     pageSchema: {
       "klagenden#gesetzliche-vertretung#art":
         naturalPersonGesetzlicheVertretungArt,
+      "klagenden#gesetzliche-vertretung#anrede": vertretungFields.anrede,
+      "klagenden#gesetzliche-vertretung#titel": vertretungFields.titel,
+      "klagenden#gesetzliche-vertretung#vorname": vertretungFields.vorname,
+      "klagenden#gesetzliche-vertretung#nachname": vertretungFields.nachname,
+      "klagenden#gesetzliche-vertretung#strasse": vertretungFields.strasse,
+      "klagenden#gesetzliche-vertretung#hausnummer":
+        vertretungFields.hausnummer,
+      "klagenden#gesetzliche-vertretung#plz": vertretungFields.plz,
+      "klagenden#gesetzliche-vertretung#ort": vertretungFields.ort,
+      "klagenden#gesetzliche-vertretung#land": vertretungFields.land,
     },
   },
   klagendeOrganizationDaten: {
     stepId: "/klagende-partei/klagenden/#/organisation-daten",
+    pageSchema: {
+      "klagenden#orgName": organizationSchema.shape.orgName,
+      "klagenden#strasse": organizationSchema.shape.strasse,
+      "klagenden#hausnummer": organizationSchema.shape.hausnummer,
+      "klagenden#plz": organizationSchema.shape.plz,
+      "klagenden#ort": organizationSchema.shape.ort,
+      "klagenden#land": organizationSchema.shape.land,
+      "klagenden#orgVertretungArt": organizationSchema.shape.orgVertretungArt,
+      "klagenden#orgVertretungAnrede":
+        organizationSchema.shape.orgVertretungAnrede,
+      "klagenden#orgVertretungTitel":
+        organizationSchema.shape.orgVertretungTitel,
+      "klagenden#orgVertretungVorname":
+        organizationSchema.shape.orgVertretungVorname,
+      "klagenden#orgVertretungNachname":
+        organizationSchema.shape.orgVertretungNachname,
+      "klagenden#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(organizationSchema.shape.type),
+      ),
+    },
+  },
+  klagendeOrganizationGesetzlicheVertretungDaten: {
+    stepId:
+      "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten-organisation",
+    pageSchema: {
+      "klagenden#gesetzliche-vertretung#art":
+        organizationGesetzlicheVertretungArt,
+      "klagenden#gesetzliche-vertretung#anrede": vertretungFields.anrede,
+      "klagenden#gesetzliche-vertretung#titel": vertretungFields.titel,
+      "klagenden#gesetzliche-vertretung#vorname": vertretungFields.vorname,
+      "klagenden#gesetzliche-vertretung#nachname": vertretungFields.nachname,
+      "klagenden#gesetzliche-vertretung#strasse": vertretungFields.strasse,
+      "klagenden#gesetzliche-vertretung#hausnummer":
+        vertretungFields.hausnummer,
+      "klagenden#gesetzliche-vertretung#plz": vertretungFields.plz,
+      "klagenden#gesetzliche-vertretung#ort": vertretungFields.ort,
+      "klagenden#gesetzliche-vertretung#land": vertretungFields.land,
+    },
   },
 } as const satisfies PageConfigMap;

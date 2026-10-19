@@ -15,5 +15,14 @@ export const klagendeParteiFlowConfig = {
     { target: "klagendeUebersicht" },
   ],
   klagendeNaturalPersonGesetzlicheVertretungDaten: "klagendeUebersicht",
-  klagendeOrganizationDaten: "klagendeUebersicht",
+  klagendeOrganizationDaten: [
+    {
+      type: "addArrayItem",
+      target: "klagendeOrganizationGesetzlicheVertretungDaten",
+    },
+    {
+      target: "klagendeUebersicht",
+    },
+  ],
+  klagendeOrganizationGesetzlicheVertretungDaten: "klagendeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
