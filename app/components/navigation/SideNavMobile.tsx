@@ -142,7 +142,7 @@ export default function SideNavMobile({
       </label>
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
-        aria-labelledby="side-nav-toggle-menu"
+        aria-describedby="side-nav-toggle-menu"
         data-testid="side-nav-summary"
         ref={summaryRef}
       >
