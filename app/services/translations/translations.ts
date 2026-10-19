@@ -660,6 +660,15 @@ export const translations = {
     natuerlichePersonHeadline: {
       de: "Natürliche Person",
     },
+    natuerlichePersonenHeadline: {
+      de: "Natürliche Personen",
+    },
+    gesetzlicheVetretungHeadline: {
+      de: "Gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungSubheader: {
+      de: "Maximal 5",
+    },
     natuerlichePersonenMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an natürlichen Personen erreicht",
     },
@@ -678,6 +687,9 @@ export const translations = {
     organisationHeadline: {
       de: "Organisation",
     },
+    organisationenHeadline: {
+      de: "Organisationen",
+    },
     organisationMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an Organisationen erreicht",
     },
@@ -686,6 +698,15 @@ export const translations = {
     },
     beklagteOrganisationMaximumReachedContentNotice: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
+    },
+    soenstigeProzessantragArrayButton: {
+      de: "Neben- oder Prozessantrag hinzufügen",
+    },
+    soenstigeProzessantragDelete: {
+      de: "Antrag Löschen",
+    },
+    soenstigeProzessantragDescription: {
+      de: "Möchten Sie diesen Antrag wirklich löschen?",
     },
   },
   nachlass: {

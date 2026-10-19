@@ -203,7 +203,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "bankkonten",
       schema: bankkontenArraySchema,
-      fieldName: "hasBankkonto",
+      isArrayRelevant: (context) => context["hasBankkonto"] === "yes",
     },
   },
   eigentumBankkonto: {
@@ -236,7 +236,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "geldanlagen",
       schema: geldanlagenArraySchema,
-      fieldName: "hasGeldanlage",
+      isArrayRelevant: (context) => context["hasGeldanlage"] === "yes",
     },
   },
   eigentumGeldanlageArt: {
@@ -330,7 +330,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "kraftfahrzeuge",
       schema: kraftfahrzeugeArraySchema,
-      fieldName: "hasKraftfahrzeug",
+      isArrayRelevant: (context) => context["hasKraftfahrzeug"] === "yes",
     },
   },
   eigentumKraftfahrzeugArbeitsweg: {
@@ -385,7 +385,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "wertsachen",
       schema: wertsachenArraySchema,
-      fieldName: "hasWertsache",
+      isArrayRelevant: (context) => context["hasWertsache"] === "yes",
     },
   },
   eigentumWertgegenstand: {
@@ -413,7 +413,7 @@ export const berhAntragFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "grundeigentum",
       schema: grundeigentumArraySchema,
-      fieldName: "hasGrundeigentum",
+      isArrayRelevant: (context) => context["hasGrundeigentum"] === "yes",
     },
   },
   eigentumGrundeigentumBewohntFrage: {

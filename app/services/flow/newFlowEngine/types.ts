@@ -39,10 +39,6 @@ export type NewFlowEnginePageConfig = {
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
-    /**
-     * statementKey
-     */
-    fieldName?: string;
     isArrayRelevant?: (userData: UserData) => boolean;
     shouldDisableAddButton?: (context: UserData) => boolean;
     indexOffset?: number;

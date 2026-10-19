@@ -169,7 +169,7 @@ export const pkhFormularFinanzielleAngabenEinkuenftePages = {
     arraySummary: {
       name: "weitereEinkuenfte",
       schema: weitereEinkuenfteArraySchema,
-      fieldName: "hasFurtherIncome",
+      isArrayRelevant: (context) => context["hasFurtherIncome"] === "yes",
     },
   },
   weitereEinkuenfteWarnung: {
