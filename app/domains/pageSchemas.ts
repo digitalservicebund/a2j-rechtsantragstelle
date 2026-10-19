@@ -123,10 +123,4 @@ type ReadOnlyFields = {
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 
-export type ArrayPage = {
-  pageSchema?: SchemaObject;
-  controlledFieldConfig?: ControlledFieldConfig;
-  readonlyFields?: ReadOnlyFields;
-};
-
-export type PageConfig = FlowPage | NewFlowEnginePageConfig;
+type PageConfig = FlowPage | NewFlowEnginePageConfig;
