@@ -1,6 +1,8 @@
 import { useMemo } from "react";
-import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { type KlageParteienContext } from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlageParteienContext";
+import {
+  type KlageParteien,
+  type KlageParteiVerhaeltnis,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { arrayIsNonEmpty } from "~/util/array";
 
@@ -8,6 +10,11 @@ import { arrayIsNonEmpty } from "~/util/array";
  * Maximum number of klage parteien, per type (person vs org)
  */
 export const MAX_KLAGE_PARTEIEN = 5;
+
+export type KlageParteiWithArrayIndex = {
+  partei: KlageParteien[number];
+  arrayIndex: number;
+};
 
 /**
  * Retrieves the appropriate klageParteien data, either for the klagenden or beklagten.
@@ -19,7 +26,7 @@ export const useKlageParteien = ({
   relationship: KlageParteiVerhaeltnis;
   userData: GeldEinklagenAnwaltschaftUserData;
 }): {
-  klageParteien: KlageParteienContext;
+  klageParteienWithIndex: KlageParteiWithArrayIndex[];
   nextItemIndex: number;
 } => {
   const klageParteien = useMemo(
@@ -35,14 +42,10 @@ export const useKlageParteien = ({
     : 0;
 
   return {
-    klageParteien: {
-      naturalPersonen: klageParteien.filter(
-        (partei) => partei.type === "natuerliche-person",
-      ),
-      organizations: klageParteien.filter(
-        (partei) => partei.type === "organisation",
-      ),
-    },
+    klageParteienWithIndex: klageParteien.map((partei, arrayIndex) => ({
+      partei,
+      arrayIndex,
+    })),
     nextItemIndex,
   };
 };
