@@ -40,7 +40,7 @@ describe("SideNavMobile", () => {
     );
 
     const [summaryElement] = await findAllByText("Page 1", {
-      selector: "span",
+      selector: "p",
     });
     const detailsElement = getByTestId("side-nav-details");
     expect(summaryElement).toBeInTheDocument();
@@ -55,7 +55,7 @@ describe("SideNavMobile", () => {
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
     const [summaryElement] = await findAllByText("Page 1", {
-      selector: "span",
+      selector: "p",
     });
     const detailsElement = getByTestId("side-nav-details");
     expect(detailsElement).not.toHaveProperty("open", true);
@@ -67,15 +67,16 @@ describe("SideNavMobile", () => {
     expect(detailsElement).not.toHaveProperty("open", true);
   });
 
-  it("renders the main menu toggle with correct aria-label and text", () => {
-    const { getByLabelText } = render(
+  it("renders the main menu toggle with correct text", () => {
+    const { container } = render(
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
-    const toggleLabel = getByLabelText(
+
+    const srOnlyElements = container.querySelectorAll(".sr-only");
+    expect(srOnlyElements).toHaveLength(1);
+    expect(srOnlyElements[0]).toHaveTextContent(
       translations.navigationMobile.toggleMenu.de,
     );
-    expect(toggleLabel).toBeInTheDocument();
-    expect(toggleLabel).toHaveTextContent("Page 1");
   });
 
   it("should render the step stepper links correctly", () => {
@@ -210,7 +211,7 @@ describe("SideNavMobile", () => {
       <SideNavMobile navItems={dummyNavItems} stepsStepper={[]} />,
     );
     const [summaryElement] = await findAllByText("Page 1", {
-      selector: "span",
+      selector: "p",
     });
     const detailsElement = getByTestId("side-nav-details");
     expect(detailsElement).not.toHaveProperty("open", true);

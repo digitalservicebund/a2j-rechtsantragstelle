@@ -29,11 +29,14 @@ describe("StepperContent", () => {
     expect(screen.getByText("Step")).toBeInTheDocument();
   });
 
-  it("should generate correct aria-label for current state", () => {
-    render(<StepperContent {...baseProps} state="Current" />);
-    expect(screen.getByRole("link")).toHaveAttribute(
-      "aria-label",
-      expect.stringContaining("Schritt 1 von 3"),
+  it("should generate correct span with sr-only for current state", () => {
+    const { container } = render(
+      <StepperContent {...baseProps} state="Current" />,
     );
+
+    const srOnlyElements = container.querySelectorAll(".sr-only");
+    expect(srOnlyElements).toHaveLength(2);
+    expect(srOnlyElements[0]).toHaveTextContent("Schritt 1 von 3");
+    expect(srOnlyElements[1]).toHaveTextContent("current");
   });
 });
