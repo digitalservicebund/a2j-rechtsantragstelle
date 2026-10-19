@@ -1,6 +1,6 @@
 import { type erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
 
-export type ErbausschlagungGerichtFindenUserData = UserDataFromPagesSchema<
+export type ErbausschlagungGerichtFindenUserData = InferredUserData<
   typeof erbausschlagungGerichtFindenPages
 >;

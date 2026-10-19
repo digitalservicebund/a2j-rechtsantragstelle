@@ -34,10 +34,8 @@ export function getArraySummaryData(
     categories
       .filter((category) => {
         if (!(category in arrayConfigurations)) return false;
-        const statementKey = arrayConfigurations[category]?.statementKey;
-        return (
-          (statementKey && userData[statementKey] === "yes") ||
-          Boolean(arrayConfigurations[category].isArrayRelevant?.(userData))
+        return Boolean(
+          arrayConfigurations[category].isArrayRelevant?.(userData),
         );
       })
       .map((category) => {

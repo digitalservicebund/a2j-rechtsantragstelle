@@ -202,7 +202,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "bankkonten",
       schema: bankkontenArraySchema,
-      fieldName: "hasBankkonto",
+      isArrayRelevant: (context) => context["hasBankkonto"] === "yes",
     },
   },
   eigentumBankkonto: {
@@ -238,7 +238,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "geldanlagen",
       schema: geldanlagenArraySchema,
-      fieldName: "hasGeldanlage",
+      isArrayRelevant: (context) => context["hasGeldanlage"] === "yes",
     },
   },
   eigentumGeldanlage: {
@@ -339,7 +339,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "kraftfahrzeuge",
       schema: kraftfahrzeugeArraySchema,
-      fieldName: "hasKraftfahrzeug",
+      isArrayRelevant: (context) => context["hasKraftfahrzeug"] === "yes",
     },
   },
   eigentumKraftfahrzeug: {
@@ -404,7 +404,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "wertsachen",
       schema: wertsachenArraySchema,
-      fieldName: "hasWertsache",
+      isArrayRelevant: (context) => context["hasWertsache"] === "yes",
     },
   },
   eigentumWertgegenstand: {
@@ -437,7 +437,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "grundeigentum",
       schema: grundeigentumArraySchema,
-      fieldName: "hasGrundeigentum",
+      isArrayRelevant: (context) => context["hasGrundeigentum"] === "yes",
     },
   },
   eigentumGrundeigentumGrundeigentum: {

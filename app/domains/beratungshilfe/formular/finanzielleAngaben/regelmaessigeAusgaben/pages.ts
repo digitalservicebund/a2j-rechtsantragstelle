@@ -43,7 +43,7 @@ export const berhAntragFinanzielleAngabenRegelmassigeAusgabenPages = {
     arraySummary: {
       name: "ausgaben",
       schema: ausgabenArraySchema,
-      fieldName: "hasAusgaben",
+      isArrayRelevant: (context) => context["hasAusgaben"] === "yes",
       hiddenFields: ["hasZahlungsfrist"],
     },
   },
