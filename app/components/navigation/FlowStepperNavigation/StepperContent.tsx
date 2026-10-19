@@ -43,14 +43,7 @@ export function StepperContent({
 
   const currentText = stateIsCurrent(state) ? "current" : "";
 
-  const ariaLabel = [
-    `Schritt ${stepNumber} von ${totalSteps}`,
-    label,
-    statusText,
-    currentText,
-  ]
-    .filter(Boolean)
-    .join(", ");
+  const extraSpanText = [statusText, currentText].filter(Boolean).join(", ");
   return (
     <a
       href={href}
@@ -60,13 +53,20 @@ export function StepperContent({
       aria-describedby={
         stateIsDone(state) || stateIsWarning(state) ? iconId : undefined
       }
-      aria-label={ariaLabel}
     >
       <span className={styles.circle}>
         <StepperIcon state={state} stepIndex={stepIndex} />
       </span>
 
-      <span className={styles.label}>{label}</span>
+      <p className={styles.label}>
+        <span className="sr-only">
+          {`Schritt ${stepNumber} von ${totalSteps}`}
+        </span>
+
+        {label}
+
+        <span className="sr-only">{extraSpanText}</span>
+      </p>
     </a>
   );
 }
