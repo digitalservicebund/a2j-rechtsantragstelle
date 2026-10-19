@@ -137,12 +137,8 @@ export default function SideNavMobile({
       className="group flex flex-col outline-none! open:min-h-screen justify-end bg-transparent"
       data-testid="side-nav-details"
     >
-      <label className="hidden" id="side-nav-toggle-menu">
-        {translations.navigationMobile.toggleMenu.de}
-      </label>
       <summary
         className="flex flex-col cursor-pointer outline-none group/summary"
-        aria-describedby="side-nav-toggle-menu"
         data-testid="side-nav-summary"
         ref={summaryRef}
       >
@@ -163,12 +159,13 @@ export default function SideNavMobile({
         >
           <div className="flex flex-row gap-8">
             <div className="flex flex-col items-start">
-              <span className="kern-body--bold truncate text-left w-[70vw]">
+              <p className="kern-body--bold truncate text-left w-[70vw]">
+                <span className="sr-only">
+                  {translations.navigationMobile.toggleMenu.de}
+                </span>
                 {currentAreaTitle}
-              </span>
-              <span className=" text-kern-layout-text-muted">
-                {currentNavTitle}
-              </span>
+              </p>
+              <p className=" text-kern-layout-text-muted">{currentNavTitle}</p>
             </div>
           </div>
           <Icon
