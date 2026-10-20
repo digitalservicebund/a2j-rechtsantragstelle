@@ -7,6 +7,7 @@ import {
 } from "~/services/flow/newFlowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
+import { hauptUndNebenantraegeFlowConfig } from "./hauptUndNebenantraege/flowConfig";
 
 export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
   compileFlow({
@@ -18,6 +19,7 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       pilotgericht: "klagendeUebersicht",
       ...klagendeParteiFlowConfig,
       ...beklagteParteiFlowConfig,
+      ...hauptUndNebenantraegeFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
       rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
       beklagteNatuerlichePerson: null,

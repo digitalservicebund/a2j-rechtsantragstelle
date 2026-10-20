@@ -3,6 +3,7 @@ import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/sh
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
+import ZahlungsAntragUebersicht from "./hauptUndNebenantraege/components/ZahlungsAntragUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -19,6 +20,10 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           {loaderData.stepId ===
             "/sonstige-neben-und-prozessantraege/uebersicht" && (
             <SonstigeNebenUndProzessantraegeUebersicht />
+          )}
+          {loaderData.stepId ===
+            "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht" && (
+            <ZahlungsAntragUebersicht />
           )}
         </>
       );
