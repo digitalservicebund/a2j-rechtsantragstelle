@@ -16,6 +16,35 @@ const getMockFlowEngineSession = (nextPath?: string, arrayInfo?: ArrayInfo) => {
 };
 
 describe("flowDestination", () => {
+  it.each([
+    ["klagende", "klagenden"],
+    ["beklagte", "beklagten"],
+  ])(
+    "returns the %s party edit anchor after submitting party or representative data",
+    (relationship, arrayName) => {
+      const overview = `/${relationship}-partei/${arrayName}/uebersicht`;
+      const mockFlowEngineSession = getMockFlowEngineSession(overview, {
+        name: arrayName,
+      } as ArrayInfo);
+
+      for (const dataPage of [
+        "natuerliche-person-daten",
+        "organisation-daten",
+        "gesetzliche-vertretung/2/daten",
+        "gesetzliche-vertretung/2/daten-organisation",
+      ]) {
+        const actual = flowDestination(
+          `/geld-einklagen/anwaltschaft/${relationship}-partei/${arrayName}/1/${dataPage}`,
+          mockFlowEngineSession,
+        );
+
+        expect(actual).toBe(
+          `/geld-einklagen/anwaltschaft${overview}#array-summary-item-edit-${arrayName}-1`,
+        );
+      }
+    },
+  );
+
   it("should return the next step in case it does not have an array", () => {
     const mockFlowEngineSession = getMockFlowEngineSession("/next-step");
 
