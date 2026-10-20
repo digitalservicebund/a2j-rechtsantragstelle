@@ -30,8 +30,8 @@ describe("erbscheinAnfragePdfFromUserdata", () => {
     vi.clearAllMocks();
   });
 
-  it("should skip the Ehepartner section if the Erblasser was single", async () => {
-    await erbscheinAnfragePdfFromUserdata(userDataMock);
+  it("should skip the Ehepartner section if the Erblasser was single", () => {
+    erbscheinAnfragePdfFromUserdata(userDataMock);
     expect(mockDoc.text).toHaveBeenCalledWith("Max");
     expect(mockDoc.text).not.toHaveBeenCalledWith(
       "Letzter Ehepartner oder letzte Ehepartnerin",
@@ -41,20 +41,20 @@ describe("erbscheinAnfragePdfFromUserdata", () => {
     );
   });
 
-  it("should skip the Angehörige section if the Erblasser had any kind of testament", async () => {
-    await erbscheinAnfragePdfFromUserdata(userDataMock);
+  it("should skip the Angehörige section if the Erblasser had any kind of testament", () => {
+    erbscheinAnfragePdfFromUserdata(userDataMock);
     expect(mockDoc.text).toHaveBeenCalledWith("Max");
     expect(mockDoc.text).not.toHaveBeenCalledWith("Angehörige", {
       align: "left",
     });
   });
 
-  it("should include the Weitere Angaben section if the user provided additional information", async () => {
+  it("should include the Weitere Angaben section if the user provided additional information", () => {
     const userDataWithWeitereAngaben = {
       ...userDataMock,
       weitereAngaben: "Some additional information",
     };
-    await erbscheinAnfragePdfFromUserdata(userDataWithWeitereAngaben);
+    erbscheinAnfragePdfFromUserdata(userDataWithWeitereAngaben);
     expect(mockDoc.text).toHaveBeenCalledWith("Weitere Angaben", {
       align: "left",
     });
