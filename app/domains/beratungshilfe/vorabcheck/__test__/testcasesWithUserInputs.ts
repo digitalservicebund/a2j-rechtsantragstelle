@@ -125,7 +125,7 @@ const staatlicheLeistungenTestCases = {
 
 export const beratungshilfeVorabcheckTestCases = {
   flowId: "/beratungshilfe/vorabcheck",
-  newEngineConfig: beratungshilfeVorabcheckFlowConfig,
+  config: beratungshilfeVorabcheckFlowConfig,
   testcases: {
     fullFlow: [
       { stepId: "/start" },

@@ -20,9 +20,9 @@ import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskosten
 import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { type UserData } from "~/domains/userData";
 import { fetchTranslations } from "~/services/cms/index.server";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import {
   getSessionData,
@@ -116,7 +116,7 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   const sessionData = await getSessionData(flowId, cookieHeader);
 
   const compiledStaticFlow = flows[flowId]
-    .newEngineConfig as CompiledFlow<PageConfigMap>;
+    .config as CompiledFlow<PageConfigMap>;
   const userData: UserData = getPrunedUserDataFromSimulation(
     compiledStaticFlow,
     sessionData,

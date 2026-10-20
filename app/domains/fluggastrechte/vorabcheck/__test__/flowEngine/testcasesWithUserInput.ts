@@ -1,5 +1,5 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import type { PageConfigMap } from "~/services/flow/flowEngine/types";
 import { fluggastrechteVorabcheckFlowConfig } from "../../flowConfig";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 import { testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine } from "./testcasesAnnullierungAbbruchNewFlowEngine";
@@ -15,7 +15,7 @@ import { testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine } from "./testcas
 
 export const fluggastrechteVorabcheckTestCases = {
   flowId: "/fluggastrechte/vorabcheck",
-  newEngineConfig: fluggastrechteVorabcheckFlowConfig,
+  config: fluggastrechteVorabcheckFlowConfig,
   testcases: {
     ...testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine,
     ...testCasesFluggastrechteErfolgNewFlowEngine,

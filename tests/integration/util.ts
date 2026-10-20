@@ -61,7 +61,7 @@ export function zodKeys<T extends z.ZodType | null | undefined>(
 }
 
 export function getAllPossibleStates(flow: Flow) {
-  const pages = flow.newEngineConfig?.pages ?? {};
+  const pages = flow.config?.pages ?? {};
 
   return Object.values(pages)
     .map((page) => toCmsStepId(page.stepId))

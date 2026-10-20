@@ -11,7 +11,7 @@ import {
 const flowWithPages = (stepIds: string[]) =>
   ({
     flowType: "formFlow",
-    newEngineConfig: {
+    config: {
       pages: Object.fromEntries(stepIds.map((stepId) => [stepId, { stepId }])),
     },
   }) as unknown as Flow;

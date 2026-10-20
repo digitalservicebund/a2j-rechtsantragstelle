@@ -1,4 +1,4 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { vereinfachteErklaerungFlowConfig } from "./vereinfachteErklaerung/flowConfig";
 import { type prozesskostenhilfeFormularPages } from "../pages";
 import { isNachueberpruefung } from "../grundvoraussetzungen/guards";

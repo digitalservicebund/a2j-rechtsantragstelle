@@ -2,7 +2,7 @@ import isEmpty from "lodash/isEmpty";
 import type { FlowId } from "~/domains/flowIds";
 import { type CookieHeader, getSessionData } from "../../session.server";
 import { type Flow } from "~/domains/flows.server";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 
 export type FlowTransitionConfig = {
   sourceFlowId: FlowId;
@@ -31,11 +31,11 @@ export async function validateFlowTransition(
     throw new Error("This property should not be empty");
   }
 
-  const sourceFlowConfig = sourceFlow.newEngineConfig;
+  const sourceFlowConfig = sourceFlow.config;
 
   if (!sourceFlowConfig) {
     throw new Error(
-      `Source flow ${sourceFlowId} does not have a newEngineConfig, which is required for flow transitions.`,
+      `Source flow ${sourceFlowId} does not have a config, which is required for flow transitions.`,
     );
   }
 

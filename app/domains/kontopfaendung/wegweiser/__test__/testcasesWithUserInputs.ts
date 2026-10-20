@@ -4,7 +4,7 @@ import { kontopfaendungWegweiserFlowConfig } from "../flowConfig";
 
 export const kontopfaendungWegweiserTestCases = {
   flowId: "/kontopfaendung/wegweiser",
-  newEngineConfig: kontopfaendungWegweiserFlowConfig,
+  config: kontopfaendungWegweiserFlowConfig,
   testcases: {
     yesKontopfaendung: [
       { stepId: "/start" },

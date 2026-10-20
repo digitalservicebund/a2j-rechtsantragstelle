@@ -1,6 +1,6 @@
 import { hasNoFirstOrSecondOrderHeirs } from "~/domains/nachlass/erbschein/shared/determineHeirs";
 import { elternteileRequireFurtherGenerations } from "~/domains/nachlass/erbschein/shared/erbfolgeHelpers";
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { compileFlow } from "~/services/flow/flowEngine/compileFlow";
 import { collectMissingChildrenNamesForElternteile } from "../shared/missingChildren";
 import { elternteilFlowConfig } from "./elternteilFlowConfig";
 import { kinderFlowConfig } from "./kinderFlowConfig";

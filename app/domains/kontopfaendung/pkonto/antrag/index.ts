@@ -4,5 +4,5 @@ import { kontopfaendungPkontoAntragFlowConfig } from "./flowConfig";
 export const kontopfaendungPkontoAntrag = {
   flowType: "formFlow",
   stringReplacements: () => ({}),
-  newEngineConfig: kontopfaendungPkontoAntragFlowConfig,
+  config: kontopfaendungPkontoAntragFlowConfig,
 } satisfies Flow<typeof kontopfaendungPkontoAntragFlowConfig.pages>;

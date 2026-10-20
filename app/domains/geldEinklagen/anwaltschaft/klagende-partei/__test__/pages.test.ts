@@ -1,6 +1,6 @@
 import omit from "lodash/omit";
 import { z } from "zod";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { geldEinklagenAnwaltschaftFlowConfig } from "../../flowConfig";
 import {
   MAX_REPRESENTATIVES,

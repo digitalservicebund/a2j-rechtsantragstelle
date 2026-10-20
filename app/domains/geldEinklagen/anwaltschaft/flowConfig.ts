@@ -4,8 +4,8 @@ import { sonstigeNebenUndProzessantraegeFlowConfig } from "~/domains/geldEinklag
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
 
 export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =

@@ -19,7 +19,7 @@ import {
 
 export const beratungshilfeFormular = {
   flowType: "formFlow",
-  newEngineConfig: beratungshilfeFormularFlowConfig,
+  config: beratungshilfeFormularFlowConfig,
   metaConfiguration: {
     "/abgabe": { excludedFromValidation: true },
     "/abgabe/ueberpruefung": { triggerValidation: true },

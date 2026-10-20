@@ -25,5 +25,5 @@ export const geldEinklagenAnwaltschaft = {
       "organisation",
     ),
   },
-  newEngineConfig: geldEinklagenAnwaltschaftFlowConfig,
+  config: geldEinklagenAnwaltschaftFlowConfig,
 } satisfies Flow<typeof geldEinklagenAnwaltschaftFlowConfig.pages>;

@@ -2,7 +2,7 @@ import { type UserData } from "~/domains/userData";
 import { precomputeProgress } from "./precomputeProgress";
 import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
 import z from "zod";
-import { type FlowTransitionConfig } from "~/services/flow/newFlowEngine/flowTransitionValidation";
+import { type FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 
 // The "#" wildcard used in array stepId paths (e.g. "/kinder/#/daten").
 // Defined locally to keep the engine decoupled from the app's array service.

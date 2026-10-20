@@ -1,5 +1,5 @@
 import { type GeldEinklagenAnwaltschaftPages } from "../pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 
 export const sonstigeNebenUndProzessantraegeFlowConfig = {
   sonstigeNebenUndProzessantraegeUebersicht: [

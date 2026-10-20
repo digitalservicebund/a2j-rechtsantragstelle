@@ -1,9 +1,6 @@
 import z from "zod";
-import {
-  compileFlow,
-  type CompiledFlow,
-} from "../../newFlowEngine/compileFlow";
-import { type PageConfigMap } from "../../newFlowEngine/types";
+import { compileFlow, type CompiledFlow } from "../../flowEngine/compileFlow";
+import { type PageConfigMap } from "../../flowEngine/types";
 import { generateUserDataToSave } from "../generateUserDataToSave";
 
 const flowId = "/beratungshilfe/antrag";

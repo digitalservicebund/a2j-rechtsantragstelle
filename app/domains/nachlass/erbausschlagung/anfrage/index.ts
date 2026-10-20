@@ -23,11 +23,11 @@ import {
   hasVerstorbeneNotification,
 } from "./stringReplacements";
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 export const erbausschlagungAnfrage = {
   flowType: "formFlow",
-  newEngineConfig: erbausschlagungAnfrageFlowConfig,
+  config: erbausschlagungAnfrageFlowConfig,
   stringReplacements: (context: ErbausschlagungAnfrageUserData) => ({
     ...getVerstorbeneName(context),
     ...getAusschlagendePersonName(context),

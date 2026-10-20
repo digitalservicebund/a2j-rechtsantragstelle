@@ -10,7 +10,7 @@ import {
   personUnion,
 } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pageSchemaHelpers";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));

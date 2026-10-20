@@ -5,17 +5,17 @@ import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type AddArrayItemEvent } from "~/services/array";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
 import {
   createFlowSession,
   type FlowSession,
-} from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { removeArrayIndexWithWildcard } from "~/util/array";
 import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { fluggastrechteFormularTestCases } from "../fluggastrechte/formular/__test__/testcasesWithUserInput";
-import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/newFlowEngine/testcasesWithUserInput";
+import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/flowEngine/testcasesWithUserInput";
 import { geldEinklagenAnwaltschaftTestCases } from "../geldEinklagen/anwaltschaft/__test__/testCasesWithUserInput";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
@@ -49,7 +49,7 @@ type VisitedSteps = Record<
   string,
   {
     visitedSteps: Set<string | undefined>;
-    newEngineConfig: CompiledFlow<PageConfigMap>;
+    config: CompiledFlow<PageConfigMap>;
   }
 >;
 
@@ -136,7 +136,7 @@ function testArrayLinkPages(
 function runTestcases<T extends UserData>(
   testName: string,
   flowId: string,
-  newEngineConfig: CompiledFlow<PageConfigMap>,
+  config: CompiledFlow<PageConfigMap>,
   expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
 ) {
@@ -182,7 +182,7 @@ function runTestcases<T extends UserData>(
           }
 
           const flowSessionEngine = createFlowSession(
-            newEngineConfig,
+            config,
             {
               ...(buildFullUserInput(expectedSteps, idx) as Parameters<
                 typeof createFlowSession
@@ -232,9 +232,9 @@ describe("flowSchemas", { concurrent: false }, () => {
 
   afterAll(() => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
-      .map(([flowId, { newEngineConfig, visitedSteps }]) => {
-        const allPaths = Object.keys(newEngineConfig.pages).map(
-          (pageId) => newEngineConfig.pages[pageId].stepId,
+      .map(([flowId, { config, visitedSteps }]) => {
+        const allPaths = Object.keys(config.pages).map(
+          (pageId) => config.pages[pageId].stepId,
         );
         const missingSteps = allPaths.filter((x) => !visitedSteps.has(x));
         return [flowId, missingSteps];
@@ -256,17 +256,17 @@ describe("flowSchemas", { concurrent: false }, () => {
   });
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { flowId, testcases, newEngineConfig }]) => {
-      if (newEngineConfig === undefined) {
+    ([testConfigName, { flowId, testcases, config }]) => {
+      if (config === undefined) {
         throw new Error(
-          `Missing newEngineConfig for flowId: ${flowId}. Please provide a valid newEngineConfig in the testcases for ${testConfigName}.`,
+          `Missing config for flowId: ${flowId}. Please provide a valid config in the testcases for ${testConfigName}.`,
         );
       }
 
       if (!allVisitedSteps[flowId]) {
         allVisitedSteps[flowId] = {
           visitedSteps: new Set(),
-          newEngineConfig,
+          config,
         };
       }
 
@@ -275,7 +275,7 @@ describe("flowSchemas", { concurrent: false }, () => {
           runTestcases(
             testName,
             flowId,
-            newEngineConfig,
+            config,
             expectedSteps,
             allVisitedSteps,
           ),
