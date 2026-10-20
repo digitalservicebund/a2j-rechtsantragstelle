@@ -32,6 +32,8 @@ export const getPartyTypeTranslations = (
     : {
         heading:
           translations.geldEinklagenAnwaltschaft.organisationenHeadline.de,
+        helperText:
+          translations.geldEinklagenAnwaltschaft.organisationDescription.de,
         addButtonLabel:
           translations.geldEinklagenAnwaltschaft.organisationHeadline.de,
         testId: "add-organisation",

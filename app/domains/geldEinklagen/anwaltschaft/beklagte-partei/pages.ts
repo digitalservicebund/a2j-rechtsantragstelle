@@ -1,4 +1,4 @@
-import { klageParteinArraySchema } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+import { klageParteinArraySchema as klageParteienArraySchema } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { type PagesConfig } from "~/domains/pageSchemas";
 
 export const beklagteParteiPages = {
@@ -6,7 +6,7 @@ export const beklagteParteiPages = {
     stepId: "/beklagte-partei/beklagten/uebersicht",
     arraySummary: {
       name: "beklagten",
-      schema: klageParteinArraySchema,
+      schema: klageParteienArraySchema,
       isArrayRelevant: () => true,
     },
   },
