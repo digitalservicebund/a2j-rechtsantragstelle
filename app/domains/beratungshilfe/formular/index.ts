@@ -1,21 +1,10 @@
 import { isFinanciallyEligibleForBerH } from "~/domains/beratungshilfe/formular/abgabe/isFinanciallyEligibleForBerH";
-import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
 import type { Flow } from "~/domains/flows.server";
 import { sendCustomAnalyticsEvent } from "~/services/analytics/customEvent";
-import {
-  getAmtsgerichtStrings,
-  getStaatlicheLeistungenStrings,
-  getAnwaltStrings,
-  ausgabenStrings,
-  weiteresEinkommenStrings,
-} from "./stringReplacements";
+import { getBeratungshilfeStringReplacements } from "./stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 import { beratungshilfeFormularFlowConfig } from "./flowConfig";
-import {
-  geldAnlagenStrings,
-  getArrayIndexStrings,
-  getKinderStrings,
-} from "../../shared/formular/stringReplacements";
+import { beratungshilfePdfFromUserdata } from "../services/pdf";
 
 export const beratungshilfeFormular = {
   flowType: "formFlow",
@@ -24,17 +13,7 @@ export const beratungshilfeFormular = {
     "/abgabe": { excludedFromValidation: true },
     "/abgabe/ueberpruefung": { triggerValidation: true },
   },
-  stringReplacements: (context: BeratungshilfeFormularUserData) => ({
-    ...getAmtsgerichtStrings(context),
-    ...getStaatlicheLeistungenStrings(context),
-    ...getKinderStrings(context),
-    ...getArrayIndexStrings(context),
-    ...getAnwaltStrings(context),
-    ...getRechtsproblemStrings(context),
-    ...ausgabenStrings(context),
-    ...geldAnlagenStrings(context),
-    ...weiteresEinkommenStrings(context),
-  }),
+  stringReplacements: getBeratungshilfeStringReplacements,
   asyncFlowActions: {
     "/abgabe/art": (request, userData) =>
       Promise.resolve(
@@ -46,5 +25,10 @@ export const beratungshilfeFormular = {
           },
         }),
       ),
+  },
+  pdfConfig: {
+    pdfFunction: async (userData: BeratungshilfeFormularUserData) =>
+      await beratungshilfePdfFromUserdata(userData),
+    name: `Antrag_Beratungshilfe`,
   },
 } satisfies Flow;
