@@ -1,5 +1,6 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   getGesetzlicheVertretungArtLabel,
   type KlageParteiVerhaeltnis,
@@ -20,7 +21,12 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
   const nameText =
     "orgName" in partei
       ? partei.orgName
-      : `${partei.anrede} ${partei.titel} ${partei.vorname} ${partei.nachname}`;
+      : getFullPlaintiffName(
+          partei.anrede,
+          partei.titel,
+          partei.vorname,
+          partei.nachname,
+        );
   return (
     <div data-testid="klage-partei">
       <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-kern-space-large!">

@@ -1,9 +1,9 @@
+import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
 
 export const PLAINTIFF_TEXT = "- Klagende Partei -";
 export const SEPARATOR = " | ";
