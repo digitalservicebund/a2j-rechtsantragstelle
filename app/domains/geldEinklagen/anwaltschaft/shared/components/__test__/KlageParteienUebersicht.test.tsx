@@ -60,7 +60,7 @@ describe("KlageParteienUebersicht", () => {
           ...naturalPerson,
           "gesetzliche-vertretung": Array.from(
             { length: MAX_NATURAL_PERSON_REPRESENTATIVES - 1 },
-            () => ({ art: "Elternteil" as const }),
+            () => ({ art: "elternteil" as const }),
           ),
         },
       ],
@@ -83,7 +83,7 @@ describe("KlageParteienUebersicht", () => {
           ...naturalPerson,
           "gesetzliche-vertretung": Array.from(
             { length: MAX_NATURAL_PERSON_REPRESENTATIVES },
-            () => ({ art: "Elternteil" as const }),
+            () => ({ art: "elternteil" as const }),
           ),
         },
       ],
@@ -101,28 +101,32 @@ describe("KlageParteienUebersicht", () => {
       klagenden: [
         {
           ...organization,
-          orgVertretungArt: "Vorstand / Vorständin",
+          orgVertretungArt: "vorstand-vorstaendin",
           orgVertretungAnrede: "herr",
           orgVertretungTitel: "",
           orgVertretungVorname: "Max",
           orgVertretungNachname: "Mustermann",
           "gesetzliche-vertretung": Array.from({ length: 6 }, () => ({
-            art: "Vorstand / Vorständin" as const,
+            art: "vorstand-vorstaendin" as const,
           })),
         },
       ],
     });
 
+    expect(screen.getByText("herr Max Mustermann")).toBeInTheDocument();
     expect(
-      screen.getByText("Vorstand / Vorständin: herr Max Mustermann"),
-    ).toBeInTheDocument();
+      screen.getAllByText(
+        translations.geldEinklagenAnwaltschaft.gesetzlicheVertretungArt.de,
+        { exact: false },
+      ),
+    ).toHaveLength(7);
     expect(
       screen.getByRole("link", {
         name: `${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
       }),
     ).toHaveAttribute(
       "href",
-      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/6/daten",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/6/daten-organisation",
     );
   });
 

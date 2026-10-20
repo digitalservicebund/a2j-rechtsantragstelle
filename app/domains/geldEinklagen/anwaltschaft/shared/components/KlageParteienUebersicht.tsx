@@ -72,6 +72,7 @@ const KlageParteienList = ({
 
   const {
     heading,
+    helperText,
     addButtonLabel,
     testId,
     maximumReachedTitle,
@@ -79,13 +80,16 @@ const KlageParteienList = ({
   } = getPartyTypeTranslations(partyType, relationship);
   return (
     <div className="kern-summary flex flex-col gap-kern-space-default">
-      <div className="kern-summary__header p-0!">
+      <div className="flex flex-col kern-summary__header p-0!">
         <h2
           className="kern-body kern-body--large kern-body--bold p-0!"
           tabIndex={-1}
         >
           {heading}
         </h2>
+        {helperText && (
+          <p className="kern-body kern-body--small p-0!">{helperText}</p>
+        )}
       </div>
 
       {parties.map(({ partei, arrayIndex }) => (

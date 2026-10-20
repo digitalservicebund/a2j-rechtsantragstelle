@@ -9,7 +9,7 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { updateSession } from "~/services/session.server";
 
-export const setParteiType =
+export const setPartyType =
   (
     relationship: KlageParteiVerhaeltnis,
     type: KlageParteiType,

@@ -6,6 +6,10 @@ import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveChec
 import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { SplitTimeInput } from "../inputs/time/SplitTimeInput";
+import {
+  dateInputOptionalZodDescription,
+  dateInputZodDescription,
+} from "~/services/validation/dateObject";
 
 const getContentData = (element?: StrapiFormComponent) => {
   const errorMessages =
@@ -53,7 +57,13 @@ export const renderZodObject = (
       />
     );
   }
-  if (nestedSchema.meta()?.description === "split_date") {
+  if (
+    [dateInputZodDescription, dateInputOptionalZodDescription].includes(
+      nestedSchema.meta()?.description ?? "",
+    )
+  ) {
+    const isDateInputRequired =
+      nestedSchema.meta()?.description === dateInputZodDescription;
     return (
       <SplitDateInput
         key={fieldName}
@@ -61,6 +71,7 @@ export const renderZodObject = (
         suffix={suffix}
         label={label}
         errorMessages={errorMessages}
+        isRequired={isDateInputRequired}
       />
     );
   }

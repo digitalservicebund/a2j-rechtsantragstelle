@@ -13,15 +13,11 @@ import { useLocation } from "react-router";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
-  ariaLabel?: string;
 }>;
 
 export const logoAltText = "Logo des BMJVs";
 
-export default function Footer({
-  showDeletionBanner = false,
-  ariaLabel,
-}: FooterProps) {
+export default function Footer({ showDeletionBanner = false }: FooterProps) {
   const { pathname } = useLocation();
   return (
     <GridSection
@@ -32,7 +28,7 @@ export default function Footer({
       <Grid className="pt-kern-space-x-large flex flex-col gap-y-32 pl-0! pr-0! print:pb-0">
         <GridItem
           row={1}
-          ariaLabel={ariaLabel}
+          ariaLabel={translations.footer.internalLinks.de}
           className="grid grid-cols-subgrid px-kern-space-small"
         >
           <div className="col-start-1 col-span-12 lg:col-span-6 p-kern-space-default! gap-kern-space-small">
