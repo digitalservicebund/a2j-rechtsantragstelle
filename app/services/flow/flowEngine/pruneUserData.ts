@@ -6,7 +6,7 @@ import {
   type InferredUserData,
 } from "./types";
 import { type PageData } from "../pageData";
-import { runSimulation } from "~/services/flow/newFlowEngine/simulate";
+import { runSimulation } from "~/services/flow/flowEngine/simulate";
 
 // Navigates/creates the nested path in `obj` using `arrayPath` + `indexes`,
 // then sets `fieldName = value` on the deepest object.

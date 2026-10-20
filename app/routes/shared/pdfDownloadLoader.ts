@@ -3,7 +3,7 @@ import { redirect, type LoaderFunctionArgs } from "react-router";
 import { type UserData } from "~/domains/userData";
 import { fetchTranslations } from "~/services/cms/index.server";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
@@ -23,8 +23,7 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
     fetchTranslations(flowId),
     getSessionData(flowId, cookieHeader),
   ]);
-
-  const compiledStaticFlow = currentFlow.newEngineConfig;
+  const compiledStaticFlow = currentFlow.config;
   const userData: UserData = getPrunedUserDataFromSimulation(
     compiledStaticFlow,
     sessionData,

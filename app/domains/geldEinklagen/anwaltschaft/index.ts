@@ -26,7 +26,7 @@ export const geldEinklagenAnwaltschaft = {
       "organisation",
     ),
   },
-  newEngineConfig: geldEinklagenAnwaltschaftFlowConfig,
+  config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {
     pdfFunction: async (userData: GeldEinklagenAnwaltschaftUserData) =>
       await geldEinklagenAnwaltschaftPdfFromUserdata(userData),

@@ -22,7 +22,7 @@ import { testCasesPKHFormularAntragstellendePersonTransitions } from "../antrags
 
 export const prozesskostenhilfeFormularTestCases = {
   flowId: "/prozesskostenhilfe/formular",
-  newEngineConfig: prozesskostenhilfeFormularFlowConfig,
+  config: prozesskostenhilfeFormularFlowConfig,
   testcases: {
     ...testCasesPKHFormularGrundvoraussetzungen,
     ...testCasesPKHFormularAntragstellendePersonTransitions,

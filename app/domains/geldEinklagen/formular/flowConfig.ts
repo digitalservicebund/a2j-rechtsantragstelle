@@ -1,7 +1,7 @@
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 import { geldEinklagenFormularPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { gerichtPruefenIntroFlowConfig } from "./gericht-pruefen/intro/flowConfig";
@@ -13,7 +13,7 @@ import { zustaendigesGerichtDone } from "./gericht-pruefen/zustaendiges-gericht/
 import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/doneFunctions";
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenBegruendungFlowConfig } from "./klage-erstellen/begruendung/flowConfig";
 

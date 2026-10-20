@@ -2,11 +2,11 @@ import pick from "lodash/pick";
 import { type FlowId } from "~/domains/flowIds";
 import { type Flow } from "~/domains/flows.server";
 import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import {
   type InferredUserData,
   type PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 
 export const migrateSourceFlowDataToDestinationFlow = <C extends PageConfigMap>(
   sourceUserData: InferredUserData<C>,
@@ -18,7 +18,7 @@ export const migrateSourceFlowDataToDestinationFlow = <C extends PageConfigMap>(
     return destinationFlow.migration.migrationDataMerger(sourceUserData);
   }
   const prunedData = getPrunedUserDataFromSimulation(
-    sourceFlow.newEngineConfig!,
+    sourceFlow.config!,
     sourceUserData,
   );
   const destinationFieldnames = Object.keys(

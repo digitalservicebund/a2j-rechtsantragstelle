@@ -61,7 +61,7 @@ export const geldEinklagenFormular = {
     ...isDocumentBeingReused(context),
     ...isPersonBeingReused(context),
   }),
-  newEngineConfig: geldEinklagenFlowConfig,
+  config: geldEinklagenFlowConfig,
   useStepper: true,
   asyncFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":

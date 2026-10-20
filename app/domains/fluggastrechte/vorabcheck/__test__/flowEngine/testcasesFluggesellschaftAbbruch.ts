@@ -2,7 +2,7 @@ import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 import { verspaetetHappyPath } from "./happyPaths";
 
-export const testCasesFluggastrechteFluggesellschaftAbbruchNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
+export const testCasesFluggastrechteFluggesellschaftAbbruch: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
     "fluggesellschaft-nicht-eu-airline-destination-germany-abbruch": [
       ...verspaetetHappyPath,

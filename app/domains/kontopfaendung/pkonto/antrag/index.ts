@@ -6,7 +6,7 @@ import { pKontoPdfFromUserdata } from "./pKontoPdfFromUserdata";
 export const kontopfaendungPkontoAntrag = {
   flowType: "formFlow",
   stringReplacements: () => ({}),
-  newEngineConfig: kontopfaendungPkontoAntragFlowConfig,
+  config: kontopfaendungPkontoAntragFlowConfig,
   pdfConfig: {
     pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
       await pKontoPdfFromUserdata(userData),

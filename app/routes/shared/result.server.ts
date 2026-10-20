@@ -14,8 +14,8 @@ import {
 import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "~/services/flow/pageData";
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 
 // Information about the current result page, handed to a flow's optional hooks.

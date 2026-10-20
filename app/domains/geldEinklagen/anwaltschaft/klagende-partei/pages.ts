@@ -6,7 +6,7 @@ import {
   organizationSchema,
   vertretungFields,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 

@@ -9,5 +9,5 @@ export const erbscheinNachlassgericht = {
     ...getAmtsgerichtStrings(context),
     ...getPlzStrings(context),
   }),
-  newEngineConfig: erbscheinNachlassgerichtFlowConfig,
+  config: erbscheinNachlassgerichtFlowConfig,
 } satisfies Flow<typeof erbscheinNachlassgerichtFlowConfig.pages>;

@@ -1,5 +1,5 @@
 import { type z } from "zod";
-import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+import { type InferredUserData } from "~/services/flow/flowEngine/types";
 import type {
   ankuendigungSchema,
   fluggastBereichSchema,

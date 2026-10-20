@@ -7,7 +7,7 @@ import {
   verspaetetHappyPath,
 } from "./happyPaths";
 
-export const testcasesFluggastrechtOtherErfolgsNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
+export const testcasesFluggastrechtOtherErfolgs: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
     "verspaetet-erfolg-kontakt": [
       ...verspaetetHappyPath,

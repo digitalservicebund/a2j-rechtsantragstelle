@@ -1,5 +1,5 @@
 import { type FluggastrechteUserData } from "../userData";
-import type { Guard } from "~/services/flow/newFlowEngine/types";
+import type { Guard } from "~/services/flow/flowEngine/types";
 
 const _hasAnnullierung: Guard<FluggastrechteUserData> = (context) =>
   context.bereich === "annullierung";

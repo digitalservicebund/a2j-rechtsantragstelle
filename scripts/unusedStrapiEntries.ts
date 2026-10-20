@@ -63,8 +63,8 @@ export default async function unusedStrapiEntry() {
 
     // oxlint-disable-next-line prefer-set-has
     const allUrlsFromFlows = Object.entries(flows).flatMap(
-      ([flowId, { newEngineConfig }]) =>
-        Object.values(newEngineConfig?.pages ?? {}).map(
+      ([flowId, { config }]) =>
+        Object.values(config?.pages ?? {}).map(
           (page) => `${flowId}${toCmsStepId(page.stepId)}`,
         ),
     );
