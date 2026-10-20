@@ -12,6 +12,8 @@ import { belegeStrings } from "./stringReplacements";
 import { type ProzesskostenhilfeFormularUserData } from "./userData";
 import trackNotDoneStateAbgabeUeberpruefung from "../services/trackNotDoneStateAbgabeUeberpruefung";
 import { prozesskostenhilfeFormularFlowConfig } from "./flowConfig";
+import { prozesskostenhilfePdfFromUserdata } from "../services/pdf";
+import { type Translations } from "~/services/translations/getTranslationByKey";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 export const prozesskostenhilfeFormular = {
@@ -33,5 +35,12 @@ export const prozesskostenhilfeFormular = {
   },
   posFlowActions: {
     "/weitere-angaben": trackNotDoneStateAbgabeUeberpruefung,
+  },
+  pdfConfig: {
+    pdfFunction: async (
+      userData: ProzesskostenhilfeFormularUserData,
+      translations?: Translations,
+    ) => await prozesskostenhilfePdfFromUserdata(userData, translations),
+    name: `Erklaerung_Prozesskostenhilfe`,
   },
 } satisfies Flow<PageConfigMap>;

@@ -24,6 +24,7 @@ import type { FlowId } from "./flowIds";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AllowedUserTypes, UserData } from "./userData";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
@@ -62,6 +63,14 @@ export type PosFlowAction<TUserData extends UserData = UserData> = (
   flowSession: Session<TUserData, TUserData>,
 ) => MaybePromise<void>;
 
+type PdfConfig = {
+  pdfFunction: (
+    userData: UserData,
+    translations?: Translations,
+  ) => Promise<Uint8Array>;
+  name: string;
+};
+
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config?: CompiledFlow<C>;
@@ -76,6 +85,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   posFlowActions?: Record<string, PosFlowAction>;
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
+  pdfConfig?: PdfConfig;
 };
 
 export const flows = {

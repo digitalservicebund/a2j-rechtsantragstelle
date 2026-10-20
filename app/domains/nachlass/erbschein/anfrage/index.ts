@@ -16,6 +16,7 @@ import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyA
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { erbscheinAnfrageFlowConfig } from "./flowConfig";
 import { migrateElternteil, migrateKind } from "./personMigration";
+import { erbscheinAnfragePdfFromUserdata } from "../../services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
 
 export const erbscheinAnfrage = {
   flowType: "formFlow",
@@ -74,4 +75,9 @@ export const erbscheinAnfrage = {
   }),
   summaryFieldOverride: getParentIndexSummaryOverride,
   config: erbscheinAnfrageFlowConfig,
+  pdfConfig: {
+    pdfFunction: async (userData: ErbscheinAnfrageUserData) =>
+      await erbscheinAnfragePdfFromUserdata(userData),
+    name: `Erbschein_Anfrage`,
+  },
 } satisfies Flow<PageConfigMap>;

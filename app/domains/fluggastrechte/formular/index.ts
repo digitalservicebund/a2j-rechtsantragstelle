@@ -34,6 +34,7 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { fluggastrechteFormularFlowConfig } from "./flowConfig";
+import { fluggastrechtePdfFromUserdata } from "../services/pdf/fluggastrechtePdfFromUserdata";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -86,4 +87,10 @@ export const fluggastrechtFlow = {
       isTotalClaimWillSucceddedAboveLimit(context),
   }),
   flowTransitionConfig,
+  pdfConfig: {
+    pdfFunction: async (userData: FluggastrechteUserData) => {
+      return await fluggastrechtePdfFromUserdata(userData);
+    },
+    name: `Fluggastrechte_Klage`,
+  },
 } satisfies Flow;
