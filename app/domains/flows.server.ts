@@ -1,3 +1,4 @@
+import { type MaybePromise } from "p-map";
 import { type Session } from "react-router";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
@@ -55,11 +56,11 @@ export type SummaryFieldOverride = (
   userData: UserData,
 ) => Pick<FieldItem, "question" | "answer"> | undefined;
 
-export type AsyncFlowAction<TUserData extends UserData = UserData> = (
+export type PosFlowAction<TUserData extends UserData = UserData> = (
   request: Request,
   userData: TUserData,
   flowSession: Session<TUserData, TUserData>,
-) => Promise<void>;
+) => MaybePromise<void>;
 
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
@@ -72,7 +73,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
    * specific field (e.g. internal fields with no CMS label, like parentKindIndex).
    */
   summaryFieldOverride?: SummaryFieldOverride;
-  asyncFlowActions?: Record<string, AsyncFlowAction>;
+  posFlowActions?: Record<string, PosFlowAction>;
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
 };
