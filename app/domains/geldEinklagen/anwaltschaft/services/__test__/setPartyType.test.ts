@@ -12,7 +12,7 @@ beforeEach(() => {
 });
 
 describe("setParteiType", () => {
-  it("should set the claimant type and one-based index from the request URL", async () => {
+  it("should set the claimant type and one-based index from the request URL", () => {
     const userData = {
       otherData: "preserved",
       klagenden: [
@@ -22,7 +22,7 @@ describe("setParteiType", () => {
     } as unknown as GeldEinklagenAnwaltschaftUserData;
     const mockSession: Session = createSession();
 
-    await setPartyType("klagende", "natuerliche-person")(
+    setPartyType("klagende", "natuerliche-person")(
       new Request("http://localhost/antrag/1"),
       userData,
       mockSession,
@@ -46,13 +46,13 @@ describe("setParteiType", () => {
     );
   });
 
-  it("should return early when the request URL has no array index", async () => {
+  it("should return early when the request URL has no array index", () => {
     const userData = {
       klagenden: [{ name: "Erika Musterfrau" }],
     } as unknown as GeldEinklagenAnwaltschaftUserData;
     const mockSession: Session = createSession();
 
-    await setPartyType("klagende", "natuerliche-person")(
+    setPartyType("klagende", "natuerliche-person")(
       new Request("http://localhost/antrag"),
       userData,
       mockSession,

@@ -1,5 +1,5 @@
 import merge from "lodash/merge";
-import { type AsyncFlowAction } from "~/domains/flows.server";
+import { type PosFlowAction } from "~/domains/flows.server";
 import {
   getPluralOfKlageParteiRelationship,
   type KlageParteiType,
@@ -13,8 +13,8 @@ export const setPartyType =
   (
     relationship: KlageParteiVerhaeltnis,
     type: KlageParteiType,
-  ): AsyncFlowAction =>
-  async (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
+  ): PosFlowAction =>
+  (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const arrayIndex = parseArrayIndexesFromPathname(request.url).at(0);
     const targetArray =
       userData[getPluralOfKlageParteiRelationship(relationship)];

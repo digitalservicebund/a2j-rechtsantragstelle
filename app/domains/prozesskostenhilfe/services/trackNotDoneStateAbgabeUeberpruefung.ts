@@ -21,18 +21,16 @@ const trackNotDoneStateAbgabeUeberpruefung = (
   const notDoneStates = getNotDoneStates(userData);
 
   if (Object.keys(notDoneStates).length === 0) {
-    return Promise.resolve();
+    return;
   }
 
-  return Promise.resolve(
-    sendCustomAnalyticsEvent({
-      request,
-      eventName: "abgabe ueberpruefung not done states",
-      properties: {
-        notDoneStates: notDoneStates,
-      },
-    }),
-  );
+  sendCustomAnalyticsEvent({
+    request,
+    eventName: "abgabe ueberpruefung not done states",
+    properties: {
+      notDoneStates: notDoneStates,
+    },
+  });
 };
 
 export default trackNotDoneStateAbgabeUeberpruefung;

@@ -26,7 +26,7 @@ beforeEach(() => {
 
 describe("prefillZipCodeAndCity", () => {
   describe("klagende person", () => {
-    it("should prefill the zip code and city if the user entered the postleitzahlSecondary", async () => {
+    it("should prefill the zip code and city if the user entered the postleitzahlSecondary", () => {
       const userData = {
         postleitzahlSecondary: "10115",
         klagendePersonPlz: "",
@@ -39,7 +39,7 @@ describe("prefillZipCodeAndCity", () => {
         shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
       ).mockReturnValue(true);
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -51,7 +51,7 @@ describe("prefillZipCodeAndCity", () => {
       );
     });
 
-    it("should prefill and not call again getCityNameByZipCode if the postleitzahlSecondary is equal the klagendePersonOrt", async () => {
+    it("should prefill and not call again getCityNameByZipCode if the postleitzahlSecondary is equal the klagendePersonOrt", () => {
       const userData = {
         postleitzahlSecondary: "10115",
         klagendePersonPlz: "10115",
@@ -64,7 +64,7 @@ describe("prefillZipCodeAndCity", () => {
         shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
       ).mockReturnValue(true);
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -78,7 +78,7 @@ describe("prefillZipCodeAndCity", () => {
       expect(getCityNameByZipCode).not.toHaveBeenCalled();
     });
 
-    it("should not update zip code and city in case they were updated by the user", async () => {
+    it("should not update zip code and city in case they were updated by the user", () => {
       const userData = {
         klagendePersonPlz: "somevalue",
         klagendePersonOrt: "somevalue",
@@ -92,7 +92,7 @@ describe("prefillZipCodeAndCity", () => {
         shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
       ).mockReturnValue(false);
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -104,7 +104,7 @@ describe("prefillZipCodeAndCity", () => {
       );
     });
 
-    it("should update as unfilled in case prefilled state is undefined and if the user is not eligible to enter the zip code for in the gericht suchen", async () => {
+    it("should update as unfilled in case prefilled state is undefined and if the user is not eligible to enter the zip code for in the gericht suchen", () => {
       const userData = {
         klagendePersonPlz: "somevalue",
         klagendePersonOrt: "somevalue",
@@ -117,7 +117,7 @@ describe("prefillZipCodeAndCity", () => {
         shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
       ).mockReturnValue(false);
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -131,7 +131,7 @@ describe("prefillZipCodeAndCity", () => {
   });
 
   describe("beklagte data", () => {
-    it("should prefill the zip code and city if the user entered the postleitzahlBeklagtePerson", async () => {
+    it("should prefill the zip code and city if the user entered the postleitzahlBeklagtePerson", () => {
       const userData = {
         postleitzahlBeklagtePerson: "10115",
         beklagtePlz: "",
@@ -140,7 +140,7 @@ describe("prefillZipCodeAndCity", () => {
 
       const mockSession: Session = createSession();
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -152,7 +152,7 @@ describe("prefillZipCodeAndCity", () => {
       );
     });
 
-    it("should prefill and not call again getCityNameByZipCode if the postleitzahlBeklagtePerson is equal the beklagteOrt", async () => {
+    it("should prefill and not call again getCityNameByZipCode if the postleitzahlBeklagtePerson is equal the beklagteOrt", () => {
       const userData = {
         postleitzahlBeklagtePerson: "10115",
         beklagtePlz: "10115",
@@ -161,7 +161,7 @@ describe("prefillZipCodeAndCity", () => {
 
       const mockSession: Session = createSession();
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -188,7 +188,7 @@ describe("prefillZipCodeAndCity", () => {
         shouldVisitGerichtSuchenPostleitzahlKlagendePerson,
       ).mockReturnValue(false);
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -200,7 +200,7 @@ describe("prefillZipCodeAndCity", () => {
       );
     });
 
-    it("should update as unfilled in case prefilled state is undefined and if the did not enter the postleitzahlBeklagtePerson", async () => {
+    it("should update as unfilled in case prefilled state is undefined and if the did not enter the postleitzahlBeklagtePerson", () => {
       const userData = {
         beklagtePlz: "somevalue",
         beklagteOrt: "somevalue",
@@ -209,7 +209,7 @@ describe("prefillZipCodeAndCity", () => {
 
       const mockSession: Session = createSession();
 
-      await prefillZipCodeAndCity({} as Request, userData, mockSession);
+      prefillZipCodeAndCity({} as Request, userData, mockSession);
 
       expect(updateSession).toHaveBeenCalledWith(
         mockSession,
@@ -224,34 +224,26 @@ describe("prefillZipCodeAndCity", () => {
 });
 
 describe("updateIfUserNotPrefilledBeklagte", () => {
-  it("should not update the state if the beklagteStatePrefilled is prefilled", async () => {
+  it("should not update the state if the beklagteStatePrefilled is prefilled", () => {
     const userData = {
       beklagteStatePrefilled: "prefilled",
     } as GeldEinklagenFormularUserData;
 
     const mockSession: Session = createSession();
 
-    await updateIfUserNotPrefilledBeklagte(
-      {} as Request,
-      userData,
-      mockSession,
-    );
+    updateIfUserNotPrefilledBeklagte({} as Request, userData, mockSession);
 
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("should update the state to filledByUser if the beklagteStatePrefilled is not prefilled", async () => {
+  it("should update the state to filledByUser if the beklagteStatePrefilled is not prefilled", () => {
     const userData = {
       beklagteStatePrefilled: "unfilled",
     } as GeldEinklagenFormularUserData;
 
     const mockSession: Session = createSession();
 
-    await updateIfUserNotPrefilledBeklagte(
-      {} as Request,
-      userData,
-      mockSession,
-    );
+    updateIfUserNotPrefilledBeklagte({} as Request, userData, mockSession);
 
     expect(updateSession).toHaveBeenCalledWith(
       mockSession,
@@ -263,14 +255,14 @@ describe("updateIfUserNotPrefilledBeklagte", () => {
 });
 
 describe("updateIfUserNotPrefilledKlagendePerson", () => {
-  it("should not update the state if the klagendePersonStatePrefilled is prefilled", async () => {
+  it("should not update the state if the klagendePersonStatePrefilled is prefilled", () => {
     const userData = {
       klagendePersonStatePrefilled: "prefilled",
     } as GeldEinklagenFormularUserData;
 
     const mockSession: Session = createSession();
 
-    await updateIfUserNotPrefilledKlagendePerson(
+    updateIfUserNotPrefilledKlagendePerson(
       {} as Request,
       userData,
       mockSession,
@@ -279,14 +271,14 @@ describe("updateIfUserNotPrefilledKlagendePerson", () => {
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("should update the state to filledByUser if the klagendePersonStatePrefilled is not prefilled", async () => {
+  it("should update the state to filledByUser if the klagendePersonStatePrefilled is not prefilled", () => {
     const userData = {
       klagendePersonStatePrefilled: "unfilled",
     } as GeldEinklagenFormularUserData;
 
     const mockSession: Session = createSession();
 
-    await updateIfUserNotPrefilledKlagendePerson(
+    updateIfUserNotPrefilledKlagendePerson(
       {} as Request,
       userData,
       mockSession,
