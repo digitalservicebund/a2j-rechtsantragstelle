@@ -8,7 +8,7 @@ import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/page
 import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
-import { type NewFlowEnginePageConfig } from "~/services/flow/flowEngine/types";
+import { type FlowEnginePageConfig } from "~/services/flow/flowEngine/types";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
@@ -123,4 +123,4 @@ type ReadOnlyFields = {
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 
-type PageConfig = FlowPage | NewFlowEnginePageConfig;
+type PageConfig = FlowPage | FlowEnginePageConfig;

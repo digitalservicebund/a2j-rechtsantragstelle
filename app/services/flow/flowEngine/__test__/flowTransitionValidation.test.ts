@@ -91,13 +91,13 @@ describe("flowTransitionValidation", () => {
   });
 
   it("should throw an error if the source flow does not have a config", async () => {
-    const sourceFlowWithoutNewEngineConfig: Flow = {
+    const sourceFlowWithoutConfig: Flow = {
       flowType: "vorabCheck",
     };
 
     await expect(
       validateFlowTransition(
-        sourceFlowWithoutNewEngineConfig,
+        sourceFlowWithoutConfig,
         mockCookieHeader,
         mockFlowTransitionConfig,
       ),

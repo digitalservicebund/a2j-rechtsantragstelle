@@ -2,30 +2,30 @@ import type { FlowTestConfig } from "~/domains/__test__/TestCases";
 import type { PageConfigMap } from "~/services/flow/flowEngine/types";
 import { fluggastrechteVorabcheckFlowConfig } from "../../flowConfig";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
-import { testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine } from "./testcasesAnnullierungAbbruchNewFlowEngine";
-import { testCasesFluggastrechteErfolgNewFlowEngine } from "./testcasesErfolgNewFlowEngine";
-import { testcasesFluggastrechteErfolgAnalogNewFlowEngine } from "./testcasesErfolgAnalogNewFlowEngine";
-import { testCasesFluggastrechteErfolgEUNewFlowEngine } from "./testcasesErfolgEUNewFlowEngine";
-import { testCasesFluggastrechteFluggesellschaftAbbruchNewFlowEngine } from "./testcasesFluggesellschaftAbbruchNewFlowEngine";
-import { testCasesFluggastrechteNichtBefoerderungAbbruchNewFlowEngine } from "./testcasesNichtBefoerderungAbbruchNewFlowEngine";
-import { testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine } from "./testcasesNichtBefoerderungErfolgNewFlowEngine";
-import { testCasesFluggastrechteNichtBefoerderungVertretbareGruendeNewFlowEngine } from "./testcasesNichtBefoerderungVertretbareGruendeNewFlowEngine";
-import { testcasesFluggastrechtOtherErfolgsNewFlowEngine } from "./testcasesOtherErfolgsNewFlowEngine";
-import { testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine } from "./testcasesVerspaetetAbbruchNewFlowEngine";
+import { testCasesFluggastrechteAnnullierungAbbruch } from "./testcasesAnnullierungAbbruch";
+import { testCasesFluggastrechteErfolg } from "./testcasesErfolg";
+import { testcasesFluggastrechteErfolgAnalog } from "./testcasesErfolgAnalog";
+import { testCasesFluggastrechteErfolgEU } from "./testcasesErfolgEU";
+import { testCasesFluggastrechteFluggesellschaftAbbruch } from "./testcasesFluggesellschaftAbbruch";
+import { testCasesFluggastrechteNichtBefoerderungAbbruch } from "./testcasesNichtBefoerderungAbbruch";
+import { testCasesFluggastrechteNichtBefoerderungErfolg } from "./testcasesNichtBefoerderungErfolg";
+import { testCasesFluggastrechteNichtBefoerderungVertretbareGruende } from "./testcasesNichtBefoerderungVertretbareGruende";
+import { testcasesFluggastrechtOtherErfolgs } from "./testcasesOtherErfolgs";
+import { testCasesFluggastrechteVerspaetetAbbruch } from "./testcasesVerspaetetAbbruch";
 
 export const fluggastrechteVorabcheckTestCases = {
   flowId: "/fluggastrechte/vorabcheck",
   config: fluggastrechteVorabcheckFlowConfig,
   testcases: {
-    ...testCasesFluggastrechteAnnullierungAbbruchNewFlowEngine,
-    ...testCasesFluggastrechteErfolgNewFlowEngine,
-    ...testcasesFluggastrechteErfolgAnalogNewFlowEngine,
-    ...testCasesFluggastrechteErfolgEUNewFlowEngine,
-    ...testCasesFluggastrechteFluggesellschaftAbbruchNewFlowEngine,
-    ...testCasesFluggastrechteNichtBefoerderungAbbruchNewFlowEngine,
-    ...testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine,
-    ...testCasesFluggastrechteNichtBefoerderungVertretbareGruendeNewFlowEngine,
-    ...testcasesFluggastrechtOtherErfolgsNewFlowEngine,
-    ...testCasesFluggastrechteVerspaetetAbbruchNewFlowEngine,
+    ...testCasesFluggastrechteAnnullierungAbbruch,
+    ...testCasesFluggastrechteErfolg,
+    ...testcasesFluggastrechteErfolgAnalog,
+    ...testCasesFluggastrechteErfolgEU,
+    ...testCasesFluggastrechteFluggesellschaftAbbruch,
+    ...testCasesFluggastrechteNichtBefoerderungAbbruch,
+    ...testCasesFluggastrechteNichtBefoerderungErfolg,
+    ...testCasesFluggastrechteNichtBefoerderungVertretbareGruende,
+    ...testcasesFluggastrechtOtherErfolgs,
+    ...testCasesFluggastrechteVerspaetetAbbruch,
   },
 } satisfies FlowTestConfig<FluggastrechtVorabcheckUserData, PageConfigMap>;
