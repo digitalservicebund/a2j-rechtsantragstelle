@@ -24,6 +24,7 @@ import {
 } from "./stringReplacements";
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { erbausschlagungAnfragePdfFromUserdata } from "../../services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
 
 export const erbausschlagungAnfrage = {
   flowType: "formFlow",
@@ -50,4 +51,9 @@ export const erbausschlagungAnfrage = {
     ...erblasserOutsideGermany(context),
     ...hasVerstorbeneNotification(context),
   }),
+  pdfConfig: {
+    pdfFunction: async (userData: ErbausschlagungAnfrageUserData) =>
+      await erbausschlagungAnfragePdfFromUserdata(userData),
+    name: `Erbausschlagung_Anfrage`,
+  },
 } satisfies Flow<PageConfigMap>;
