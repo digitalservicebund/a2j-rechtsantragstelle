@@ -20,6 +20,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "date",
+    isRequired: true,
+    label: "Birthday",
   },
   decorators: [
     (Story) =>
