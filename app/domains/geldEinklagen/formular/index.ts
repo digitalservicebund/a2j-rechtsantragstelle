@@ -62,7 +62,7 @@ export const geldEinklagenFormular = {
   }),
   config: geldEinklagenFlowConfig,
   useStepper: true,
-  asyncFlowActions: {
+  posFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
       prefillZipCodeAndCity,
     "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person":

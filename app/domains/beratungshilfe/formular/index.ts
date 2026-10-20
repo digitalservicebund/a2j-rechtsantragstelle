@@ -35,7 +35,7 @@ export const beratungshilfeFormular = {
     ...geldAnlagenStrings(context),
     ...weiteresEinkommenStrings(context),
   }),
-  asyncFlowActions: {
+  posFlowActions: {
     "/abgabe/art": (request, userData) =>
       Promise.resolve(
         sendCustomAnalyticsEvent({

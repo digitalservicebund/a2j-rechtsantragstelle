@@ -15,7 +15,7 @@ export const geldEinklagenAnwaltschaft = {
     ...getKlagendeStrings(context),
     ...getOrganisationStrings(context),
   }),
-  asyncFlowActions: {
+  posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
       "klagende",
       "natuerliche-person",

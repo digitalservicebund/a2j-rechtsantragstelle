@@ -59,7 +59,7 @@ export const erbscheinAnfrage = {
     },
     buttonUrl: "/erbschein/erbfolge",
   },
-  asyncFlowActions: {
+  posFlowActions: {
     "/antragstellende-person/verhaeltnis": copyAntragstellendePersonData,
   },
   stringReplacements: (context: ErbscheinAnfrageUserData) => ({
