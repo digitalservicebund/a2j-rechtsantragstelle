@@ -3,7 +3,6 @@ import { type KontopfaendungWegweiserUserData } from "~/domains/kontopfaendung/w
 import { kontopfaendungWegweiserFlowConfig } from "../flowConfig";
 
 export const kontopfaendungWegweiserTestCases = {
-  flowId: "/kontopfaendung/wegweiser",
   config: kontopfaendungWegweiserFlowConfig,
   testcases: {
     yesKontopfaendung: [
