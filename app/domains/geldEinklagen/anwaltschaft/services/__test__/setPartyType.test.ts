@@ -1,7 +1,7 @@
 import { createSession, type Session } from "react-router";
 import { updateSession } from "~/services/session.server";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { setParteiType } from "../setParteiType";
+import { setPartyType } from "../setPartyType";
 
 vi.mock("~/services/session.server", () => ({
   updateSession: vi.fn(),
@@ -22,7 +22,7 @@ describe("setParteiType", () => {
     } as unknown as GeldEinklagenAnwaltschaftUserData;
     const mockSession: Session = createSession();
 
-    await setParteiType("klagende", "natuerliche-person")(
+    await setPartyType("klagende", "natuerliche-person")(
       new Request("http://localhost/antrag/1"),
       userData,
       mockSession,
@@ -52,7 +52,7 @@ describe("setParteiType", () => {
     } as unknown as GeldEinklagenAnwaltschaftUserData;
     const mockSession: Session = createSession();
 
-    await setParteiType("klagende", "natuerliche-person")(
+    await setPartyType("klagende", "natuerliche-person")(
       new Request("http://localhost/antrag"),
       userData,
       mockSession,

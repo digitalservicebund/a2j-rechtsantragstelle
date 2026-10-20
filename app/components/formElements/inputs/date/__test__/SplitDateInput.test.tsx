@@ -31,14 +31,14 @@ describe("SplitDateInput", () => {
       return {
         error: () => fieldErrors[name.split(".").pop()!],
         touched: () => false,
-        getInputProps: ({ id }: { id: string }) => ({ id }),
+        getInputProps: (props: Record<string, unknown>) => ({ ...props }),
         getControlProps: () => ({}),
       } as FieldApi<any>;
     });
   });
 
   it("renders day, month and year input fields with correct labels", () => {
-    render(<SplitDateInput name="birthdate" />);
+    render(<SplitDateInput name="birthdate" isRequired />);
 
     const dayInput = screen.getByLabelText("Tag");
     expect(dayInput).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe("SplitDateInput", () => {
   });
 
   it("renders legend", () => {
-    render(<SplitDateInput name="birthdate" label="Geburtsdatum" />);
+    render(<SplitDateInput name="birthdate" label="Geburtsdatum" isRequired />);
     const legend = screen.getByText("Geburtsdatum");
     expect(legend).toBeInTheDocument();
     expect(legend.tagName).toBe("LEGEND");
@@ -60,6 +60,7 @@ describe("SplitDateInput", () => {
         name="birthdate"
         label="Geburtsdatum"
         suffix="Optional"
+        isRequired
       />,
     );
 
@@ -67,7 +68,7 @@ describe("SplitDateInput", () => {
   });
 
   it("renders hint text as accessible fieldset description", () => {
-    render(<SplitDateInput name="birthdate" label="Geburtsdatum" />);
+    render(<SplitDateInput name="birthdate" label="Geburtsdatum" isRequired />);
 
     const hintText = screen.getByText("Beispielsweise: 17.3.2015");
     expect(hintText).toBeInTheDocument();
@@ -78,17 +79,46 @@ describe("SplitDateInput", () => {
     );
   });
 
+  it("should render the inputs with aria-required true given isRequired true", () => {
+    const { getAllByRole } = render(
+      <SplitDateInput name="birthdate" isRequired />,
+    );
+
+    expect(getAllByRole("textbox")[0]).toHaveAttribute("aria-required", "true");
+    expect(getAllByRole("textbox")[1]).toHaveAttribute("aria-required", "true");
+    expect(getAllByRole("textbox")[2]).toHaveAttribute("aria-required", "true");
+  });
+
+  it("should render the inputs with aria-required false given isRequired false", () => {
+    const { getAllByRole } = render(
+      <SplitDateInput name="birthdate" isRequired={false} />,
+    );
+
+    expect(getAllByRole("textbox")[0]).toHaveAttribute(
+      "aria-required",
+      "false",
+    );
+    expect(getAllByRole("textbox")[1]).toHaveAttribute(
+      "aria-required",
+      "false",
+    );
+    expect(getAllByRole("textbox")[2]).toHaveAttribute(
+      "aria-required",
+      "false",
+    );
+  });
+
   describe("Error display and handling", () => {
     it("renders an error message if the top-level field has an error", () => {
       vi.mocked(useField).mockImplementation((name) => {
         return {
           error: () => fieldErrors[name.split(".")[0]],
           touched: () => false,
-          getInputProps: ({ id }: { id: string }) => ({ id }),
+          getInputProps: (props: Record<string, unknown>) => ({ ...props }),
           getControlProps: () => ({}),
         } as FieldApi<any>;
       });
-      render(<SplitDateInput name={topLevelFieldName} />);
+      render(<SplitDateInput name={topLevelFieldName} isRequired />);
 
       expect(
         screen.getByText(fieldErrors[topLevelFieldName]),
@@ -101,11 +131,11 @@ describe("SplitDateInput", () => {
           error: () =>
             name === dayFieldName ? fieldErrors[name.split(".").pop()!] : null,
           touched: () => true,
-          getInputProps: ({ id }: { id: string }) => ({ id }),
+          getInputProps: (props: Record<string, unknown>) => ({ ...props }),
           getControlProps: () => ({}),
         } as FieldApi<any>;
       });
-      render(<SplitDateInput name={topLevelFieldName} />);
+      render(<SplitDateInput name={topLevelFieldName} isRequired />);
 
       expect(
         screen.getByText(fieldErrors[dayFieldName.split(".").pop()!]),
@@ -113,7 +143,9 @@ describe("SplitDateInput", () => {
     });
 
     it("applies aria attributes when errors exist", () => {
-      const { getAllByRole } = render(<SplitDateInput name="birthdate" />);
+      const { getAllByRole } = render(
+        <SplitDateInput name="birthdate" isRequired />,
+      );
 
       const formElements = getAllByRole("textbox");
       formElements.forEach((inputField) => {
