@@ -95,7 +95,7 @@ const KlageParteienList = ({
 
       {parties.map(({ partei, arrayIndex }) => (
         <KlagePartei
-          key={arrayIndex}
+          key={partei.id ?? arrayIndex}
           index={arrayIndex}
           partei={partei}
           relationship={relationship}

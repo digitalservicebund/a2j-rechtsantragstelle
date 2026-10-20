@@ -8,6 +8,7 @@ import {
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 
 export const GesetzlicheVertretung = ({
@@ -66,8 +67,12 @@ export const GesetzlicheVertretung = ({
                   </span>
                 </span>
                 <span>
-                  {vertreter.anrede} {vertreter.titel} {vertreter.vorname}{" "}
-                  {vertreter.nachname}
+                  {getFullPlaintiffName(
+                    vertreter.anrede,
+                    vertreter.titel,
+                    vertreter.vorname,
+                    vertreter.nachname,
+                  )}
                 </span>
                 <span>
                   {vertreter.strasse} {vertreter.hausnummer}

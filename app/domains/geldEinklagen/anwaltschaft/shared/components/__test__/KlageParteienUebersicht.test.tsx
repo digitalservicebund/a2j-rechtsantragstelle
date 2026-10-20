@@ -290,6 +290,43 @@ describe("KlageParteienUebersicht", () => {
     );
   });
 
+  it("preserves the rendered party identity when deletion changes its index", () => {
+    const firstParty = {
+      ...naturalPerson,
+      id: "11111111-1111-4111-8111-111111111111",
+    };
+    const secondParty = {
+      ...naturalPerson,
+      id: "22222222-2222-4222-8222-222222222222",
+    };
+    const { rerender } = renderOverview({
+      klagenden: [firstParty, secondParty],
+    });
+    const secondPartyElement = screen.getAllByTestId("klage-partei")[1];
+    vi.mocked(useFormFlow).mockReturnValue({
+      userData: { klagenden: [secondParty] },
+      flowId: "/geld-einklagen/anwaltschaft",
+      translations: {},
+      validFlowPages: {},
+    });
+
+    rerender(
+      <MemoryRouter>
+        <KlageParteienUebersicht relationship="klagende" />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId("klage-partei")).toBe(secondPartyElement);
+    expect(
+      screen.getByRole("link", {
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 1) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+      }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/natuerliche-person-daten",
+    );
+  });
+
   it("uses the defendant data and relationship when rendering the defendant overview", () => {
     renderOverview({ beklagten: [organization] }, "beklagte");
 
