@@ -1,11 +1,14 @@
 import type PDFDocument from "pdfkit";
-import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
+import { getBeratungshilfeStringReplacements } from "~/domains/beratungshilfe/formular/stringReplacements";
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 import { createHeading } from "~/services/pdf/createHeading";
 import { pdfStyles } from "~/services/pdf/pdfStyles";
 
-const { stringReplacements } = beratungshilfeFormular;
-type ReplacementKey = keyof ReturnType<typeof stringReplacements>;
+// imported directly from stringReplacements.ts (not formular/index.ts) to avoid a
+// runtime circular dependency with services/pdf/index.ts
+type ReplacementKey = keyof ReturnType<
+  typeof getBeratungshilfeStringReplacements
+>;
 
 const documents = {
   hasBuergergeld: "Ihren aktuellen Bürgergeld-Bescheid",
@@ -87,7 +90,7 @@ export const createChecklistSteps = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: BeratungshilfeFormularUserData,
 ) => {
-  const conditions = stringReplacements(userData);
+  const conditions = getBeratungshilfeStringReplacements(userData);
 
   const relevantDocuments = [
     "Unterlagen zu Ihrem rechtlichen Problem",

@@ -7,6 +7,7 @@ import {
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacements";
 import { geldEinklagenAnwaltschaftFlowConfig } from "./flowConfig";
+import { geldEinklagenAnwaltschaftPdfFromUserdata } from "./services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
 
 export const geldEinklagenAnwaltschaft = {
   flowType: "formFlow",
@@ -26,4 +27,9 @@ export const geldEinklagenAnwaltschaft = {
     ),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
+  pdfConfig: {
+    pdfFunction: async (userData: GeldEinklagenAnwaltschaftUserData) =>
+      await geldEinklagenAnwaltschaftPdfFromUserdata(userData),
+    name: `Geld_Einklagen_Klage`,
+  },
 } satisfies Flow<typeof geldEinklagenAnwaltschaftFlowConfig.pages>;

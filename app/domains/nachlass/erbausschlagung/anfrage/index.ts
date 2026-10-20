@@ -23,6 +23,7 @@ import {
   hasVerstorbeneNotification,
 } from "./stringReplacements";
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
+import { erbausschlagungAnfragePdfFromUserdata } from "../../services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 export const erbausschlagungAnfrage = {
@@ -50,4 +51,9 @@ export const erbausschlagungAnfrage = {
     ...erblasserOutsideGermany(context),
     ...hasVerstorbeneNotification(context),
   }),
+  pdfConfig: {
+    pdfFunction: async (userData: ErbausschlagungAnfrageUserData) =>
+      await erbausschlagungAnfragePdfFromUserdata(userData),
+    name: `Erbausschlagung_Anfrage`,
+  },
 } satisfies Flow<PageConfigMap>;
