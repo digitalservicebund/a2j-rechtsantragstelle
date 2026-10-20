@@ -1,13 +1,13 @@
 import type { Flow } from "~/domains/flows.server";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../getMigrationData";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 
 vi.mock("~/services/session.server");
 const getSessionDataMock = vi.mocked(getSessionData);
 
-vi.mock("~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow");
+vi.mock("~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow");
 const migrateSourceFlowDataToDestinationFlowMock = vi.mocked(
   migrateSourceFlowDataToDestinationFlow,
 );

@@ -11,12 +11,12 @@ import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 import { erbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
 import {
   type InferredUserData,
   type PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
-import type { FlowTransitionConfig } from "~/services/flow/newFlowEngine/flowTransitionValidation";
+} from "~/services/flow/flowEngine/types";
+import type { FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
@@ -63,7 +63,7 @@ export type AsyncFlowAction<TUserData extends UserData = UserData> = (
 
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
-  newEngineConfig?: CompiledFlow<C>;
+  config?: CompiledFlow<C>;
   migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;

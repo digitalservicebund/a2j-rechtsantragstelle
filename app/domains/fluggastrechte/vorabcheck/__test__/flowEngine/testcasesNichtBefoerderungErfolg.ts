@@ -5,7 +5,7 @@ import {
   fluggastrechteSteps,
 } from "./happyPaths";
 
-export const testCasesFluggastrechteNichtBefoerderungErfolgNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
+export const testCasesFluggastrechteNichtBefoerderungErfolg: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
     "nichtbefoerderung-erfolg": [
       {

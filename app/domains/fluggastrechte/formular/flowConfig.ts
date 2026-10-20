@@ -1,5 +1,5 @@
 import { fluggastrechteFormularPages } from "~/domains/fluggastrechte/formular/pages";
-import { compileFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { compileFlow } from "~/services/flow/flowEngine/compileFlow";
 import { abgabeFlowConfig } from "./abgabe/flowConfig";
 import { flugdatenFlowConfig } from "./flugdaten/flowConfig";
 import { grundvoraussetzungenFlowConfig } from "./grundvoraussetzungen/flowConfig";

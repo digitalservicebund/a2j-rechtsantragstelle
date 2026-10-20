@@ -1,4 +1,4 @@
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { prozesskostenhilfeFormularFlowConfig } from "../../flowConfig";
 import { pkhTestcaseData } from "../../__test__/testcasesData";
 

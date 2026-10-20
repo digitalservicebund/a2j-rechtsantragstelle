@@ -1,8 +1,8 @@
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { beratungshilfeAntragPages } from "./pages";
 import { grundvoraussetzungFlowConfig } from "./grundvoraussetzung/flowConfig";
 import { anwaltlicheVertretungFlowConfig } from "./anwaltlicheVertretung/flowConfig";

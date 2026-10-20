@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";

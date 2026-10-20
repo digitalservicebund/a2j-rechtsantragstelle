@@ -13,7 +13,7 @@ import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfr
 import { type ErbscheinErbfolgeUserData } from "~/domains/nachlass/erbschein/erbfolge/userData";
 import { getParentIndexSummaryOverride } from "~/domains/nachlass/erbschein/shared/summaryFieldOverride";
 import { copyAntragstellendePersonData } from "~/domains/nachlass/services/copyAntragstellendePersonData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { erbscheinAnfrageFlowConfig } from "./flowConfig";
 import { migrateElternteil, migrateKind } from "./personMigration";
 
@@ -73,5 +73,5 @@ export const erbscheinAnfrage = {
     ...getAntragstellendePersonCourtStrings(context),
   }),
   summaryFieldOverride: getParentIndexSummaryOverride,
-  newEngineConfig: erbscheinAnfrageFlowConfig,
+  config: erbscheinAnfrageFlowConfig,
 } satisfies Flow<PageConfigMap>;

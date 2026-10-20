@@ -1,4 +1,4 @@
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 import type { LoaderFunctionArgs } from "react-router";

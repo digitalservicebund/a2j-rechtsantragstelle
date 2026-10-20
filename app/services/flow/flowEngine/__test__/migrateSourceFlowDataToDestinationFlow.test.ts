@@ -4,12 +4,12 @@ import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+} from "~/services/flow/flowEngine/compileFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 import {
   type InferredUserData,
   type PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 
 vi.mock("~/domains/pageSchemas");
 
@@ -46,7 +46,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
     });
     const sourceFlow = {
       flowType: "formFlow",
-      newEngineConfig: compileFlow({
+      config: compileFlow({
         initialStep: "ergebnis",
         transitions: {
           ergebnis: null,
@@ -66,7 +66,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
 
     const destinationFlow = {
       flowType: "formFlow",
-      newEngineConfig: {} as CompiledFlow<PageConfigMap>,
+      config: {} as CompiledFlow<PageConfigMap>,
       migration: {
         source: "/erbschein/erbfolge",
         sortedFields: [],

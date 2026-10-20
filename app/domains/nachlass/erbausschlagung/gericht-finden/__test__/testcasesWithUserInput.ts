@@ -4,7 +4,7 @@ import type { ErbausschlagungGerichtFindenUserData } from "../userData";
 
 export const erbausschlagungGerichtFindenTestCases = {
   flowId: "/erbausschlagung/gericht-finden",
-  newEngineConfig: erbausschlagungGerichtFindenFlowConfig,
+  config: erbausschlagungGerichtFindenFlowConfig,
   testcases: {
     auslandLebensmittelpunkt: [
       {

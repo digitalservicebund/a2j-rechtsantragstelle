@@ -11,7 +11,7 @@ import { shouldShowReportProblem } from "~/components/content/reportProblem/show
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { addPageDataToUserData } from "~/services/flow/pageData";
 import type {
   LoaderExtrasContext,
@@ -106,7 +106,7 @@ export const runVorabcheckAction = async (args: ActionFunctionArgs) => {
   const { flowId, currentFlow, stepId, arrayIndexes } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const compiledStaticFlow = currentFlow.newEngineConfig;
+  const compiledStaticFlow = currentFlow.config;
 
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });

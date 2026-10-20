@@ -1,8 +1,8 @@
 import { type FlowId } from "~/domains/flowIds";
 import type { ArrayConfigServer } from ".";
-import { type FlowSession } from "../flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "../flow/newFlowEngine/types";
-import { ARRAY_WILDCARD } from "~/services/flow/newFlowEngine/compileFlow";
+import { type FlowSession } from "../flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "../flow/flowEngine/types";
+import { ARRAY_WILDCARD } from "~/services/flow/flowEngine/compileFlow";
 
 export const buildArrayConfigServer = (
   flowSessionEngine: FlowSession<PageConfigMap>,

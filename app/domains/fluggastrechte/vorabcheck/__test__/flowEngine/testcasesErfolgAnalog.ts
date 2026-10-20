@@ -2,13 +2,13 @@ import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 import { erfolgOhneGerichtHappyPath, verspaetetHappyPath } from "./happyPaths";
 
-export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
+export const testcasesFluggastrechteErfolgAnalog: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
-    "start-outside-eu-destination-germany-eu-airline": [
+    "start-outside-eu-destination-dresden-eu-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "JFK", endAirport: "MUC" },
+        userInput: { startAirport: "JFK", endAirport: "DRS" },
       },
       {
         stepId: "/fluggesellschaft",
@@ -16,14 +16,14 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "start-germany-destination-outside-eu-eu-airline": [
+    "start-dresden-destination-erfurt-eu-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "FRA", endAirport: "JFK" },
+        userInput: { startAirport: "DRS", endAirport: "ERF" },
       },
       {
         stepId: "/fluggesellschaft",
@@ -31,29 +31,14 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "start-germany-destination-eu-eu-airline": [
+    "start-dresden-destination-erfurt-non-eu-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "FRA", endAirport: "AMS" },
-      },
-      {
-        stepId: "/fluggesellschaft",
-        userInput: { fluggesellschaft: "LH" },
-      },
-      ...erfolgOhneGerichtHappyPath,
-      {
-        stepId: "/ergebnis/erfolg",
-      },
-    ],
-    "start-germany-destination-outside-eu-non-eu-airline": [
-      ...verspaetetHappyPath,
-      {
-        stepId: "/flughaefen",
-        userInput: { startAirport: "FRA", endAirport: "JFK" },
+        userInput: { startAirport: "DRS", endAirport: "ERF" },
       },
       {
         stepId: "/fluggesellschaft",
@@ -61,25 +46,25 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "start-germany-destination-eu-non-eu-airline": [
+    "start-dresden-destination-erfurt-sonstiges-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "FRA", endAirport: "AMS" },
+        userInput: { startAirport: "DRS", endAirport: "ERF" },
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: { fluggesellschaft: "DL" },
+        userInput: { fluggesellschaft: "sonstiges" },
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "domestic-germany-eu-airline": [
+    "domestic-germany-sonstiges-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
@@ -87,33 +72,18 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       {
         stepId: "/fluggesellschaft",
-        userInput: { fluggesellschaft: "LH" },
+        userInput: { fluggesellschaft: "sonstiges" },
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "domestic-germany-non-eu-airline": [
+    "start-eu-destination-dresden-eu-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "FRA", endAirport: "MUC" },
-      },
-      {
-        stepId: "/fluggesellschaft",
-        userInput: { fluggesellschaft: "DL" },
-      },
-      ...erfolgOhneGerichtHappyPath,
-      {
-        stepId: "/ergebnis/erfolg",
-      },
-    ],
-    "start-eu-destination-germany-eu-airline": [
-      ...verspaetetHappyPath,
-      {
-        stepId: "/flughaefen",
-        userInput: { startAirport: "AMS", endAirport: "MUC" },
+        userInput: { startAirport: "AMS", endAirport: "DRS" },
       },
       {
         stepId: "/fluggesellschaft",
@@ -121,14 +91,14 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
-    "start-eu-destination-germany-non-eu-airline": [
+    "start-eu-destination-dresden-non-eu-airline": [
       ...verspaetetHappyPath,
       {
         stepId: "/flughaefen",
-        userInput: { startAirport: "AMS", endAirport: "MUC" },
+        userInput: { startAirport: "AMS", endAirport: "DRS" },
       },
       {
         stepId: "/fluggesellschaft",
@@ -136,7 +106,37 @@ export const testCasesFluggastrechteErfolgNewFlowEngine: FlowTestCases<Fluggastr
       },
       ...erfolgOhneGerichtHappyPath,
       {
-        stepId: "/ergebnis/erfolg",
+        stepId: "/ergebnis/erfolg-analog",
+      },
+    ],
+    "start-eu-destination-dresden-sonstiges-airline": [
+      ...verspaetetHappyPath,
+      {
+        stepId: "/flughaefen",
+        userInput: { startAirport: "AMS", endAirport: "DRS" },
+      },
+      {
+        stepId: "/fluggesellschaft",
+        userInput: { fluggesellschaft: "sonstiges" },
+      },
+      ...erfolgOhneGerichtHappyPath,
+      {
+        stepId: "/ergebnis/erfolg-analog",
+      },
+    ],
+    "start-eu-destination-germany-sonstiges-airline": [
+      ...verspaetetHappyPath,
+      {
+        stepId: "/flughaefen",
+        userInput: { startAirport: "AMS", endAirport: "MUC" },
+      },
+      {
+        stepId: "/fluggesellschaft",
+        userInput: { fluggesellschaft: "sonstiges" },
+      },
+      ...erfolgOhneGerichtHappyPath,
+      {
+        stepId: "/ergebnis/erfolg-analog",
       },
     ],
   };

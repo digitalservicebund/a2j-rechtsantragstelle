@@ -1,7 +1,7 @@
 import { type FlowId } from "~/domains/flowIds";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type SummaryItem } from "~/services/summary/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 

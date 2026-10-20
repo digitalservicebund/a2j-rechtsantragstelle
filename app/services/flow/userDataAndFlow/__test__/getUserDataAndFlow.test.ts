@@ -4,8 +4,8 @@ import { getSessionAndEngine } from "../getSessionAndEngine";
 import { Result } from "true-myth/result";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 import { createSession } from "react-router";
-import { compileFlow } from "../../newFlowEngine/compileFlow";
-import { createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { compileFlow } from "../../flowEngine/compileFlow";
+import { createFlowSession } from "../../flowEngine/createFlowSession";
 import { getMetaConfigurationByStepId } from "../../getMetaConfigurationByStepId";
 
 vi.mock("~/services/isFeatureFlagEnabled.server");

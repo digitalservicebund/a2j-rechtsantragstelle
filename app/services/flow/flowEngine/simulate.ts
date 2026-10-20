@@ -10,7 +10,7 @@ import {
   ARRAY_WILDCARD,
   inferArrayNameFromStepId,
   type CompiledFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 
 export type SimulationResult = {
   keys: string[];
