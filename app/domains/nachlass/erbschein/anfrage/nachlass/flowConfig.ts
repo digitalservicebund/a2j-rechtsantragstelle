@@ -3,7 +3,7 @@ import {
   unternehmenArraySchema,
 } from "~/domains/nachlass/erbschein/anfrage/nachlass/pages";
 import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { z } from "zod";
 
 export const nachlassFlowConfig = {

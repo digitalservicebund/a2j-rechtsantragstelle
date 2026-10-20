@@ -1,4 +1,4 @@
-import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { type createFlowSession } from "../../flowEngine/createFlowSession";
 import { validateStepIdFlow } from "../validateStepIdFlow";
 import { type Flow } from "~/domains/flows.server";
 

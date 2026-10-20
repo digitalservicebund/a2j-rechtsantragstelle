@@ -1,7 +1,7 @@
 import type { FlowTestCases } from "~/domains/__test__/TestCases";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 
-export const testCasesFluggastrechteNichtBefoerderungVertretbareGruendeNewFlowEngine: FlowTestCases<FluggastrechtVorabcheckUserData> =
+export const testCasesFluggastrechteNichtBefoerderungVertretbareGruende: FlowTestCases<FluggastrechtVorabcheckUserData> =
   {
     "nichtbefoerderung-vertretbare-gruende-hinweis": [
       {

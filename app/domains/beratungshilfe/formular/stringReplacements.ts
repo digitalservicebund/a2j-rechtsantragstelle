@@ -1,9 +1,13 @@
 import { findCourt } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { getRechtsproblemStrings } from "~/domains/beratungshilfe/formular/rechtsproblem/stringReplacements";
+import {
+  geldAnlagenStrings,
+  getArrayIndexStrings,
+  getKinderStrings,
+} from "../../shared/formular/stringReplacements";
 import type { BeratungshilfeFormularUserData } from "./userData";
 
-export const getAmtsgerichtStrings = (
-  context: BeratungshilfeFormularUserData,
-) => {
+const getAmtsgerichtStrings = (context: BeratungshilfeFormularUserData) => {
   const court = findCourt({
     zipCode: context.plz,
     streetName: context.street,
@@ -19,7 +23,7 @@ export const getAmtsgerichtStrings = (
   };
 };
 
-export const getStaatlicheLeistungenStrings = (
+const getStaatlicheLeistungenStrings = (
   context: BeratungshilfeFormularUserData,
 ) => {
   return {
@@ -34,9 +38,7 @@ export const getStaatlicheLeistungenStrings = (
   };
 };
 
-export const weiteresEinkommenStrings = (
-  context: BeratungshilfeFormularUserData,
-) => {
+const weiteresEinkommenStrings = (context: BeratungshilfeFormularUserData) => {
   const { weitereseinkommen } = context;
   return {
     arbeitslosenGeld: weitereseinkommen?.arbeitlosengeld === "on",
@@ -48,7 +50,7 @@ export const weiteresEinkommenStrings = (
   };
 };
 
-export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
+const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
   return {
     hasSchwangerschaft:
       context.hasAusgaben === "yes" &&
@@ -66,6 +68,21 @@ export const ausgabenStrings = (context: BeratungshilfeFormularUserData) => {
   };
 };
 
-export const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
+const getAnwaltStrings = (context: BeratungshilfeFormularUserData) => {
   return { hasNoAnwalt: context.anwaltskanzlei !== "yes" };
 };
+
+// lives here (not in formular/index.ts) so services/pdf can use it without a circular import
+export const getBeratungshilfeStringReplacements = (
+  context: BeratungshilfeFormularUserData,
+) => ({
+  ...getAmtsgerichtStrings(context),
+  ...getStaatlicheLeistungenStrings(context),
+  ...getKinderStrings(context),
+  ...getArrayIndexStrings(context),
+  ...getAnwaltStrings(context),
+  ...getRechtsproblemStrings(context),
+  ...ausgabenStrings(context),
+  ...geldAnlagenStrings(context),
+  ...weiteresEinkommenStrings(context),
+});

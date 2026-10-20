@@ -2,8 +2,8 @@ import { fluggastrechteVorabcheckPages } from "~/domains/fluggastrechte/vorabche
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { guards } from "./guards";
 
 export const fluggastrechteVorabcheckFlowConfig = compileFlow({

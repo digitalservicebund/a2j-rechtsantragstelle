@@ -11,7 +11,7 @@ import { collectMissingChildrenNamesForElternteile } from "~/domains/nachlass/er
 import {
   type InferredUserData,
   type TransitionConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 
 type DescendantNode = {
   isAlive?: string;

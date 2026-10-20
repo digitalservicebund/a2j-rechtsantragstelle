@@ -3,12 +3,12 @@ import { MemoryRouter } from "react-router";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import {
-  MAX_NATURAL_PERSON_REPRESENTATIVES,
+  MAX_REPRESENTATIVES,
   type KlageParteien,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlageParteienUebersicht";
-import { MAX_KLAGE_PARTEIEN } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParteien";
+import { MAX_KLAGE_PARTIES } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
 import { type UserData } from "~/domains/userData";
 import { translations } from "~/services/translations/translations";
 
@@ -59,7 +59,7 @@ describe("KlageParteienUebersicht", () => {
         {
           ...naturalPerson,
           "gesetzliche-vertretung": Array.from(
-            { length: MAX_NATURAL_PERSON_REPRESENTATIVES - 1 },
+            { length: MAX_REPRESENTATIVES - 1 },
             () => ({ art: "elternteil" as const }),
           ),
         },
@@ -82,7 +82,7 @@ describe("KlageParteienUebersicht", () => {
         {
           ...naturalPerson,
           "gesetzliche-vertretung": Array.from(
-            { length: MAX_NATURAL_PERSON_REPRESENTATIVES },
+            { length: MAX_REPRESENTATIVES },
             () => ({ art: "elternteil" as const }),
           ),
         },
@@ -106,9 +106,12 @@ describe("KlageParteienUebersicht", () => {
           orgVertretungTitel: "",
           orgVertretungVorname: "Max",
           orgVertretungNachname: "Mustermann",
-          "gesetzliche-vertretung": Array.from({ length: 6 }, () => ({
-            art: "vorstand-vorstaendin" as const,
-          })),
+          "gesetzliche-vertretung": Array.from(
+            { length: MAX_REPRESENTATIVES - 1 },
+            () => ({
+              art: "vorstand-vorstaendin" as const,
+            }),
+          ),
         },
       ],
     });
@@ -119,14 +122,14 @@ describe("KlageParteienUebersicht", () => {
         translations.geldEinklagenAnwaltschaft.gesetzlicheVertretungArt.de,
         { exact: false },
       ),
-    ).toHaveLength(7);
+    ).toHaveLength(MAX_REPRESENTATIVES);
     expect(
       screen.getByRole("link", {
         name: `${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
       }),
     ).toHaveAttribute(
       "href",
-      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/6/daten-organisation",
+      `/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/gesetzliche-vertretung/${MAX_REPRESENTATIVES - 1}/daten-organisation`,
     );
   });
 
@@ -196,7 +199,7 @@ describe("KlageParteienUebersicht", () => {
 
   it("disables adding a party type at its maximum while keeping the other type available", () => {
     const naturalPersonen = Array.from(
-      { length: MAX_KLAGE_PARTEIEN },
+      { length: MAX_KLAGE_PARTIES },
       (_, index) => ({ ...naturalPerson, index: index + 1 }),
     );
 

@@ -1,7 +1,7 @@
 import {
   type InferredUserData,
   type TransitionConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 import {
   allDescendantsDead,
   getEligibleKind,

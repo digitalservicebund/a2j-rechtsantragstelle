@@ -9,5 +9,5 @@ export const erbscheinWegweiser = {
       userData.testamentType === "handwritten" &&
       userData.hasGrundeigentum === "yes",
   }),
-  newEngineConfig: erbscheinWegweiserFlowConfig,
+  config: erbscheinWegweiserFlowConfig,
 } satisfies Flow<typeof erbscheinWegweiserFlowConfig.pages>;

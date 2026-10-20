@@ -16,7 +16,7 @@ import {
 } from "~/services/flow/server/loaderExtras";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { setUserVisitedValidationPage } from "~/services/flow/server/setUserVisitedValidationPage";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { flowDestination } from "~/services/flow/userFlowAction/flowDestination";
@@ -183,7 +183,7 @@ export const runFormularAction = async (args: ActionFunctionArgs) => {
   const { flowId, currentFlow, arrayIndexes, stepId } =
     getPageAndFlowDataFromPathname(pathname);
 
-  const compiledStaticFlow = currentFlow.newEngineConfig;
+  const compiledStaticFlow = currentFlow.config;
 
   if (!compiledStaticFlow) {
     throw new Response(null, { status: 404 });

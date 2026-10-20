@@ -1,4 +1,4 @@
-import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+import { type InferredUserData } from "~/services/flow/flowEngine/types";
 import { type berHAntragPersoenlicheDatenPages } from "./pages";
 
 export type BeratungshilfePersoenlicheDatenUserData = InferredUserData<

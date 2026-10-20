@@ -20,7 +20,7 @@ import { testCasesWithUserInputKlagenErstellenBegruendung } from "../klage-erste
 
 export const geldEinklagenFormularTestCases = {
   flowId: "/geld-einklagen/formular",
-  newEngineConfig: geldEinklagenFlowConfig,
+  config: geldEinklagenFlowConfig,
   testcases: {
     ...testCasesWithUserInputIntroForderung,
     ...testCasesWithUserInputSachgebiet,

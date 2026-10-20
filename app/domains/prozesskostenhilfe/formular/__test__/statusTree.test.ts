@@ -1,4 +1,4 @@
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { prozesskostenhilfeFormularFlowConfig } from "../flowConfig";
 
 describe("prozesskostenhilfe formular statusTree", () => {

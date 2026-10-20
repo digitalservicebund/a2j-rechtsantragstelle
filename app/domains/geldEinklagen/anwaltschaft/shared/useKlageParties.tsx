@@ -9,9 +9,9 @@ import { arrayIsNonEmpty } from "~/util/array";
 /**
  * Maximum number of klage parteien, per type (person vs org)
  */
-export const MAX_KLAGE_PARTEIEN = 5;
+export const MAX_KLAGE_PARTIES = 5;
 
-export type KlageParteiWithArrayIndex = {
+export type KlagePartyWithArrayIndex = {
   partei: KlageParteien[number];
   arrayIndex: number;
 };
@@ -19,14 +19,14 @@ export type KlageParteiWithArrayIndex = {
 /**
  * Retrieves the appropriate klageParteien data, either for the klagenden or beklagten.
  */
-export const useKlageParteien = ({
+export const useKlageParties = ({
   relationship,
   userData,
 }: {
   relationship: KlageParteiVerhaeltnis;
   userData: GeldEinklagenAnwaltschaftUserData;
 }): {
-  klageParteienWithIndex: KlageParteiWithArrayIndex[];
+  klageParteienWithIndex: KlagePartyWithArrayIndex[];
   nextItemIndex: number;
 } => {
   const klageParteien = useMemo(

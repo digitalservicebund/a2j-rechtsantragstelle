@@ -2,7 +2,7 @@ import { elternteilFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angeh
 import { kinderFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderFlowConfig";
 import { angehoerigeArray } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pages";
 import { type ErbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { firstArrayIndex } from "~/services/flow/pageData";
 import { z } from "zod";
 

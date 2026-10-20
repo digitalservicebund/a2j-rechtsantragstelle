@@ -10,7 +10,7 @@ export const beratungshilfeVorabcheck = {
     verfuegbaresEinkommenFreibetrag:
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),
-  newEngineConfig: beratungshilfeVorabcheckFlowConfig,
+  config: beratungshilfeVorabcheckFlowConfig,
   asyncFlowActions: {
     "/bereich": (request, userData: BeratungshilfeVorabcheckUserData) =>
       Promise.resolve(

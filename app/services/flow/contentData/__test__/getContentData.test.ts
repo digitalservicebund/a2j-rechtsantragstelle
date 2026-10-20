@@ -3,7 +3,7 @@ import { getContentData } from "../getContentData";
 import { type SchemaObject } from "~/domains/userData";
 import { getPageSchema } from "~/domains/pageSchemas";
 import z from "zod";
-import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { type createFlowSession } from "../../flowEngine/createFlowSession";
 
 const mockCmsElement = {
   heading: "new heading",

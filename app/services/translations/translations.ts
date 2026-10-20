@@ -675,6 +675,9 @@ export const translations = {
     gesetzlicheVertretungArt: {
       de: "Art der Vertretung",
     },
+    gesetzlicheVertretungDeletionLabel: {
+      de: "und gesetzliche Vertretung",
+    },
     natuerlichePersonenMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an natürlichen Personen erreicht",
     },

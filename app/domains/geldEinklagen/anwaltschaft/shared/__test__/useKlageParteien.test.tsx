@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { useKlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParteien";
+import { useKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 
 const naturalPerson = {
@@ -20,7 +20,7 @@ describe("useKlageParteien", () => {
     } as unknown as GeldEinklagenAnwaltschaftUserData;
 
     const { result } = renderHook(() =>
-      useKlageParteien({ relationship: "klagende", userData }),
+      useKlageParties({ relationship: "klagende", userData }),
     );
 
     expect(result.current).toEqual({
@@ -38,7 +38,7 @@ describe("useKlageParteien", () => {
     } as unknown as GeldEinklagenAnwaltschaftUserData;
 
     const { result } = renderHook(() =>
-      useKlageParteien({ relationship: "beklagte", userData }),
+      useKlageParties({ relationship: "beklagte", userData }),
     );
 
     expect(result.current).toEqual({
