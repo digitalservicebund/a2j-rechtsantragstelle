@@ -123,8 +123,7 @@ export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
 };
 
 // Don't accept any mutations on content routes. This safely catches bot POST/PUT spam without crashing or alerting Sentry
-export const action = async () =>
-  new Response("Method Not Allowed", { status: 405 });
+export const action = () => new Response("Method Not Allowed", { status: 405 });
 
 function App() {
   const {
