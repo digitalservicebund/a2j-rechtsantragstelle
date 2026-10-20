@@ -2,12 +2,12 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import {
   getGesetzlicheVertretungArtLabel,
-  MAX_NATURAL_PERSON_REPRESENTATIVES,
+  MAX_REPRESENTATIVES,
   type KlageParteien,
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { getBaseKlageParteiUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParteiHelpers";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
 import { translations } from "~/services/translations/translations";
 
 export const GesetzlicheVertretung = ({
@@ -82,9 +82,8 @@ export const GesetzlicheVertretung = ({
                       className="size-kern-dimension-default text-kern-action-default"
                     />
                   }
-                  // TODO: Fix aria-label
-                  aria-label={`${translations.arraySummary.arrayEditButtonLabel.de}`}
-                  href={`${getBaseKlageParteiUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${index}/daten`}
+                  aria-label={`${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${vertreter.vorname} ${vertreter.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`}
+                  href={`${getBaseKlagePartyUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${index}/daten`}
                   className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
                 />
                 <Button
@@ -96,8 +95,7 @@ export const GesetzlicheVertretung = ({
                     />
                   }
                   disabled // TODO: reenable once deletion functionality is implemented
-                  // TODO: Fix aria-label
-                  aria-label={`${translations.arraySummary.arrayDeleteButtonLabel.de}`}
+                  aria-label={`${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${vertreter.vorname} ${vertreter.nachname} ${translations.arraySummary.arrayDeleteButtonLabel.de}`}
                   className="p-kern-space-small! min-h-0! border-kern-feedback-danger! size-kern-dimension-x-large"
                 />
               </div>
@@ -106,10 +104,9 @@ export const GesetzlicheVertretung = ({
         </div>
       )}
 
-      {(partyType === "organisation" ||
-        nextItemIndex < MAX_NATURAL_PERSON_REPRESENTATIVES) && (
+      {nextItemIndex < MAX_REPRESENTATIVES && (
         <a
-          href={`${getBaseKlageParteiUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${nextItemIndex}/daten${partyType === "organisation" ? "-organisation" : ""}`}
+          href={`${getBaseKlagePartyUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${nextItemIndex}/daten${partyType === "organisation" ? "-organisation" : ""}`}
           className="text-kern-action-default flex items-center pt-24"
         >
           <Icon name="plus" className="text-kern-action-default" />

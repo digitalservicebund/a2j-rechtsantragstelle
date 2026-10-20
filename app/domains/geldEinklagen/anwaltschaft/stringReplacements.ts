@@ -15,3 +15,15 @@ export const getKlagendeStrings = (
     klagendeNachname: "nachname" in klagende ? klagende.nachname : "",
   };
 };
+
+export const getOrganisationStrings = (
+  context: GeldEinklagenAnwaltschaftUserData,
+) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  if (arrayIndex === undefined) return {};
+  const organisation = context.klagenden?.at(arrayIndex);
+  if (!organisation) return {};
+  return {
+    organisationName: "orgName" in organisation ? organisation.orgName : "",
+  };
+};

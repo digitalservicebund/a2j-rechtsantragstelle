@@ -38,6 +38,7 @@ export const klagendeParteiPages = {
   },
   klagendeNaturalPersonGesetzlicheVertretungDaten: {
     stepId: "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "klagenden#gesetzliche-vertretung#art":
         naturalPersonGesetzlicheVertretungArt,
@@ -79,6 +80,7 @@ export const klagendeParteiPages = {
   klagendeOrganizationGesetzlicheVertretungDaten: {
     stepId:
       "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten-organisation",
+    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "klagenden#gesetzliche-vertretung#art":
         organizationGesetzlicheVertretungArt,

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
 import { geldEinklagenAnwaltschaftFlowConfig } from "../../flowConfig";
 import {
-  MAX_NATURAL_PERSON_REPRESENTATIVES,
+  MAX_REPRESENTATIVES,
   naturalPersonSchema,
   organizationSchema,
 } from "../../shared/anwaltschaftSchemas";
@@ -46,7 +46,7 @@ const overviewData = (klagenden: Array<Record<string, unknown>>) => {
 };
 
 describe("klagendeParteiPages", () => {
-  it.each([0, MAX_NATURAL_PERSON_REPRESENTATIVES])(
+  it.each([0, MAX_REPRESENTATIVES])(
     "accepts a natural person with %i representatives",
     (count) => {
       expect(
@@ -70,7 +70,7 @@ describe("klagendeParteiPages", () => {
       naturalPersonSchema.safeParse({
         ...naturalPerson,
         "gesetzliche-vertretung": Array.from(
-          { length: MAX_NATURAL_PERSON_REPRESENTATIVES + 1 },
+          { length: MAX_REPRESENTATIVES + 1 },
           () => representative,
         ),
       }).success,

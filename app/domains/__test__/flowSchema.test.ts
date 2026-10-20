@@ -83,14 +83,10 @@ const buildFullUserInput = <T extends UserData>(
     if (arrayIndexes.length > 0) {
       merged.pageData = { ...merged.pageData, arrayIndexes };
 
-      // Get the last array index
-      const lastIndex = arrayIndexes.at(-1);
-      if (lastIndex === undefined) return merged;
-
       // Transform array fields like `field[index]` into nested structure `field: [index: value]`
       const resolvedArraysFromKeys = resolveArraysFromKeys(
         { ...step.userInput },
-        [lastIndex],
+        arrayIndexes,
       );
       merged = merge(merged, resolvedArraysFromKeys);
     }

@@ -7,7 +7,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 export type KlageParteiVerhaeltnis = "klagende" | "beklagte";
 export type KlageParteiType = "natuerliche-person" | "organisation";
 
-export const MAX_NATURAL_PERSON_REPRESENTATIVES = 5;
+export const MAX_REPRESENTATIVES = 5;
 
 export const getPluralOfKlageParteiRelationship = (
   relationship: KlageParteiVerhaeltnis,
@@ -58,7 +58,7 @@ export const naturalPersonSchema = z.object({
         art: naturalPersonGesetzlicheVertretungArt,
       }),
     )
-    .max(MAX_NATURAL_PERSON_REPRESENTATIVES)
+    .max(MAX_REPRESENTATIVES)
     .optional(),
 });
 

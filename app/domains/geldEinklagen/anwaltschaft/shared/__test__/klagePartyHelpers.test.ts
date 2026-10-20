@@ -1,14 +1,14 @@
-import { getBaseKlageParteiUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParteiHelpers";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
 
-describe("getBaseKlageParteiUrl", () => {
+describe("getBaseKlagePartyUrl", () => {
   it("returns the base URL for the claimant relationship", () => {
-    expect(getBaseKlageParteiUrl("klagende")).toBe(
+    expect(getBaseKlagePartyUrl("klagende")).toBe(
       "/geld-einklagen/anwaltschaft/klagende-partei/klagenden",
     );
   });
 
   it("returns the base URL for the defendant relationship", () => {
-    expect(getBaseKlageParteiUrl("beklagte")).toBe(
+    expect(getBaseKlagePartyUrl("beklagte")).toBe(
       "/geld-einklagen/anwaltschaft/beklagte-partei/beklagten",
     );
   });
