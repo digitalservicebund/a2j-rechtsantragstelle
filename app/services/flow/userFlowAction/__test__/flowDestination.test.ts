@@ -1,4 +1,4 @@
-import { type createFlowSession } from "../../newFlowEngine/createFlowSession";
+import { type createFlowSession } from "../../flowEngine/createFlowSession";
 import { flowDestination } from "../flowDestination";
 
 const INITIAL_PAGE_FLOW = "/initial-step";

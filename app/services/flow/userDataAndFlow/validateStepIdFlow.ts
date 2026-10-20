@@ -1,11 +1,11 @@
 import { Result, type Unit } from "true-myth";
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
-import { type FlowSession } from "../newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "../newFlowEngine/types";
+import { type FlowSession } from "../flowEngine/createFlowSession";
+import { type PageConfigMap } from "../flowEngine/types";
 import {
   getFlowTransitionConfig,
   validateFlowTransition,
-} from "~/services/flow/newFlowEngine/flowTransitionValidation";
+} from "~/services/flow/flowEngine/flowTransitionValidation";
 import { type Flow, flows } from "~/domains/flows.server";
 import { type FlowId } from "~/domains/flowIds";
 

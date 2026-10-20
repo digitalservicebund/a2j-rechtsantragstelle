@@ -5,7 +5,7 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { translations } from "~/services/translations/translations";
 
-export const getBaseKlageParteiUrl = (relationship: KlageParteiVerhaeltnis) =>
+export const getBaseKlagePartyUrl = (relationship: KlageParteiVerhaeltnis) =>
   `/geld-einklagen/anwaltschaft/${relationship}-partei/${getPluralOfKlageParteiRelationship(relationship)}`;
 
 export const getPartyTypeTranslations = (

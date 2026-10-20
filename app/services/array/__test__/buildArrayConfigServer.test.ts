@@ -1,5 +1,5 @@
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { buildArrayConfigServer } from "../buildArrayConfigServer";
 
 const isArrayRelevant = () => true;

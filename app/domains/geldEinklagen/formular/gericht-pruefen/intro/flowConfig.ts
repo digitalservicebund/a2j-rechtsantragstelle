@@ -1,4 +1,4 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
 

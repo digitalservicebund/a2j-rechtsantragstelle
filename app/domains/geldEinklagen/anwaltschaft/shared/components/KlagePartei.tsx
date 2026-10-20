@@ -6,7 +6,7 @@ import {
   type KlageParteien,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/components/GesetzlicheVertretung";
-import { getBaseKlageParteiUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParteiHelpers";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
 import { translations } from "~/services/translations/translations";
 
 type KlageParteiProps = {
@@ -23,7 +23,7 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
       : `${partei.anrede} ${partei.titel} ${partei.vorname} ${partei.nachname}`;
   return (
     <div data-testid="klage-partei">
-      <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
+      <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-kern-space-large!">
         <div className="flex flex-col gap-kern-space-large">
           <span className="kern-body kern-body--large kern-body--bold p-0!">
             {headingText}
@@ -77,7 +77,7 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
                 />
               }
               aria-label={`${headingText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
-              href={`${getBaseKlageParteiUrl(relationship)}/${index}/${"orgName" in partei ? "organisation" : "natuerliche-person"}-daten`}
+              href={`${getBaseKlagePartyUrl(relationship)}/${index}/${"orgName" in partei ? "organisation" : "natuerliche-person"}-daten`}
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
           </div>
@@ -88,6 +88,22 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
           parentArrayItemIndex={index}
           relationship={relationship}
         />
+        <a
+          href="./uebersicht" //TODO: fix when deletion is implemented
+          className="justify-end text-kern-feedback-danger! kern-body kern-body--bold flex gap-8 p-0!"
+        >
+          <Icon
+            name="trash"
+            className="size-kern-dimension-default text-kern-feedback-danger"
+          />
+          {headingText}{" "}
+          {Boolean(partei["gesetzliche-vertretung"]?.length) &&
+          partei["gesetzliche-vertretung"]!.length > 0
+            ? translations.geldEinklagenAnwaltschaft
+                .gesetzlicheVertretungDeletionLabel.de
+            : ""}{" "}
+          {translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}
+        </a>
       </div>
     </div>
   );

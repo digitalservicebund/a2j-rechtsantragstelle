@@ -3,12 +3,12 @@ import { type Flow, type FlowType } from "~/domains/flows.server";
 import {
   compileFlow,
   type CompiledFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 import {
   type FlowTransitionConfig,
   validateFlowTransition,
-} from "~/services/flow/newFlowEngine/flowTransitionValidation";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/flowTransitionValidation";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 import { getSessionData } from "~/services/session.server";
 
@@ -22,7 +22,7 @@ const mockFlowTransitionConfig: FlowTransitionConfig = {
 
 const createMockFlow = (flowType: FlowType): Flow => ({
   flowType,
-  newEngineConfig: compileFlow({
+  config: compileFlow({
     pages: {
       start: {
         stepId: "/start",
@@ -90,19 +90,19 @@ describe("flowTransitionValidation", () => {
     ).rejects.toThrow("This property should not be empty");
   });
 
-  it("should throw an error if the source flow does not have a newEngineConfig", async () => {
-    const sourceFlowWithoutNewEngineConfig: Flow = {
+  it("should throw an error if the source flow does not have a config", async () => {
+    const sourceFlowWithoutConfig: Flow = {
       flowType: "vorabCheck",
     };
 
     await expect(
       validateFlowTransition(
-        sourceFlowWithoutNewEngineConfig,
+        sourceFlowWithoutConfig,
         mockCookieHeader,
         mockFlowTransitionConfig,
       ),
     ).rejects.toThrow(
-      `Source flow ${mockFlowId} does not have a newEngineConfig, which is required for flow transitions.`,
+      `Source flow ${mockFlowId} does not have a config, which is required for flow transitions.`,
     );
   });
 });

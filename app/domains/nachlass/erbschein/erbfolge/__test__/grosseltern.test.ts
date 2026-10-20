@@ -1,4 +1,4 @@
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { erbfolgeStaticFlow } from "../flowConfig";
 
 type UserData = Parameters<typeof createFlowSession>[1];

@@ -1,7 +1,7 @@
 import { createFlowSession } from "../createFlowSession";
 import { compileFlow } from "../compileFlow";
 import z from "zod";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 
 const noData = { pageData: { arrayIndexes: [] } };
 

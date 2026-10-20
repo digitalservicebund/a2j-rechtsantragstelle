@@ -1,4 +1,4 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type ErbscheinAnfragePages } from "../pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 

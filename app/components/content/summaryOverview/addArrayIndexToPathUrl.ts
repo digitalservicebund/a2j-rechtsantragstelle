@@ -1,4 +1,4 @@
-import { ARRAY_WILDCARD } from "~/services/flow/newFlowEngine/compileFlow";
+import { ARRAY_WILDCARD } from "~/services/flow/flowEngine/compileFlow";
 
 export const addArrayIndexToPathUrl = (path: string, index: number): string => {
   const segments = path.split("/");

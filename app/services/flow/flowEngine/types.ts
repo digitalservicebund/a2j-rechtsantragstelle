@@ -25,7 +25,7 @@ type RemoveIndexSignature<T> = {
   ]: T[K];
 };
 
-export type NewFlowEnginePageConfig = {
+export type FlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
   pageSchema?: SchemaObject;
@@ -46,7 +46,7 @@ export type NewFlowEnginePageConfig = {
   };
 };
 
-export type PageConfigMap = Record<string, NewFlowEnginePageConfig>;
+export type PageConfigMap = Record<string, FlowEnginePageConfig>;
 export type NodeKey<C extends PageConfigMap> = Extract<keyof C, string>;
 
 // --- User Data Inference ---

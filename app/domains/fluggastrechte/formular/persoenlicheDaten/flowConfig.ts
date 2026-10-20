@@ -1,6 +1,6 @@
 import { z } from "zod/mini";
 import { weiterePersonenArraySchema } from "~/domains/fluggastrechte/formular/persoenlicheDaten/pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import type { FluggastrechteFormularPages } from "../pages";
 
