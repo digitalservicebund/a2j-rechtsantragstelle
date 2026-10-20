@@ -61,7 +61,7 @@ test("prozesskostenhilfe formular can be traversed", async ({ page }) => {
   await startWeitereAngaben(page, prozesskostenhilfeFormular);
 
   // /prozesskostenhilfe/formular/abgabe/zusammenfassung
-  prozesskostenhilfeFormular.clickNext();
+  await prozesskostenhilfeFormular.clickNext();
   // /prozesskostenhilfe/formular/abgabe/ende
   await startAbgabe(page);
 });

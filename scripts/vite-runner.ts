@@ -38,4 +38,4 @@ async function runner() {
   }
 }
 
-runner();
+await runner();
