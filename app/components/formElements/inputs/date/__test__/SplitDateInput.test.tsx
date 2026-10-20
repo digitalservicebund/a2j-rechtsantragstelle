@@ -89,7 +89,7 @@ describe("SplitDateInput", () => {
     expect(getAllByRole("textbox")[2]).toHaveAttribute("aria-required", "true");
   });
 
-  it("should render the inputs with aria-required true given isRequired false", () => {
+  it("should render the inputs with aria-required false given isRequired false", () => {
     const { getAllByRole } = render(
       <SplitDateInput name="birthdate" isRequired={false} />,
     );
