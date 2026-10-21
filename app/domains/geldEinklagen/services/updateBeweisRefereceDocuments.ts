@@ -6,7 +6,7 @@ import { type GeldEinklagenFormularKlageErstellenUserData } from "../formular/kl
 import { getDokumentLocationsWithReference } from "./deleteBeweisDokumentReference";
 import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
-export const updateBeweisReferenceDocuments = async (
+export const updateBeweisReferenceDocuments = (
   request: Request,
   userData: GeldEinklagenFormularKlageErstellenUserData,
   flowSession: Session,

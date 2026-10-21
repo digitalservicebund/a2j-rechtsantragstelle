@@ -41,11 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     if (arrayName === "abschnitte#personen") {
       deleteBeweisPersonReference(flowSession, deleteArrayIndexes);
-      await updateAbschnittenPersonenIds(
-        request,
-        flowSession.data,
-        flowSession,
-      );
+      updateAbschnittenPersonenIds(request, flowSession.data, flowSession);
     }
 
     if (arrayName === "abschnitte") {
@@ -67,11 +63,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // TGA Handle persons Ids
   if (flowId === "/geld-einklagen/formular") {
     if (arrayName === "abschnitte#personen") {
-      await updateAbschnittenPersonenIds(
-        request,
-        flowSession.data,
-        flowSession,
-      );
+      updateAbschnittenPersonenIds(request, flowSession.data, flowSession);
     }
   }
 
