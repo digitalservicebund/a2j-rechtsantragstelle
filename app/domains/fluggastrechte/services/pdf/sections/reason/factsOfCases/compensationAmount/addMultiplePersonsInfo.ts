@@ -10,7 +10,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
-import { getFullPlaintiffName } from "../../../getFullPlaintiffName";
+import { getFullPlaintiffName } from "../../../../../../../shared/services/pdf/getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 
 export const CLAIM_FOLLOWING_PERSONS_TRANSFERER_TEXT =

@@ -32,7 +32,7 @@ export const courtFinderSchema = z.object({
   houseNumber: germanHouseNumberSchema,
 });
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = ({ params }: LoaderFunctionArgs) => {
   const zipCode = params.PLZ;
   if (zipCode === undefined)
     throw new Error("Something went wrong, no zipcode found");

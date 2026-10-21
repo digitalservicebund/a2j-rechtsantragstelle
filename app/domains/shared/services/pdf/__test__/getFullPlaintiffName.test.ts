@@ -25,6 +25,12 @@ describe("getFullPlaintiffName", () => {
     expect(actual).toEqual("Dr. Test Test");
   });
 
+  it("should return the full plaintiff name given any arbitrary title, vorname and nachname", () => {
+    const actual = getFullPlaintiffName(undefined, "Genius", "Test", "Test");
+
+    expect(actual).toEqual("Genius Test Test");
+  });
+
   it("should return the full plaintiff name given the anrede, vorname and nachname", () => {
     const actual = getFullPlaintiffName("herr", undefined, "Test", "Test");
 

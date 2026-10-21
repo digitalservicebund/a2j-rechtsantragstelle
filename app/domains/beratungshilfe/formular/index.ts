@@ -14,7 +14,7 @@ export const beratungshilfeFormular = {
     "/abgabe/ueberpruefung": { triggerValidation: true },
   },
   stringReplacements: getBeratungshilfeStringReplacements,
-  asyncFlowActions: {
+  posFlowActions: {
     "/abgabe/art": (request, userData) =>
       Promise.resolve(
         sendCustomAnalyticsEvent({

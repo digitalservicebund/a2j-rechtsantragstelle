@@ -1,12 +1,14 @@
 import isEqual from "lodash/isEqual";
 import { z } from "zod";
-import { runSimulation } from "./simulate";
-import { ARRAY_WILDCARD, inferArrayNameFromStepId } from "./compileFlow";
+import type { UserData } from "~/domains/userData";
+import type { PageData } from "../pageData";
 import type { CompiledFlow } from "./compileFlow";
-import type { PageConfigMap, InferredUserData, NodeKey } from "./types";
-import { evaluateRoute } from "./routing";
-import { buildStatusTree } from "./statusTree";
+import { ARRAY_WILDCARD, inferArrayNameFromStepId } from "./compileFlow";
 import { pruneUserData } from "./pruneUserData";
+import { evaluateRoute } from "./routing";
+import { runSimulation } from "./simulate";
+import { buildStatusTree } from "./statusTree";
+import type { InferredUserData, NodeKey, PageConfigMap } from "./types";
 
 const resolveFieldName = (fieldName: string) =>
   fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
@@ -147,7 +149,17 @@ export const createFlowSession = <C extends PageConfigMap>(
     return schema ? z.validate(schema, candidate) : false;
   };
 
-  const evaluateDone = (key: NodeKey<C>, scope: Record<string, unknown>) =>
+  const evaluateDone = (
+    key: NodeKey<C>,
+    scope: Record<string, unknown>,
+    pageData: PageData,
+    forceValidation = false,
+  ) =>
+    (!forceValidation &&
+      compiledFlow.pages[key]?.isRelevantForDone?.({
+        ...effectiveUserData,
+        pageData,
+      } as UserData) === false) ||
     isPageDone(
       compiledFlow.getSchemaByNodeKey(key),
       compiledFlow.getFieldNamesByNodeKey(key),
@@ -176,16 +188,21 @@ export const createFlowSession = <C extends PageConfigMap>(
       arrayPath,
       indexes,
     );
-    return [{ key: nodeKey, done: evaluateDone(nodeKey, scope) }];
+    return [
+      {
+        key: nodeKey,
+        done: evaluateDone(nodeKey, scope, userData.pageData ?? {}, true),
+      },
+    ];
   };
 
   // An array page has one context per item, all sharing a node key. A node is
   // done only when EVERY context reaching it is done, so one completed item
   // can't mark a section done while another item is still unfilled.
   const doneEvaluations = [
-    ...simulation.visitedContexts.map(({ key, scopeData }) => ({
+    ...simulation.visitedContexts.map(({ key, scopeData, pageData }) => ({
       key,
-      done: evaluateDone(key, scopeData as Record<string, unknown>),
+      done: evaluateDone(key, scopeData as Record<string, unknown>, pageData),
     })),
     ...currentPageContext(),
   ];
@@ -214,6 +231,7 @@ export const createFlowSession = <C extends PageConfigMap>(
   };
   [...simulation.reachableSet]
     .filter((key) => !visitedKeys.has(key))
+    .filter((key) => !notDoneNodeKeys.has(key as NodeKey<C>))
     .filter((key) => isEmptyOptionalArrayTarget(key as NodeKey<C>))
     .forEach((key) => doneNodeKeys.add(key as NodeKey<C>));
 

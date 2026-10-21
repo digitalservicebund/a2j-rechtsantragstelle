@@ -11,7 +11,7 @@ export const postValidationFlowAction = async (
 ) => {
   const { pathname } = url;
   const { stepId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
-  const { asyncFlowActions } = currentFlow as Flow;
-  if (asyncFlowActions && stepId in asyncFlowActions)
-    await asyncFlowActions[stepId](request, userData, flowSession);
+  const { posFlowActions } = currentFlow as Flow;
+  if (posFlowActions && stepId in posFlowActions)
+    await posFlowActions[stepId](request, userData, flowSession);
 };
