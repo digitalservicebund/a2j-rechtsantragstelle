@@ -6,6 +6,7 @@ import SonstigeNebenUndProzessantraege from "./SonstigeNebenUndProzessantraege";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useSonstigeNebenUndProzessantraegeDelete } from "../hooks/useSonstigeNebenUndProzessantraegeDelete";
 import { translations } from "~/services/translations/translations";
+import { InlineNotice } from "~/components/content/InlineNotice";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag";
@@ -65,6 +66,22 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
                 .soenstigeProzessantragArrayButton.de
             }
           </Button>
+        </div>
+        <div className="pt-24">
+          {shouldDisableAddButton && (
+            <InlineNotice
+              title={
+                translations.geldEinklagenAnwaltschaft
+                  .soenstigeProzessantragInlineNoticeTitle.de
+              }
+              tagName={"p"}
+              look={"info"}
+              content={
+                translations.geldEinklagenAnwaltschaft
+                  .soenstigeProzessantragInlineNoticeContent.de
+              }
+            />
+          )}
         </div>
       </div>
     </div>
