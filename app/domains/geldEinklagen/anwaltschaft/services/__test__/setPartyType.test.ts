@@ -60,7 +60,7 @@ describe("setPartyType", () => {
     },
   );
 
-  it("should set the claimant type and one-based index from the request URL", async () => {
+  it("should set the claimant type and one-based index from the request URL", () => {
     const userData = {
       otherData: "preserved",
       klagenden: [
@@ -111,7 +111,7 @@ describe("setPartyType", () => {
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("preserves existing IDs and assigns unique UUIDs to legacy parties", async () => {
+  it("preserves existing IDs and assigns unique UUIDs to legacy parties", () => {
     const partyId = crypto.randomUUID();
     const representativeId = crypto.randomUUID();
     const userData = {
@@ -127,11 +127,7 @@ describe("setPartyType", () => {
     const session = createSession(userData);
     const request = new Request("http://localhost/klagenden/0/daten");
 
-    await setPartyType("klagende", "natuerliche-person")(
-      request,
-      userData,
-      session,
-    );
+    setPartyType("klagende", "natuerliche-person")(request, userData, session);
     const saved = session.get("klagenden") as KlageParteien;
     const ids = [saved[0].id, saved[1].id];
 
@@ -139,7 +135,7 @@ describe("setPartyType", () => {
     expect(ids.every((id) => z.uuid().safeParse(id).success)).toBe(true);
     expect(new Set(ids).size).toBe(ids.length);
 
-    await setPartyType("klagende", "natuerliche-person")(
+    setPartyType("klagende", "natuerliche-person")(
       request,
       session.data as GeldEinklagenAnwaltschaftUserData,
       session,
@@ -147,7 +143,7 @@ describe("setPartyType", () => {
     expect(session.get("klagenden")).toEqual(saved);
   });
 
-  it("keeps IDs attached to their parties after removal changes the indexes", async () => {
+  it("keeps IDs attached to their parties after removal changes the indexes", () => {
     const partyId = crypto.randomUUID();
     const userData = {
       klagenden: [
@@ -159,7 +155,7 @@ describe("setPartyType", () => {
     const remainingParties = userData.klagenden!.slice(1);
     session.set("klagenden", remainingParties);
 
-    await setPartyType("klagende", "organisation")(
+    setPartyType("klagende", "organisation")(
       new Request("http://localhost/klagenden/0/daten"),
       session.data as GeldEinklagenAnwaltschaftUserData,
       session,
