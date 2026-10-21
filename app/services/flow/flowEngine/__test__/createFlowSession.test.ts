@@ -641,6 +641,37 @@ describe("createFlowSession", () => {
       expect(session.isReachable("/nonexistent")).toBe(false);
     });
 
+    it("does not expose an add page when its source is unreachable", () => {
+      const blockedArrayFlow = compileFlow({
+        pages: {
+          start: { stepId: "/start" },
+          list: {
+            stepId: "/items/list",
+            arraySummary: {
+              name: "items" as const,
+              schema: z.array(z.object({ name: z.string() })),
+            },
+          },
+          item: {
+            stepId: "/items/#/daten",
+            pageSchema: { "items#name": z.string() },
+          },
+          end: { stepId: "/end" },
+        },
+        initialStep: "start",
+        transitions: {
+          start: [{ target: "list", guard: () => false }, { target: "end" }],
+          list: [{ target: "item", type: "addArrayItem" }, { target: "end" }],
+          item: "list",
+          end: null,
+        },
+      });
+      const session = createFlowSession(blockedArrayFlow, noData, "/start");
+
+      expect(session.isReachable("/items/list")).toBe(false);
+      expect(session.isReachable("/items/#/daten")).toBe(false);
+    });
+
     it("returns false for a path blocked by always-false guards", () => {
       const branchedPages = {
         start: { stepId: "/start" },
@@ -695,6 +726,54 @@ describe("createFlowSession", () => {
       );
       // people is still empty, so its add page is the first item
       expect(session.isReachable("/items/#/people/#/daten")).toBe(true);
+    });
+  });
+
+  describe("completion applicability", () => {
+    const applicabilityFlow = compileFlow({
+      pages: {
+        list: {
+          stepId: "/section/list",
+          arraySummary: {
+            name: "items" as const,
+            schema: z.array(z.object({ name: z.string().min(1) })),
+          },
+        },
+        item: {
+          stepId: "/section/items/#/daten",
+          pageSchema: { "items#name": z.string().min(1) },
+          isRelevantForDone: () => false,
+        },
+        end: { stepId: "/end" },
+      },
+      initialStep: "list",
+      transitions: {
+        list: [{ type: "addArrayItem", target: "item" }, { target: "end" }],
+        item: "list",
+        end: null,
+      },
+    });
+
+    it("does not change navigation or pruning when a page is inapplicable", () => {
+      const session = createFlowSession(
+        applicabilityFlow,
+        { items: [{ name: "" }], pageData: { arrayIndexes: [] } },
+        "/section/list",
+      );
+
+      expect(session.statusTree["/section"]?.isDone).toBe(true);
+      expect(session.isReachable("/section/items/#/daten")).toBe(true);
+      expect(session.prunedUserData).toEqual({ items: [{ name: "" }] });
+    });
+
+    it("always validates the currently open array form", () => {
+      const session = createFlowSession(
+        applicabilityFlow,
+        { items: [], pageData: { arrayIndexes: [0] } },
+        "/section/items/#/daten",
+      );
+
+      expect(session.statusTree["/section"]?.isDone).toBe(false);
     });
   });
 

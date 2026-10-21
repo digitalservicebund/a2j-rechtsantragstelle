@@ -1,5 +1,6 @@
 import merge from "lodash/merge";
 import { type PosFlowAction } from "~/domains/flows.server";
+import { randomUUID } from "node:crypto";
 import {
   getPluralOfKlageParteiRelationship,
   type KlageParteiType,
@@ -16,20 +17,23 @@ export const setPartyType =
   ): PosFlowAction =>
   (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const arrayIndex = parseArrayIndexesFromPathname(request.url).at(0);
-    const targetArray =
-      userData[getPluralOfKlageParteiRelationship(relationship)];
-    if (arrayIndex === undefined) return;
+    const arrayName = getPluralOfKlageParteiRelationship(relationship);
+    const targetArray = userData[arrayName];
+    if (arrayIndex === undefined) return Promise.resolve();
 
     const currentParty = targetArray?.at(arrayIndex);
 
-    if (!currentParty) return;
+    if (!targetArray || !currentParty) return Promise.resolve();
 
-    const updatedParteien = targetArray?.map((partei, idx) =>
-      idx === arrayIndex ? { ...partei, type } : partei,
-    );
+    const updatedParteien = targetArray.map((partei, idx) => ({
+      ...partei,
+      id: partei.id ?? randomUUID(),
+      ...(idx === arrayIndex ? { type } : {}),
+    }));
 
     const updatedUserData = merge({}, userData, {
-      [getPluralOfKlageParteiRelationship(relationship)]: updatedParteien,
+      [arrayName]: updatedParteien,
     });
     updateSession(flowSession, updatedUserData);
+    return Promise.resolve();
   };

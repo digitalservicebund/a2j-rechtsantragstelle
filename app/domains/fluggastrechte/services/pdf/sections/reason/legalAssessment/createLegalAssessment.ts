@@ -8,7 +8,7 @@ import {
   PDF_WIDTH_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { MARGIN_BETWEEN_SECTIONS } from "../../../configurations";
-import { getFullPlaintiffName } from "../../getFullPlaintiffName";
+import { getFullPlaintiffName } from "../../../../../../shared/services/pdf/getFullPlaintiffName";
 import { addNewPageInCaseMissingVerticalSpace } from "~/services/pdf/addNewPageInCaseMissingVerticalSpace";
 import { addDisputeResolution } from "~/domains/shared/services/pdf/addDisputeResolution";
 

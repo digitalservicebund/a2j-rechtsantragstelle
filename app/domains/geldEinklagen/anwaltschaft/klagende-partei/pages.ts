@@ -1,4 +1,6 @@
 import {
+  commonFields,
+  type KlageParteien,
   klageParteinArraySchema,
   naturalPersonGesetzlicheVertretungArt,
   naturalPersonSchema,
@@ -7,8 +9,14 @@ import {
   vertretungFields,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import type { PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
+
+type KlagePartyDoneContext = {
+  klagenden?: KlageParteien;
+  pageData?: PageData;
+};
 
 export const klagendeParteiPages = {
   klagendeUebersicht: {
@@ -21,6 +29,8 @@ export const klagendeParteiPages = {
   },
   klagendeNaturalPersonDaten: {
     stepId: "/klagende-partei/klagenden/#/natuerliche-person-daten",
+    isRelevantForDone: ({ klagenden, pageData }: KlagePartyDoneContext) =>
+      klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !== "organisation",
     pageSchema: {
       "klagenden#anrede": naturalPersonSchema.shape.anrede,
       "klagenden#titel": naturalPersonSchema.shape.titel,
@@ -34,11 +44,16 @@ export const klagendeParteiPages = {
       "klagenden#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(naturalPersonSchema.shape.type),
       ),
+      "klagenden#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(commonFields.id),
+      ),
     },
   },
   klagendeNaturalPersonGesetzlicheVertretungDaten: {
     stepId: "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: ({ klagenden, pageData }: KlagePartyDoneContext) =>
+      klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !== "organisation",
     pageSchema: {
       "klagenden#gesetzliche-vertretung#art":
         naturalPersonGesetzlicheVertretungArt,
@@ -56,6 +71,9 @@ export const klagendeParteiPages = {
   },
   klagendeOrganizationDaten: {
     stepId: "/klagende-partei/klagenden/#/organisation-daten",
+    isRelevantForDone: ({ klagenden, pageData }: KlagePartyDoneContext) =>
+      klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !==
+      "natuerliche-person",
     pageSchema: {
       "klagenden#orgName": organizationSchema.shape.orgName,
       "klagenden#strasse": organizationSchema.shape.strasse,
@@ -75,12 +93,18 @@ export const klagendeParteiPages = {
       "klagenden#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(organizationSchema.shape.type),
       ),
+      "klagenden#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(commonFields.id),
+      ),
     },
   },
   klagendeOrganizationGesetzlicheVertretungDaten: {
     stepId:
       "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten-organisation",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: ({ klagenden, pageData }: KlagePartyDoneContext) =>
+      klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !==
+      "natuerliche-person",
     pageSchema: {
       "klagenden#gesetzliche-vertretung#art":
         organizationGesetzlicheVertretungArt,
