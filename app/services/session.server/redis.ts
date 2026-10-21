@@ -3,7 +3,7 @@ import { getRedisInstance } from "../redis/redisClient";
 
 type RedisData = Record<string, unknown>;
 
-export async function setDataForSession(
+export function setDataForSession(
   uuid: string,
   data: RedisData,
   timeToLiveSeconds: number,
@@ -34,7 +34,7 @@ export async function getDataForSession(uuid: string, vaultKey?: string) {
   return unpack(redisResponse, deriveCipherKey(uuid, vaultKey));
 }
 
-export async function deleteSessionData(uuid: string) {
+export function deleteSessionData(uuid: string) {
   return getRedisInstance().del(uuid);
 }
 

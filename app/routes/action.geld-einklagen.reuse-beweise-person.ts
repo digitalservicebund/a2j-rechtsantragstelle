@@ -101,11 +101,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
       updateSession(flowSession, updatedUserData);
 
-      await updateAbschnittenPersonenIds(
-        request,
-        flowSession.data,
-        flowSession,
-      );
+      updateAbschnittenPersonenIds(request, flowSession.data, flowSession);
 
       const headers = await commitSession(flowSession);
       const redirectUrl =

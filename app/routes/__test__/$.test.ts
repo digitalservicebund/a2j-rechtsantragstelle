@@ -48,8 +48,8 @@ describe("Generic route", () => {
   });
 
   describe("action", () => {
-    it("returns a 405 Response", async () => {
-      expect((await action()).status).toBe(405);
+    it("returns a 405 Response", () => {
+      expect(action().status).toBe(405);
     });
   });
 });
