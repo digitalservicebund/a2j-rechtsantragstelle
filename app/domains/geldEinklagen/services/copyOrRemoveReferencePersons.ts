@@ -18,7 +18,7 @@ const getReferencedPerson = (
   return abschnitte[sourceAbschnittIndex]?.personen?.[sourcePersonIndex];
 };
 
-export const copyOrRemoveReferencePersons = async (
+export const copyOrRemoveReferencePersons = (
   request: Request,
   userData: GeldEinklagenFormularKlageErstellenUserData,
   flowSession: Session,

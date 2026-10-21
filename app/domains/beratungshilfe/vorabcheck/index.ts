@@ -11,7 +11,7 @@ export const beratungshilfeVorabcheck = {
       getVerfuegbaresEinkommenFreibetrag(context).toString(),
   }),
   config: beratungshilfeVorabcheckFlowConfig,
-  asyncFlowActions: {
+  posFlowActions: {
     "/bereich": (request, userData: BeratungshilfeVorabcheckUserData) =>
       Promise.resolve(
         sendCustomAnalyticsEvent({

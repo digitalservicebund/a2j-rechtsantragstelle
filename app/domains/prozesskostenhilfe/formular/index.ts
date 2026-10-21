@@ -33,7 +33,7 @@ export const prozesskostenhilfeFormular = {
     "/abgabe": { excludedFromValidation: true },
     "/abgabe/ueberpruefung": { triggerValidation: true },
   },
-  asyncFlowActions: {
+  posFlowActions: {
     "/weitere-angaben": trackNotDoneStateAbgabeUeberpruefung,
   },
   pdfConfig: {

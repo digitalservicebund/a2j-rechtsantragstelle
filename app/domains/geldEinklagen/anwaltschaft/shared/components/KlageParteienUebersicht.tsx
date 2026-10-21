@@ -83,6 +83,7 @@ const KlageParteienList = ({
       <div className="flex flex-col kern-summary__header p-0!">
         <h2
           className="kern-body kern-body--large kern-body--bold p-0!"
+          id={`${relationship}-${partyType}`}
           tabIndex={-1}
         >
           {heading}
@@ -94,7 +95,7 @@ const KlageParteienList = ({
 
       {parties.map(({ partei, arrayIndex }) => (
         <KlagePartei
-          key={arrayIndex}
+          key={partei.id ?? arrayIndex}
           index={arrayIndex}
           partei={partei}
           relationship={relationship}

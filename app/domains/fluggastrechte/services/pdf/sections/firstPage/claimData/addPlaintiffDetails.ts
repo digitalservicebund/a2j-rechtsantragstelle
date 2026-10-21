@@ -4,7 +4,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
-import { getFullPlaintiffName } from "../../getFullPlaintiffName";
+import { getFullPlaintiffName } from "../../../../../../shared/services/pdf/getFullPlaintiffName";
 
 export const PLAINTIFF_TEXT = "– Klagende Partei –";
 export const SEPARATOR = " | ";
