@@ -13,11 +13,11 @@ export const tableOfContents = {
     },
   ],
   "/nachlass": [
-    { url: "/", text: "Kurz erklärt" },
-    { url: "/", text: "Unter diesen Bedingungen können Sie erben" },
-    { url: "/", text: "Prüfen Sie das Erbe" },
-    { url: "/", text: "Erbausschlagung: Ein Erbe ablehnen" },
-    { url: "/", text: "Erbschein: Ein Erbe nachweisen" },
-    { url: "/", text: "Erbschaftssteuer" },
+    { url: "#kurz", text: "Kurz erklärt" },
+    { url: "#erben", text: "Unter diesen Bedingungen können Sie erben" },
+    { url: "#pruefen", text: "Prüfen Sie das Erbe" },
+    { url: "#erbausschlagung", text: "Erbausschlagung: Ein Erbe ablehnen" },
+    { url: "#erbschein", text: "Erbschein: Ein Erbe nachweisen" },
+    { url: "#steuer", text: "Erbschaftssteuer" },
   ],
 };
