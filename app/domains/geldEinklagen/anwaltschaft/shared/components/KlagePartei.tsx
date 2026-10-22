@@ -3,12 +3,14 @@ import { Icon } from "~/components/common/Icon";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   getGesetzlicheVertretungArtLabel,
+  getPluralOfKlageParteiRelationship,
   type KlageParteiVerhaeltnis,
   type KlageParteien,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/components/GesetzlicheVertretung";
 import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
 import { translations } from "~/services/translations/translations";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 type KlageParteiProps = {
   readonly partei: KlageParteien[number];
@@ -31,9 +33,13 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
     <div data-testid="klage-partei">
       <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-kern-space-large!">
         <div className="flex flex-col gap-kern-space-large">
-          <span className="kern-body kern-body--large kern-body--bold p-0!">
+          <h3
+            className="kern-body kern-body--large kern-body--bold p-0!"
+            id={`${relationship}-partei-${index}`}
+            tabIndex={-1}
+          >
             {headingText}
-          </span>
+          </h3>
           <div className="flex gap-kern-space-default justify-between items-center">
             <div className="flex flex-col kern-body kern-body--default text-pretty gap-20">
               <div className="flex flex-col">
@@ -75,6 +81,7 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
               )}
             </div>
             <Button
+              id={`${EDIT_BUTTON_ID_PREFIX}${getPluralOfKlageParteiRelationship(relationship)}-${index}`}
               look="secondary"
               iconLeft={
                 <Icon

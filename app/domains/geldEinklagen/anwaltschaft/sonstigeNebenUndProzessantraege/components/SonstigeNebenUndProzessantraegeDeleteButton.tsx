@@ -11,11 +11,15 @@ type DeleteButtonProps = {
     pathnameArrayItem: string,
     itemIndex: number,
   ) => Promise<void>;
+  antrag: string;
+  internesSchlagwort?: string;
 };
 
 export const SonstigeNebenUndProzessantraegeDeleteButton = ({
   itemIndex,
   onDelete,
+  antrag,
+  internesSchlagwort,
 }: DeleteButtonProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -50,8 +54,18 @@ export const SonstigeNebenUndProzessantraegeDeleteButton = ({
           translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete.de
         }
         description={
-          translations.geldEinklagenAnwaltschaft
-            .soenstigeProzessantragDescription.de
+          <div className="flex flex-col gap-kern-space-small ">
+            <p>
+              {
+                translations.geldEinklagenAnwaltschaft
+                  .soenstigeProzessantragDescription.de
+              }
+            </p>
+            {internesSchlagwort && (
+              <p className="font-bold">{internesSchlagwort}</p>
+            )}
+            <p className="font-normal">{antrag}</p>
+          </div>
         }
         onClick={onClickDeleteDialog}
         closeDialog={() => dialogRef.current?.close()}

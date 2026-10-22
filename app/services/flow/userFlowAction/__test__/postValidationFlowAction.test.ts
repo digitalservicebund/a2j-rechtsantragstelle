@@ -19,7 +19,7 @@ describe("postValidationFormUserData", () => {
     const mockAction2 = vi.fn();
     vi.mocked(getPageAndFlowDataFromPathname).mockReturnValue({
       currentFlow: {
-        asyncFlowActions: { "/test": mockAction1, "/test1": mockAction2 },
+        posFlowActions: { "/test": mockAction1, "/test1": mockAction2 },
       },
       stepId: "/test",
     } as unknown as ReturnType<typeof getPageAndFlowDataFromPathname>);
@@ -39,7 +39,7 @@ describe("postValidationFormUserData", () => {
     expect(mockAction2).not.toHaveBeenCalled();
   });
 
-  it("should handle missing asyncFlowActions", () => {
+  it("should handle missing posFlowActions", () => {
     vi.mocked(getPageAndFlowDataFromPathname).mockReturnValue({
       currentFlow: {},
       stepId: "/test",

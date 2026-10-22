@@ -6,5 +6,6 @@ import { buildStepSchemaWithPageSchema } from "./stepValidator/buildStepSchemaWi
 export async function validateFormData(pathname: string, formData: FormData) {
   const pageSchema = getPageSchema(pathname);
   const validator = buildStepSchemaWithPageSchema(pathname, pageSchema);
-  return parseFormData<UserData>(formData, validator);
+  const result = await parseFormData<UserData>(formData, validator);
+  return result;
 }

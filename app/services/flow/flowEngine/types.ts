@@ -1,7 +1,7 @@
 import { type z } from "zod";
-import type { PageData } from "../pageData";
-import { type SchemaObject, type UserData } from "~/domains/userData";
 import { type ControlledFieldConfig } from "~/domains/pageSchemas";
+import { type SchemaObject, type UserData } from "~/domains/userData";
+import type { PageData } from "../pageData";
 
 type InferSchema<S> = S extends z.ZodTypeAny
   ? z.infer<S>
@@ -29,6 +29,12 @@ export type FlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
   pageSchema?: SchemaObject;
+  /**
+   * It's possible that a reachable page isn't relevant in the done calculation (e.g., conditional pages like
+   * TGA Anwaltschaft - Klagenden, where array item type affects which pageSchema is used). This property allows the engine
+   * to know if it should consider the page in the done calculation.
+   */
+  isRelevantForDone?: (userData: UserData) => boolean;
   controlledFieldConfig?: ControlledFieldConfig;
   /**
    * Most sub-pages should appear as discreet nav items, nested under

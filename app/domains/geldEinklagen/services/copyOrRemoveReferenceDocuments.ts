@@ -18,7 +18,7 @@ const getReferencedDocument = (
   return abschnitte[sourceAbschnittIndex]?.dokumenten?.[sourceDokumentIndex];
 };
 
-export const copyOrRemoveReferenceDocuments = async (
+export const copyOrRemoveReferenceDocuments = (
   request: Request,
   userData: GeldEinklagenFormularKlageErstellenUserData,
   flowSession: Session,

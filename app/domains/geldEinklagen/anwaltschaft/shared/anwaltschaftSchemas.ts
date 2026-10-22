@@ -28,7 +28,8 @@ const personFields = {
   nachname: stringRequiredSchema,
 };
 
-const commonFields = {
+export const commonFields = {
+  id: z.uuid().optional(),
   ...adresseFields,
   parteiverhaeltnis: z.enum(["klagende", "beklagte"]),
 };
@@ -134,10 +135,10 @@ export const organizationSchema = z.object({
 });
 
 /**
- * Represents a party to a legal case, which can be either a natural person or an organization.
+ * Represents parties to a legal case, which can be either a natural person or an organization.
  */
-const klageParteiSchema = z.union([naturalPersonSchema, organizationSchema]);
-
-export const klageParteinArraySchema = z.array(klageParteiSchema);
+export const klageParteinArraySchema = z.array(
+  z.union([naturalPersonSchema, organizationSchema]),
+);
 
 export type KlageParteien = z.infer<typeof klageParteinArraySchema>;

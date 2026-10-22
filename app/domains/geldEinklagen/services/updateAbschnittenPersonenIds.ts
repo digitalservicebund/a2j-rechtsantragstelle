@@ -4,7 +4,7 @@ import merge from "lodash/merge";
 import { type Session } from "react-router";
 import { arrayIsNonEmpty } from "~/util/array";
 
-export const updateAbschnittenPersonenIds = async (
+export const updateAbschnittenPersonenIds = (
   _request: Request,
   userData: GeldEinklagenFormularUserData,
   flowSession: Session,

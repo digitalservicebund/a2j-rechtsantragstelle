@@ -8,6 +8,7 @@ import {
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 
 export const GesetzlicheVertretung = ({
@@ -25,7 +26,11 @@ export const GesetzlicheVertretung = ({
   return (
     <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
       <div className="flex flex-col">
-        <span className="kern-body kern-body--muted">
+        <h4
+          className="kern-body kern-body--muted"
+          id={`${relationship}-partei-${parentArrayItemIndex}-gesetzliche-vertretung`}
+          tabIndex={-1}
+        >
           <span className="kern-body kern-body--default kern-body--bold text-pretty p-0!">
             {partyType === "organisation"
               ? translations.geldEinklagenAnwaltschaft
@@ -34,7 +39,7 @@ export const GesetzlicheVertretung = ({
                   .gesetzlicheVetretungHeadline.de}
           </span>{" "}
           - Optional
-        </span>
+        </h4>
         <span className="kern-body kern-body--muted">
           {
             translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungSubheader
@@ -62,8 +67,12 @@ export const GesetzlicheVertretung = ({
                   </span>
                 </span>
                 <span>
-                  {vertreter.anrede} {vertreter.titel} {vertreter.vorname}{" "}
-                  {vertreter.nachname}
+                  {getFullPlaintiffName(
+                    vertreter.anrede,
+                    vertreter.titel,
+                    vertreter.vorname,
+                    vertreter.nachname,
+                  )}
                 </span>
                 <span>
                   {vertreter.strasse} {vertreter.hausnummer}
@@ -83,7 +92,7 @@ export const GesetzlicheVertretung = ({
                     />
                   }
                   aria-label={`${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${vertreter.vorname} ${vertreter.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`}
-                  href={`${getBaseKlagePartyUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${index}/daten`}
+                  href={`${getBaseKlagePartyUrl(relationship)}/${parentArrayItemIndex}/gesetzliche-vertretung/${index}/daten${partyType === "organisation" ? "-organisation" : ""}`}
                   className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
                 />
                 <Button
