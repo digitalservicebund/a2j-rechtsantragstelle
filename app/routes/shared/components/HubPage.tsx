@@ -1,13 +1,16 @@
 import { useLoaderData, useLocation } from "react-router";
+import Label from "~/components/common/Label";
 import ContentComponents from "~/components/content/ContentComponents";
 import Hero from "~/components/content/Hero";
 import TableOfContents from "~/components/content/TableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
+import { NavigationList } from "~/components/navigation/NavigationList";
+import { type NavItem } from "~/components/navigation/types";
 import { type loader } from "~/routes/shared/hubPages";
 import { isStrapiHero } from "~/services/cms/models/content/isStrapiHero";
-import { tableOfContents } from "~/services/routing/hubPages";
+import { navigationLists, tableOfContents } from "~/services/routing/hubPages";
 import { translations } from "~/services/translations/translations";
 
 export function HubPage() {
@@ -21,6 +24,9 @@ export function HubPage() {
 
   const tableOfContentLinks =
     tableOfContents[pathname as keyof typeof tableOfContents];
+  const navItems = navigationLists[
+    pathname as keyof typeof navigationLists
+  ] as NavItem[];
 
   return (
     <>
@@ -71,54 +77,25 @@ export function HubPage() {
           </GridItem>
 
           <GridItem
-            mdColumn={{ start: 1, span: 7 }}
-            lgColumn={{ start: 10, span: 2 }}
-            xlColumn={{ start: 10, span: 2 }}
+            mdColumn={{ start: 1, span: 6 }}
+            lgColumn={{ start: 10, span: 3 }}
+            xlColumn={{ start: 10, span: 3 }}
             row={3}
           >
-            <h3 className="text-xs font-bold text-slate-800">
-              Weitere Inhalte zum Thema
-            </h3>
-            <nav className="bg-blue-50/60 rounded-md overflow-hidden text-xs text-slate-700">
-              <ul className="divide-y divide-blue-100">
-                <li>
-                  <a
-                    href="#"
-                    className="block p-3 font-semibold text-blue-900 hover:bg-blue-100/50"
-                  >
-                    Beratungshilfe
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block p-3 hover:bg-blue-100/50">
-                    Übersicht
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block p-3 hover:bg-blue-100/50">
-                    Vorab-Check
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block p-3 hover:bg-blue-100/50">
-                    Antrag
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block p-3 hover:bg-blue-100/50">
-                    Benötigte Dokumente
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block p-3 font-semibold text-blue-900 hover:bg-blue-100/50"
-                  >
-                    Prozesskostenhilfe
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <aside aria-label={translations.hubPages.navigationLabel.de}>
+              <nav aria-labelledby="navigation-label">
+                <Label
+                  tagName="h2"
+                  text={translations.hubPages.navigationLabel.de}
+                  className="kern-label kern-label--small"
+                  elementId="navigation-label"
+                />
+                <NavigationList
+                  className={"!bg-kern-darkblue-050"}
+                  navItems={navItems}
+                ></NavigationList>
+              </nav>
+            </aside>
           </GridItem>
         </Grid>
       </GridSection>

@@ -786,5 +786,8 @@ export const translations = {
     tableOfLinksLabel: {
       de: "Inhalt",
     },
+    navigationLabel: {
+      de: "Weitere Inhalte zum Thema",
+    },
   },
 } satisfies TranslationRecord;
