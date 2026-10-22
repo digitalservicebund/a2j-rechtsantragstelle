@@ -168,7 +168,7 @@ function ContentComponents({
           <div
             key={`${el.__component}_${el.id}`}
             className={classNames(className, getContentBackgroundColor(el), {
-              "p-kern-space-large":
+              "px-kern-space-large":
                 el.__component === "page.box" &&
                 el.contentBackgroundColor !== "white",
             })}
