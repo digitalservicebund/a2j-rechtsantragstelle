@@ -5,15 +5,23 @@ import { Icon } from "../common/Icon";
 import ButtonContainer from "~/components/common//ButtonContainer";
 import { type HeadingProps } from "~/components/common/Heading";
 import Label from "../common/Label";
+import classNames from "classnames";
 
 type Props = {
   identifier?: string;
   label?: HeadingProps;
   links?: Array<{ text?: string; url: string }>;
   buttons?: ButtonProps[];
+  classNameLinks?: string;
 };
 
-const TableOfContents = ({ identifier, label, links, buttons }: Props) => {
+const TableOfContents = ({
+  identifier,
+  label,
+  links,
+  buttons,
+  classNameLinks,
+}: Props) => {
   return (
     <GridItem
       mdColumn={{ start: 1, span: 8 }}
@@ -34,12 +42,15 @@ const TableOfContents = ({ identifier, label, links, buttons }: Props) => {
                 >
                   <a
                     href={link.url}
-                    className="flex items-center! kern-link no-underline! hover:underline!"
+                    className={classNames(
+                      "flex items-start! kern-link no-underline! hover:underline!",
+                      classNameLinks,
+                    )}
                     aria-label={link.text}
                   >
                     <Icon
                       name="arrow-downward"
-                      className="h-[1em] w-[1em] shrink-0"
+                      className="h-[1em] w-[1em] shrink-0 pt-kern-space-2x-small"
                     />
                     {link.text ?? ""}
                   </a>

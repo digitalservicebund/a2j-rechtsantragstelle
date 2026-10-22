@@ -782,4 +782,9 @@ export const translations = {
       de: "Hatte weitere Kinder?",
     },
   },
+  hubPages: {
+    tableOfLinksLabel: {
+      de: "Inhalt",
+    },
+  },
 } satisfies TranslationRecord;
