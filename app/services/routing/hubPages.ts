@@ -1,6 +1,13 @@
-export const hubPages = new Set(["finanzielle-hilfen", "nachlass"]);
+import { type NavItem } from "~/components/navigation/types";
 
-export const tableOfContents = {
+export const hubPages = ["/finanzielle-hilfen", "/nachlass"] as const;
+
+type HubPages = (typeof hubPages)[number];
+
+export const tableOfContents: Record<
+  HubPages,
+  Array<{ text?: string; url: string }>
+> = {
   "/finanzielle-hilfen": [
     { url: "#intro", text: "Beratungshilfe und Prozesskostenhilfe" },
     {
@@ -22,7 +29,7 @@ export const tableOfContents = {
   ],
 };
 
-export const navigationLists = {
+export const navigationLists: Record<HubPages, NavItem[]> = {
   "/finanzielle-hilfen": [
     {
       label: "Beratungshilfe",

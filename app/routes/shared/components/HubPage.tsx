@@ -7,7 +7,6 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { NavigationList } from "~/components/navigation/NavigationList";
-import { type NavItem } from "~/components/navigation/types";
 import { type loader } from "~/routes/shared/hubPages";
 import { isStrapiHero } from "~/services/cms/models/content/isStrapiHero";
 import { navigationLists, tableOfContents } from "~/services/routing/hubPages";
@@ -24,9 +23,7 @@ export function HubPage() {
 
   const tableOfContentLinks =
     tableOfContents[pathname as keyof typeof tableOfContents];
-  const navItems = navigationLists[
-    pathname as keyof typeof navigationLists
-  ] as NavItem[];
+  const navItems = navigationLists[pathname as keyof typeof navigationLists];
 
   return (
     <>

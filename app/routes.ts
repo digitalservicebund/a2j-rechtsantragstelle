@@ -6,8 +6,8 @@ import { hubPages } from "./services/routing/hubPages";
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
   ...Array.from(hubPages).map((path) =>
-    route(path, "routes/shared/hubPages.ts", {
-      id: `hubPage-${path}`,
+    route(path.substring(1), "routes/shared/hubPages.ts", {
+      id: `hubPage-${path.substring(1)}`,
     }),
   ),
   ...prefix("beratungshilfe", [

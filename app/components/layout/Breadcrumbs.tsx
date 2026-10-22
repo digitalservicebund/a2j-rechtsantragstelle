@@ -27,12 +27,13 @@ export default function Breadcrumbs({
     (breadcrumb) => breadcrumb.title !== undefined,
   );
   if (validBreadcrumbs.length === 0) return null;
+  const isHubPage = hubPages.some((hubPage) => hubPage === pathname);
 
   return (
     <GridSection
       className={classNames({
-        "bg-kern-darkblue-050": hubPages.has(pathname.substring(1)),
-        "bg-kern-neutral-050": !hubPages.has(pathname.substring(1)),
+        "bg-kern-darkblue-050": isHubPage,
+        "bg-kern-neutral-050": !isHubPage,
       })}
     >
       <Grid>
