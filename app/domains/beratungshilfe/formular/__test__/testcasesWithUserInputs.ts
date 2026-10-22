@@ -15,7 +15,6 @@ import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 export const beratungshilfeAntragTestCases = {
-  flowId: "/beratungshilfe/antrag",
   config: beratungshilfeFormularFlowConfig,
   testcases: {
     ...testCasesBeratungshilfeFormularDefault,

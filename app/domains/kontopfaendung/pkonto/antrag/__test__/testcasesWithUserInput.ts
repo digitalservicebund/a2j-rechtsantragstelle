@@ -3,7 +3,6 @@ import type { KontopfaendungPkontoAntragUserData } from "../userData";
 import { kontopfaendungPkontoAntragFlowConfig } from "../flowConfig";
 
 export const kontopfaendungPkontoAntragTestCases = {
-  flowId: "/kontopfaendung/pkonto/antrag",
   config: kontopfaendungPkontoAntragFlowConfig,
   testcases: {
     bestehendesPkonto: [

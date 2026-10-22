@@ -124,7 +124,6 @@ const staatlicheLeistungenTestCases = {
 } satisfies FlowTestCases<BeratungshilfeVorabcheckUserData>;
 
 export const beratungshilfeVorabcheckTestCases = {
-  flowId: "/beratungshilfe/vorabcheck",
   config: beratungshilfeVorabcheckFlowConfig,
   testcases: {
     fullFlow: [
