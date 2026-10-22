@@ -1,6 +1,6 @@
 import z from "zod";
 import { PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional, checkedRequired } from "~/services/validation/checkedCheckbox";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createSplitDateSchemaOptional } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -10,17 +10,17 @@ const allgemeineZahlungsUndNebenantraegeArraySchema = z.array(
     .object({
       internesSchlagwortFordureung: z.string().max(50).optional(),
       betragForderung: integerSchema,
-      beklagte: checkedRequired,
-      klagende: checkedOptional,
+      beklagte: checkedOptional,
+      klagende:  checkedOptional,
       zugUndZug: checkedOptional,
       beschreibungDerGegenleistung: stringOptionalSchema,
       zinssatzInProzent: integerSchema.optional(),
       zinsmethode: z
         .enum([
-          "Jährlicher Zinssatz über Basiszins",
-          "Jährlicher Zinssatz",
-          "Monatlicher Zinssatz über Basiszins",
-          "Monatlicher Zinssatz",
+          "jaehrlicherZinssatzUeberBasiszins",
+          "jaehrlicherZinssatz",
+          "monatlicherZinssatzUeberBasiszins",
+          "monatlicherZinssatz",
         ])
         .optional(),
       zinsbeginn: createSplitDateSchemaOptional(),

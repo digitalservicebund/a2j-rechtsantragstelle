@@ -3,7 +3,6 @@ import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { translations } from "~/services/translations/translations";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
