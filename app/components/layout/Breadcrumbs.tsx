@@ -2,6 +2,9 @@ import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
 import { Icon } from "~/components/common/Icon";
+import { useLocation } from "react-router";
+import classNames from "classnames";
+import { hubPages } from "~/services/routing/hubPages";
 
 export type Breadcrumb = {
   url: string;
@@ -19,13 +22,19 @@ export default function Breadcrumbs({
   breadcrumbs,
   linkLabel,
 }: BreadcrumbsProps) {
+  const { pathname } = useLocation();
   const validBreadcrumbs = breadcrumbs?.filter(
     (breadcrumb) => breadcrumb.title !== undefined,
   );
   if (validBreadcrumbs.length === 0) return null;
 
   return (
-    <GridSection className="bg-kern-neutral-050">
+    <GridSection
+      className={classNames({
+        "bg-kern-darkblue-050": hubPages.has(pathname.substring(1)),
+        "bg-kern-neutral-050": !hubPages.has(pathname.substring(1)),
+      })}
+    >
       <Grid>
         <GridItem
           smColumn={{ start: 1, span: 12 }}

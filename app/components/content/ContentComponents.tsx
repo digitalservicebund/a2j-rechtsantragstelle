@@ -165,7 +165,14 @@ function ContentComponents({
     .map((el) => {
       if (managedByParent) {
         return (
-          <div key={`${el.__component}_${el.id}`} className={className}>
+          <div
+            key={`${el.__component}_${el.id}`}
+            className={classNames(className, getContentBackgroundColor(el), {
+              "p-kern-space-large":
+                el.__component === "page.box" &&
+                el.contentBackgroundColor !== "white",
+            })}
+          >
             {cmsToReact(el, { inFlow: true })}
           </div>
         );
