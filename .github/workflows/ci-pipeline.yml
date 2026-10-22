@@ -166,7 +166,7 @@ jobs:
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
       - name: Create SBOM
-        uses: digitalservicebund/create-sbom@8446cc7ecd4955f86be1856e72306989bea38e36 # main branch, HEAD as of 2026-04-07
+        uses: digitalservicebund/create-sbom@8b892e90c95153fcfa7790eca7828a257210fac0 # main branch, HEAD as of 2026-04-07
         with:
           image_name: ${{ github.repository }}-app
     outputs:
