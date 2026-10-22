@@ -1,9 +1,15 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 import { flowRoutes, vorabcheckRoutes } from "./services/routing/flowRoutes";
+import { hubPages } from "./services/routing/hubPages";
 
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
+  ...Array.from(hubPages).map((path) =>
+    route(path, "routes/shared/hubPages.ts", {
+      id: `hubPage-${path}`,
+    }),
+  ),
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
     ...prefix("antrag", flowRoutes("BHA")),
