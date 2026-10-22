@@ -14,7 +14,6 @@ import { testCasesFluggastrechteFormularProzessfuehrung } from "../prozessfuehru
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../streitwertKosten/__test__/testscases";
 
 export const fluggastrechteFormularTestCases = {
-  flowId: "/fluggastrechte/formular",
   config: fluggastrechteFormularFlowConfig,
   testcases: {
     weiterePersonHinzufuegen: [

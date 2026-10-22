@@ -14,7 +14,6 @@ import { testcasesFluggastrechtOtherErfolgs } from "./testcasesOtherErfolgs";
 import { testCasesFluggastrechteVerspaetetAbbruch } from "./testcasesVerspaetetAbbruch";
 
 export const fluggastrechteVorabcheckTestCases = {
-  flowId: "/fluggastrechte/vorabcheck",
   config: fluggastrechteVorabcheckFlowConfig,
   testcases: {
     ...testCasesFluggastrechteAnnullierungAbbruch,

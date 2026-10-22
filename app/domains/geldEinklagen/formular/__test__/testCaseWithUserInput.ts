@@ -19,7 +19,6 @@ import { testCasesWithUserInputKlagenErstellenRechtlicherZusatz } from "../klage
 import { testCasesWithUserInputKlagenErstellenBegruendung } from "../klage-erstellen/begruendung/__tests__/testCasesWithUserInputs";
 
 export const geldEinklagenFormularTestCases = {
-  flowId: "/geld-einklagen/formular",
   config: geldEinklagenFlowConfig,
   testcases: {
     ...testCasesWithUserInputIntroForderung,

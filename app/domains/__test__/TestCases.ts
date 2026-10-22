@@ -1,4 +1,3 @@
-import type { FlowId } from "../flowIds";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type AddArrayItemEvent } from "~/services/array";
 import { type PageData } from "~/services/flow/pageData";
@@ -35,7 +34,6 @@ export type FlowTestConfig<
   T extends UserData,
   C extends PageConfigMap = PageConfigMap,
 > = {
-  flowId: FlowId;
   config?: CompiledFlow<C>;
   testcases: FlowTestCases<T>;
 };
