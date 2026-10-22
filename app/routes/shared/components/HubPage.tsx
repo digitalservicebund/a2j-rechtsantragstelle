@@ -71,6 +71,7 @@ export function HubPage() {
           >
             <ContentComponents
               managedByParent
+              isHubPage
               content={nonHeroComponent}
               className="rounded-lg mb-kern-space-4x-large"
             />
