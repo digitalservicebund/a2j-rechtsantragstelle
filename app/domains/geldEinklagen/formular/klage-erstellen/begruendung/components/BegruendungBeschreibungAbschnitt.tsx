@@ -118,7 +118,6 @@ const BegruendungBeschreibungAbschnitt = ({
   return (
     <div
       data-testid="begruendung-beschreibung-abschnitte"
-
       className="kern-summary pb-24"
     >
       <div className="kern-summary__header">

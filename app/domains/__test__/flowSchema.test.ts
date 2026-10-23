@@ -24,6 +24,8 @@ import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anf
 import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { type FlowId } from "../flowIds";
+import { type Flow, flows } from "../flows.server";
 import { getPageSchema } from "../pageSchemas";
 import { prozesskostenhilfeFormularTestCases } from "../prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
@@ -52,6 +54,11 @@ type VisitedSteps = Record<
     config: CompiledFlow<PageConfigMap>;
   }
 >;
+
+const flowEntries = Object.entries(flows) as Array<[FlowId, Flow]>;
+
+const getFlowIdByConfig = (config: CompiledFlow<PageConfigMap>) =>
+  flowEntries.find(([_, flow]) => flow.config === config)?.[0];
 
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = <T extends UserData>(
@@ -253,13 +260,29 @@ describe("flowSchemas", { concurrent: false }, () => {
         Object.fromEntries(missingStepsEntries),
       );
     }
+
+    const untestedFlowIds = flowEntries
+      .filter(([flowId, flow]) => flow.config && !allVisitedSteps[flowId])
+      .map(([flowId]) => flowId);
+
+    if (untestedFlowIds.length > 0) {
+      // oxlint-disable-next-line no-console
+      console.warn("Flows without flowSchema testcases: ", untestedFlowIds);
+    }
   });
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { flowId, testcases, config }]) => {
+    ([testConfigName, { testcases, config }]) => {
       if (config === undefined) {
         throw new Error(
-          `Missing config for flowId: ${flowId}. Please provide a valid config in the testcases for ${testConfigName}.`,
+          `Missing config for ${testConfigName}. Please provide a valid config in the testcases.`,
+        );
+      }
+
+      const flowId = getFlowIdByConfig(config);
+      if (flowId === undefined) {
+        throw new Error(
+          `No flow in flows.server.ts uses the config of ${testConfigName}.`,
         );
       }
 

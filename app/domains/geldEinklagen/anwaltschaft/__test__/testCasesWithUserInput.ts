@@ -6,7 +6,6 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { sonstigeNebenUndProzessantraegeTestCases } from "../sonstigeNebenUndProzessantraege/__test__/testcasesSonstigeNebenUndProzessantraege";
 
 export const geldEinklagenAnwaltschaftTestCases = {
-  flowId: "/geld-einklagen/anwaltschaft",
   config: geldEinklagenAnwaltschaftFlowConfig,
   testcases: {
     basePagesUntilKlagendePartei: [

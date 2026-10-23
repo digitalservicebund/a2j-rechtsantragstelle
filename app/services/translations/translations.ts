@@ -712,13 +712,19 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
     },
     soenstigeProzessantragArrayButton: {
-      de: "Neben- oder Prozessantrag hinzufügen",
+      de: "Antrag oder prozessuale Ausführung hinzufügen",
     },
     soenstigeProzessantragDelete: {
-      de: "Antrag Löschen",
+      de: "Antrag/Ausführung löschen?",
     },
     soenstigeProzessantragDescription: {
-      de: "Möchten Sie diesen Antrag wirklich löschen?",
+      de: "Folgendes wird entfernt:",
+    },
+    soenstigeProzessantragInlineNoticeTitle: {
+      de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
+    },
+    soenstigeProzessantragInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
   },
   nachlass: {
