@@ -3,7 +3,6 @@ import { type ErbscheinNachlassGerichtUserData } from "~/domains/nachlass/erbsch
 import { erbscheinNachlassgerichtFlowConfig } from "../flowConfig";
 
 export const erbscheinNachlassgerichtTestCases = {
-  flowId: "/erbschein/nachlassgericht",
   config: erbscheinNachlassgerichtFlowConfig,
   testcases: {
     auslaendischeErbfall: [
