@@ -13,8 +13,13 @@ import { navigationLists, tableOfContents } from "~/services/routing/hubPages";
 import { translations } from "~/services/translations/translations";
 
 export function HubPage() {
-  const { content } = useLoaderData<typeof loader>();
+  const { content, showNewHubPage } = useLoaderData<typeof loader>();
   const { pathname } = useLocation();
+
+  // Disable the new hub page via feature flag
+  if (!showNewHubPage) {
+    return <ContentComponents content={content} />;
+  }
 
   const heroComponent = content?.find(isStrapiHero);
   const nonHeroComponent = content?.filter(

@@ -8,6 +8,7 @@ const localFeatureFlags = {
   showNachlassErbscheinAnfrageFlow: false,
   showNachlassErbscheinErbfolgeFlow: false,
   showGeldEinklagenAnwaltschaftFlow: false,
+  showNewHubPage: true,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
