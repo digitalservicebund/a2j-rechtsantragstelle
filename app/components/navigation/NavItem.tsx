@@ -56,12 +56,14 @@ export function NavItem({
   isFirst = false,
   isLast = false,
   firstItemRef,
+  classNameNavigationList,
 }: Readonly<
   NavItem & {
     isChild?: boolean;
     isFirst?: boolean;
     isLast?: boolean;
     firstItemRef?: React.RefObject<HTMLAnchorElement | null>;
+    classNameNavigationList?: string;
   }
 >) {
   const visibleChildItems = subflows.filter((subItem) =>
@@ -153,7 +155,11 @@ export function NavItem({
             // oxlint-disable-next-line jsx-a11y/aria-role
             role={undefined}
           >
-            <NavigationList navItems={visibleChildItems} isChild={true} />
+            <NavigationList
+              navItems={visibleChildItems}
+              isChild={true}
+              className={classNameNavigationList}
+            />
           </section>
         </>
       ) : (

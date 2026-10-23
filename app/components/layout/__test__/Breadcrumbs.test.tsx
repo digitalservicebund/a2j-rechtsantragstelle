@@ -12,6 +12,14 @@ const breadcrumbs = [
   },
 ];
 
+vi.mock("react-router", async () => {
+  const actual = await vi.importActual("react-router");
+  return {
+    ...actual,
+    useLocation: () => ({ pathname: "/test-path" }),
+  };
+});
+
 describe("Breadcrumbs", () => {
   it("should have the correct classNames for the parent html tags", () => {
     const { getByText } = render(<Breadcrumbs breadcrumbs={breadcrumbs} />);
