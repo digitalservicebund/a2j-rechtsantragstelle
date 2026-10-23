@@ -9,13 +9,21 @@ export const userDataMock = {
   versaeumnisurteil: "yes",
   direktFlugnummer: "AB6303",
   buchungsNummer: "AB6303",
-  direktAbflugsDatum: "10.10.2023",
+  direktAbflugsDatum: {
+    day: "10",
+    month: "10",
+    year: "2023",
+  },
   direktAbflugsZeit: {
     hour: "09",
     minute: "00",
   },
   zwischenstoppAnzahl: "no",
-  direktAnkunftsDatum: "10.10.2023",
+  direktAnkunftsDatum: {
+    day: "10",
+    month: "10",
+    year: "2023",
+  },
   direktAnkunftsZeit: {
     hour: "10",
     minute: "00",
@@ -23,7 +31,11 @@ export const userDataMock = {
   tatsaechlicherFlug: "no",
   ersatzverbindungArt: "flug",
   ersatzFlugnummer: "AB6303",
-  ersatzFlugAnkunftsDatum: "10.02.2024",
+  ersatzFlugAnkunftsDatum: {
+    day: "10",
+    month: "02",
+    year: "2024",
+  },
   ersatzFlugAnkunftsZeit: {
     hour: "10",
     minute: "10",

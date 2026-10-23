@@ -1,11 +1,16 @@
-import isEmpty from "lodash/isEmpty";
 import type { FluggastrechteUserData } from "~/domains/fluggastrechte/formular/userData";
 import type { FluggastrechtAnkuendigungType } from "~/domains/fluggastrechte/vorabcheck/userData";
 import { calculateDuration } from "./calculateDuration";
 import {
+  hasTimeObject,
   type TimeObject,
   toTimeString,
 } from "~/services/validation/timeObject";
+import {
+  type DateObject,
+  hasDateObject,
+  toDateString,
+} from "~/services/validation/dateObject";
 
 const announcementMapping = {
   no: "Gar nicht vor Abflug mitgeteilt.",
@@ -87,22 +92,14 @@ const getReplacementFlightDescription = (
 };
 
 const formatAnnullierungDateHour = (
-  date?: string,
-  hour?: TimeObject | string,
+  date?: Partial<DateObject>,
+  hour?: Partial<TimeObject>,
 ) => {
-  if (isEmpty(date) || isEmpty(hour)) {
+  if (!hasDateObject(date) || !hasTimeObject(hour)) {
     return "--";
   }
 
-  if (typeof hour === "string") {
-    return `${date}, ${hour}`;
-  }
-
-  if (hour === undefined) {
-    return "--";
-  }
-
-  return `${date}, ${toTimeString(hour)}`;
+  return `${toDateString(date)}, ${toTimeString(hour)}`;
 };
 
 const getConnectionDetailsCancel = (
@@ -168,9 +165,9 @@ function getConnectionDetailsDelayOrNoBoarding(
 
   if (tatsaechlicherFlug === "yes") {
     const info = getAmountOfDelay(
-      direktAnkunftsDatum,
+      toDateString(direktAnkunftsDatum),
       toTimeString(direktAnkunftsZeit),
-      userData.tatsaechlicherAnkunftsDatum,
+      toDateString(userData.tatsaechlicherAnkunftsDatum),
       toTimeString(userData.tatsaechlicherAnkunftsZeit),
       bereich,
     );
@@ -180,7 +177,7 @@ function getConnectionDetailsDelayOrNoBoarding(
       timeTable: [
         "--",
         "--",
-        `${userData.tatsaechlicherAnkunftsDatum}, ${toTimeString(userData.tatsaechlicherAnkunftsZeit)}`,
+        `${toDateString(userData.tatsaechlicherAnkunftsDatum)}, ${toTimeString(userData.tatsaechlicherAnkunftsZeit)}`,
       ],
     };
   }
@@ -189,12 +186,12 @@ function getConnectionDetailsDelayOrNoBoarding(
     flug: [
       userData.ersatzFlugnummer ?? "--",
       "--",
-      `${userData.ersatzFlugAnkunftsDatum}, ${toTimeString(userData.ersatzFlugAnkunftsZeit)}`,
+      `${toDateString(userData.ersatzFlugAnkunftsDatum)}, ${toTimeString(userData.ersatzFlugAnkunftsZeit)}`,
     ],
     etwasAnderes: [
       "--",
       "--",
-      `${userData.andereErsatzverbindungAnkunftsDatum}, ${toTimeString(userData.andereErsatzverbindungAnkunftsZeit)}`,
+      `${toDateString(userData.andereErsatzverbindungAnkunftsDatum)}, ${toTimeString(userData.andereErsatzverbindungAnkunftsZeit)}`,
     ],
     keineAnkunft: ["--", "--", "--"],
   };
@@ -203,9 +200,9 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "flug":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum,
+          toDateString(direktAnkunftsDatum),
           toTimeString(direktAnkunftsZeit),
-          userData.ersatzFlugAnkunftsDatum,
+          toDateString(userData.ersatzFlugAnkunftsDatum),
           toTimeString(userData.ersatzFlugAnkunftsZeit),
           bereich,
         ),
@@ -215,9 +212,9 @@ function getConnectionDetailsDelayOrNoBoarding(
     case "etwasAnderes":
       return {
         info: getAmountOfDelay(
-          direktAnkunftsDatum,
+          toDateString(direktAnkunftsDatum),
           toTimeString(direktAnkunftsZeit),
-          userData.andereErsatzverbindungAnkunftsDatum,
+          toDateString(userData.andereErsatzverbindungAnkunftsDatum),
           toTimeString(userData.andereErsatzverbindungAnkunftsZeit),
           bereich,
         ),

@@ -46,14 +46,12 @@ export const fluggastrechtePersoenlicheDatenPages = {
   },
   weiterePersonenFrage: {
     stepId: "/persoenliche-daten/weitere-personen/frage",
-    shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       isWeiterePersonen: YesNoAnswer,
     },
   },
   weiterePersonenUebersicht: {
     stepId: "/persoenliche-daten/weitere-personen/uebersicht",
-    shouldCollapseIntoParentNavItem: true,
     arraySummary: {
       name: "weiterePersonen",
       schema: weiterePersonenArraySchema,
