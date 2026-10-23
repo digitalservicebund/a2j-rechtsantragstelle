@@ -66,7 +66,7 @@ export default async function execute() {
   const { CONTENT_FILE_PATH, STRAPI_API } = config();
   console.log(`Fetching CMS data from ${STRAPI_API}`);
 
-  const locales = ["de", "sg"] as const;
+  const locales = ["de"] as const;
   const content: Record<string, unknown> = {};
 
   for (const apiId of Object.keys(strapiSchemas) as ApiId[]) {
@@ -78,6 +78,7 @@ export default async function execute() {
         locale,
         pageSize: "900",
         pLevel: 6,
+        showDraftVersion: false, // MUST BE ALWAYS False, we do not generate files with draft version
       });
       if (entries.length > 0 && entries[0] !== null) {
         process.stdout.write(` ${locale} (${entries.length}) |`);
