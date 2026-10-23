@@ -17,7 +17,6 @@ const posthogDistinctId = "backend";
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) =>
   getPosthogNodeClient() === undefined
     ? localFeatureFlags[featureFlag]
-    : await getPosthogNodeClient()?.isFeatureEnabled(
-        featureFlag,
-        posthogDistinctId,
-      );
+    : await getPosthogNodeClient()
+        ?.evaluateFlags(posthogDistinctId)
+        .then((featureFlags) => featureFlags.getFlag(featureFlag));
