@@ -8,7 +8,9 @@ describe("isFeatureFlagEnabled", () => {
   const mockEvaluateFlags = vi.fn();
 
   vi.mocked(getPosthogNodeClient).mockReturnValue({
-    evaluateFlags: mockEvaluateFlags.mockResolvedValue({ getFlag: () => true }),
+    evaluateFlags: mockEvaluateFlags.mockResolvedValue({
+      isEnabled: () => true,
+    }),
   } as unknown as PostHog);
 
   afterEach(() => {
