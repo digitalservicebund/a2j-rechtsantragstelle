@@ -179,11 +179,6 @@ export const navigationLists: Record<HubPages, NavItem[]> = {
           destination: "/erbschein/nachlassgericht/start",
           state: "Open",
         },
-        {
-          label: "Erbschein vorbereiten",
-          destination: "/erbschein/anfrage/start",
-          state: "Open",
-        },
       ],
     },
   ],
