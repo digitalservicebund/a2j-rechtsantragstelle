@@ -3,6 +3,7 @@ import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import { ZahlungsAntrag } from "./ZahlungsAntrag";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
@@ -19,9 +20,9 @@ const ZahlungsAntragUebersicht = () => {
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
   const nextItemIndex = arrayIsNonEmpty(
-    userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
+    userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag,
   )
-    ? (userDataGeldEinklagen.sonstigeNebenUndProzessantraege?.length ?? 0)
+    ? (userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag?.length ?? 0)
     : 0;
 
   const addButtonUrl = `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`;
@@ -32,19 +33,19 @@ const ZahlungsAntragUebersicht = () => {
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
-        {/* {arrayIsNonEmpty(
-          userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
+        {arrayIsNonEmpty(
+          userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag,
         ) &&
-          userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
+          userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag.map(
             (item, index) => (
-              <SonstigeNebenUndProzessantraege
-                key={item.antrag}
+              <ZahlungsAntrag
+                key={item.internesSchlagwortFordureung}
                 itemIndex={index}
-                item={item}
-                onDelete={onSonstigeNebenUndProzessantraegeDelete}
-              />
+                item={item} onDelete={function (pathnameArrayItem: string, itemIndex: number): Promise<void> {
+                  throw new Error("Function not implemented.");
+                } }              />
             ),
-          )} */}
+          )}
         <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
           <Button
             look="secondary"
