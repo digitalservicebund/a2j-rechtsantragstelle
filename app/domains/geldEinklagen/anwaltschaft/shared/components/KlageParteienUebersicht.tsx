@@ -93,10 +93,11 @@ const KlageParteienList = ({
         )}
       </div>
 
-      {parties.map(({ partei, arrayIndex }) => (
+      {parties.map(({ partei, arrayIndex, displayIndex }) => (
         <KlagePartei
           key={partei.id ?? arrayIndex}
           index={arrayIndex}
+          displayIndex={displayIndex}
           partei={partei}
           relationship={relationship}
         />
