@@ -20,8 +20,6 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       ...beklagteParteiFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
       rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
-      beklagteNatuerlichePerson: null,
-      beklagteOrganisation: null,
       ...sonstigeNebenUndProzessantraegeFlowConfig,
       downloadKlage: null,
     },
