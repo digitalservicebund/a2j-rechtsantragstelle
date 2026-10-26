@@ -8,6 +8,7 @@ const localFeatureFlags = {
   showNachlassErbscheinAnfrageFlow: false,
   showNachlassErbscheinErbfolgeFlow: false,
   showGeldEinklagenAnwaltschaftFlow: false,
+  showNewHubPage: true,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;
@@ -17,7 +18,6 @@ const posthogDistinctId = "backend";
 export const isFeatureFlagEnabled = async (featureFlag: FeatureFlag) =>
   getPosthogNodeClient() === undefined
     ? localFeatureFlags[featureFlag]
-    : await getPosthogNodeClient()?.isFeatureEnabled(
-        featureFlag,
-        posthogDistinctId,
-      );
+    : await getPosthogNodeClient()
+        ?.evaluateFlags(posthogDistinctId)
+        .then((featureFlags) => featureFlags.isEnabled(featureFlag));
