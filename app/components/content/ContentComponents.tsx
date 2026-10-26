@@ -149,6 +149,7 @@ type PageContentProps = {
   readonly content: StrapiContentComponent[];
   readonly className?: string;
   readonly managedByParent?: boolean;
+  readonly isHubPage?: boolean;
 };
 
 const DEFAULT_EMPTY_CONTENT: StrapiContentComponent[] = [];
@@ -157,6 +158,7 @@ function ContentComponents({
   content = DEFAULT_EMPTY_CONTENT,
   managedByParent,
   className,
+  isHubPage,
 }: PageContentProps) {
   if (content.length === 0) return [];
 
@@ -165,7 +167,15 @@ function ContentComponents({
     .map((el) => {
       if (managedByParent) {
         return (
-          <div key={`${el.__component}_${el.id}`} className={className}>
+          <div
+            key={`${el.__component}_${el.id}`}
+            className={classNames(className, getContentBackgroundColor(el), {
+              "px-kern-space-large":
+                el.__component === "page.box" &&
+                el.contentBackgroundColor !== "white" &&
+                isHubPage,
+            })}
+          >
             {cmsToReact(el, { inFlow: true })}
           </div>
         );

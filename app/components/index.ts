@@ -14,6 +14,7 @@ export const SECTION_BACKGROUND_COLORS = Object.freeze({
   grey: "bg-kern-neutral-050",
   blue: "bg-kern-action-default",
   yellow: "bg-kern-feedback-warning-background",
+  darkBlue: "bg-kern-darkblue-050",
 });
 
 configureZod(); // configures custom enum errors & disable CSP warning due to eval
