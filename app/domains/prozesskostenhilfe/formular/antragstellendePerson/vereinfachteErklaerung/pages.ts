@@ -113,7 +113,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
     arraySummary: {
       name: "einnahmen",
       schema: einnahmenArraySchema,
-      fieldName: "hasEinnahmen",
+      isArrayRelevant: (context) => context["hasEinnahmen"] === "yes",
     },
   },
   einnahme: {
@@ -156,7 +156,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
     arraySummary: {
       name: "vermoegen",
       schema: vermoegenArraySchema,
-      fieldName: "hasVermoegen",
+      isArrayRelevant: (context) => context["hasVermoegen"] === "yes",
     },
   },
   vermoegenEintrag: {

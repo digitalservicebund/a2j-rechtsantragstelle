@@ -158,7 +158,7 @@ jobs:
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d #v4.38.3
+        uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee #v4.39.0
         with:
           sarif_file: "trivy-results.sarif"
       - run: ./docker.sh --push prod
@@ -166,7 +166,7 @@ jobs:
       - id: prod_image_tag
         run: echo "prod_image_tag=$(./docker.sh --prodImageTag)" >> $GITHUB_OUTPUT
       - name: Create SBOM
-        uses: digitalservicebund/create-sbom@8446cc7ecd4955f86be1856e72306989bea38e36 # main branch, HEAD as of 2026-04-07
+        uses: digitalservicebund/create-sbom@8b892e90c95153fcfa7790eca7828a257210fac0 # main branch, HEAD as of 2026-04-07
         with:
           image_name: ${{ github.repository }}-app
     outputs:

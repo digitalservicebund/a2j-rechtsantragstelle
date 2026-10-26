@@ -666,8 +666,17 @@ export const translations = {
     gesetzlicheVetretungHeadline: {
       de: "Gesetzliche Vertretung",
     },
+    gesetzlicheVetretungOrganisationHeadline: {
+      de: "Weitere gesetzliche Vertretung",
+    },
     gesetzlicheVetretungSubheader: {
       de: "Maximal 5",
+    },
+    gesetzlicheVertretungArt: {
+      de: "Art der Vertretung",
+    },
+    gesetzlicheVertretungDeletionLabel: {
+      de: "und gesetzliche Vertretung",
     },
     natuerlichePersonenMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an natürlichen Personen erreicht",
@@ -687,6 +696,9 @@ export const translations = {
     organisationHeadline: {
       de: "Organisation",
     },
+    organisationDescription: {
+      de: "Darunter fallen alle, die keine natürlichen Personen sind. Dazu gehören zum Beispiel juristische Personen, Personengesellschaften oder Gebietskörperschaften. Aus technischen Gründen lässt sich die GmbH & CO KG derzeit nicht abbilden.",
+    },
     organisationenHeadline: {
       de: "Organisationen",
     },
@@ -698,6 +710,21 @@ export const translations = {
     },
     beklagteOrganisationMaximumReachedContentNotice: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
+    },
+    soenstigeProzessantragArrayButton: {
+      de: "Antrag oder prozessuale Ausführung hinzufügen",
+    },
+    soenstigeProzessantragDelete: {
+      de: "Antrag/Ausführung löschen?",
+    },
+    soenstigeProzessantragDescription: {
+      de: "Folgendes wird entfernt:",
+    },
+    soenstigeProzessantragInlineNoticeTitle: {
+      de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
+    },
+    soenstigeProzessantragInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
   },
   nachlass: {
@@ -753,6 +780,14 @@ export const translations = {
     },
     personHadChildren: {
       de: "Hatte weitere Kinder?",
+    },
+  },
+  hubPages: {
+    tableOfLinksLabel: {
+      de: "Inhalt",
+    },
+    navigationLabel: {
+      de: "Weitere Inhalte zum Thema",
     },
   },
 } satisfies TranslationRecord;

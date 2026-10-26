@@ -1,9 +1,9 @@
 import omit from "lodash/omit";
 import { z } from "zod";
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { geldEinklagenAnwaltschaftFlowConfig } from "../../flowConfig";
 import {
-  MAX_NATURAL_PERSON_REPRESENTATIVES,
+  MAX_REPRESENTATIVES,
   naturalPersonSchema,
   organizationSchema,
 } from "../../shared/anwaltschaftSchemas";
@@ -21,6 +21,7 @@ const naturalPerson = {
   land: "Deutschland",
   parteiverhaeltnis: "klagende",
   type: "natuerliche-person",
+  id: crypto.randomUUID(),
 } as const;
 
 const representative = {
@@ -33,7 +34,7 @@ const representative = {
   plz: "54321",
   ort: "Beispielstadt",
   land: "Deutschland",
-  art: "Elternteil",
+  art: "elternteil",
 } as const;
 
 const overviewData = (klagenden: Array<Record<string, unknown>>) => {
@@ -46,7 +47,7 @@ const overviewData = (klagenden: Array<Record<string, unknown>>) => {
 };
 
 describe("klagendeParteiPages", () => {
-  it.each([0, MAX_NATURAL_PERSON_REPRESENTATIVES])(
+  it.each([0, MAX_REPRESENTATIVES])(
     "accepts a natural person with %i representatives",
     (count) => {
       expect(
@@ -70,7 +71,7 @@ describe("klagendeParteiPages", () => {
       naturalPersonSchema.safeParse({
         ...naturalPerson,
         "gesetzliche-vertretung": Array.from(
-          { length: MAX_NATURAL_PERSON_REPRESENTATIVES + 1 },
+          { length: MAX_REPRESENTATIVES + 1 },
           () => representative,
         ),
       }).success,
@@ -82,7 +83,7 @@ describe("klagendeParteiPages", () => {
       ...omit(naturalPerson, ["anrede", "titel", "vorname", "nachname"]),
       type: "organisation",
       orgName: "Beispiel GmbH",
-      orgVertretungArt: "Vorstand / Vorständin",
+      orgVertretungArt: "vorstand-vorstaendin",
       orgVertretungAnrede: "herr",
       orgVertretungTitel: "",
       orgVertretungVorname: "Max",
@@ -91,6 +92,35 @@ describe("klagendeParteiPages", () => {
 
     it("requires no additional array when the flat representative is present", () => {
       expect(organizationSchema.safeParse(organization).success).toBe(true);
+    });
+
+    it.each([
+      { name: "empty", klagenden: [] },
+      { name: "person-only", klagenden: [naturalPerson] },
+      { name: "organization-only", klagenden: [organization] },
+      { name: "mixed", klagenden: [naturalPerson, organization] },
+      { name: "untyped draft", klagenden: [{}] },
+    ])("allows adding either party type to an $name list", ({ klagenden }) => {
+      for (const page of [
+        klagendeParteiPages.klagendeNaturalPersonDaten,
+        klagendeParteiPages.klagendeOrganizationDaten,
+      ]) {
+        const userData = {
+          klagenden,
+          pageData: { arrayIndexes: [klagenden.length] },
+        };
+        const session = createFlowSession(
+          geldEinklagenAnwaltschaftFlowConfig,
+          userData,
+          page.stepId,
+        );
+
+        expect(session.isReachable(page.stepId)).toBe(true);
+        expect(session.prevPath).toBe(
+          klagendeParteiPages.klagendeUebersicht.stepId,
+        );
+        expect(session.statusTree["/klagende-partei"]?.isDone).toBe(false);
+      }
     });
 
     it.each([0, 1, 6])("accepts %i additional representatives", (count) => {
@@ -104,6 +134,74 @@ describe("klagendeParteiPages", () => {
         }).success,
       ).toBe(true);
     });
+
+    it.each(["person", "organization", "mixed"])(
+      "marks complete %s plaintiffs done without validating the other party type",
+      (partyType) => {
+        const personWithRepresentative = {
+          ...naturalPerson,
+          "gesetzliche-vertretung": [representative],
+        };
+        const organizationWithRepresentative = {
+          ...organization,
+          "gesetzliche-vertretung": [
+            { ...representative, art: organization.orgVertretungArt },
+          ],
+        };
+        const klagenden =
+          partyType === "person"
+            ? [personWithRepresentative]
+            : partyType === "organization"
+              ? [organizationWithRepresentative]
+              : [personWithRepresentative, organizationWithRepresentative];
+        const userData = { klagenden, pageData: { arrayIndexes: [] } };
+        const session = createFlowSession(
+          geldEinklagenAnwaltschaftFlowConfig,
+          userData,
+          klagendeParteiPages.klagendeUebersicht.stepId,
+        );
+
+        expect(session.statusTree["/klagende-partei"]?.isDone).toBe(true);
+        expect(session.prunedUserData).toEqual({
+          klagenden: klagenden.map((plaintiff) =>
+            omit(plaintiff, "parteiverhaeltnis"),
+          ),
+        });
+      },
+    );
+
+    it.each(["party", "representative"])(
+      "keeps mixed plaintiffs incomplete when a %s is unfinished",
+      (incomplete) => {
+        const userData = {
+          klagenden: [
+            { ...naturalPerson },
+            {
+              ...organization,
+              orgName: incomplete === "party" ? "" : organization.orgName,
+              "gesetzliche-vertretung": [
+                {
+                  ...representative,
+                  art: organization.orgVertretungArt,
+                  vorname:
+                    incomplete === "representative"
+                      ? ""
+                      : representative.vorname,
+                },
+              ],
+            },
+          ],
+          pageData: { arrayIndexes: [] },
+        };
+        const session = createFlowSession(
+          geldEinklagenAnwaltschaftFlowConfig,
+          userData,
+          klagendeParteiPages.klagendeUebersicht.stepId,
+        );
+
+        expect(session.statusTree["/klagende-partei"]?.isDone).toBe(false);
+      },
+    );
 
     it.each([
       "orgVertretungArt",
@@ -133,7 +231,7 @@ describe("klagendeParteiPages", () => {
         ...naturalPerson,
         "gesetzliche-vertretung": [
           representative,
-          { ...representative, vorname: "Maria", art: "Vormund / Vormundin" },
+          { ...representative, vorname: "Maria", art: "vormund-vormundin" },
         ],
       },
       {
@@ -150,13 +248,9 @@ describe("klagendeParteiPages", () => {
     const pruned = overviewData(klagenden);
 
     expect(pruned).toEqual({
-      klagenden: klagenden.map((plaintiff) => ({
-        ...omit(plaintiff, "parteiverhaeltnis"),
-        "gesetzliche-vertretung": plaintiff["gesetzliche-vertretung"].map(
-          // TODO: Fix when more gesetzliche vertretung fields are present
-          ({ art }) => ({ art }),
-        ),
-      })),
+      klagenden: klagenden.map((plaintiff) =>
+        omit(plaintiff, "parteiverhaeltnis"),
+      ),
     });
   });
 
@@ -172,6 +266,55 @@ describe("klagendeParteiPages", () => {
     expect(overviewData([plaintiff])).toEqual({
       klagenden: [omit(plaintiff, "parteiverhaeltnis")],
     });
+  });
+
+  it("preserves party IDs through repeated pruning", () => {
+    const partyId = crypto.randomUUID();
+    const klagenden = [
+      {
+        ...naturalPerson,
+        id: partyId,
+      },
+    ];
+    const expected = {
+      klagenden: [omit(klagenden[0], "parteiverhaeltnis")],
+    };
+
+    expect(overviewData(klagenden)).toEqual(expected);
+    expect(overviewData(klagenden)).toEqual(expected);
+    expect(naturalPersonSchema.safeParse(klagenden[0]).success).toBe(true);
+  });
+
+  it.each([undefined, "unknown"])(
+    "does not count a party with type %s as complete",
+    (type) => {
+      const userData = {
+        klagenden: [{ ...naturalPerson, type }],
+        pageData: { arrayIndexes: [] },
+      };
+      const session = createFlowSession(
+        geldEinklagenAnwaltschaftFlowConfig,
+        userData,
+        klagendeParteiPages.klagendeUebersicht.stepId,
+      );
+
+      expect(session.statusTree["/klagende-partei"]?.isDone).toBe(false);
+    },
+  );
+
+  it("keeps a new optional representative incomplete while its form is open", () => {
+    const userData = {
+      klagenden: [naturalPerson],
+      pageData: { arrayIndexes: [0, 0] },
+    };
+    const session = createFlowSession(
+      geldEinklagenAnwaltschaftFlowConfig,
+      userData,
+      klagendeParteiPages.klagendeNaturalPersonGesetzlicheVertretungDaten
+        .stepId,
+    );
+
+    expect(session.statusTree["/klagende-partei"]?.isDone).toBe(false);
   });
 
   it.each([undefined, [], [{ art: representative.art }]])(

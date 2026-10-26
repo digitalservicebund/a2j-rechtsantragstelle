@@ -1,5 +1,5 @@
 import { type FlowId } from "~/domains/flowIds";
-import { type StatusNode } from "../flow/newFlowEngine/statusTree";
+import { type StatusNode } from "../flow/flowEngine/statusTree";
 import { flows } from "~/domains/flows.server";
 import { getMetaConfigurationByStepId } from "../flow/getMetaConfigurationByStepId";
 

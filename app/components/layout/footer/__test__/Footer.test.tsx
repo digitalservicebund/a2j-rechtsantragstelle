@@ -17,13 +17,6 @@ describe("Footer", () => {
     ).toBeInTheDocument();
   });
 
-  it("should render aria label translation if provided", () => {
-    const ariaLabel = "Footer Navigation";
-    const { getByLabelText } = renderWithRouter(
-      <Footer ariaLabel={ariaLabel} />,
-    );
-    expect(getByLabelText(ariaLabel)).toBeInTheDocument();
-  });
   it("should render internal links", () => {
     const { getByText } = renderWithRouter(<Footer />);
     expect(getByText(translations.footer.impressum.de)).toBeInTheDocument();

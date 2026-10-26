@@ -1,4 +1,4 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { hasAirlineAddress } from "../../services/airlines/hasAirlineAddress";
 import type { FluggastrechteFormularPages } from "../pages";
 import { streitwertKostenDone } from "./doneFunctions";

@@ -5,7 +5,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { SEPARATOR } from "./addPlaintiffDetails";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { getFullPlaintiffName } from "~/domains/fluggastrechte/services/pdf/sections/getFullPlaintiffName";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 
 export const addAccusedDetails = (
   doc: typeof PDFDocument,

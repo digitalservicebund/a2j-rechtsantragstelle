@@ -12,7 +12,7 @@ beforeEach(() => {
 });
 
 describe("updateAbschnittenPersonenIds", () => {
-  it("should update the personenIds in the abschnitte and call updateSession", async () => {
+  it("should update the personenIds in the abschnitte and call updateSession", () => {
     const userData = {
       abschnitte: [
         {
@@ -32,7 +32,7 @@ describe("updateAbschnittenPersonenIds", () => {
 
     const mockSession: Session = createSession();
 
-    await updateAbschnittenPersonenIds({} as Request, userData, mockSession);
+    updateAbschnittenPersonenIds({} as Request, userData, mockSession);
 
     expect(updateSession).toHaveBeenCalledWith(
       mockSession,
@@ -59,19 +59,19 @@ describe("updateAbschnittenPersonenIds", () => {
     );
   });
 
-  it("should not call updateSession if there are no abschnitte", async () => {
+  it("should not call updateSession if there are no abschnitte", () => {
     const userData = {
       abschnitte: [],
     } as GeldEinklagenFormularUserData;
 
     const mockSession: Session = createSession();
 
-    await updateAbschnittenPersonenIds({} as Request, userData, mockSession);
+    updateAbschnittenPersonenIds({} as Request, userData, mockSession);
 
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("should handle abschnitte without personen and set personIdAsKlagende and personIdAsBeklagte to empty strings", async () => {
+  it("should handle abschnitte without personen and set personIdAsKlagende and personIdAsBeklagte to empty strings", () => {
     const userData = {
       abschnitte: [
         {
@@ -83,7 +83,7 @@ describe("updateAbschnittenPersonenIds", () => {
 
     const mockSession: Session = createSession();
 
-    await updateAbschnittenPersonenIds({} as Request, userData, mockSession);
+    updateAbschnittenPersonenIds({} as Request, userData, mockSession);
 
     expect(updateSession).toHaveBeenCalledWith(
       mockSession,

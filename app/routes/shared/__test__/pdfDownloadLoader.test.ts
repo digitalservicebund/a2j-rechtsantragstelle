@@ -1,44 +1,22 @@
 import { PDFDocument } from "pdf-lib";
 import { loader } from "../pdfDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
-import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
-import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import * as pruneUserData from "~/services/flow/flowEngine/pruneUserData";
 import type {
   InferredUserData,
   PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
   pruneUserData,
   "getPrunedUserDataFromSimulation",
 );
 
-vi.mock("~/services/flow/pruner/pruner", () => ({
-  pruneIrrelevantData: vi.fn().mockReturnValue({
-    prunedData: { vorname: "Zoe", nachname: "Müller" },
-  }),
-}));
-
 vi.mock("~/services/cms/index.server.ts", () => ({
   fetchTranslations: vi.fn().mockResolvedValue({}),
 }));
 
-vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
-  isFeatureFlagEnabled: vi.fn(),
-}));
-
-vi.mock(
-  "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata",
-  () => ({
-    fluggastrechtePdfFromUserdata: vi.fn(),
-  }),
-);
-
 describe("pdfDownloadLoader", () => {
-  beforeEach(() => {
-    vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
-  });
-
   it("correctly calls getPrunedUserData for new engine flows", async () => {
     const url = "https://mock-url.de/erbschein/anfrage/download/pdf";
     await loader(mockRouteArgsFromRequest(new Request(url)));

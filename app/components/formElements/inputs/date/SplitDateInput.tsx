@@ -7,26 +7,30 @@ import InputError from "../error/InputError";
 
 type SplitDateInputProps = {
   name: string;
+  isRequired: boolean;
   label?: string;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
 };
 
 const sharedClassnames = "kern-form-input__input bg-white!" as const;
-const sharedAttributes = {
-  "aria-required": "true",
-  type: "text",
-  inputMode: "numeric",
-  onInput: (e: React.InputEvent<HTMLInputElement>) => {
-    e.currentTarget.value = e.currentTarget.value.replaceAll(/\D/g, "");
-  },
-} as const;
+const sharedAttributes = (isRequired: boolean) => {
+  return {
+    "aria-required": isRequired,
+    type: "text",
+    inputMode: "numeric" as const,
+    onInput: (e: React.InputEvent<HTMLInputElement>) => {
+      e.currentTarget.value = e.currentTarget.value.replaceAll(/\D/g, "");
+    },
+  };
+};
 
 const SplitDateInput = ({
   name,
   label,
   suffix,
   errorMessages,
+  isRequired,
 }: SplitDateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
@@ -84,7 +88,7 @@ const SplitDateInput = ({
               min: 1,
               max: 31,
               maxLength: 2,
-              ...sharedAttributes,
+              ...sharedAttributes(isRequired),
             })}
             autoComplete={autocompleteMap[day] ?? "off"}
             className={classNames(
@@ -112,7 +116,7 @@ const SplitDateInput = ({
               min: 1,
               max: 12,
               maxLength: 2,
-              ...sharedAttributes,
+              ...sharedAttributes(isRequired),
             })}
             autoComplete={autocompleteMap[month] ?? "off"}
             className={classNames(
@@ -138,7 +142,7 @@ const SplitDateInput = ({
             {...yearField.getInputProps({
               id: year,
               maxLength: 4,
-              ...sharedAttributes,
+              ...sharedAttributes(isRequired),
             })}
             autoComplete={autocompleteMap[year] ?? "off"}
             className={classNames(

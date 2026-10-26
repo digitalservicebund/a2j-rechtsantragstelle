@@ -2,20 +2,20 @@ import merge from "lodash/merge";
 import z from "zod";
 import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
 import { type SchemaObject, type UserData } from "~/domains/userData";
-import { type ArrayConfigServer } from "~/services/array";
+import { type AddArrayItemEvent } from "~/services/array";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
 import {
   createFlowSession,
   type FlowSession,
-} from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { removeArrayIndexWithWildcard } from "~/util/array";
 import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
 import { fluggastrechteFormularTestCases } from "../fluggastrechte/formular/__test__/testcasesWithUserInput";
-import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/newFlowEngine/testcasesWithUserInput";
+import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/flowEngine/testcasesWithUserInput";
 import { geldEinklagenAnwaltschaftTestCases } from "../geldEinklagen/anwaltschaft/__test__/testCasesWithUserInput";
 import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
 import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
@@ -24,6 +24,8 @@ import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anf
 import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { type FlowId } from "../flowIds";
+import { type Flow, flows } from "../flows.server";
 import { getPageSchema } from "../pageSchemas";
 import { prozesskostenhilfeFormularTestCases } from "../prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
 import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
@@ -49,9 +51,14 @@ type VisitedSteps = Record<
   string,
   {
     visitedSteps: Set<string | undefined>;
-    newEngineConfig: CompiledFlow<PageConfigMap>;
+    config: CompiledFlow<PageConfigMap>;
   }
 >;
+
+const flowEntries = Object.entries(flows) as Array<[FlowId, Flow]>;
+
+const getFlowIdByConfig = (config: CompiledFlow<PageConfigMap>) =>
+  flowEntries.find(([_, flow]) => flow.config === config)?.[0];
 
 // Build full user input from all previous expectedSteps
 const buildFullUserInput = <T extends UserData>(
@@ -83,14 +90,10 @@ const buildFullUserInput = <T extends UserData>(
     if (arrayIndexes.length > 0) {
       merged.pageData = { ...merged.pageData, arrayIndexes };
 
-      // Get the last array index
-      const lastIndex = arrayIndexes.at(-1);
-      if (lastIndex === undefined) return merged;
-
       // Transform array fields like `field[index]` into nested structure `field: [index: value]`
       const resolvedArraysFromKeys = resolveArraysFromKeys(
         { ...step.userInput },
-        [lastIndex],
+        arrayIndexes,
       );
       merged = merge(merged, resolvedArraysFromKeys);
     }
@@ -101,7 +104,7 @@ const buildFullUserInput = <T extends UserData>(
 function testPageSchema<T extends UserData>(
   userInput: ExpectedStepUserInput<T>,
   pageSchema: SchemaObject | undefined,
-  addArrayItemEvent?: ArrayConfigServer["event"],
+  addArrayItemEvent?: AddArrayItemEvent,
 ) {
   // Without userInput we don't expect a pageSchema. Same for Array Overview pages
   if (!userInput || addArrayItemEvent) {
@@ -117,7 +120,7 @@ function testArrayLinkPages(
   stepId: string,
   nextStepId: string,
   previousStepId?: string,
-  addArrayItemEvent?: ArrayConfigServer["event"],
+  addArrayItemEvent?: AddArrayItemEvent,
   summaryPageStepId?: string,
 ) {
   // Special handling if we're starting from an Overview page
@@ -140,7 +143,7 @@ function testArrayLinkPages(
 function runTestcases<T extends UserData>(
   testName: string,
   flowId: string,
-  newEngineConfig: CompiledFlow<PageConfigMap>,
+  config: CompiledFlow<PageConfigMap>,
   expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
 ) {
@@ -186,7 +189,7 @@ function runTestcases<T extends UserData>(
           }
 
           const flowSessionEngine = createFlowSession(
-            newEngineConfig,
+            config,
             {
               ...(buildFullUserInput(expectedSteps, idx) as Parameters<
                 typeof createFlowSession
@@ -236,9 +239,9 @@ describe("flowSchemas", { concurrent: false }, () => {
 
   afterAll(() => {
     const missingStepsEntries = Object.entries(allVisitedSteps)
-      .map(([flowId, { newEngineConfig, visitedSteps }]) => {
-        const allPaths = Object.keys(newEngineConfig.pages).map(
-          (pageId) => newEngineConfig.pages[pageId].stepId,
+      .map(([flowId, { config, visitedSteps }]) => {
+        const allPaths = Object.keys(config.pages).map(
+          (pageId) => config.pages[pageId].stepId,
         );
         const missingSteps = allPaths.filter((x) => !visitedSteps.has(x));
         return [flowId, missingSteps];
@@ -257,20 +260,36 @@ describe("flowSchemas", { concurrent: false }, () => {
         Object.fromEntries(missingStepsEntries),
       );
     }
+
+    const untestedFlowIds = flowEntries
+      .filter(([flowId, flow]) => flow.config && !allVisitedSteps[flowId])
+      .map(([flowId]) => flowId);
+
+    if (untestedFlowIds.length > 0) {
+      // oxlint-disable-next-line no-console
+      console.warn("Flows without flowSchema testcases: ", untestedFlowIds);
+    }
   });
 
   Object.entries(flowSchemaTests).forEach(
-    ([testConfigName, { flowId, testcases, newEngineConfig }]) => {
-      if (newEngineConfig === undefined) {
+    ([testConfigName, { testcases, config }]) => {
+      if (config === undefined) {
         throw new Error(
-          `Missing newEngineConfig for flowId: ${flowId}. Please provide a valid newEngineConfig in the testcases for ${testConfigName}.`,
+          `Missing config for ${testConfigName}. Please provide a valid config in the testcases.`,
+        );
+      }
+
+      const flowId = getFlowIdByConfig(config);
+      if (flowId === undefined) {
+        throw new Error(
+          `No flow in flows.server.ts uses the config of ${testConfigName}.`,
         );
       }
 
       if (!allVisitedSteps[flowId]) {
         allVisitedSteps[flowId] = {
           visitedSteps: new Set(),
-          newEngineConfig,
+          config,
         };
       }
 
@@ -279,7 +298,7 @@ describe("flowSchemas", { concurrent: false }, () => {
           runTestcases(
             testName,
             flowId,
-            newEngineConfig,
+            config,
             expectedSteps,
             allVisitedSteps,
           ),

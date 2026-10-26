@@ -7,7 +7,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 export type KlageParteiVerhaeltnis = "klagende" | "beklagte";
 export type KlageParteiType = "natuerliche-person" | "organisation";
 
-export const MAX_NATURAL_PERSON_REPRESENTATIVES = 5;
+export const MAX_REPRESENTATIVES = 5;
 
 export const getPluralOfKlageParteiRelationship = (
   relationship: KlageParteiVerhaeltnis,
@@ -28,23 +28,24 @@ const personFields = {
   nachname: stringRequiredSchema,
 };
 
-const commonFields = {
+export const commonFields = {
+  id: z.uuid().optional(),
   ...adresseFields,
   parteiverhaeltnis: z.enum(["klagende", "beklagte"]),
 };
 
-const vertretungFields = {
+export const vertretungFields = {
   ...adresseFields,
   ...personFields,
 };
 
 export const naturalPersonGesetzlicheVertretungArt = z.enum([
-  "Betreuer / Betreuerin",
-  "Elternteil",
-  "Pfleger / Pflegerin",
-  "Vormund / Vormundin",
-  "Vorläufiger Betreuer / Vorläufige Betreuerin",
-  "Sonstige gesetzliche Vertretung",
+  "betreuer-betreuerin",
+  "elternteil",
+  "pfleger-pflegerin",
+  "vormund-vormundin",
+  "vorlaeufiger-betreuer-vorlaeufige-betreuerin",
+  "sonstige-gesetzliche-vertretung",
 ]);
 
 export const naturalPersonSchema = z.object({
@@ -58,26 +59,61 @@ export const naturalPersonSchema = z.object({
         art: naturalPersonGesetzlicheVertretungArt,
       }),
     )
-    .max(MAX_NATURAL_PERSON_REPRESENTATIVES)
+    .max(MAX_REPRESENTATIVES)
     .optional(),
 });
 
-export type KlagendeNaturalPerson = z.infer<typeof naturalPersonSchema>;
-
 export const organizationGesetzlicheVertretungArt = z.enum([
-  "Bürgermeister / Bürgermeisterin",
-  "Geschäftsführer / Geschäftsführerin",
-  "Geschäftsführender Direktor / Geschäftsführende Direktorin",
-  "Geschäftsführender Gesellschafter / Geschäftsführende Gesellschafterin",
-  "Gesellschafter / Gesellschafterin",
-  "Mitglied einer BGB Gesellschaft als gesetzliche Vertretung",
-  "Partner / Partnerin",
-  "Vorstand / Vorständin",
-  "Vorstandsvorsitzender / Vorstandsvorsitzende",
-  "Sonstige organschaftliche Vertretung HRB",
-  "Sonstige gesetzliche Vertretung BGB",
-  "Sonstige gesetzliche Vertretung",
+  "buergermeister-buergermeisterin",
+  "geschaeftsfuehrer-geschaeftsfuehrerin",
+  "geschaeftsfuehrender-direktor-geschaeftsfuehrende-direktorin",
+  "geschaeftsfuehrender-gesellschafter-geschaeftsfuehrende-gesellschafterin",
+  "gesellschafter-gesellschafterin",
+  "mitglied-einer-bgb-gesellschaft-als-gesetzliche-vertretung",
+  "partner-partnerin",
+  "vorstand-vorstaendin",
+  "vorstandsvorsitzender-vorstandsvorsitzende",
+  "sonstige-organschaftliche-vertretung-hrb",
+  "sonstige-gesetzliche-vertretung-bgb",
+  "sonstige-gesetzliche-vertretung",
 ]);
+
+type GesetzlicheVertretungArt =
+  | z.infer<typeof naturalPersonGesetzlicheVertretungArt>
+  | z.infer<typeof organizationGesetzlicheVertretungArt>;
+
+const gesetzlicheVertretungArtLabels: Record<GesetzlicheVertretungArt, string> =
+  {
+    "betreuer-betreuerin": "Betreuer / Betreuerin",
+    elternteil: "Elternteil",
+    "pfleger-pflegerin": "Pfleger / Pflegerin",
+    "vormund-vormundin": "Vormund / Vormundin",
+    "vorlaeufiger-betreuer-vorlaeufige-betreuerin":
+      "Vorläufiger Betreuer / Vorläufige Betreuerin",
+    "sonstige-gesetzliche-vertretung": "Sonstige gesetzliche Vertretung",
+    "buergermeister-buergermeisterin": "Bürgermeister / Bürgermeisterin",
+    "geschaeftsfuehrer-geschaeftsfuehrerin":
+      "Geschäftsführer / Geschäftsführerin",
+    "geschaeftsfuehrender-direktor-geschaeftsfuehrende-direktorin":
+      "Geschäftsführender Direktor / Geschäftsführende Direktorin",
+    "geschaeftsfuehrender-gesellschafter-geschaeftsfuehrende-gesellschafterin":
+      "Geschäftsführender Gesellschafter / Geschäftsführende Gesellschafterin",
+    "gesellschafter-gesellschafterin": "Gesellschafter / Gesellschafterin",
+    "mitglied-einer-bgb-gesellschaft-als-gesetzliche-vertretung":
+      "Mitglied einer BGB Gesellschaft als gesetzliche Vertretung",
+    "partner-partnerin": "Partner / Partnerin",
+    "vorstand-vorstaendin": "Vorstand / Vorständin",
+    "vorstandsvorsitzender-vorstandsvorsitzende":
+      "Vorstandsvorsitzender / Vorstandsvorsitzende",
+    "sonstige-organschaftliche-vertretung-hrb":
+      "Sonstige organschaftliche Vertretung HRB",
+    "sonstige-gesetzliche-vertretung-bgb":
+      "Sonstige gesetzliche Vertretung BGB",
+  };
+
+export const getGesetzlicheVertretungArtLabel = (
+  art?: GesetzlicheVertretungArt,
+) => (art ? gesetzlicheVertretungArtLabels[art] : "");
 
 export const organizationSchema = z.object({
   ...commonFields,
@@ -99,10 +135,10 @@ export const organizationSchema = z.object({
 });
 
 /**
- * Represents a party to a legal case, which can be either a natural person or an organization.
+ * Represents parties to a legal case, which can be either a natural person or an organization.
  */
-const klageParteiSchema = z.union([naturalPersonSchema, organizationSchema]);
-
-export const klageParteinArraySchema = z.array(klageParteiSchema);
+export const klageParteinArraySchema = z.array(
+  z.union([naturalPersonSchema, organizationSchema]),
+);
 
 export type KlageParteien = z.infer<typeof klageParteinArraySchema>;

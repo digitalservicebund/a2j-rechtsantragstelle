@@ -1,7 +1,6 @@
 import { type FieldApi } from "@rvf/react";
 import { type MaybePromise } from "p-map";
 import { type Dispatch, type SetStateAction } from "react";
-import { type z } from "zod";
 import { geldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
@@ -9,7 +8,7 @@ import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/page
 import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
-import { type NewFlowEnginePageConfig } from "~/services/flow/newFlowEngine/types";
+import { type FlowEnginePageConfig } from "~/services/flow/flowEngine/types";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
@@ -124,34 +123,4 @@ type ReadOnlyFields = {
   shouldMakeReadOnly: (userData: UserData) => boolean;
 };
 
-export type ArrayPage = {
-  pageSchema?: SchemaObject;
-  arrayPages?: Record<string, ArrayPage>;
-  controlledFieldConfig?: ControlledFieldConfig;
-  readonlyFields?: ReadOnlyFields;
-};
-
-type ArrayParentPage = {
-  stepId: string;
-  pageSchema: SchemaObject;
-  controlledFieldConfig?: ControlledFieldConfig;
-  arrayPages: Record<string, ArrayPage>;
-};
-
-export type PageConfig = FlowPage | ArrayParentPage | NewFlowEnginePageConfig;
-
-type ExtractSchemas<T extends PagesConfig> = {
-  [K in keyof T]: T[K]["pageSchema"] extends SchemaObject
-    ? z.infer<z.ZodObject<T[K]["pageSchema"]>>
-    : never;
-}[keyof T];
-
-type UnionToIntersection<U> = (
-  U extends unknown ? (x: U) => void : never
-) extends (x: infer R) => void
-  ? R
-  : never;
-
-export type UserDataFromPagesSchema<T extends PagesConfig> = Partial<
-  UnionToIntersection<ExtractSchemas<T>>
->;
+type PageConfig = FlowPage | FlowEnginePageConfig;

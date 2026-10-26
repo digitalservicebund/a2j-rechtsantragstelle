@@ -1,5 +1,5 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import type { PageConfigMap } from "~/services/flow/flowEngine/types";
 import { fluggastrechteFormularFlowConfig } from "../flowConfig";
 import type { FluggastrechteUserData } from "../userData";
 import { fluggastrechteFormularHappyPathData } from "./mockTestData";
@@ -14,8 +14,7 @@ import { testCasesFluggastrechteFormularProzessfuehrung } from "../prozessfuehru
 import { testCasesFluggastrechteFormularStreitwertKosten } from "../streitwertKosten/__test__/testscases";
 
 export const fluggastrechteFormularTestCases = {
-  flowId: "/fluggastrechte/formular",
-  newEngineConfig: fluggastrechteFormularFlowConfig,
+  config: fluggastrechteFormularFlowConfig,
   testcases: {
     weiterePersonHinzufuegen: [
       {

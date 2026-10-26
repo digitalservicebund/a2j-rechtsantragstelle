@@ -1,5 +1,5 @@
 import { type ErbausschlagungAnfragePages } from "../pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type ErbausschlagungAnfrageUserData } from "../userData";
 import { type GenericGuard } from "~/domains/guards.server";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";

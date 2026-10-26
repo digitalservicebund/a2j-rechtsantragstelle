@@ -6,9 +6,9 @@ import {
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
 import {
   hasControlledFieldConfig,
-  type ArrayPage,
-  type PageConfig,
+  type ControlledFieldConfig,
 } from "~/domains/pageSchemas";
+import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { getNestedSchema } from "../formElements/schemaToForm/getNestedSchema";
@@ -31,7 +31,10 @@ import {
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
 
 type Props = {
-  pageConfig: ArrayPage | PageConfig;
+  pageConfig: {
+    pageSchema?: SchemaObject;
+    controlledFieldConfig?: ControlledFieldConfig;
+  };
   formComponents?: StrapiFormComponent[];
   className?: string;
   readOnlyFieldNames: string[];

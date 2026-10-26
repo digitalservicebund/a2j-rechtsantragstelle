@@ -20,6 +20,7 @@ export const NavigationList = ({ navItems, ...props }: NavigationListProps) => (
         isFirst={index === 0}
         isLast={index === navItems.length - 1}
         firstItemRef={index === 0 ? props.firstItemRef : undefined}
+        classNameNavigationList={props.className}
       />
     ))}
   </ul>

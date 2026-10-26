@@ -5,14 +5,14 @@ import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
 import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlagePartei";
 import {
-  getBaseKlageParteiUrl,
+  getBaseKlagePartyUrl,
   getPartyTypeTranslations,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParteiHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
 import {
-  MAX_KLAGE_PARTEIEN,
-  useKlageParteien,
-  type KlageParteiWithArrayIndex,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParteien";
+  MAX_KLAGE_PARTIES,
+  useKlageParties,
+  type KlagePartyWithArrayIndex,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
 
@@ -25,7 +25,7 @@ export const KlageParteienUebersicht = ({
   const userDataGeldEinklagenAnwaltschaft =
     userData as GeldEinklagenAnwaltschaftUserData;
 
-  const { klageParteienWithIndex, nextItemIndex } = useKlageParteien({
+  const { klageParteienWithIndex, nextItemIndex } = useKlageParties({
     relationship,
     userData: userDataGeldEinklagenAnwaltschaft,
   });
@@ -41,7 +41,7 @@ export const KlageParteienUebersicht = ({
           ({ partei }) => partei.type === "natuerliche-person",
         )}
         partyType="natuerliche-person"
-        addPartyHref={`${getBaseKlageParteiUrl(relationship)}/${nextItemIndex}/natuerliche-person-daten`}
+        addPartyHref={`${getBaseKlagePartyUrl(relationship)}/${nextItemIndex}/natuerliche-person-daten`}
         relationship={relationship}
       />
 
@@ -50,7 +50,7 @@ export const KlageParteienUebersicht = ({
           ({ partei }) => partei.type === "organisation",
         )}
         partyType="organisation"
-        addPartyHref={`${getBaseKlageParteiUrl(relationship)}/${nextItemIndex}/organisation-daten`}
+        addPartyHref={`${getBaseKlagePartyUrl(relationship)}/${nextItemIndex}/organisation-daten`}
         relationship={relationship}
       />
     </div>
@@ -63,15 +63,16 @@ const KlageParteienList = ({
   addPartyHref,
   relationship,
 }: {
-  parties: KlageParteiWithArrayIndex[];
+  parties: KlagePartyWithArrayIndex[];
   partyType: "natuerliche-person" | "organisation";
   addPartyHref: string;
   relationship: KlageParteiVerhaeltnis;
 }) => {
-  const shouldDisableAddButton = parties.length >= MAX_KLAGE_PARTEIEN;
+  const shouldDisableAddButton = parties.length >= MAX_KLAGE_PARTIES;
 
   const {
     heading,
+    helperText,
     addButtonLabel,
     testId,
     maximumReachedTitle,
@@ -79,18 +80,22 @@ const KlageParteienList = ({
   } = getPartyTypeTranslations(partyType, relationship);
   return (
     <div className="kern-summary flex flex-col gap-kern-space-default">
-      <div className="kern-summary__header p-0!">
+      <div className="flex flex-col kern-summary__header p-0!">
         <h2
           className="kern-body kern-body--large kern-body--bold p-0!"
+          id={`${relationship}-${partyType}`}
           tabIndex={-1}
         >
           {heading}
         </h2>
+        {helperText && (
+          <p className="kern-body kern-body--small p-0!">{helperText}</p>
+        )}
       </div>
 
       {parties.map(({ partei, arrayIndex }) => (
         <KlagePartei
-          key={arrayIndex}
+          key={partei.id ?? arrayIndex}
           index={arrayIndex}
           partei={partei}
           relationship={relationship}
@@ -108,17 +113,19 @@ const KlageParteienList = ({
         />
       )}
 
-      <Button
-        look="secondary"
-        iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-        href={addPartyHref}
-        data-testid={testId}
-        fullWidth={true}
-        disabled={shouldDisableAddButton}
-        aria-disabled={shouldDisableAddButton}
-      >
-        {`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-      </Button>
+      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200">
+        <Button
+          look="secondary"
+          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
+          href={addPartyHref}
+          data-testid={testId}
+          fullWidth={true}
+          disabled={shouldDisableAddButton}
+          aria-disabled={shouldDisableAddButton}
+        >
+          {`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+        </Button>
+      </div>
     </div>
   );
 };

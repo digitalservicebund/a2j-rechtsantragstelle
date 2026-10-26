@@ -7,6 +7,9 @@ import { stringOptionalSchema } from "./stringOptional";
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
 
+export const dateInputZodDescription = "date_input";
+export const dateInputOptionalZodDescription = "date_input_optional";
+
 // treats a missing field the same as an empty one, since zod can call .refine with either
 const isBlank = (val?: string): val is undefined | "" =>
   !val || val.length === 0;
@@ -59,7 +62,7 @@ export const createSplitDateSchema = (args?: {
         },
       ),
     })
-    .meta({ description: "split_date" })
+    .meta({ description: dateInputZodDescription })
     .refine((dateObj) => isValidDate(toDateString(dateObj)), {
       error: "Ungültiges Datum",
     })
@@ -125,7 +128,7 @@ export const createSplitDateSchemaOptional = (args?: {
         { error: "Ungültiges Jahr" },
       ),
     })
-    .meta({ description: "split_date" })
+    .meta({ description: dateInputOptionalZodDescription })
     .refine(
       (dateObj) => {
         if (dateObj === undefined) {

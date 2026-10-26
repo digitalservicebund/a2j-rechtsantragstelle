@@ -1,0 +1,28 @@
+import capitalize from "lodash/capitalize";
+
+const mapTitle = (title?: string) => {
+  if (title === "dr") {
+    return "Dr.";
+  }
+
+  if (title === "none" || title === undefined || title === "") {
+    return "";
+  }
+
+  return title;
+};
+
+export const getFullPlaintiffName = (
+  anrede?: string,
+  title?: string,
+  vorname?: string,
+  nachname?: string,
+) => {
+  const mappedTitle = mapTitle(title);
+  const salutation = anrede === "none" ? "" : capitalize(anrede);
+  const capitalizedVorname = vorname?.split(" ").map(capitalize).join(" ");
+
+  return [salutation, mappedTitle, capitalizedVorname, nachname]
+    .filter(Boolean)
+    .join(" ");
+};

@@ -112,7 +112,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     arraySummary: {
       name: "versicherungen",
       schema: versicherungenArraySchema,
-      fieldName: "hasVersicherungen",
+      isArrayRelevant: (context) => context["hasVersicherungen"] === "yes",
     },
   },
   ausgabenVersicherung: {
@@ -146,7 +146,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     arraySummary: {
       name: "ratenzahlungen",
       schema: ratenZahlungArraySchema,
-      fieldName: "hasRatenzahlungen",
+      isArrayRelevant: (context) => context["hasRatenzahlungen"] === "yes",
       hiddenFields: ["zahlungspflichtiger"],
     },
   },
@@ -218,7 +218,7 @@ export const pkhFormularFinanzielleAngabenAusgabenPages = {
     arraySummary: {
       name: "sonstigeAusgaben",
       schema: sonstigeZahlungArraySchema,
-      fieldName: "hasSonstigeAusgaben",
+      isArrayRelevant: (context) => context["hasSonstigeAusgaben"] === "yes",
       hiddenFields: ["zahlungspflichtiger"],
     },
   },
