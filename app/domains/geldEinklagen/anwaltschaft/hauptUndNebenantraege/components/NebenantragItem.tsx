@@ -1,7 +1,17 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
+import { BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE } from "./BezifferterZahlungsantrag";
 
-export const NebenantragItem = () => {
+const BASE_URL_NEBENANTRAG_HINZUFUEGEN =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/nebenantrag-hinzufuegen";
+const BASE_URL_ANNAHMEVERZUG_HINZUFUEGEN =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/annahmeverzug-hinzufuegen";
+
+type NebenantragItemProps = {
+  readonly itemIndex: number;
+};
+
+export const NebenantragItem = ({ itemIndex }: NebenantragItemProps) => {
   return (
     <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
       <div className="flex flex-col">
@@ -38,8 +48,8 @@ export const NebenantragItem = () => {
                   className="size-kern-dimension-default text-kern-action-default"
                 />
               }
-              aria-label={""}
-              href={"/"}
+              aria-label={`Nebenantrag ${itemIndex + 1} bearbeiten`}
+              href={`${BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`}
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
             <Button
@@ -50,7 +60,7 @@ export const NebenantragItem = () => {
                   className="size-kern-dimension-default text-kern-feedback-danger"
                 />
               }
-              aria-label={""}
+              aria-label={`Nebenantrag ${itemIndex + 1} löschen`}
               className="p-kern-space-small! min-h-0! border-kern-feedback-danger! size-kern-dimension-x-large"
             />
           </div>
@@ -58,14 +68,16 @@ export const NebenantragItem = () => {
       </div>
       <div className="flex flex-row justify-start gap-kern-space-x-large">
         <a
-          href={"/"}
+          href={BASE_URL_NEBENANTRAG_HINZUFUEGEN}
+          aria-label="Nebenantrag hinzufügen"
           className="text-kern-action-default flex items-center pt-24"
         >
           <Icon name="plus" className="text-kern-action-default" />
           Nebenantrag hinzufügen
         </a>
         <a
-          href={"/"}
+          href={BASE_URL_ANNAHMEVERZUG_HINZUFUEGEN}
+          aria-label="Annahmeverzug hinzufügen"
           className="text-kern-action-default flex items-center pt-24"
         >
           <Icon name="plus" className="text-kern-action-default" />

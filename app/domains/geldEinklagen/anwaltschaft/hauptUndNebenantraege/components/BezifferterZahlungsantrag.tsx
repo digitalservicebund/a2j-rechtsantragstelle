@@ -4,6 +4,9 @@ import { Badge } from "~/components/content/Badge";
 import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
 
+export const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
+
 type BezifferterZahlungsantragProps = {
   readonly itemIndex: number;
   readonly item: NonNullable<
@@ -47,12 +50,12 @@ export const BezifferterZahlungsantrag = ({
                   className="size-kern-dimension-default text-kern-action-default"
                 />
               }
-              aria-label={""}
-              href={"/"}
+              aria-label={`Zahlungsantrag ${itemIndex + 1} bearbeiten`}
+              href={`${BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`}
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
           </div>
-          <NebenantragItem />
+          <NebenantragItem itemIndex={itemIndex} />
           <div className="flex justify-end mt-24">
             <Button
               type="button"
@@ -64,7 +67,7 @@ export const BezifferterZahlungsantrag = ({
                 <Icon name="trash" className="fill-kern-feedback-danger!" />
               }
               onClick={() => {}}
-              aria-label={""}
+              aria-label={`Zahlungsantrag ${itemIndex + 1} und Nebenanträge löschen`}
             >
               Zahlungsantrag {itemIndex + 1} und Nebenanträge löschen
             </Button>
