@@ -11,6 +11,7 @@ import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
 import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
 import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { logError } from "~/services/logging";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
@@ -56,10 +57,22 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
     baseUrl: XJUSTIZ_TOOLS_BASE_URL,
   });
 
-  if (!result.ok)
+  if (!result.ok && result.reason === "invalidUserData") {
+    logError({
+      message: "XJustiz: invalid user data",
+      error: result.issues,
+    });
+    return new Response("Ungueltige Angaben fuer die XJustiz-Nachricht", {
+      status: 422,
+    });
+  }
+
+  if (!result.ok) {
+    logError({ error: "XJustiz: XJustiz-Tools failed to create the message" });
     return new Response("XJustiz-Nachricht konnte nicht erzeugt werden", {
       status: 502,
     });
+  }
 
   const filename = `Geld_Einklagen_Klage_${pdfDateFormat(today())}.xml`;
   return new Response(result.xjustizMessageXml, {

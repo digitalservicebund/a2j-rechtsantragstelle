@@ -1,6 +1,7 @@
 // oxlint-disable-next-line no-unassigned-import
 import "~/services/xjustiz/installTemporalPolyfill.server";
 import {
+  Anspruchsart,
   createFortlaufendeNummerGenerator,
   createRollennummerGenerator,
   createUuidGenerator,
@@ -11,18 +12,19 @@ import {
   Rollenbezeichnung,
   verifyZahlungsklage,
   zahlungsklage,
-  type Beklagter,
+  type AnspruchFuerZahlungsklage,
   type Gerichte,
-  type Klaeger,
   type ScopeToken,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
+import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import {
   beteiligteFromUserData,
   beteiligteSchema,
   composeZeugen,
-  toBeteiligung,
+  toBeklagter,
+  toKlaeger,
 } from "./beteiligte";
 
 type CompositionInput = {
@@ -30,6 +32,12 @@ type CompositionInput = {
   readonly gericht: Gerichte;
   readonly baseUrl: string;
 };
+
+const invalidUserData = (issues: unknown) => ({
+  ok: false as const,
+  reason: "invalidUserData" as const,
+  issues,
+});
 
 export async function geldEinklagenXjustizFromUserdata({
   userData,
@@ -40,23 +48,21 @@ export async function geldEinklagenXjustizFromUserdata({
     beteiligteFromUserData(userData),
   );
   if (!beteiligte.success)
-    return { ok: false as const, issues: beteiligte.error };
+    return invalidUserData(z.treeifyError(beteiligte.error));
 
   const forderungInEuro = parseCurrencyStringDE(userData.forderungGesamtbetrag);
 
   const sachantragText = datatypeE(
     `Die beklagte Partei wird verurteilt, an die klagende Partei ${userData.forderungGesamtbetrag} EUR zu zahlen.`,
   );
-  if (sachantragText.issues)
-    return { ok: false as const, issues: sachantragText.issues };
+  if (sachantragText.issues) return invalidUserData(sachantragText.issues);
 
   const begruendungText = datatypeC(
     (userData.abschnitte ?? []).map((a) => a.beschreibung).join("\n\n"),
   );
-  if (begruendungText.issues)
-    return { ok: false as const, issues: begruendungText.issues };
+  if (begruendungText.issues) return invalidUserData(begruendungText.issues);
 
-  return zahlungsklage(
+  const result = await zahlungsklage(
     <NachrichtenScope>(scope: ScopeToken<NachrichtenScope>) => {
       const uuid = createUuidGenerator(scope);
       const rollennummer = createRollennummerGenerator(scope);
@@ -73,17 +79,11 @@ export async function geldEinklagenXjustizFromUserdata({
         Rollenbezeichnung["Beklagte(r)"],
       );
 
-      const klaeger = toBeteiligung(
-        rollennummerKlaeger,
-        Rollenbezeichnung["Kläger(in)"],
-        beteiligte.data.klaeger,
-      ) satisfies Klaeger<NachrichtenScope>;
-
-      const beklagter = toBeteiligung(
+      const klaeger = toKlaeger(rollennummerKlaeger, beteiligte.data.klaeger);
+      const beklagter = toBeklagter(
         rollennummerBeklagter,
-        Rollenbezeichnung["Beklagte(r)"],
         beteiligte.data.beklagter,
-      ) satisfies Beklagter<NachrichtenScope>;
+      );
 
       const zeugen = composeZeugen(
         scope,
@@ -91,14 +91,15 @@ export async function geldEinklagenXjustizFromUserdata({
         beteiligte.data.zeugen,
       );
 
-      const sachanspruch = ergonomics.antragAufAnwaltskosten(
-        scope,
-        fortlaufendeNummer.first("Anspruch"),
-        rollennummerKlaeger,
-        rollennummerBeklagter,
-        ergonomics.geldbetrag(forderungInEuro),
-        sachantragText.value,
-      ).antragSonstige.anspruch[0];
+      const sachanspruch = {
+        fortlaufendeNummer: fortlaufendeNummer.first("Anspruch"),
+        anspruchssteller: [{ refRollennummer: reference(rollennummerKlaeger) }],
+        anspruchsgegner: [
+          { refRollennummer: reference(rollennummerBeklagter) },
+        ],
+        anspruchsart: Anspruchsart.Zahlung,
+        wertAnspruch: ergonomics.geldbetrag(forderungInEuro),
+      } satisfies AnspruchFuerZahlungsklage<NachrichtenScope>;
 
       return verifyZahlungsklage(scope, {
         nachrichtenkopf: ergonomics.nachrichtenkopf(
@@ -146,4 +147,8 @@ export async function geldEinklagenXjustizFromUserdata({
     },
     { baseUrl },
   );
+
+  return result.ok
+    ? result
+    : { ok: false as const, reason: "xjustizToolsFailed" as const };
 }

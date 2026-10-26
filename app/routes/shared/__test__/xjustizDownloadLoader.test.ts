@@ -3,6 +3,7 @@ import { loader } from "../xjustizDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import { logError } from "~/services/logging";
 import type {
   InferredUserData,
   PageConfigMap,
@@ -27,21 +28,29 @@ vi.mock("~/services/flow/pruner/pruner", () => ({
   pruneIrrelevantData: vi.fn().mockReturnValue({ prunedData: {} }),
 }));
 
-vi.spyOn(pruneUserData, "getPrunedUserDataFromSimulation").mockReturnValue(
-  userData as unknown as InferredUserData<PageConfigMap>,
-);
+vi.mock("~/services/logging", () => ({ logError: vi.fn() }));
+
+const getPrunedUserDataSpy = vi
+  .spyOn(pruneUserData, "getPrunedUserDataFromSimulation")
+  .mockReturnValue(userData as unknown as InferredUserData<PageConfigMap>);
 
 let server: Server;
+let toolsStatus = 200;
+
+beforeEach(() => {
+  toolsStatus = 200;
+  vi.mocked(logError).mockClear();
+});
 
 beforeAll(async () => {
   server = createServer((_request, response) => {
-    response.writeHead(200, { "content-type": "application/json" });
+    response.writeHead(toolsStatus, { "content-type": "application/json" });
     response.end(JSON.stringify({ xjustizNachricht: FAKE_XML }));
   });
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
   if (address === null || typeof address === "string")
-    throw new Error("Server konnte nicht gestartet werden");
+    throw new Error("Could not start server");
   process.env.XJUSTIZ_TOOLS_BASE_URL = `http://127.0.0.1:${address.port}/`;
 });
 
@@ -51,7 +60,7 @@ afterAll(async () => {
 });
 
 describe("xjustizDownloadLoader", () => {
-  it("liefert die XJustiz-Nachricht als Download aus", async () => {
+  it("returns the XJustiz message as a download", async () => {
     const response = await loader(
       mockRouteArgsFromRequest(new Request(URL_UNDER_TEST)),
     );
@@ -66,15 +75,43 @@ describe("xjustizDownloadLoader", () => {
     await expect(response.text()).resolves.toBe(FAKE_XML);
   });
 
-  it("antwortet mit 501, wenn die XJustiz-Tools nicht konfiguriert sind", async () => {
+  it("responds with 501 when the XJustiz-Tools are not configured", async () => {
     const baseUrl = process.env.XJUSTIZ_TOOLS_BASE_URL;
     delete process.env.XJUSTIZ_TOOLS_BASE_URL;
+
+    try {
+      const response = await loader(
+        mockRouteArgsFromRequest(new Request(URL_UNDER_TEST)),
+      );
+
+      expect(response.status).toBe(501);
+    } finally {
+      process.env.XJUSTIZ_TOOLS_BASE_URL = baseUrl;
+    }
+  });
+
+  it("responds with 422 and logs the issues for invalid user data", async () => {
+    getPrunedUserDataSpy.mockReturnValueOnce({
+      ...userData,
+      klagendePersonVorname: "",
+    } as unknown as InferredUserData<PageConfigMap>);
 
     const response = await loader(
       mockRouteArgsFromRequest(new Request(URL_UNDER_TEST)),
     );
 
-    expect(response.status).toBe(501);
-    process.env.XJUSTIZ_TOOLS_BASE_URL = baseUrl;
+    expect(response.status).toBe(422);
+    expect(logError).toHaveBeenCalledOnce();
+  });
+
+  it("responds with 502 and logs when the XJustiz-Tools fail", async () => {
+    toolsStatus = 400;
+
+    const response = await loader(
+      mockRouteArgsFromRequest(new Request(URL_UNDER_TEST)),
+    );
+
+    expect(response.status).toBe(502);
+    expect(logError).toHaveBeenCalledOnce();
   });
 });

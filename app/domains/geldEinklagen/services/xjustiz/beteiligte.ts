@@ -4,12 +4,15 @@ import {
   datatypeA,
   datatypeB,
   datatypeC,
+  datatypeD,
   ergonomics,
   Geschlecht,
   Rollenbezeichnung,
   Staaten,
+  type Beklagter,
   type Beweis,
   type BeweisNummer,
+  type Klaeger,
   type NatuerlichePerson,
   type Rollennummer,
   type ScopeToken,
@@ -23,41 +26,62 @@ type ParseResult<Output> =
   | { readonly issues: ReadonlyArray<{ readonly message: string }> };
 
 // Turns an xJustiz datatype into a zod schema that outputs its branded type.
+// The datatypes accept empty strings, so min(1) makes the field required.
 const branded = <Output>(parse: (value: string) => ParseResult<Output>) =>
-  z.string().transform((value, ctx) => {
-    const result = parse(value);
-    if (!result.issues) return result.value;
-    result.issues.forEach((issue) => ctx.addIssue(issue.message));
-    return z.NEVER;
-  });
+  z
+    .string()
+    .min(1)
+    .transform((value, ctx) => {
+      const result = parse(value);
+      if (!result.issues) return result.value;
+      result.issues.forEach((issue) => ctx.addIssue(issue.message));
+      return z.NEVER;
+    });
 
 const typeA = branded(datatypeA);
 const typeB = branded(datatypeB);
 const typeC = branded(datatypeC);
+const typeD = branded(datatypeD);
 const optionalTypeC = z.preprocess(
   (value) => (value === "" ? undefined : value),
   typeC.optional(),
 );
+
+const anschriftShape = {
+  strasse: typeB,
+  hausnummer: typeB,
+  plz: typeC,
+  ort: typeB,
+  land: z.string().optional(),
+};
 
 const personSchema = z.object({
   anrede: z.string().optional(),
   title: optionalTypeC,
   vorname: typeA,
   nachname: typeA,
-  strasse: typeB,
-  hausnummer: typeB,
-  plz: typeC,
-  ort: typeB,
-  land: z.string().optional(),
+  ...anschriftShape,
   telefonnummer: optionalTypeC,
   email: optionalTypeC,
 });
 
+const organisationSchema = z.object({
+  name: typeD,
+  ...anschriftShape,
+});
+
+const beklagteSchema = z.discriminatedUnion("art", [
+  personSchema.extend({ art: z.literal("person") }),
+  organisationSchema.extend({ art: z.literal("organisation") }),
+]);
+
 type Person = z.output<typeof personSchema>;
+type Anschrift = z.output<z.ZodObject<typeof anschriftShape>>;
+type Beklagte = z.output<typeof beklagteSchema>;
 
 export const beteiligteSchema = z.object({
   klaeger: personSchema,
-  beklagter: personSchema,
+  beklagter: beklagteSchema,
   zeugen: z.array(personSchema),
 });
 
@@ -77,6 +101,28 @@ const collectZeugen = (userData: GeldEinklagenFormularUserData) =>
         person.personAuswahl === "anotherPerson" && !person.personReference,
     );
 
+const beklagteFromUserData = (userData: GeldEinklagenFormularUserData) => {
+  const anschrift = {
+    strasse: userData.beklagteStrasse,
+    hausnummer: userData.beklagteHausnummer,
+    plz: userData.beklagtePlz,
+    ort: userData.beklagteOrt,
+  };
+  if (userData.gegenWenBeklagen === "organisation")
+    return {
+      art: "organisation",
+      name: userData.beklagteNameOrganisation,
+      ...anschrift,
+    };
+  return {
+    art: "person",
+    anrede: userData.beklagteAnrede,
+    vorname: userData.beklagteVorname,
+    nachname: userData.beklagteNachname,
+    ...anschrift,
+  };
+};
+
 export const beteiligteFromUserData = (
   userData: GeldEinklagenFormularUserData,
 ) => ({
@@ -89,15 +135,7 @@ export const beteiligteFromUserData = (
     plz: userData.klagendePersonPlz,
     ort: userData.klagendePersonOrt,
   },
-  beklagter: {
-    anrede: userData.beklagteAnrede,
-    vorname: userData.beklagteVorname,
-    nachname: userData.beklagteNachname,
-    strasse: userData.beklagteStrasse,
-    hausnummer: userData.beklagteHausnummer,
-    plz: userData.beklagtePlz,
-    ort: userData.beklagteOrt,
-  },
+  beklagter: beklagteFromUserData(userData),
   zeugen: collectZeugen(userData),
 });
 
@@ -107,8 +145,19 @@ const anredeToGeschlecht = (anrede?: string) => {
   return Geschlecht["unbekannt"];
 };
 
+const isStaat = (land: string): land is keyof typeof Staaten =>
+  Object.hasOwn(Staaten, land);
+
 const landToStaat = (land?: string) =>
-  land && land in Staaten ? Staaten[land as keyof typeof Staaten] : undefined;
+  land !== undefined && isStaat(land) ? Staaten[land] : undefined;
+
+const toAnschrift = (anschrift: Anschrift) => ({
+  strasse: anschrift.strasse,
+  hausnummer: anschrift.hausnummer,
+  postleitzahl: anschrift.plz,
+  ort: anschrift.ort,
+  staat: landToStaat(anschrift.land),
+});
 
 const toNatuerlichePerson = (person: Person): NatuerlichePerson => {
   const telekommunikation = [
@@ -122,27 +171,66 @@ const toNatuerlichePerson = (person: Person): NatuerlichePerson => {
       titel: person.title,
     },
     geschlecht: anredeToGeschlecht(person.anrede),
-    anschrift: [
-      {
-        strasse: person.strasse,
-        hausnummer: person.hausnummer,
-        postleitzahl: person.plz,
-        ort: person.ort,
-        staat: landToStaat(person.land),
-      },
-    ],
+    anschrift: [toAnschrift(person)],
     telekommunikation:
       telekommunikation.length > 0 ? telekommunikation : undefined,
   };
 };
 
-export const toBeteiligung = <Nummer, Bezeichnung>(
-  rollennummer: Nummer,
-  rollenbezeichnung: Bezeichnung,
+export const toKlaeger = <NachrichtenScope>(
+  rollennummer: Rollennummer<
+    NachrichtenScope,
+    (typeof Rollenbezeichnung)["Kläger(in)"]
+  >,
   person: Person,
-) => ({
-  rolle: [{ rollennummer, rollenbezeichnung }] as [
-    { rollennummer: Nummer; rollenbezeichnung: Bezeichnung },
+): Klaeger<NachrichtenScope> => ({
+  rolle: [{ rollennummer, rollenbezeichnung: Rollenbezeichnung["Kläger(in)"] }],
+  beteiligter: {
+    auswahlBeteiligter: { natuerlichePerson: toNatuerlichePerson(person) },
+  },
+});
+
+// The profile has no gesetzliche Vertretung for a Beklagte, so it is left out.
+export const toBeklagter = <NachrichtenScope>(
+  rollennummer: Rollennummer<
+    NachrichtenScope,
+    (typeof Rollenbezeichnung)["Beklagte(r)"]
+  >,
+  beklagte: Beklagte,
+): Beklagter<NachrichtenScope> => {
+  const rolle = [
+    { rollennummer, rollenbezeichnung: Rollenbezeichnung["Beklagte(r)"] },
+  ] satisfies Beklagter<NachrichtenScope>["rolle"];
+
+  if (beklagte.art === "organisation")
+    return {
+      rolle,
+      beteiligter: {
+        auswahlBeteiligter: {
+          organisation: {
+            bezeichnung: { bezeichnungAktuell: beklagte.name },
+            anschrift: [toAnschrift(beklagte)],
+          },
+        },
+      },
+    };
+  return {
+    rolle,
+    beteiligter: {
+      auswahlBeteiligter: { natuerlichePerson: toNatuerlichePerson(beklagte) },
+    },
+  };
+};
+
+const toZeuge = <NachrichtenScope>(
+  rollennummer: Rollennummer<
+    NachrichtenScope,
+    (typeof Rollenbezeichnung)["Zeuge (Zeugin)"]
+  >,
+  person: Person,
+): Zeuge<NachrichtenScope> => ({
+  rolle: [
+    { rollennummer, rollenbezeichnung: Rollenbezeichnung["Zeuge (Zeugin)"] },
   ],
   beteiligter: {
     auswahlBeteiligter: { natuerlichePerson: toNatuerlichePerson(person) },
@@ -173,13 +261,7 @@ export function composeZeugen<NachrichtenScope>(
       ? beweisNummer.next(vorherigeBeweisNummer)
       : beweisNummer.first();
 
-    beteiligungen.push(
-      toBeteiligung(
-        rollennummerZeuge,
-        Rollenbezeichnung["Zeuge (Zeugin)"],
-        zeuge,
-      ),
-    );
+    beteiligungen.push(toZeuge(rollennummerZeuge, zeuge));
     beweise.push(ergonomics.zeuge(scope, nummer, rollennummerZeuge));
 
     vorherigeRollennummer = rollennummerZeuge;

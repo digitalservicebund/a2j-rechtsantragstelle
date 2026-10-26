@@ -38,7 +38,7 @@ beforeAll(async () => {
   await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
   if (address === null || typeof address === "string")
-    throw new Error("Server konnte nicht gestartet werden");
+    throw new Error("Could not start server");
   baseUrl = `http://127.0.0.1:${address.port}/`;
 });
 
@@ -47,7 +47,7 @@ afterAll(async () => {
 });
 
 describe("geldEinklagenXjustizFromUserdata", () => {
-  it("adressiert die Nachricht an das übergebene Gericht", async () => {
+  it("addresses the message to the given court", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
       gericht: Gerichte["Amtsgericht Schöneberg"],
@@ -70,7 +70,7 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     });
   });
 
-  it("ordnet klagende und beklagte Person den richtigen Rollen zu", async () => {
+  it("assigns Klaeger and Beklagte to the correct roles", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
       gericht: Gerichte["Amtsgericht Schöneberg"],
@@ -120,7 +120,65 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     });
   });
 
-  it("nimmt Zeugen mit eindeutigen Rollen- und Beweisnummern auf", async () => {
+  it("composes a Beklagte organisation as organisation", async () => {
+    const result = await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        gegenWenBeklagen: "organisation",
+        beklagteAnrede: undefined,
+        beklagteTitle: undefined,
+        beklagteVorname: undefined,
+        beklagteNachname: undefined,
+        beklagteNameOrganisation: "Muster GmbH",
+      },
+      gericht: Gerichte["Amtsgericht Schöneberg"],
+      baseUrl,
+    });
+
+    expect(result.ok).toBe(true);
+
+    const payload: unknown = JSON.parse(receivedBody ?? "null");
+    expect(payload).toMatchObject({
+      grunddaten: {
+        verfahrensdaten: {
+          beteiligung: [
+            {},
+            {
+              rolle: [{ rollenbezeichnung: Rollenbezeichnung["Beklagte(r)"] }],
+              beteiligter: {
+                auswahlBeteiligter: {
+                  organisation: {
+                    bezeichnung: { bezeichnungAktuell: "Muster GmbH" },
+                    anschrift: [
+                      {
+                        strasse: userDataMock.beklagteStrasse,
+                        postleitzahl: userDataMock.beklagtePlz,
+                      },
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  it("reports invalid user data without calling the XJustiz-Tools", async () => {
+    receivedBody = undefined;
+
+    const result = await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, klagendePersonVorname: "" },
+      gericht: Gerichte["Amtsgericht Schöneberg"],
+      baseUrl,
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "invalidUserData" });
+    expect(receivedBody).toBeUndefined();
+  });
+
+  it("includes Zeugen with unique Rollennummern and BeweisNummern", async () => {
     const zeugin = {
       personAuswahl: "anotherPerson" as const,
       personId: "zeugin-1",
@@ -216,7 +274,7 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     ).toStrictEqual([1, 2]);
   });
 
-  it("referenziert im Anspruch die deklarierten Rollennummern", async () => {
+  it("references the declared Rollennummern in the Anspruch", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
       gericht: Gerichte["Amtsgericht Schöneberg"],
