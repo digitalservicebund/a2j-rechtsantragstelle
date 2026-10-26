@@ -58,7 +58,7 @@ beforeEach(() => {
 
 describe("KlageParteienUebersicht", () => {
   it.each(["klagende", "beklagte"] as const)(
-    "renders redirect anchor targets for each %s party using its original array index",
+    "numbers %s natural persons before organizations while preserving array indexes in routes",
     (relationship) => {
       renderOverview(
         {
@@ -75,14 +75,25 @@ describe("KlageParteienUebersicht", () => {
             : "beklagteParteiHeadline"
         ].de;
 
-      for (const index of [0, 1]) {
+      for (const { number, arrayIndex, partyType } of [
+        { number: 1, arrayIndex: 1, partyType: "natuerliche-person" },
+        { number: 2, arrayIndex: 0, partyType: "organisation" },
+      ]) {
         expect(
           screen.getByRole("link", {
-            name: `${partyHeadline} ${index + 1}) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+            name: `${partyHeadline} ${number}) ${translations.arraySummary.arrayEditButtonLabel.de}`,
           }),
         ).toHaveAttribute(
           "id",
-          `array-summary-item-edit-${arrayName}-${index}`,
+          `array-summary-item-edit-${arrayName}-${arrayIndex}`,
+        );
+        expect(
+          screen.getByRole("link", {
+            name: `${partyHeadline} ${number}) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+          }),
+        ).toHaveAttribute(
+          "href",
+          `/geld-einklagen/anwaltschaft/${relationship}-partei/${arrayName}/${arrayIndex}/${partyType}-daten`,
         );
       }
     },
@@ -257,7 +268,7 @@ describe("KlageParteienUebersicht", () => {
     expect(screen.getAllByTestId("klage-partei")).toHaveLength(2);
     expect(
       screen.getByRole("link", {
-        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 2) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 1) ${translations.arraySummary.arrayEditButtonLabel.de}`,
       }),
     ).toHaveAttribute(
       "href",
@@ -265,7 +276,7 @@ describe("KlageParteienUebersicht", () => {
     );
     expect(
       screen.getByRole("link", {
-        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 1) ${translations.arraySummary.arrayEditButtonLabel.de}`,
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 2) ${translations.arraySummary.arrayEditButtonLabel.de}`,
       }),
     ).toHaveAttribute(
       "href",
@@ -287,6 +298,59 @@ describe("KlageParteienUebersicht", () => {
     expect(screen.getByTestId("add-organisation")).toHaveAttribute(
       "href",
       "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/2/organisation-daten",
+    );
+  });
+
+  it("recalculates organization numbers when natural persons are added or removed", () => {
+    const initialParties = [organization, naturalPerson];
+    const { rerender } = renderOverview({ klagenden: initialParties });
+    const partyHeadline =
+      translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de;
+    const editLabel = translations.arraySummary.arrayEditButtonLabel.de;
+
+    expect(
+      screen.getByRole("link", { name: `${partyHeadline} 2) ${editLabel}` }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/organisation-daten",
+    );
+
+    vi.mocked(useFormFlow).mockReturnValue({
+      userData: { klagenden: [...initialParties, naturalPerson] },
+      flowId: "/geld-einklagen/anwaltschaft",
+      translations: {},
+      validFlowPages: {},
+    });
+    rerender(
+      <MemoryRouter>
+        <KlageParteienUebersicht relationship="klagende" />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole("link", { name: `${partyHeadline} 3) ${editLabel}` }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/organisation-daten",
+    );
+
+    vi.mocked(useFormFlow).mockReturnValue({
+      userData: { klagenden: initialParties },
+      flowId: "/geld-einklagen/anwaltschaft",
+      translations: {},
+      validFlowPages: {},
+    });
+    rerender(
+      <MemoryRouter>
+        <KlageParteienUebersicht relationship="klagende" />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByRole("link", { name: `${partyHeadline} 2) ${editLabel}` }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden/0/organisation-daten",
     );
   });
 
