@@ -463,6 +463,11 @@ export const testCasesBeratungshilfeFormularFinanzielleAngabenEigentum = {
         "geldanlagen#eigentuemer": "myself",
         "geldanlagen#wert": "100",
         "geldanlagen#befristetArt": "lifeInsurance",
+        "geldanlagen#auszahlungdatum": {
+          day: "01",
+          month: "01",
+          year: "2000",
+        },
       },
     },
     {

@@ -79,7 +79,6 @@ const requiresBelege = (userData: ProzesskostenhilfeFormularUserData) =>
 
 export async function prozesskostenhilfePdfFromUserdata(
   userData: ProzesskostenhilfeFormularUserData,
-  sessionId: string,
   flowTranslations?: Translations,
 ) {
   const { pdfValues, attachment } = pdfFillReducer({

@@ -1,5 +1,4 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import { beratungshilfeXstateConfig } from "../xstateConfig";
 import { beratungshilfeFormularFlowConfig } from "../flowConfig";
 import { testCasesBeratungshilfeFormularDefault } from "~/domains/beratungshilfe/formular/__test__/testcases";
 import { testCasesBeratungshilfeFormularAnwaltlicheVertretung } from "~/domains/beratungshilfe/formular/anwaltlicheVertretung/__test__/testcases";
@@ -16,8 +15,7 @@ import { testCasesBeratungshilfeFormularAbgabe } from "~/domains/beratungshilfe/
 import { type BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
 
 export const beratungshilfeAntragTestCases = {
-  xstateConfig: beratungshilfeXstateConfig,
-  newEngineConfig: beratungshilfeFormularFlowConfig,
+  config: beratungshilfeFormularFlowConfig,
   testcases: {
     ...testCasesBeratungshilfeFormularDefault,
     ...testCasesBeratungshilfeFormularGrundvoraussetzungen,

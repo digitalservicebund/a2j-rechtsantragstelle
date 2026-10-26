@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { type DataListType } from "~/services/cms/models/formElements/StrapiAutoSuggestInput";
+import { useEffect, useState, startTransition } from "react";
+import { type DataListType } from "~/services/validation/autoSuggest";
 import type { DataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 const API_PATH = "/api";
@@ -30,23 +30,34 @@ const useDataListOptions = (
   dataListArgument?: string,
 ) => {
   const [dataListOptions, setDataListOptions] = useState<DataListOptions[]>([]);
-  const resourcePath = getResourcePath(dataListType, dataListArgument);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(resourcePath);
+    const controller = new AbortController();
 
-        if (response.ok) {
-          const json = await response.json();
-          setDataListOptions(json);
+    // In React 19, startTransition can take an async function directly
+    startTransition(async () => {
+      try {
+        const resourcePath = getResourcePath(dataListType, dataListArgument);
+        const response = await fetch(resourcePath, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          setDataListOptions([]);
+          return;
         }
-      } catch {
-        setDataListOptions([]);
+
+        const json = await response.json();
+        setDataListOptions(Array.isArray(json) ? json : []);
+      } catch (error: any) {
+        if (error.name !== "AbortError") {
+          setDataListOptions([]);
+        }
       }
-    };
-    fetchData();
-  }, [resourcePath]);
+    });
+
+    return () => controller.abort();
+  }, [dataListType, dataListArgument]); // Primitive dependencies prevent infinite loops
 
   return dataListOptions;
 };

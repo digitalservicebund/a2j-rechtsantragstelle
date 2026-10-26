@@ -15,7 +15,6 @@ import {
   useMatches,
   Outlet,
   useLocation,
-  useRouteLoaderData,
 } from "react-router";
 import { flowIdFromPathname } from "~/domains/flowIds";
 import { AnalyticsContext } from "~/services/analytics/useAnalytics";
@@ -124,8 +123,7 @@ export const loader = async ({ request, context, url }: LoaderFunctionArgs) => {
 };
 
 // Don't accept any mutations on content routes. This safely catches bot POST/PUT spam without crashing or alerting Sentry
-export const action = async () =>
-  new Response("Method Not Allowed", { status: 405 });
+export const action = () => new Response("Method Not Allowed", { status: 405 });
 
 function App() {
   const {
@@ -208,13 +206,7 @@ function App() {
             <Outlet />
           </main>
           <footer>
-            <Footer
-              showDeletionBanner={hasAnyUserData}
-              ariaLabel={getTranslationByKey(
-                "footer-navigation",
-                accessibilityTranslations,
-              )}
-            />
+            <Footer showDeletionBanner={hasAnyUserData} />
           </footer>
           <ScrollRestoration nonce={nonce} />
           <Scripts nonce={nonce} />
@@ -225,9 +217,6 @@ function App() {
 }
 
 export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
-  const loaderData = useRouteLoaderData<RootLoader>("root");
-  const accessibilityTranslations = loaderData?.accessibilityTranslations ?? {};
-
   if (error && error instanceof Error) {
     Sentry.captureException(error);
   }
@@ -250,12 +239,7 @@ export function ErrorBoundary({ error }: Readonly<Route.ErrorBoundaryProps>) {
         <main className="bg-kern-neutral-025">
           <ErrorBox />
         </main>
-        <Footer
-          ariaLabel={getTranslationByKey(
-            "footer-navigation",
-            accessibilityTranslations,
-          )}
-        />
+        <Footer />
       </body>
     </html>
   );

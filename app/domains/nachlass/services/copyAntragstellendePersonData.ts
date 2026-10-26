@@ -1,5 +1,5 @@
 import type z from "zod";
-import { type AsyncFlowAction } from "~/domains/flows.server";
+import { type PosFlowAction } from "~/domains/flows.server";
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import {
   type ElternteilKind,
@@ -132,9 +132,9 @@ function convertAntragstellendePersonToAngehoerige(
  * so we should copy their data to the Testament/Angehörige section as
  * an array item, to reduce the redundant data entry for the user.
  */
-export const copyAntragstellendePersonData: AsyncFlowAction<
+export const copyAntragstellendePersonData: PosFlowAction<
   ErbscheinAnfrageUserData
-> = async (_request, userData, flowSession) => {
+> = (_request, userData, flowSession) => {
   const antragstellendePerson: AntragstellendePerson = {
     vorname: userData.antragstellendePersonVorname ?? "",
     nachname: userData.antragstellendePersonNachname ?? "",

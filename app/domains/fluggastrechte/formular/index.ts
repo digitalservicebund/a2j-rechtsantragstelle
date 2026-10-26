@@ -1,5 +1,5 @@
 import type { Flow } from "~/domains/flows.server";
-import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
+import type { FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 import { isTotalClaimWillSucceddedAboveLimit } from "./services/isTotalClaimAboveLimit";
 import {
   getAirlineAddressFromDB,
@@ -34,6 +34,7 @@ import {
 } from "./stringReplacements/person";
 import type { FluggastrechteUserData } from "./userData";
 import { fluggastrechteFormularFlowConfig } from "./flowConfig";
+import { fluggastrechtePdfFromUserdata } from "../services/pdf/fluggastrechtePdfFromUserdata";
 
 const flowTransitionConfig: FlowTransitionConfig = {
   sourceFlowId: "/fluggastrechte/vorabcheck",
@@ -42,11 +43,7 @@ const flowTransitionConfig: FlowTransitionConfig = {
 
 export const fluggastrechtFlow = {
   flowType: "formFlow",
-  config: {
-    id: "/fluggastrechte/formular",
-    states: {},
-  },
-  newEngineConfig: fluggastrechteFormularFlowConfig,
+  config: fluggastrechteFormularFlowConfig,
   migration: {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [
@@ -90,4 +87,10 @@ export const fluggastrechtFlow = {
       isTotalClaimWillSucceddedAboveLimit(context),
   }),
   flowTransitionConfig,
+  pdfConfig: {
+    pdfFunction: async (userData: FluggastrechteUserData) => {
+      return await fluggastrechtePdfFromUserdata(userData);
+    },
+    name: `Fluggastrechte_Klage`,
+  },
 } satisfies Flow;

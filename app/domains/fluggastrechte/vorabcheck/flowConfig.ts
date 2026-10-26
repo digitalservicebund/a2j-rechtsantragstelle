@@ -1,17 +1,13 @@
 import { fluggastrechteVorabcheckPages } from "~/domains/fluggastrechte/vorabcheck/pages";
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { guards } from "./guards";
 
-const fluggastrechteVorabcheckPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(fluggastrechteVorabcheckPages);
-
 export const fluggastrechteVorabcheckFlowConfig = compileFlow({
-  pages: fluggastrechteVorabcheckPagesWithLeadingSlash,
+  pages: fluggastrechteVorabcheckPages,
   initialStep: "start",
   transitions: {
     start: "bereich",

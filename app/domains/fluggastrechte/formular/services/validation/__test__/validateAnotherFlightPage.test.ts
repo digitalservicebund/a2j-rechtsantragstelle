@@ -31,9 +31,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success false given an original arrival time after the arrival", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "01.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "01.01.2024",
-      ersatzFlugAnkunftsZeit: "11:00",
+      ersatzFlugAnkunftsZeit: {
+        hour: "11",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -43,9 +49,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success false given an original arrival date after the arrival", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "01.01.2024",
-      ersatzFlugAnkunftsZeit: "15:00",
+      ersatzFlugAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -55,9 +67,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success false given an original arrival date before three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "02.01.2024",
-      ersatzFlugAnkunftsZeit: "15:00",
+      ersatzFlugAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "verspaetet",
     });
 
@@ -67,9 +85,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success true given an original arrival date after three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "02.01.2024",
-      ersatzFlugAnkunftsZeit: "19:01",
+      ersatzFlugAnkunftsZeit: {
+        hour: "19",
+        minute: "01",
+      },
       bereich: "verspaetet",
     });
 
@@ -79,9 +103,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success true given an original arrival date before three hours after the arrival and bereich annullierung", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "02.01.2024",
-      ersatzFlugAnkunftsZeit: "15:00",
+      ersatzFlugAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "annullierung",
     });
 
@@ -91,9 +121,15 @@ describe("validateAnotherFlightPage", () => {
   it("should return success true given an original arrival date before three hours after the arrival and bereich nichtbefoerderung", () => {
     const result = z.validate(validatorAnotherPage, {
       direktAnkunftsDatum: "02.01.2024",
-      direktAnkunftsZeit: "14:00",
+      direktAnkunftsZeit: {
+        hour: "14",
+        minute: "00",
+      },
       ersatzFlugAnkunftsDatum: "02.01.2024",
-      ersatzFlugAnkunftsZeit: "15:00",
+      ersatzFlugAnkunftsZeit: {
+        hour: "15",
+        minute: "00",
+      },
       bereich: "nichtbefoerderung",
     });
 

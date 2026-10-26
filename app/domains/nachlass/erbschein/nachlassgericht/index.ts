@@ -5,10 +5,9 @@ import { erbscheinNachlassgerichtFlowConfig } from "./flowConfig";
 
 export const erbscheinNachlassgericht = {
   flowType: "vorabCheck",
-  config: { states: {} },
   stringReplacements: (context: ErbscheinNachlassGerichtUserData) => ({
     ...getAmtsgerichtStrings(context),
     ...getPlzStrings(context),
   }),
-  newEngineConfig: erbscheinNachlassgerichtFlowConfig,
+  config: erbscheinNachlassgerichtFlowConfig,
 } satisfies Flow<typeof erbscheinNachlassgerichtFlowConfig.pages>;

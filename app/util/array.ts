@@ -1,4 +1,4 @@
-import { ARRAY_WILDCARD } from "~/services/flow/newFlowEngine/compileFlow";
+import { ARRAY_WILDCARD } from "~/services/flow/flowEngine/compileFlow";
 
 export const arrayIsNonEmpty = <T>(arr?: T[] | null): arr is T[] =>
   Array.isArray(arr) && arr.length > 0;

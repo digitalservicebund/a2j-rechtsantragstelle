@@ -1,14 +1,8 @@
-import { type Config } from "~/services/flow/server/types";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
-import { type ArrayConfigServer } from "~/services/array";
+import { type AddArrayItemEvent } from "~/services/array";
 import { type PageData } from "~/services/flow/pageData";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-
-// Old flow tests: forward & backward using full user data
-export type TestCases<T extends UserData> = Readonly<
-  Array<Readonly<[T, readonly string[]]>>
->;
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
@@ -19,7 +13,7 @@ export type ExpectedStepUserInput<T extends UserData> = T & {
 
 export type ExpectedStep<T extends UserData> = {
   stepId: string;
-  addArrayItemEvent?: ArrayConfigServer["event"];
+  addArrayItemEvent?: AddArrayItemEvent;
   /**
    * Used to test transitions; here the current page's pageSchema is irrelevant,
    * but the guard uses pre-exising data to determine transition target
@@ -40,7 +34,6 @@ export type FlowTestConfig<
   T extends UserData,
   C extends PageConfigMap = PageConfigMap,
 > = {
-  xstateConfig: Config;
-  newEngineConfig?: CompiledFlow<C>;
+  config?: CompiledFlow<C>;
   testcases: FlowTestCases<T>;
 };

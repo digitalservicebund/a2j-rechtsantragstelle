@@ -1,17 +1,13 @@
 import type { Flow } from "~/domains/flows.server";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { getSessionData } from "~/services/session.server";
 import { getMigrationData, migrationKey } from "../getMigrationData";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 
 vi.mock("~/services/session.server");
 const getSessionDataMock = vi.mocked(getSessionData);
 
-vi.mock("~/services/flow/pruner/pruner");
-const pruneIrrelevantDataMock = vi.mocked(pruneIrrelevantData);
-
-vi.mock("~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow");
+vi.mock("~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow");
 const migrateSourceFlowDataToDestinationFlowMock = vi.mocked(
   migrateSourceFlowDataToDestinationFlow,
 );
@@ -22,7 +18,6 @@ const mockMigrationFlowDestination: Flow = {
     source: "/fluggastrechte/vorabcheck",
     sortedFields: [],
   },
-  config: {},
 };
 
 const mockMigrationFlowIdDestination = "/fluggastrechte/formular";
@@ -32,7 +27,7 @@ describe("getMigrationData", () => {
     const actual = await getMigrationData(
       migrationKey,
       mockMigrationFlowIdDestination,
-      { flowType: "formFlow", config: {} },
+      { flowType: "formFlow" },
       "any cookie",
     );
 
@@ -61,15 +56,12 @@ describe("getMigrationData", () => {
     expect(actual).toBeUndefined();
   });
 
-  it("should return the mock value given the /fluggastrechte/vorabcheck as flow to be migrated", async () => {
+  it("should migrate the source flow data to the destination flow", async () => {
     const userDataMock = { startAirport: "BER" };
-
     getSessionDataMock.mockResolvedValue({ userData: userDataMock });
-
-    pruneIrrelevantDataMock.mockReturnValueOnce({
-      prunedData: userDataMock,
-      validFlowPaths: {},
-    });
+    migrateSourceFlowDataToDestinationFlowMock.mockReturnValue(
+      userDataMock as ReturnType<typeof migrateSourceFlowDataToDestinationFlow>,
+    );
 
     const actual = await getMigrationData(
       migrationKey,
@@ -78,25 +70,8 @@ describe("getMigrationData", () => {
       "any cookie",
     );
 
+    expect(migrateSourceFlowDataToDestinationFlowMock).toHaveBeenCalled();
     expect(actual).toStrictEqual(userDataMock);
-  });
-
-  it("should filter migrated data", async () => {
-    const userDataMock = { startAirport: "BER", nonRelevant: "nonRelevant" };
-    getSessionDataMock.mockResolvedValue({ userData: userDataMock });
-    pruneIrrelevantDataMock.mockReturnValueOnce({
-      prunedData: userDataMock,
-      validFlowPaths: {},
-    });
-
-    const actual = await getMigrationData(
-      migrationKey,
-      mockMigrationFlowIdDestination,
-      mockMigrationFlowDestination,
-      "any cookie",
-    );
-
-    expect(actual).toStrictEqual({ startAirport: "BER" });
   });
 
   it("should call migrateSourceFlowDataToDestinationFlow if migrating a new engine flow", async () => {

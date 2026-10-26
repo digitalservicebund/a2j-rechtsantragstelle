@@ -30,11 +30,7 @@ import { type KontopfaendungWegweiserUserData } from "./userData";
 
 export const kontopfaendungWegweiser = {
   flowType: "vorabCheck",
-  config: {
-    id: "/kontopfaendung/wegweiser",
-    states: {},
-  },
-  newEngineConfig: kontopfaendungWegweiserFlowConfig,
+  config: kontopfaendungWegweiserFlowConfig,
   stringReplacements: (userData: KontopfaendungWegweiserUserData) => ({
     ...getArbeitStrings(userData),
     ...getPKontoStrings(userData),

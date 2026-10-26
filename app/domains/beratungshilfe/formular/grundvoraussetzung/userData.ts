@@ -1,5 +1,6 @@
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type InferredUserData } from "~/services/flow/flowEngine/types";
 import { type berHAntragGrundvoraussetzungenPages } from "./pages";
 
-export type BeratungshilfeGrundvoraussetzungenUserData =
-  UserDataFromPagesSchema<typeof berHAntragGrundvoraussetzungenPages>;
+export type BeratungshilfeGrundvoraussetzungenUserData = InferredUserData<
+  typeof berHAntragGrundvoraussetzungenPages
+>;

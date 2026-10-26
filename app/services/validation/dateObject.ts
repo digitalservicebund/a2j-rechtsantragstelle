@@ -1,11 +1,20 @@
 import z from "zod";
 import { isValidDate } from "./dateString";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { addYears, today } from "~/util/date";
+import { stringOptionalSchema } from "./stringOptional";
 
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
 
-export const createSplitDateSchema = (args?: {
+export const dateInputZodDescription = "date_input";
+export const dateInputOptionalZodDescription = "date_input_optional";
+
+// treats a missing field the same as an empty one, since zod can call .refine with either
+const isBlank = (val?: string): val is undefined | "" =>
+  !val || val.length === 0;
+
+const assertValidDateRangeArgs = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -14,6 +23,13 @@ export const createSplitDateSchema = (args?: {
       `Latest valid ${args.latest().toDateString()} can't be before earliest valid ${args.earliest().toDateString()}`,
     );
   }
+};
+
+export const createSplitDateSchema = (args?: {
+  earliest?: () => Date;
+  latest?: () => Date;
+}) => {
+  assertValidDateRangeArgs(args);
 
   return z
     .object({
@@ -46,11 +62,98 @@ export const createSplitDateSchema = (args?: {
         },
       ),
     })
-    .meta({ description: "split_date" })
+    .meta({ description: dateInputZodDescription })
     .refine((dateObj) => isValidDate(toDateString(dateObj)), {
       error: "Ungültiges Datum",
     })
     .check((ctx) => {
+      const date = toDate(ctx.value);
+      if (args?.earliest && date < args.earliest()) {
+        ctx.issues.push({
+          code: "custom",
+          message: "too_early",
+          input: ctx.value,
+        });
+      }
+      if (args?.latest && date > args.latest()) {
+        ctx.issues.push({
+          code: "custom",
+          message: "too_late",
+          input: ctx.value,
+        });
+      }
+    });
+};
+
+// skips the range check while a field is blank; "Ungültiger ..." errors already cover malformed values
+const optionalDatePartRefine =
+  (predicate: (num: number) => boolean) => (val?: string) => {
+    if (isBlank(val)) {
+      return true;
+    }
+
+    const num = Number(val);
+    return !Number.isNaN(num) && predicate(num);
+  };
+
+const padIfPresent = (val?: string) =>
+  isBlank(val) ? val : val.padStart(2, "0");
+
+export const createSplitDateSchemaOptional = (args?: {
+  earliest?: () => Date;
+  latest?: () => Date;
+}) => {
+  assertValidDateRangeArgs(args);
+
+  return z
+    .object({
+      day: stringOptionalSchema
+        .refine(
+          optionalDatePartRefine((num) => num >= 1 && num <= 31),
+          {
+            error: "Ungültiger Tag",
+          },
+        )
+        .transform(padIfPresent),
+      month: stringOptionalSchema
+        .refine(
+          optionalDatePartRefine((num) => num >= 1 && num <= 12),
+          {
+            error: "Ungültiger Monat",
+          },
+        )
+        .transform(padIfPresent),
+      year: stringOptionalSchema.refine(
+        optionalDatePartRefine((num) => num > 0),
+        { error: "Ungültiges Jahr" },
+      ),
+    })
+    .meta({ description: dateInputOptionalZodDescription })
+    .refine(
+      (dateObj) => {
+        if (dateObj === undefined) {
+          return true;
+        }
+
+        const { day, month, year } = dateObj;
+        if (isBlank(day) && isBlank(month) && isBlank(year)) {
+          return true;
+        }
+        if (isBlank(day) || isBlank(month) || isBlank(year)) {
+          return false;
+        }
+
+        return isValidDate(toDateString({ day, month, year }));
+      },
+      {
+        error: "Ungültiges Datum",
+      },
+    )
+    .check((ctx) => {
+      if (!objectKeysNonEmpty(ctx.value, ["day", "month", "year"])) {
+        return;
+      }
+
       const date = toDate(ctx.value);
       if (args?.earliest && date < args.earliest()) {
         ctx.issues.push({
@@ -88,6 +191,11 @@ export const toDateObject = (date: Date): DateObject => {
   };
 };
 
-export const hasDateObject = (date: DateObject | undefined) => {
+export const hasDateObject = (date: Partial<DateObject> | undefined) => {
   return objectKeysNonEmpty(date, ["day", "month", "year"]);
 };
+
+export const childBirthdaySchema = createSplitDateSchema({
+  earliest: () => addYears(today(), -24),
+  latest: () => today(),
+});

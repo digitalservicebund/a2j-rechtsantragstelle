@@ -16,7 +16,7 @@ const mockRequestUrl =
   "http://localhost:3000/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/2/beweis-dokument-wiederverwenden";
 
 describe("copyOrRemoveReferenceDocuments", () => {
-  it("should not call updateSession if abschnitte is empty", async () => {
+  it("should not call updateSession if abschnitte is empty", () => {
     const userData = {
       abschnitte: [],
     } as GeldEinklagenFormularKlageErstellenUserData;
@@ -24,12 +24,12 @@ describe("copyOrRemoveReferenceDocuments", () => {
     const mockSession: Session = createSession();
     const request = new Request(mockRequestUrl);
 
-    await copyOrRemoveReferenceDocuments(request, userData, mockSession);
+    copyOrRemoveReferenceDocuments(request, userData, mockSession);
 
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("should not call updateSession if does not contains arrayIndex on the url", async () => {
+  it("should not call updateSession if does not contains arrayIndex on the url", () => {
     const userData = {
       abschnitte: [],
     } as GeldEinklagenFormularKlageErstellenUserData;
@@ -39,12 +39,12 @@ describe("copyOrRemoveReferenceDocuments", () => {
       "http://localhost:3000/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/beweis-dokument-wiederverwenden",
     );
 
-    await copyOrRemoveReferenceDocuments(request, userData, mockSession);
+    copyOrRemoveReferenceDocuments(request, userData, mockSession);
 
     expect(updateSession).not.toHaveBeenCalled();
   });
 
-  it("should copy a document reference from another abschnitt", async () => {
+  it("should copy a document reference from another abschnitt", () => {
     const abschnitte = [
       {
         beschreibung: "beschreibung 1",
@@ -83,7 +83,7 @@ describe("copyOrRemoveReferenceDocuments", () => {
     const mockSession: Session = createSession();
     const request = new Request(mockRequestUrl);
 
-    await copyOrRemoveReferenceDocuments(request, userData, mockSession);
+    copyOrRemoveReferenceDocuments(request, userData, mockSession);
 
     const expectedAbschnitte: any[] = [...abschnitte];
     expectedAbschnitte[2] = {
@@ -112,7 +112,7 @@ describe("copyOrRemoveReferenceDocuments", () => {
     );
   });
 
-  it("should remove an existing document reference from another abschnitt", async () => {
+  it("should remove an existing document reference from another abschnitt", () => {
     const abschnitte = [
       {
         beschreibung: "beschreibung 1",
@@ -154,7 +154,7 @@ describe("copyOrRemoveReferenceDocuments", () => {
       "http://localhost:3000/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte/1/beweis-dokument-wiederverwenden",
     );
 
-    await copyOrRemoveReferenceDocuments(request, userData, mockSession);
+    copyOrRemoveReferenceDocuments(request, userData, mockSession);
 
     const expectedAbschnitte: any[] = [...abschnitte];
     expectedAbschnitte[1] = {

@@ -9,11 +9,10 @@ import { erbausschlagungGerichtFindenFlowConfig } from "./flowConfig";
 
 export const erbausschlagungGerichtFinden = {
   flowType: "vorabCheck",
-  config: { states: {} },
   stringReplacements: (context: ErbausschlagungGerichtFindenUserData) => ({
     ...shouldUseApplicantsCourt(context),
     ...plz(context),
     ...getAmtsgerichtStrings(context),
   }),
-  newEngineConfig: erbausschlagungGerichtFindenFlowConfig,
+  config: erbausschlagungGerichtFindenFlowConfig,
 } satisfies Flow<typeof erbausschlagungGerichtFindenFlowConfig.pages>;

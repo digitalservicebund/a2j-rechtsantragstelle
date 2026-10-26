@@ -1,10 +1,7 @@
 import type { FlowId } from "~/domains/flowIds";
 import { flows, type Flow } from "~/domains/flows.server";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
 import { type CookieHeader, getSessionData } from ".";
-import pick from "lodash/pick";
-import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 
 export const migrationKey = "daten-uebernahme";
 
@@ -20,22 +17,11 @@ export async function getMigrationData(
 
   const userData = await getSessionData(migration.source, cookieHeader);
   const sourceFlow = flows[migration.source];
-  // TODO: remove after migration to new flow engine
-  if (
-    "newEngineConfig" in migrationFlowDestination &&
-    "newEngineConfig" in sourceFlow
-  ) {
-    return migrateSourceFlowDataToDestinationFlow(
-      userData,
-      sourceFlow,
-      migrationFlowDestination,
-      migrationFlowIdDestination,
-    );
-  }
-  const { prunedData } = pruneIrrelevantData(userData, migration.source);
-  const destinationUserSchemas = getAllPageSchemaByFlowId(
+
+  return migrateSourceFlowDataToDestinationFlow(
+    userData,
+    sourceFlow,
+    migrationFlowDestination,
     migrationFlowIdDestination,
   );
-
-  return pick(prunedData, Object.keys(destinationUserSchemas)); // we only cares about attributes that also appear in the destination
 }

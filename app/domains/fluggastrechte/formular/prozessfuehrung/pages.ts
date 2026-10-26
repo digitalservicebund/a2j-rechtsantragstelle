@@ -4,30 +4,30 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteProzessfuehrungPages = {
   prozessfuehrungZeugen: {
-    stepId: "prozessfuehrung/zeugen",
+    stepId: "/prozessfuehrung/zeugen",
     pageSchema: {
       hasZeugen: YesNoAnswer,
     },
   },
   prozessfuehrungMuendlicheVerhandlung: {
-    stepId: "prozessfuehrung/muendliche-verhandlung",
+    stepId: "/prozessfuehrung/muendliche-verhandlung",
     pageSchema: {
       muendlicheVerhandlung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungVideoverhandlung: {
-    stepId: "prozessfuehrung/videoverhandlung",
+    stepId: "/prozessfuehrung/videoverhandlung",
     pageSchema: {
       videoverhandlung: z.enum(["yes", "no", "noSpecification"]),
     },
   },
   prozessfuehrungVersaeumnisurteil: {
-    stepId: "prozessfuehrung/versaeumnisurteil",
+    stepId: "/prozessfuehrung/versaeumnisurteil",
     pageSchema: {
       versaeumnisurteil: YesNoAnswer,
     },
   },
   prozessfuehrungZahlung: {
-    stepId: "prozessfuehrung/zahlung-nach-klageeinreichung",
+    stepId: "/prozessfuehrung/zahlung-nach-klageeinreichung",
   },
 } satisfies PagesConfig;

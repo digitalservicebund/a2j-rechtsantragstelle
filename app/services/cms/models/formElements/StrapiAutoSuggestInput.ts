@@ -3,14 +3,7 @@ import { StrapiErrorRelationSchema } from "~/services/cms/models/StrapiErrorRela
 import { StrapiOptionalIntegerSchema } from "~/services/cms/models/StrapiOptionalInteger";
 import { HasStrapiIdSchema } from "../HasStrapiId";
 import { StrapiStringOptionalSchema } from "../StrapiStringOptional";
-
-const DataListSchema = z.enum([
-  "airports",
-  "airlines",
-  "streetNames",
-  "nationalities",
-  "countries",
-]);
+import { StrapiSize } from "../StrapiInputSize";
 
 export const StrapiAutoSuggestInputComponentSchema = z
   .object({
@@ -18,12 +11,12 @@ export const StrapiAutoSuggestInputComponentSchema = z
     label: StrapiStringOptionalSchema,
     placeholder: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
-    dataList: DataListSchema,
     noSuggestionMessage: StrapiStringOptionalSchema,
     isDisabled: z.boolean().nullable().transform(Boolean),
     minSuggestCharacters: StrapiOptionalIntegerSchema,
     supportsFreeText: z.boolean().nullable().transform(Boolean),
     helperText: StrapiStringOptionalSchema,
+    size: StrapiSize,
     __component: z.literal("form-elements.auto-suggest-input"),
     ...HasStrapiIdSchema.shape,
   })
@@ -35,5 +28,3 @@ export const StrapiAutoSuggestInputComponentSchema = z
 export type StrapiAutoSuggestComponent = z.infer<
   typeof StrapiAutoSuggestInputComponentSchema
 >;
-
-export type DataListType = z.infer<typeof DataListSchema>;

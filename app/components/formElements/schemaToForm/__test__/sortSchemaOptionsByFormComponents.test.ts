@@ -17,8 +17,8 @@ describe("sortSchemaOptionsByFormComponents", () => {
       id: 1,
       errorMessages: [],
       type: "text",
-      width: "10",
       name: "testInput",
+      size: "large",
     } satisfies StrapiFormComponent;
 
     const sortedOptions = sortSchemaOptionsByFormComponents(

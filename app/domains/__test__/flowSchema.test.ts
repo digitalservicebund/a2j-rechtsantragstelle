@@ -1,0 +1,309 @@
+import merge from "lodash/merge";
+import z from "zod";
+import { erbscheinAnfrageTestCases } from "~/domains/nachlass/erbschein/anfrage/__test__/testCasesWithUserInput";
+import { type SchemaObject, type UserData } from "~/domains/userData";
+import { type AddArrayItemEvent } from "~/services/array";
+import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
+import { resolveArraysFromKeys } from "~/services/array/resolveArraysFromKeys";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
+import {
+  createFlowSession,
+  type FlowSession,
+} from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { removeArrayIndexWithWildcard } from "~/util/array";
+import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
+import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
+import { fluggastrechteFormularTestCases } from "../fluggastrechte/formular/__test__/testcasesWithUserInput";
+import { fluggastrechteVorabcheckTestCases } from "../fluggastrechte/vorabcheck/__test__/flowEngine/testcasesWithUserInput";
+import { geldEinklagenAnwaltschaftTestCases } from "../geldEinklagen/anwaltschaft/__test__/testCasesWithUserInput";
+import { geldEinklagenFormularTestCases } from "../geldEinklagen/formular/__test__/testCaseWithUserInput";
+import { kontopfaendungPkontoAntragTestCases } from "../kontopfaendung/pkonto/antrag/__test__/testcasesWithUserInput";
+import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__test__/testcasesWithUserInputs";
+import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
+import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
+import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
+import { type FlowId } from "../flowIds";
+import { type Flow, flows } from "../flows.server";
+import { getPageSchema } from "../pageSchemas";
+import { prozesskostenhilfeFormularTestCases } from "../prozesskostenhilfe/formular/__test__/testcasesWithUserInputs";
+import type { ExpectedStep, ExpectedStepUserInput } from "./TestCases";
+
+const flowSchemaTests = {
+  geldEinklagenFormularTestCases,
+  geldEinklagenAnwaltschaftTestCases,
+  erbscheinAnfrageTestCases,
+  kontopfaendungWegweiserTestCases,
+  kontopfaendungPkontoAntragTestCases,
+  erbausschlagungGerichtFindenTestCases,
+  erbscheinNachlassgerichtTestCases,
+  erbausschlagungAnfrageTestCases,
+  erbscheinWegweiserTestCases,
+  prozesskostenhilfeFormularTestCases,
+  beratungshilfeVorabcheckTestCases,
+  beratungshilfeAntragTestCases,
+  fluggastrechteVorabcheckTestCases,
+  fluggastrechteFormularTestCases,
+};
+
+type VisitedSteps = Record<
+  string,
+  {
+    visitedSteps: Set<string | undefined>;
+    config: CompiledFlow<PageConfigMap>;
+  }
+>;
+
+const flowEntries = Object.entries(flows) as Array<[FlowId, Flow]>;
+
+const getFlowIdByConfig = (config: CompiledFlow<PageConfigMap>) =>
+  flowEntries.find(([_, flow]) => flow.config === config)?.[0];
+
+// Build full user input from all previous expectedSteps
+const buildFullUserInput = <T extends UserData>(
+  expectedSteps: Array<ExpectedStep<T>>,
+  idx: number,
+) => {
+  return expectedSteps.slice(0, idx + 1).reduce((acc, step) => {
+    let merged: ExpectedStepUserInput<UserData> = { ...acc, ...step.userInput };
+
+    // This assignment is useful for injecting pageData, like subflowDoneStates
+    merged.pageData = { ...merged.pageData, ...step.pageData };
+
+    // When adding an array item, increment the last array index or start with 0
+    if (step.addArrayItemEvent) {
+      const lastArrayIndex = merged.pageData?.arrayIndexes?.at(-1);
+      merged.pageData = {
+        ...merged.pageData,
+        arrayIndexes: merged.pageData?.arrayIndexes
+          ? [lastArrayIndex === undefined ? 0 : lastArrayIndex + 1]
+          : [0],
+      };
+      return merged;
+    }
+
+    // Extract array indexes from stepId (e.g., "/step/0/nested/1" -> [0, 1])
+    const arrayIndexes = parseArrayIndexesFromPathname(step.stepId);
+
+    // If step contains array indexes, add them to pageData and resolve array-indexed fields
+    if (arrayIndexes.length > 0) {
+      merged.pageData = { ...merged.pageData, arrayIndexes };
+
+      // Transform array fields like `field[index]` into nested structure `field: [index: value]`
+      const resolvedArraysFromKeys = resolveArraysFromKeys(
+        { ...step.userInput },
+        arrayIndexes,
+      );
+      merged = merge(merged, resolvedArraysFromKeys);
+    }
+    return merged;
+  }, {});
+};
+
+function testPageSchema<T extends UserData>(
+  userInput: ExpectedStepUserInput<T>,
+  pageSchema: SchemaObject | undefined,
+  addArrayItemEvent?: AddArrayItemEvent,
+) {
+  // Without userInput we don't expect a pageSchema. Same for Array Overview pages
+  if (!userInput || addArrayItemEvent) {
+    expect(pageSchema).toBeUndefined();
+  } else {
+    expect(pageSchema).toBeDefined(); // With userInput we expect it to validate against the pageSchema
+    expect(z.validate(z.object(pageSchema), userInput)).toBe(true);
+  }
+}
+
+function testArrayLinkPages(
+  flowSessionEngine: FlowSession<PageConfigMap>,
+  stepId: string,
+  nextStepId: string,
+  previousStepId?: string,
+  addArrayItemEvent?: AddArrayItemEvent,
+  summaryPageStepId?: string,
+) {
+  // Special handling if we're starting from an Overview page
+  if (addArrayItemEvent) {
+    expect(flowSessionEngine.nextArrayPath).toBe(nextStepId);
+  } else {
+    expect(flowSessionEngine.nextPath).toBe(
+      removeArrayIndexWithWildcard(nextStepId),
+    );
+  }
+
+  // Only test "BACK" linkage if we're not on the summary page
+  if (stepId !== summaryPageStepId && previousStepId !== undefined) {
+    expect(flowSessionEngine.prevPath).toBe(
+      removeArrayIndexWithWildcard(previousStepId),
+    );
+  }
+}
+
+function runTestcases<T extends UserData>(
+  testName: string,
+  flowId: string,
+  config: CompiledFlow<PageConfigMap>,
+  expectedSteps: Array<ExpectedStep<T>>,
+  allVisitedSteps: VisitedSteps,
+) {
+  test(testName, () => {
+    let [isAddingArrayItem, summaryPageStepId]: [boolean, string?] = [
+      false,
+      undefined,
+    ];
+    expectedSteps
+      .slice(0, -1)
+      .forEach(
+        (
+          { stepId, addArrayItemEvent, skipPageSchemaValidation, userInput },
+          idx,
+        ) => {
+          const currentUrl = flowId + stepId;
+          const pageSchema = getPageSchema(
+            removeArrayIndexWithWildcard(currentUrl),
+          );
+
+          // If we re-encounter the array overview page after adding an array item, we exit the special subroutine
+          const justExitedArray =
+            isAddingArrayItem && stepId === summaryPageStepId;
+          if (justExitedArray) {
+            isAddingArrayItem = false;
+            summaryPageStepId = undefined;
+          }
+
+          /**
+           * We are both
+           * 1. on an array overview page
+           * 2. calling the add-arrayItem event
+           *
+           * Start the special subroutine to handle array items
+           */
+          if (addArrayItemEvent) {
+            isAddingArrayItem = true;
+            summaryPageStepId = stepId;
+          }
+
+          if (!skipPageSchemaValidation && userInput) {
+            testPageSchema(userInput, pageSchema, addArrayItemEvent);
+          }
+
+          const flowSessionEngine = createFlowSession(
+            config,
+            {
+              ...(buildFullUserInput(expectedSteps, idx) as Parameters<
+                typeof createFlowSession
+              >[1]),
+            },
+            removeArrayIndexWithWildcard(stepId), // we need to remove the array index here, because the flowSessionEngine expects the stepId without array indexes
+          );
+
+          // Given the current data and url we expect the next and previous url
+          const nextStepId = expectedSteps[idx + 1]?.stepId;
+          const previousStepId =
+            idx > 0 ? expectedSteps[idx - 1].stepId : undefined;
+
+          if (isAddingArrayItem) {
+            testArrayLinkPages(
+              flowSessionEngine,
+              stepId,
+              removeArrayIndexWithWildcard(nextStepId),
+              previousStepId,
+              addArrayItemEvent,
+              summaryPageStepId,
+            );
+          } else {
+            expect(flowSessionEngine.nextPath).toBe(nextStepId);
+
+            // Back from the overview page right after finishing an array item
+            // always skips to the step before the array, not the item just
+            // added, so the previous declared step isn't a valid expectation here.
+            if (idx > 0 && previousStepId !== undefined && !justExitedArray) {
+              expect(flowSessionEngine.prevPath).toBe(previousStepId);
+            }
+          }
+
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndexWithWildcard(stepId),
+          );
+          allVisitedSteps[flowId].visitedSteps.add(
+            removeArrayIndexWithWildcard(nextStepId),
+          );
+        },
+      );
+  });
+}
+
+describe("flowSchemas", { concurrent: false }, () => {
+  const allVisitedSteps: VisitedSteps = {};
+
+  afterAll(() => {
+    const missingStepsEntries = Object.entries(allVisitedSteps)
+      .map(([flowId, { config, visitedSteps }]) => {
+        const allPaths = Object.keys(config.pages).map(
+          (pageId) => config.pages[pageId].stepId,
+        );
+        const missingSteps = allPaths.filter((x) => !visitedSteps.has(x));
+        return [flowId, missingSteps];
+      })
+      .filter(([_, missingSteps]) => missingSteps.length > 0);
+
+    const totalMissingStepCount = missingStepsEntries.reduce(
+      (total, [_, missingSteps]) => total + missingSteps.length,
+      0,
+    );
+
+    if (totalMissingStepCount > 0) {
+      // oxlint-disable-next-line no-console
+      console.warn(
+        `Total of ${totalMissingStepCount} untested stepIds: `,
+        Object.fromEntries(missingStepsEntries),
+      );
+    }
+
+    const untestedFlowIds = flowEntries
+      .filter(([flowId, flow]) => flow.config && !allVisitedSteps[flowId])
+      .map(([flowId]) => flowId);
+
+    if (untestedFlowIds.length > 0) {
+      // oxlint-disable-next-line no-console
+      console.warn("Flows without flowSchema testcases: ", untestedFlowIds);
+    }
+  });
+
+  Object.entries(flowSchemaTests).forEach(
+    ([testConfigName, { testcases, config }]) => {
+      if (config === undefined) {
+        throw new Error(
+          `Missing config for ${testConfigName}. Please provide a valid config in the testcases.`,
+        );
+      }
+
+      const flowId = getFlowIdByConfig(config);
+      if (flowId === undefined) {
+        throw new Error(
+          `No flow in flows.server.ts uses the config of ${testConfigName}.`,
+        );
+      }
+
+      if (!allVisitedSteps[flowId]) {
+        allVisitedSteps[flowId] = {
+          visitedSteps: new Set(),
+          config,
+        };
+      }
+
+      describe(testConfigName, () => {
+        Object.entries(testcases).forEach(([testName, expectedSteps]) =>
+          runTestcases(
+            testName,
+            flowId,
+            config,
+            expectedSteps,
+            allVisitedSteps,
+          ),
+        );
+      });
+    },
+  );
+});

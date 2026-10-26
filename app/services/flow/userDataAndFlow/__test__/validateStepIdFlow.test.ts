@@ -1,89 +1,64 @@
-import { type Flow } from "~/domains/flows.server";
-import { type buildFlowController } from "~/services/flow/server/buildFlowController";
-import * as validateFlowTransition from "~/services/flow/server/flowTransitionValidation";
+import { type createFlowSession } from "../../flowEngine/createFlowSession";
 import { validateStepIdFlow } from "../validateStepIdFlow";
+import { type Flow } from "~/domains/flows.server";
 
-const mockRequest = new Request(
-  "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg",
-);
+const INITIAL_PAGE_FLOW = "/ergebnis/initial";
 
-const mockURL = new URL(
-  "http://example.com/fluggastrechte/formular?stepId=ergebnis/erfolg",
-);
+const mockFlow = {} as Flow;
 
-const INITIAL_PAGE_FLOW = "ergebnis/initial";
+const mockURLSearchParams = new URLSearchParams();
 
-const getMockFlowController = (isReachable: boolean) => {
+const getMockFlowEngineSession = (isReachable: boolean) => {
   return {
     isReachable: vi.fn().mockReturnValue(isReachable),
-    getInitial: vi.fn().mockReturnValue(INITIAL_PAGE_FLOW),
-  } as unknown as ReturnType<typeof buildFlowController>;
+    initialPath: INITIAL_PAGE_FLOW,
+  } as unknown as ReturnType<typeof createFlowSession>;
 };
-
-const currentFlow = {
-  config: {},
-  flowType: "formFlow",
-} as unknown as Flow;
 
 describe("validateStepIdFlow", () => {
   it("should return an error and redirect to initial flow page in case the page is not reachable", async () => {
-    const mockFlowController = getMockFlowController(false);
+    const mockFlowEngineSession = getMockFlowEngineSession(false);
 
     const result = await validateStepIdFlow(
-      "ergebnis/erfolg",
-      mockRequest,
-      mockFlowController,
-      currentFlow,
-      mockURL,
-    );
-
-    expect(result.isErr).toBe(true);
-    expect(result.isErr ? result.error.redirectTo : "").toBe(INITIAL_PAGE_FLOW);
-  });
-
-  it("should return an error and redirect to the page from the parameter `redirectTo` in case the page is not eligible", async () => {
-    const mockFlowController = getMockFlowController(true);
-
-    const currentFlowNotEligible = {
-      config: {},
-      flowType: "formFlow",
-      flowTransitionConfig: {
-        sourceFlowId: "ergebnis/erfolg/source",
-        eligibleSourcePages: ["ergebnis/erfolg-totally", "ergebnis/erfolg"],
-      },
-    } as unknown as Flow;
-
-    vi.spyOn(
-      validateFlowTransition,
-      "validateFlowTransition",
-    ).mockResolvedValue({
-      isEligible: false,
-      redirectTo: "ergebnis/erfolg/source",
-    });
-
-    const result = await validateStepIdFlow(
-      "ergebnis/erfolg",
-      mockRequest,
-      mockFlowController,
-      currentFlowNotEligible,
-      mockURL,
+      "/fluggastrechte/formular",
+      "/",
+      mockURLSearchParams,
+      null,
+      mockFlowEngineSession,
+      mockFlow,
     );
 
     expect(result.isErr).toBe(true);
     expect(result.isErr ? result.error.redirectTo : "").toBe(
-      "ergebnis/erfolg/source",
+      "/fluggastrechte/formular" + INITIAL_PAGE_FLOW,
     );
   });
 
   it("should return ok if the step ID flow is correct", async () => {
-    const mockFlowController = getMockFlowController(true);
+    const mockFlowEngineSession = getMockFlowEngineSession(true);
 
     const result = await validateStepIdFlow(
-      "ergebnis/erfolg",
-      mockRequest,
-      mockFlowController,
-      currentFlow,
-      mockURL,
+      "/fluggastrechte/formular",
+      "/",
+      mockURLSearchParams,
+      null,
+      mockFlowEngineSession,
+      mockFlow,
+    );
+
+    expect(result.isOk).toBe(true);
+  });
+
+  it("should return ok if in case the page is not reachable and the url contains skipFlow in the search parameter", async () => {
+    const mockFlowEngineSession = getMockFlowEngineSession(false);
+
+    const result = await validateStepIdFlow(
+      "/fluggastrechte/formular",
+      "/",
+      new URLSearchParams({ skipFlow: "true" }),
+      null,
+      mockFlowEngineSession,
+      mockFlow,
     );
 
     expect(result.isOk).toBe(true);

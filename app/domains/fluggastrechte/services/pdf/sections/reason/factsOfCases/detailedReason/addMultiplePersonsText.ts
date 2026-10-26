@@ -11,7 +11,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 import { arrayIsNonEmpty } from "~/util/array";
-import { getFullPlaintiffName } from "../../../getFullPlaintiffName";
+import { getFullPlaintiffName } from "../../../../../../../shared/services/pdf/getFullPlaintiffName";
 
 const bereichMappingText = {
   verspaetet: "Verspätung",

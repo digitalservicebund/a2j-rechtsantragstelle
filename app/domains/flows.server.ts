@@ -1,3 +1,4 @@
+import { type MaybePromise } from "p-map";
 import { type Session } from "react-router";
 import { beratungshilfeFormular } from "~/domains/beratungshilfe/formular";
 import { beratungshilfeVorabcheck } from "~/domains/beratungshilfe/vorabcheck";
@@ -11,20 +12,19 @@ import { erbscheinAnfrage } from "~/domains/nachlass/erbschein/anfrage";
 import { erbscheinErbfolge } from "~/domains/nachlass/erbschein/erbfolge";
 import { erbscheinNachlassgericht } from "~/domains/nachlass/erbschein/nachlassgericht";
 import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
 import {
   type InferredUserData,
   type PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
-import type { FlowTransitionConfig } from "~/services/flow/server/flowTransitionValidation";
-import type { Config } from "~/services/flow/server/types";
+} from "~/services/flow/flowEngine/types";
+import type { FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
 import type { Replacements } from "~/util/applyStringReplacement";
 import type { FlowId } from "./flowIds";
 import { geldEinklagenFormular } from "./geldEinklagen/formular";
-import type { Guards } from "./guards.server";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
+import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { AllowedUserTypes, UserData } from "./userData";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
@@ -57,17 +57,23 @@ export type SummaryFieldOverride = (
   userData: UserData,
 ) => Pick<FieldItem, "question" | "answer"> | undefined;
 
-export type AsyncFlowAction<TUserData extends UserData = UserData> = (
+export type PosFlowAction<TUserData extends UserData = UserData> = (
   request: Request,
   userData: TUserData,
   flowSession: Session<TUserData, TUserData>,
-) => Promise<void>;
+) => MaybePromise<void>;
+
+type PdfConfig = {
+  pdfFunction: (
+    userData: UserData,
+    translations?: Translations,
+  ) => Promise<Uint8Array>;
+  name: string;
+};
 
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
-  config: Config;
-  newEngineConfig?: CompiledFlow<C>;
-  guards?: Guards;
+  config?: CompiledFlow<C>;
   migration?: FlowMigration<C>;
   flowTransitionConfig?: FlowTransitionConfig;
   stringReplacements?: (context: UserData) => Replacements;
@@ -76,9 +82,10 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
    * specific field (e.g. internal fields with no CMS label, like parentKindIndex).
    */
   summaryFieldOverride?: SummaryFieldOverride;
-  asyncFlowActions?: Record<string, AsyncFlowAction>;
+  posFlowActions?: Record<string, PosFlowAction>;
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
+  pdfConfig?: PdfConfig;
 };
 
 export const flows = {

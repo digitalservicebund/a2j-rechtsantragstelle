@@ -7,10 +7,7 @@ import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getR
 import { findGerichtByXjustizId } from "~/domains/geldEinklagen/services/xjustiz/findGerichtByXjustizId";
 import { geldEinklagenXjustizFromUserdata } from "~/domains/geldEinklagen/services/xjustiz/geldEinklagenXjustizFromUserdata.server";
 import { config } from "~/services/env/env.server";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import { logError } from "~/services/logging";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
@@ -33,14 +30,8 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const sessionData = await getSessionData(flowId, cookieHeader);
 
-  let userData: GeldEinklagenFormularUserData;
-  if ("newEngineConfig" in flows[flowId]) {
-    const compiledStaticFlow = flows[flowId]
-      .newEngineConfig as CompiledFlow<PageConfigMap>;
-    userData = getPrunedUserDataFromSimulation(compiledStaticFlow, sessionData);
-  } else {
-    userData = pruneIrrelevantData(sessionData, flowId).prunedData;
-  }
+  const userData: GeldEinklagenFormularUserData =
+    getPrunedUserDataFromSimulation(flows[flowId].config, sessionData);
   if (isEmpty(userData)) return redirect(flowId);
 
   const gericht = findGerichtByXjustizId(

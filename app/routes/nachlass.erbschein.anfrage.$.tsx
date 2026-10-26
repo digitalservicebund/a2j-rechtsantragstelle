@@ -3,7 +3,7 @@ import { erbfolgeLoaderExtras } from "~/domains/nachlass/erbschein/shared/erbfol
 import {
   loadFormularData,
   runFormularAction,
-} from "~/routes/shared/newEngineFormular.server";
+} from "~/routes/shared/formular.server";
 
 export { FormFlowPage as default } from "~/routes/shared/components/FormFlowPage";
 

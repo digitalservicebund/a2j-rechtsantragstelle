@@ -7,7 +7,7 @@ import { getPersonLocationsWithReference } from "./deleteBeweisPersonReference";
 import omit from "lodash/omit";
 import { type Abschnitte } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 
-export const updateBeweisReferencePersons = async (
+export const updateBeweisReferencePersons = (
   request: Request,
   userData: GeldEinklagenFormularKlageErstellenUserData,
   flowSession: Session,

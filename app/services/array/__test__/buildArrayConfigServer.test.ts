@@ -1,6 +1,8 @@
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { buildArrayConfigServer } from "../buildArrayConfigServer";
+
+const isArrayRelevant = () => true;
 
 describe("buildArrayConfigServer", () => {
   it("should return undefined when flowSessionEngine.arrayInfo is undefined", () => {
@@ -22,7 +24,7 @@ describe("buildArrayConfigServer", () => {
       arrayInfo: {
         name: "arrayName",
         entryPoint: "daten",
-        fieldName: "fieldName",
+        isArrayRelevant,
         indexOffset: 1,
         hiddenFields: ["field1", "field2"],
         shouldDisableAddButton: false,
@@ -40,10 +42,9 @@ describe("buildArrayConfigServer", () => {
 
     expect(result).toEqual({
       arrayName: {
-        event: "add-arrayName",
         url: "/beratungshilfe/antrag/finanzielle-angaben/eigentum/bankkonten/bankkonto",
         initialInputUrl: "daten",
-        statementKey: "fieldName",
+        isArrayRelevant,
         shouldDisableAddButton: false,
         displayIndexOffset: 1,
         hiddenFields: ["field1", "field2"],

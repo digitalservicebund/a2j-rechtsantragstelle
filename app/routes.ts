@@ -1,9 +1,15 @@
 import { prefix, route, type RouteConfig } from "@react-router/dev/routes";
 import { flatRoutes } from "@react-router/fs-routes";
 import { flowRoutes, vorabcheckRoutes } from "./services/routing/flowRoutes";
+import { hubPages } from "./services/routing/hubPages";
 
 export default [
   ...(await flatRoutes()), // See routes folder & https://reactrouter.com/how-to/file-route-conventions
+  ...Array.from(hubPages).map((path) =>
+    route(path.substring(1), "routes/shared/hubPages.ts", {
+      id: `hubPage-${path.substring(1)}`,
+    }),
+  ),
   ...prefix("beratungshilfe", [
     ...prefix("vorabcheck", vorabcheckRoutes("BHV")),
     ...prefix("antrag", flowRoutes("BHA")),
@@ -58,7 +64,7 @@ export default [
       route("download/xjustiz", "routes/shared/xjustizDownloadLoader.ts", {
         id: `xjustizGEF`,
       }),
-      route(":path/:path2/ergebnis/*", "routes/shared/newEngineResult.ts", {
+      route(":path/:path2/ergebnis/*", "routes/shared/result.ts", {
         id: `resGEF`,
       }),
     ]),

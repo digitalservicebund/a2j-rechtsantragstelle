@@ -2,12 +2,12 @@ import { createServer, type Server } from "node:http";
 import { loader } from "../xjustizDownloadLoader";
 import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromRequest";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
-import * as pruneUserData from "~/services/flow/newFlowEngine/pruneUserData";
+import * as pruneUserData from "~/services/flow/flowEngine/pruneUserData";
 import { logError } from "~/services/logging";
 import type {
   InferredUserData,
   PageConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 
 const FAKE_XML = '<?xml version="1.0"?><nachricht />';
 const URL_UNDER_TEST =
@@ -23,10 +23,6 @@ const userData = {
     },
   ],
 };
-
-vi.mock("~/services/flow/pruner/pruner", () => ({
-  pruneIrrelevantData: vi.fn().mockReturnValue({ prunedData: {} }),
-}));
 
 vi.mock("~/services/logging", () => ({ logError: vi.fn() }));
 

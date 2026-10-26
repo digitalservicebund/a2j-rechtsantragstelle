@@ -15,6 +15,7 @@ import type {
 } from "~/domains/prozesskostenhilfe/formular/finanzielleAngaben/eigentum/pages";
 import type { Eigentumer } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import type { AttachmentEntries } from "~/services/pdf/attachment";
+import { hasDateObject, toDateString } from "~/services/validation/dateObject";
 import { formatIban } from "~/services/validation/iban";
 
 const befristungMapping = {
@@ -225,11 +226,14 @@ export const attachGeldanlagenToAnhang = (
         text: geldanlageEigentumer,
       },
     );
-    if ("auszahlungdatum" in geldanlage)
+    if (
+      "auszahlungdatum" in geldanlage &&
+      hasDateObject(geldanlage.auszahlungdatum)
+    )
       attachment.push(
         {
           title: "Auszahlungsdatum",
-          text: geldanlage.auszahlungdatum,
+          text: toDateString(geldanlage.auszahlungdatum),
         },
         {
           title: "Art der Befristung",
@@ -287,8 +291,11 @@ export function fillSingleGeldanlage(geldanlage: GeldanlagenArraySchema[0]) {
   if (geldanlage.eigentuemer === "myselfAndSomeoneElse")
     description += `, Eigentümer:in: ${eigentuemerMapping[geldanlage.eigentuemer]}`;
 
-  if ("auszahlungdatum" in geldanlage)
-    description += `, Auszahlungsdatum: ${geldanlage.auszahlungdatum}`;
+  if (
+    "auszahlungdatum" in geldanlage &&
+    hasDateObject(geldanlage.auszahlungdatum)
+  )
+    description += `, Auszahlungsdatum: ${toDateString(geldanlage.auszahlungdatum)}`;
   if ("befristetArt" in geldanlage)
     description += `, Art der Befristung: ${befristungMapping[geldanlage.befristetArt]}`;
   if ("verwendungszweck" in geldanlage)

@@ -356,8 +356,14 @@ export const translations = {
     minuteInputLabel: {
       de: "Minute",
     },
-    errorWrongTime: {
+    invalidTime: {
       de: "Ungültige Uhrzeit",
+    },
+    invalidHour: {
+      de: "Ungültige Stunde",
+    },
+    invalidMinute: {
+      de: "Ungültiger Minute",
     },
   },
   numberIncrementComponent: {
@@ -651,6 +657,75 @@ export const translations = {
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
+    natuerlichePersonHeadline: {
+      de: "Natürliche Person",
+    },
+    natuerlichePersonenHeadline: {
+      de: "Natürliche Personen",
+    },
+    gesetzlicheVetretungHeadline: {
+      de: "Gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungOrganisationHeadline: {
+      de: "Weitere gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungSubheader: {
+      de: "Maximal 5",
+    },
+    gesetzlicheVertretungArt: {
+      de: "Art der Vertretung",
+    },
+    gesetzlicheVertretungDeletionLabel: {
+      de: "und gesetzliche Vertretung",
+    },
+    natuerlichePersonenMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an natürlichen Personen erreicht",
+    },
+    natuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende natürliche Personen hinzufügen.",
+    },
+    beklagteNatuerlichePersonenMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte natürliche Personen hinzufügen.",
+    },
+    klagendeParteiHeadline: {
+      de: "Klagende zu",
+    },
+    beklagteParteiHeadline: {
+      de: "Beklagte zu",
+    },
+    organisationHeadline: {
+      de: "Organisation",
+    },
+    organisationDescription: {
+      de: "Darunter fallen alle, die keine natürlichen Personen sind. Dazu gehören zum Beispiel juristische Personen, Personengesellschaften oder Gebietskörperschaften. Aus technischen Gründen lässt sich die GmbH & CO KG derzeit nicht abbilden.",
+    },
+    organisationenHeadline: {
+      de: "Organisationen",
+    },
+    organisationMaximumReachedTitleNotice: {
+      de: "Maximale Anzahl an Organisationen erreicht",
+    },
+    organisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 klagende Organisationen hinzufügen.",
+    },
+    beklagteOrganisationMaximumReachedContentNotice: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
+    },
+    soenstigeProzessantragArrayButton: {
+      de: "Antrag oder prozessuale Ausführung hinzufügen",
+    },
+    soenstigeProzessantragDelete: {
+      de: "Antrag/Ausführung löschen?",
+    },
+    soenstigeProzessantragDescription: {
+      de: "Folgendes wird entfernt:",
+    },
+    soenstigeProzessantragInlineNoticeTitle: {
+      de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
+    },
+    soenstigeProzessantragInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
+    },
   },
   nachlass: {
     childOf: {
@@ -705,6 +780,14 @@ export const translations = {
     },
     personHadChildren: {
       de: "Hatte weitere Kinder?",
+    },
+  },
+  hubPages: {
+    tableOfLinksLabel: {
+      de: "Inhalt",
+    },
+    navigationLabel: {
+      de: "Weitere Inhalte zum Thema",
     },
   },
 } satisfies TranslationRecord;

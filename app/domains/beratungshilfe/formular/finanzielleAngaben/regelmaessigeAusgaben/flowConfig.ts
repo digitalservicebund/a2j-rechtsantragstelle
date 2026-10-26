@@ -1,4 +1,4 @@
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type BeratungshilfeFormularPages } from "../../pages";
 import { hasAusgabenYesAndEmptyArray, hasZahlungsfristYes } from "../guards";
 

@@ -4,8 +4,8 @@ import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
 import {
   evaluateAllBranches,
   evaluateRoute,
-} from "~/services/flow/newFlowEngine/routing";
-import { type InferredUserData } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/routing";
+import { type InferredUserData } from "~/services/flow/flowEngine/types";
 
 type GuardData = InferredUserData<ErbscheinAnfragePages>;
 

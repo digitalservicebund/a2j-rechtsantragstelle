@@ -1,134 +1,37 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import type { BeratungshilfeFormularUserData } from "~/domains/beratungshilfe/formular/userData";
-import { beratungshilfePdfFromUserdata } from "~/domains/beratungshilfe/services/pdf";
-import { parsePathname, type FlowId } from "~/domains/flowIds";
-import { flows } from "~/domains/flows.server";
-import type { FluggastrechteFlugdatenUserData } from "~/domains/fluggastrechte/formular/flugdaten/userData";
-import { fluggastrechtePdfFromUserdata } from "~/domains/fluggastrechte/services/pdf/fluggastrechtePdfFromUserdata";
-import { geldEinklagenAnwaltschaftPdfFromUserdata } from "~/domains/geldEinklagen/anwaltschaft/services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
-import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { geldEinklagenPdfFromUserdata } from "~/domains/geldEinklagen/services/pdf/geldEinklagenPdfFromUserdata";
-import { pKontoPdfFromUserdata } from "~/domains/kontopfaendung/pkonto/antrag/pKontoPdfFromUserdata";
-import { type KontopfaendungPkontoAntragUserData } from "~/domains/kontopfaendung/pkonto/antrag/userData";
-import { type ErbausschlagungAnfrageUserData } from "~/domains/nachlass/erbausschlagung/anfrage/userData";
-import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
-import { erbausschlagungAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
-import { erbscheinAnfragePdfFromUserdata } from "~/domains/nachlass/services/pdf/erbschein/erbscheinAnfragePdfFromUserdata";
-import type { ProzesskostenhilfeFormularUserData } from "~/domains/prozesskostenhilfe/formular/userData";
-import { prozesskostenhilfePdfFromUserdata } from "~/domains/prozesskostenhilfe/services/pdf";
 import { type UserData } from "~/domains/userData";
 import { fetchTranslations } from "~/services/cms/index.server";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { getPrunedUserDataFromSimulation } from "~/services/flow/newFlowEngine/pruneUserData";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { pruneIrrelevantData } from "~/services/flow/pruner/pruner";
+import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
+import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import { createPdfResponseHeaders } from "~/services/pdf/createPdfResponseHeaders";
-import {
-  getSessionData,
-  getSessionIdByFlowId,
-} from "~/services/session.server";
-import type { Translations } from "~/services/translations/getTranslationByKey";
+import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
-
-type PdfFlowContexts =
-  | BeratungshilfeFormularUserData
-  | FluggastrechteFlugdatenUserData
-  | ProzesskostenhilfeFormularUserData
-  | GeldEinklagenFormularUserData
-  | ErbausschlagungAnfrageUserData
-  | ErbscheinAnfrageUserData
-  | KontopfaendungPkontoAntragUserData;
-
-type PdfConfig = PdfFlowContexts extends infer T
-  ? T extends PdfFlowContexts
-    ? {
-        pdfFunction: (
-          userData: T,
-          sessionId: string,
-          translations?: Translations,
-        ) => Promise<Uint8Array>;
-        name: string;
-      }
-    : never
-  : never;
-
-const pdfConfigs = {
-  "/beratungshilfe/antrag": {
-    pdfFunction: async (userData: BeratungshilfeFormularUserData) =>
-      await beratungshilfePdfFromUserdata(userData),
-    name: `Antrag_Beratungshilfe`,
-  },
-  "/prozesskostenhilfe/formular": {
-    pdfFunction: async (
-      userData: ProzesskostenhilfeFormularUserData,
-      sessionId: string,
-      translations?: Translations,
-    ) =>
-      await prozesskostenhilfePdfFromUserdata(
-        userData,
-        sessionId,
-        translations,
-      ),
-    name: `Erklaerung_Prozesskostenhilfe`,
-  },
-  "/fluggastrechte/formular": {
-    pdfFunction: async (userData: FluggastrechteFlugdatenUserData) => {
-      return await fluggastrechtePdfFromUserdata(userData);
-    },
-    name: `Fluggastrechte_Klage`,
-  },
-  "/kontopfaendung/pkonto/antrag": {
-    pdfFunction: async (userData: KontopfaendungPkontoAntragUserData) =>
-      await pKontoPdfFromUserdata(userData),
-    name: "Antrag_Umwandlung_nach_Pfaendung",
-  },
-  "/geld-einklagen/formular": {
-    pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
-      await geldEinklagenPdfFromUserdata(userData),
-    name: `Geld_Einklagen_Klage`,
-  },
-  "/geld-einklagen/anwaltschaft": {
-    pdfFunction: async (userData: GeldEinklagenAnwaltschaftUserData) =>
-      await geldEinklagenAnwaltschaftPdfFromUserdata(userData),
-    name: `Geld_Einklagen_Klage`,
-  },
-  "/erbausschlagung/anfrage": {
-    pdfFunction: async (userData: ErbausschlagungAnfrageUserData) =>
-      await erbausschlagungAnfragePdfFromUserdata(userData),
-    name: `Erbausschlagung_Anfrage`,
-  },
-  "/erbschein/anfrage": {
-    pdfFunction: async (userData: ErbscheinAnfrageUserData) =>
-      await erbscheinAnfragePdfFromUserdata(userData),
-    name: `Erbschein_Anfrage`,
-  },
-} satisfies Partial<Record<FlowId, PdfConfig>>;
 
 export async function loader({ request, url }: LoaderFunctionArgs) {
   const { pathname } = url;
-  const { flowId } = parsePathname(pathname);
-  if (!(flowId in pdfConfigs))
-    return new Response(`No pdf config for flowId: ${flowId}`, { status: 501 });
-  const flowTranslations = await fetchTranslations(flowId);
-  const { pdfFunction, name } = pdfConfigs[flowId as keyof typeof pdfConfigs];
+  const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
   const cookieHeader = request.headers.get("Cookie");
-  const sessionData = await getSessionData(flowId, cookieHeader);
 
-  // TODO: remove after migration to new flow engine
-  let userData: UserData;
-  if ("newEngineConfig" in flows[flowId]) {
-    const compiledStaticFlow = flows[flowId]
-      .newEngineConfig as CompiledFlow<PageConfigMap>;
-    userData = getPrunedUserDataFromSimulation(compiledStaticFlow, sessionData);
-  } else {
-    userData = pruneIrrelevantData(sessionData, flowId).prunedData;
-  }
+  const pdfConfig =
+    "pdfConfig" in currentFlow ? currentFlow.pdfConfig : undefined;
+
+  if (pdfConfig === undefined)
+    return new Response(`No pdf config for flowId: ${flowId}`, { status: 501 });
+
+  const [flowTranslations, sessionData] = await Promise.all([
+    fetchTranslations(flowId),
+    getSessionData(flowId, cookieHeader),
+  ]);
+  const compiledStaticFlow = currentFlow.config;
+  const userData: UserData = getPrunedUserDataFromSimulation(
+    compiledStaticFlow,
+    sessionData,
+  );
   if (isEmpty(userData)) return redirect(flowId);
-  const sessionId = await getSessionIdByFlowId(flowId, cookieHeader);
 
-  const fileContent = await pdfFunction(userData, sessionId, flowTranslations);
+  const { pdfFunction, name } = pdfConfig;
+  const fileContent = await pdfFunction(userData, flowTranslations);
   const fileSize = fileContent.length;
   const filename = `${name}_${pdfDateFormat(today())}.pdf`;
 

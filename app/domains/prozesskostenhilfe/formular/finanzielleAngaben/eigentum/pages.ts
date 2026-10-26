@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
+import { createSplitDateSchemaOptional } from "~/services/validation/dateObject";
 import { ibanSchema } from "~/services/validation/iban";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -99,7 +100,7 @@ const befristetSchema = z.object({
     "fixedDepositAccount",
   ]),
   verwendungszweck: stringRequiredSchema,
-  auszahlungdatum: stringOptionalSchema,
+  auszahlungdatum: createSplitDateSchemaOptional(),
 });
 
 const forderungSchema = z.object({
@@ -201,7 +202,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "bankkonten",
       schema: bankkontenArraySchema,
-      fieldName: "hasBankkonto",
+      isArrayRelevant: (context) => context["hasBankkonto"] === "yes",
     },
   },
   eigentumBankkonto: {
@@ -237,7 +238,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "geldanlagen",
       schema: geldanlagenArraySchema,
-      fieldName: "hasGeldanlage",
+      isArrayRelevant: (context) => context["hasGeldanlage"] === "yes",
     },
   },
   eigentumGeldanlage: {
@@ -338,7 +339,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "kraftfahrzeuge",
       schema: kraftfahrzeugeArraySchema,
-      fieldName: "hasKraftfahrzeug",
+      isArrayRelevant: (context) => context["hasKraftfahrzeug"] === "yes",
     },
   },
   eigentumKraftfahrzeug: {
@@ -403,7 +404,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "wertsachen",
       schema: wertsachenArraySchema,
-      fieldName: "hasWertsache",
+      isArrayRelevant: (context) => context["hasWertsache"] === "yes",
     },
   },
   eigentumWertgegenstand: {
@@ -436,7 +437,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
     arraySummary: {
       name: "grundeigentum",
       schema: grundeigentumArraySchema,
-      fieldName: "hasGrundeigentum",
+      isArrayRelevant: (context) => context["hasGrundeigentum"] === "yes",
     },
   },
   eigentumGrundeigentumGrundeigentum: {

@@ -1,12 +1,12 @@
 import { type z } from "zod";
-import { type UserDataFromPagesSchema } from "~/domains/pageSchemas";
+import { type InferredUserData } from "~/services/flow/flowEngine/types";
 import type {
   ankuendigungSchema,
   fluggastBereichSchema,
   fluggastrechteVorabcheckPages,
 } from "./pages";
 
-export type FluggastrechtVorabcheckUserData = UserDataFromPagesSchema<
+export type FluggastrechtVorabcheckUserData = InferredUserData<
   typeof fluggastrechteVorabcheckPages
 >;
 

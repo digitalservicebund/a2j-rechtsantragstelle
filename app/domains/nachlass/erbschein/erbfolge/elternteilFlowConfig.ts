@@ -3,7 +3,7 @@ import {
   type NodeKey,
   type TransitionConfig,
   type TransitionConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 import { type ErbfolgePages } from "./pages";
 import {
   elternteilKindAt,

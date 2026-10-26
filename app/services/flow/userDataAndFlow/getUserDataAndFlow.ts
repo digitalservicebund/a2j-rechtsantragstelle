@@ -3,26 +3,38 @@ import { emailCaptureConsentName } from "~/components/content/emailCapture/email
 import { type ValidFlowPagesType } from "~/components/hooks/formFlowContext";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserData } from "~/domains/userData";
-import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
-import { buildFlowController } from "~/services/flow/server/buildFlowController";
-import { getSessionManager } from "~/services/session.server";
-import { getMigrationData } from "~/services/session.server/getMigrationData";
-import { validateStepIdFlow } from "./validateStepIdFlow";
-import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { getPrunedUserDataFromPathname } from "../getPrunedUserDataFromPathname";
-import { type UserDataWithPageData } from "../pageData";
-import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
-import { type Flow } from "~/domains/flows.server";
+import { userVisitedValidationPageKey } from "~/services/flow/server/setUserVisitedValidationPage";
+import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
+import { getMigrationData } from "~/services/session.server/getMigrationData";
+import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
+import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
+import { type FlowSession } from "../flowEngine/createFlowSession";
+import { type PageConfigMap } from "../flowEngine/types";
+import { type UserDataWithPageData } from "../pageData";
+import { getSessionAndEngine } from "./getSessionAndEngine";
+import { validateStepIdFlow } from "./validateStepIdFlow";
+
+const buildValidFlowPaths = (
+  flowSessionEngine: FlowSession<PageConfigMap>,
+): ValidFlowPagesType => {
+  return Object.fromEntries(
+    flowSessionEngine.paths.map((path) => [
+      path,
+      { isArrayPage: flowSessionEngine.isArrayPage(path) },
+    ]),
+  ) as ValidFlowPagesType;
+};
 
 type OkResult = {
   userData: UserDataWithPageData;
   flow: {
     id: FlowId;
-    controller: ReturnType<typeof buildFlowController>;
     validFlowPaths: ValidFlowPagesType;
-    userVisitedValidationPage?: boolean;
+    userVisitedValidationPage: boolean;
     useStepper: boolean;
+    flowSessionEngine: FlowSession<PageConfigMap>;
+    triggerValidation: boolean;
   };
   page: {
     stepId: string;
@@ -42,13 +54,16 @@ type ErrorResult = {
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/erbausschlagung/anfrage": "showErbausschlagungFlow",
+  "/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
+  "/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow",
+  "/geld-einklagen/anwaltschaft": "showGeldEinklagenAnwaltschaftFlow",
 } as const;
 
 export const getUserDataAndFlow = async (
   request: Request,
   url: URL,
 ): Promise<Result<OkResult, ErrorResult>> => {
-  const { pathname } = url;
+  const { pathname, searchParams } = url;
   const cookieHeader = request.headers.get("Cookie");
 
   const { flowId, stepId, arrayIndexes, currentFlow } =
@@ -60,44 +75,60 @@ export const getUserDataAndFlow = async (
     await throw404IfFeatureFlagDisabled(featureFlag);
   }
 
-  const [{ userDataWithPageData, validFlowPaths }, migrationData, flowSession] =
-    await Promise.all([
-      getPrunedUserDataFromPathname(pathname, cookieHeader),
-      getMigrationData(stepId, flowId, currentFlow, cookieHeader),
-      getSessionManager(flowId).getSession(cookieHeader),
-    ]);
+  const config = "config" in currentFlow ? currentFlow.config : undefined;
 
-  const flowController = buildFlowController({
-    config: currentFlow.config,
-    data: userDataWithPageData,
-    guards: "guards" in currentFlow ? currentFlow.guards : {},
-  });
+  const [sessionEngineResult, migrationData] = await Promise.all([
+    getSessionAndEngine(
+      flowId,
+      config,
+      cookieHeader ?? "",
+      stepId,
+      arrayIndexes,
+    ),
+    getMigrationData(stepId, flowId, currentFlow, cookieHeader),
+  ]);
+
+  if (sessionEngineResult.isErr) {
+    return Result.err({ redirectTo: sessionEngineResult.error.redirectTo });
+  }
+
+  const { flowSession, flowSessionEngine } = sessionEngineResult.value;
 
   const validationFlowResult = await validateStepIdFlow(
+    flowId,
     stepId,
-    request,
-    flowController,
+    searchParams,
+    cookieHeader,
+    flowSessionEngine,
     currentFlow,
-    url,
   );
 
   if (validationFlowResult.isErr) {
     return Result.err({ redirectTo: validationFlowResult.error.redirectTo });
   }
 
+  const triggerValidation =
+    getMetaConfigurationByStepId(currentFlow, stepId)?.triggerValidation ??
+    false;
+
   return Result.ok({
-    userData: userDataWithPageData,
+    userData: {
+      ...(flowSessionEngine.prunedUserData as UserDataWithPageData),
+      pageData: {
+        arrayIndexes,
+      },
+    },
     flow: {
       id: flowId,
-      controller: flowController,
-      validFlowPaths,
+      validFlowPaths: buildValidFlowPaths(flowSessionEngine),
       userVisitedValidationPage:
-        flowSession.get(userVisitedValidationPageKey) ??
-        flowController.getMeta(stepId)?.triggerValidation,
+        flowSession.get(userVisitedValidationPageKey) ?? triggerValidation,
       useStepper:
-        "useStepper" in currentFlow
-          ? ((currentFlow as Flow).useStepper ?? false)
+        "useStepper" in currentFlow && currentFlow.useStepper !== undefined
+          ? currentFlow.useStepper
           : false,
+      flowSessionEngine,
+      triggerValidation,
     },
     page: {
       stepId,
@@ -105,7 +136,7 @@ export const getUserDataAndFlow = async (
     },
     emailCaptureConsent: flowSession.get(emailCaptureConsentName),
     migration: {
-      userData: migrationData,
+      userData: migrationData ?? {},
       sortedFields:
         "migration" in currentFlow
           ? currentFlow.migration?.sortedFields

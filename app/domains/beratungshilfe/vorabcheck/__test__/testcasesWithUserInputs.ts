@@ -2,7 +2,6 @@ import type {
   FlowTestCases,
   FlowTestConfig,
 } from "~/domains/__test__/TestCases";
-import { beratungshilfeVorabcheckXstateConfig } from "../xstateConfig";
 import { type BeratungshilfeVorabcheckUserData } from "~/domains/beratungshilfe/vorabcheck/userData";
 import { beratungshilfeVorabcheckFlowConfig } from "../flowConfig";
 
@@ -125,8 +124,7 @@ const staatlicheLeistungenTestCases = {
 } satisfies FlowTestCases<BeratungshilfeVorabcheckUserData>;
 
 export const beratungshilfeVorabcheckTestCases = {
-  xstateConfig: beratungshilfeVorabcheckXstateConfig,
-  newEngineConfig: beratungshilfeVorabcheckFlowConfig,
+  config: beratungshilfeVorabcheckFlowConfig,
   testcases: {
     fullFlow: [
       { stepId: "/start" },

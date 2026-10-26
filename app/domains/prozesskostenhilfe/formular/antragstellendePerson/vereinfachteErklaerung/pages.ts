@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { childBirthdaySchema } from "~/services/validation/dateString";
+import { childBirthdaySchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -113,7 +113,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
     arraySummary: {
       name: "einnahmen",
       schema: einnahmenArraySchema,
-      fieldName: "hasEinnahmen",
+      isArrayRelevant: (context) => context["hasEinnahmen"] === "yes",
     },
   },
   einnahme: {
@@ -156,7 +156,7 @@ export const pkhFormularVereinfachteErklaerungPages = {
     arraySummary: {
       name: "vermoegen",
       schema: vermoegenArraySchema,
-      fieldName: "hasVermoegen",
+      isArrayRelevant: (context) => context["hasVermoegen"] === "yes",
     },
   },
   vermoegenEintrag: {

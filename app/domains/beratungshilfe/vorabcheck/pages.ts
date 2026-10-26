@@ -7,65 +7,65 @@ import { kidsSchema } from "./kidsSchema";
 
 export const beratungshilfeVorabcheckPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   rechtsschutzversicherung: {
-    stepId: "rechtsschutzversicherung",
+    stepId: "/rechtsschutzversicherung",
     pageSchema: { rechtsschutzversicherung: YesNoAnswer },
   },
   rechtsschutzversicherungDetails: {
-    stepId: "rechtsschutzversicherung-details",
+    stepId: "/rechtsschutzversicherung-details",
     pageSchema: {
       rsvCoverage: z.enum(["yes", "partly", "tooExpensive", "no", "unknown"]),
     },
   },
   rechtsschutzversicherungAbbruch: {
-    stepId: "ergebnis/rechtsschutzversicherung-abbruch",
+    stepId: "/ergebnis/rechtsschutzversicherung-abbruch",
   },
   rechtsschutzversicherungHinweisSelbstbeteiligung: {
-    stepId: "rechtsschutzversicherung-hinweis-selbstbeteiligung",
+    stepId: "/rechtsschutzversicherung-hinweis-selbstbeteiligung",
   },
   rechtsschutzversicherungUngewissAbbruch: {
-    stepId: "ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
+    stepId: "/ergebnis/rechtsschutzversicherung-ungewiss-abbruch",
   },
   rechtsschutzversicherungHinweisKostenuebernahme: {
-    stepId: "rechtsschutzversicherung-hinweis-kostenuebernahme",
+    stepId: "/rechtsschutzversicherung-hinweis-kostenuebernahme",
   },
   wurdeVerklagt: {
-    stepId: "wurde-verklagt",
+    stepId: "/wurde-verklagt",
     pageSchema: { wurdeVerklagt: YesNoAnswer },
   },
   wurdeVerklagtAbbruch: {
-    stepId: "ergebnis/wurde-verklagt-abbruch",
+    stepId: "/ergebnis/wurde-verklagt-abbruch",
   },
   klageEingereicht: {
-    stepId: "klage-eingereicht",
+    stepId: "/klage-eingereicht",
     pageSchema: { klageEingereicht: YesNoAnswer },
   },
   klageEingereichtAbbruch: {
-    stepId: "ergebnis/klage-eingereicht-abbruch",
+    stepId: "/ergebnis/klage-eingereicht-abbruch",
   },
   hamburgOderBremen: {
-    stepId: "hamburg-oder-bremen",
+    stepId: "/hamburg-oder-bremen",
     pageSchema: { hamburgOderBremen: YesNoAnswer },
   },
   hamburgOderBremenAbbruch: {
-    stepId: "ergebnis/hamburg-oder-bremen-abbruch",
+    stepId: "/ergebnis/hamburg-oder-bremen-abbruch",
   },
   beratungshilfeBeantragt: {
-    stepId: "beratungshilfe-beantragt",
+    stepId: "/beratungshilfe-beantragt",
     pageSchema: { beratungshilfeBeantragt: YesNoAnswer },
   },
   beratungshilfeBeantragtAbbruch: {
-    stepId: "ergebnis/beratungshilfe-beantragt-abbruch",
+    stepId: "/ergebnis/beratungshilfe-beantragt-abbruch",
   },
   eigeninitiative: {
-    stepId: "eigeninitiative",
+    stepId: "/eigeninitiative",
     pageSchema: { eigeninitiative: YesNoAnswer },
   },
-  eigeninitiativeWarnung: { stepId: "eigeninitiative-warnung" },
+  eigeninitiativeWarnung: { stepId: "/eigeninitiative-warnung" },
   bereich: {
-    stepId: "bereich",
+    stepId: "/bereich",
     pageSchema: {
       bereich: z.enum([
         "authorities",
@@ -81,7 +81,7 @@ export const beratungshilfeVorabcheckPages = {
     },
   },
   staatlicheLeistungen: {
-    stepId: "staatliche-leistungen",
+    stepId: "/staatliche-leistungen",
     pageSchema: {
       staatlicheLeistungen: z.enum([
         "grundsicherung",
@@ -92,102 +92,102 @@ export const beratungshilfeVorabcheckPages = {
     },
   },
   staatlicheLeistungenAbschlussVielleicht: {
-    stepId: "ergebnis/staatliche-leistungen-abschluss-vielleicht",
+    stepId: "/ergebnis/staatliche-leistungen-abschluss-vielleicht",
   },
   staatlicheLeistungenAbschlussJa: {
-    stepId: "ergebnis/staatliche-leistungen-abschluss-ja",
+    stepId: "/ergebnis/staatliche-leistungen-abschluss-ja",
   },
   vermoegen: {
-    stepId: "vermoegen",
+    stepId: "/vermoegen",
     pageSchema: {
       vermoegen: z.enum(["below_10k", "above_10k"]),
     },
   },
   vermoegenAbschlussJa: {
-    stepId: "ergebnis/vermoegen-abschluss-ja",
+    stepId: "/ergebnis/vermoegen-abschluss-ja",
   },
   vermoegenAbschlussVielleicht: {
-    stepId: "ergebnis/vermoegen-abschluss-vielleicht",
+    stepId: "/ergebnis/vermoegen-abschluss-vielleicht",
   },
   vermoegenAbschlussAbbruch: {
-    stepId: "ergebnis/vermoegen-abbruch",
+    stepId: "/ergebnis/vermoegen-abbruch",
   },
   erwerbstaetigkeit: {
-    stepId: "erwerbstaetigkeit",
+    stepId: "/erwerbstaetigkeit",
     pageSchema: { erwerbstaetigkeit: YesNoAnswer },
   },
   partnerschaft: {
-    stepId: "partnerschaft",
+    stepId: "/partnerschaft",
     pageSchema: { partnerschaft: YesNoAnswer },
   },
   genauigkeit: {
-    stepId: "genauigkeit",
+    stepId: "/genauigkeit",
     pageSchema: { genauigkeit: YesNoAnswer },
   },
   kinderKurz: {
-    stepId: "kinder-kurz",
+    stepId: "/kinder-kurz",
     pageSchema: { kinderKurz: YesNoAnswer },
   },
   kinderAnzahlKurz: {
-    stepId: "kinder-anzahl-kurz",
+    stepId: "/kinder-anzahl-kurz",
     pageSchema: { kinderAnzahlKurz: buildKidsCountValidationSchema() },
   },
   verfuegbaresEinkommen: {
-    stepId: "verfuegbares-einkommen",
+    stepId: "/verfuegbares-einkommen",
     pageSchema: { verfuegbaresEinkommen: YesNoAnswer },
   },
   verfuegbaresEinkommenAbschlussJa: {
-    stepId: "ergebnis/verfuegbares-einkommen-abschluss-ja",
+    stepId: "/ergebnis/verfuegbares-einkommen-abschluss-ja",
   },
   verfuegbaresEinkommenAbschlussVielleicht: {
-    stepId: "ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
+    stepId: "/ergebnis/verfuegbares-einkommen-abschluss-vielleicht",
   },
   verfuegbaresEinkommenAbschlussNein: {
-    stepId: "ergebnis/verfuegbares-einkommen-abschluss-nein",
+    stepId: "/ergebnis/verfuegbares-einkommen-abschluss-nein",
   },
   einkommen: {
-    stepId: "einkommen",
+    stepId: "/einkommen",
     pageSchema: { einkommen: buildMoneyValidationSchema() },
   },
   einkommenPartner: {
-    stepId: "einkommen-partner",
+    stepId: "/einkommen-partner",
     pageSchema: { einkommenPartner: buildMoneyValidationSchema() },
   },
   kinder: {
-    stepId: "kinder",
+    stepId: "/kinder",
     pageSchema: { kinder: YesNoAnswer },
   },
   kinderAnzahl: {
-    stepId: "kinder-anzahl",
+    stepId: "/kinder-anzahl",
     pageSchema: { kids: kidsSchema },
   },
   einkommenKinder: {
-    stepId: "einkommen-kinder",
+    stepId: "/einkommen-kinder",
     pageSchema: { einkommenKinder: buildMoneyValidationSchema() },
   },
   unterhalt: {
-    stepId: "unterhalt",
+    stepId: "/unterhalt",
     pageSchema: { unterhalt: YesNoAnswer },
   },
   unterhaltSumme: {
-    stepId: "unterhalt-summe",
+    stepId: "/unterhalt-summe",
     pageSchema: { unterhaltSumme: buildMoneyValidationSchema() },
   },
   miete: {
-    stepId: "miete",
+    stepId: "/miete",
     pageSchema: { miete: buildMoneyValidationSchema() },
   },
   weitereZahlungenSumme: {
-    stepId: "weitere-zahlungen-summe",
+    stepId: "/weitere-zahlungen-summe",
     pageSchema: { weitereZahlungenSumme: buildMoneyValidationSchema() },
   },
   weitereZahlungenSummeAbschlussJa: {
-    stepId: "ergebnis/weitere-zahlungen-summe-abschluss-ja",
+    stepId: "/ergebnis/weitere-zahlungen-summe-abschluss-ja",
   },
   weitereZahlungenSummeAbschlussVielleicht: {
-    stepId: "ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
+    stepId: "/ergebnis/weitere-zahlungen-summe-abschluss-vielleicht",
   },
   weitereZahlungenSummeAbschlussNein: {
-    stepId: "ergebnis/weitere-zahlungen-summe-abschluss-nein",
+    stepId: "/ergebnis/weitere-zahlungen-summe-abschluss-nein",
   },
 } as const satisfies PagesConfig;

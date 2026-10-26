@@ -7,22 +7,22 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const erbausschlagungGerichtFindenPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   lebensmittelpunkt: {
-    stepId: "lebensmittelpunkt",
+    stepId: "/lebensmittelpunkt",
     pageSchema: {
       lebensmittelpunkt: z.enum(["deutschland", "ausland"]),
     },
   },
   plz: {
-    stepId: "plz",
+    stepId: "/plz",
     pageSchema: {
       plz: postcodeSchema,
     },
   },
   strasseHausnummer: {
-    stepId: "verschiedene-zustaendige-gerichte",
+    stepId: "/verschiedene-zustaendige-gerichte",
     pageSchema: {
       strasse: autoSuggestStreetNames([
         "plzLebensmittelpunkt",
@@ -34,42 +34,42 @@ export const erbausschlagungGerichtFindenPages = {
     },
   },
   ausschlagungsOrt: {
-    stepId: "wo-ausschlagen",
+    stepId: "/wo-ausschlagen",
     pageSchema: {
       ausschlagungsOrt: z.enum(["courtNearMe", "courtNearDeceased"]),
     },
   },
   pflegeheim: {
-    stepId: "pflegeheim",
+    stepId: "/pflegeheim",
     pageSchema: {
       pflegeheim: YesNoAnswer,
     },
   },
   plzPflegeheim: {
-    stepId: "plz-pflegeheim",
+    stepId: "/plz-pflegeheim",
     pageSchema: {
       plzPflegeheim: postcodeSchema,
     },
   },
   hospiz: {
-    stepId: "hospiz",
+    stepId: "/hospiz",
     pageSchema: {
       hospiz: YesNoAnswer,
     },
   },
   plzHospiz: {
-    stepId: "plz-hospiz",
+    stepId: "/plz-hospiz",
     pageSchema: {
       plzHospiz: postcodeSchema,
     },
   },
   plzLebensmittelpunkt: {
-    stepId: "plz-lebensmittelpunkt",
+    stepId: "/plz-lebensmittelpunkt",
     pageSchema: {
       plzLebensmittelpunkt: postcodeSchema,
     },
   },
   gerichtErmitteltWohnsitz: {
-    stepId: "ergebnis/gericht-ermittelt",
+    stepId: "/ergebnis/gericht-ermittelt",
   },
 } as const satisfies PagesConfig;

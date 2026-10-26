@@ -3,8 +3,7 @@ import { erbausschlagungGerichtFindenFlowConfig } from "../flowConfig";
 import type { ErbausschlagungGerichtFindenUserData } from "../userData";
 
 export const erbausschlagungGerichtFindenTestCases = {
-  xstateConfig: { id: "/erbausschlagung/gericht-finden" },
-  newEngineConfig: erbausschlagungGerichtFindenFlowConfig,
+  config: erbausschlagungGerichtFindenFlowConfig,
   testcases: {
     auslandLebensmittelpunkt: [
       {

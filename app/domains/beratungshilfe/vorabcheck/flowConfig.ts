@@ -1,22 +1,18 @@
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 import { beratungshilfeVorabcheckPages } from "./pages";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
-import { addLeadingSlashToPageSchemas } from "~/services/flow/addLeadingSlashToPageConfig";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
-
-const beratungshilfeVorabcheckPagesWithLeadingSlash =
-  addLeadingSlashToPageSchemas(beratungshilfeVorabcheckPages);
 
 const staatlicheLeistungenYes = (context: BeratungshilfeVorabcheckUserData) =>
   context.staatlicheLeistungen === "grundsicherung" ||
   context.staatlicheLeistungen === "asylbewerberleistungen";
 
 export const beratungshilfeVorabcheckFlowConfig = compileFlow({
-  pages: beratungshilfeVorabcheckPagesWithLeadingSlash,
+  pages: beratungshilfeVorabcheckPages,
   initialStep: "start",
   transitions: {
     start: "rechtsschutzversicherung",

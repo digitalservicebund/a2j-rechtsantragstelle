@@ -13,28 +13,28 @@ import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const kontopfaendungPkontoAntragPages = {
   start: {
-    stepId: "start",
+    stepId: "/start",
   },
   grundvoraussetzungenDatenverarbeitung: {
-    stepId: "grundvoraussetzungen/datenverarbeitung",
+    stepId: "/grundvoraussetzungen/datenverarbeitung",
     pageSchema: {
       datenverarbeitungZustimmung: checkedRequired,
     },
   },
   bestehendesPkonto: {
-    stepId: "grundvoraussetzungen/bestehendes-pkonto",
+    stepId: "/grundvoraussetzungen/bestehendes-pkonto",
     pageSchema: {
       bestehendesPkonto: YesNoAnswer,
     },
   },
   ende: {
-    stepId: "grundvoraussetzungen/ende",
+    stepId: "/grundvoraussetzungen/ende",
   },
   bankdatenEinleitung: {
-    stepId: "bankdaten/einleitung",
+    stepId: "/bankdaten/einleitung",
   },
   bankdatenKontodaten: {
-    stepId: "bankdaten/kontodaten",
+    stepId: "/bankdaten/kontodaten",
     pageSchema: {
       iban: ibanSchema,
       bankName: stringRequiredSchema,
@@ -47,13 +47,13 @@ export const kontopfaendungPkontoAntragPages = {
     },
   },
   kontoinhaberName: {
-    stepId: "persoenliche-daten/kontoinhaber-name",
+    stepId: "/persoenliche-daten/kontoinhaber-name",
     pageSchema: {
       vollstaendigerName: stringRequiredSchema,
     },
   },
   kontoinhaberAnschrift: {
-    stepId: "persoenliche-daten/kontoinhaber-anschrift",
+    stepId: "/persoenliche-daten/kontoinhaber-anschrift",
     pageSchema: {
       kontoinhaberStrasseHausnummer: stringRequiredSchema,
       kontoinhaberPlz: integerSchema,
@@ -62,16 +62,16 @@ export const kontopfaendungPkontoAntragPages = {
     },
   },
   kontakt: {
-    stepId: "persoenliche-daten/kontakt",
+    stepId: "/persoenliche-daten/kontakt",
     pageSchema: {
       telefonnummer: schemaOrEmptyString(phoneNumberSchema),
       emailadresse: schemaOrEmptyString(emailSchema),
     },
   },
   zusammenfassung: {
-    stepId: "abgabe/zusammenfassung",
+    stepId: "/abgabe/zusammenfassung",
   },
   ergebnis: {
-    stepId: "abgabe/p-konto-vorhanden",
+    stepId: "/abgabe/p-konto-vorhanden",
   },
 } satisfies PagesConfig;

@@ -119,27 +119,6 @@ describe("renderZodString", () => {
     expect(input).toHaveAttribute("placeholder", "TT.MM.JJJJ");
   });
 
-  it("renders a time input with numeric input mode and its placeholder", () => {
-    const matchingElement = StrapiFormComponentSchema.parse({
-      __component: "form-elements.time-input",
-      id: 1,
-      name: "field",
-      label: "Time",
-      placeholder: "HH:MM",
-      errors: [],
-    });
-
-    render(renderZodString("field", false, matchingElement), {
-      wrapper: RVFWrapper,
-    });
-
-    const input = screen.getByRole("textbox", { name: "Time" });
-    expect(input.tagName).toBe("INPUT");
-    expect(input).toHaveAttribute("name", "field");
-    expect(input).toHaveAttribute("inputmode", "numeric");
-    expect(input).toHaveAttribute("placeholder", "HH:MM");
-  });
-
   it("overwrites the fallback field-name label with the matching component label", () => {
     const matchingElement = StrapiFormComponentSchema.parse({
       __component: "form-elements.input",

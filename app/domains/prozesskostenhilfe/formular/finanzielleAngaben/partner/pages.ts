@@ -249,7 +249,8 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     arraySummary: {
       name: "partner-arbeitsausgaben",
       schema: partnerArbeitsausgabenArraySchema,
-      fieldName: "partner-hasArbeitsausgaben",
+      isArrayRelevant: (context) =>
+        context["partner-hasArbeitsausgaben"] === "yes",
     },
   },
   partnerArbeitsausgabenWarnung: {
@@ -336,7 +337,8 @@ export const pkhFormularFinanzielleAngabenPartnerPages = {
     arraySummary: {
       name: "partner-weitereEinkuenfte",
       schema: partnerWeitereEinkuenfteArraySchema,
-      fieldName: "partner-hasFurtherIncome",
+      isArrayRelevant: (context) =>
+        context["partner-hasFurtherIncome"] === "yes",
     },
   },
   partnerWeitereEinkuenfteWarnung: {

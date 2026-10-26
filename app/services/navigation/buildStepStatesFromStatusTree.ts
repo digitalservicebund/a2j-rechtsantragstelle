@@ -1,8 +1,16 @@
 import { type FlowId } from "~/domains/flowIds";
-import { type StepState } from "../flow/server/buildFlowController";
-import { type StatusNode } from "../flow/newFlowEngine/statusTree";
+import { type StatusNode } from "../flow/flowEngine/statusTree";
 import { flows } from "~/domains/flows.server";
 import { getMetaConfigurationByStepId } from "../flow/getMetaConfigurationByStepId";
+
+export type StepState = {
+  stepId: string;
+  isDone: boolean;
+  isReachable: boolean;
+  url: string;
+  excludedFromValidation?: boolean;
+  subStates?: StepState[];
+};
 
 export function buildStepStatesFromStatusTree(
   statusTree: Record<string, StatusNode>,

@@ -10,6 +10,12 @@ const meta = {
   title: "form/inputs/TextInput",
   component: TextInput,
   tags: ["autodocs"],
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["large", "medium", "small"],
+    },
+  },
   decorators: [
     (Story) => (
       <GridSection>
@@ -37,6 +43,7 @@ export const Default: Story = {
     name: "text-input",
     label: "Text Input",
     placeholder: "Text hier eingeben...",
+    size: "small",
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };

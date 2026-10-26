@@ -1,7 +1,8 @@
 import { type ReactNode } from "react";
 import { type FlowId } from "~/domains/flowIds";
-import { type DynamicOptions } from "~/services/validation/dynamicSelect";
+import { geldEinklagenAnwaltschaftExtras } from "~/domains/geldEinklagen/anwaltschaft/geldEinklagenAnwaltschaftExtras";
 import { erbfolgeExtras } from "~/domains/nachlass/erbschein/shared/erbfolgeExtras";
+import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import { geldEinklageFormularExtras } from "./geldEinklagen/formular/geldEinklageFormularExtras";
 
 type ExtraFlowLoaderData = Record<string, unknown>;
@@ -15,6 +16,7 @@ export type FlowExtras<
 
 const extraFlowFeaturesById: Partial<Record<FlowId, FlowExtras>> = {
   "/geld-einklagen/formular": geldEinklageFormularExtras,
+  "/geld-einklagen/anwaltschaft": geldEinklagenAnwaltschaftExtras,
   "/erbschein/erbfolge": erbfolgeExtras,
   "/erbschein/anfrage": erbfolgeExtras,
 };

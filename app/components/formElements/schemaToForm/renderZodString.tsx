@@ -5,7 +5,6 @@ import type { StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import DateInput from "../inputs/date/DateInput";
 import NumberInput from "../inputs/number/NumberInput";
 import TextInput, { type InputProps } from "../inputs/text/TextInput";
-import TimeInput from "../inputs/time/TimeInput";
 
 export const isZodString = (
   fieldSchema: z.ZodType,
@@ -27,7 +26,7 @@ export const renderZodString = (
 
   const inputProps = {
     ...sharedProps,
-    ...pick(matchingElement, ["suffix", "width", "helperText"]),
+    ...pick(matchingElement, ["suffix", "width", "helperText", "size"]),
   } satisfies InputProps;
 
   if (matchingElement?.__component === "form-elements.textarea")
@@ -46,8 +45,6 @@ export const renderZodString = (
     );
   if (matchingElement?.__component === "form-elements.date-input")
     return <DateInput key={fieldName} {...inputProps} />;
-  if (matchingElement?.__component === "form-elements.time-input")
-    return <TimeInput key={fieldName} {...inputProps} />;
 
   const inputType =
     matchingElement && "type" in matchingElement

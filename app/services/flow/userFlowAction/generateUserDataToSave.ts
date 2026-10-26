@@ -1,12 +1,9 @@
-import { createFlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
+import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 import { type FlowId } from "~/domains/flowIds";
-import {
-  type InferredUserData,
-  type PageConfigMap,
-} from "../newFlowEngine/types";
-import { type CompiledFlow } from "../newFlowEngine/compileFlow";
+import { type InferredUserData, type PageConfigMap } from "../flowEngine/types";
+import { type CompiledFlow } from "../flowEngine/compileFlow";
 import merge from "lodash/merge";
 import { type SessionData } from "react-router";
 
