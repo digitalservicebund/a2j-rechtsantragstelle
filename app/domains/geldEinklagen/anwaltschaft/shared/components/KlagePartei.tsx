@@ -80,8 +80,12 @@ const KlagePartei = ({
                     </span>
                   </span>
                   <span>
-                    {partei.orgVertretungAnrede} {partei.orgVertretungTitel}{" "}
-                    {partei.orgVertretungVorname} {partei.orgVertretungNachname}
+                    {getFullPlaintiffName(
+                      partei.orgVertretungAnrede,
+                      partei.orgVertretungTitel,
+                      partei.orgVertretungVorname,
+                      partei.orgVertretungNachname,
+                    )}
                   </span>
                 </div>
               )}

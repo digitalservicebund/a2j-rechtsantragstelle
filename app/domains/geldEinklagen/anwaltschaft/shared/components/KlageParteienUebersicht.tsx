@@ -35,7 +35,7 @@ export const KlageParteienUebersicht = ({
   }
 
   return (
-    <div className="flex flex-col gap-kern-space-default">
+    <div className="flex flex-col gap-kern-space-2x-large">
       <KlageParteienList
         parties={klageParteienWithIndex.filter(
           ({ partei }) => partei.type === "natuerliche-person",
@@ -89,7 +89,7 @@ const KlageParteienList = ({
           {heading}
         </h2>
         {helperText && (
-          <p className="kern-body kern-body--small p-0!">{helperText}</p>
+          <p className="kern-body kern-body--regular p-0!">{helperText}</p>
         )}
       </div>
 
