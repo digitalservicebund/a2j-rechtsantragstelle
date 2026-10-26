@@ -5,4 +5,7 @@ declare global {
   var Temporal: typeof TemporalPolyfill | undefined;
 }
 
-globalThis.Temporal ??= TemporalPolyfill;
+// Called explicitly, since "sideEffects": false lets the bundler drop bare imports.
+export function installTemporalPolyfill() {
+  globalThis.Temporal ??= TemporalPolyfill;
+}
