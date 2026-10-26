@@ -1,8 +1,8 @@
 import type { Flow } from "~/domains/flows.server";
 import { setPartyType } from "~/domains/geldEinklagen/anwaltschaft/services/setPartyType";
 import {
+  getBeklagteStrings,
   getKlagendeStrings,
-  getOrganisationStrings,
 } from "~/domains/geldEinklagen/anwaltschaft/stringReplacements";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacements";
@@ -14,7 +14,7 @@ export const geldEinklagenAnwaltschaft = {
   stringReplacements: (context: GeldEinklagenAnwaltschaftUserData) => ({
     ...getArrayIndexStrings(context),
     ...getKlagendeStrings(context),
-    ...getOrganisationStrings(context),
+    ...getBeklagteStrings(context),
   }),
   posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
@@ -23,6 +23,14 @@ export const geldEinklagenAnwaltschaft = {
     ),
     "/klagende-partei/klagenden/#/organisation-daten": setPartyType(
       "klagende",
+      "organisation",
+    ),
+    "/beklagte-partei/beklagten/#/natuerliche-person-daten": setPartyType(
+      "beklagte",
+      "natuerliche-person",
+    ),
+    "/beklagte-partei/beklagten/#/organisation-daten": setPartyType(
+      "beklagte",
       "organisation",
     ),
   },

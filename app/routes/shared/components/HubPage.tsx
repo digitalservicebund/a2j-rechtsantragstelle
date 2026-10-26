@@ -1,6 +1,9 @@
+import classNames from "classnames";
 import { useLoaderData, useLocation } from "react-router";
 import Label from "~/components/common/Label";
-import ContentComponents from "~/components/content/ContentComponents";
+import ContentComponents, {
+  getSectionBackgroundColor,
+} from "~/components/content/ContentComponents";
 import Hero from "~/components/content/Hero";
 import TableOfContents from "~/components/content/TableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
@@ -32,9 +35,14 @@ export function HubPage() {
 
   return (
     <>
-      <GridSection className="bg-kern-darkblue-050 pb-kern-space-x-large text-pretty hyphens-none break-normal">
-        <Grid>
-          {heroComponent && (
+      {heroComponent && (
+        <GridSection
+          className={classNames(
+            "pb-kern-space-x-large text-pretty hyphens-none break-normal",
+            getSectionBackgroundColor(heroComponent),
+          )}
+        >
+          <Grid>
             <GridItem
               mdColumn={{ start: 1, span: 7 }}
               lgColumn={{ start: 1, span: 8 }}
@@ -42,9 +50,9 @@ export function HubPage() {
             >
               <Hero {...heroComponent} />
             </GridItem>
-          )}
-        </Grid>
-      </GridSection>
+          </Grid>
+        </GridSection>
+      )}
 
       <GridSection className="py-kern-space-6x-large text-pretty hyphens-none break-normal">
         <Grid>
