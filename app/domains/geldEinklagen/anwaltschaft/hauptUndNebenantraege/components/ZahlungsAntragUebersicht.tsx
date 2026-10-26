@@ -3,7 +3,7 @@ import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { ZahlungsAntrag } from "./ZahlungsAntrag";
+import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
@@ -38,12 +38,11 @@ const ZahlungsAntragUebersicht = () => {
         ) &&
           userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag.map(
             (item, index) => (
-              <ZahlungsAntrag
+              <BezifferterZahlungsantrag
                 key={item.internesSchlagwortFordureung}
                 itemIndex={index}
-                item={item} onDelete={function (pathnameArrayItem: string, itemIndex: number): Promise<void> {
-                  throw new Error("Function not implemented.");
-                } }              />
+                item={item}
+              />
             ),
           )}
         <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
@@ -56,7 +55,7 @@ const ZahlungsAntragUebersicht = () => {
             disabled={shouldDisableAddButton}
             aria-disabled={shouldDisableAddButton}
           >
-           Zahlungsantrag hinzufügen
+            Zahlungsantrag hinzufügen
           </Button>
         </div>
       </div>
