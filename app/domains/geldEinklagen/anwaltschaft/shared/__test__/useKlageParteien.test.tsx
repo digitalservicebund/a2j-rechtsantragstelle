@@ -25,11 +25,32 @@ describe("useKlageParteien", () => {
 
     expect(result.current).toEqual({
       klageParteienWithIndex: [
-        { partei: naturalPerson, arrayIndex: 0 },
-        { partei: organization, arrayIndex: 1 },
+        { partei: naturalPerson, arrayIndex: 0, displayIndex: 0 },
+        { partei: organization, arrayIndex: 1, displayIndex: 1 },
       ],
       nextItemIndex: 2,
     });
+  });
+
+  it("numbers natural persons before organizations without changing array indexes", () => {
+    const userData = {
+      klagenden: [organization, naturalPerson, organization, naturalPerson],
+    } as unknown as GeldEinklagenAnwaltschaftUserData;
+
+    const { result } = renderHook(() =>
+      useKlageParties({ relationship: "klagende", userData }),
+    );
+
+    expect(
+      result.current.klageParteienWithIndex.map(
+        ({ arrayIndex, displayIndex }) => ({ arrayIndex, displayIndex }),
+      ),
+    ).toEqual([
+      { arrayIndex: 0, displayIndex: 2 },
+      { arrayIndex: 1, displayIndex: 0 },
+      { arrayIndex: 2, displayIndex: 3 },
+      { arrayIndex: 3, displayIndex: 1 },
+    ]);
   });
 
   it("returns empty lists and index zero when the selected relationship is missing", () => {
