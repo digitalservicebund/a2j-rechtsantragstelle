@@ -27,7 +27,8 @@ function getContentBackgroundColor(el: StrapiContentComponent): string {
   }
   return "";
 }
-function getSectionBackgroundColor(el: StrapiContentComponent): string {
+
+export function getSectionBackgroundColor(el: StrapiContentComponent): string {
   if ("sectionBackgroundColor" in el) {
     return SECTION_BACKGROUND_COLORS[
       el.sectionBackgroundColor as keyof typeof SECTION_BACKGROUND_COLORS
@@ -35,18 +36,21 @@ function getSectionBackgroundColor(el: StrapiContentComponent): string {
   }
   return "";
 }
+
 function getPaddingTop(el: StrapiContentComponent): string {
   if ("paddingTop" in el && el.paddingTop) {
     return el.paddingTop;
   }
   return "default";
 }
+
 function getPaddingBottom(el: StrapiContentComponent): string {
   if ("paddingBottom" in el && el.paddingBottom) {
     return el.paddingBottom;
   }
   return "default";
 }
+
 // Map temporarily Strapi look values to Kern look values
 export function mapLookValue(
   look: string,

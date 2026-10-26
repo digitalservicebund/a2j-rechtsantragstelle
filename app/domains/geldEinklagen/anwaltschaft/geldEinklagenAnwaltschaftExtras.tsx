@@ -10,18 +10,15 @@ type GeldEinklagenAnwaltschaftLoaderExtraData = {
 
 export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltschaftLoaderExtraData> =
   {
-    renderExtraComponents: (loaderData) => {
-      return (
-        <>
-          {loaderData.stepId === "/klagende-partei/klagenden/uebersicht" && (
-            <KlageParteienUebersicht relationship="klagende" />
-          )}
-          {loaderData.stepId ===
-            "/sonstige-neben-und-prozessantraege/uebersicht" && (
-            <SonstigeNebenUndProzessantraegeUebersicht />
-          )}
-        </>
-      );
+    renderExtraComponents: ({ stepId }) => {
+      switch (stepId) {
+        case "/klagende-partei/klagenden/uebersicht":
+          return <KlageParteienUebersicht relationship="klagende" />;
+        case "/beklagte-partei/beklagten/uebersicht":
+          return <KlageParteienUebersicht relationship="beklagte" />;
+        case "/sonstige-neben-und-prozessantraege/uebersicht":
+          return <SonstigeNebenUndProzessantraegeUebersicht />;
+      }
     },
     getDynamicOptions: function (): DynamicOptions | undefined {
       return undefined;
