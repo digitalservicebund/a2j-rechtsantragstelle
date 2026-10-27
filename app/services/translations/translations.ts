@@ -536,6 +536,18 @@ export const translations = {
     boxZugangeZumRechtJustizLink: {
       de: "justiz.de",
     },
+    cardPrelineErbausschlagung: {
+      de: "Erbausschlagung",
+    },
+    cardHeadingErbausschlagung: {
+      de: "Ein Erbe ablehnen",
+    },
+    cardDescriptionErbausschlagung: {
+      de: "Hier finden Sie Informationen darüber, wie Sie eine Erbschaft ausschlagen können. Sie erfahren, welche Fristen Sie beachten müssen und welche Folgen die Ausschlagung hat.",
+    },
+    cardButtonLabelErbausschlagung: {
+      de: "Zu Erbe ausschlagen",
+    },
   },
   geldEinklagen: {
     begruendungBeschreibungHeadline: {
