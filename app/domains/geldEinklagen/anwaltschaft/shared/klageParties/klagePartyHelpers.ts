@@ -2,7 +2,7 @@ import {
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
   getPluralOfKlageParteiRelationship,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { translations } from "~/services/translations/translations";
 
 export const getBaseKlagePartyUrl = (relationship: KlageParteiVerhaeltnis) =>

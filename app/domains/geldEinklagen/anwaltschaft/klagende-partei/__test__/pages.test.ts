@@ -6,7 +6,7 @@ import {
   MAX_REPRESENTATIVES,
   naturalPersonSchema,
   organizationSchema,
-} from "../../shared/anwaltschaftSchemas";
+} from "../../shared/klageParties/klagePartySchemas";
 import { klagendeParteiPages } from "../pages";
 
 const naturalPerson = {

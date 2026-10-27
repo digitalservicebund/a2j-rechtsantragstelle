@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlagePartei";
-import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlagePartei";
+import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { translations } from "~/services/translations/translations";
 
 const organisation = {

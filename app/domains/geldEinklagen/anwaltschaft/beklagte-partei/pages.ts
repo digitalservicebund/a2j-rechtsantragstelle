@@ -7,7 +7,7 @@ import {
   organizationGesetzlicheVertretungArt,
   organizationSchema,
   vertretungFields,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import type { PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";

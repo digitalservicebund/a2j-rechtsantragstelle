@@ -1,7 +1,7 @@
 import {
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
-} from "./anwaltschaftSchemas";
+} from "../klageParties/klagePartySchemas";
 
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 

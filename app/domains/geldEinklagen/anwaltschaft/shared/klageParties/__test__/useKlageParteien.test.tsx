@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
-import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { useKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
+import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import { useKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 
 const naturalPerson = {
