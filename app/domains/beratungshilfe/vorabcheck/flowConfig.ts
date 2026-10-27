@@ -1,9 +1,9 @@
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 import { beratungshilfeVorabcheckPages } from "./pages";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 

@@ -3,7 +3,7 @@ import type {
   NodeKey,
   TransitionConfig,
   TransitionConfigMap,
-} from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenGerichtPruefenPages } from "../pages";
 import {
   shouldVisitGerichtSuchenPostleitzahlKlagendePerson,

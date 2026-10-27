@@ -1,6 +1,6 @@
-import { type FlowSession } from "../newFlowEngine/createFlowSession";
+import { type FlowSession } from "../flowEngine/createFlowSession";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { type PageConfigMap } from "../newFlowEngine/types";
+import { type PageConfigMap } from "../flowEngine/types";
 import { arrayIsNonEmpty } from "~/util/array";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { arrayChar, EDIT_BUTTON_ID_PREFIX } from "~/services/array";

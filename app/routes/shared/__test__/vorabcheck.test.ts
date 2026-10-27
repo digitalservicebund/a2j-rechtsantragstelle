@@ -7,8 +7,8 @@ import { loadVorabcheckData, runVorabcheckAction } from "../vorabcheck.server";
 import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromRequest";
 import { assertResponse } from "~/routes/__test__/isResponse";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
-import { type FlowSession } from "~/services/flow/newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 

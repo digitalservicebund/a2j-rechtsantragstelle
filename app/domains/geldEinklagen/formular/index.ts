@@ -33,6 +33,7 @@ import { copyOrRemoveReferencePersons } from "../services/copyOrRemoveReferenceP
 import { updateBeweisReferenceDocuments } from "../services/updateBeweisRefereceDocuments";
 import { updateBeweisReferencePersons } from "../services/updateBeweisReferencePersons";
 import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
+import { geldEinklagenPdfFromUserdata } from "../services/pdf/geldEinklagenPdfFromUserdata";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -60,9 +61,9 @@ export const geldEinklagenFormular = {
     ...isDocumentBeingReused(context),
     ...isPersonBeingReused(context),
   }),
-  newEngineConfig: geldEinklagenFlowConfig,
+  config: geldEinklagenFlowConfig,
   useStepper: true,
-  asyncFlowActions: {
+  posFlowActions: {
     "/gericht-pruefen/gericht-suchen/postleitzahl-klagende-person":
       prefillZipCodeAndCity,
     "/gericht-pruefen/gericht-suchen/postleitzahl-beklagte-person":
@@ -90,5 +91,10 @@ export const geldEinklagenFormular = {
       updateBeweisReferenceDocuments,
     "/klage-erstellen/begruendung/beschreibung/abschnitte/#/personen/#/daten":
       updateBeweisReferencePersons,
+  },
+  pdfConfig: {
+    pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
+      await geldEinklagenPdfFromUserdata(userData),
+    name: `Geld_Einklagen_Klage`,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

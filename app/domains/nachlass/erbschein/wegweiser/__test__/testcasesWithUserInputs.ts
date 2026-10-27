@@ -24,8 +24,7 @@ const happyPath: Array<{
 ];
 
 export const erbscheinWegweiserTestCases = {
-  flowId: "/erbschein/wegweiser",
-  newEngineConfig: erbscheinWegweiserFlowConfig,
+  config: erbscheinWegweiserFlowConfig,
   testcases: {
     severalNationalities: [
       {

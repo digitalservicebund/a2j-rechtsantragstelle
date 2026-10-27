@@ -7,8 +7,7 @@ import { sonstigeNebenUndProzessantraegeTestCases } from "../sonstigeNebenUndPro
 import { hauptUndNebenantraegeTestCases } from "../hauptUndNebenantraege/__test__/testcasesHauptUndNebenantraege";
 
 export const geldEinklagenAnwaltschaftTestCases = {
-  flowId: "/geld-einklagen/anwaltschaft",
-  newEngineConfig: geldEinklagenAnwaltschaftFlowConfig,
+  config: geldEinklagenAnwaltschaftFlowConfig,
   testcases: {
     basePagesUntilKlagendePartei: [
       {

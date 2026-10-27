@@ -18,7 +18,7 @@ import { fluggastrechteVorabcheckFlowConfig } from "~/domains/fluggastrechte/vor
 
 export const fluggastrechteVorabcheck = {
   flowType: "vorabCheck",
-  newEngineConfig: fluggastrechteVorabcheckFlowConfig,
+  config: fluggastrechteVorabcheckFlowConfig,
   stringReplacements: (context: FluggastrechtVorabcheckUserData) => ({
     ...getCompensationPaymentString(context),
     flightDateExpiration: getLastDayFromFourYearsAgoDate(),

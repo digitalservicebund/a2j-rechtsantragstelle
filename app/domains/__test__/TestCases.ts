@@ -1,9 +1,8 @@
-import type { FlowId } from "../flowIds";
 import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type AddArrayItemEvent } from "~/services/array";
 import { type PageData } from "~/services/flow/pageData";
-import { type CompiledFlow } from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
@@ -35,7 +34,6 @@ export type FlowTestConfig<
   T extends UserData,
   C extends PageConfigMap = PageConfigMap,
 > = {
-  flowId: FlowId;
-  newEngineConfig?: CompiledFlow<C>;
+  config?: CompiledFlow<C>;
   testcases: FlowTestCases<T>;
 };

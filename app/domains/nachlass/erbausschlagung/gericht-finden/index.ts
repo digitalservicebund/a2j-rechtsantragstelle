@@ -14,5 +14,5 @@ export const erbausschlagungGerichtFinden = {
     ...plz(context),
     ...getAmtsgerichtStrings(context),
   }),
-  newEngineConfig: erbausschlagungGerichtFindenFlowConfig,
+  config: erbausschlagungGerichtFindenFlowConfig,
 } satisfies Flow<typeof erbausschlagungGerichtFindenFlowConfig.pages>;

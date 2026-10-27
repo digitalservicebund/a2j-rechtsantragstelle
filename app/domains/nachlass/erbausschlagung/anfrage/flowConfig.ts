@@ -1,9 +1,9 @@
-import type { PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import type { PageConfigMap } from "~/services/flow/flowEngine/types";
 import { erbausschlagungAnfragePages } from "./pages";
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
+} from "~/services/flow/flowEngine/compileFlow";
 import { ausschlagendePersonFlowConfig } from "./ausschlagendePerson/flowConfig";
 import { kinderFlowConfig } from "./kinder/flowConfig";
 import { verstorbenePersonFlowConfig } from "./verstorbene/flowConfig";

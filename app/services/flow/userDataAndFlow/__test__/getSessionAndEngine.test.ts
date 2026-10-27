@@ -1,8 +1,5 @@
-import {
-  type CompiledFlow,
-  compileFlow,
-} from "../../newFlowEngine/compileFlow";
-import { type PageConfigMap } from "../../newFlowEngine/types";
+import { type CompiledFlow, compileFlow } from "../../flowEngine/compileFlow";
+import { type PageConfigMap } from "../../flowEngine/types";
 import { getSessionAndEngine } from "../getSessionAndEngine";
 
 const mockFlowId = "/beratungshilfe/antrag";
@@ -19,7 +16,7 @@ const transitions = {
   end: null,
 } as const;
 
-const newEngineConfig = compileFlow({
+const config = compileFlow({
   pages,
   initialStep: "start",
   transitions,
@@ -32,7 +29,7 @@ vi.mock("~/services/session.server", () => ({
 }));
 
 describe("getSessionAndEngine", () => {
-  it("should throw a 404 response if the parameter newEngineConfig is not defined", async () => {
+  it("should throw a 404 response if the parameter config is not defined", async () => {
     await expect(
       getSessionAndEngine(mockFlowId, undefined, "", "step-1"),
     ).rejects.toThrow(expect.anything());
@@ -41,7 +38,7 @@ describe("getSessionAndEngine", () => {
   it("should return an error result with redirectTo if the engine throws an error during creation", async () => {
     const result = await getSessionAndEngine(
       mockFlowId,
-      newEngineConfig,
+      config,
       "",
       "non-existing-step",
     );
@@ -53,12 +50,7 @@ describe("getSessionAndEngine", () => {
   });
 
   it("should return an ok result with flowSession and flowSessionEngine if the engine is created successfully", async () => {
-    const result = await getSessionAndEngine(
-      mockFlowId,
-      newEngineConfig,
-      "",
-      "/start",
-    );
+    const result = await getSessionAndEngine(mockFlowId, config, "", "/start");
 
     expect(result.isOk).toBe(true);
     expect(result.isOk ? result.value.flowSession : null).not.toBeNull();

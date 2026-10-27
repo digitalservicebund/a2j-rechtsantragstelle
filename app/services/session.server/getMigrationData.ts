@@ -1,7 +1,7 @@
 import type { FlowId } from "~/domains/flowIds";
 import { flows, type Flow } from "~/domains/flows.server";
 import { type CookieHeader, getSessionData } from ".";
-import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/newFlowEngine/migrateSourceFlowDataToDestinationFlow";
+import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 
 export const migrationKey = "daten-uebernahme";
 

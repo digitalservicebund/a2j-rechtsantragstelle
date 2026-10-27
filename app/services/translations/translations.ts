@@ -536,6 +536,18 @@ export const translations = {
     boxZugangeZumRechtJustizLink: {
       de: "justiz.de",
     },
+    cardPrelineErbausschlagung: {
+      de: "Erbausschlagung",
+    },
+    cardHeadingErbausschlagung: {
+      de: "Ein Erbe ablehnen",
+    },
+    cardDescriptionErbausschlagung: {
+      de: "Hier finden Sie Informationen darüber, wie Sie eine Erbschaft ausschlagen können. Sie erfahren, welche Fristen Sie beachten müssen und welche Folgen die Ausschlagung hat.",
+    },
+    cardButtonLabelErbausschlagung: {
+      de: "Zu Erbe ausschlagen",
+    },
   },
   geldEinklagen: {
     begruendungBeschreibungHeadline: {
@@ -675,6 +687,9 @@ export const translations = {
     gesetzlicheVertretungArt: {
       de: "Art der Vertretung",
     },
+    gesetzlicheVertretungDeletionLabel: {
+      de: "und gesetzliche Vertretung",
+    },
     natuerlichePersonenMaximumReachedTitleNotice: {
       de: "Maximale Anzahl an natürlichen Personen erreicht",
     },
@@ -709,13 +724,19 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte Organisationen hinzufügen.",
     },
     soenstigeProzessantragArrayButton: {
-      de: "Neben- oder Prozessantrag hinzufügen",
+      de: "Antrag oder prozessuale Ausführung hinzufügen",
     },
     soenstigeProzessantragDelete: {
-      de: "Antrag Löschen",
+      de: "Antrag/Ausführung löschen?",
     },
     soenstigeProzessantragDescription: {
-      de: "Möchten Sie diesen Antrag wirklich löschen?",
+      de: "Folgendes wird entfernt:",
+    },
+    soenstigeProzessantragInlineNoticeTitle: {
+      de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
+    },
+    soenstigeProzessantragInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
   },
   nachlass: {
@@ -771,6 +792,14 @@ export const translations = {
     },
     personHadChildren: {
       de: "Hatte weitere Kinder?",
+    },
+  },
+  hubPages: {
+    tableOfLinksLabel: {
+      de: "Inhalt",
+    },
+    navigationLabel: {
+      de: "Weitere Inhalte zum Thema",
     },
   },
 } satisfies TranslationRecord;

@@ -4,8 +4,8 @@ import { sonstigeNebenUndProzessantraegeFlowConfig } from "~/domains/geldEinklag
 import {
   type CompiledFlow,
   compileFlow,
-} from "~/services/flow/newFlowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+} from "~/services/flow/flowEngine/compileFlow";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
 import { hauptUndNebenantraegeFlowConfig } from "./hauptUndNebenantraege/flowConfig";
 
@@ -22,8 +22,6 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       ...hauptUndNebenantraegeFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
       rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
-      beklagteNatuerlichePerson: null,
-      beklagteOrganisation: null,
       ...sonstigeNebenUndProzessantraegeFlowConfig,
       downloadKlage: null,
     },

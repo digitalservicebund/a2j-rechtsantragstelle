@@ -16,7 +16,7 @@ import {
   type Elternteil,
   type ElternteilKind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { type PageConfigMap } from "~/services/flow/newFlowEngine/types";
+import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 
 const elternteilKindSchema: z.ZodType<ElternteilKind> = z.lazy(() =>
   personUnion(elternteilKindSchema),

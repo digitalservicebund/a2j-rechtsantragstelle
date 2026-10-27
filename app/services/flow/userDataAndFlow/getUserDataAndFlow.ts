@@ -9,8 +9,8 @@ import { type FeatureFlag } from "~/services/isFeatureFlagEnabled.server";
 import { getMigrationData } from "~/services/session.server/getMigrationData";
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { type FlowSession } from "../newFlowEngine/createFlowSession";
-import { type PageConfigMap } from "../newFlowEngine/types";
+import { type FlowSession } from "../flowEngine/createFlowSession";
+import { type PageConfigMap } from "../flowEngine/types";
 import { type UserDataWithPageData } from "../pageData";
 import { getSessionAndEngine } from "./getSessionAndEngine";
 import { validateStepIdFlow } from "./validateStepIdFlow";
@@ -75,13 +75,12 @@ export const getUserDataAndFlow = async (
     await throw404IfFeatureFlagDisabled(featureFlag);
   }
 
-  const newEngineConfig =
-    "newEngineConfig" in currentFlow ? currentFlow.newEngineConfig : undefined;
+  const config = "config" in currentFlow ? currentFlow.config : undefined;
 
   const [sessionEngineResult, migrationData] = await Promise.all([
     getSessionAndEngine(
       flowId,
-      newEngineConfig,
+      config,
       cookieHeader ?? "",
       stepId,
       arrayIndexes,
