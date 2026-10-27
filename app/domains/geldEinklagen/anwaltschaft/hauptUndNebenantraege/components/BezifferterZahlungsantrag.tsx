@@ -5,18 +5,20 @@ import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
 
 export const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
 
 type BezifferterZahlungsantragProps = {
   readonly itemIndex: number;
+  readonly index: number;
   readonly item: NonNullable<
-    GeldEinklagenAnwaltschaftUserData["allgemeineZahlungsUndNebenantrag"]
+    GeldEinklagenAnwaltschaftUserData["hauptantrag"]
   >[number];
 };
 
 export const BezifferterZahlungsantrag = ({
   itemIndex,
   item,
+  index,
 }: BezifferterZahlungsantragProps) => {
   return (
     <div
@@ -55,7 +57,7 @@ export const BezifferterZahlungsantrag = ({
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
           </div>
-          <NebenantragItem itemIndex={itemIndex} />
+          <NebenantragItem parentArrayItemIndex={itemIndex} nebenantrag={item.nebenantrag} />
           <div className="flex justify-end mt-24">
             <Button
               type="button"

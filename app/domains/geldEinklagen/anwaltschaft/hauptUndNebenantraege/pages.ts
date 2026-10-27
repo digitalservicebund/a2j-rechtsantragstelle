@@ -5,7 +5,30 @@ import { createSplitDateSchemaOptional } from "~/services/validation/dateObject"
 import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
-const allgemeineZahlungsUndNebenantraegeArraySchema = z.array(
+const nebenantragArraySchema = z.array(
+  z.object({
+    nebenantragArt: z.string().max(50),
+    nebenantragBetrag: integerSchema,
+    nebenantragZinssatzInProzent: integerSchema.optional(),
+    nebenantragZinsmethode: z
+      .enum([
+        "jaehrlicherZinssatzUeberBasiszins",
+        "jaehrlicherZinssatz",
+        "monatlicherZinssatzUeberBasiszins",
+        "monatlicherZinssatz",
+      ])
+      .optional(),
+    nebenantragZinsbeginn: createSplitDateSchemaOptional(),
+    nebenantragZinsende: createSplitDateSchemaOptional(),
+  }),
+);
+const annahmeverzugArraySchema = z.array(
+  z.object({
+    art: z.string().max(50),
+    betrag: integerSchema,
+  }),
+);
+const hauptantragArraySchema = z.array(
   z
     .object({
       internesSchlagwortFordureung: z.string().max(50).optional(),
@@ -25,6 +48,8 @@ const allgemeineZahlungsUndNebenantraegeArraySchema = z.array(
         .optional(),
       zinsbeginn: createSplitDateSchemaOptional(),
       zinsende: createSplitDateSchemaOptional(),
+      nebenantrag: nebenantragArraySchema.optional(),
+      annahmeverzug: annahmeverzugArraySchema.optional(),
     })
     .superRefine((data, ctx) => {
       const hasZinssatz =
@@ -59,51 +84,52 @@ const allgemeineZahlungsUndNebenantraegeArraySchema = z.array(
       }
     }),
 );
-
 export const hauptUndNebenantraegePages = {
-  allgemeineZahlungsUndNebenantraegeUebersicht: {
+  hauptantragUebersicht: {
     stepId:
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
     arraySummary: {
-      name: "allgemeineZahlungsUndNebenantrag",
-      schema: allgemeineZahlungsUndNebenantraegeArraySchema,
+      name: "hauptantrag",
+      schema: hauptantragArraySchema,
       isArrayRelevant: () => true,
     },
   },
-  allgemeineZahlungsUndNebenantrag: {
+  hauptantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag/#/daten",
+      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "allgemeineZahlungsUndNebenantrag#internesSchlagwortFordureung":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape
-          .internesSchlagwortFordureung,
-      "allgemeineZahlungsUndNebenantrag#betragForderung":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape
-          .betragForderung,
-      "allgemeineZahlungsUndNebenantrag#beklagte":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.beklagte,
-      "allgemeineZahlungsUndNebenantrag#klagende":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.klagende,
-      "allgemeineZahlungsUndNebenantrag#zugUndZug":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.zugUndZug,
-      "allgemeineZahlungsUndNebenantrag#beschreibungDerGegenleistung":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape
-          .beschreibungDerGegenleistung,
-      "allgemeineZahlungsUndNebenantrag#zinssatzInProzent":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape
-          .zinssatzInProzent,
-      "allgemeineZahlungsUndNebenantrag#zinsmethode":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.zinsmethode,
-      "allgemeineZahlungsUndNebenantrag#zinsbeginn":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.zinsbeginn,
-      "allgemeineZahlungsUndNebenantrag#zinsende":
-        allgemeineZahlungsUndNebenantraegeArraySchema.element.shape.zinsende,
+      "hauptantrag#internesSchlagwortFordureung":
+        hauptantragArraySchema.element.shape.internesSchlagwortFordureung,
+      "hauptantrag#betragForderung":
+        hauptantragArraySchema.element.shape.betragForderung,
+      "hauptantrag#beklagte": hauptantragArraySchema.element.shape.beklagte,
+      "hauptantrag#klagende": hauptantragArraySchema.element.shape.klagende,
+      "hauptantrag#zugUndZug": hauptantragArraySchema.element.shape.zugUndZug,
+      "hauptantrag#beschreibungDerGegenleistung":
+        hauptantragArraySchema.element.shape.beschreibungDerGegenleistung,
+      "hauptantrag#zinssatzInProzent":
+        hauptantragArraySchema.element.shape.zinssatzInProzent,
+      "hauptantrag#zinsmethode":
+        hauptantragArraySchema.element.shape.zinsmethode,
+      "hauptantrag#zinsbeginn": hauptantragArraySchema.element.shape.zinsbeginn,
+      "hauptantrag#zinsende": hauptantragArraySchema.element.shape.zinsende,
     },
   },
-  allgemeineZahlungsUndNebenantraegeWarnung: {
+  hauptantragWarnung: {
     stepId:
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/warnung",
     shouldCollapseIntoParentNavItem: true,
+  },
+  nebenantragDaten: {
+    stepId:
+      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantrag/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantrag#nebenantragArt":
+        nebenantragArraySchema.element.shape.nebenantragArt,
+      "hauptantrag#nebenantrag#nebenantragBetrag":
+        nebenantragArraySchema.element.shape.nebenantragBetrag,
+    },
   },
 } as const satisfies PagesConfig;

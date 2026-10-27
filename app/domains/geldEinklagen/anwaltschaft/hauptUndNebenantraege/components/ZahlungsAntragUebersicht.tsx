@@ -6,7 +6,7 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/antrag";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
 
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
@@ -19,10 +19,8 @@ const ZahlungsAntragUebersicht = () => {
 
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
-  const nextItemIndex = arrayIsNonEmpty(
-    userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag,
-  )
-    ? (userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag?.length ?? 0)
+  const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag)
+    ? (userDataGeldEinklagen.hauptantrag?.length ?? 0)
     : 0;
 
   const addButtonUrl = `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`;
@@ -33,18 +31,15 @@ const ZahlungsAntragUebersicht = () => {
   return (
     <div className="flex flex-col gap-kern-space-default">
       <div>
-        {arrayIsNonEmpty(
-          userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag,
-        ) &&
-          userDataGeldEinklagen.allgemeineZahlungsUndNebenantrag.map(
-            (item, index) => (
-              <BezifferterZahlungsantrag
-                key={item.internesSchlagwortFordureung}
-                itemIndex={index}
-                item={item}
-              />
-            ),
-          )}
+        {arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag) &&
+          userDataGeldEinklagen.hauptantrag.map((item, index) => (
+            <BezifferterZahlungsantrag
+              key={item.internesSchlagwortFordureung}
+              itemIndex={index}
+              item={item}
+              index={index}
+            />
+          ))}
         <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
           <Button
             look="secondary"

@@ -2,17 +2,24 @@ import { TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenAnwaltschaftPages } from "../pages";
 
 export const hauptUndNebenantraegeFlowConfig = {
-  allgemeineZahlungsUndNebenantraegeUebersicht: [
+  hauptantragUebersicht: [
     {
       type: "addArrayItem",
-      target: "allgemeineZahlungsUndNebenantrag",
+      target: "hauptantragDaten",
     },
     {
-      target: "prozessualeAusfuehrungen",
+      target: "hauptantragWarnung",
     },
   ],
-  allgemeineZahlungsUndNebenantrag:
-    "allgemeineZahlungsUndNebenantraegeUebersicht",
-  allgemeineZahlungsUndNebenantraegeWarnung:
-    "allgemeineZahlungsUndNebenantraegeUebersicht",
+  hauptantragDaten: "hauptantragUebersicht",
+  hauptantragWarnung: "hauptantragUebersicht",
+  nebenantragDaten: [
+    {
+      type: "addArrayItem",
+      target: "nebenantragDaten",
+    },
+    {
+      target: "hauptantragUebersicht",
+    },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
