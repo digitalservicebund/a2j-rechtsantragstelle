@@ -11,7 +11,7 @@ const allgemeineZahlungsUndNebenantraegeArraySchema = z.array(
       internesSchlagwortFordureung: z.string().max(50).optional(),
       betragForderung: integerSchema,
       beklagte: checkedOptional,
-      klagende:  checkedOptional,
+      klagende: checkedOptional,
       zugUndZug: checkedOptional,
       beschreibungDerGegenleistung: stringOptionalSchema,
       zinssatzInProzent: integerSchema.optional(),

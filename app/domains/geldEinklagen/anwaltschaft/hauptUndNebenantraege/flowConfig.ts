@@ -1,5 +1,5 @@
+import { TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenAnwaltschaftPages } from "../pages";
-import { type TransitionConfigMap } from "~/services/flow/newFlowEngine/types";
 
 export const hauptUndNebenantraegeFlowConfig = {
   allgemeineZahlungsUndNebenantraegeUebersicht: [
@@ -8,7 +8,7 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "allgemeineZahlungsUndNebenantrag",
     },
     {
-      target: "allgemeineZahlungsUndNebenantraegeWarnung",
+      target: "prozessualeAusfuehrungen",
     },
   ],
   allgemeineZahlungsUndNebenantrag:
