@@ -666,6 +666,12 @@ export const translations = {
     },
   },
   geldEinklagenAnwaltschaft: {
+    einzelkanzleiHeadline: {
+      de: "Einzelkanzlei",
+    },
+    berufsausuebungsgesellschaftHeadline: {
+      de: "Berufsausübungsgesellschaft",
+    },
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
