@@ -245,7 +245,7 @@ describe("KlageParteienUebersicht", () => {
       ],
     });
 
-    expect(screen.getByText("herr Max Mustermann")).toBeInTheDocument();
+    expect(screen.getByText("Herr Max Mustermann")).toBeInTheDocument();
     expect(
       screen.getAllByText(
         translations.geldEinklagenAnwaltschaft.gesetzlicheVertretungArt.de,
