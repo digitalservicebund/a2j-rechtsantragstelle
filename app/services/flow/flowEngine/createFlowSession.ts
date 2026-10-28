@@ -218,8 +218,8 @@ export const createFlowSession = <C extends PageConfigMap>(
 
   // An empty array's "add" target is reachable so the user can add the first
   // item, but it is never visited (no item exists yet). Treat it as done only
-  // when the array is optional, so a still-empty optional array does not hold
-  // its section back, while an empty required array keeps it incomplete.
+  // when the array is optional or the page explicitly opts out of completion
+  // validation. An empty required array must still keep its section incomplete.
   const visitedKeys = new Set<string>(
     simulation.visitedContexts.map(({ key }) => key),
   );
@@ -227,7 +227,13 @@ export const createFlowSession = <C extends PageConfigMap>(
     const arrayName = inferArrayNameFromStepId(
       compiledFlow.getPathFromNodeKey(key) ?? "",
     );
-    return arrayName !== "" && compiledFlow.isOptionalArray(arrayName);
+    return (
+      (arrayName !== "" && compiledFlow.isOptionalArray(arrayName)) ||
+      compiledFlow.pages[key]?.isRelevantForDone?.({
+        ...effectiveUserData,
+        pageData: { arrayIndexes: [] },
+      } as UserData) === false
+    );
   };
   [...simulation.reachableSet]
     .filter((key) => !visitedKeys.has(key))

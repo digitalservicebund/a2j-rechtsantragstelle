@@ -6,15 +6,15 @@ import {
   MAX_REPRESENTATIVES,
   type KlageParteien,
   type KlageParteiVerhaeltnis,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlageParteienUebersicht";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
   focusOnGesetzlicheVertretungTitle,
   focusOnKlageParteiTitle,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyFocus";
-import { MAX_KLAGE_PARTIES } from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyFocus";
+import { MAX_KLAGE_PARTIES } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type UserData } from "~/domains/userData";
 import { translations } from "~/services/translations/translations";
+import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteienUebersicht";
 
 vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),

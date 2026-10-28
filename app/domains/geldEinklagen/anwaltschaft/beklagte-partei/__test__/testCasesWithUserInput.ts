@@ -33,6 +33,9 @@ export const beklagteParteiTestCases = {
       stepId: "/beklagte-partei/beklagten/uebersicht",
     },
     {
+      stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
+    },
+    {
       stepId: "/prozessantraege-prozessuale-ausfuehrungen",
     },
   ],
@@ -60,6 +63,9 @@ export const beklagteParteiTestCases = {
     },
     {
       stepId: "/beklagte-partei/beklagten/uebersicht",
+    },
+    {
+      stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
       stepId: "/prozessantraege-prozessuale-ausfuehrungen",

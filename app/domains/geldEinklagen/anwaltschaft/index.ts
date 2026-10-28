@@ -1,5 +1,6 @@
 import type { Flow } from "~/domains/flows.server";
 import { setPartyType } from "~/domains/geldEinklagen/anwaltschaft/services/setPartyType";
+import { setProzessbevollmaechtigteType } from "./services/setProzessbevollmaechtigteType";
 import {
   getBeklagteStrings,
   getKlagendeStrings,
@@ -25,6 +26,13 @@ export const geldEinklagenAnwaltschaft = {
       "klagende",
       "organisation",
     ),
+    "/klagende-partei/prozessbevollmaechtigte/#/einzelkanzlei-daten":
+      setProzessbevollmaechtigteType("klagende", "einzelkanzlei"),
+    "/klagende-partei/prozessbevollmaechtigte/#/berufsausuebungsgesellschaft-daten":
+      setProzessbevollmaechtigteType(
+        "klagende",
+        "berufsausuebungsgesellschaft",
+      ),
     "/beklagte-partei/beklagten/#/natuerliche-person-daten": setPartyType(
       "beklagte",
       "natuerliche-person",
@@ -33,6 +41,13 @@ export const geldEinklagenAnwaltschaft = {
       "beklagte",
       "organisation",
     ),
+    "/beklagte-partei/prozessbevollmaechtigte/#/einzelkanzlei-daten":
+      setProzessbevollmaechtigteType("beklagte", "einzelkanzlei"),
+    "/beklagte-partei/prozessbevollmaechtigte/#/berufsausuebungsgesellschaft-daten":
+      setProzessbevollmaechtigteType(
+        "beklagte",
+        "berufsausuebungsgesellschaft",
+      ),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {

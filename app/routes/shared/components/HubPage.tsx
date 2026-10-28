@@ -38,7 +38,7 @@ export function HubPage() {
       {heroComponent && (
         <GridSection
           className={classNames(
-            "pb-kern-space-x-large text-pretty hyphens-none break-normal",
+            "pb-kern-space-x-large md:text-pretty md:hyphens-none md:break-normal",
             getSectionBackgroundColor(heroComponent),
           )}
         >
@@ -54,7 +54,7 @@ export function HubPage() {
         </GridSection>
       )}
 
-      <GridSection className="py-kern-space-6x-large text-pretty hyphens-none break-normal">
+      <GridSection className="py-kern-space-6x-large md:text-pretty md:hyphens-none md:break-normal">
         <Grid>
           <GridItem
             mdColumn={{ start: 1, span: 7 }}

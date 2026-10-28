@@ -983,6 +983,52 @@ describe("createFlowSession", () => {
       expect(withFlag.statusTree["/section-b"]?.isDone).toBe(false);
     });
 
+    it("honors completion relevance for empty array targets without skipping draft validation", () => {
+      const optionalPages = {
+        ...pages,
+        arraySubPage: {
+          ...pages.arraySubPage,
+          pageSchema: {
+            "items#vorname": z.string().min(1),
+            "items#nachname": z.string().min(1),
+          },
+          isRelevantForDone: ({ items }: { items?: unknown[] }) =>
+            Boolean(items?.length),
+        },
+      };
+      const flow = compileFlow<typeof optionalPages>({
+        pages: optionalPages,
+        initialStep: "start",
+        transitions,
+      });
+      for (const items of [undefined, []]) {
+        const session = createFlowSession(flow, { items }, "/array");
+        expect(session.statusTree["/array"]?.isDone).toBe(true);
+        expect(session.isReachable("/array/#/daten")).toBe(true);
+      }
+
+      const draft = createFlowSession(
+        flow,
+        { pageData: { arrayIndexes: [0] } },
+        "/array/#/daten",
+      );
+      expect(draft.statusTree["/array"]?.isDone).toBe(false);
+
+      const incomplete = createFlowSession(
+        flow,
+        { items: [{ vorname: "Alice", nachname: "" }] },
+        "/array",
+      );
+      expect(incomplete.statusTree["/array"]?.isDone).toBe(false);
+
+      const required = createFlowSession(
+        compileFlow({ pages, initialStep: "start", transitions }),
+        {},
+        "/array",
+      );
+      expect(required.statusTree["/array"]?.isDone).toBe(false);
+    });
+
     it("marks a section done when its only unfilled node is an empty OPTIONAL nested array", () => {
       const session = createFlowSession(
         buildNestedArrayFlow(true),
