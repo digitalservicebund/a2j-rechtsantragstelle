@@ -19,7 +19,6 @@ type BezifferterZahlungsantragProps = {
 export const BezifferterZahlungsantrag = ({
   itemIndex,
   item,
-  index,
 }: BezifferterZahlungsantragProps) => {
   return (
     <div
@@ -64,6 +63,7 @@ export const BezifferterZahlungsantrag = ({
           <NebenantragItem
             parentArrayItemIndex={itemIndex}
             nebenantrag={item.nebenantrag}
+            annahmeverzug={item.annahmeverzug}
           />
           <div className="flex justify-end mt-24">
             <Button

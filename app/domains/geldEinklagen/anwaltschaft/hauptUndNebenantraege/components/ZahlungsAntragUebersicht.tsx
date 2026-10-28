@@ -5,6 +5,7 @@ import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
+import { InlineNotice } from "~/components/content/InlineNotice";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -56,6 +57,22 @@ const ZahlungsAntragUebersicht = () => {
                 .de
             }
           </Button>
+          <div className="pt-24">
+            {shouldDisableAddButton && (
+              <InlineNotice
+                title={
+                  translations.geldEinklagenAnwaltschaft
+                    .zahlungsAntragInlineNoticeTitle.de
+                }
+                tagName={"p"}
+                look={"info"}
+                content={
+                  translations.geldEinklagenAnwaltschaft
+                    .zahlungsAntragInlineNoticeContent.de
+                }
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

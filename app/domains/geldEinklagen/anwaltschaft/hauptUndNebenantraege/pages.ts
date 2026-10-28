@@ -30,7 +30,7 @@ const nebenantragArraySchema = z.array(
 );
 const annahmeverzugArraySchema = z.array(
   z.object({
-    feststellungDesAnnahmeverzugs: checkedRequired,
+    annahmeverzugsFeststellung: checkedRequired,
     annahmeverzugDatum: createSplitDateSchema(),
   }),
 );
@@ -143,9 +143,9 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "annahmeverzug#feststellungDesAnnahmeverzugs":
-        annahmeverzugArraySchema.element.shape.feststellungDesAnnahmeverzugs,
-      "annahmeverzug#annahmeverzugDatum":
+      "hauptantrag#annahmeverzug#annahmeverzugsFeststellung":
+        annahmeverzugArraySchema.element.shape.annahmeverzugsFeststellung,
+      "hauptantrag#annahmeverzug#annahmeverzugDatum":
         annahmeverzugArraySchema.element.shape.annahmeverzugDatum,
     },
   },
