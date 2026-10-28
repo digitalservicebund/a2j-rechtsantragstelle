@@ -738,6 +738,12 @@ export const translations = {
     soenstigeProzessantragInlineNoticeContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
+    bezifferterZahlungsantragHeadline: {
+      de: "Bezifferter Zahlungsantrag",
+    },
+    zahlungsAntragHinzufuegen: {
+      de: "Zahlungsantrag hinzufügen",
+    },
     nebenantragHeadline: {
       de: "Nebenanträge / Feststellung Annahmeverzug",
     },
@@ -749,8 +755,7 @@ export const translations = {
     },
     annahmeverzugAddButton: {
       de: "Annahmeverzug hinzufügen",
-    }
-
+    },
   },
   nachlass: {
     childOf: {

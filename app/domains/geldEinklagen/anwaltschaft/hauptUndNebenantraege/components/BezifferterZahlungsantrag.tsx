@@ -3,6 +3,7 @@ import { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { Badge } from "~/components/content/Badge";
 import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
+import { translations } from "~/services/translations/translations";
 
 export const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -27,16 +28,19 @@ export const BezifferterZahlungsantrag = ({
       className="kern-summary pb-24"
     >
       <h2 className="kern-body kern-body--large kern-body--bold p-0!">
-        Bezifferter Zahlungsantrag {itemIndex + 1}
+        {
+          translations.geldEinklagenAnwaltschaft
+            .bezifferterZahlungsantragHeadline.de
+        }{" "}
+        {itemIndex + 1}
       </h2>
       <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] py-kern-space-default mt-18">
         <div className="flex flex-col gap-kern-space-large">
-          {/* {item.internesSchlagwortFordureung && ( */}
-          <Badge className="w-full max-w-[450px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap py-kern-space-small! px-kern-space-default! bg-kern-neutral-025!">
-            {/* {item.internesSchlagwortFordureung} */}
-            item.internesSchlagwortFordureung
-          </Badge>
-          {/* )} */}
+          {item.internesSchlagwortFordureung && (
+            <Badge className="w-full max-w-[450px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap py-kern-space-small! px-kern-space-default! bg-kern-neutral-025!">
+              {item.internesSchlagwortFordureung}
+            </Badge>
+          )}
           <div className="flex justify-between items-center">
             <span className="kern-body max-w-[632px]">
               Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner
@@ -57,7 +61,10 @@ export const BezifferterZahlungsantrag = ({
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
           </div>
-          <NebenantragItem parentArrayItemIndex={itemIndex} nebenantrag={item.nebenantrag} />
+          <NebenantragItem
+            parentArrayItemIndex={itemIndex}
+            nebenantrag={item.nebenantrag}
+          />
           <div className="flex justify-end mt-24">
             <Button
               type="button"

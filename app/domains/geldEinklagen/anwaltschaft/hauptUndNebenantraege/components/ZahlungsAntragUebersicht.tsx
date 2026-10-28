@@ -4,6 +4,7 @@ import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
+import { translations } from "~/services/translations/translations";
 
 export const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -50,7 +51,10 @@ const ZahlungsAntragUebersicht = () => {
             disabled={shouldDisableAddButton}
             aria-disabled={shouldDisableAddButton}
           >
-            Zahlungsantrag hinzufügen
+            {
+              translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen
+                .de
+            }
           </Button>
         </div>
       </div>
