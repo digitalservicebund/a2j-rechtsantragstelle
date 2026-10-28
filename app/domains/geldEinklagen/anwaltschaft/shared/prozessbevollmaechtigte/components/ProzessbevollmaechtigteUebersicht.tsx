@@ -1,10 +1,15 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import { translations } from "~/services/translations/translations";
 import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
-import { getBaseProzessbevollmaechtigteUrl } from "../prozessbevollmaechtigteHelpers";
+import {
+  getBaseProzessbevollmaechtigteUrl,
+  getProzessbevollmaechtigteArrayName,
+} from "../prozessbevollmaechtigteHelpers";
+import { focusOnProzessbevollmaechtigteTitle } from "../prozessbevollmaechtigteFocus";
 import {
   MAX_PROZESSBEVOLLMAECHTIGTE,
   type ProzessbevollmaechtigteType,
@@ -73,6 +78,9 @@ const ProzessbevollmaechtigteList = ({
   relationship: KlageParteiVerhaeltnis;
   shouldDisableAddButton: boolean;
 }) => {
+  const deleteArrayItem = useDeleteArrayItem(
+    getProzessbevollmaechtigteArrayName(relationship),
+  );
   const heading =
     type === "einzelkanzlei"
       ? translations.geldEinklagenAnwaltschaft.einzelkanzleiHeadline.de
@@ -96,6 +104,13 @@ const ProzessbevollmaechtigteList = ({
           index={arrayIndex}
           prozessbevollmaechtigte={prozessbevollmaechtigte}
           relationship={relationship}
+          onDelete={async () => {
+            await deleteArrayItem(
+              getBaseProzessbevollmaechtigteUrl(relationship),
+              arrayIndex,
+            );
+            focusOnProzessbevollmaechtigteTitle(relationship, type, arrayIndex);
+          }}
         />
       ))}
       <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200">

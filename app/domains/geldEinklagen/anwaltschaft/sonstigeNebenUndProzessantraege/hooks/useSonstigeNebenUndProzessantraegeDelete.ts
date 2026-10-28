@@ -1,7 +1,4 @@
-import { useRevalidator, useRouteLoaderData } from "react-router";
-import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySummaryItemActions";
-import { type RootLoader } from "~/root";
-import { CSRFKey } from "~/services/security/csrf/csrfKey";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 
@@ -21,29 +18,14 @@ const focusOnSonstigeNebenUndProzessantraege = (itemIndex: number) => {
 };
 
 export const useSonstigeNebenUndProzessantraegeDelete = () => {
-  const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
-  const revalidator = useRevalidator();
+  const deleteArrayItem = useDeleteArrayItem("sonstigeNebenUndProzessantraege");
 
   const onSonstigeNebenUndProzessantraegeDelete = async (
     pathnameArrayItem: string,
     itemIndex: number,
   ) => {
-    const formData = new FormData();
-
-    formData.append("pathnameArrayItem", pathnameArrayItem);
-    formData.append("_jsEnabled", "true");
-    formData.append("sonstigeNebenUndProzessantraege", String(itemIndex));
-    formData.append(CSRFKey, csrf);
-
-    const response = await fetch(DELETE_URL_ENDPOINT, {
-      method: "post",
-      body: formData,
-    });
-
-    if (response.ok) {
-      await revalidator.revalidate();
-      focusOnSonstigeNebenUndProzessantraege(itemIndex);
-    }
+    await deleteArrayItem(pathnameArrayItem, itemIndex);
+    focusOnSonstigeNebenUndProzessantraege(itemIndex);
   };
 
   return { onSonstigeNebenUndProzessantraegeDelete };

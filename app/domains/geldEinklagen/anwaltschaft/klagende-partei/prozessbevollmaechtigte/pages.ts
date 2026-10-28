@@ -38,20 +38,20 @@ export const klagendeProzessbevollmaechtigtePages = {
       "klagendeProzessbevollmaechtigte#name": einzelkanzlei.name,
       "klagendeProzessbevollmaechtigte#geschaeftszeichen":
         einzelkanzlei.geschaeftszeichen,
-      "klagendeProzessbevollmaechtigte#telefonnummer":
-        einzelkanzlei.telefonnummer,
-      "klagendeProzessbevollmaechtigte#email": einzelkanzlei.email,
-      "klagendeProzessbevollmaechtigte#berufsbezeichnung":
-        einzelkanzlei.berufsbezeichnung,
-      "klagendeProzessbevollmaechtigte#anrede": einzelkanzlei.anrede,
-      "klagendeProzessbevollmaechtigte#titel": einzelkanzlei.titel,
-      "klagendeProzessbevollmaechtigte#vorname": einzelkanzlei.vorname,
-      "klagendeProzessbevollmaechtigte#nachname": einzelkanzlei.nachname,
       "klagendeProzessbevollmaechtigte#strasse": einzelkanzlei.strasse,
       "klagendeProzessbevollmaechtigte#hausnummer": einzelkanzlei.hausnummer,
       "klagendeProzessbevollmaechtigte#plz": einzelkanzlei.plz,
       "klagendeProzessbevollmaechtigte#ort": einzelkanzlei.ort,
       "klagendeProzessbevollmaechtigte#land": einzelkanzlei.land,
+      "klagendeProzessbevollmaechtigte#telefonnummer":
+        einzelkanzlei.telefonnummer,
+      "klagendeProzessbevollmaechtigte#email": einzelkanzlei.email,
+      "klagendeProzessbevollmaechtigte#anrede": einzelkanzlei.anrede,
+      "klagendeProzessbevollmaechtigte#titel": einzelkanzlei.titel,
+      "klagendeProzessbevollmaechtigte#vorname": einzelkanzlei.vorname,
+      "klagendeProzessbevollmaechtigte#nachname": einzelkanzlei.nachname,
+      "klagendeProzessbevollmaechtigte#berufsbezeichnung":
+        einzelkanzlei.berufsbezeichnung,
       "klagendeProzessbevollmaechtigte#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(einzelkanzlei.type),
       ),
@@ -73,16 +73,16 @@ export const klagendeProzessbevollmaechtigtePages = {
       "klagendeProzessbevollmaechtigte#name": gesellschaft.name,
       "klagendeProzessbevollmaechtigte#geschaeftszeichen":
         gesellschaft.geschaeftszeichen,
-      "klagendeProzessbevollmaechtigte#telefonnummer":
-        gesellschaft.telefonnummer,
-      "klagendeProzessbevollmaechtigte#email": gesellschaft.email,
-      "klagendeProzessbevollmaechtigte#isProzessbevollmaechtigt":
-        gesellschaft.isProzessbevollmaechtigt,
       "klagendeProzessbevollmaechtigte#strasse": gesellschaft.strasse,
       "klagendeProzessbevollmaechtigte#hausnummer": gesellschaft.hausnummer,
       "klagendeProzessbevollmaechtigte#plz": gesellschaft.plz,
       "klagendeProzessbevollmaechtigte#ort": gesellschaft.ort,
       "klagendeProzessbevollmaechtigte#land": gesellschaft.land,
+      "klagendeProzessbevollmaechtigte#telefonnummer":
+        gesellschaft.telefonnummer,
+      "klagendeProzessbevollmaechtigte#email": gesellschaft.email,
+      "klagendeProzessbevollmaechtigte#isProzessbevollmaechtigt":
+        gesellschaft.isProzessbevollmaechtigt,
       "klagendeProzessbevollmaechtigte#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(gesellschaft.type),
       ),

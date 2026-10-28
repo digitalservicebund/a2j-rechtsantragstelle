@@ -1,5 +1,7 @@
-import { act, render, screen, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
+import type * as ReactRouter from "react-router";
+import userEvent from "@testing-library/user-event";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
 import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
@@ -16,6 +18,29 @@ import { ProzessbevollmaechtigteUebersicht } from "../ProzessbevollmaechtigteUeb
 vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
+
+const revalidate = vi.fn().mockResolvedValue(undefined);
+
+vi.mock("react-router", async (importOriginal) => ({
+  ...(await importOriginal<typeof ReactRouter>()),
+  useRouteLoaderData: () => ({ csrf: "test-csrf" }),
+  useRevalidator: () => ({ revalidate }),
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+    this.open = true;
+  };
+  HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+    this.open = false;
+  };
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 
 const renderOverview = (
   userData: GeldEinklagenAnwaltschaftUserData,
@@ -35,6 +60,89 @@ const renderOverview = (
 };
 
 describe("ProzessbevollmaechtigteUebersicht", () => {
+  it.each([
+    ["klagende", einzelkanzlei],
+    ["beklagte", gesellschaft],
+  ] as const)(
+    "re-enables adding and restores focus after removing the last %s representative",
+    async (relationship, item) => {
+      const user = userEvent.setup();
+      vi.stubGlobal(
+        "fetch",
+        vi.fn().mockResolvedValue(new Response("success")),
+      );
+      const { rerender } = renderOverview(
+        {
+          [getProzessbevollmaechtigteArrayName(relationship)]: [item],
+        },
+        relationship,
+      );
+      revalidate.mockImplementationOnce(async () => {
+        vi.mocked(useFormFlow).mockReturnValue({
+          userData: {},
+          flowId: "/geld-einklagen/anwaltschaft",
+          translations: {},
+          validFlowPages: {},
+        });
+        rerender(
+          <MemoryRouter>
+            <ProzessbevollmaechtigteUebersicht relationship={relationship} />
+          </MemoryRouter>,
+        );
+      });
+
+      await user.click(screen.getByRole("button", { name: /löschen$/ }));
+      await user.click(screen.getByRole("button", { name: "Ja, löschen" }));
+      expect(
+        screen.queryByTestId("prozessbevollmaechtigte"),
+      ).not.toBeInTheDocument();
+      for (const type of ["einzelkanzlei", "berufsausuebungsgesellschaft"]) {
+        expect(screen.getByTestId(`add-${type}`)).toHaveAttribute(
+          "aria-disabled",
+          "false",
+        );
+      }
+      await waitFor(() => {
+        expect(
+          document.getElementById(
+            `${relationship}-prozessbevollmaechtigte-${item.type}`,
+          ),
+        ).toHaveFocus();
+      });
+    },
+  );
+
+  it.each(["klagende", "beklagte"] as const)(
+    "deletes a %s representative using its unfiltered array index",
+    async (relationship) => {
+      const user = userEvent.setup();
+      const fetchMock = vi.fn().mockResolvedValue(new Response("success"));
+      vi.stubGlobal("fetch", fetchMock);
+      const arrayName = getProzessbevollmaechtigteArrayName(relationship);
+      renderOverview(
+        { [arrayName]: [gesellschaft, einzelkanzlei] },
+        relationship,
+      );
+      await user.click(
+        screen.getByRole("button", { name: "Frau Erika Musterfrau löschen" }),
+      );
+      const dialog = screen.getByRole("dialog");
+      expect(
+        within(dialog).getByText("Frau Erika Musterfrau"),
+      ).toBeInTheDocument();
+      expect(fetchMock).not.toHaveBeenCalled();
+      await user.click(
+        within(dialog).getByRole("button", { name: "Ja, löschen" }),
+      );
+      const body = fetchMock.mock.calls[0][1].body as FormData;
+      expect(body.get(arrayName)).toBe("1");
+      expect(body.get("pathnameArrayItem")).toBe(
+        `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte`,
+      );
+      expect(revalidate).toHaveBeenCalledOnce();
+    },
+  );
+
   it.each(["klagende", "beklagte"] as const)(
     "renders a single %s representative with correct edit URLs",
     (relationship) => {
@@ -54,6 +162,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
             item.type === "einzelkanzlei"
               ? "Frau Erika Musterfrau"
               : "Musterkanzlei PartG",
+            { selector: "span" },
           ),
         ).toBeInTheDocument();
         expect(
@@ -186,6 +295,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         focusOnProzessbevollmaechtigteTitle("klagende", "einzelkanzlei", 0);
         vi.runAllTimers();
       });
+      expect(screen.getByTestId("prozessbevollmaechtigte")).toHaveFocus();
       act(() => {
         focusOnProzessbevollmaechtigteTitle(
           "klagende",

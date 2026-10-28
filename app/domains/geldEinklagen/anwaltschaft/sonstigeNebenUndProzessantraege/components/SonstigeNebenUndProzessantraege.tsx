@@ -2,7 +2,8 @@ import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { Badge } from "~/components/content/Badge";
 import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./SonstigeNebenUndProzessantraegeUebersicht";
-import { SonstigeNebenUndProzessantraegeDeleteButton } from "./SonstigeNebenUndProzessantraegeDeleteButton";
+import { DeleteButton } from "~/components/common/DeleteButton";
+import { translations } from "~/services/translations/translations";
 import { useEffect } from "react";
 
 type SonstigeNebenUndProzessantraegeProps = {
@@ -74,11 +75,27 @@ const SonstigeNebenUndProzessantraege = ({
             </a>
           </div>
           <div className="flex justify-end">
-            <SonstigeNebenUndProzessantraegeDeleteButton
-              itemIndex={itemIndex}
-              onDelete={onDelete}
-              antrag={item.antrag}
-              internesSchlagwort={item.internesSchlagwort}
+            <DeleteButton
+              label={
+                translations.geldEinklagenAnwaltschaft
+                  .soenstigeProzessantragDelete.de
+              }
+              title={
+                translations.geldEinklagenAnwaltschaft
+                  .soenstigeProzessantragDelete.de
+              }
+              onDelete={() =>
+                onDelete(BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE, itemIndex)
+              }
+              description={
+                <div className="flex flex-col gap-kern-space-small">
+                  <p>{translations.deleteDialog.description.de}</p>
+                  {item.internesSchlagwort && (
+                    <p className="font-bold">{item.internesSchlagwort}</p>
+                  )}
+                  <p className="font-normal">{item.antrag}</p>
+                </div>
+              }
             />
           </div>
         </div>
