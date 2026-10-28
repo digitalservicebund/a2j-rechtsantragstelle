@@ -1,7 +1,13 @@
 import z from "zod";
 import { PagesConfig } from "~/domains/pageSchemas";
-import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import { createSplitDateSchemaOptional } from "~/services/validation/dateObject";
+import {
+  checkedOptional,
+  checkedRequired,
+} from "~/services/validation/checkedCheckbox";
+import {
+  createSplitDateSchemaOptional,
+  createSplitDateSchema,
+} from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
@@ -24,8 +30,8 @@ const nebenantragArraySchema = z.array(
 );
 const annahmeverzugArraySchema = z.array(
   z.object({
-    art: z.string().max(50),
-    betrag: integerSchema,
+    feststellungDesAnnahmeverzugs: checkedRequired,
+    annahmeverzugDatum: createSplitDateSchema(),
   }),
 );
 const hauptantragArraySchema = z.array(
@@ -130,6 +136,17 @@ export const hauptUndNebenantraegePages = {
         nebenantragArraySchema.element.shape.nebenantragArt,
       "hauptantrag#nebenantrag#nebenantragBetrag":
         nebenantragArraySchema.element.shape.nebenantragBetrag,
+    },
+  },
+  annahmeverzugDaten: {
+    stepId:
+      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "annahmeverzug#feststellungDesAnnahmeverzugs":
+        annahmeverzugArraySchema.element.shape.feststellungDesAnnahmeverzugs,
+      "annahmeverzug#annahmeverzugDatum":
+        annahmeverzugArraySchema.element.shape.annahmeverzugDatum,
     },
   },
 } as const satisfies PagesConfig;

@@ -738,6 +738,19 @@ export const translations = {
     soenstigeProzessantragInlineNoticeContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
+    nebenantragHeadline: {
+      de: "Nebenanträge / Feststellung Annahmeverzug",
+    },
+    nebenantragDescription: {
+      de: "Maximal 7 (inklusive Annahmeverzug)",
+    },
+    nebenatragAddButton: {
+      de: "Nebenantrag hinzufügen",
+    },
+    annahmeverzugAddButton: {
+      de: "Annahmeverzug hinzufügen",
+    }
+
   },
   nachlass: {
     childOf: {

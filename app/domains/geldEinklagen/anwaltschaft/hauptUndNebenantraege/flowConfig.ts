@@ -16,8 +16,13 @@ export const hauptUndNebenantraegeFlowConfig = {
       type: "addArrayItem",
       target: "nebenantragDaten",
     },
+    {
+      type: "addArrayItem",
+      target: "annahmeverzugDaten",
+    },
     { target: "hauptantragUebersicht" },
   ],
   hauptantragWarnung: "hauptantragUebersicht",
   nebenantragDaten: "hauptantragUebersicht",
+  annahmeverzugDaten: "hauptantragUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
