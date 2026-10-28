@@ -1,14 +1,33 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
-import { BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
+import { getNebenantragItemText } from "./nebenantragContent";
+import { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
 
+type Hauptantrag = NonNullable<
+  GeldEinklagenAnwaltschaftUserData["hauptantrag"]
+>[number];
+
+type Nebenantrag = {
+  item: NonNullable<Hauptantrag["nebenantrag"]>[number];
+  index: number;
+  type: "nebenantrag";
+};
+
+type Annahmeverzug = {
+  item: NonNullable<Hauptantrag["annahmeverzug"]>[number];
+  index: number;
+  type: "annahmeverzug";
+};
+
+type NebenantragItemData = Nebenantrag | Annahmeverzug;
+
 type NebenantragItemProps = {
-  readonly nebenantrag: {}[] | undefined;
-  readonly annahmeverzug: {}[] | undefined;
+  readonly nebenantrag: Hauptantrag["nebenantrag"];
+  readonly annahmeverzug: Hauptantrag["annahmeverzug"];
   readonly parentArrayItemIndex: number;
 };
 
@@ -19,27 +38,33 @@ export const NebenantragItem = ({
   nebenantrag,
   annahmeverzug,
 }: NebenantragItemProps) => {
-  const nebenantragItems = (nebenantrag ?? []).map((item, index) => ({
+
+  const nebenantragItems: Nebenantrag[] = (nebenantrag ?? []).map(
+  (item, index) => ({
     item,
     index,
-    type: "nebenantrag" as const,
-  }));
+    type: "nebenantrag",
+  }),
+);
 
-  const annahmeverzugItems = (annahmeverzug ?? []).map((item, index) => ({
+const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
+  (item, index) => ({
     item,
     index,
-    type: "annahmeverzug" as const,
-  }));
+    type: "annahmeverzug",
+  }),
+);
 
-  const items = [...nebenantragItems, ...annahmeverzugItems];
-
-  const totalItems = items.length;
-
-  const nextNebenantragIndex = nebenantragItems.length;
-  const nextAnnahmeverzugIndex = annahmeverzugItems.length;
+const items: NebenantragItemData[] = [
+  ...nebenantragItems,
+  ...annahmeverzugItems,
+];
+ 
+  const nextNebenantragIndex = (nebenantrag ?? []).length;
+  const nextAnnahmeverzugIndex = (annahmeverzug ?? []).length;
 
   const shouldDisableAddButton =
-    totalItems >= MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS;
+    items.length >= MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS;
 
   return (
     <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
@@ -55,18 +80,16 @@ export const NebenantragItem = ({
         </span>
       </div>
 
-      {items.map(({ item, index, type }) => (
+      {items.map((entry) => {
+        const { index, type } = entry;
+        return (
         <div
           key={`hauptantrag-${parentArrayItemIndex}-${type}-${index}`}
           className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
         >
           <div className="kern-body kern-body--default text-pretty flex flex-col">
             <span className="kern-body max-w-[528px]">
-              a.Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner
-              verurteilt, an die Klagende zu 2) vorgerichtlich angefallene
-              Anwaltskosten in Höhe von 600 Euro nebst Zinsen in Höhe von 5
-              Prozentpunkten über dem jeweiligen Basiszinssatz p.a. seit
-              Rechtshängigkeit zu zahlen.
+              {getNebenantragItemText(entry)}
             </span>
           </div>
           <div className="flex gap-24">
@@ -95,7 +118,8 @@ export const NebenantragItem = ({
             />
           </div>
         </div>
-      ))}
+        );
+      })}
       <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">
         <Button
           href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`}

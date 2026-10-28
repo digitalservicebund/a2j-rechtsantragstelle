@@ -42,7 +42,23 @@ const ZahlungsAntragUebersicht = () => {
               index={index}
             />
           ))}
-        <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
+        {shouldDisableAddButton && (
+          <div className="pb-24">
+            <InlineNotice
+              title={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeTitle.de
+              }
+              tagName={"p"}
+              look={"info"}
+              content={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeContent.de
+              }
+            />
+          </div>
+        )}
+        <div className="flex flex-col items-start p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
           <Button
             look="secondary"
             iconLeft={<Icon name="plus" className="text-kern-action-default" />}
@@ -57,22 +73,6 @@ const ZahlungsAntragUebersicht = () => {
                 .de
             }
           </Button>
-          <div className="pt-24">
-            {shouldDisableAddButton && (
-              <InlineNotice
-                title={
-                  translations.geldEinklagenAnwaltschaft
-                    .zahlungsAntragInlineNoticeTitle.de
-                }
-                tagName={"p"}
-                look={"info"}
-                content={
-                  translations.geldEinklagenAnwaltschaft
-                    .zahlungsAntragInlineNoticeContent.de
-                }
-              />
-            )}
-          </div>
         </div>
       </div>
     </div>

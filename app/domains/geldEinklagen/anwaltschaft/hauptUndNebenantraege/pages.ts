@@ -13,7 +13,14 @@ import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const nebenantragArraySchema = z.array(
   z.object({
-    nebenantragArt: z.string().max(50),
+    nebenantragArt: z.enum([
+      "vorgerichtlicheAnwaltskosten",
+      "mahnkosten",
+      "inkassokosten",
+      "adressermittlungskosten",
+      "ruecklastschriftgebühren",
+      "pauschale",
+    ]),
     nebenantragBetrag: integerSchema,
     nebenantragZinssatzInProzent: integerSchema.optional(),
     nebenantragZinsmethode: z
@@ -136,6 +143,14 @@ export const hauptUndNebenantraegePages = {
         nebenantragArraySchema.element.shape.nebenantragArt,
       "hauptantrag#nebenantrag#nebenantragBetrag":
         nebenantragArraySchema.element.shape.nebenantragBetrag,
+      "hauptantrag#nebenantrag#nebenantragZinssatzInProzent":
+        nebenantragArraySchema.element.shape.nebenantragZinssatzInProzent,
+      "hauptantrag#nebenantrag#nebenantragZinsmethode":
+        nebenantragArraySchema.element.shape.nebenantragZinsmethode,
+      "hauptantrag#nebenantrag#nebenantragZinsbeginn":
+        nebenantragArraySchema.element.shape.nebenantragZinsbeginn,
+      "hauptantrag#nebenantrag#nebenantragZinsende":
+        nebenantragArraySchema.element.shape.nebenantragZinsende,
     },
   },
   annahmeverzugDaten: {
