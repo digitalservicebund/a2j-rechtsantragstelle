@@ -30,7 +30,6 @@ const TileContent = ({
             width={IMAGE_WIDTH}
             height={IMAGE_HEIGHT}
             ariaHidden={true}
-            className="forced-color-adjust-auto"
           />
         )}
       </div>
