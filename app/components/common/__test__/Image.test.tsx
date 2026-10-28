@@ -81,4 +81,11 @@ describe("Image", () => {
     expect(image).toHaveClass("test-class");
     expect(image).toHaveClass("svg-image");
   });
+
+  it("should have class forced-color-adjust-auto for svg", () => {
+    const { container } = render(<Image svgString="<svg></svg>" />);
+    const image = container.querySelector("svg");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveClass("forced-color-adjust-auto");
+  });
 });

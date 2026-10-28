@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { InlineSvgImage } from "./InlineSvgImage";
 
 type SharedProps = {
@@ -26,7 +27,7 @@ function Image({
         svgString={svgString}
         width={props.width}
         altText={alternativeText}
-        className={props.className}
+        className={classNames(props.className, "forced-color-adjust-auto")}
       />
     );
 
