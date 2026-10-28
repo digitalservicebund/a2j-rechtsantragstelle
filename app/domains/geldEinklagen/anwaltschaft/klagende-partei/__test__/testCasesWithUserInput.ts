@@ -33,6 +33,9 @@ export const klagendeParteiTestCases = {
       stepId: "/klagende-partei/klagenden/uebersicht",
     },
     {
+      stepId: "/klagende-partei/prozessbevollmaechtigte/uebersicht",
+    },
+    {
       stepId: "/beklagte-partei/beklagten/uebersicht",
     },
   ],
@@ -60,6 +63,9 @@ export const klagendeParteiTestCases = {
     },
     {
       stepId: "/klagende-partei/klagenden/uebersicht",
+    },
+    {
+      stepId: "/klagende-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
       stepId: "/beklagte-partei/beklagten/uebersicht",
@@ -170,6 +176,9 @@ export const klagendeParteiTestCases = {
     },
     {
       stepId: "/klagende-partei/klagenden/uebersicht",
+    },
+    {
+      stepId: "/klagende-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
       stepId: "/beklagte-partei/beklagten/uebersicht",

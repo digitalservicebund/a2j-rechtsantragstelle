@@ -6,7 +6,7 @@ import {
   MAX_REPRESENTATIVES,
   naturalPersonSchema,
   organizationSchema,
-} from "../../shared/anwaltschaftSchemas";
+} from "../../shared/klageParties/klagePartySchemas";
 import { klagendeParteiPages } from "../pages";
 
 const naturalPerson = {
@@ -161,7 +161,11 @@ describe("klagendeParteiPages", () => {
           klagendeParteiPages.klagendeUebersicht.stepId,
         );
 
-        expect(session.statusTree["/klagende-partei"]?.isDone).toBe(true);
+        expect(
+          session.statusTree["/klagende-partei"]?.children?.["/klagenden"]
+            ?.isDone,
+        ).toBe(true);
+        expect(session.statusTree["/klagende-partei"]?.isDone).toBe(false);
         expect(session.prunedUserData).toEqual({
           klagenden: klagenden.map((plaintiff) =>
             omit(plaintiff, "parteiverhaeltnis"),

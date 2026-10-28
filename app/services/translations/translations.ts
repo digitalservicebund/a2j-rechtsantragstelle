@@ -321,6 +321,20 @@ export const translations = {
       de: "Folgende Zeichen sind in diesem Feld nicht erlaubt:",
     },
   },
+  deleteDialog: {
+    cancel: {
+      de: "Nein, behalten",
+    },
+    confirm: {
+      de: "Ja, löschen",
+    },
+    description: {
+      de: "Folgendes wird entfernt:",
+    },
+    error: {
+      de: "Das Löschen ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    },
+  },
   arraySummary: {
     arrayEditButtonLabel: {
       de: "Bearbeiten",
@@ -536,6 +550,18 @@ export const translations = {
     boxZugangeZumRechtJustizLink: {
       de: "justiz.de",
     },
+    cardPrelineErbausschlagung: {
+      de: "Erbausschlagung",
+    },
+    cardHeadingErbausschlagung: {
+      de: "Ein Erbe ablehnen",
+    },
+    cardDescriptionErbausschlagung: {
+      de: "Hier finden Sie Informationen darüber, wie Sie eine Erbschaft ausschlagen können. Sie erfahren, welche Fristen Sie beachten müssen und welche Folgen die Ausschlagung hat.",
+    },
+    cardButtonLabelErbausschlagung: {
+      de: "Zu Erbe ausschlagen",
+    },
   },
   geldEinklagen: {
     begruendungBeschreibungHeadline: {
@@ -591,12 +617,6 @@ export const translations = {
     },
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
-    },
-    begruendungBeschreibungBeweiseDialogDeleteCancel: {
-      de: "Nein, behalten",
-    },
-    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
-      de: "Ja, löschen",
     },
     begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
       de: "Beweis: Dokument löschen?",
@@ -654,6 +674,36 @@ export const translations = {
     },
   },
   geldEinklagenAnwaltschaft: {
+    einzelkanzleiHeadline: {
+      de: "Einzelkanzlei",
+    },
+    berufsausuebungsgesellschaftHeadline: {
+      de: "Berufsausübungsgesellschaft",
+    },
+    geschaeftszeichen: {
+      de: "Geschäftszeichen",
+    },
+    prozessbevollmaechtigtePerson: {
+      de: "Prozessbevollmächtigte Person",
+    },
+    gesamteKanzlei: {
+      de: "Gesamte Kanzlei",
+    },
+    noGeschaeftszeichen: {
+      de: "Keine Angabe",
+    },
+    einzelkanzleiDeleteTitle: {
+      de: "Einzelkanzlei löschen?",
+    },
+    einzelkanzleiDeleteDescription: {
+      de: "Die folgende Einzelkanzlei wird entfernt:",
+    },
+    berufsausuebungsgesellschaftDeleteTitle: {
+      de: "Berufsausübungsgesellschaft löschen?",
+    },
+    berufsausuebungsgesellschaftDeleteDescription: {
+      de: "Die folgende Berufsausübungsgesellschaft wird entfernt:",
+    },
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
@@ -716,9 +766,6 @@ export const translations = {
     },
     soenstigeProzessantragDelete: {
       de: "Antrag/Ausführung löschen?",
-    },
-    soenstigeProzessantragDescription: {
-      de: "Folgendes wird entfernt:",
     },
     soenstigeProzessantragInlineNoticeTitle: {
       de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",

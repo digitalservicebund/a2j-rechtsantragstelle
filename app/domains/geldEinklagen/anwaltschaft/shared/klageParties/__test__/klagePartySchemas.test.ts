@@ -2,7 +2,7 @@ import {
   getGesetzlicheVertretungArtLabel,
   naturalPersonGesetzlicheVertretungArt,
   organizationSchema,
-} from "../anwaltschaftSchemas";
+} from "../../klageParties/klagePartySchemas";
 
 describe("gesetzliche Vertretung art", () => {
   it.each([

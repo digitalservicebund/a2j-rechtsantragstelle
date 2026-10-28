@@ -1,25 +1,31 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
-import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   getGesetzlicheVertretungArtLabel,
   getPluralOfKlageParteiRelationship,
   type KlageParteiVerhaeltnis,
   type KlageParteien,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/components/GesetzlicheVertretung";
-import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
-import { translations } from "~/services/translations/translations";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/GesetzlicheVertretung";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
+import { translations } from "~/services/translations/translations";
 
 type KlageParteiProps = {
   readonly partei: KlageParteien[number];
   readonly index: number;
+  readonly displayIndex: number;
   readonly relationship: KlageParteiVerhaeltnis;
 };
 
-const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
-  const headingText = `${translations.geldEinklagenAnwaltschaft[relationship === "klagende" ? "klagendeParteiHeadline" : "beklagteParteiHeadline"].de} ${index + 1})`;
+const KlagePartei = ({
+  partei,
+  index,
+  displayIndex,
+  relationship,
+}: KlageParteiProps) => {
+  const headingText = `${translations.geldEinklagenAnwaltschaft[relationship === "klagende" ? "klagendeParteiHeadline" : "beklagteParteiHeadline"].de} ${displayIndex + 1})`;
   const nameText =
     "orgName" in partei
       ? partei.orgName
@@ -74,8 +80,12 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
                     </span>
                   </span>
                   <span>
-                    {partei.orgVertretungAnrede} {partei.orgVertretungTitel}{" "}
-                    {partei.orgVertretungVorname} {partei.orgVertretungNachname}
+                    {getFullPlaintiffName(
+                      partei.orgVertretungAnrede,
+                      partei.orgVertretungTitel,
+                      partei.orgVertretungVorname,
+                      partei.orgVertretungNachname,
+                    )}
                   </span>
                 </div>
               )}
@@ -110,8 +120,9 @@ const KlagePartei = ({ partei, index, relationship }: KlageParteiProps) => {
             className="size-kern-dimension-default text-kern-feedback-danger"
           />
           {headingText}{" "}
-          {Boolean(partei["gesetzliche-vertretung"]?.length) &&
-          partei["gesetzliche-vertretung"]!.length > 0
+          {(Boolean(partei["gesetzliche-vertretung"]?.length) &&
+            partei["gesetzliche-vertretung"]!.length > 0) ||
+          "orgName" in partei
             ? translations.geldEinklagenAnwaltschaft
                 .gesetzlicheVertretungDeletionLabel.de
             : ""}{" "}

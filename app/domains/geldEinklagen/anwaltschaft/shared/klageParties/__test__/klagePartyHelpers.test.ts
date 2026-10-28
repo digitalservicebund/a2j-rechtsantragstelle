@@ -1,4 +1,4 @@
-import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 
 describe("getBaseKlagePartyUrl", () => {
   it("returns the base URL for the claimant relationship", () => {
