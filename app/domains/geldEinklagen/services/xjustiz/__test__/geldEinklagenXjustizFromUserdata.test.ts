@@ -45,18 +45,6 @@ afterAll(async () => {
 });
 
 describe("geldEinklagenXjustizFromUserdata", () => {
-  it("installs the Temporal polyfill itself when Temporal is missing", async () => {
-    // Simulates a production bundle that dropped the side effect import
-    globalThis.Temporal = undefined;
-
-    const result = await geldEinklagenXjustizFromUserdata({
-      userData: userDataWithBegruendung,
-      gericht: Gerichte["Amtsgericht Schöneberg"],
-      baseUrl,
-    });
-
-    expect(result.ok).toBe(true);
-  });
 
   it("addresses the message to the given court", async () => {
     const result = await geldEinklagenXjustizFromUserdata({

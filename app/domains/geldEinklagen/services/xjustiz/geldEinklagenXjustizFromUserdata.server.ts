@@ -17,7 +17,6 @@ import {
 import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
-import { installTemporalPolyfill } from "~/services/xjustiz/installTemporalPolyfill.server";
 import {
   beteiligteFromUserData,
   beteiligteSchema,
@@ -43,8 +42,6 @@ export async function geldEinklagenXjustizFromUserdata({
   gericht,
   baseUrl,
 }: CompositionInput) {
-  installTemporalPolyfill();
-
   const beteiligte = beteiligteSchema.safeParse(
     beteiligteFromUserData(userData),
   );
