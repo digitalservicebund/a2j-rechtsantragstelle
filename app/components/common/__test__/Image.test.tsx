@@ -82,10 +82,19 @@ describe("Image", () => {
     expect(image).toHaveClass("svg-image");
   });
 
-  it("should have class forced-color-adjust-auto for svg", () => {
-    const { container } = render(<Image svgString="<svg></svg>" />);
+  it("should have class forced-color-adjust-auto in case props bmjvLogo is false", () => {
+    const { container } = render(
+      <Image svgString="<svg></svg>" bmjvLogo={false} />,
+    );
     const image = container.querySelector("svg");
     expect(image).toBeInTheDocument();
     expect(image).toHaveClass("forced-color-adjust-auto");
+  });
+
+  it("should not have class forced-color-adjust-auto in case props bmjvLogo is true", () => {
+    const { container } = render(<Image svgString="<svg></svg>" bmjvLogo />);
+    const image = container.querySelector("svg");
+    expect(image).toBeInTheDocument();
+    expect(image).not.toHaveClass("forced-color-adjust-auto");
   });
 });

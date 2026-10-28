@@ -7,6 +7,7 @@ type SharedProps = {
   height?: number;
   alternativeText?: string;
   className?: string;
+  bmjvLogo?: boolean;
 };
 
 export type ImageProps = Readonly<
@@ -19,6 +20,7 @@ function Image({
   ariaHidden,
   alternativeText,
   svgString,
+  bmjvLogo,
   ...props
 }: ImageProps) {
   if (svgString)
@@ -27,7 +29,9 @@ function Image({
         svgString={svgString}
         width={props.width}
         altText={alternativeText}
-        className={classNames(props.className, "forced-color-adjust-auto")}
+        className={classNames(props.className, {
+          "forced-color-adjust-auto": !bmjvLogo, //workaround for homepage and footer
+        })}
       />
     );
 

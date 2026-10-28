@@ -9,7 +9,7 @@ import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import { isFlowIdInPathname } from "~/util/url";
 import { useLocation } from "react-router";
-import { InlineSvgImage } from "~/components/common/InlineSvgImage";
+import Image from "~/components/common/Image";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
@@ -46,10 +46,13 @@ export default function Footer({ showDeletionBanner = false }: FooterProps) {
           className="grid grid-cols-subgrid px-kern-space-small"
         >
           <div className="forced-colors:bg-black col-start-1 col-span-12 lg:col-span-6 p-kern-space-default!">
-            <InlineSvgImage
+            <Image
               svgString={BMJVLogo}
+              url=""
               width={180}
-              altText={logoAltText}
+              height={105}
+              alternativeText={logoAltText}
+              bmjvLogo
             />
           </div>
           <FooterExternalLinks />
