@@ -4,14 +4,15 @@ This repository runs https://service.justiz.de/. We provide user-centered access
 
 ## Requirements
 
-- Node (>= 24)
+- Node (>= 26)
 - Docker (Redis, S3 bucket)
 
 ### Local development
 
-With Node installed, enable `corepack` (this only needs to happen once):
+With Node installed, install and enable `corepack` (this only needs to happen once, Node 25+ no longer ships it):
 
 ```sh
+npm install -g corepack
 corepack enable
 ```
 
