@@ -45,7 +45,6 @@ afterAll(async () => {
 });
 
 describe("geldEinklagenXjustizFromUserdata", () => {
-
   it("addresses the message to the given court", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
