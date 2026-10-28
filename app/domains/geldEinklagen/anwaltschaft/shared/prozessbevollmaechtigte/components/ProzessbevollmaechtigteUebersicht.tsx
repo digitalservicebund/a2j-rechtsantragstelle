@@ -113,7 +113,7 @@ const ProzessbevollmaechtigteList = ({
           }}
         />
       ))}
-      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200">
+      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
         <Button
           look="secondary"
           iconLeft={<Icon name="plus" className="text-kern-action-default" />}
