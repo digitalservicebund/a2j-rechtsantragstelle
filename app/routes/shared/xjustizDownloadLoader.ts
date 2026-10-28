@@ -7,6 +7,7 @@ import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getR
 import { findGerichtByXjustizId } from "~/domains/geldEinklagen/services/xjustiz/findGerichtByXjustizId";
 import { geldEinklagenXjustizFromUserdata } from "~/domains/geldEinklagen/services/xjustiz/geldEinklagenXjustizFromUserdata.server";
 import { config } from "~/services/env/env.server";
+import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import { logError } from "~/services/logging";
 import { getSessionData } from "~/services/session.server";
@@ -20,6 +21,8 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
     return new Response(`No xjustiz config for flowId: ${flowId}`, {
       status: 501,
     });
+
+  await throw404IfFeatureFlagDisabled("showXjustizDownload");
 
   const { XJUSTIZ_TOOLS_BASE_URL } = config();
   if (XJUSTIZ_TOOLS_BASE_URL === undefined)

@@ -4,6 +4,7 @@ import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromReq
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
 import * as pruneUserData from "~/services/flow/flowEngine/pruneUserData";
 import { logError } from "~/services/logging";
+import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import type {
   InferredUserData,
   PageConfigMap,
@@ -25,6 +26,9 @@ const userData = {
 };
 
 vi.mock("~/services/logging", () => ({ logError: vi.fn() }));
+vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
+  isFeatureFlagEnabled: vi.fn(),
+}));
 
 const getPrunedUserDataSpy = vi
   .spyOn(pruneUserData, "getPrunedUserDataFromSimulation")
@@ -36,6 +40,7 @@ let toolsStatus = 200;
 beforeEach(() => {
   toolsStatus = 200;
   vi.mocked(logError).mockClear();
+  vi.mocked(isFeatureFlagEnabled).mockResolvedValue(true);
 });
 
 beforeAll(async () => {
@@ -69,6 +74,15 @@ describe("xjustizDownloadLoader", () => {
       /^attachment; filename="Geld_Einklagen_Klage_.*\.xml"$/,
     );
     await expect(response.text()).resolves.toBe(FAKE_XML);
+  });
+
+  it("responds with 404 when the showXjustizDownload feature flag is disabled", async () => {
+    vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
+
+    await expect(
+      loader(mockRouteArgsFromRequest(new Request(URL_UNDER_TEST))),
+    ).rejects.toMatchObject({ status: 404 });
+    expect(isFeatureFlagEnabled).toHaveBeenCalledWith("showXjustizDownload");
   });
 
   it("responds with 501 when the XJustiz-Tools are not configured", async () => {
