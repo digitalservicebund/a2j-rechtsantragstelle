@@ -6,8 +6,8 @@ import {
   type KlageParteien,
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 

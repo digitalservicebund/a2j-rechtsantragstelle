@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { DeleteDialog } from "../DeleteDialog";
 
 // Needed as jsdom doesn't support the dialog API yet
@@ -11,7 +11,7 @@ const dialogRef = { current: document.createElement("dialog") };
 
 describe("DeleteDialog", () => {
   it("should render the delete dialog with three buttons", () => {
-    const { getByText, getAllByRole } = render(
+    render(
       <DeleteDialog
         description="description"
         title="title"
@@ -22,9 +22,9 @@ describe("DeleteDialog", () => {
     );
     dialogRef.current?.showModal();
 
-    expect(getByText("description")).toBeInTheDocument();
-    expect(getByText("title")).toBeInTheDocument();
-    expect(getAllByRole("button")).toHaveLength(3);
+    expect(screen.getByText("description")).toBeInTheDocument();
+    expect(screen.getByText("title")).toBeInTheDocument();
+    expect(screen.getAllByRole("button")).toHaveLength(3);
   });
 
   it("should call onClick when the delete button is clicked", () => {

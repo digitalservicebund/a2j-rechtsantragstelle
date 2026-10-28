@@ -5,9 +5,9 @@ import {
   getPluralOfKlageParteiRelationship,
   type KlageParteiVerhaeltnis,
   type KlageParteien,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/components/GesetzlicheVertretung";
-import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/GesetzlicheVertretung";
+import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 import { translations } from "~/services/translations/translations";

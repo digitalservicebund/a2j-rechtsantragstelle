@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import {
   type KlageParteien,
   type KlageParteiVerhaeltnis,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { arrayIsNonEmpty } from "~/util/array";
 

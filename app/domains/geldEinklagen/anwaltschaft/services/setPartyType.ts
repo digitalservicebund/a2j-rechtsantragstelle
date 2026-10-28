@@ -5,7 +5,7 @@ import {
   getPluralOfKlageParteiRelationship,
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { updateSession } from "~/services/session.server";

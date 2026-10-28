@@ -2,17 +2,17 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
-import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/anwaltschaftSchemas";
-import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlagePartei";
+import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlagePartei";
 import {
   getBaseKlagePartyUrl,
   getPartyTypeTranslations,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klagePartyHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import {
   MAX_KLAGE_PARTIES,
   useKlageParties,
   type KlagePartyWithArrayIndex,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/useKlageParties";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
 
