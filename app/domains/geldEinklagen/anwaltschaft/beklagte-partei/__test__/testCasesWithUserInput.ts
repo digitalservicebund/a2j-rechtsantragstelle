@@ -77,7 +77,7 @@ export const beklagteParteiTestCases = {
       stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
   ],
-  withBeklagteSignaturangaben: [
+  withBeklagteAddProzessbevollmaechtigtePerson: [
     {
       stepId:
         "/beklagte-partei/prozessbevollmaechtigte/0/berufsausuebungsgesellschaft-daten",
@@ -85,7 +85,28 @@ export const beklagteParteiTestCases = {
     },
     {
       stepId:
-        "/beklagte-partei/prozessbevollmaechtigte/0/signaturangaben/0/daten",
+        "/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen/0/daten",
+    },
+  ],
+  withBeklagteProzessbevollmaechtigtePerson: [
+    {
+      stepId:
+        "/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen/0/daten",
+      userInput: {
+        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#anrede":
+          "frau",
+        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#titel":
+          "",
+        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#vorname":
+          "Erika",
+        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#nachname":
+          "Musterfrau",
+        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#berufsbezeichnung":
+          "Rechtsanwältin",
+      },
+    },
+    {
+      stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
   ],
   withoutBeklagtePartei: [

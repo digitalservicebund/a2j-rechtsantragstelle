@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { useAdditionalPersons } from "../useAdditionalPersons";
 import { type Berufsausuebungsgesellschaft } from "../prozessbevollmaechtigteSchemas";
-import { gesellschaft } from "./fixtures";
+import { beklagteGesellschaft, gesellschaft } from "./fixtures";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -48,7 +48,15 @@ const addFocusTarget = (id: string) => {
 describe("useAdditionalPersons", () => {
   describe.each(["klagende", "beklagte"] as const)("%s", (relationship) => {
     it.each([
-      [gesellschaft, "signaturangaben", gesellschaft.signaturangaben],
+      [
+        relationship === "klagende" ? gesellschaft : beklagteGesellschaft,
+        relationship === "klagende"
+          ? "signaturangaben"
+          : "prozessbevollmaechtigte-personen",
+        relationship === "klagende"
+          ? gesellschaft.signaturangaben
+          : beklagteGesellschaft["prozessbevollmaechtigte-personen"],
+      ],
       [
         individualRepresentatives,
         "prozessbevollmaechtigte-personen",
@@ -69,6 +77,9 @@ describe("useAdditionalPersons", () => {
         expect(result.current.personsArray).toBe(persons);
         expect(result.current.nextItemIndex).toBe(persons.length);
         expect(result.current.baseAdditionalPersonUrl).toBe(baseUrl);
+        expect(result.current.additionalPersonIdPrefix).toBe(
+          `${relationship}-prozessbevollmaechtigte-3-${arrayName}`,
+        );
         expect(useDeleteArrayItem).toHaveBeenCalledWith(
           `${relationship}Prozessbevollmaechtigte#${arrayName}`,
         );
@@ -77,6 +88,25 @@ describe("useAdditionalPersons", () => {
         await onDelete();
         expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(baseUrl, 1);
       },
+    );
+  });
+
+  it("ignores stale signature data for an authorized defendant company", () => {
+    const { result } = renderHook(() =>
+      useAdditionalPersons(
+        {
+          ...beklagteGesellschaft,
+          signaturangaben: gesellschaft.signaturangaben,
+        },
+        "beklagte",
+        0,
+      ),
+    );
+    expect(result.current.personsArray).toBe(
+      beklagteGesellschaft["prozessbevollmaechtigte-personen"],
+    );
+    expect(result.current.baseAdditionalPersonUrl).toBe(
+      "/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen",
     );
   });
 
