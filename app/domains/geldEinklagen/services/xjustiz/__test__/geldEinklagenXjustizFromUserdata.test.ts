@@ -1,5 +1,7 @@
 import { createServer, type Server } from "node:http";
 import {
+  datatypeC,
+  ergonomics,
   Gerichte,
   Rollenbezeichnung,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
@@ -44,7 +46,64 @@ afterAll(async () => {
   await new Promise((resolve) => server.close(resolve));
 });
 
+const sonstigeAntraegeOfLastRequest = () =>
+  (
+    JSON.parse(receivedBody ?? "null") as {
+      inhaltsdaten: { antraege: { auswahlSonstigeAntraege?: unknown[] } };
+    }
+  ).inhaltsdaten.antraege.auswahlSonstigeAntraege ?? [];
+
 describe("geldEinklagenXjustizFromUserdata", () => {
+  it("requests a Versaeumnisurteil when the user selected it", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, versaeumnisurteil: "yes" },
+      baseUrl,
+    });
+
+    expect(sonstigeAntraegeOfLastRequest()).toContainEqual(
+      ergonomics.antragAufVersaeumnisurteil(),
+    );
+  });
+
+  it("does not request a Versaeumnisurteil when the user declined it", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, versaeumnisurteil: "no" },
+      baseUrl,
+    });
+
+    expect(sonstigeAntraegeOfLastRequest()).not.toContainEqual(
+      ergonomics.antragAufVersaeumnisurteil(),
+    );
+  });
+
+  it("includes the phone number and email of the Klaeger", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        klagendeTelefonnummer: "030 123456",
+        klagendeEmail: "klaeger@example.com",
+      },
+      baseUrl,
+    });
+
+    const payload = JSON.parse(receivedBody ?? "null") as {
+      grunddaten: { verfahrensdaten: { beteiligung: unknown[] } };
+    };
+    const [klaeger] = payload.grunddaten.verfahrensdaten.beteiligung;
+    expect(klaeger).toMatchObject({
+      beteiligter: {
+        auswahlBeteiligter: {
+          natuerlichePerson: {
+            telekommunikation: [
+              ergonomics.email(datatypeC("klaeger@example.com").value),
+              ergonomics.telefon(datatypeC("030 123456").value),
+            ],
+          },
+        },
+      },
+    });
+  });
+
   it("reports a missing responsible court without calling the XJustiz-Tools", async () => {
     receivedBody = undefined;
 

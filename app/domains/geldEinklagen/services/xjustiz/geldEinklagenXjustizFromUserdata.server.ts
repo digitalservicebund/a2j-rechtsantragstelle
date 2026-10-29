@@ -122,7 +122,10 @@ export async function geldEinklagenXjustizFromUserdata({
               anspruch: [sachanspruch],
             },
             nebenantraegeZinsen: undefined,
-            auswahlSonstigeAntraege: [ergonomics.antragAufVersaeumnisurteil()],
+            auswahlSonstigeAntraege:
+              userData.versaeumnisurteil === "yes"
+                ? [ergonomics.antragAufVersaeumnisurteil()]
+                : undefined,
           },
           beweis: zeugen.beweise.length > 0 ? zeugen.beweise : undefined,
           auswahlBegruendetheit: {

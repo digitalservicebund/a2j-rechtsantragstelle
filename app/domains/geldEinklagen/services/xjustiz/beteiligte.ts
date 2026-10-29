@@ -111,6 +111,8 @@ export const beteiligteFromUserData = (
     hausnummer: userData.klagendePersonHausnummer,
     plz: userData.klagendePersonPlz,
     ort: userData.klagendePersonOrt,
+    telefonnummer: userData.klagendeTelefonnummer,
+    email: userData.klagendeEmail,
   },
   beklagter: beklagteFromUserData(userData),
   zeugen: collectZeugen(userData),
