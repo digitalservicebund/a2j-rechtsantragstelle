@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { type KlageParteiVerhaeltnis } from "../klageParties/klagePartySchemas";
-import { type GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
+import { type GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import {
   type BeklagteProzessbevollmaechtigte,
   type Prozessbevollmaechtigte,

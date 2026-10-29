@@ -91,7 +91,7 @@ describe("useAdditionalPersons", () => {
     );
   });
 
-  it("ignores stale signature data for an authorized defendant company", () => {
+  it("ignores stale signature data for an authorized beklagte company", () => {
     const { result } = renderHook(() =>
       useAdditionalPersons(
         {
