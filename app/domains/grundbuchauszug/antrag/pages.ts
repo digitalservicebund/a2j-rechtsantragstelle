@@ -44,13 +44,13 @@ export const grundbuchauszugAntragPages = {
     },
   },
   artAuszug: {
-    stepId: "/artAuszug",
+    stepId: "/art-auszug",
     pageSchema: {
       typeOfCopy: z.enum(["basic", "certificated"]),
     },
   },
   anzahlAusdrucke: {
-    stepId: "/anzahlAusdrucke",
+    stepId: "/anzahl-ausdrucke",
     pageSchema: {
       numberOfCopies: createNumberIncrementSchema(1, 20),
     },

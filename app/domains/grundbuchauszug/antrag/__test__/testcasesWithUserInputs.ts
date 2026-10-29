@@ -67,13 +67,13 @@ export const grundbuchauszugAntragTestCases = {
         skipPageSchemaValidation: true,
       },
       {
-        stepId: "/artAuszug",
+        stepId: "/art-auszug",
         userInput: {
           typeOfCopy: "basic",
         },
       },
       {
-        stepId: "/anzahlAusdrucke",
+        stepId: "/anzahl-ausdrucke",
         userInput: {
           numberOfCopies: 1,
         },
