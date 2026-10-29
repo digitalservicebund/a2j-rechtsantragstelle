@@ -9,6 +9,26 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
   pages: grundbuchauszugAntragPages,
   initialStep: "start",
   transitions: {
-    start: null,
+    start: "antragsgrundBerechtigtesInteresse",
+    antragsgrundBerechtigtesInteresse: [
+      {
+        guard: (context) =>
+          context.legitimateInterest === "landRegisterOnMyName",
+        target: "antragsgrundAngabenZumRecht",
+      },
+      {
+        target: "antragsgrundNachweisHochladen",
+      },
+    ],
+    antragsgrundAngabenZumRecht: "antragsgrundNachweisHochladen",
+    antragsgrundNachweisHochladen: null,
+    grundstuecksdaten: "artAuszug",
+    artAuszug: "anzahlAusdrucke",
+    anzahlAusdrucke: "persoenlicheDatenName",
+    persoenlicheDatenName: "persoenlicheDatenGeburtsdatum",
+    persoenlicheDatenGeburtsdatum: "persoenlicheDatenAnschrift",
+    persoenlicheDatenAnschrift: "persoenlicheDatenkontakt",
+    persoenlicheDatenkontakt: "abgabeZusammenfassung",
+    abgabeZusammenfassung: null,
   },
 }) as CompiledFlow<PageConfigMap>;
