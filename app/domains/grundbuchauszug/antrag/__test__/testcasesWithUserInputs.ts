@@ -102,6 +102,11 @@ export const grundbuchauszugAntragTestCases = {
       },
       {
         stepId: "/persoenliche-daten/kontakt",
+        pageData: {
+          subflowDoneStates: {
+            "/persoenliche-daten": true,
+          },
+        },
         userInput: {
           email: "kanzlei@example.com",
         },
