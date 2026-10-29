@@ -171,7 +171,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         const cards = screen.getAllByTestId("prozessbevollmaechtigte");
         expect(cards).toHaveLength(1);
         const edit = within(cards[0]).getByRole("link", {
-          name: /bearbeiten/i,
+          name: `${item.name} Bearbeiten`,
         });
         expect(edit).toHaveAttribute(
           "id",

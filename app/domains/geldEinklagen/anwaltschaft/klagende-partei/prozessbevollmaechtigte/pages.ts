@@ -3,10 +3,12 @@ import {
   berufsausuebungsgesellschaftSchema,
   prozessbevollmaechtigteArraySchema,
   type Prozessbevollmaechtigte,
+  signaturangabenArraySchema,
 } from "../../shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
 type DoneContext = {
@@ -82,13 +84,39 @@ export const klagendeProzessbevollmaechtigtePages = {
         gesellschaft.telefonnummer,
       "klagendeProzessbevollmaechtigte#email": gesellschaft.email,
       "klagendeProzessbevollmaechtigte#isProzessbevollmaechtigt":
-        gesellschaft.isProzessbevollmaechtigt,
+        checkedOptional,
       "klagendeProzessbevollmaechtigte#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(gesellschaft.type),
       ),
       "klagendeProzessbevollmaechtigte#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(gesellschaft.id),
       ),
+    },
+  },
+  signaturangabenDaten: {
+    stepId:
+      "/klagende-partei/prozessbevollmaechtigte/#/signaturangaben/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: ({
+      klagendeProzessbevollmaechtigte,
+      pageData,
+    }: DoneContext) => {
+      const prozessbevollmaechtigte =
+        klagendeProzessbevollmaechtigte?.[pageData?.arrayIndexes?.[0] ?? -1];
+      return (
+        prozessbevollmaechtigte?.type === "berufsausuebungsgesellschaft" &&
+        prozessbevollmaechtigte?.isProzessbevollmaechtigt === "on"
+      );
+    },
+    pageSchema: {
+      "klagendeProzessbevollmaechtigte#signaturangaben#titel":
+        signaturangabenArraySchema.element.shape.titel,
+      "klagendeProzessbevollmaechtigte#signaturangaben#vorname":
+        signaturangabenArraySchema.element.shape.vorname,
+      "klagendeProzessbevollmaechtigte#signaturangaben#nachname":
+        signaturangabenArraySchema.element.shape.nachname,
+      "klagendeProzessbevollmaechtigte#signaturangaben#berufsbezeichnung":
+        signaturangabenArraySchema.element.shape.berufsbezeichnung,
     },
   },
 } as const satisfies PageConfigMap;

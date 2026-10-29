@@ -3,6 +3,7 @@ import { setPartyType } from "~/domains/geldEinklagen/anwaltschaft/services/setP
 import { setProzessbevollmaechtigteType } from "./services/setProzessbevollmaechtigteType";
 import {
   getBeklagteStrings,
+  getKanzleiStrings,
   getKlagendeStrings,
 } from "~/domains/geldEinklagen/anwaltschaft/stringReplacements";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
@@ -16,6 +17,7 @@ export const geldEinklagenAnwaltschaft = {
     ...getArrayIndexStrings(context),
     ...getKlagendeStrings(context),
     ...getBeklagteStrings(context),
+    ...getKanzleiStrings(context),
   }),
   posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
