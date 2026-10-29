@@ -16,7 +16,13 @@ import {
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { optionalTypeC, typeA, typeB, typeC, typeD } from "./brandedDatatypes";
+import {
+  optionalTypeC,
+  typeA,
+  typeB,
+  typeC,
+  typeD,
+} from "~/services/validation/xjustiz/brandedDatatypes";
 
 const anschriftShape = {
   strasse: typeB,
