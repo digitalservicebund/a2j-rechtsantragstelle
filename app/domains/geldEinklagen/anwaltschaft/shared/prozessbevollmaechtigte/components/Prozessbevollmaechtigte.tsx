@@ -8,6 +8,7 @@ import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchema
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
+  getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
 import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
 
@@ -22,16 +23,11 @@ const Prozessbevollmaechtigte = ({
   readonly relationship: KlageParteiVerhaeltnis;
   readonly onDelete: () => Promise<void>;
 }) => {
-  const nameText =
-    prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft"
-      ? prozessbevollmaechtigte.name
-      : getFullPlaintiffName(
-          prozessbevollmaechtigte.anrede,
-          prozessbevollmaechtigte.titel,
-          prozessbevollmaechtigte.vorname,
-          prozessbevollmaechtigte.nachname,
-        );
+  const isBerufsausuebungsgesellschaft =
+    "isProzessbevollmaechtigt" in prozessbevollmaechtigte;
 
+  const { deleteButtonLabel, deleteButtonTitle, deleteButtonDescription } =
+    getProzessbevollmaechtigteTranslations(isBerufsausuebungsgesellschaft);
   return (
     <div
       data-testid="prozessbevollmaechtigte"
@@ -43,16 +39,16 @@ const Prozessbevollmaechtigte = ({
           <div className="flex gap-kern-space-default justify-between items-center">
             <div className="flex flex-col kern-body kern-body--default text-pretty gap-20">
               <div className="flex flex-col">
-                <span className="kern-body--bold">{nameText}</span>
-                {prozessbevollmaechtigte.geschaeftszeichen && (
-                  <span>
-                    {
-                      translations.geldEinklagenAnwaltschaft.geschaeftszeichen
+                <span className="kern-body--bold">
+                  {prozessbevollmaechtigte.name}
+                </span>
+                <span>
+                  {translations.geldEinklagenAnwaltschaft.geschaeftszeichen.de}:{" "}
+                  {prozessbevollmaechtigte.geschaeftszeichen === ""
+                    ? translations.geldEinklagenAnwaltschaft.noGeschaeftszeichen
                         .de
-                    }
-                    : {prozessbevollmaechtigte.geschaeftszeichen}
-                  </span>
-                )}
+                    : prozessbevollmaechtigte.geschaeftszeichen}
+                </span>
                 <span>
                   {prozessbevollmaechtigte.strasse}{" "}
                   {prozessbevollmaechtigte.hausnummer}
@@ -67,8 +63,8 @@ const Prozessbevollmaechtigte = ({
                 {prozessbevollmaechtigte.email && (
                   <span>{prozessbevollmaechtigte.email}</span>
                 )}
-                {"isProzessbevollmaechtigt" in prozessbevollmaechtigte &&
-                  prozessbevollmaechtigte.isProzessbevollmaechtigt && (
+                {isBerufsausuebungsgesellschaft &&
+                  prozessbevollmaechtigte.isProzessbevollmaechtigt === "on" && (
                     <>
                       <span className="kern-body--bold pt-kern-space-small">
                         {
@@ -84,6 +80,28 @@ const Prozessbevollmaechtigte = ({
                       </span>
                     </>
                   )}
+
+                {!isBerufsausuebungsgesellschaft && (
+                  <>
+                    <span className="kern-body--bold pt-kern-space-small">
+                      {
+                        translations.geldEinklagenAnwaltschaft
+                          .prozessbevollmaechtigtePerson.de
+                      }
+                    </span>
+                    <span>
+                      {getFullPlaintiffName(
+                        prozessbevollmaechtigte.anrede,
+                        prozessbevollmaechtigte.titel,
+                        prozessbevollmaechtigte.vorname,
+                        prozessbevollmaechtigte.nachname,
+                      )}
+                    </span>
+                    {prozessbevollmaechtigte.berufsbezeichnung !== "" && (
+                      <span>{prozessbevollmaechtigte.berufsbezeichnung}</span>
+                    )}
+                  </>
+                )}
               </div>
             </div>
             <Button
@@ -95,7 +113,7 @@ const Prozessbevollmaechtigte = ({
                   className="size-kern-dimension-default text-kern-action-default"
                 />
               }
-              aria-label={`${nameText} ${translations.arraySummary.arrayEditButtonLabel.de}`}
+              aria-label={`${prozessbevollmaechtigte.name} ${translations.arraySummary.arrayEditButtonLabel.de}`}
               href={`${getBaseProzessbevollmaechtigteUrl(relationship)}/${index}/${prozessbevollmaechtigte.type}-daten`}
               className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
             />
@@ -103,15 +121,18 @@ const Prozessbevollmaechtigte = ({
         </div>
         <div className="flex justify-end">
           <DeleteButton
-            label={`${nameText} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
-            title={
-              translations.geldEinklagenAnwaltschaft
-                .prozessbevollmaechtigteDeleteTitle.de
-            }
+            label={`${deleteButtonLabel} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
+            title={deleteButtonTitle}
             description={
               <div className="flex flex-col gap-kern-space-small">
-                <p>{translations.deleteDialog.description.de}</p>
-                <p className="font-bold">{nameText}</p>
+                <p>{deleteButtonDescription}</p>
+                <div className="flex gap-kern-space-small">
+                  <Icon
+                    name="business"
+                    className="size-kern-dimension-default"
+                  />
+                  <p className="font-bold">{prozessbevollmaechtigte.name}</p>
+                </div>
               </div>
             }
             onDelete={onDelete}

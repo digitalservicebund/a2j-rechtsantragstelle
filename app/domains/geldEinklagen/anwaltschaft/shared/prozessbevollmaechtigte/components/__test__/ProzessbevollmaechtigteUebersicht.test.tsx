@@ -124,12 +124,12 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         relationship,
       );
       await user.click(
-        screen.getByRole("button", { name: "Frau Erika Musterfrau löschen" }),
+        screen.getByRole("button", {
+          name: "Einzelkanzlei löschen",
+        }),
       );
       const dialog = screen.getByRole("dialog");
-      expect(
-        within(dialog).getByText("Frau Erika Musterfrau"),
-      ).toBeInTheDocument();
+      expect(within(dialog).getByText("Super Kanzlei")).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
       await user.click(
         within(dialog).getByRole("button", { name: "Ja, löschen" }),

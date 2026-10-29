@@ -60,7 +60,7 @@ export function getStepStyles(state: NavState) {
         "bg-kern-action-default text-white":
           (stateIsCurrent(state) || stateIsOpen(state)) &&
           !stateIsWarning(state),
-        "bg-white": stateIsDone(state),
+        "bg-white forced-colors:bg-black": stateIsDone(state),
         "bg-kern-neutral-400 text-white": stateIsDisabled(state),
         "forced-colors:outline-solid forced-colors:border-0":
           !stateIsDone(state) && !stateIsWarning(state),
