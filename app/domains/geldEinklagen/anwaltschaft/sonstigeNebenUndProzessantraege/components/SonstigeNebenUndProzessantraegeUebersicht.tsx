@@ -51,7 +51,7 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
               />
             ),
           )}
-        <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
+        <div className="flex flex-col items-start gap-24 p-kern-space-default border border-dashed border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) bg-white">
           <Button
             look="secondary"
             iconLeft={<Icon name="plus" className="text-kern-action-default" />}

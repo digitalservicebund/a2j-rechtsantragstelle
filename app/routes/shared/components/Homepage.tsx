@@ -62,7 +62,8 @@ const Homepage = () => {
                 alternativeText:
                   translations.homepage.boxProjektPartnerAltText.de,
                 width: 180,
-                className: "mt-8",
+                bmjvLogo: true,
+                className: "mt-8 has-bmjv-logo",
               }}
             />
           </GridItem>

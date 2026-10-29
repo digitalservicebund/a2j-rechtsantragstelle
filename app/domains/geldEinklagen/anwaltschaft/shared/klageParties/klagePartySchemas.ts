@@ -13,7 +13,7 @@ export const getPluralOfKlageParteiRelationship = (
   relationship: KlageParteiVerhaeltnis,
 ) => (relationship === "klagende" ? "klagenden" : "beklagten");
 
-const adresseFields = {
+export const adresseFields = {
   strasse: stringRequiredSchema,
   hausnummer: stringRequiredSchema,
   plz: stringRequiredSchema,
@@ -21,7 +21,7 @@ const adresseFields = {
   land: autoSuggestStringRequiredSchema("countries"),
 };
 
-const personFields = {
+export const personFields = {
   anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
   titel: stringOptionalSchema,
   vorname: stringRequiredSchema,

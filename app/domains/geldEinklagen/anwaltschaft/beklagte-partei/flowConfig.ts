@@ -1,5 +1,6 @@
 import { type GeldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
+import { beklagteProzessbevollmaechtigteFlowConfig } from "./prozessbevollmaechtigte/flowConfig";
 
 export const beklagteParteiFlowConfig = {
   beklagteUebersicht: [
@@ -23,4 +24,5 @@ export const beklagteParteiFlowConfig = {
     { target: "beklagteUebersicht" },
   ],
   beklagteOrganizationGesetzlicheVertretungDaten: "beklagteUebersicht",
+  ...beklagteProzessbevollmaechtigteFlowConfig,
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

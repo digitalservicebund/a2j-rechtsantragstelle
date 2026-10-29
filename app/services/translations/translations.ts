@@ -321,6 +321,20 @@ export const translations = {
       de: "Folgende Zeichen sind in diesem Feld nicht erlaubt:",
     },
   },
+  deleteDialog: {
+    cancel: {
+      de: "Nein, behalten",
+    },
+    confirm: {
+      de: "Ja, löschen",
+    },
+    description: {
+      de: "Folgendes wird entfernt:",
+    },
+    error: {
+      de: "Das Löschen ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    },
+  },
   arraySummary: {
     arrayEditButtonLabel: {
       de: "Bearbeiten",
@@ -604,12 +618,6 @@ export const translations = {
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
     },
-    begruendungBeschreibungBeweiseDialogDeleteCancel: {
-      de: "Nein, behalten",
-    },
-    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
-      de: "Ja, löschen",
-    },
     begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
       de: "Beweis: Dokument löschen?",
     },
@@ -666,6 +674,60 @@ export const translations = {
     },
   },
   geldEinklagenAnwaltschaft: {
+    einzelkanzleiHeadline: {
+      de: "Einzelkanzlei",
+    },
+    berufsausuebungsgesellschaftHeadline: {
+      de: "Berufsausübungsgesellschaft",
+    },
+    geschaeftszeichen: {
+      de: "Geschäftszeichen",
+    },
+    prozessbevollmaechtigtePerson: {
+      de: "Prozessbevollmächtigte Person",
+    },
+    prozessbevollmaechtigtePersonen: {
+      de: "Prozessbevollmächtigte Personen",
+    },
+    namedInSignatureLabel: {
+      de: "(Wird in der Signatur genannt)",
+    },
+    gesamteKanzlei: {
+      de: "Gesamte Kanzlei",
+    },
+    noGeschaeftszeichen: {
+      de: "Keine Angabe",
+    },
+    einzelkanzleiDeleteTitle: {
+      de: "Einzelkanzlei löschen?",
+    },
+    einzelkanzleiDeleteDescription: {
+      de: "Die folgende Einzelkanzlei wird entfernt:",
+    },
+    signaturangabenTitle: {
+      de: "Signaturangaben (notwendig für die Klageschrift)",
+    },
+    additionalPersonsSubtitle: {
+      de: "Geben Sie mindestens eine Person an, maximal 5",
+    },
+    signaturangaben: {
+      de: "Signaturangaben",
+    },
+    signaturangabenDeletionTitle: {
+      de: "Signaturangaben löschen?",
+    },
+    prozessbevollmaechtigtePersonenDeletionTitle: {
+      de: "Prozessbevollmächtigte Personen löschen?",
+    },
+    additionalPersonDeletionDescription: {
+      de: "Die folgende Person wird entfernt:",
+    },
+    berufsausuebungsgesellschaftDeleteTitle: {
+      de: "Berufsausübungsgesellschaft löschen?",
+    },
+    berufsausuebungsgesellschaftDeleteDescription: {
+      de: "Die folgende Berufsausübungsgesellschaft wird entfernt:",
+    },
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
@@ -728,9 +790,6 @@ export const translations = {
     },
     soenstigeProzessantragDelete: {
       de: "Antrag/Ausführung löschen?",
-    },
-    soenstigeProzessantragDescription: {
-      de: "Folgendes wird entfernt:",
     },
     soenstigeProzessantragInlineNoticeTitle: {
       de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",

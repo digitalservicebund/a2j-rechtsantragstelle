@@ -1,11 +1,12 @@
 import { type GeldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
+import { klagendeProzessbevollmaechtigteFlowConfig } from "./prozessbevollmaechtigte/flowConfig";
 
 export const klagendeParteiFlowConfig = {
   klagendeUebersicht: [
     { type: "addArrayItem", target: "klagendeNaturalPersonDaten" },
     { type: "addArrayItem", target: "klagendeOrganizationDaten" },
-    { target: "beklagteUebersicht" },
+    { target: "klagendeProzessbevollmaechtigteUebersicht" },
   ],
   klagendeNaturalPersonDaten: [
     {
@@ -25,4 +26,5 @@ export const klagendeParteiFlowConfig = {
     },
   ],
   klagendeOrganizationGesetzlicheVertretungDaten: "klagendeUebersicht",
+  ...klagendeProzessbevollmaechtigteFlowConfig,
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

@@ -10,7 +10,7 @@ import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { Badge } from "~/components/content/Badge";
 import { useRef } from "react";
-import { DeleteDialog } from "./DeleteDialog";
+import { DeleteDialog } from "~/components/common/DeleteDialog";
 import classNames from "classnames";
 import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySummaryItemActions";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";

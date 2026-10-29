@@ -12,6 +12,7 @@ import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import type { PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
+import { klagendeProzessbevollmaechtigtePages } from "./prozessbevollmaechtigte/pages";
 
 type KlagePartyDoneContext = {
   klagenden?: KlageParteien;
@@ -120,4 +121,5 @@ export const klagendeParteiPages = {
       "klagenden#gesetzliche-vertretung#land": vertretungFields.land,
     },
   },
+  ...klagendeProzessbevollmaechtigtePages,
 } as const satisfies PageConfigMap;
