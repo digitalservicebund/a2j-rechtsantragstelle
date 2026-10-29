@@ -40,27 +40,33 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
   const { xjustizFunction, name } = xjustizConfig;
   const result = await xjustizFunction(userData, XJUSTIZ_TOOLS_BASE_URL);
 
-  if (!result.ok && result.reason === "invalidUserData") {
-    logError({ message: "XJustiz: invalid user data", error: result.issues });
-    return new Response("Ungueltige Angaben fuer die XJustiz-Nachricht", {
-      status: 422,
-    });
-  }
-
-  if (!result.ok && result.reason === "noResponsibleCourt")
-    return new Response("Kein zustaendiges Gericht ermittelbar", {
-      status: 409,
-    });
-
-  if (!result.ok) {
-    logError({ error: "XJustiz: XJustiz-Tools failed to create the message" });
-    return new Response("XJustiz-Nachricht konnte nicht erzeugt werden", {
-      status: 502,
-    });
+  if (result.isErr) {
+    const { error } = result;
+    switch (error.reason) {
+      case "invalidUserData":
+        logError({
+          message: "XJustiz: invalid user data",
+          error: error.issues,
+        });
+        return new Response("Ungueltige Angaben fuer die XJustiz-Nachricht", {
+          status: 422,
+        });
+      case "noResponsibleCourt":
+        return new Response("Kein zustaendiges Gericht ermittelbar", {
+          status: 409,
+        });
+      case "xjustizToolsFailed":
+        logError({
+          error: "XJustiz: XJustiz-Tools failed to create the message",
+        });
+        return new Response("XJustiz-Nachricht konnte nicht erzeugt werden", {
+          status: 502,
+        });
+    }
   }
 
   const filename = `${name}_${pdfDateFormat(today())}.xml`;
-  return new Response(result.xjustizMessageXml, {
+  return new Response(result.value, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "Content-Disposition": `attachment; filename="${filename}"`,

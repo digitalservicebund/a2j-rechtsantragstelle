@@ -57,7 +57,9 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       baseUrl,
     });
 
-    expect(result).toStrictEqual({ ok: false, reason: "noResponsibleCourt" });
+    expect(result.isErr && result.error).toStrictEqual({
+      reason: "noResponsibleCourt",
+    });
     expect(receivedBody).toBeUndefined();
   });
 
@@ -67,7 +69,7 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       baseUrl,
     });
 
-    expect(result.ok).toBe(true);
+    expect(result.isOk && result.value).toBe(FAKE_XML);
 
     const payload: unknown = JSON.parse(receivedBody ?? "null");
     expect(payload).toMatchObject({
@@ -89,7 +91,7 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       baseUrl,
     });
 
-    expect(result.ok).toBe(true);
+    expect(result.isOk && result.value).toBe(FAKE_XML);
 
     const payload: unknown = JSON.parse(receivedBody ?? "null");
     expect(payload).toMatchObject({
@@ -137,16 +139,12 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       userData: {
         ...userDataWithBegruendung,
         gegenWenBeklagen: "organisation",
-        beklagteAnrede: undefined,
-        beklagteTitle: undefined,
-        beklagteVorname: undefined,
-        beklagteNachname: undefined,
         beklagteNameOrganisation: "Muster GmbH",
       },
       baseUrl,
     });
 
-    expect(result.ok).toBe(true);
+    expect(result.isOk && result.value).toBe(FAKE_XML);
 
     const payload: unknown = JSON.parse(receivedBody ?? "null");
     expect(payload).toMatchObject({
@@ -184,7 +182,9 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       baseUrl,
     });
 
-    expect(result).toMatchObject({ ok: false, reason: "invalidUserData" });
+    expect(result.isErr && result.error).toMatchObject({
+      reason: "invalidUserData",
+    });
     expect(receivedBody).toBeUndefined();
   });
 

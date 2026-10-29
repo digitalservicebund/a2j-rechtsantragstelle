@@ -14,7 +14,8 @@ import {
   type ScopeToken,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
-import { type XjustizResult } from "~/domains/flows.server";
+import { Result } from "true-myth";
+import { type XjustizError } from "~/domains/flows.server";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getResponsibleCourt";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
@@ -32,20 +33,18 @@ type CompositionInput = {
   readonly baseUrl: string;
 };
 
-const invalidUserData = (issues: unknown) => ({
-  ok: false as const,
-  reason: "invalidUserData" as const,
-  issues,
-});
+const invalidUserData = (issues: unknown) =>
+  Result.err<string, XjustizError>({ reason: "invalidUserData", issues });
 
 export async function geldEinklagenXjustizFromUserdata({
   userData,
   baseUrl,
-}: CompositionInput): Promise<XjustizResult> {
+}: CompositionInput): Promise<Result<string, XjustizError>> {
   const gericht = findGerichtByXjustizId(
     getResponsibleCourt(userData)?.XJUSTIZID,
   );
-  if (gericht === undefined) return { ok: false, reason: "noResponsibleCourt" };
+  if (gericht === undefined)
+    return Result.err({ reason: "noResponsibleCourt" });
 
   const beteiligte = beteiligteSchema.safeParse(
     beteiligteFromUserData(userData),
@@ -152,6 +151,6 @@ export async function geldEinklagenXjustizFromUserdata({
   );
 
   return result.ok
-    ? result
-    : { ok: false as const, reason: "xjustizToolsFailed" as const };
+    ? Result.ok(result.xjustizMessageXml)
+    : Result.err({ reason: "xjustizToolsFailed" });
 }

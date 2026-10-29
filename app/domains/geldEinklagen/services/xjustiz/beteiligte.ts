@@ -1,10 +1,6 @@
 import {
   createBeweisNummerGenerator,
   createRollennummerGenerator,
-  datatypeA,
-  datatypeB,
-  datatypeC,
-  datatypeD,
   ergonomics,
   Geschlecht,
   Rollenbezeichnung,
@@ -20,32 +16,7 @@ import {
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-
-type ParseResult<Output> =
-  | { readonly value: Output; readonly issues?: undefined }
-  | { readonly issues: ReadonlyArray<{ readonly message: string }> };
-
-// Turns an xJustiz datatype into a zod schema that outputs its branded type.
-// The datatypes accept empty strings, so min(1) makes the field required.
-const branded = <Output>(parse: (value: string) => ParseResult<Output>) =>
-  z
-    .string()
-    .min(1)
-    .transform((value, ctx) => {
-      const result = parse(value);
-      if (!result.issues) return result.value;
-      result.issues.forEach((issue) => ctx.addIssue(issue.message));
-      return z.NEVER;
-    });
-
-const typeA = branded(datatypeA);
-const typeB = branded(datatypeB);
-const typeC = branded(datatypeC);
-const typeD = branded(datatypeD);
-const optionalTypeC = z.preprocess(
-  (value) => (value === "" ? undefined : value),
-  typeC.optional(),
-);
+import { optionalTypeC, typeA, typeB, typeC, typeD } from "./brandedDatatypes";
 
 const anschriftShape = {
   strasse: typeB,

@@ -25,6 +25,7 @@ import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import type { Result } from "true-myth";
 import type { AllowedUserTypes, UserData } from "./userData";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
@@ -71,17 +72,16 @@ type PdfConfig = {
   name: string;
 };
 
-export type XjustizResult =
-  | { ok: true; xjustizMessageXml: string }
-  | { ok: false; reason: "invalidUserData"; issues: unknown }
-  | { ok: false; reason: "noResponsibleCourt" }
-  | { ok: false; reason: "xjustizToolsFailed" };
+export type XjustizError =
+  | { reason: "invalidUserData"; issues: unknown }
+  | { reason: "noResponsibleCourt" }
+  | { reason: "xjustizToolsFailed" };
 
 type XjustizConfig = {
   xjustizFunction: (
     userData: UserData,
     baseUrl: string,
-  ) => Promise<XjustizResult>;
+  ) => Promise<Result<string, XjustizError>>;
   name: string;
 };
 

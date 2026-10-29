@@ -3,6 +3,6 @@ import { Gerichte } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlu
 export function findGerichtByXjustizId(
   xjustizId: string | undefined,
 ): Gerichte | undefined {
-  if (xjustizId === undefined || xjustizId === "") return undefined;
+  if (!xjustizId) return undefined;
   return Object.values(Gerichte).find(({ code }) => code === xjustizId);
 }
