@@ -54,12 +54,16 @@ export default [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
+  ...prefix("grundbuchauszug", [...prefix("antrag", flowRoutes("GBAA"))]),
   ...prefix("geld-einklagen", [
     ...prefix("anwaltschaft", flowRoutes("GEA")),
     ...prefix("formular", [
       route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {
         id: `pdfGEF`,
+      }),
+      route("download/xjustiz", "routes/shared/xjustizDownloadLoader.ts", {
+        id: `xjustizGEF`,
       }),
       route(":path/:path2/ergebnis/*", "routes/shared/result.ts", {
         id: `resGEF`,

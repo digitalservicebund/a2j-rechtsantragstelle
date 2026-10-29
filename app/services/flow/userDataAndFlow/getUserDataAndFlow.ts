@@ -57,6 +57,7 @@ const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
   "/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
   "/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow",
   "/geld-einklagen/anwaltschaft": "showGeldEinklagenAnwaltschaftFlow",
+  "/grundbuchauszug/antrag": "showGrundbuchAuszugAntragFlow",
 } as const;
 
 export const getUserDataAndFlow = async (

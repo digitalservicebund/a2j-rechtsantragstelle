@@ -1,4 +1,4 @@
-import { type KlageParteiVerhaeltnis } from "../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
 import { type ProzessbevollmaechtigteType } from "./prozessbevollmaechtigteSchemas";
 
 export const focusOnProzessbevollmaechtigteTitle = (

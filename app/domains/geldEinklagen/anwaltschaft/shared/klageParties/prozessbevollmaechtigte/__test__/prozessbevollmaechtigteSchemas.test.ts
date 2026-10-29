@@ -1,0 +1,211 @@
+import omit from "lodash/omit";
+import {
+  type Prozessbevollmaechtigte,
+  beklagteProzessbevollmaechtigteArraySchema,
+  MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
+  prozessbevollmaechtigteArraySchema,
+} from "../prozessbevollmaechtigteSchemas";
+import { beklagteGesellschaft, einzelkanzlei, gesellschaft } from "./fixtures";
+
+describe("prozessbevollmaechtigte schemas", () => {
+  it.each([einzelkanzlei, gesellschaft])(
+    "accepts a single entry of either type",
+    (item) => {
+      expect(prozessbevollmaechtigteArraySchema.parse([item])).toEqual([item]);
+    },
+  );
+
+  it("accepts no representative", () => {
+    expect(prozessbevollmaechtigteArraySchema.parse([])).toEqual([]);
+  });
+
+  it.each(["on", "off"] as const)(
+    "accepts a company with checkbox value %j",
+    (isProzessbevollmaechtigt) => {
+      let item: Prozessbevollmaechtigte[number];
+      if (
+        isProzessbevollmaechtigt === "off" ||
+        isProzessbevollmaechtigt === undefined
+      ) {
+        item = {
+          ...omit(gesellschaft, "signaturangaben"),
+          isProzessbevollmaechtigt,
+          ["prozessbevollmaechtigte-personen"]: [
+            {
+              anrede: "",
+              titel: "",
+              vorname: "Vorname",
+              nachname: "Nachname",
+              namedInSignature: "off",
+              berufsbezeichnung: "",
+              telefonnummer: "",
+              email: "",
+            },
+          ],
+        };
+      } else {
+        item = {
+          ...gesellschaft,
+          isProzessbevollmaechtigt: isProzessbevollmaechtigt,
+        };
+      }
+      expect(prozessbevollmaechtigteArraySchema.parse([item])).toEqual([item]);
+    },
+  );
+
+  it.each([einzelkanzlei, gesellschaft])(
+    "allows contact details and business reference to be omitted",
+    (item) => {
+      expect(
+        prozessbevollmaechtigteArraySchema.safeParse([
+          {
+            ...item,
+            geschaeftszeichen: undefined,
+            telefonnummer: undefined,
+            email: undefined,
+          },
+        ]).success,
+      ).toBe(true);
+    },
+  );
+
+  it.each([
+    [einzelkanzlei, gesellschaft],
+    [einzelkanzlei, einzelkanzlei],
+    [gesellschaft, gesellschaft],
+  ])("rejects multiple entries regardless of type: %j", (...items) => {
+    expect(prozessbevollmaechtigteArraySchema.safeParse(items).success).toBe(
+      false,
+    );
+  });
+
+  it.each([
+    { ...einzelkanzlei, vorname: "" },
+    { ...gesellschaft, name: "" },
+    { ...einzelkanzlei, name: "" },
+    { ...gesellschaft, isProzessbevollmaechtigt: "invalid" },
+    { ...einzelkanzlei, email: "invalid" },
+    { ...gesellschaft, telefonnummer: "invalid" },
+    { ...einzelkanzlei, strasse: "" },
+    { ...gesellschaft, land: "" },
+    { ...einzelkanzlei, type: "natuerliche-person" },
+    { ...gesellschaft, type: "organisation" },
+  ])("rejects incomplete or wrong-type data: %j", (item) => {
+    expect(prozessbevollmaechtigteArraySchema.safeParse([item]).success).toBe(
+      false,
+    );
+  });
+});
+
+describe.each([
+  {
+    relationship: "klagende",
+    schema: prozessbevollmaechtigteArraySchema,
+    company: gesellschaft,
+    otherCompany: beklagteGesellschaft,
+    personsKey: "signaturangaben",
+    person: gesellschaft.signaturangaben[0],
+  },
+  {
+    relationship: "beklagte",
+    schema: beklagteProzessbevollmaechtigteArraySchema,
+    company: beklagteGesellschaft,
+    otherCompany: gesellschaft,
+    personsKey: "prozessbevollmaechtigte-personen",
+    person: beklagteGesellschaft["prozessbevollmaechtigte-personen"][0],
+  },
+])(
+  "$relationship representative schemas",
+  ({ schema, company, otherCompany, personsKey, person }) => {
+    it("accepts the party-specific authorized company without changing its data", () => {
+      expect(schema.parse([company])).toEqual([company]);
+    });
+
+    it("rejects the other party's authorized company shape", () => {
+      expect(schema.safeParse([otherCompany]).success).toBe(false);
+    });
+
+    it("requires at least one additional person", () => {
+      expect(schema.safeParse([{ ...company, [personsKey]: [] }]).success).toBe(
+        false,
+      );
+    });
+
+    it("accepts the maximum number of additional persons", () => {
+      const item = {
+        ...company,
+        [personsKey]: Array.from(
+          { length: MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS },
+          () => person,
+        ),
+      };
+      expect(schema.parse([item])).toEqual([item]);
+    });
+
+    it("rejects additional persons beyond the maximum", () => {
+      expect(
+        schema.safeParse([
+          {
+            ...company,
+            [personsKey]: Array.from(
+              {
+                length: MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS + 1,
+              },
+              () => person,
+            ),
+          },
+        ]).success,
+      ).toBe(false);
+    });
+  },
+);
+
+describe("beklagte representative schemas", () => {
+  it("accepts an Einzelkanzlei unchanged", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.parse([einzelkanzlei]),
+    ).toEqual([einzelkanzlei]);
+  });
+
+  it("accepts an empty optional array", () => {
+    expect(beklagteProzessbevollmaechtigteArraySchema.parse([])).toEqual([]);
+  });
+
+  it("requires a salutation for an authorized company's representative", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.safeParse([
+        {
+          ...beklagteGesellschaft,
+          "prozessbevollmaechtigte-personen": [gesellschaft.signaturangaben[0]],
+        },
+      ]).success,
+    ).toBe(false);
+  });
+
+  it("strips signature and contact fields from an authorized company's representative", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.parse([
+        {
+          ...beklagteGesellschaft,
+          "prozessbevollmaechtigte-personen": [
+            {
+              ...beklagteGesellschaft["prozessbevollmaechtigte-personen"][0],
+              namedInSignature: "on",
+              telefonnummer: "+49 30 123456",
+              email: "erika@example.com",
+            },
+          ],
+        },
+      ]),
+    ).toEqual([beklagteGesellschaft]);
+  });
+
+  it("rejects multiple representatives", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.safeParse([
+        einzelkanzlei,
+        beklagteGesellschaft,
+      ]).success,
+    ).toBe(false);
+  });
+});

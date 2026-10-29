@@ -1,5 +1,5 @@
 import { translations } from "~/services/translations/translations";
-import { type KlageParteiVerhaeltnis } from "../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
 
 export const getProzessbevollmaechtigteArrayName = (
   relationship: KlageParteiVerhaeltnis,
