@@ -689,8 +689,20 @@ export const translations = {
     gesamteKanzlei: {
       de: "Gesamte Kanzlei",
     },
-    prozessbevollmaechtigteDeleteTitle: {
-      de: "Prozessbevollmächtigte löschen?",
+    noGeschaeftszeichen: {
+      de: "Keine Angabe",
+    },
+    einzelkanzleiDeleteTitle: {
+      de: "Einzelkanzlei löschen?",
+    },
+    einzelkanzleiDeleteDescription: {
+      de: "Die folgende Einzelkanzlei wird entfernt:",
+    },
+    berufsausuebungsgesellschaftDeleteTitle: {
+      de: "Berufsausübungsgesellschaft löschen?",
+    },
+    berufsausuebungsgesellschaftDeleteDescription: {
+      de: "Die folgende Berufsausübungsgesellschaft wird entfernt:",
     },
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
