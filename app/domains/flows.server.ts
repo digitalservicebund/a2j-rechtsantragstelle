@@ -25,6 +25,7 @@ import { geldEinklagenFormular } from "./geldEinklagen/formular";
 import { kontopfaendungPkontoAntrag } from "./kontopfaendung/pkonto/antrag";
 import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { Translations } from "~/services/translations/getTranslationByKey";
+import type { Result } from "true-myth";
 import type { AllowedUserTypes, UserData } from "./userData";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
@@ -71,6 +72,19 @@ type PdfConfig = {
   name: string;
 };
 
+export type XjustizError =
+  | { reason: "invalidUserData"; issues: unknown }
+  | { reason: "noResponsibleCourt" }
+  | { reason: "xjustizToolsFailed" };
+
+type XjustizConfig = {
+  xjustizFunction: (
+    userData: UserData,
+    baseUrl: string,
+  ) => Promise<Result<string, XjustizError>>;
+  name: string;
+};
+
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config?: CompiledFlow<C>;
@@ -86,6 +100,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
   pdfConfig?: PdfConfig;
+  xjustizConfig?: XjustizConfig;
 };
 
 export const flows = {
