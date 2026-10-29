@@ -3,8 +3,8 @@ import { type PosFlowAction } from "~/domains/flows.server";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { updateSession } from "~/services/session.server";
 import { type KlageParteiVerhaeltnis } from "../shared/klageParties/klagePartySchemas";
-import { getProzessbevollmaechtigteArrayName } from "../shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
-import { type ProzessbevollmaechtigteType } from "../shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+import { getProzessbevollmaechtigteArrayName } from "../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+import { type ProzessbevollmaechtigteType } from "../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "../userData";
 
 export const setProzessbevollmaechtigteType =

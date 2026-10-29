@@ -1,7 +1,7 @@
 import { createSession, type Session } from "react-router";
 import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { geldEinklagenAnwaltschaftFlowConfig } from "../../flowConfig";
-import { getProzessbevollmaechtigteArrayName } from "../../shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+import { getProzessbevollmaechtigteArrayName } from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import { setProzessbevollmaechtigteType } from "../setProzessbevollmaechtigteType";
 import { geldEinklagenAnwaltschaft } from "../../index";
 

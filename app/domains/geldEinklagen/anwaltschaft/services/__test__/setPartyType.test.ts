@@ -60,7 +60,7 @@ describe("setPartyType", () => {
     },
   );
 
-  it("should set the claimant type and one-based index from the request URL", () => {
+  it("should set the klagende type and one-based index from the request URL", () => {
     const userData = {
       otherData: "preserved",
       klagenden: [
