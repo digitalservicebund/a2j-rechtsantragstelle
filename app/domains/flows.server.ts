@@ -27,6 +27,7 @@ import { prozesskostenhilfeFormular } from "./prozesskostenhilfe/formular";
 import type { Translations } from "~/services/translations/getTranslationByKey";
 import type { Result } from "true-myth";
 import type { AllowedUserTypes, UserData } from "./userData";
+import { grundbuchauszugAntrag } from "./grundbuchauszug/antrag";
 
 type MigrationDataMerger<Dest extends PageConfigMap> = (
   sourceData: InferredUserData<PageConfigMap>,
@@ -119,4 +120,5 @@ export const flows = {
   "/erbschein/anfrage": erbscheinAnfrage,
   "/erbausschlagung/anfrage": erbausschlagungAnfrage,
   "/erbausschlagung/gericht-finden": erbausschlagungGerichtFinden,
+  "/grundbuchauszug/antrag": grundbuchauszugAntrag,
 } satisfies Record<FlowId, Flow<PageConfigMap>>;

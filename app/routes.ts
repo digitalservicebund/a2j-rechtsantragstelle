@@ -54,6 +54,7 @@ export default [
     ...prefix("wegweiser", vorabcheckRoutes("KPW")),
     ...prefix("pkonto/antrag", flowRoutes("KPPA")),
   ]),
+  ...prefix("grundbuchauszug", [...prefix("antrag", flowRoutes("GBAA"))]),
   ...prefix("geld-einklagen", [
     ...prefix("anwaltschaft", flowRoutes("GEA")),
     ...prefix("formular", [
