@@ -11,7 +11,7 @@ import {
   getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
 import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
-import { AdditionalPersons } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/components/AdditionalPersons";
+import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/components/AdditionalPersonsList";
 
 const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte,
@@ -119,7 +119,7 @@ const Prozessbevollmaechtigte = ({
           />
         </div>
         {"isProzessbevollmaechtigt" in prozessbevollmaechtigte && (
-          <AdditionalPersons
+          <AdditionalPersonsList
             berufsausuebungsgesellschaft={prozessbevollmaechtigte}
             parentArrayItemIndex={index}
             relationship={relationship}
