@@ -10,6 +10,7 @@ import {
 } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 
 const nebenantragArraySchema = z.array(
   z.object({
@@ -41,13 +42,23 @@ const annahmeverzugArraySchema = z.array(
     annahmeverzugDatum: createSplitDateSchema(),
   }),
 );
+const selectedBeklagteSchema = z
+  .array(z.object({ id: z.string().uuid() }))
+  .min(1, "Bitte wählen Sie mindestens eine Beklagte aus")
+  .describe(klageParteiCheckboxesZodDescription);
+
+const selectedKlagendeSchema = z
+  .array(z.object({ id: z.string().uuid() }))
+  .min(1, "Bitte wählen Sie mindestens eine Klagende aus")
+  .describe(klageParteiCheckboxesZodDescription);
+
 const hauptantragArraySchema = z.array(
   z
     .object({
       internesSchlagwortFordureung: z.string().max(50).optional(),
       betragForderung: integerSchema,
-      beklagte: checkedOptional,
-      klagende: checkedOptional,
+      klagende: selectedKlagendeSchema,
+      beklagte: selectedBeklagteSchema,
       zugUndZug: checkedOptional,
       beschreibungDerGegenleistung: stringOptionalSchema,
       zinssatzInProzent: integerSchema.optional(),
@@ -97,6 +108,7 @@ const hauptantragArraySchema = z.array(
       }
     }),
 );
+
 export const hauptUndNebenantraegePages = {
   hauptantragUebersicht: {
     stepId:
