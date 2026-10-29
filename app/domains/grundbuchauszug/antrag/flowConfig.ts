@@ -21,7 +21,7 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
       },
     ],
     antragsgrundAngabenZumRecht: "antragsgrundNachweisHochladen",
-    antragsgrundNachweisHochladen: null,
+    antragsgrundNachweisHochladen: "grundstuecksdaten",
     grundstuecksdaten: "artAuszug",
     artAuszug: "anzahlAusdrucke",
     anzahlAusdrucke: "persoenlicheDatenName",
