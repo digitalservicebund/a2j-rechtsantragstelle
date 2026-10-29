@@ -1,4 +1,5 @@
 import {
+  type GesetzlicheVertretungArt,
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
   getPluralOfKlageParteiRelationship,
@@ -48,3 +49,36 @@ export const getPartyTypeTranslations = (
           ].de,
       };
 };
+
+const gesetzlicheVertretungArtLabels: Record<GesetzlicheVertretungArt, string> =
+  {
+    "betreuer-betreuerin": "Betreuer / Betreuerin",
+    elternteil: "Elternteil",
+    "pfleger-pflegerin": "Pfleger / Pflegerin",
+    "vormund-vormundin": "Vormund / Vormundin",
+    "vorlaeufiger-betreuer-vorlaeufige-betreuerin":
+      "Vorläufiger Betreuer / Vorläufige Betreuerin",
+    "sonstige-gesetzliche-vertretung": "Sonstige gesetzliche Vertretung",
+    "buergermeister-buergermeisterin": "Bürgermeister / Bürgermeisterin",
+    "geschaeftsfuehrer-geschaeftsfuehrerin":
+      "Geschäftsführer / Geschäftsführerin",
+    "geschaeftsfuehrender-direktor-geschaeftsfuehrende-direktorin":
+      "Geschäftsführender Direktor / Geschäftsführende Direktorin",
+    "geschaeftsfuehrender-gesellschafter-geschaeftsfuehrende-gesellschafterin":
+      "Geschäftsführender Gesellschafter / Geschäftsführende Gesellschafterin",
+    "gesellschafter-gesellschafterin": "Gesellschafter / Gesellschafterin",
+    "mitglied-einer-bgb-gesellschaft-als-gesetzliche-vertretung":
+      "Mitglied einer BGB Gesellschaft als gesetzliche Vertretung",
+    "partner-partnerin": "Partner / Partnerin",
+    "vorstand-vorstaendin": "Vorstand / Vorständin",
+    "vorstandsvorsitzender-vorstandsvorsitzende":
+      "Vorstandsvorsitzender / Vorstandsvorsitzende",
+    "sonstige-organschaftliche-vertretung-hrb":
+      "Sonstige organschaftliche Vertretung HRB",
+    "sonstige-gesetzliche-vertretung-bgb":
+      "Sonstige gesetzliche Vertretung BGB",
+  };
+
+export const getGesetzlicheVertretungArtLabel = (
+  art?: GesetzlicheVertretungArt,
+) => (art ? gesetzlicheVertretungArtLabels[art] : "");

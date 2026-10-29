@@ -1,11 +1,16 @@
 import omit from "lodash/omit";
 import {
-  type Prozessbevollmaechtigte,
+  type KlagendeProzessbevollmaechtigte,
   beklagteProzessbevollmaechtigteArraySchema,
-  MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
   prozessbevollmaechtigteArraySchema,
 } from "../prozessbevollmaechtigteSchemas";
-import { beklagteGesellschaft, einzelkanzlei, gesellschaft } from "./fixtures";
+import {
+  beklagteGesellschaft,
+  beklagteIndividualRepresentatives,
+  einzelkanzlei,
+  gesellschaft,
+} from "./fixtures";
+import { MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS } from "../prozessbevollmaechtigteHelpers";
 
 describe("prozessbevollmaechtigte schemas", () => {
   it.each([einzelkanzlei, gesellschaft])(
@@ -22,7 +27,7 @@ describe("prozessbevollmaechtigte schemas", () => {
   it.each(["on", "off"] as const)(
     "accepts a company with checkbox value %j",
     (isProzessbevollmaechtigt) => {
-      let item: Prozessbevollmaechtigte[number];
+      let item: KlagendeProzessbevollmaechtigte[number];
       if (
         isProzessbevollmaechtigt === "off" ||
         isProzessbevollmaechtigt === undefined
@@ -102,27 +107,48 @@ describe.each([
     relationship: "klagende",
     schema: prozessbevollmaechtigteArraySchema,
     company: gesellschaft,
-    otherCompany: beklagteGesellschaft,
     personsKey: "signaturangaben",
     person: gesellschaft.signaturangaben[0],
   },
   {
     relationship: "beklagte",
     schema: beklagteProzessbevollmaechtigteArraySchema,
-    company: beklagteGesellschaft,
-    otherCompany: gesellschaft,
+    company: beklagteIndividualRepresentatives,
     personsKey: "prozessbevollmaechtigte-personen",
-    person: beklagteGesellschaft["prozessbevollmaechtigte-personen"][0],
+    person:
+      beklagteIndividualRepresentatives["prozessbevollmaechtigte-personen"][0],
+  },
+  {
+    relationship: "klagende without company authorization",
+    schema: prozessbevollmaechtigteArraySchema,
+    company: {
+      ...beklagteIndividualRepresentatives,
+      "prozessbevollmaechtigte-personen": [
+        {
+          ...beklagteIndividualRepresentatives[
+            "prozessbevollmaechtigte-personen"
+          ][0],
+          namedInSignature: "off" as const,
+        },
+      ],
+    },
+    personsKey: "prozessbevollmaechtigte-personen",
+    person: {
+      ...beklagteIndividualRepresentatives[
+        "prozessbevollmaechtigte-personen"
+      ][0],
+      namedInSignature: "off" as const,
+    },
   },
 ])(
   "$relationship representative schemas",
-  ({ schema, company, otherCompany, personsKey, person }) => {
-    it("accepts the party-specific authorized company without changing its data", () => {
+  ({ schema, company, personsKey, person }) => {
+    it("accepts the party-specific company without changing its data", () => {
       expect(schema.parse([company])).toEqual([company]);
     });
 
-    it("rejects the other party's authorized company shape", () => {
-      expect(schema.safeParse([otherCompany]).success).toBe(false);
+    it("requires the additional persons array", () => {
+      expect(schema.safeParse([omit(company, personsKey)]).success).toBe(false);
     });
 
     it("requires at least one additional person", () => {
@@ -161,6 +187,34 @@ describe.each([
 );
 
 describe("beklagte representative schemas", () => {
+  it("accepts an authorized company without additional persons", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.parse([beklagteGesellschaft]),
+    ).toEqual([beklagteGesellschaft]);
+  });
+
+  it("strips stale additional persons and signature data from an authorized company", () => {
+    expect(
+      beklagteProzessbevollmaechtigteArraySchema.parse([
+        {
+          ...beklagteGesellschaft,
+          "prozessbevollmaechtigte-personen":
+            beklagteIndividualRepresentatives[
+              "prozessbevollmaechtigte-personen"
+            ],
+          signaturangaben: gesellschaft.signaturangaben,
+        },
+      ]),
+    ).toEqual([beklagteGesellschaft]);
+  });
+
+  it("still requires signature data for an authorized klagende company", () => {
+    expect(
+      prozessbevollmaechtigteArraySchema.safeParse([beklagteGesellschaft])
+        .success,
+    ).toBe(false);
+  });
+
   it("accepts an Einzelkanzlei unchanged", () => {
     expect(
       beklagteProzessbevollmaechtigteArraySchema.parse([einzelkanzlei]),
@@ -171,25 +225,27 @@ describe("beklagte representative schemas", () => {
     expect(beklagteProzessbevollmaechtigteArraySchema.parse([])).toEqual([]);
   });
 
-  it("requires a salutation for an authorized company's representative", () => {
+  it("requires a salutation for an individual representative", () => {
     expect(
       beklagteProzessbevollmaechtigteArraySchema.safeParse([
         {
-          ...beklagteGesellschaft,
+          ...beklagteIndividualRepresentatives,
           "prozessbevollmaechtigte-personen": [gesellschaft.signaturangaben[0]],
         },
       ]).success,
     ).toBe(false);
   });
 
-  it("strips signature and contact fields from an authorized company's representative", () => {
+  it("strips signature and contact fields from an individual representative", () => {
     expect(
       beklagteProzessbevollmaechtigteArraySchema.parse([
         {
-          ...beklagteGesellschaft,
+          ...beklagteIndividualRepresentatives,
           "prozessbevollmaechtigte-personen": [
             {
-              ...beklagteGesellschaft["prozessbevollmaechtigte-personen"][0],
+              ...beklagteIndividualRepresentatives[
+                "prozessbevollmaechtigte-personen"
+              ][0],
               namedInSignature: "on",
               telefonnummer: "+49 30 123456",
               email: "erika@example.com",
@@ -197,7 +253,7 @@ describe("beklagte representative schemas", () => {
           ],
         },
       ]),
-    ).toEqual([beklagteGesellschaft]);
+    ).toEqual([beklagteIndividualRepresentatives]);
   });
 
   it("rejects multiple representatives", () => {

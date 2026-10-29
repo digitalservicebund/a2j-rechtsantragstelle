@@ -179,5 +179,58 @@ describe.each(["klagende", "beklagte"] as const)(
         ]?.isDone,
       ).toBe(false);
     });
+
+    describe.each(["on", "off"] as const)(
+      "company with isProzessbevollmaechtigt=%s",
+      (isProzessbevollmaechtigt) => {
+        const requiresPersons =
+          relationship === "klagende" || isProzessbevollmaechtigt === "off";
+        const personsKey =
+          relationship === "klagende" && isProzessbevollmaechtigt === "on"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigte-personen";
+        const person = {
+          ...gesellschaft.signaturangaben[0],
+          anrede: "frau",
+          namedInSignature: "off",
+        };
+
+        it.each([
+          {
+            label: "missing persons",
+            persons: undefined,
+            isDone: !requiresPersons,
+          },
+          { label: "empty persons", persons: [], isDone: !requiresPersons },
+          { label: "one complete person", persons: [person], isDone: true },
+          {
+            label: "one incomplete person",
+            persons: [{ ...person, vorname: "" }],
+            isDone: !requiresPersons,
+          },
+        ])("$label keeps completion at $isDone", ({ persons, isDone }) => {
+          const session = createFlowSession(
+            geldEinklagenAnwaltschaftFlowConfig,
+            {
+              [arrayName]: [
+                {
+                  ...company,
+                  isProzessbevollmaechtigt,
+                  signaturangaben: undefined,
+                  "prozessbevollmaechtigte-personen": undefined,
+                  [personsKey]: persons,
+                },
+              ],
+            },
+            `${basePath}/uebersicht`,
+          );
+          expect(
+            session.statusTree[`/${relationship}-partei`]?.children?.[
+              "/prozessbevollmaechtigte"
+            ]?.isDone,
+          ).toBe(isDone);
+        });
+      },
+    );
   },
 );

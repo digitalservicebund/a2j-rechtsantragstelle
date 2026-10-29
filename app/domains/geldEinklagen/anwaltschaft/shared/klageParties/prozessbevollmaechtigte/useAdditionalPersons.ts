@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import type z from "zod";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
@@ -7,12 +6,17 @@ import {
   getProzessbevollmaechtigteArrayName,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
-  type signaturangabenArraySchema,
+  type BeklagteBerufsausuebungsgesellschaft,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { translations } from "~/services/translations/translations";
+
+type AdditionalPerson =
+  | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number]
+  | BerufsausuebungsgesellschaftProzessbevollmaechtigt["signaturangaben"][number]
+  | BeklagteBerufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number];
 
 const getBaseAdditionalPersonUrl = (
   relationship: KlageParteiVerhaeltnis,
@@ -26,6 +30,7 @@ export function useAdditionalPersons(
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
     | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaft
     | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   relationship: KlageParteiVerhaeltnis,
   parentArrayItemIndex: number,
@@ -44,7 +49,7 @@ export function useAdditionalPersons(
     "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
       ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
       : undefined;
-  const personsArray =
+  const personsArray: AdditionalPerson[] | undefined =
     arrayName === "signaturangaben" &&
     "signaturangaben" in berufsausuebungsgesellschaft
       ? berufsausuebungsgesellschaft.signaturangaben
@@ -90,9 +95,7 @@ export function useAdditionalPersons(
     }, 100);
   };
   return {
-    personsArray: personsArray as
-      | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
-      | z.infer<typeof signaturangabenArraySchema>,
+    personsArray,
     baseAdditionalPersonUrl,
     nextItemIndex,
     deleteAdditionalPerson,
