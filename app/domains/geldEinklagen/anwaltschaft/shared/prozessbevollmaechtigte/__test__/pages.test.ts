@@ -80,6 +80,12 @@ describe.each(["klagende", "beklagte"] as const)(
           expect(
             z.validate(schema!, {
               ...input,
+              [`${arrayName}#isProzessbevollmaechtigt`]: "off",
+            }),
+          ).toBe(true);
+          expect(
+            z.validate(schema!, {
+              ...input,
               [`${arrayName}#isProzessbevollmaechtigt`]: undefined,
             }),
           ).toBe(false);

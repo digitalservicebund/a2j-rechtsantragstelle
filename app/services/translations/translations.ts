@@ -698,6 +698,21 @@ export const translations = {
     einzelkanzleiDeleteDescription: {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
+    signaturangabenTitle: {
+      de: "Signaturangaben (notwendig für die Klageschrift)",
+    },
+    signaturangabenSubtitle: {
+      de: "Geben Sie mindestens eine Person an, maximal 5",
+    },
+    signaturangaben: {
+      de: "Signaturangaben",
+    },
+    signaturangabenDeletionTitle: {
+      de: "Signaturangaben löschen?",
+    },
+    signaturangabenDeletionDescription: {
+      de: "Die folgende Person wird entfernt:",
+    },
     berufsausuebungsgesellschaftDeleteTitle: {
       de: "Berufsausübungsgesellschaft löschen?",
     },

@@ -1,4 +1,8 @@
-import { prozessbevollmaechtigteArraySchema } from "../prozessbevollmaechtigteSchemas";
+import omit from "lodash/omit";
+import {
+  type Prozessbevollmaechtigte,
+  prozessbevollmaechtigteArraySchema,
+} from "../prozessbevollmaechtigteSchemas";
 import { einzelkanzlei, gesellschaft } from "./fixtures";
 
 describe("prozessbevollmaechtigte schemas", () => {
@@ -12,6 +16,40 @@ describe("prozessbevollmaechtigte schemas", () => {
   it("accepts no representative", () => {
     expect(prozessbevollmaechtigteArraySchema.parse([])).toEqual([]);
   });
+
+  it.each(["on", "off"] as const)(
+    "accepts a company with checkbox value %j",
+    (isProzessbevollmaechtigt) => {
+      let item: Prozessbevollmaechtigte[number];
+      if (
+        isProzessbevollmaechtigt === "off" ||
+        isProzessbevollmaechtigt === undefined
+      ) {
+        item = {
+          ...omit(gesellschaft, "signaturangaben"),
+          isProzessbevollmaechtigt,
+          ["prozessbevollmaechtigte-personen"]: [
+            {
+              anrede: "",
+              titel: "",
+              vorname: "Vorname",
+              nachname: "Nachname",
+              namedInSignature: "off",
+              berufsbezeichnung: "",
+              telefonnummer: "",
+              email: "",
+            },
+          ],
+        };
+      } else {
+        item = {
+          ...gesellschaft,
+          isProzessbevollmaechtigt: isProzessbevollmaechtigt,
+        };
+      }
+      expect(prozessbevollmaechtigteArraySchema.parse([item])).toEqual([item]);
+    },
+  );
 
   it.each([einzelkanzlei, gesellschaft])(
     "allows contact details and business reference to be omitted",
@@ -43,7 +81,7 @@ describe("prozessbevollmaechtigte schemas", () => {
     { ...einzelkanzlei, vorname: "" },
     { ...gesellschaft, name: "" },
     { ...einzelkanzlei, name: "" },
-    { ...gesellschaft, isProzessbevollmaechtigt: undefined },
+    { ...gesellschaft, isProzessbevollmaechtigt: "invalid" },
     { ...einzelkanzlei, email: "invalid" },
     { ...gesellschaft, telefonnummer: "invalid" },
     { ...einzelkanzlei, strasse: "" },

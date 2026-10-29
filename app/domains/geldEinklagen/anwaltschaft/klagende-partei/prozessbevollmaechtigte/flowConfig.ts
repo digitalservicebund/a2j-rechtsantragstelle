@@ -16,6 +16,12 @@ export const klagendeProzessbevollmaechtigteFlowConfig = {
   ],
   klagendeProzessbevollmaechtigteEinzelkanzleiDaten:
     "klagendeProzessbevollmaechtigteUebersicht",
-  klagendeProzessbevollmaechtigteBerufsausuebungsgesellschaftDaten:
-    "klagendeProzessbevollmaechtigteUebersicht",
+  klagendeProzessbevollmaechtigteBerufsausuebungsgesellschaftDaten: [
+    {
+      type: "addArrayItem",
+      target: "signaturangabenDaten",
+    },
+    { target: "klagendeProzessbevollmaechtigteUebersicht" },
+  ],
+  signaturangabenDaten: "klagendeProzessbevollmaechtigteUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
