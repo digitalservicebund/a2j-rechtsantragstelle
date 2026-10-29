@@ -17,7 +17,7 @@ export const grundbuchauszugAntragPages = {
     stepId: "/start",
   },
   antragsgrundBerechtigtesInteresse: {
-    stepId: "/antragsgrund/berechtigtes-interesse/start",
+    stepId: "/antragsgrund/berechtigtes-interesse",
     pageSchema: {
       legitimateInterest: z.enum([
         "owner",
@@ -27,13 +27,13 @@ export const grundbuchauszugAntragPages = {
     },
   },
   antragsgrundAngabenZumRecht: {
-    stepId: "/antragsgrund/angaben-zum-recht/start",
+    stepId: "/antragsgrund/angaben-zum-recht",
     pageSchema: {
       registerLaw: stringRequiredSchema,
     },
   },
   antragsgrundNachweisHochladen: {
-    stepId: "/antragsgrund/nachweis-hochladen/start",
+    stepId: "/antragsgrund/nachweis-hochladen",
   },
   grundstuecksdaten: {
     stepId: "/grundstuecksdaten",
@@ -56,7 +56,7 @@ export const grundbuchauszugAntragPages = {
     },
   },
   persoenlicheDatenName: {
-    stepId: "/persoenliche-daten/name/start",
+    stepId: "/persoenliche-daten/name",
     pageSchema: {
       vorname: stringRequiredSchema,
       nachname: stringRequiredSchema,
@@ -64,7 +64,7 @@ export const grundbuchauszugAntragPages = {
     },
   },
   persoenlicheDatenGeburtsdatum: {
-    stepId: "/persoenliche-daten/geburtsdatum/start",
+    stepId: "/persoenliche-daten/geburtsdatum",
     pageSchema: {
       geburtsdatum: createSplitDateSchema({
         earliest: () => addYears(today(), -150),
@@ -73,7 +73,7 @@ export const grundbuchauszugAntragPages = {
     },
   },
   persoenlicheDatenAnschrift: {
-    stepId: "/persoenliche-daten/anschrift/start",
+    stepId: "/persoenliche-daten/anschrift",
     pageSchema: {
       strasse: stringRequiredSchema,
       hausnummer: germanHouseNumberSchema,
