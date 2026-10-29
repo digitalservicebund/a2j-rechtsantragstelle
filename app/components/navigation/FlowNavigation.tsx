@@ -8,7 +8,7 @@ export default function FlowNavigation({
   const rootLoaderData = useRouteLoaderData<RootLoader>("root");
 
   return (
-    <aside
+    <div
       aria-label={rootLoaderData?.accessibilityTranslations?.navigationLabel}
     >
       <nav
@@ -18,6 +18,6 @@ export default function FlowNavigation({
       >
         {children}
       </nav>
-    </aside>
+    </div>
   );
 }
