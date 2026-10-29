@@ -4,6 +4,12 @@ import {
 } from "~/services/flow/flowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { grundbuchauszugAntragPages } from "./pages";
+import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
+import { type GrundbuchauszugAntragUserData } from "./userData";
+
+const isPersoenlichenDatenDone = (context: GrundbuchauszugAntragUserData) => {
+  return context.pageData?.subflowDoneStates?.["/persoenliche-daten"] === true;
+};
 
 export const grundbuchauszugAntragFlowConfig = compileFlow({
   pages: grundbuchauszugAntragPages,
@@ -17,18 +23,49 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
         target: "antragsgrundAngabenZumRecht",
       },
       {
+        guard: (context) => objectKeysNonEmpty(context, ["legitimateInterest"]),
         target: "antragsgrundNachweisHochladen",
       },
     ],
-    antragsgrundAngabenZumRecht: "antragsgrundNachweisHochladen",
+    antragsgrundAngabenZumRecht: [
+      {
+        guard: (context) => objectKeysNonEmpty(context, ["registerLaw"]),
+        target: "antragsgrundNachweisHochladen",
+      },
+    ],
     antragsgrundNachweisHochladen: "grundstuecksdaten",
-    grundstuecksdaten: "artAuszug",
-    artAuszug: "anzahlAusdrucke",
-    anzahlAusdrucke: "persoenlicheDatenName",
+    grundstuecksdaten: [
+      {
+        guard: (context) =>
+          objectKeysNonEmpty(context, [
+            "landRegistryLocale",
+            "landRegisterParcel",
+            "landRegisterPageNumber",
+          ]),
+        target: "artAuszug",
+      },
+    ],
+    artAuszug: [
+      {
+        guard: (context) => objectKeysNonEmpty(context, ["typeOfCopy"]),
+        target: "anzahlAusdrucke",
+      },
+    ],
+    anzahlAusdrucke: [
+      {
+        guard: (context) => objectKeysNonEmpty(context, ["numberOfCopies"]),
+        target: "persoenlicheDatenName",
+      },
+    ],
     persoenlicheDatenName: "persoenlicheDatenGeburtsdatum",
     persoenlicheDatenGeburtsdatum: "persoenlicheDatenAnschrift",
     persoenlicheDatenAnschrift: "persoenlicheDatenkontakt",
-    persoenlicheDatenkontakt: "abgabeZusammenfassung",
+    persoenlicheDatenkontakt: [
+      {
+        guard: isPersoenlichenDatenDone,
+        target: "abgabeZusammenfassung",
+      },
+    ],
     abgabeZusammenfassung: null,
   },
 }) as CompiledFlow<PageConfigMap>;
