@@ -11,12 +11,14 @@ import {
   verifyZahlungsklage,
   zahlungsklage,
   type AnspruchFuerZahlungsklage,
-  type Gerichte,
   type ScopeToken,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
+import { type XjustizResult } from "~/domains/flows.server";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getResponsibleCourt";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
+import { findGerichtByXjustizId } from "./findGerichtByXjustizId";
 import {
   beteiligteFromUserData,
   beteiligteSchema,
@@ -27,7 +29,6 @@ import {
 
 type CompositionInput = {
   readonly userData: GeldEinklagenFormularUserData;
-  readonly gericht: Gerichte;
   readonly baseUrl: string;
 };
 
@@ -39,9 +40,13 @@ const invalidUserData = (issues: unknown) => ({
 
 export async function geldEinklagenXjustizFromUserdata({
   userData,
-  gericht,
   baseUrl,
-}: CompositionInput) {
+}: CompositionInput): Promise<XjustizResult> {
+  const gericht = findGerichtByXjustizId(
+    getResponsibleCourt(userData)?.XJUSTIZID,
+  );
+  if (gericht === undefined) return { ok: false, reason: "noResponsibleCourt" };
+
   const beteiligte = beteiligteSchema.safeParse(
     beteiligteFromUserData(userData),
   );

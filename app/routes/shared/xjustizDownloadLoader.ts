@@ -1,23 +1,22 @@
 import isEmpty from "lodash/isEmpty";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import { flows } from "~/domains/flows.server";
-import { parsePathname } from "~/domains/flowIds";
-import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getResponsibleCourt";
-import { findGerichtByXjustizId } from "~/domains/geldEinklagen/services/xjustiz/findGerichtByXjustizId";
-import { geldEinklagenXjustizFromUserdata } from "~/domains/geldEinklagen/services/xjustiz/geldEinklagenXjustizFromUserdata.server";
+import { type UserData } from "~/domains/userData";
 import { config } from "~/services/env/env.server";
 import { throw404IfFeatureFlagDisabled } from "~/services/errorPages/throw404";
+import { getPageAndFlowDataFromPathname } from "~/services/flow/getPageAndFlowDataFromPathname";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import { logError } from "~/services/logging";
 import { getSessionData } from "~/services/session.server";
 import { pdfDateFormat, today } from "~/util/date";
 
-const FLOW_ID = "/geld-einklagen/formular";
-
 export async function loader({ request, url }: LoaderFunctionArgs) {
-  const { flowId } = parsePathname(url.pathname);
-  if (flowId !== FLOW_ID)
+  const { pathname } = url;
+  const { flowId, currentFlow } = getPageAndFlowDataFromPathname(pathname);
+
+  const xjustizConfig =
+    "xjustizConfig" in currentFlow ? currentFlow.xjustizConfig : undefined;
+
+  if (xjustizConfig === undefined)
     return new Response(`No xjustiz config for flowId: ${flowId}`, {
       status: 501,
     });
@@ -32,34 +31,26 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
 
   const cookieHeader = request.headers.get("Cookie");
   const sessionData = await getSessionData(flowId, cookieHeader);
-
-  const userData: GeldEinklagenFormularUserData =
-    getPrunedUserDataFromSimulation(flows[flowId].config, sessionData);
+  const userData: UserData = getPrunedUserDataFromSimulation(
+    currentFlow.config,
+    sessionData,
+  );
   if (isEmpty(userData)) return redirect(flowId);
 
-  const gericht = findGerichtByXjustizId(
-    getResponsibleCourt(userData)?.XJUSTIZID,
-  );
-  if (gericht === undefined)
-    return new Response("Kein zustaendiges Gericht ermittelbar", {
-      status: 409,
-    });
-
-  const result = await geldEinklagenXjustizFromUserdata({
-    userData,
-    gericht,
-    baseUrl: XJUSTIZ_TOOLS_BASE_URL,
-  });
+  const { xjustizFunction, name } = xjustizConfig;
+  const result = await xjustizFunction(userData, XJUSTIZ_TOOLS_BASE_URL);
 
   if (!result.ok && result.reason === "invalidUserData") {
-    logError({
-      message: "XJustiz: invalid user data",
-      error: result.issues,
-    });
+    logError({ message: "XJustiz: invalid user data", error: result.issues });
     return new Response("Ungueltige Angaben fuer die XJustiz-Nachricht", {
       status: 422,
     });
   }
+
+  if (!result.ok && result.reason === "noResponsibleCourt")
+    return new Response("Kein zustaendiges Gericht ermittelbar", {
+      status: 409,
+    });
 
   if (!result.ok) {
     logError({ error: "XJustiz: XJustiz-Tools failed to create the message" });
@@ -68,7 +59,7 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
     });
   }
 
-  const filename = `Geld_Einklagen_Klage_${pdfDateFormat(today())}.xml`;
+  const filename = `${name}_${pdfDateFormat(today())}.xml`;
   return new Response(result.xjustizMessageXml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",

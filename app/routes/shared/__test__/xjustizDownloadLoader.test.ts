@@ -76,6 +76,30 @@ describe("xjustizDownloadLoader", () => {
     await expect(response.text()).resolves.toBe(FAKE_XML);
   });
 
+  it("responds with 501 for a flow without xjustiz config", async () => {
+    const response = await loader(
+      mockRouteArgsFromRequest(
+        new Request("https://mock-url.de/beratungshilfe/antrag/download/xjustiz"),
+      ),
+    );
+
+    expect(response.status).toBe(501);
+  });
+
+  it("responds with 409 when no responsible court can be determined", async () => {
+    getPrunedUserDataSpy.mockReturnValueOnce({
+      ...userData,
+      postleitzahlBeklagtePerson: "80331",
+      postleitzahlSecondary: "80331",
+    } as unknown as InferredUserData<PageConfigMap>);
+
+    const response = await loader(
+      mockRouteArgsFromRequest(new Request(URL_UNDER_TEST)),
+    );
+
+    expect(response.status).toBe(409);
+  });
+
   it("responds with 404 when the showXjustizDownload feature flag is disabled", async () => {
     vi.mocked(isFeatureFlagEnabled).mockResolvedValue(false);
 

@@ -71,6 +71,20 @@ type PdfConfig = {
   name: string;
 };
 
+export type XjustizResult =
+  | { ok: true; xjustizMessageXml: string }
+  | { ok: false; reason: "invalidUserData"; issues: unknown }
+  | { ok: false; reason: "noResponsibleCourt" }
+  | { ok: false; reason: "xjustizToolsFailed" };
+
+type XjustizConfig = {
+  xjustizFunction: (
+    userData: UserData,
+    baseUrl: string,
+  ) => Promise<XjustizResult>;
+  name: string;
+};
+
 export type Flow<C extends PageConfigMap = PageConfigMap> = {
   flowType: FlowType;
   config?: CompiledFlow<C>;
@@ -86,6 +100,7 @@ export type Flow<C extends PageConfigMap = PageConfigMap> = {
   useStepper?: boolean;
   metaConfiguration?: Record<string, FlowMetaConfiguration>;
   pdfConfig?: PdfConfig;
+  xjustizConfig?: XjustizConfig;
 };
 
 export const flows = {

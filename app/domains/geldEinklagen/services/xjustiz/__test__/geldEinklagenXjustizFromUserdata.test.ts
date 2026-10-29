@@ -45,10 +45,25 @@ afterAll(async () => {
 });
 
 describe("geldEinklagenXjustizFromUserdata", () => {
-  it("addresses the message to the given court", async () => {
+  it("reports a missing responsible court without calling the XJustiz-Tools", async () => {
+    receivedBody = undefined;
+
+    const result = await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        postleitzahlBeklagtePerson: "80331",
+        postleitzahlSecondary: "80331",
+      },
+      baseUrl,
+    });
+
+    expect(result).toStrictEqual({ ok: false, reason: "noResponsibleCourt" });
+    expect(receivedBody).toBeUndefined();
+  });
+
+  it("addresses the message to the responsible court", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
@@ -71,7 +86,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
   it("assigns Klaeger and Beklagte to the correct roles", async () => {
     const result = await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
@@ -129,7 +143,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
         beklagteNachname: undefined,
         beklagteNameOrganisation: "Muster GmbH",
       },
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
@@ -168,7 +181,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
 
     const result = await geldEinklagenXjustizFromUserdata({
       userData: { ...userDataWithBegruendung, klagendePersonVorname: "" },
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
@@ -215,7 +227,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
           },
         ],
       },
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
@@ -275,7 +286,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
   it("references the declared Rollennummern in the Anspruch", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: userDataWithBegruendung,
-      gericht: Gerichte["Amtsgericht Schöneberg"],
       baseUrl,
     });
 
