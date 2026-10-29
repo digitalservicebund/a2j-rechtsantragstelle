@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../../../klageParties/klagePartySchemas";
 import { beklagteGesellschaft, gesellschaft } from "../../__test__/fixtures";
 import {
   MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,

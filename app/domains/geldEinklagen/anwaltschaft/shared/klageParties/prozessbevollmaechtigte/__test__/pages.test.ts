@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { geldEinklagenAnwaltschaftFlowConfig } from "../../../flowConfig";
+import { geldEinklagenAnwaltschaftFlowConfig } from "../../../../flowConfig";
 import { getProzessbevollmaechtigteArrayName } from "../prozessbevollmaechtigteHelpers";
 import { beklagteGesellschaft, einzelkanzlei, gesellschaft } from "./fixtures";
 
@@ -114,7 +114,7 @@ describe.each(["klagende", "beklagte"] as const)(
       },
     );
 
-    it("only validates signature and contact fields on claimant representative forms", () => {
+    it("only validates signature and contact fields on klagende representative forms", () => {
       const path = `${basePath}/#/prozessbevollmaechtigte-personen/#/daten`;
       const schema = geldEinklagenAnwaltschaftFlowConfig.getSchema(path);
       const prefix = `${arrayName}#prozessbevollmaechtigte-personen`;

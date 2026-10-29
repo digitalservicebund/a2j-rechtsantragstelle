@@ -5,13 +5,13 @@ import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaf
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
   type signaturangabenArraySchema,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { translations } from "~/services/translations/translations";
 
 const getBaseAdditionalPersonUrl = (

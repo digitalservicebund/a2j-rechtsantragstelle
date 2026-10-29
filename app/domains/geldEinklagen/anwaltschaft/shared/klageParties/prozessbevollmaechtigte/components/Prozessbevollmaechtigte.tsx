@@ -4,7 +4,7 @@ import { Icon } from "~/components/common/Icon";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 import { translations } from "~/services/translations/translations";
-import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
@@ -14,7 +14,7 @@ import {
   type BeklagteProzessbevollmaechtigte,
   type Prozessbevollmaechtigte as ProzessbevollmaechtigteData,
 } from "../prozessbevollmaechtigteSchemas";
-import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/components/AdditionalPersonsList";
+import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/AdditionalPersonsList";
 
 const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte,

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { useProzessbevollmaechtigte } from "../useProzessbevollmaechtigte";
 import { getProzessbevollmaechtigteArrayName } from "../prozessbevollmaechtigteHelpers";
-import { type GeldEinklagenAnwaltschaftUserData } from "../../../userData";
+import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
 import { einzelkanzlei, gesellschaft, unrelatedParty } from "./fixtures";
 
 describe("useProzessbevollmaechtigte", () => {

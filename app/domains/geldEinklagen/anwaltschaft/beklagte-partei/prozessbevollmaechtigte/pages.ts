@@ -3,7 +3,7 @@ import {
   berufsausuebungsgesellschaftSchema,
   type Prozessbevollmaechtigte,
   beklagteProzessbevollmaechtigteArraySchema,
-} from "../../shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+} from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";

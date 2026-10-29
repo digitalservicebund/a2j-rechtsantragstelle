@@ -10,6 +10,7 @@ const localFeatureFlags = {
   showGeldEinklagenAnwaltschaftFlow: false,
   showNewHubPage: true,
   showGrundbuchAuszugAntragFlow: true,
+  showXjustizDownload: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

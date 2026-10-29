@@ -3,7 +3,7 @@ import {
   adresseFields,
   commonFields,
   personFields,
-} from "../klageParties/klagePartySchemas";
+} from "../../klageParties/klagePartySchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
