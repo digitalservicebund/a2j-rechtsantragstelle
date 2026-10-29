@@ -43,3 +43,18 @@ export const getBeklagteStrings = (
     beklagteOrganisationName: "orgName" in beklagte ? beklagte.orgName : "",
   };
 };
+
+export const getKanzleiStrings = (
+  context: GeldEinklagenAnwaltschaftUserData,
+) => {
+  const arrayIndex = firstArrayIndex(context.pageData);
+  if (arrayIndex === undefined) return {};
+  const kanzlei = context.klagendeProzessbevollmaechtigte?.at(arrayIndex);
+  const beklagteKanzlei =
+    context.beklagteProzessbevollmaechtigte?.at(arrayIndex);
+  if (!kanzlei && !beklagteKanzlei) return {};
+  return {
+    klagendeKanzleiName: kanzlei?.name ?? "",
+    beklagteKanzleiName: beklagteKanzlei?.name ?? "",
+  };
+};

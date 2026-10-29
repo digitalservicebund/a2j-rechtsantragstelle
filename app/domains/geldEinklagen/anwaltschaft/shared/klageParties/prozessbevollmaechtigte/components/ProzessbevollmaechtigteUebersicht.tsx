@@ -2,9 +2,9 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { type GeldEinklagenAnwaltschaftUserData } from "../../../userData";
+import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
 import { translations } from "~/services/translations/translations";
-import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,

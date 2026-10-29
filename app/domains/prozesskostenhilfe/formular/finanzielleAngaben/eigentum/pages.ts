@@ -52,9 +52,7 @@ const kraftfahrzeugOver10000OrUnsureSchema = z.object({
       latest: () => today().getFullYear(),
     }),
   ),
-  baujahr: schemaOrEmptyString(
-    createYearSchema({ latest: () => today().getFullYear() }),
-  ),
+  baujahr: createYearSchema({ latest: () => today().getFullYear() }),
 });
 
 export const kraftfahrzeugeArraySchema = z

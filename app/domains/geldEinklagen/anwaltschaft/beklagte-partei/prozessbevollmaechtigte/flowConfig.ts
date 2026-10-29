@@ -16,6 +16,14 @@ export const beklagteProzessbevollmaechtigteFlowConfig = {
   ],
   beklagteProzessbevollmaechtigteEinzelkanzleiDaten:
     "beklagteProzessbevollmaechtigteUebersicht",
-  beklagteProzessbevollmaechtigteBerufsausuebungsgesellschaftDaten:
+  beklagteProzessbevollmaechtigteBerufsausuebungsgesellschaftDaten: [
+    {
+      type: "addArrayItem",
+      target:
+        "beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtePersonenDaten",
+    },
+    { target: "beklagteProzessbevollmaechtigteUebersicht" },
+  ],
+  beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtePersonenDaten:
     "beklagteProzessbevollmaechtigteUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
