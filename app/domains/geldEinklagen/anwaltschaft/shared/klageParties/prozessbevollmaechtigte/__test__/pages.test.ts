@@ -192,7 +192,7 @@ describe.each(["klagende", "beklagte"] as const)(
         const person = {
           ...gesellschaft.signaturangaben[0],
           anrede: "frau",
-          namedInSignature: "off",
+          namedInSignature: "on",
         };
 
         it.each([

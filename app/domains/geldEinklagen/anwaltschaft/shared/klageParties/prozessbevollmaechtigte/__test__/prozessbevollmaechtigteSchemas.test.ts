@@ -25,7 +25,7 @@ describe("prozessbevollmaechtigte schemas", () => {
   });
 
   it.each(["on", "off"] as const)(
-    "accepts a company with checkbox value %j",
+    "accepts a company with isProzessbevollmaechtigt = %j",
     (isProzessbevollmaechtigt) => {
       let item: KlagendeProzessbevollmaechtigte[number];
       if (
@@ -41,7 +41,7 @@ describe("prozessbevollmaechtigte schemas", () => {
               titel: "",
               vorname: "Vorname",
               nachname: "Nachname",
-              namedInSignature: "off",
+              namedInSignature: "on",
               berufsbezeichnung: "",
               telefonnummer: "",
               email: "",
@@ -95,6 +95,22 @@ describe("prozessbevollmaechtigte schemas", () => {
     { ...gesellschaft, land: "" },
     { ...einzelkanzlei, type: "natuerliche-person" },
     { ...gesellschaft, type: "organisation" },
+    {
+      ...gesellschaft,
+      isProzessbevollmaechtigt: "off",
+      "prozessbevollmaechtigte-personen": [
+        {
+          anrede: "",
+          titel: "",
+          vorname: "Vorname",
+          nachname: "Nachname",
+          namedInSignature: "off", // At least one person must be named in the signature
+          berufsbezeichnung: "",
+          telefonnummer: "",
+          email: "",
+        },
+      ],
+    },
   ])("rejects incomplete or wrong-type data: %j", (item) => {
     expect(prozessbevollmaechtigteArraySchema.safeParse([item]).success).toBe(
       false,
@@ -128,7 +144,7 @@ describe.each([
           ...beklagteIndividualRepresentatives[
             "prozessbevollmaechtigte-personen"
           ][0],
-          namedInSignature: "off" as const,
+          namedInSignature: "on" as const,
         },
       ],
     },
@@ -137,7 +153,7 @@ describe.each([
       ...beklagteIndividualRepresentatives[
         "prozessbevollmaechtigte-personen"
       ][0],
-      namedInSignature: "off" as const,
+      namedInSignature: "on" as const,
     },
   },
 ])(

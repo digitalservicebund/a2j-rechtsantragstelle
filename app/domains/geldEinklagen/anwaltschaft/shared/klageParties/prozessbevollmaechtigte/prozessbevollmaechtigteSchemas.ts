@@ -52,7 +52,8 @@ export const berufsausuebungsgesellschaftSchema = z.object({
   ["prozessbevollmaechtigte-personen"]: z
     .array(berufsausuebungsgesellschaftBevollmaechtigtePersonSchema)
     .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
-    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
+    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+    .refine((personen) => personen.some((p) => p.namedInSignature === "on")),
   type: z.literal("berufsausuebungsgesellschaft"),
 });
 
