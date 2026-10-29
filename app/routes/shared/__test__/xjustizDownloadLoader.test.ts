@@ -79,7 +79,9 @@ describe("xjustizDownloadLoader", () => {
   it("responds with 501 for a flow without xjustiz config", async () => {
     const response = await loader(
       mockRouteArgsFromRequest(
-        new Request("https://mock-url.de/beratungshilfe/antrag/download/xjustiz"),
+        new Request(
+          "https://mock-url.de/beratungshilfe/antrag/download/xjustiz",
+        ),
       ),
     );
 
