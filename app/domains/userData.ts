@@ -11,6 +11,7 @@ import { type BeratungshilfeFormularUserData } from "./beratungshilfe/formular/u
 import type { BeratungshilfeVorabcheckUserData } from "./beratungshilfe/vorabcheck/userData";
 import type { KontopfaendungPkontoAntragUserData } from "./kontopfaendung/pkonto/antrag/userData";
 import { type ErbausschlagungAnfrageUserData } from "./nachlass/erbausschlagung/anfrage/userData";
+import { type GrundbuchauszugAntragUserData } from "./grundbuchauszug/antrag/userData";
 
 export type BasicTypes = string | number | boolean | undefined;
 export type ObjectType = {
@@ -38,4 +39,5 @@ export type AllUserDataKeys = KeysOfUnion<
   | ErbscheinNachlassGerichtUserData
   | ErbscheinAnfrageUserData
   | ErbausschlagungAnfrageUserData
+  | GrundbuchauszugAntragUserData
 >;

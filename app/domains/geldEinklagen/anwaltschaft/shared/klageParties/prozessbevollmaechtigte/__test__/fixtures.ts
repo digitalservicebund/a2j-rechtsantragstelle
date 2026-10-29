@@ -1,4 +1,9 @@
-import { type Prozessbevollmaechtigte } from "../prozessbevollmaechtigteSchemas";
+import omit from "lodash/omit";
+import {
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  type Prozessbevollmaechtigte,
+} from "../prozessbevollmaechtigteSchemas";
 
 const address = {
   strasse: "Musterstraße",
@@ -32,7 +37,25 @@ export const gesellschaft = {
   telefonnummer: "+49 30 654321",
   email: "gesellschaft@example.com",
   isProzessbevollmaechtigt: "on",
-} satisfies Prozessbevollmaechtigte[number];
+  signaturangaben: [
+    {
+      titel: "",
+      vorname: "Erika",
+      nachname: "Musterfrau",
+      berufsbezeichnung: "Rechtsanwältin",
+    },
+  ],
+} satisfies BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+
+export const beklagteGesellschaft = {
+  ...omit(gesellschaft, "signaturangaben"),
+  "prozessbevollmaechtigte-personen": [
+    {
+      ...gesellschaft.signaturangaben[0],
+      anrede: "frau",
+    },
+  ],
+} satisfies BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
 
 export const unrelatedParty = {
   ...einzelkanzlei,
