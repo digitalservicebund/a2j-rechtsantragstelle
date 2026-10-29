@@ -19,6 +19,7 @@ import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import { erbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
 import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
+import { grundbuchauszugAntragPages } from "./grundbuchauszug/antrag/pages";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -36,6 +37,7 @@ export const pages: Record<FlowId, PagesConfig> = {
   "/erbschein/erbfolge": erbfolgePages,
   "/erbschein/anfrage": erbscheinAnfragePages,
   "/erbausschlagung/gericht-finden": erbausschlagungGerichtFindenPages,
+  "/grundbuchauszug/antrag": grundbuchauszugAntragPages,
 } as const;
 
 export type FormFieldsMap = Record<string, string[]>;
