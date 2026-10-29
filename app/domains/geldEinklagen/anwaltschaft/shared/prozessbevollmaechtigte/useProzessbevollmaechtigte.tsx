@@ -1,10 +1,14 @@
 import { useMemo } from "react";
 import { type KlageParteiVerhaeltnis } from "../klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { type Prozessbevollmaechtigte } from "./prozessbevollmaechtigteSchemas";
+import {
+  type BeklagteProzessbevollmaechtigte,
+  type Prozessbevollmaechtigte,
+} from "./prozessbevollmaechtigteSchemas";
 
 export type ProzessbevollmaechtigteWithArrayIndex = {
-  prozessbevollmaechtigte: Prozessbevollmaechtigte[number];
+  prozessbevollmaechtigte:
+    Prozessbevollmaechtigte[number] | BeklagteProzessbevollmaechtigte[number];
   arrayIndex: number;
 };
 

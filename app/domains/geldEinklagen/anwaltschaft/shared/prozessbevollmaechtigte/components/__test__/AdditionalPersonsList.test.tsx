@@ -7,9 +7,11 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { gesellschaft } from "../../__test__/fixtures";
+import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
+import { beklagteGesellschaft, gesellschaft } from "../../__test__/fixtures";
 import {
   MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "../../prozessbevollmaechtigteSchemas";
@@ -53,95 +55,119 @@ afterEach(() => {
 const renderPersons = (
   company:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  relationship: KlageParteiVerhaeltnis = "beklagte",
 ) =>
   render(
     <AdditionalPersonsList
       berufsausuebungsgesellschaft={company}
       parentArrayItemIndex={2}
-      relationship="beklagte"
+      relationship={relationship}
     />,
   );
 
 describe.each([
-  { company: gesellschaft, arrayName: "signaturangaben" },
+  {
+    company: gesellschaft,
+    arrayName: "signaturangaben",
+    relationship: "klagende",
+    person: gesellschaft.signaturangaben[0],
+  },
   {
     company: individualRepresentatives,
     arrayName: "prozessbevollmaechtigte-personen",
+    relationship: "klagende",
+    person: individualRepresentatives["prozessbevollmaechtigte-personen"][0],
   },
-])("AdditionalPersonsList ($arrayName)", ({ company, arrayName }) => {
-  it("restores focus to the edited person on returning to the overview", async () => {
-    const { unmount } = renderPersons(company);
-    const edit = screen.getByRole("link", { name: /bearbeiten$/i });
-    expect(edit).toHaveAttribute(
-      "href",
-      `/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/2/${arrayName}/0/daten`,
-    );
-    edit.addEventListener("click", (event) => event.preventDefault());
-    fireEvent.click(edit);
-    unmount();
-    renderPersons(company);
-    await waitFor(() => {
+  {
+    company: beklagteGesellschaft,
+    arrayName: "prozessbevollmaechtigte-personen",
+    relationship: "beklagte",
+    person: beklagteGesellschaft["prozessbevollmaechtigte-personen"][0],
+  },
+  {
+    company: individualRepresentatives,
+    arrayName: "prozessbevollmaechtigte-personen",
+    relationship: "beklagte",
+    person: individualRepresentatives["prozessbevollmaechtigte-personen"][0],
+  },
+] as const)(
+  "AdditionalPersonsList ($relationship, $arrayName)",
+  ({ company, arrayName, relationship, person }) => {
+    it("restores focus to the edited person on returning to the overview", async () => {
+      const { unmount } = renderPersons(company, relationship);
+      const edit = screen.getByRole("link", { name: /bearbeiten$/i });
+      expect(edit).toHaveAttribute(
+        "href",
+        `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte/2/${arrayName}/0/daten`,
+      );
+      edit.addEventListener("click", (event) => event.preventDefault());
+      fireEvent.click(edit);
+      unmount();
+      renderPersons(company, relationship);
+      await waitFor(() => {
+        expect(
+          document.getElementById(
+            `${relationship}-prozessbevollmaechtigte-2-${arrayName}-0`,
+          ),
+        ).toHaveFocus();
+      });
+      expect(sessionStorage).toHaveLength(0);
+    });
+
+    it("focuses the add link after deleting the final person", async () => {
+      const user = userEvent.setup();
+      const deleteArrayItem = vi.fn().mockResolvedValue(undefined);
+      vi.mocked(useDeleteArrayItem).mockReturnValue(deleteArrayItem);
+      const { rerender } = renderPersons(company, relationship);
+      await user.click(screen.getByRole("button"));
+      await user.click(
+        within(screen.getByRole("dialog")).getByRole("button", {
+          name: "Ja, löschen",
+        }),
+      );
+      expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(
+        `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte/2/${arrayName}`,
+        0,
+      );
+      rerender(
+        <AdditionalPersonsList
+          berufsausuebungsgesellschaft={{ ...company, [arrayName]: [] }}
+          parentArrayItemIndex={2}
+          relationship={relationship}
+        />,
+      );
+      const add = screen.getByRole("link");
+      expect(add).toHaveAttribute(
+        "href",
+        `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte/2/${arrayName}/0/daten`,
+      );
+      await waitFor(() => expect(add).toHaveFocus());
+    });
+
+    it("hides the add link at the maximum number of persons", () => {
+      renderPersons(
+        {
+          ...company,
+          [arrayName]: Array.from(
+            { length: MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS },
+            () => person,
+          ),
+        },
+        relationship,
+      );
+      expect(screen.getAllByRole("link")).toHaveLength(
+        MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
+      );
       expect(
         document.getElementById(
-          `beklagte-prozessbevollmaechtigte-2-${arrayName}-0`,
+          `${relationship}-prozessbevollmaechtigte-2-${arrayName}-add`,
         ),
-      ).toHaveFocus();
+      ).not.toBeInTheDocument();
     });
-    expect(sessionStorage).toHaveLength(0);
-  });
-
-  it("focuses the add link after deleting the final person", async () => {
-    const user = userEvent.setup();
-    const deleteArrayItem = vi.fn().mockResolvedValue(undefined);
-    vi.mocked(useDeleteArrayItem).mockReturnValue(deleteArrayItem);
-    const { rerender } = renderPersons(company);
-    await user.click(screen.getByRole("button"));
-    await user.click(
-      within(screen.getByRole("dialog")).getByRole("button", {
-        name: "Ja, löschen",
-      }),
-    );
-    expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(
-      `/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/2/${arrayName}`,
-      0,
-    );
-    rerender(
-      <AdditionalPersonsList
-        berufsausuebungsgesellschaft={{ ...company, [arrayName]: [] }}
-        parentArrayItemIndex={2}
-        relationship="beklagte"
-      />,
-    );
-    const add = screen.getByRole("link");
-    expect(add).toHaveAttribute(
-      "href",
-      `/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/2/${arrayName}/0/daten`,
-    );
-    await waitFor(() => expect(add).toHaveFocus());
-  });
-
-  it("hides the add link at the maximum number of persons", () => {
-    renderPersons({
-      ...company,
-      [arrayName]: Array.from(
-        { length: MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS },
-        () =>
-          arrayName === "signaturangaben"
-            ? gesellschaft.signaturangaben[0]
-            : individualRepresentatives["prozessbevollmaechtigte-personen"][0],
-      ),
-    });
-    expect(screen.getAllByRole("link")).toHaveLength(
-      MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
-    );
-    expect(
-      document.getElementById(
-        `beklagte-prozessbevollmaechtigte-2-${arrayName}-add`,
-      ),
-    ).not.toBeInTheDocument();
-  });
-});
+  },
+);
 
 describe("AdditionalPersonsList with individual representatives", () => {
   it.each(["on", "off"] as const)(

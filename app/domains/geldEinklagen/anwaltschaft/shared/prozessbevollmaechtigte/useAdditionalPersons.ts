@@ -10,6 +10,7 @@ import {
   type signaturangabenArraySchema,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { translations } from "~/services/translations/translations";
 
@@ -24,21 +25,30 @@ const getBaseAdditionalPersonUrl = (
 export function useAdditionalPersons(
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   relationship: KlageParteiVerhaeltnis,
   parentArrayItemIndex: number,
 ) {
   const berufsausuebungsgesellschaftIsProzessbevollmaechtigt =
     berufsausuebungsgesellschaft.isProzessbevollmaechtigt === "on";
-  const arrayName = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? "signaturangaben"
-    : "prozessbevollmaechtigte-personen";
+  const arrayName =
+    relationship === "klagende" &&
+    berufsausuebungsgesellschaftIsProzessbevollmaechtigt
+      ? "signaturangaben"
+      : "prozessbevollmaechtigte-personen";
   const deleteArrayItem = useDeleteArrayItem(
     `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
   );
-  const personsArray = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? berufsausuebungsgesellschaft.signaturangaben
-    : berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"];
+  const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
+    "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      : undefined;
+  const personsArray =
+    arrayName === "signaturangaben" &&
+    "signaturangaben" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft.signaturangaben
+      : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
   const nextItemIndex = personsArray?.length ?? 0;
   const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
     relationship,

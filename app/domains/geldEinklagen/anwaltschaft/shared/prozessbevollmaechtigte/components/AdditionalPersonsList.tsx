@@ -4,6 +4,7 @@ import { DeleteButton } from "~/components/common/DeleteButton";
 import { Icon } from "~/components/common/Icon";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
@@ -19,7 +20,8 @@ export const AdditionalPersonsList = ({
 }: {
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
   parentArrayItemIndex: number;
   relationship: KlageParteiVerhaeltnis;
 }) => {
@@ -72,7 +74,9 @@ export const AdditionalPersonsList = ({
                   )}
                 <span
                   className={classNames({
-                    "kern-body--bold": "namedInSignature" in additionalPerson,
+                    "kern-body--bold":
+                      "namedInSignature" in additionalPerson ||
+                      relationship === "beklagte",
                   })}
                 >
                   {getFullPlaintiffName(

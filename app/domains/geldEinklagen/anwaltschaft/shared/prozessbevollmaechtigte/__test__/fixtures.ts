@@ -1,4 +1,6 @@
+import omit from "lodash/omit";
 import {
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type Prozessbevollmaechtigte,
 } from "../prozessbevollmaechtigteSchemas";
@@ -44,6 +46,16 @@ export const gesellschaft = {
     },
   ],
 } satisfies BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+
+export const beklagteGesellschaft = {
+  ...omit(gesellschaft, "signaturangaben"),
+  "prozessbevollmaechtigte-personen": [
+    {
+      ...gesellschaft.signaturangaben[0],
+      anrede: "frau",
+    },
+  ],
+} satisfies BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
 
 export const unrelatedParty = {
   ...einzelkanzlei,
