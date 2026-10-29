@@ -1,8 +1,10 @@
+import classNames from "classnames";
 import Button from "~/components/common/Button";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { Icon } from "~/components/common/Icon";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
@@ -11,14 +13,15 @@ import { useAdditionalPersons } from "~/domains/geldEinklagen/anwaltschaft/share
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 
-export const AdditionalPersons = ({
+export const AdditionalPersonsList = ({
   berufsausuebungsgesellschaft,
   parentArrayItemIndex,
   relationship,
 }: {
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
   parentArrayItemIndex: number;
   relationship: KlageParteiVerhaeltnis;
 }) => {
@@ -29,6 +32,7 @@ export const AdditionalPersons = ({
     deleteAdditionalPerson,
     additionalPersonIdPrefix,
     onEditAdditionalPerson,
+    additionalPersonTranslations,
   } = useAdditionalPersons(
     berufsausuebungsgesellschaft,
     relationship,
@@ -42,10 +46,10 @@ export const AdditionalPersons = ({
           id={`prozessbevollmaechtigte-${parentArrayItemIndex}-additional-persons`}
           tabIndex={-1}
         >
-          {translations.geldEinklagenAnwaltschaft.signaturangabenTitle.de}
+          {additionalPersonTranslations.itemTitle}
         </h4>
         <span className="kern-body kern-body--muted">
-          {translations.geldEinklagenAnwaltschaft.signaturangabenSubtitle.de}
+          {translations.geldEinklagenAnwaltschaft.additionalPersonsSubtitle.de}
         </span>
       </div>
       {personsArray && personsArray.length > 0 && (
@@ -59,7 +63,22 @@ export const AdditionalPersons = ({
               className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
             >
               <div className="kern-body kern-body--default text-pretty flex flex-col">
-                <span>
+                {"namedInSignature" in additionalPerson &&
+                  additionalPerson.namedInSignature === "on" && (
+                    <span className="kern-body--muted">
+                      {
+                        translations.geldEinklagenAnwaltschaft
+                          .namedInSignatureLabel.de
+                      }
+                    </span>
+                  )}
+                <span
+                  className={classNames({
+                    "kern-body--bold":
+                      "namedInSignature" in additionalPerson ||
+                      relationship === "beklagte",
+                  })}
+                >
                   {getFullPlaintiffName(
                     undefined,
                     additionalPerson.titel,
@@ -68,7 +87,14 @@ export const AdditionalPersons = ({
                   )}
                 </span>
                 {additionalPerson.berufsbezeichnung && (
-                  <span>{additionalPerson.berufsbezeichnung}</span>
+                  <span>({additionalPerson.berufsbezeichnung})</span>
+                )}
+                {"telefonnummer" in additionalPerson &&
+                  additionalPerson.telefonnummer && (
+                    <span>{additionalPerson.telefonnummer}</span>
+                  )}
+                {"email" in additionalPerson && additionalPerson.email && (
+                  <span>{additionalPerson.email}</span>
                 )}
               </div>
               <div className="flex gap-24">
@@ -80,28 +106,28 @@ export const AdditionalPersons = ({
                       className="size-kern-dimension-default text-kern-action-default"
                     />
                   }
-                  aria-label={`${translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de} ${additionalPerson.vorname} ${additionalPerson.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`}
+                  aria-label={`${additionalPersonTranslations.itemTitle} ${additionalPerson.vorname} ${additionalPerson.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`}
                   href={`${baseAdditionalPersonUrl}/${index}/daten`}
                   onClick={onEditAdditionalPerson(index)}
                   className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
                 />
                 <DeleteButton
-                  title={
-                    translations.geldEinklagenAnwaltschaft
-                      .signaturangabenDeletionTitle.de
-                  }
+                  title={additionalPersonTranslations.deletionTitle}
                   label={""}
+                  className={
+                    "border-1! border-kern-feedback-danger! px-8! min-w-48!"
+                  }
                   description={
                     <div className="flex flex-col gap-kern-space-small">
                       <p>
                         {
                           translations.geldEinklagenAnwaltschaft
-                            .signaturangabenDeletionDescription.de
+                            .additionalPersonDeletionDescription.de
                         }
                       </p>
                       <div className="flex gap-kern-space-small items-start">
                         <Icon
-                          name="business"
+                          name="person"
                           className="size-kern-dimension-default"
                         />
                         <div className="flex flex-col">
@@ -135,7 +161,7 @@ export const AdditionalPersons = ({
           className="text-kern-action-default flex items-center pt-24"
         >
           <Icon name="plus" className="text-kern-action-default" />
-          {translations.geldEinklagenAnwaltschaft.signaturangaben.de}{" "}
+          {additionalPersonTranslations.itemTitle}{" "}
           {translations.arraySummary.arrayAddButtonLabel.de}
         </a>
       )}

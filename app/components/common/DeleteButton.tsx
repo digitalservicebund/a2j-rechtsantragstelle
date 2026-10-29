@@ -3,11 +3,13 @@ import Button from "./Button";
 import { DeleteDialog } from "./DeleteDialog";
 import { Icon } from "./Icon";
 import { translations } from "~/services/translations/translations";
+import classNames from "classnames";
 
 type DeleteButtonProps = {
-  label: string;
+  label?: string;
   title: string;
   description: ReactNode;
+  className?: string;
   onDelete: () => Promise<void>;
 };
 
@@ -16,6 +18,7 @@ export const DeleteButton = ({
   title,
   description,
   onDelete,
+  className,
 }: DeleteButtonProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [pending, setPending] = useState(false);
@@ -40,7 +43,7 @@ export const DeleteButton = ({
         type="button"
         aria-haspopup="dialog"
         look="secondary"
-        className="border-0!"
+        className={classNames("border-0!", className)}
         textClassName="kern-body kern-body--default kern-body--regular text-kern-feedback-danger!"
         iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
         onClick={() => {

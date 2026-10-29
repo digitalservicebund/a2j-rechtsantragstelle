@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type z from "zod";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
@@ -6,9 +7,12 @@ import {
   getProzessbevollmaechtigteArrayName,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
+  type signaturangabenArraySchema,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+import { translations } from "~/services/translations/translations";
 
 const getBaseAdditionalPersonUrl = (
   relationship: KlageParteiVerhaeltnis,
@@ -21,21 +25,30 @@ const getBaseAdditionalPersonUrl = (
 export function useAdditionalPersons(
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   relationship: KlageParteiVerhaeltnis,
   parentArrayItemIndex: number,
 ) {
   const berufsausuebungsgesellschaftIsProzessbevollmaechtigt =
     berufsausuebungsgesellschaft.isProzessbevollmaechtigt === "on";
-  const arrayName = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? "signaturangaben"
-    : "prozessbevollmaechtigte-personen";
+  const arrayName =
+    relationship === "klagende" &&
+    berufsausuebungsgesellschaftIsProzessbevollmaechtigt
+      ? "signaturangaben"
+      : "prozessbevollmaechtigte-personen";
   const deleteArrayItem = useDeleteArrayItem(
     `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
   );
-  const personsArray = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? berufsausuebungsgesellschaft.signaturangaben
-    : berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"];
+  const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
+    "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      : undefined;
+  const personsArray =
+    arrayName === "signaturangaben" &&
+    "signaturangaben" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft.signaturangaben
+      : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
   const nextItemIndex = personsArray?.length ?? 0;
   const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
     relationship,
@@ -77,11 +90,33 @@ export function useAdditionalPersons(
     }, 100);
   };
   return {
-    personsArray,
+    personsArray: personsArray as
+      | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      | z.infer<typeof signaturangabenArraySchema>,
     baseAdditionalPersonUrl,
     nextItemIndex,
     deleteAdditionalPerson,
     additionalPersonIdPrefix,
     onEditAdditionalPerson,
+    additionalPersonTranslations: {
+      itemTitle:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigtePersonen"
+        ].de,
+      deletionTitle:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangabenDeletionTitle"
+            : "prozessbevollmaechtigtePersonenDeletionTitle"
+        ].de,
+      addItemLabel:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigtePerson"
+        ].de,
+    },
   };
 }

@@ -36,12 +36,13 @@ export const einzelkanzleiSchema = z.object({
   type: z.literal("einzelkanzlei"),
 });
 
-const berufsausuebungsgesellschaftBevollmaechtigtePersonSchema = z.object({
-  ...personFields,
-  namedInSignature: checkedOptional,
-  berufsbezeichnung: stringOptionalSchema,
-  ...contactFields,
-});
+export const berufsausuebungsgesellschaftBevollmaechtigtePersonSchema =
+  z.object({
+    ...personFields,
+    namedInSignature: checkedOptional,
+    berufsbezeichnung: stringOptionalSchema,
+    ...contactFields,
+  });
 
 export const berufsausuebungsgesellschaftSchema = z.object({
   ...commonProzessbevollmaechtigteFields,
@@ -90,8 +91,46 @@ export const prozessbevollmaechtigteArraySchema = z
   )
   .max(MAX_PROZESSBEVOLLMAECHTIGTE);
 
+const beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema =
+  berufsausuebungsgesellschaftProzessbevollmaechtigtSchema
+    .omit({
+      signaturangaben: true,
+    })
+    .extend({
+      "prozessbevollmaechtigte-personen": z
+        .array(
+          berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.omit({
+            namedInSignature: true,
+            telefonnummer: true,
+            email: true,
+          }),
+        )
+        .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+        .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
+    });
+
+export type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt =
+  z.infer<
+    typeof beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema
+  >;
+
+export const beklagteProzessbevollmaechtigteArraySchema = z
+  .array(
+    z.discriminatedUnion("type", [
+      einzelkanzleiSchema,
+      z.discriminatedUnion("isProzessbevollmaechtigt", [
+        berufsausuebungsgesellschaftSchema,
+        beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema,
+      ]),
+    ]),
+  )
+  .max(MAX_PROZESSBEVOLLMAECHTIGTE);
+
 export type Prozessbevollmaechtigte = z.infer<
   typeof prozessbevollmaechtigteArraySchema
+>;
+export type BeklagteProzessbevollmaechtigte = z.infer<
+  typeof beklagteProzessbevollmaechtigteArraySchema
 >;
 export type ProzessbevollmaechtigteType =
   Prozessbevollmaechtigte[number]["type"];

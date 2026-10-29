@@ -50,8 +50,11 @@ export const getKanzleiStrings = (
   const arrayIndex = firstArrayIndex(context.pageData);
   if (arrayIndex === undefined) return {};
   const kanzlei = context.klagendeProzessbevollmaechtigte?.at(arrayIndex);
-  if (!kanzlei) return {};
+  const beklagteKanzlei =
+    context.beklagteProzessbevollmaechtigte?.at(arrayIndex);
+  if (!kanzlei && !beklagteKanzlei) return {};
   return {
-    klagendeKanzleiName: kanzlei.name,
+    klagendeKanzleiName: kanzlei?.name ?? "",
+    beklagteKanzleiName: beklagteKanzlei?.name ?? "",
   };
 };
