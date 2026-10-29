@@ -686,6 +686,12 @@ export const translations = {
     prozessbevollmaechtigtePerson: {
       de: "Prozessbevollmächtigte Person",
     },
+    prozessbevollmaechtigtePersonen: {
+      de: "Prozessbevollmächtigte Personen",
+    },
+    namedInSignatureLabel: {
+      de: "(Wird in der Signatur genannt)",
+    },
     gesamteKanzlei: {
       de: "Gesamte Kanzlei",
     },
@@ -701,7 +707,7 @@ export const translations = {
     signaturangabenTitle: {
       de: "Signaturangaben (notwendig für die Klageschrift)",
     },
-    signaturangabenSubtitle: {
+    additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
     signaturangaben: {
@@ -710,7 +716,10 @@ export const translations = {
     signaturangabenDeletionTitle: {
       de: "Signaturangaben löschen?",
     },
-    signaturangabenDeletionDescription: {
+    prozessbevollmaechtigtePersonenDeletionTitle: {
+      de: "Prozessbevollmächtigte Personen löschen?",
+    },
+    additionalPersonDeletionDescription: {
       de: "Die folgende Person wird entfernt:",
     },
     berufsausuebungsgesellschaftDeleteTitle: {

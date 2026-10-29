@@ -4,6 +4,7 @@ import {
   prozessbevollmaechtigteArraySchema,
   type Prozessbevollmaechtigte,
   signaturangabenArraySchema,
+  berufsausuebungsgesellschaftBevollmaechtigtePersonSchema,
 } from "../../shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
@@ -117,6 +118,43 @@ export const klagendeProzessbevollmaechtigtePages = {
         signaturangabenArraySchema.element.shape.nachname,
       "klagendeProzessbevollmaechtigte#signaturangaben#berufsbezeichnung":
         signaturangabenArraySchema.element.shape.berufsbezeichnung,
+    },
+  },
+  klagendeBerufsausuebungsgesellschaftProzessbevollmaechtigtePersonenDaten: {
+    stepId:
+      "/klagende-partei/prozessbevollmaechtigte/#/prozessbevollmaechtigte-personen/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: ({
+      klagendeProzessbevollmaechtigte,
+      pageData,
+    }: DoneContext) => {
+      const prozessbevollmaechtigte =
+        klagendeProzessbevollmaechtigte?.[pageData?.arrayIndexes?.[0] ?? -1];
+      return (
+        prozessbevollmaechtigte?.type === "berufsausuebungsgesellschaft" &&
+        prozessbevollmaechtigte?.isProzessbevollmaechtigt === "off"
+      );
+    },
+    pageSchema: {
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#anrede":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape.anrede,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#titel":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape.titel,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#vorname":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape.vorname,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#nachname":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape.nachname,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#namedInSignature":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape
+          .namedInSignature,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#berufsbezeichnung":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape
+          .berufsbezeichnung,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#telefonnummer":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape
+          .telefonnummer,
+      "klagendeProzessbevollmaechtigte#prozessbevollmaechtigte-personen#email":
+        berufsausuebungsgesellschaftBevollmaechtigtePersonSchema.shape.email,
     },
   },
 } as const satisfies PageConfigMap;

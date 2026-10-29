@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type z from "zod";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
@@ -6,9 +7,11 @@ import {
   getProzessbevollmaechtigteArrayName,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
+  type signaturangabenArraySchema,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+import { translations } from "~/services/translations/translations";
 
 const getBaseAdditionalPersonUrl = (
   relationship: KlageParteiVerhaeltnis,
@@ -77,11 +80,33 @@ export function useAdditionalPersons(
     }, 100);
   };
   return {
-    personsArray,
+    personsArray: personsArray as
+      | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      | z.infer<typeof signaturangabenArraySchema>,
     baseAdditionalPersonUrl,
     nextItemIndex,
     deleteAdditionalPerson,
     additionalPersonIdPrefix,
     onEditAdditionalPerson,
+    additionalPersonTranslations: {
+      itemTitle:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigtePersonen"
+        ].de,
+      deletionTitle:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangabenDeletionTitle"
+            : "prozessbevollmaechtigtePersonenDeletionTitle"
+        ].de,
+      addItemLabel:
+        translations.geldEinklagenAnwaltschaft[
+          arrayName === "signaturangaben"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigtePerson"
+        ].de,
+    },
   };
 }

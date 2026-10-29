@@ -36,12 +36,13 @@ export const einzelkanzleiSchema = z.object({
   type: z.literal("einzelkanzlei"),
 });
 
-const berufsausuebungsgesellschaftBevollmaechtigtePersonSchema = z.object({
-  ...personFields,
-  namedInSignature: checkedOptional,
-  berufsbezeichnung: stringOptionalSchema,
-  ...contactFields,
-});
+export const berufsausuebungsgesellschaftBevollmaechtigtePersonSchema =
+  z.object({
+    ...personFields,
+    namedInSignature: checkedOptional,
+    berufsbezeichnung: stringOptionalSchema,
+    ...contactFields,
+  });
 
 export const berufsausuebungsgesellschaftSchema = z.object({
   ...commonProzessbevollmaechtigteFields,
