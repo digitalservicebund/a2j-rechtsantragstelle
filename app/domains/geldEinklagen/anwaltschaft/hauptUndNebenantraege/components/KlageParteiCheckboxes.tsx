@@ -4,6 +4,7 @@ import classNames from "classnames";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
 import { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
+import { translations } from "~/services/translations/translations";
 
 type Props = {
   name: string;
@@ -40,14 +41,13 @@ export const KlageParteiCheckboxes = ({
       })}
     >
       <div className="flex flex-col">
-        <legend className="kern-label">{`${relationship === "beklagte" ? "Beklagte:" : "Klagende:"} ${"Zahlung zu leisten von"}`}</legend>
+        <legend className="kern-label">{`${relationship === "beklagte" ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesBeklagteLabel.de : translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesKlagendeLabel.de} ${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesLeistungLabel.de}`}</legend>
         {selectableParties.length > 0 && (
           <span className="kern-body pb-16!">
-            Wenn Sie mehr als eine Person auswählen, werden die Personen im
-            Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte
-            nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft
-            genannt werden soll. Fügen Sie für getrennte Forderungen gegen
-            einzelne Beklagte bitte separate Zahlungsanträge hinzu.
+            {
+              translations.geldEinklagenAnwaltschaft
+                .bezifferterZahlungsantragCheckboxesHint.de
+            }
           </span>
         )}
       </div>
