@@ -14,10 +14,7 @@ export type ButtonNavigationProps = {
 
 export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
   return (
-    <ButtonContainer
-      reverseOrder={true}
-      className="pt-kern-space-x-large pb-kern-space-x-large"
-    >
+    <ButtonContainer className="pt-kern-space-x-large pb-kern-space-x-large">
       {back?.destination && (
         <Button
           href={back.destination}
