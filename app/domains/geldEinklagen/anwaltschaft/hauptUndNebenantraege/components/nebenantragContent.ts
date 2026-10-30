@@ -19,11 +19,65 @@ type NebenantragItemData =
       item: Annahmeverzug;
     };
 
+const formatPartyNumbers = (numbers: number[]): string => {
+  if (numbers.length === 0) return "";
+
+  return numbers
+    .map((number, index) => (index === 0 ? `${number})` : `zu ${number})`))
+    .join(", ");
+};
+
+const getBeklagteText = (count: number): string =>
+  count === 1 ? "Die Beklagte" : "Die Beklagten";
+
+const getKlagendeText = (count: number): string =>
+  count === 1 ? "die Klagende" : "die Klagenden";
+
+const getVerb = (count: number): string => (count === 1 ? "wird" : "werden");
+
+const getSelectedPartyNumbers = (
+  parties: { id?: string }[] | undefined,
+  selection: Record<string, string> | undefined,
+): number[] =>
+  (parties ?? []).flatMap((party, index) =>
+    party.id && selection?.[party.id] === "on" ? [index + 1] : [],
+  );
+
+export const nebenantragArtLabels: Record<
+  Nebenantrag["nebenantragArt"],
+  string
+> = {
+  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
+  mahnkosten: "Mahnkosten",
+  inkassokosten: "Inkassokosten",
+  adressermittlungskosten: "Kosten der Adressermittlung",
+  ruecklastschriftgebühren: "Rücklastschriftgebühren",
+  pauschale: "Pauschale",
+};
+
 export const getNebenantragItemText = ({
   item,
   type,
-}: NebenantragItemData): string => {
+  userData,
+  hauptantragIndex,
+}: NebenantragItemData & {
+  userData: GeldEinklagenAnwaltschaftUserData;
+  hauptantragIndex: number;
+}): string => {
   if (type === "nebenantrag") {
+    const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
+    console.log("Current Hauptantrag:", hauptantrag);
+
+    const beklagteNumbers = getSelectedPartyNumbers(
+      userData.beklagten,
+      hauptantrag?.beklagte,
+    );
+
+    const klagendeNumbers = getSelectedPartyNumbers(
+      userData.klagenden,
+      hauptantrag?.klagende,
+    );
+
     const interestText = getInterestText({
       rate: item.nebenantragZinssatzInProzent,
       method: item.nebenantragZinsmethode,
@@ -31,9 +85,16 @@ export const getNebenantragItemText = ({
       end: item.nebenantragZinsende,
     });
 
-    return `Die Beklagte(n) 2), zu 3), zu 4) und zu 6) wird(werden) als Gesamtschuldner verurteilt, 
-    an die Klagende(n) zu 1), zu 3), zu 5) und zu 6) als Gesamtgläubiger ${item.nebenantragArt} 
-    in Höhe von ${formatEuro(item.nebenantragBetrag)} Euro nebst Zinsen in Höhe von ${item.nebenantragZinssatzInProzent ? item.nebenantragZinssatzInProzent : ""}${interestText}.`;
+    return `${getBeklagteText(beklagteNumbers.length)} ${formatPartyNumbers(beklagteNumbers)}
+  ${getVerb(beklagteNumbers.length)}
+  ${beklagteNumbers.length > 1 ? "als Gesamtschuldner " : ""}
+  verurteilt,
+ ${getKlagendeText(klagendeNumbers.length)}
+${formatPartyNumbers(klagendeNumbers)}
+  ${nebenantragArtLabels[item.nebenantragArt]}
+  in Höhe von ${formatEuro(item.nebenantragBetrag)} Euro nebst Zinsen in Höhe von ${
+    item.nebenantragZinssatzInProzent ?? ""
+  }${interestText} zu zahlen.`;
   }
 
   if (item.annahmeverzugsFeststellung !== "on") {

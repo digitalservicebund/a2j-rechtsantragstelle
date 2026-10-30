@@ -40,6 +40,7 @@ const ZahlungsAntragUebersicht = () => {
               itemIndex={index}
               item={item}
               index={index}
+              userData={userDataGeldEinklagen}
             />
           ))}
         {shouldDisableAddButton && (

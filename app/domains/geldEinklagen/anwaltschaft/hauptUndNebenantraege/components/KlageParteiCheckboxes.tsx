@@ -88,6 +88,7 @@ export const KlageParteiCheckboxes = ({
                       ),
                     );
                     field.setValue({
+                      ...selectedParties,
                       [id]: newValue,
                     });
                   }}

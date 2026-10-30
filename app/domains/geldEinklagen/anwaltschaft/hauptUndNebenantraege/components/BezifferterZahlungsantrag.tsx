@@ -14,11 +14,13 @@ type BezifferterZahlungsantragProps = {
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["hauptantrag"]
   >[number];
+  readonly userData: GeldEinklagenAnwaltschaftUserData;
 };
 
 export const BezifferterZahlungsantrag = ({
   itemIndex,
   item,
+  userData,
 }: BezifferterZahlungsantragProps) => {
   return (
     <div
@@ -41,12 +43,7 @@ export const BezifferterZahlungsantrag = ({
             </Badge>
           )}
           <div className="flex justify-between items-center">
-            <span className="kern-body max-w-[632px]">
-              Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner
-              verurteilt, an die Klagende zu 2) 1.200,00 Euro nebst Zinsen in
-              Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz p.a.
-              seit Rechtshängigkeit zu zahlen.
-            </span>
+            <span className="kern-body max-w-[632px]"></span>
             <Button
               look="secondary"
               iconLeft={
@@ -64,6 +61,7 @@ export const BezifferterZahlungsantrag = ({
             parentArrayItemIndex={itemIndex}
             nebenantrag={item.nebenantrag}
             annahmeverzug={item.annahmeverzug}
+            userData={userData}
           />
           <div className="flex justify-end mt-24">
             <Button
