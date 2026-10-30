@@ -102,19 +102,11 @@ export const renderSpecialMetaDescriptions = (
 
   switch (description) {
     case filesUploadZodDescription: {
-      const fileUploadTitle =
-        matchingElement && "title" in matchingElement
-          ? matchingElement.title
-          : undefined;
-      const fileUploadDescription =
-        matchingElement && "description" in matchingElement
-          ? matchingElement.description
-          : undefined;
-
-      const fileUploadInlineNotices =
-        matchingElement && "inlineNotices" in matchingElement
-          ? matchingElement.inlineNotices
-          : undefined;
+      const {
+        fileUploadDescription,
+        fileUploadInlineNotices,
+        fileUploadTitle,
+      } = getFileUploadContent(matchingElement);
 
       return (
         <FilesUpload
@@ -250,3 +242,21 @@ function getMinMaxValueByFieldSchema(fieldSchema: z.ZodType) {
   const maxValue = fieldSchema.maxValue ?? undefined;
   return { minValue, maxValue };
 }
+
+const getFileUploadContent = (matchingElement?: StrapiFormComponent) => {
+  const fileUploadTitle =
+    matchingElement && "title" in matchingElement
+      ? matchingElement.title
+      : undefined;
+  const fileUploadDescription =
+    matchingElement && "description" in matchingElement
+      ? matchingElement.description
+      : undefined;
+
+  const fileUploadInlineNotices =
+    matchingElement && "inlineNotices" in matchingElement
+      ? matchingElement.inlineNotices
+      : undefined;
+
+  return { fileUploadTitle, fileUploadDescription, fileUploadInlineNotices };
+};

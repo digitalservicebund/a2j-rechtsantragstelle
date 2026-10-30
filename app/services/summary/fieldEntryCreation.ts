@@ -90,7 +90,7 @@ const getValueAndArrayData = (
       parentValue.some((obj) => Object.hasOwn(obj, "filename"))
     ) {
       const fileNames = parentValue
-        .filter((obj) => Object.hasOwn(obj, "filename"))
+        .filter((obj) => "filename" in obj && typeof obj.filename === "string")
         .map((value) => value.filename)
         .join(", ");
 
