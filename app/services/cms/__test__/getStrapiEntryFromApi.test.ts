@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getStrapiEntryFromApi } from "~/services/cms/getStrapiEntryFromApi";
-import { stagingLocale } from "~/services/cms/models/StrapiLocale";
-import type { GetStrapiEntryOpts } from "../schemas";
+import { defaultLocale } from "~/services/cms/models/StrapiLocale";
+import type { GetStrapiEntryApiOpts } from "../schemas";
 
 const API_URL = "test://cms/api/";
 
@@ -16,12 +16,13 @@ describe("services/cms", () => {
 
   describe("getStrapiEntryFromApi", () => {
     const dataResponse = [{ testField: "testData" }];
-    const defaultOptions: GetStrapiEntryOpts<"pages"> = {
+    const defaultOptions: GetStrapiEntryApiOpts<"pages"> = {
       apiId: "pages",
-      locale: stagingLocale,
+      locale: defaultLocale,
       pLevel: 5,
+      showDraftVersion: false,
     };
-    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=5&locale=sg`;
+    const expectedStagingRequestUrl = `${API_URL}pages?populate=*&pLevel=5&locale=de`;
 
     const axiosGetSpy = vi.spyOn(axios, "get");
 
@@ -70,6 +71,19 @@ describe("services/cms", () => {
       expect(axiosGetSpy).toHaveBeenNthCalledWith(
         1,
         `${expectedStagingRequestUrl}&filters[flow_ids][flowId][$eq]=foobar&filters[stepId][$eq]=foobar`,
+        expect.anything(),
+      );
+    });
+
+    test("request url with draft version", async () => {
+      await getStrapiEntryFromApi({
+        ...defaultOptions,
+        showDraftVersion: true,
+        filters: [{ value: "foobar", field: "slug" }],
+      });
+      expect(axiosGetSpy).toHaveBeenNthCalledWith(
+        1,
+        `${expectedStagingRequestUrl}&filters[slug][$eq]=foobar&status=draft`,
         expect.anything(),
       );
     });
