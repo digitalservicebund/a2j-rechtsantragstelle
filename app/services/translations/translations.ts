@@ -740,6 +740,9 @@ export const translations = {
     gesetzlicheVetretungHeadline: {
       de: "Gesetzliche Vertretung",
     },
+    gesetzlicheVetretungDeletionTitle: {
+      de: "Gesetzliche Vertretung löschen?",
+    },
     gesetzlicheVetretungOrganisationHeadline: {
       de: "Weitere gesetzliche Vertretung",
     },

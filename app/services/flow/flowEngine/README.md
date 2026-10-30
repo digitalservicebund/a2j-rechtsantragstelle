@@ -145,6 +145,7 @@ Array pages have an `arraySummary` config and a transition with `type: "addArray
 
 - **Within simulation:** With `traverseArrays: true` (always used during session evaluation), Pass 1 walks into array item pages. Guards on array item pages receive the full session data — including `pageData.arrayIndexes` — not a scoped item view.
 - **Navigation:** `nextPath` skips `addArrayItem` transitions, returning the next main-branch step. The route handler uses `arrayIndexes` from the URL to resolve the actual array item URL.
+- **Completion:** Array summaries validate the full `arraySummary.schema`, including array bounds and nested item requirements, unless `isArrayRelevant` returns `false`. Missing arrays are validated as empty arrays. Individual page schemas are still validated separately.
 
 ### Progress
 

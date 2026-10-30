@@ -6,6 +6,7 @@ import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { grundbuchauszugAntragPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GrundbuchauszugAntragUserData } from "./userData";
+import { arrayIsNonEmpty } from "~/util/array";
 
 const isPersoenlichenDatenDone = (context: GrundbuchauszugAntragUserData) => {
   return context.pageData?.subflowDoneStates?.["/persoenliche-daten"] === true;
@@ -18,22 +19,31 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
     start: "antragsgrundBerechtigtesInteresse",
     antragsgrundBerechtigtesInteresse: [
       {
+        guard: (context) => context.legitimateInterest === "owner",
+        target: "grundstuecksdaten",
+      },
+      {
         guard: (context) =>
           context.legitimateInterest === "landRegisterOnMyName",
         target: "antragsgrundAngabenZumRecht",
       },
       {
-        guard: (context) => objectKeysNonEmpty(context, ["legitimateInterest"]),
+        guard: (context) => context.legitimateInterest === "otherReasons",
         target: "antragsgrundNachweisHochladen",
       },
     ],
     antragsgrundAngabenZumRecht: [
       {
         guard: (context) => objectKeysNonEmpty(context, ["registerLaw"]),
-        target: "antragsgrundNachweisHochladen",
+        target: "grundstuecksdaten",
       },
     ],
-    antragsgrundNachweisHochladen: "grundstuecksdaten",
+    antragsgrundNachweisHochladen: [
+      {
+        guard: (context) => arrayIsNonEmpty(context.proofFiles),
+        target: "grundstuecksdaten",
+      },
+    ],
     grundstuecksdaten: [
       {
         guard: (context) =>

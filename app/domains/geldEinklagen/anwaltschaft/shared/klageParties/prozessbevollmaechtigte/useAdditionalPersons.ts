@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import type z from "zod";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
@@ -7,12 +6,17 @@ import {
   getProzessbevollmaechtigteArrayName,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
-  type signaturangabenArraySchema,
+  type BeklagteBerufsausuebungsgesellschaft,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { translations } from "~/services/translations/translations";
+
+type AdditionalPerson =
+  | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number]
+  | BerufsausuebungsgesellschaftProzessbevollmaechtigt["signaturangaben"][number]
+  | BeklagteBerufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number];
 
 const getBaseAdditionalPersonUrl = (
   relationship: KlageParteiVerhaeltnis,
@@ -26,6 +30,7 @@ export function useAdditionalPersons(
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
     | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaft
     | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   relationship: KlageParteiVerhaeltnis,
   parentArrayItemIndex: number,
@@ -37,25 +42,38 @@ export function useAdditionalPersons(
     berufsausuebungsgesellschaftIsProzessbevollmaechtigt
       ? "signaturangaben"
       : "prozessbevollmaechtigte-personen";
-  const deleteArrayItem = useDeleteArrayItem(
-    `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
-  );
-  const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
-    "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
-      ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
-      : undefined;
-  const personsArray =
-    arrayName === "signaturangaben" &&
-    "signaturangaben" in berufsausuebungsgesellschaft
-      ? berufsausuebungsgesellschaft.signaturangaben
-      : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
-  const nextItemIndex = personsArray?.length ?? 0;
   const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
     relationship,
     parentArrayItemIndex,
     arrayName,
   );
   const additionalPersonIdPrefix = `${relationship}-prozessbevollmaechtigte-${parentArrayItemIndex}-${arrayName}`;
+
+  const focusAdditionalPerson = (index: number) => {
+    setTimeout(() => {
+      const element =
+        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-add`);
+      element?.focus();
+    }, 100);
+  };
+
+  const deleteAdditionalPerson = useDeleteArrayItem(
+    `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
+    baseAdditionalPersonUrl,
+    focusAdditionalPerson,
+  );
+  const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
+    "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      : undefined;
+  const personsArray: AdditionalPerson[] | undefined =
+    arrayName === "signaturangaben" &&
+    "signaturangaben" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft.signaturangaben
+      : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
+  const nextItemIndex = personsArray?.length ?? 0;
   const focusStorageKey = `focus-${additionalPersonIdPrefix}`;
 
   useEffect(() => {
@@ -79,20 +97,8 @@ export function useAdditionalPersons(
     sessionStorage.setItem(focusStorageKey, String(index));
   };
 
-  const deleteAdditionalPerson = (index: number) => async () => {
-    await deleteArrayItem(baseAdditionalPersonUrl, index);
-    setTimeout(() => {
-      const element =
-        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-add`);
-      element?.focus();
-    }, 100);
-  };
   return {
-    personsArray: personsArray as
-      | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
-      | z.infer<typeof signaturangabenArraySchema>,
+    personsArray,
     baseAdditionalPersonUrl,
     nextItemIndex,
     deleteAdditionalPerson,

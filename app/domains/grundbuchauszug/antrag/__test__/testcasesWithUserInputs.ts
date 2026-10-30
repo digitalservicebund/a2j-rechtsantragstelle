@@ -14,9 +14,6 @@ export const grundbuchauszugAntragTestCases = {
         userInput: { legitimateInterest: "owner" },
       },
       {
-        stepId: "/antragsgrund/nachweis-hochladen",
-      },
-      {
         stepId: "/grundstuecksdaten",
       },
     ],
@@ -32,10 +29,6 @@ export const grundbuchauszugAntragTestCases = {
         stepId: "/antragsgrund/angaben-zum-recht",
         userInput: { registerLaw: "something" },
       },
-
-      {
-        stepId: "/antragsgrund/nachweis-hochladen",
-      },
       {
         stepId: "/grundstuecksdaten",
       },
@@ -50,6 +43,16 @@ export const grundbuchauszugAntragTestCases = {
       },
       {
         stepId: "/antragsgrund/nachweis-hochladen",
+        userInput: {
+          proofFiles: [
+            {
+              filename: "filename",
+              fileSize: 100,
+              fileType: "application/pdf",
+              savedFileKey: "savedFileKey",
+            },
+          ],
+        },
       },
       {
         stepId: "/grundstuecksdaten",
@@ -59,7 +62,7 @@ export const grundbuchauszugAntragTestCases = {
       {
         stepId: "/grundstuecksdaten",
         userInput: {
-          legitimateInterest: "otherReasons",
+          legitimateInterest: "owner",
           landRegistryLocale: "landRegistryLocale",
           landRegisterParcel: "landRegisterParcel",
           landRegisterPageNumber: 1,

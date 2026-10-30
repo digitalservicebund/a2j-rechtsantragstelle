@@ -93,8 +93,11 @@ export function HubPage() {
             xlColumn={{ start: 10, span: 3 }}
             row={3}
           >
-            <aside aria-label={translations.hubPages.navigationLabel.de}>
-              <nav aria-labelledby="navigation-label">
+            <div>
+              <nav
+                aria-labelledby="navigation-label"
+                aria-label={translations.hubPages.navigationLabel.de}
+              >
                 <Label
                   tagName="h2"
                   text={translations.hubPages.navigationLabel.de}
@@ -106,7 +109,7 @@ export function HubPage() {
                   navItems={navItems}
                 ></NavigationList>
               </nav>
-            </aside>
+            </div>
           </GridItem>
         </Grid>
       </GridSection>

@@ -19,6 +19,10 @@ const organisation = {
   land: "Deutschland",
 } satisfies KlageParteien[number];
 
+vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
+  useDeleteArrayItem: vi.fn(),
+}));
+
 describe("KlagePartei", () => {
   it("always includes the legal-representation deletion text for organisations", () => {
     render(
