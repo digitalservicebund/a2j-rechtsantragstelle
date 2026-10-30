@@ -31,7 +31,11 @@ describe.each(["klagende", "beklagte"] as const)(
           ? "/klagende-partei/klagenden/uebersicht"
           : "/beklagte-partei/beklagten/uebersicht",
       );
-      expect(session.isReachable("/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht")).toBe(true);
+      expect(
+        session.isReachable(
+          "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        ),
+      ).toBe(true);
       expect(
         Object.keys(
           session.statusTree[`/${relationship}-partei`]?.children ?? {},

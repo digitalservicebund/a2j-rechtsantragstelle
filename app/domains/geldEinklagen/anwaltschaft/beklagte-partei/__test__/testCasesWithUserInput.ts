@@ -56,7 +56,8 @@ export const beklagteParteiTestCases = {
       stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
-      stepId: "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+      stepId:
+        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withBeklagteBevollmaechtigteGesellschaft: [
@@ -117,7 +118,8 @@ export const beklagteParteiTestCases = {
       stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
-      stepId: "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+      stepId:
+        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withNaturalPerson: [
@@ -149,7 +151,8 @@ export const beklagteParteiTestCases = {
       stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     },
     {
-      stepId: "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+      stepId:
+        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withOrganization: [
