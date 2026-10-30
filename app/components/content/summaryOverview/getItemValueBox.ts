@@ -2,23 +2,17 @@ import type {
   FieldItems,
   InlineItems,
 } from "~/components/content/summaryOverview/types";
-import type { AllowedUserTypes, UserData } from "~/domains/userData";
+import type { UserData } from "~/domains/userData";
 import { arrayChar } from "~/services/array";
 import { type Translations } from "~/services/translations/getTranslationByKey";
 import {
+  isItemValueTimeObject,
   toTimeString,
-  type TimeObject,
 } from "~/services/validation/timeObject";
-
-const isItemValueTimeObject = (
-  itemValue: AllowedUserTypes,
-): itemValue is TimeObject => {
-  return (
-    typeof itemValue === "object" &&
-    "hour" in itemValue &&
-    "minute" in itemValue
-  );
-};
+import {
+  isItemValueDateObject,
+  toDateString,
+} from "~/services/validation/dateObject";
 
 const getNestedValue = (userData: UserData, fieldName: string): string => {
   const [nestedObjectName, nestedValueName] = fieldName.split(".");
@@ -26,6 +20,10 @@ const getNestedValue = (userData: UserData, fieldName: string): string => {
 
   if (isItemValueTimeObject(nestedObject)) {
     return toTimeString(nestedObject);
+  }
+
+  if (isItemValueDateObject(nestedObject)) {
+    return toDateString(nestedObject);
   }
 
   if (typeof nestedObject === "object") {
