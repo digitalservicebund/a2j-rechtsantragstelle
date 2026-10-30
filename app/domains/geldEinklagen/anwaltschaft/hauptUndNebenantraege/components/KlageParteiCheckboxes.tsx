@@ -1,6 +1,6 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-
+import { useState } from "react";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
 import { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
@@ -32,8 +32,13 @@ export const KlageParteiCheckboxes = ({
       : {};
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
-
   const selectableParties = parties.filter((party) => party.id);
+  const [checkboxes, setCheckboxes] = useState(
+    selectableParties.map((party) => ({
+      id: party.id!,
+      value: selectedParties[party.id!] ?? "off",
+    })),
+  );
 
   return (
     <fieldset
@@ -56,10 +61,10 @@ export const KlageParteiCheckboxes = ({
         )}{" "}
       </div>
       <div className="kern-fieldset__body">
-        {selectableParties.map((party, index) => {
-          const id = party.id!;
+        {checkboxes.map(({ id, value }, index) => {
+          const party = selectableParties[index];
           const checkboxName = `${name}.${id}`;
-          const value = selectedParties[id] ?? "off";
+
           return (
             <div key={id} className="flex items-center">
               <div className="kern-form-check">
@@ -68,24 +73,23 @@ export const KlageParteiCheckboxes = ({
                   name={checkboxName}
                   id={checkboxName}
                   className="kern-form-check__checkbox"
-                  checked={selectedParties[id] === "on"}
+                  checked={value === "on"}
                   value="on"
                   onChange={(event) => {
                     const newValue = event.target.checked ? "on" : "off";
-
+                    setCheckboxes((prev) =>
+                      prev.map((checkbox) =>
+                        checkbox.id === id
+                          ? { ...checkbox, value: newValue }
+                          : checkbox,
+                      ),
+                    );
                     field.setValue({
-                      ...selectedParties,
+                      ...(field.value() ?? {}),
                       [id]: newValue,
                     });
-                    const nextParties = {
-                      ...selectedParties,
-                      [id]: newValue,
-                    };
-
-                    field.setValue(nextParties);
                   }}
                 />
-
                 <InputLabel
                   name={checkboxName}
                   label={
