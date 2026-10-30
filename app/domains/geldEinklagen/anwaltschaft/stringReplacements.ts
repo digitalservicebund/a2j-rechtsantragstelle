@@ -58,3 +58,19 @@ export const getKanzleiStrings = (
     beklagteKanzleiName: beklagteKanzlei?.name ?? "",
   };
 };
+
+// TODO: Fix when Antrag entry is working and all prerequesites live in UserData
+export const getAntraegeStrings = (
+  _context: GeldEinklagenAnwaltschaftUserData,
+) => {
+  return { keineAntraege: false };
+  // if (!context.hauptantrag && !context.sonstigeNebenUndProzessantraege)
+  //   return {
+  //     keineAntraege: true,
+  //   };
+  // return {
+  //   keineAntraege:
+  //     context.hauptantrag?.length === 0 &&
+  //     context.sonstigeNebenUndProzessantraege?.length === 0,
+  // };
+};

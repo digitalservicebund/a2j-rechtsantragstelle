@@ -5,6 +5,7 @@ import {
   getBeklagteStrings,
   getKanzleiStrings,
   getKlagendeStrings,
+  getAntraegeStrings,
 } from "~/domains/geldEinklagen/anwaltschaft/stringReplacements";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacements";
@@ -18,7 +19,7 @@ export const geldEinklagenAnwaltschaft = {
     ...getKlagendeStrings(context),
     ...getBeklagteStrings(context),
     ...getKanzleiStrings(context),
-    keineAntraege: false, // TODO: return true if no Antraege exist
+    ...getAntraegeStrings(context),
   }),
   posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
