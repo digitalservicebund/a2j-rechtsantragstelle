@@ -6,6 +6,12 @@ export const pageUrls = [
   "/beratungshilfe/kostenguenstigeBeratungsstellen",
   "/prozesskostenhilfe",
   "/fluggastrechte",
+  "/finanzielle-hilfen",
+  "/nachlass",
+  "/erbausschlagung",
+  "/geld-einklagen",
+  "/kontopfaendung",
+  "/mein-Justizpostfach-einrichten",
 ];
 
 export const flowUrls = [
