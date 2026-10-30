@@ -24,9 +24,12 @@ export const KlageParteiCheckboxes = ({
   parties,
   relationship,
 }: Props) => {
-  const field = useField<string[] | undefined>(name);
-
-  const selectedIds = field.value() ?? [];
+  const field = useField<Record<string, string> | undefined>(name);
+  const fieldValue = field.value();
+  const selectedParties =
+    fieldValue && typeof fieldValue === "object" && !Array.isArray(fieldValue)
+      ? fieldValue
+      : {};
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
 
@@ -36,6 +39,7 @@ export const KlageParteiCheckboxes = ({
     <fieldset
       aria-invalid={hasError}
       aria-describedby={hasError ? errorId : undefined}
+      aria-errormessage={hasError ? errorId : undefined}
       className={classNames("kern-fieldset", {
         "kern-fieldset--error": hasError,
       })}
@@ -49,35 +53,41 @@ export const KlageParteiCheckboxes = ({
                 .bezifferterZahlungsantragCheckboxesHint.de
             }
           </span>
-        )}
+        )}{" "}
       </div>
       <div className="kern-fieldset__body">
         {selectableParties.map((party, index) => {
           const id = party.id!;
-
+          const checkboxName = `${name}.${id}`;
+          const value = selectedParties[id] ?? "off";
           return (
             <div key={id} className="flex items-center">
               <div className="kern-form-check">
                 <input
                   type="checkbox"
-                  name={name}
-                  id={`${name}-${id}`}
-                  value={id}
-                  className={classNames("kern-form-check__checkbox", {
-                    "kern-form-check__checkbox--error": hasError,
-                  })}
-                  checked={selectedIds.includes(id)}
+                  name={checkboxName}
+                  id={checkboxName}
+                  className="kern-form-check__checkbox"
+                  checked={selectedParties[id] === "on"}
+                  value="on"
                   onChange={(event) => {
-                    const nextIds = event.target.checked
-                      ? [...selectedIds, id]
-                      : selectedIds.filter((selectedId) => selectedId !== id);
+                    const newValue = event.target.checked ? "on" : "off";
 
-                    field.setValue(nextIds);
+                    field.setValue({
+                      ...selectedParties,
+                      [id]: newValue,
+                    });
+                    const nextParties = {
+                      ...selectedParties,
+                      [id]: newValue,
+                    };
+
+                    field.setValue(nextParties);
                   }}
                 />
 
                 <InputLabel
-                  name={`${name}-${id}`}
+                  name={checkboxName}
                   label={
                     <>
                       <strong>zu {index + 1})</strong> {getPartyLabel(party)}

@@ -43,23 +43,20 @@ const annahmeverzugArraySchema = z.array(
   }),
 );
 const selectedBeklagteSchema = z
-  .array(
-    z.object({
-      id: z.uuid(),
-    }),
+  .record(z.uuid(), z.enum(["on", "off"]))
+  .refine(
+    (parties) => Object.values(parties).some((value) => value === "on"),
+    "Bitte wählen Sie mindestens eine Beklagte aus",
   )
-  .min(1, "Bitte wählen Sie mindestens eine Beklagte aus")
   .describe(klageParteiCheckboxesZodDescription);
 
 const selectedKlagendeSchema = z
-  .array(
-    z.object({
-      id: z.uuid(),
-    }),
+  .record(z.uuid(), z.enum(["on", "off"]))
+  .refine(
+    (parties) => Object.values(parties).some((value) => value === "on"),
+    "Bitte wählen Sie mindestens eine Klagende aus",
   )
-  .min(1, "Bitte wählen Sie mindestens eine Klagende aus")
   .describe(klageParteiCheckboxesZodDescription);
-
 const hauptantragArraySchema = z.array(
   z
     .object({
