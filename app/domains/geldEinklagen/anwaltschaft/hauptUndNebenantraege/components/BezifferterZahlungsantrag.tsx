@@ -5,7 +5,7 @@ import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
 import { translations } from "~/services/translations/translations";
 
-export const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
+const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
 
 type BezifferterZahlungsantragProps = {
