@@ -8,7 +8,7 @@ export const sonstigeNebenUndProzessantraegeFlowConfig = {
       target: "sonstigeNebenUndProzessantraegeAntrag",
     },
     {
-      target: "rechtlicheWuerdigung",
+      target: "tatsachenvortragBeweiseUebersicht",
     },
   ],
   sonstigeNebenUndProzessantraegeAntrag:

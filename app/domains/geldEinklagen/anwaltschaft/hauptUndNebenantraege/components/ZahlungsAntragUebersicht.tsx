@@ -7,7 +7,7 @@ import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 
-export const BASE_URL_ZAHLUNGS_ANTRAG =
+const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
 
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
