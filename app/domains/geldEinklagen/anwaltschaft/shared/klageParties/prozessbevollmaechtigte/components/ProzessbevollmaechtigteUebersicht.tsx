@@ -8,12 +8,10 @@ import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySch
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
+  MAX_PROZESSBEVOLLMAECHTIGTE,
 } from "../prozessbevollmaechtigteHelpers";
 import { focusOnProzessbevollmaechtigteTitle } from "../prozessbevollmaechtigteFocus";
-import {
-  MAX_PROZESSBEVOLLMAECHTIGTE,
-  type ProzessbevollmaechtigteType,
-} from "../prozessbevollmaechtigteSchemas";
+import { type ProzessbevollmaechtigteType } from "../prozessbevollmaechtigteSchemas";
 import {
   useProzessbevollmaechtigte,
   type ProzessbevollmaechtigteWithArrayIndex,

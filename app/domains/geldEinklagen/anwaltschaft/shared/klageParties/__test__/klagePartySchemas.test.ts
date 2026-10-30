@@ -1,5 +1,5 @@
+import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import {
-  getGesetzlicheVertretungArtLabel,
   naturalPersonGesetzlicheVertretungArt,
   organizationSchema,
 } from "../../klageParties/klagePartySchemas";

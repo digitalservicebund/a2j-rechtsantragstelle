@@ -171,6 +171,16 @@ describe("klagendeParteiPages", () => {
             omit(plaintiff, "parteiverhaeltnis"),
           ),
         });
+        const restoredSession = createFlowSession(
+          geldEinklagenAnwaltschaftFlowConfig,
+          session.prunedUserData,
+          klagendeParteiPages.klagendeUebersicht.stepId,
+        );
+        expect(
+          restoredSession.statusTree["/klagende-partei"]?.children?.[
+            "/klagenden"
+          ]?.isDone,
+        ).toBe(true);
       },
     );
 
