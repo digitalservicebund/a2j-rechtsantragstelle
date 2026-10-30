@@ -32,6 +32,8 @@ import {
   getPersonenToBeReusedFromOtherAbschnitte,
 } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
+import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/KlageParteiCheckboxes";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -42,6 +44,7 @@ const specialComponentDescriptions = [
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
   reuseBeweisZodDescription,
+  klageParteiCheckboxesZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -227,6 +230,31 @@ export const renderSpecialMetaDescriptions = (
           key={fieldName}
           name={fieldName}
           options={beweisOptions}
+        />
+      );
+    }
+    case klageParteiCheckboxesZodDescription: {
+      const geldEinklagenUserData =
+        userData as GeldEinklagenFormularUserData & {
+          klagenden?: React.ComponentProps<
+            typeof KlageParteiCheckboxes
+          >["parties"];
+          beklagten?: React.ComponentProps<
+            typeof KlageParteiCheckboxes
+          >["parties"];
+        };
+      const isBeklagte = fieldName.endsWith("#beklagte");
+
+      const parties = isBeklagte
+        ? (geldEinklagenUserData.beklagten ?? [])
+        : (geldEinklagenUserData.klagenden ?? []);
+
+      return (
+        <KlageParteiCheckboxes
+          key={fieldName}
+          name={fieldName}
+          parties={parties}
+          relationship={isBeklagte ? "beklagte" : "klagende"}
         />
       );
     }

@@ -4,6 +4,8 @@ import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anw
 import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { sonstigeNebenUndProzessantraegeTestCases } from "../sonstigeNebenUndProzessantraege/__test__/testcasesSonstigeNebenUndProzessantraege";
+import { hauptUndNebenantraegeTestCases } from "../hauptUndNebenantraege/__test__/testcasesHauptUndNebenantraege";
+import { tatsachenvortragTestCases } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/__test__/testCasesWithUserInput";
 
 export const geldEinklagenAnwaltschaftTestCases = {
   config: geldEinklagenAnwaltschaftFlowConfig,
@@ -28,7 +30,9 @@ export const geldEinklagenAnwaltschaftTestCases = {
     ],
     ...klagendeParteiTestCases,
     ...beklagteParteiTestCases,
+    ...hauptUndNebenantraegeTestCases,
     ...sonstigeNebenUndProzessantraegeTestCases,
+    ...tatsachenvortragTestCases,
     rechtlicheWuerdigung: [
       {
         stepId: "/rechtliche-wuerdigung",
@@ -37,7 +41,7 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
       {
-        stepId: "/sonstige-neben-und-prozessantraege/uebersicht",
+        stepId: "/klage-herunterladen",
       },
     ],
   },
