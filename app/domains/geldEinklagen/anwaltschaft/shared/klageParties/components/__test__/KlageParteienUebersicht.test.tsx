@@ -20,6 +20,8 @@ vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 
+vi.mock("~/components/hooks/useDeleteArrayItem");
+
 const naturalPerson = {
   type: "natuerliche-person",
   index: 1,

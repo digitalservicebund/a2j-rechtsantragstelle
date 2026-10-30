@@ -6,6 +6,7 @@ import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { grundbuchauszugAntragPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GrundbuchauszugAntragUserData } from "./userData";
+import { arrayIsNonEmpty } from "~/util/array";
 
 const isPersoenlichenDatenDone = (context: GrundbuchauszugAntragUserData) => {
   return context.pageData?.subflowDoneStates?.["/persoenliche-daten"] === true;
@@ -37,7 +38,12 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
         target: "grundstuecksdaten",
       },
     ],
-    antragsgrundNachweisHochladen: "grundstuecksdaten",
+    antragsgrundNachweisHochladen: [
+      {
+        guard: (context) => arrayIsNonEmpty(context.proofFiles),
+        target: "grundstuecksdaten",
+      },
+    ],
     grundstuecksdaten: [
       {
         guard: (context) =>

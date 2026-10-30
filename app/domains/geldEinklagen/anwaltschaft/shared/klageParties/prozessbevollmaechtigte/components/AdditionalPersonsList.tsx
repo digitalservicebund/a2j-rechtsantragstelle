@@ -115,7 +115,6 @@ export const AdditionalPersonsList = ({
                 />
                 <DeleteButton
                   title={additionalPersonTranslations.deletionTitle}
-                  label={""}
                   className={
                     "border-1! border-kern-feedback-danger! px-8! min-w-48!"
                   }
@@ -148,7 +147,7 @@ export const AdditionalPersonsList = ({
                       </div>
                     </div>
                   }
-                  onDelete={deleteAdditionalPerson(index)}
+                  onDelete={() => deleteAdditionalPerson(index)}
                 />
               </div>
             </div>
