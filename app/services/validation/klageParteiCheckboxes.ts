@@ -1,2 +1,1 @@
-export const klageParteiCheckboxesZodDescription =
-  "klageParteiCheckboxes";
+export const klageParteiCheckboxesZodDescription = "klageParteiCheckboxes";

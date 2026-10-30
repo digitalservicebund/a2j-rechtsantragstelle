@@ -804,10 +804,10 @@ export const translations = {
       de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft genannt werden soll. Fügen Sie für getrennte Forderungen gegen einzelne Beklagte bitte separate Zahlungsanträge hinzu.",
     },
     bezifferterZahlungsantragCheckboxesBeklagteLabel: {
-      de: "Beklagte:"
+      de: "Beklagte:",
     },
-    bezifferterZahlungsantragCheckboxesKlagendeLabel:{
-      de: "Klagende:"
+    bezifferterZahlungsantragCheckboxesKlagendeLabel: {
+      de: "Klagende:",
     },
     bezifferterZahlungsantragCheckboxesLeistungLabel: {
       de: "Zahlung zu leisten von",

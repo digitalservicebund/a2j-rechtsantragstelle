@@ -1,5 +1,5 @@
 import z from "zod";
-import { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/domains/pageSchemas";
 import {
   checkedOptional,
   checkedRequired,

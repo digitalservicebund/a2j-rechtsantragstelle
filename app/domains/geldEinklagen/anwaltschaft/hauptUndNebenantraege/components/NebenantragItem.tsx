@@ -2,7 +2,7 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
 import { getNebenantragItemText } from "./nebenantragContent";
-import { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
@@ -38,28 +38,27 @@ export const NebenantragItem = ({
   nebenantrag,
   annahmeverzug,
 }: NebenantragItemProps) => {
-
   const nebenantragItems: Nebenantrag[] = (nebenantrag ?? []).map(
-  (item, index) => ({
-    item,
-    index,
-    type: "nebenantrag",
-  }),
-);
+    (item, index) => ({
+      item,
+      index,
+      type: "nebenantrag",
+    }),
+  );
 
-const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
-  (item, index) => ({
-    item,
-    index,
-    type: "annahmeverzug",
-  }),
-);
+  const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
+    (item, index) => ({
+      item,
+      index,
+      type: "annahmeverzug",
+    }),
+  );
 
-const items: NebenantragItemData[] = [
-  ...nebenantragItems,
-  ...annahmeverzugItems,
-];
- 
+  const items: NebenantragItemData[] = [
+    ...nebenantragItems,
+    ...annahmeverzugItems,
+  ];
+
   const nextNebenantragIndex = (nebenantrag ?? []).length;
   const nextAnnahmeverzugIndex = (annahmeverzug ?? []).length;
 
@@ -83,41 +82,41 @@ const items: NebenantragItemData[] = [
       {items.map((entry) => {
         const { index, type } = entry;
         return (
-        <div
-          key={`hauptantrag-${parentArrayItemIndex}-${type}-${index}`}
-          className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
-        >
-          <div className="kern-body kern-body--default text-pretty flex flex-col">
-            <span className="kern-body max-w-[528px]">
-              {getNebenantragItemText(entry)}
-            </span>
+          <div
+            key={`hauptantrag-${parentArrayItemIndex}-${type}-${index}`}
+            className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
+          >
+            <div className="kern-body kern-body--default text-pretty flex flex-col">
+              <span className="kern-body max-w-[528px]">
+                {getNebenantragItemText(entry)}
+              </span>
+            </div>
+            <div className="flex gap-24">
+              <Button
+                look="secondary"
+                iconLeft={
+                  <Icon
+                    name="edit"
+                    className="size-kern-dimension-default text-kern-action-default"
+                  />
+                }
+                aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} bearbeiten`}
+                href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${index}/daten`}
+                className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
+              />
+              <Button
+                look="secondary"
+                iconLeft={
+                  <Icon
+                    name="trash"
+                    className="size-kern-dimension-default text-kern-feedback-danger"
+                  />
+                }
+                aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} löschen`}
+                className="p-kern-space-small! min-h-0! border-kern-feedback-danger! size-kern-dimension-x-large"
+              />
+            </div>
           </div>
-          <div className="flex gap-24">
-            <Button
-              look="secondary"
-              iconLeft={
-                <Icon
-                  name="edit"
-                  className="size-kern-dimension-default text-kern-action-default"
-                />
-              }
-              aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} bearbeiten`}
-              href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${index}/daten`}
-              className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
-            />
-            <Button
-              look="secondary"
-              iconLeft={
-                <Icon
-                  name="trash"
-                  className="size-kern-dimension-default text-kern-feedback-danger"
-                />
-              }
-              aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} löschen`}
-              className="p-kern-space-small! min-h-0! border-kern-feedback-danger! size-kern-dimension-x-large"
-            />
-          </div>
-        </div>
         );
       })}
       <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">

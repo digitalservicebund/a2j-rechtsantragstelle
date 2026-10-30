@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
-import { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
+import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 import { translations } from "~/services/translations/translations";
 
 type Props = {
@@ -68,6 +68,9 @@ export const KlageParteiCheckboxes = ({
           return (
             <div key={id} className="flex items-center">
               <div className="kern-form-check">
+                {value !== "on" && (
+                  <input type="hidden" name={checkboxName} value="off" />
+                )}
                 <input
                   type="checkbox"
                   name={checkboxName}
@@ -85,7 +88,6 @@ export const KlageParteiCheckboxes = ({
                       ),
                     );
                     field.setValue({
-                      ...(field.value() ?? {}),
                       [id]: newValue,
                     });
                   }}

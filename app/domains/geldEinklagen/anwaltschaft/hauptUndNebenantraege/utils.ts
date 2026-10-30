@@ -5,9 +5,7 @@ export const formatEuro = (amount: number) =>
   }).format(amount);
 
 export const formatSplitDate = (
-  date:
-    | { day?: string; month?: string; year?: string }
-    | undefined,
+  date: { day?: string; month?: string; year?: string } | undefined,
 ) => {
   if (!date?.day || !date?.month || !date?.year) {
     return undefined;

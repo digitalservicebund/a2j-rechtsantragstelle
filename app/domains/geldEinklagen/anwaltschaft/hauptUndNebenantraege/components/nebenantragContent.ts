@@ -24,14 +24,13 @@ export const getNebenantragItemText = ({
   type,
 }: NebenantragItemData): string => {
   if (type === "nebenantrag") {
-
     const interestText = getInterestText({
-    rate: item.nebenantragZinssatzInProzent,
-    method: item.nebenantragZinsmethode,
-    start: item.nebenantragZinsbeginn,
-    end: item.nebenantragZinsende,
-  });
-  
+      rate: item.nebenantragZinssatzInProzent,
+      method: item.nebenantragZinsmethode,
+      start: item.nebenantragZinsbeginn,
+      end: item.nebenantragZinsende,
+    });
+
     return `Die Beklagte(n) 2), zu 3), zu 4) und zu 6) wird(werden) als Gesamtschuldner verurteilt, 
     an die Klagende(n) zu 1), zu 3), zu 5) und zu 6) als Gesamtgläubiger ${item.nebenantragArt} 
     in Höhe von ${formatEuro(item.nebenantragBetrag)} Euro nebst Zinsen in Höhe von ${item.nebenantragZinssatzInProzent ? item.nebenantragZinssatzInProzent : ""}${interestText}.`;

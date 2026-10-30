@@ -1,5 +1,5 @@
 import { Icon } from "~/components/common/Icon";
-import { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { Badge } from "~/components/content/Badge";
 import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
