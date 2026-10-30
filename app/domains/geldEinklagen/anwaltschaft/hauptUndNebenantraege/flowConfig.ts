@@ -1,5 +1,6 @@
 import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenAnwaltschaftPages } from "../pages";
+import { arrayIsNonEmpty } from "~/util/array";
 
 export const hauptUndNebenantraegeFlowConfig = {
   hauptantragUebersicht: [
@@ -8,7 +9,11 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "hauptantragDaten",
     },
     {
+      guard: (context) => !arrayIsNonEmpty(context.hauptantrag),
       target: "hauptantragWarnung",
+    },
+    {
+      target: "prozessualeAusfuehrungen",
     },
   ],
   hauptantragDaten: [

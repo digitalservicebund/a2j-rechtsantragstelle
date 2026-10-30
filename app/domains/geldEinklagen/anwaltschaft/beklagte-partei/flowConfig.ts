@@ -6,7 +6,7 @@ export const beklagteParteiFlowConfig = {
   beklagteUebersicht: [
     { type: "addArrayItem", target: "beklagteNaturalPersonDaten" },
     { type: "addArrayItem", target: "beklagteOrganizationDaten" },
-    { target: "hauptantragUebersicht" },
+    { target: "beklagteProzessbevollmaechtigteUebersicht" },
   ],
   beklagteNaturalPersonDaten: [
     {
