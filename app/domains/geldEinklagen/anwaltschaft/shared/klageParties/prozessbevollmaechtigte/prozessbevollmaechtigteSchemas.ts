@@ -3,7 +3,7 @@ import {
   adresseFields,
   commonFields,
   personFields,
-} from "../klageParties/klagePartySchemas";
+} from "../../klageParties/klagePartySchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
@@ -11,10 +11,12 @@ import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmpty
 import { emailSchema } from "~/services/validation/email";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import omit from "lodash/omit";
+import {
+  MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS,
+  MAX_PROZESSBEVOLLMAECHTIGTE,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 
-export const MAX_PROZESSBEVOLLMAECHTIGTE = 1;
 const MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS = 1;
-export const MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS = 5;
 
 const contactFields = {
   telefonnummer: schemaOrEmptyStringOptional(phoneNumberSchema),
@@ -50,7 +52,8 @@ export const berufsausuebungsgesellschaftSchema = z.object({
   ["prozessbevollmaechtigte-personen"]: z
     .array(berufsausuebungsgesellschaftBevollmaechtigtePersonSchema)
     .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
-    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
+    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+    .refine((personen) => personen.some((p) => p.namedInSignature === "on")),
   type: z.literal("berufsausuebungsgesellschaft"),
 });
 
@@ -58,20 +61,18 @@ export type Berufsausuebungsgesellschaft = z.infer<
   typeof berufsausuebungsgesellschaftSchema
 >;
 
-export const signaturangabenArraySchema = z
-  .array(
-    z.object({
-      ...omit(personFields, "anrede"),
-      berufsbezeichnung: stringOptionalSchema,
-    }),
-  )
-  .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
-  .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS);
+export const signaturangabenSchema = z.object({
+  ...omit(personFields, "anrede"),
+  berufsbezeichnung: stringOptionalSchema,
+});
 
 const berufsausuebungsgesellschaftProzessbevollmaechtigtSchema = z.object({
   ...commonProzessbevollmaechtigteFields,
   isProzessbevollmaechtigt: z.literal("on"),
-  signaturangaben: signaturangabenArraySchema,
+  signaturangaben: z
+    .array(signaturangabenSchema)
+    .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
   type: z.literal("berufsausuebungsgesellschaft"),
 });
 
@@ -91,8 +92,60 @@ export const prozessbevollmaechtigteArraySchema = z
   )
   .max(MAX_PROZESSBEVOLLMAECHTIGTE);
 
-export type Prozessbevollmaechtigte = z.infer<
+const beklagteBerufsausuebungsgesellschaftBevollmaechtigtePersonSchema =
+  z.object({
+    ...personFields,
+    berufsbezeichnung: stringOptionalSchema,
+  });
+
+const beklagteBerufsausuebungsgesellschaftSchema = z.object({
+  ...commonProzessbevollmaechtigteFields,
+  isProzessbevollmaechtigt: z.literal("off").optional(),
+  "prozessbevollmaechtigte-personen": z
+    .array(beklagteBerufsausuebungsgesellschaftBevollmaechtigtePersonSchema)
+    .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
+  type: z.literal("berufsausuebungsgesellschaft"),
+});
+
+const beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema =
+  z.object({
+    ...commonProzessbevollmaechtigteFields,
+    isProzessbevollmaechtigt: z.literal("on"),
+    type: z.literal("berufsausuebungsgesellschaft"),
+  });
+
+export type BeklagteBerufsausuebungsgesellschaft = z.infer<
+  typeof beklagteBerufsausuebungsgesellschaftSchema
+>;
+
+export type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt =
+  z.infer<
+    typeof beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema
+  >;
+
+export const beklagteProzessbevollmaechtigteArraySchema = z
+  .array(
+    z.discriminatedUnion("type", [
+      einzelkanzleiSchema,
+      z.discriminatedUnion("isProzessbevollmaechtigt", [
+        beklagteBerufsausuebungsgesellschaftSchema,
+        beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtSchema,
+      ]),
+    ]),
+  )
+  .max(MAX_PROZESSBEVOLLMAECHTIGTE);
+
+export type KlagendeProzessbevollmaechtigte = z.infer<
   typeof prozessbevollmaechtigteArraySchema
 >;
+export type BeklagteProzessbevollmaechtigte = z.infer<
+  typeof beklagteProzessbevollmaechtigteArraySchema
+>;
+
+export type Prozessbevollmaechtigte =
+  | KlagendeProzessbevollmaechtigte[number]
+  | BeklagteProzessbevollmaechtigte[number];
+
 export type ProzessbevollmaechtigteType =
-  Prozessbevollmaechtigte[number]["type"];
+  KlagendeProzessbevollmaechtigte[number]["type"];

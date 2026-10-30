@@ -20,6 +20,8 @@ vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
 }));
 
+vi.mock("~/components/hooks/useDeleteArrayItem");
+
 const naturalPerson = {
   type: "natuerliche-person",
   index: 1,
@@ -262,7 +264,7 @@ describe("KlageParteienUebersicht", () => {
     );
   });
 
-  it("renders both party types and links to the next claimant index", () => {
+  it("renders both party types and links to the next klagende index", () => {
     renderOverview({ klagenden: [organization, naturalPerson] });
 
     expect(screen.getAllByTestId("klage-partei")).toHaveLength(2);
@@ -391,7 +393,7 @@ describe("KlageParteienUebersicht", () => {
     );
   });
 
-  it("uses the defendant data and relationship when rendering the defendant overview", () => {
+  it("uses the beklagte data and relationship when rendering the beklagte overview", () => {
     renderOverview({ beklagten: [organization] }, "beklagte");
 
     expect(screen.getAllByTestId("klage-partei")).toHaveLength(1);

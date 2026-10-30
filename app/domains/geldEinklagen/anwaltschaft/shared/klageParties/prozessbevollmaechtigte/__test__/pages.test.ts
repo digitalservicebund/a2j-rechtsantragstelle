@@ -1,14 +1,16 @@
 import { z } from "zod";
 import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { geldEinklagenAnwaltschaftFlowConfig } from "../../../flowConfig";
+import { geldEinklagenAnwaltschaftFlowConfig } from "../../../../flowConfig";
 import { getProzessbevollmaechtigteArrayName } from "../prozessbevollmaechtigteHelpers";
-import { einzelkanzlei, gesellschaft } from "./fixtures";
+import { beklagteGesellschaft, einzelkanzlei, gesellschaft } from "./fixtures";
 
 describe.each(["klagende", "beklagte"] as const)(
   "%s Prozessbevollmaechtigte pages",
   (relationship) => {
     const arrayName = getProzessbevollmaechtigteArrayName(relationship);
     const basePath = `/${relationship}-partei/prozessbevollmaechtigte`;
+    const company =
+      relationship === "klagende" ? gesellschaft : beklagteGesellschaft;
     const otherArrayName = getProzessbevollmaechtigteArrayName(
       relationship === "klagende" ? "beklagte" : "klagende",
     );
@@ -60,7 +62,7 @@ describe.each(["klagende", "beklagte"] as const)(
       "allows adding and editing %s with the matching page schema",
       (type) => {
         const path = `${basePath}/#/${type}-daten`;
-        const item = type === "einzelkanzlei" ? einzelkanzlei : gesellschaft;
+        const item = type === "einzelkanzlei" ? einzelkanzlei : company;
         const input = Object.fromEntries(
           Object.entries(item).map(([field, value]) => [
             `${arrayName}#${field}`,
@@ -112,7 +114,39 @@ describe.each(["klagende", "beklagte"] as const)(
       },
     );
 
-    it.each([einzelkanzlei, gesellschaft])(
+    it("only validates signature and contact fields on klagende representative forms", () => {
+      const path = `${basePath}/#/prozessbevollmaechtigte-personen/#/daten`;
+      const schema = geldEinklagenAnwaltschaftFlowConfig.getSchema(path);
+      const prefix = `${arrayName}#prozessbevollmaechtigte-personen`;
+      const personInput = {
+        [`${prefix}#anrede`]: "frau",
+        [`${prefix}#titel`]: "",
+        [`${prefix}#vorname`]: "Erika",
+        [`${prefix}#nachname`]: "Musterfrau",
+        [`${prefix}#berufsbezeichnung`]: "Rechtsanwältin",
+      };
+      const input = {
+        ...personInput,
+        [`${prefix}#namedInSignature`]: "on",
+        [`${prefix}#telefonnummer`]: "+49 30 123456",
+        [`${prefix}#email`]: "erika@example.com",
+      };
+      expect(schema).toBeDefined();
+      expect(schema!.parse(input)).toEqual(
+        relationship === "klagende" ? input : personInput,
+      );
+      expect(
+        schema!.safeParse({
+          ...input,
+          [`${prefix}#email`]: "invalid",
+        }).success,
+      ).toBe(relationship === "beklagte");
+      expect(schema!.safeParse(personInput).success).toBe(
+        relationship === "beklagte",
+      );
+    });
+
+    it.each([einzelkanzlei, company])(
       "marks one entry complete without validating the other type's fields",
       (item) => {
         const data = {
@@ -145,5 +179,58 @@ describe.each(["klagende", "beklagte"] as const)(
         ]?.isDone,
       ).toBe(false);
     });
+
+    describe.each(["on", "off"] as const)(
+      "company with isProzessbevollmaechtigt=%s",
+      (isProzessbevollmaechtigt) => {
+        const requiresPersons =
+          relationship === "klagende" || isProzessbevollmaechtigt === "off";
+        const personsKey =
+          relationship === "klagende" && isProzessbevollmaechtigt === "on"
+            ? "signaturangaben"
+            : "prozessbevollmaechtigte-personen";
+        const person = {
+          ...gesellschaft.signaturangaben[0],
+          anrede: "frau",
+          namedInSignature: "on",
+        };
+
+        it.each([
+          {
+            label: "missing persons",
+            persons: undefined,
+            isDone: !requiresPersons,
+          },
+          { label: "empty persons", persons: [], isDone: !requiresPersons },
+          { label: "one complete person", persons: [person], isDone: true },
+          {
+            label: "one incomplete person",
+            persons: [{ ...person, vorname: "" }],
+            isDone: !requiresPersons,
+          },
+        ])("$label keeps completion at $isDone", ({ persons, isDone }) => {
+          const session = createFlowSession(
+            geldEinklagenAnwaltschaftFlowConfig,
+            {
+              [arrayName]: [
+                {
+                  ...company,
+                  isProzessbevollmaechtigt,
+                  signaturangaben: undefined,
+                  "prozessbevollmaechtigte-personen": undefined,
+                  [personsKey]: persons,
+                },
+              ],
+            },
+            `${basePath}/uebersicht`,
+          );
+          expect(
+            session.statusTree[`/${relationship}-partei`]?.children?.[
+              "/prozessbevollmaechtigte"
+            ]?.isDone,
+          ).toBe(isDone);
+        });
+      },
+    );
   },
 );

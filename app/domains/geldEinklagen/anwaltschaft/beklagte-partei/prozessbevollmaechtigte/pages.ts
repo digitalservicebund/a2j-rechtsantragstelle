@@ -1,18 +1,19 @@
 import {
   einzelkanzleiSchema,
   berufsausuebungsgesellschaftSchema,
-  prozessbevollmaechtigteArraySchema,
-  type Prozessbevollmaechtigte,
-  signaturangabenArraySchema,
-} from "../../shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+  beklagteProzessbevollmaechtigteArraySchema,
+  type BeklagteProzessbevollmaechtigte,
+} from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
+import { personFields } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 type DoneContext = {
-  beklagteProzessbevollmaechtigte?: Prozessbevollmaechtigte;
+  beklagteProzessbevollmaechtigte?: BeklagteProzessbevollmaechtigte;
   pageData?: PageData;
 };
 
@@ -24,7 +25,7 @@ export const beklagteProzessbevollmaechtigtePages = {
     stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
     arraySummary: {
       name: "beklagteProzessbevollmaechtigte",
-      schema: prozessbevollmaechtigteArraySchema,
+      schema: beklagteProzessbevollmaechtigteArraySchema,
       isArrayRelevant: ({ beklagteProzessbevollmaechtigte }: DoneContext) =>
         Boolean(beklagteProzessbevollmaechtigte?.length),
     },
@@ -96,9 +97,10 @@ export const beklagteProzessbevollmaechtigtePages = {
       ),
     },
   },
-  beklagteSignaturangabenDaten: {
+  beklagteBerufsausuebungsgesellschaftProzessbevollmaechtigtePersonenDaten: {
     stepId:
-      "/beklagte-partei/prozessbevollmaechtigte/#/signaturangaben/#/daten",
+      "/beklagte-partei/prozessbevollmaechtigte/#/prozessbevollmaechtigte-personen/#/daten",
+    shouldCollapseIntoParentNavItem: true,
     isRelevantForDone: ({
       beklagteProzessbevollmaechtigte,
       pageData,
@@ -107,18 +109,20 @@ export const beklagteProzessbevollmaechtigtePages = {
         beklagteProzessbevollmaechtigte?.[pageData?.arrayIndexes?.[0] ?? -1];
       return (
         prozessbevollmaechtigte?.type === "berufsausuebungsgesellschaft" &&
-        prozessbevollmaechtigte?.isProzessbevollmaechtigt === "on"
+        prozessbevollmaechtigte?.isProzessbevollmaechtigt === "off"
       );
     },
     pageSchema: {
-      "beklagteProzessbevollmaechtigte#signaturangaben#titel":
-        signaturangabenArraySchema.element.shape.titel,
-      "beklagteProzessbevollmaechtigte#signaturangaben#vorname":
-        signaturangabenArraySchema.element.shape.vorname,
-      "beklagteProzessbevollmaechtigte#signaturangaben#nachname":
-        signaturangabenArraySchema.element.shape.nachname,
-      "beklagteProzessbevollmaechtigte#signaturangaben#berufsbezeichnung":
-        signaturangabenArraySchema.element.shape.berufsbezeichnung,
+      "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#anrede":
+        personFields.anrede,
+      "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#titel":
+        personFields.titel,
+      "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#vorname":
+        personFields.vorname,
+      "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#nachname":
+        personFields.nachname,
+      "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#berufsbezeichnung":
+        stringOptionalSchema,
     },
   },
 } as const satisfies PageConfigMap;

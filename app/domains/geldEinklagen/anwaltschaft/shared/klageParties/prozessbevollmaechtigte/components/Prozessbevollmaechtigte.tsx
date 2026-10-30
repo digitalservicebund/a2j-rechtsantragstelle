@@ -4,19 +4,19 @@ import { Icon } from "~/components/common/Icon";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 import { translations } from "~/services/translations/translations";
-import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
   getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
 import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
-import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/components/AdditionalPersonsList";
+import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/AdditionalPersonsList";
 
 const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte,
 }: {
-  prozessbevollmaechtigte: ProzessbevollmaechtigteData[number];
+  prozessbevollmaechtigte: ProzessbevollmaechtigteData;
 }) => (
   <div className="flex flex-col kern-body kern-body--default text-pretty">
     <span className="kern-body--bold">{prozessbevollmaechtigte.name}</span>
@@ -71,7 +71,7 @@ const ProzessbevollmaechtigteDetails = ({
           )}
         </span>
         {prozessbevollmaechtigte.berufsbezeichnung !== "" && (
-          <span>{prozessbevollmaechtigte.berufsbezeichnung}</span>
+          <span>({prozessbevollmaechtigte.berufsbezeichnung})</span>
         )}
       </>
     )}
@@ -84,7 +84,7 @@ const Prozessbevollmaechtigte = ({
   relationship,
   onDelete,
 }: {
-  readonly prozessbevollmaechtigte: ProzessbevollmaechtigteData[number];
+  readonly prozessbevollmaechtigte: ProzessbevollmaechtigteData;
   readonly index: number;
   readonly relationship: KlageParteiVerhaeltnis;
   readonly onDelete: () => Promise<void>;
@@ -118,13 +118,17 @@ const Prozessbevollmaechtigte = ({
             className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
           />
         </div>
-        {"isProzessbevollmaechtigt" in prozessbevollmaechtigte && (
-          <AdditionalPersonsList
-            berufsausuebungsgesellschaft={prozessbevollmaechtigte}
-            parentArrayItemIndex={index}
-            relationship={relationship}
-          />
-        )}
+        {prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft" &&
+          !(
+            relationship === "beklagte" &&
+            prozessbevollmaechtigte.isProzessbevollmaechtigt === "on"
+          ) && (
+            <AdditionalPersonsList
+              berufsausuebungsgesellschaft={prozessbevollmaechtigte}
+              parentArrayItemIndex={index}
+              relationship={relationship}
+            />
+          )}
         <div className="flex justify-end">
           <DeleteButton
             label={`${deleteButtonLabel} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}

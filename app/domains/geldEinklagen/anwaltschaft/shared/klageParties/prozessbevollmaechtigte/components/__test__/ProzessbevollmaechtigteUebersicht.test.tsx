@@ -3,14 +3,14 @@ import { MemoryRouter } from "react-router";
 import type * as ReactRouter from "react-router";
 import userEvent from "@testing-library/user-event";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
-import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
-import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
+import { type GeldEinklagenAnwaltschaftUserData } from "../../../../../userData";
+import { type KlageParteiVerhaeltnis } from "../../../../klageParties/klagePartySchemas";
 import {
   einzelkanzlei,
   gesellschaft,
   unrelatedParty,
 } from "../../__test__/fixtures";
-import { geldEinklagenAnwaltschaftExtras } from "../../../../geldEinklagenAnwaltschaftExtras";
+import { geldEinklagenAnwaltschaftExtras } from "../../../../../geldEinklagenAnwaltschaftExtras";
 import { getProzessbevollmaechtigteArrayName } from "../../prozessbevollmaechtigteHelpers";
 import { focusOnProzessbevollmaechtigteTitle } from "../../prozessbevollmaechtigteFocus";
 import { ProzessbevollmaechtigteUebersicht } from "../ProzessbevollmaechtigteUebersicht";
@@ -292,7 +292,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
     try {
       renderOverview({ klagendeProzessbevollmaechtigte: [einzelkanzlei] });
       act(() => {
-        focusOnProzessbevollmaechtigteTitle("klagende", "einzelkanzlei", 0);
+        focusOnProzessbevollmaechtigteTitle("klagende", "einzelkanzlei")(0);
         vi.runAllTimers();
       });
       expect(screen.getByTestId("prozessbevollmaechtigte")).toHaveFocus();
@@ -300,8 +300,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         focusOnProzessbevollmaechtigteTitle(
           "klagende",
           "berufsausuebungsgesellschaft",
-          9,
-        );
+        )(9);
         vi.runAllTimers();
       });
       expect(

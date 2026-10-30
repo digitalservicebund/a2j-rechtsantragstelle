@@ -1,17 +1,22 @@
 import { useEffect } from "react";
-import type z from "zod";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
 import {
-  type signaturangabenArraySchema,
+  type BeklagteBerufsausuebungsgesellschaft,
   type Berufsausuebungsgesellschaft,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { translations } from "~/services/translations/translations";
+
+type AdditionalPerson =
+  | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number]
+  | BerufsausuebungsgesellschaftProzessbevollmaechtigt["signaturangaben"][number]
+  | BeklagteBerufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number];
 
 const getBaseAdditionalPersonUrl = (
   relationship: KlageParteiVerhaeltnis,
@@ -24,28 +29,51 @@ const getBaseAdditionalPersonUrl = (
 export function useAdditionalPersons(
   berufsausuebungsgesellschaft:
     | Berufsausuebungsgesellschaft
-    | BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+    | BerufsausuebungsgesellschaftProzessbevollmaechtigt
+    | BeklagteBerufsausuebungsgesellschaft
+    | BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   relationship: KlageParteiVerhaeltnis,
   parentArrayItemIndex: number,
 ) {
   const berufsausuebungsgesellschaftIsProzessbevollmaechtigt =
     berufsausuebungsgesellschaft.isProzessbevollmaechtigt === "on";
-  const arrayName = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? "signaturangaben"
-    : "prozessbevollmaechtigte-personen";
-  const deleteArrayItem = useDeleteArrayItem(
-    `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
-  );
-  const personsArray = berufsausuebungsgesellschaftIsProzessbevollmaechtigt
-    ? berufsausuebungsgesellschaft.signaturangaben
-    : berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"];
-  const nextItemIndex = personsArray?.length ?? 0;
+  const arrayName =
+    relationship === "klagende" &&
+    berufsausuebungsgesellschaftIsProzessbevollmaechtigt
+      ? "signaturangaben"
+      : "prozessbevollmaechtigte-personen";
   const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
     relationship,
     parentArrayItemIndex,
     arrayName,
   );
   const additionalPersonIdPrefix = `${relationship}-prozessbevollmaechtigte-${parentArrayItemIndex}-${arrayName}`;
+
+  const focusAdditionalPerson = (index: number) => {
+    setTimeout(() => {
+      const element =
+        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-add`);
+      element?.focus();
+    }, 100);
+  };
+
+  const deleteAdditionalPerson = useDeleteArrayItem(
+    `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
+    baseAdditionalPersonUrl,
+    focusAdditionalPerson,
+  );
+  const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
+    "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
+      : undefined;
+  const personsArray: AdditionalPerson[] | undefined =
+    arrayName === "signaturangaben" &&
+    "signaturangaben" in berufsausuebungsgesellschaft
+      ? berufsausuebungsgesellschaft.signaturangaben
+      : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
+  const nextItemIndex = personsArray?.length ?? 0;
   const focusStorageKey = `focus-${additionalPersonIdPrefix}`;
 
   useEffect(() => {
@@ -69,20 +97,8 @@ export function useAdditionalPersons(
     sessionStorage.setItem(focusStorageKey, String(index));
   };
 
-  const deleteAdditionalPerson = (index: number) => async () => {
-    await deleteArrayItem(baseAdditionalPersonUrl, index);
-    setTimeout(() => {
-      const element =
-        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-add`);
-      element?.focus();
-    }, 100);
-  };
   return {
-    personsArray: personsArray as
-      | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"]
-      | z.infer<typeof signaturangabenArraySchema>,
+    personsArray,
     baseAdditionalPersonUrl,
     nextItemIndex,
     deleteAdditionalPerson,

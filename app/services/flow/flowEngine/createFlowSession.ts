@@ -154,17 +154,29 @@ export const createFlowSession = <C extends PageConfigMap>(
     scope: Record<string, unknown>,
     pageData: PageData,
     forceValidation = false,
-  ) =>
-    (!forceValidation &&
-      compiledFlow.pages[key]?.isRelevantForDone?.({
-        ...effectiveUserData,
-        pageData,
-      } as UserData) === false) ||
-    isPageDone(
+  ) => {
+    const context = { ...effectiveUserData, pageData } as UserData;
+    if (
+      !forceValidation &&
+      compiledFlow.pages[key]?.isRelevantForDone?.(context) === false
+    ) {
+      return true;
+    }
+
+    const summary = compiledFlow.pages[key]?.arraySummary;
+    if (summary && summary.isArrayRelevant?.(context) !== false) {
+      const items = scope[resolveFieldName(summary.name)];
+      if (!z.validate(summary.schema, items === undefined ? [] : items)) {
+        return false;
+      }
+    }
+
+    return isPageDone(
       compiledFlow.getSchemaByNodeKey(key),
       compiledFlow.getFieldNamesByNodeKey(key),
       scope,
     );
+  };
 
   // The page the user is on evaluated at its own arrayIndexes. The BFS only
   // fans out array items already in the data, so a brand new item being added

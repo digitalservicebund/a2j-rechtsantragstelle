@@ -1,6 +1,6 @@
 import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
 import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteienUebersicht";
-import { ProzessbevollmaechtigteUebersicht } from "./shared/prozessbevollmaechtigte/components/ProzessbevollmaechtigteUebersicht";
+import { ProzessbevollmaechtigteUebersicht } from "./shared/klageParties/prozessbevollmaechtigte/components/ProzessbevollmaechtigteUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";

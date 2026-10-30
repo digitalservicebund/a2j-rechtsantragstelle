@@ -2,18 +2,16 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { type GeldEinklagenAnwaltschaftUserData } from "../../../userData";
+import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
 import { translations } from "~/services/translations/translations";
-import { type KlageParteiVerhaeltnis } from "../../klageParties/klagePartySchemas";
+import { type KlageParteiVerhaeltnis } from "../../../klageParties/klagePartySchemas";
 import {
   getBaseProzessbevollmaechtigteUrl,
   getProzessbevollmaechtigteArrayName,
+  MAX_PROZESSBEVOLLMAECHTIGTE,
 } from "../prozessbevollmaechtigteHelpers";
 import { focusOnProzessbevollmaechtigteTitle } from "../prozessbevollmaechtigteFocus";
-import {
-  MAX_PROZESSBEVOLLMAECHTIGTE,
-  type ProzessbevollmaechtigteType,
-} from "../prozessbevollmaechtigteSchemas";
+import { type ProzessbevollmaechtigteType } from "../prozessbevollmaechtigteSchemas";
 import {
   useProzessbevollmaechtigte,
   type ProzessbevollmaechtigteWithArrayIndex,
@@ -80,6 +78,8 @@ const ProzessbevollmaechtigteList = ({
 }) => {
   const deleteArrayItem = useDeleteArrayItem(
     getProzessbevollmaechtigteArrayName(relationship),
+    getBaseProzessbevollmaechtigteUrl(relationship),
+    focusOnProzessbevollmaechtigteTitle(relationship, type),
   );
   const heading =
     type === "einzelkanzlei"
@@ -104,13 +104,7 @@ const ProzessbevollmaechtigteList = ({
           index={arrayIndex}
           prozessbevollmaechtigte={prozessbevollmaechtigte}
           relationship={relationship}
-          onDelete={async () => {
-            await deleteArrayItem(
-              getBaseProzessbevollmaechtigteUrl(relationship),
-              arrayIndex,
-            );
-            focusOnProzessbevollmaechtigteTitle(relationship, type, arrayIndex);
-          }}
+          onDelete={() => deleteArrayItem(arrayIndex)}
         />
       ))}
       <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">

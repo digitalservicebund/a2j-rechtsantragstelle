@@ -1,6 +1,9 @@
+import omit from "lodash/omit";
 import {
+  type BeklagteBerufsausuebungsgesellschaft,
+  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
-  type Prozessbevollmaechtigte,
+  type KlagendeProzessbevollmaechtigte,
 } from "../prozessbevollmaechtigteSchemas";
 
 const address = {
@@ -24,7 +27,7 @@ export const einzelkanzlei = {
   titel: "",
   vorname: "Erika",
   nachname: "Musterfrau",
-} satisfies Prozessbevollmaechtigte[number];
+} satisfies KlagendeProzessbevollmaechtigte[number];
 
 export const gesellschaft = {
   ...address,
@@ -44,6 +47,18 @@ export const gesellschaft = {
     },
   ],
 } satisfies BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+
+export const beklagteGesellschaft = {
+  ...omit(gesellschaft, "signaturangaben", "prozessbevollmaechtigte-personen"),
+} satisfies BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
+
+export const beklagteIndividualRepresentatives = {
+  ...beklagteGesellschaft,
+  isProzessbevollmaechtigt: "off",
+  "prozessbevollmaechtigte-personen": [
+    { ...gesellschaft.signaturangaben[0], anrede: "frau" },
+  ],
+} satisfies BeklagteBerufsausuebungsgesellschaft;
 
 export const unrelatedParty = {
   ...einzelkanzlei,

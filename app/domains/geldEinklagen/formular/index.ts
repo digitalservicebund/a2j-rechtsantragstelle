@@ -34,6 +34,7 @@ import { updateBeweisReferenceDocuments } from "../services/updateBeweisReferece
 import { updateBeweisReferencePersons } from "../services/updateBeweisReferencePersons";
 import { updateAbschnittenPersonenIds } from "../services/updateAbschnittenPersonenIds";
 import { geldEinklagenPdfFromUserdata } from "../services/pdf/geldEinklagenPdfFromUserdata";
+import { geldEinklagenXjustizFromUserdata } from "../services/xjustiz/geldEinklagenXjustizFromUserdata.server";
 
 export const geldEinklagenFormular = {
   flowType: "formFlow",
@@ -95,6 +96,13 @@ export const geldEinklagenFormular = {
   pdfConfig: {
     pdfFunction: async (userData: GeldEinklagenFormularUserData) =>
       await geldEinklagenPdfFromUserdata(userData),
+    name: `Geld_Einklagen_Klage`,
+  },
+  xjustizConfig: {
+    xjustizFunction: async (
+      userData: GeldEinklagenFormularUserData,
+      baseUrl: string,
+    ) => await geldEinklagenXjustizFromUserdata({ userData, baseUrl }),
     name: `Geld_Einklagen_Klage`,
   },
 } satisfies Flow<typeof geldEinklagenFlowConfig.pages>;

@@ -2,7 +2,11 @@ import { act, renderHook } from "@testing-library/react";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { useAdditionalPersons } from "../useAdditionalPersons";
 import { type Berufsausuebungsgesellschaft } from "../prozessbevollmaechtigteSchemas";
-import { gesellschaft } from "./fixtures";
+import {
+  beklagteGesellschaft,
+  beklagteIndividualRepresentatives,
+  gesellschaft,
+} from "./fixtures";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -48,7 +52,19 @@ const addFocusTarget = (id: string) => {
 describe("useAdditionalPersons", () => {
   describe.each(["klagende", "beklagte"] as const)("%s", (relationship) => {
     it.each([
-      [gesellschaft, "signaturangaben", gesellschaft.signaturangaben],
+      [
+        relationship === "klagende"
+          ? gesellschaft
+          : beklagteIndividualRepresentatives,
+        relationship === "klagende"
+          ? "signaturangaben"
+          : "prozessbevollmaechtigte-personen",
+        relationship === "klagende"
+          ? gesellschaft.signaturangaben
+          : beklagteIndividualRepresentatives[
+              "prozessbevollmaechtigte-personen"
+            ],
+      ],
       [
         individualRepresentatives,
         "prozessbevollmaechtigte-personen",
@@ -69,14 +85,36 @@ describe("useAdditionalPersons", () => {
         expect(result.current.personsArray).toBe(persons);
         expect(result.current.nextItemIndex).toBe(persons.length);
         expect(result.current.baseAdditionalPersonUrl).toBe(baseUrl);
+        expect(result.current.additionalPersonIdPrefix).toBe(
+          `${relationship}-prozessbevollmaechtigte-3-${arrayName}`,
+        );
         expect(useDeleteArrayItem).toHaveBeenCalledWith(
           `${relationship}Prozessbevollmaechtigte#${arrayName}`,
+          baseUrl,
+          expect.any(Function),
         );
         const onDelete = result.current.deleteAdditionalPerson(1);
-        expect(deleteArrayItem).not.toHaveBeenCalled();
-        await onDelete();
-        expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(baseUrl, 1);
+        expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(1);
+        await onDelete;
       },
+    );
+  });
+
+  it("ignores stale signature data for an authorized beklagte company", () => {
+    const { result } = renderHook(() =>
+      useAdditionalPersons(
+        {
+          ...beklagteGesellschaft,
+          signaturangaben: gesellschaft.signaturangaben,
+        },
+        "beklagte",
+        0,
+      ),
+    );
+    expect(result.current.personsArray).toBeUndefined();
+    expect(result.current.nextItemIndex).toBe(0);
+    expect(result.current.baseAdditionalPersonUrl).toBe(
+      "/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen",
     );
   });
 
@@ -149,6 +187,9 @@ describe("useAdditionalPersons", () => {
       const { result } = renderHook(() =>
         useAdditionalPersons(gesellschaft, "klagende", 2),
       );
+      const focusAfterDeletion = vi
+        .mocked(useDeleteArrayItem)
+        .mock.calls.at(-1)?.[2];
       act(() => vi.runAllTimers());
       const prefix = result.current.additionalPersonIdPrefix;
       const add = addFocusTarget(`${prefix}-add`);
@@ -160,11 +201,12 @@ describe("useAdditionalPersons", () => {
           finishDeletion = resolve;
         }),
       );
-      const deletion = result.current.deleteAdditionalPerson(1)();
+      const deletion = result.current.deleteAdditionalPerson(1);
       act(() => vi.advanceTimersByTime(100));
       expect(target).not.toHaveFocus();
       finishDeletion();
       await deletion;
+      focusAfterDeletion?.(1);
       act(() => vi.advanceTimersByTime(99));
       expect(target).not.toHaveFocus();
       act(() => vi.advanceTimersByTime(1));
@@ -180,7 +222,7 @@ describe("useAdditionalPersons", () => {
       `${result.current.additionalPersonIdPrefix}-add`,
     );
     deleteArrayItem.mockRejectedValueOnce(new Error("Deletion failed"));
-    await expect(result.current.deleteAdditionalPerson(0)()).rejects.toThrow(
+    await expect(result.current.deleteAdditionalPerson(0)).rejects.toThrow(
       "Deletion failed",
     );
     act(() => vi.runAllTimers());
