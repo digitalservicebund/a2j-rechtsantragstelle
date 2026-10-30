@@ -12,7 +12,7 @@ export const beklagteProzessbevollmaechtigteFlowConfig = {
       target:
         "beklagteProzessbevollmaechtigteBerufsausuebungsgesellschaftDaten",
     },
-    { target: "hauptantragUebersicht" }
+    { target: "hauptantragUebersicht" },
   ],
   beklagteProzessbevollmaechtigteEinzelkanzleiDaten:
     "beklagteProzessbevollmaechtigteUebersicht",
