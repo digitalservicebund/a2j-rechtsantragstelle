@@ -74,6 +74,7 @@ const getValueAndArrayData = (
     // Sub-field of an object, e.g. "arbeitsplatz.plz"
     const [parentField, subField] = fieldName.split(".");
     const parentValue = userData[parentField];
+
     if (
       subField &&
       parentValue &&
@@ -82,6 +83,22 @@ const getValueAndArrayData = (
     ) {
       return { value: parentValue[subField] as AllowedUserTypes };
     }
+
+    // Workaround to display the file names
+    if (
+      Array.isArray(parentValue) &&
+      parentValue.some((obj) => Object.hasOwn(obj, "filename"))
+    ) {
+      const fileNames = parentValue
+        .filter((obj) => Object.hasOwn(obj, "filename"))
+        .map((value) => value.filename)
+        .join(", ");
+
+      return {
+        value: fileNames,
+      };
+    }
+
     return { value: userData[fieldName] };
   }
 

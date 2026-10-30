@@ -267,5 +267,44 @@ describe("fieldEntryCreation", () => {
       expect(result[0].question).toBe("Kindername?");
       expect(result[0].answer).toBe("Anna");
     });
+
+    it("should display values for files", () => {
+      const userDataFile = {
+        file: [
+          {
+            filename: "someFile.pdf",
+            filesize: 100,
+            fileType: "application/pdf",
+            savedFileKey: "someSavedFileKey",
+          },
+          {
+            filename: "anotherFile.pdf",
+            filesize: 100,
+            fileType: "application/pdf",
+            savedFileKey: "anotherSavedFileKey",
+          },
+        ],
+      };
+
+      const fileFieldQuestions = {
+        file: { question: "Uploaded files?" },
+      };
+
+      const fileFieldToStepMapping = {
+        file: "/file/daten",
+      };
+
+      const result = processBoxFields(
+        ["file"],
+        userDataFile,
+        fileFieldQuestions,
+        fileFieldToStepMapping,
+        "/beratungshilfe/antrag",
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].question).toBe("Uploaded files?");
+      expect(result[0].answer).toBe("someFile.pdf, anotherFile.pdf");
+    });
   });
 });
