@@ -7,6 +7,7 @@ import {
 } from "~/services/flow/flowEngine/compileFlow";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
+import { tatsachenvortragFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/flowConfig";
 
 export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
   compileFlow({
@@ -19,8 +20,9 @@ export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
       ...klagendeParteiFlowConfig,
       ...beklagteParteiFlowConfig,
       prozessualeAusfuehrungen: "rechtlicheWuerdigung",
-      rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
       ...sonstigeNebenUndProzessantraegeFlowConfig,
+      ...tatsachenvortragFlowConfig,
+      rechtlicheWuerdigung: "sonstigeNebenUndProzessantraegeUebersicht",
       downloadKlage: null,
     },
     pruningStrategy: "cascading",

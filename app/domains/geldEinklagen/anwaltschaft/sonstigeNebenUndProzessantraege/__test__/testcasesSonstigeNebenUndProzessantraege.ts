@@ -33,5 +33,8 @@ export const sonstigeNebenUndProzessantraegeTestCases = {
     {
       stepId: "/sonstige-neben-und-prozessantraege/uebersicht",
     },
+    {
+      stepId: "/tatsachenvortrag-beweise/uebersicht",
+    },
   ],
 } satisfies FlowTestCases<GeldEinklagenAnwaltschaftUserData>;

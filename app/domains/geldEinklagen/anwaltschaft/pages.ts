@@ -9,6 +9,7 @@ import {
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { beklagteParteiPages } from "./beklagte-partei/pages";
 import { sonstigeNebenUndProzessantraegePages } from "./sonstigeNebenUndProzessantraege/pages";
+import { tatsachenvortragPages } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/pages";
 
 export const geldEinklagenAnwaltschaftPages = {
   voraussetzungen: {
@@ -75,6 +76,7 @@ export const geldEinklagenAnwaltschaftPages = {
     },
   },
   ...sonstigeNebenUndProzessantraegePages,
+  ...tatsachenvortragPages,
   rechtlicheWuerdigung: {
     stepId: "/rechtliche-wuerdigung",
     pageSchema: {

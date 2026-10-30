@@ -18,6 +18,7 @@ export const geldEinklagenAnwaltschaft = {
     ...getKlagendeStrings(context),
     ...getBeklagteStrings(context),
     ...getKanzleiStrings(context),
+    keineAntraege: false, // TODO: return true if no Antraege exist
   }),
   posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
