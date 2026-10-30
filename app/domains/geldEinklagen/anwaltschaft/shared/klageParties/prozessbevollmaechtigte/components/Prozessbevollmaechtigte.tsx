@@ -10,18 +10,13 @@ import {
   getProzessbevollmaechtigteArrayName,
   getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
-import {
-  type BeklagteProzessbevollmaechtigte,
-  type Prozessbevollmaechtigte as ProzessbevollmaechtigteData,
-} from "../prozessbevollmaechtigteSchemas";
+import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
 import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/AdditionalPersonsList";
 
 const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte,
 }: {
-  prozessbevollmaechtigte:
-    | ProzessbevollmaechtigteData[number]
-    | BeklagteProzessbevollmaechtigte[number];
+  prozessbevollmaechtigte: ProzessbevollmaechtigteData;
 }) => (
   <div className="flex flex-col kern-body kern-body--default text-pretty">
     <span className="kern-body--bold">{prozessbevollmaechtigte.name}</span>
@@ -89,9 +84,7 @@ const Prozessbevollmaechtigte = ({
   relationship,
   onDelete,
 }: {
-  readonly prozessbevollmaechtigte:
-    | ProzessbevollmaechtigteData[number]
-    | BeklagteProzessbevollmaechtigte[number];
+  readonly prozessbevollmaechtigte: ProzessbevollmaechtigteData;
   readonly index: number;
   readonly relationship: KlageParteiVerhaeltnis;
   readonly onDelete: () => Promise<void>;

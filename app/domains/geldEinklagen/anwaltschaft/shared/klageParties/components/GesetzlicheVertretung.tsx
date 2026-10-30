@@ -1,13 +1,15 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import {
-  getGesetzlicheVertretungArtLabel,
   MAX_REPRESENTATIVES,
   type KlageParteien,
   type KlageParteiType,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
-import { getBaseKlagePartyUrl } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import {
+  getBaseKlagePartyUrl,
+  getGesetzlicheVertretungArtLabel,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 

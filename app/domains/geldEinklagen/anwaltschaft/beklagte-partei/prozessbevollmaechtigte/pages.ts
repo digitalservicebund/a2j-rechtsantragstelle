@@ -1,8 +1,8 @@
 import {
   einzelkanzleiSchema,
   berufsausuebungsgesellschaftSchema,
-  type Prozessbevollmaechtigte,
   beklagteProzessbevollmaechtigteArraySchema,
+  type BeklagteProzessbevollmaechtigte,
 } from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
@@ -13,7 +13,7 @@ import { personFields } from "~/domains/geldEinklagen/anwaltschaft/shared/klageP
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 type DoneContext = {
-  beklagteProzessbevollmaechtigte?: Prozessbevollmaechtigte;
+  beklagteProzessbevollmaechtigte?: BeklagteProzessbevollmaechtigte;
   pageData?: PageData;
 };
 

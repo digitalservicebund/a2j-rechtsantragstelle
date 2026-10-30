@@ -18,19 +18,23 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
     start: "antragsgrundBerechtigtesInteresse",
     antragsgrundBerechtigtesInteresse: [
       {
+        guard: (context) => context.legitimateInterest === "owner",
+        target: "grundstuecksdaten",
+      },
+      {
         guard: (context) =>
           context.legitimateInterest === "landRegisterOnMyName",
         target: "antragsgrundAngabenZumRecht",
       },
       {
-        guard: (context) => objectKeysNonEmpty(context, ["legitimateInterest"]),
+        guard: (context) => context.legitimateInterest === "otherReasons",
         target: "antragsgrundNachweisHochladen",
       },
     ],
     antragsgrundAngabenZumRecht: [
       {
         guard: (context) => objectKeysNonEmpty(context, ["registerLaw"]),
-        target: "antragsgrundNachweisHochladen",
+        target: "grundstuecksdaten",
       },
     ],
     antragsgrundNachweisHochladen: "grundstuecksdaten",

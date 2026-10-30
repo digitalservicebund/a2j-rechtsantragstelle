@@ -2,8 +2,8 @@ import {
   einzelkanzleiSchema,
   berufsausuebungsgesellschaftSchema,
   prozessbevollmaechtigteArraySchema,
-  type Prozessbevollmaechtigte,
-  signaturangabenArraySchema,
+  type KlagendeProzessbevollmaechtigte,
+  signaturangabenSchema,
   berufsausuebungsgesellschaftBevollmaechtigtePersonSchema,
 } from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
@@ -13,7 +13,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
 type DoneContext = {
-  klagendeProzessbevollmaechtigte?: Prozessbevollmaechtigte;
+  klagendeProzessbevollmaechtigte?: KlagendeProzessbevollmaechtigte;
   pageData?: PageData;
 };
 
@@ -111,13 +111,13 @@ export const klagendeProzessbevollmaechtigtePages = {
     },
     pageSchema: {
       "klagendeProzessbevollmaechtigte#signaturangaben#titel":
-        signaturangabenArraySchema.element.shape.titel,
+        signaturangabenSchema.shape.titel,
       "klagendeProzessbevollmaechtigte#signaturangaben#vorname":
-        signaturangabenArraySchema.element.shape.vorname,
+        signaturangabenSchema.shape.vorname,
       "klagendeProzessbevollmaechtigte#signaturangaben#nachname":
-        signaturangabenArraySchema.element.shape.nachname,
+        signaturangabenSchema.shape.nachname,
       "klagendeProzessbevollmaechtigte#signaturangaben#berufsbezeichnung":
-        signaturangabenArraySchema.element.shape.berufsbezeichnung,
+        signaturangabenSchema.shape.berufsbezeichnung,
     },
   },
   klagendeBerufsausuebungsgesellschaftProzessbevollmaechtigtePersonenDaten: {

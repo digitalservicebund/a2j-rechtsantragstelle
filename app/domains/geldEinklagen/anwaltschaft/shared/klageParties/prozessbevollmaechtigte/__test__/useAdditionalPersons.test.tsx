@@ -2,7 +2,11 @@ import { act, renderHook } from "@testing-library/react";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { useAdditionalPersons } from "../useAdditionalPersons";
 import { type Berufsausuebungsgesellschaft } from "../prozessbevollmaechtigteSchemas";
-import { beklagteGesellschaft, gesellschaft } from "./fixtures";
+import {
+  beklagteGesellschaft,
+  beklagteIndividualRepresentatives,
+  gesellschaft,
+} from "./fixtures";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -49,13 +53,17 @@ describe("useAdditionalPersons", () => {
   describe.each(["klagende", "beklagte"] as const)("%s", (relationship) => {
     it.each([
       [
-        relationship === "klagende" ? gesellschaft : beklagteGesellschaft,
+        relationship === "klagende"
+          ? gesellschaft
+          : beklagteIndividualRepresentatives,
         relationship === "klagende"
           ? "signaturangaben"
           : "prozessbevollmaechtigte-personen",
         relationship === "klagende"
           ? gesellschaft.signaturangaben
-          : beklagteGesellschaft["prozessbevollmaechtigte-personen"],
+          : beklagteIndividualRepresentatives[
+              "prozessbevollmaechtigte-personen"
+            ],
       ],
       [
         individualRepresentatives,
@@ -102,9 +110,8 @@ describe("useAdditionalPersons", () => {
         0,
       ),
     );
-    expect(result.current.personsArray).toBe(
-      beklagteGesellschaft["prozessbevollmaechtigte-personen"],
-    );
+    expect(result.current.personsArray).toBeUndefined();
+    expect(result.current.nextItemIndex).toBe(0);
     expect(result.current.baseAdditionalPersonUrl).toBe(
       "/geld-einklagen/anwaltschaft/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen",
     );
