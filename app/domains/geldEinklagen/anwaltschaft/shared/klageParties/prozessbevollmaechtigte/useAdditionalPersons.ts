@@ -42,8 +42,27 @@ export function useAdditionalPersons(
     berufsausuebungsgesellschaftIsProzessbevollmaechtigt
       ? "signaturangaben"
       : "prozessbevollmaechtigte-personen";
-  const deleteArrayItem = useDeleteArrayItem(
+  const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
+    relationship,
+    parentArrayItemIndex,
+    arrayName,
+  );
+  const additionalPersonIdPrefix = `${relationship}-prozessbevollmaechtigte-${parentArrayItemIndex}-${arrayName}`;
+
+  const focusAdditionalPerson = (index: number) => {
+    setTimeout(() => {
+      const element =
+        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
+        document.getElementById(`${additionalPersonIdPrefix}-add`);
+      element?.focus();
+    }, 100);
+  };
+
+  const deleteAdditionalPerson = useDeleteArrayItem(
     `${getProzessbevollmaechtigteArrayName(relationship)}#${arrayName}`,
+    baseAdditionalPersonUrl,
+    focusAdditionalPerson,
   );
   const berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen =
     "prozessbevollmaechtigte-personen" in berufsausuebungsgesellschaft
@@ -55,12 +74,6 @@ export function useAdditionalPersons(
       ? berufsausuebungsgesellschaft.signaturangaben
       : berufsausuebungsgesellschaftProzessbevollmaechtigtePersonen;
   const nextItemIndex = personsArray?.length ?? 0;
-  const baseAdditionalPersonUrl = getBaseAdditionalPersonUrl(
-    relationship,
-    parentArrayItemIndex,
-    arrayName,
-  );
-  const additionalPersonIdPrefix = `${relationship}-prozessbevollmaechtigte-${parentArrayItemIndex}-${arrayName}`;
   const focusStorageKey = `focus-${additionalPersonIdPrefix}`;
 
   useEffect(() => {
@@ -84,16 +97,6 @@ export function useAdditionalPersons(
     sessionStorage.setItem(focusStorageKey, String(index));
   };
 
-  const deleteAdditionalPerson = (index: number) => async () => {
-    await deleteArrayItem(baseAdditionalPersonUrl, index);
-    setTimeout(() => {
-      const element =
-        document.getElementById(`${additionalPersonIdPrefix}-${index}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-${index - 1}`) ??
-        document.getElementById(`${additionalPersonIdPrefix}-add`);
-      element?.focus();
-    }, 100);
-  };
   return {
     personsArray,
     baseAdditionalPersonUrl,

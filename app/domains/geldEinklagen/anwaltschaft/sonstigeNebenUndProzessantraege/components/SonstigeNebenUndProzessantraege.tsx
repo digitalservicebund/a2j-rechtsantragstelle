@@ -11,10 +11,7 @@ type SonstigeNebenUndProzessantraegeProps = {
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["sonstigeNebenUndProzessantraege"]
   >[number];
-  readonly onDelete: (
-    pathnameArrayItem: string,
-    itemIndex: number,
-  ) => Promise<void>;
+  readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
 const SonstigeNebenUndProzessantraege = ({
@@ -84,9 +81,7 @@ const SonstigeNebenUndProzessantraege = ({
                 translations.geldEinklagenAnwaltschaft
                   .soenstigeProzessantragDelete.de
               }
-              onDelete={() =>
-                onDelete(BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE, itemIndex)
-              }
+              onDelete={() => onDelete(itemIndex)}
               description={
                 <div className="flex flex-col gap-kern-space-small">
                   <p>{translations.deleteDialog.description.de}</p>
