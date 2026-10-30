@@ -39,7 +39,7 @@ export const geldEinklagenAnwaltschaftTestCases = {
         },
       },
       {
-        stepId: "/sonstige-neben-und-prozessantraege/uebersicht",
+        stepId: "/klage-herunterladen",
       },
     ],
   },
