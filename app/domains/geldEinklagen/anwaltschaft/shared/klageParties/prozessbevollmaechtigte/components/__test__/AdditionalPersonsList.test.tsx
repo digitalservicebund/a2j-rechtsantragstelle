@@ -117,7 +117,12 @@ describe.each([
     it("focuses the add link after deleting the final person", async () => {
       const user = userEvent.setup();
       const deleteArrayItem = vi.fn().mockResolvedValue(undefined);
-      vi.mocked(useDeleteArrayItem).mockReturnValue(deleteArrayItem);
+      vi.mocked(useDeleteArrayItem).mockImplementation(
+        (_arrayName, _arrayUrl, focusFunction) => async (index) => {
+          await deleteArrayItem(index);
+          focusFunction?.(index);
+        },
+      );
       const { rerender } = renderPersons(company, relationship);
       await user.click(screen.getByRole("button"));
       await user.click(
@@ -125,10 +130,7 @@ describe.each([
           name: "Ja, löschen",
         }),
       );
-      expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(
-        `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte/2/${arrayName}`,
-        0,
-      );
+      expect(deleteArrayItem).toHaveBeenCalledExactlyOnceWith(0);
       rerender(
         <AdditionalPersonsList
           berufsausuebungsgesellschaft={{ ...company, [arrayName]: [] }}

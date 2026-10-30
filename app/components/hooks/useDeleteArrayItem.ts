@@ -3,11 +3,24 @@ import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySumm
 import { type RootLoader } from "~/root";
 import { CSRFKey } from "~/services/security/csrf/csrfKey";
 
-export const useDeleteArrayItem = (arrayName: string) => {
+/**
+ * Deletes a given array item from the userData
+ * @param arrayName Name of the array (with hashes), in format "arrayName" or "arrayName#subArrayName" for nested arrays
+ * @param arrayUrl URL of where the item resides, i.e. /root/parentPage/arrayName (without hashes)
+ * @param focusFunction Optional function to focus on a specific item after deletion
+ */
+export const useDeleteArrayItem = (
+  arrayName: string,
+  arrayUrl: string,
+  focusFunction?: (itemIndex: number) => void,
+) => {
   const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const revalidator = useRevalidator();
 
-  return async (pathnameArrayItem: string, itemIndex: number) => {
+  const deleteArrayItemFromFormData = async (
+    pathnameArrayItem: string,
+    itemIndex: number,
+  ) => {
     const formData = new FormData();
     formData.append("pathnameArrayItem", pathnameArrayItem);
     formData.append("_jsEnabled", "true");
@@ -24,5 +37,8 @@ export const useDeleteArrayItem = (arrayName: string) => {
     }
 
     await revalidator.revalidate();
+    focusFunction?.(itemIndex);
   };
+
+  return (index: number) => deleteArrayItemFromFormData(arrayUrl, index);
 };

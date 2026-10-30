@@ -292,7 +292,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
     try {
       renderOverview({ klagendeProzessbevollmaechtigte: [einzelkanzlei] });
       act(() => {
-        focusOnProzessbevollmaechtigteTitle("klagende", "einzelkanzlei", 0);
+        focusOnProzessbevollmaechtigteTitle("klagende", "einzelkanzlei")(0);
         vi.runAllTimers();
       });
       expect(screen.getByTestId("prozessbevollmaechtigte")).toHaveFocus();
@@ -300,8 +300,7 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         focusOnProzessbevollmaechtigteTitle(
           "klagende",
           "berufsausuebungsgesellschaft",
-          9,
-        );
+        )(9);
         vi.runAllTimers();
       });
       expect(

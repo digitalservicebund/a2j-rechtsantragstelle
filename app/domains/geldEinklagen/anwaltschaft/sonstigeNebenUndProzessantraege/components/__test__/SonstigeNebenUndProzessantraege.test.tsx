@@ -1,7 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SonstigeNebenUndProzessantraege from "../SonstigeNebenUndProzessantraege";
-import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "../SonstigeNebenUndProzessantraegeUebersicht";
 
 beforeEach(() => {
   HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
@@ -44,10 +43,7 @@ describe("SonstigeNebenUndProzessantraege deletion", () => {
       await user.click(
         within(dialog).getByRole("button", { name: "Ja, löschen" }),
       );
-      expect(onDelete).toHaveBeenCalledExactlyOnceWith(
-        BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE,
-        3,
-      );
+      expect(onDelete).toHaveBeenCalledExactlyOnceWith(3);
     },
   );
 });

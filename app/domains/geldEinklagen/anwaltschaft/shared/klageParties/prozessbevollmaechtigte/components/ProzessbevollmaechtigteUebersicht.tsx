@@ -78,6 +78,8 @@ const ProzessbevollmaechtigteList = ({
 }) => {
   const deleteArrayItem = useDeleteArrayItem(
     getProzessbevollmaechtigteArrayName(relationship),
+    getBaseProzessbevollmaechtigteUrl(relationship),
+    focusOnProzessbevollmaechtigteTitle(relationship, type),
   );
   const heading =
     type === "einzelkanzlei"
@@ -102,13 +104,7 @@ const ProzessbevollmaechtigteList = ({
           index={arrayIndex}
           prozessbevollmaechtigte={prozessbevollmaechtigte}
           relationship={relationship}
-          onDelete={async () => {
-            await deleteArrayItem(
-              getBaseProzessbevollmaechtigteUrl(relationship),
-              arrayIndex,
-            );
-            focusOnProzessbevollmaechtigteTitle(relationship, type, arrayIndex);
-          }}
+          onDelete={() => deleteArrayItem(arrayIndex)}
         />
       ))}
       <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
