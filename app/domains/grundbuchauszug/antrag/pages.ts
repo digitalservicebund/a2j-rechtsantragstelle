@@ -5,6 +5,7 @@ import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { integerSchema } from "~/services/validation/integer";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
+import { pdfFileUploadArrayRequiredSchema } from "~/services/validation/pdfFileSchema";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -34,6 +35,9 @@ export const grundbuchauszugAntragPages = {
   },
   antragsgrundNachweisHochladen: {
     stepId: "/antragsgrund/nachweis-hochladen",
+    pageSchema: {
+      proofFiles: pdfFileUploadArrayRequiredSchema,
+    },
   },
   grundstuecksdaten: {
     stepId: "/grundstuecksdaten",
