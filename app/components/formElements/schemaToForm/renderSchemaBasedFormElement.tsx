@@ -1,5 +1,4 @@
 import z from "zod";
-import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
@@ -96,24 +95,38 @@ export const renderSpecialMetaDescriptions = (
 ) => {
   const { userData } = useFlowLoaderDataContext();
 
+  const errorMessages =
+    matchingElement && "errorMessages" in matchingElement
+      ? matchingElement.errorMessages
+      : undefined;
+
   switch (description) {
     case filesUploadZodDescription: {
-      const filesUploadElement = matchingElement as z.infer<
-        typeof StrapiFilesUploadComponentSchema
-      >;
+      const fileUploadTitle =
+        matchingElement && "title" in matchingElement
+          ? matchingElement.title
+          : undefined;
+      const fileUploadDescription =
+        matchingElement && "description" in matchingElement
+          ? matchingElement.description
+          : undefined;
+
+      const fileUploadInlineNotices =
+        matchingElement && "inlineNotices" in matchingElement
+          ? matchingElement.inlineNotices
+          : undefined;
+
       return (
         <FilesUpload
           key={fieldName}
           name={fieldName}
-          title={filesUploadElement.title}
-          description={filesUploadElement.description}
-          inlineNotices={filesUploadElement.inlineNotices?.map(
-            (inlineNotice) => ({
-              ...inlineNotice,
-              look: mapLookValue(inlineNotice.look),
-            }),
-          )}
-          errorMessages={filesUploadElement.errorMessages}
+          title={fileUploadTitle}
+          description={fileUploadDescription}
+          inlineNotices={fileUploadInlineNotices?.map((inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }))}
+          errorMessages={errorMessages}
         />
       );
     }
@@ -159,10 +172,6 @@ export const renderSpecialMetaDescriptions = (
       const label =
         matchingElement && "label" in matchingElement
           ? matchingElement.label
-          : undefined;
-      const errorMessages =
-        matchingElement && "errorMessages" in matchingElement
-          ? matchingElement.errorMessages
           : undefined;
 
       return (
