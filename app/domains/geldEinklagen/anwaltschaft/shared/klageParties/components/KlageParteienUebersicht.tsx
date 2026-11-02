@@ -13,7 +13,7 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
-import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 
 export const KlageParteienUebersicht = ({
   relationship,
@@ -78,20 +78,29 @@ const KlageParteienList = ({
     maximumReachedContent,
   } = getPartyTypeTranslations(partyType, relationship);
   return (
-    <div className="kern-summary flex flex-col gap-kern-space-default">
-      <div className="flex flex-col kern-summary__header p-0!">
-        <h2
-          className="kern-body kern-body--large kern-body--bold p-0!"
-          id={`${relationship}-${partyType}`}
-          tabIndex={-1}
-        >
-          {heading}
-        </h2>
-        {helperText && (
-          <p className="kern-body kern-body--regular p-0!">{helperText}</p>
-        )}
-      </div>
-
+    <ArrayItemListSection
+      heading={heading}
+      headingId={`${relationship}-${partyType}`}
+      helperText={helperText}
+      notice={
+        shouldDisableAddButton && (
+          <InlineNotice
+            className="w-full"
+            tagName="h2"
+            look="info"
+            title={maximumReachedTitle}
+            content={maximumReachedContent}
+            wrap
+          />
+        )
+      }
+      addButton={{
+        href: addPartyHref,
+        buttonText: `${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+        disabled: shouldDisableAddButton,
+        dataTestId: testId,
+      }}
+    >
       {parties.map(({ partei, arrayIndex, displayIndex }) => (
         <KlagePartei
           key={partei.id ?? arrayIndex}
@@ -101,23 +110,6 @@ const KlageParteienList = ({
           relationship={relationship}
         />
       ))}
-
-      {shouldDisableAddButton && (
-        <InlineNotice
-          className="w-full"
-          tagName="h2"
-          look="info"
-          title={maximumReachedTitle}
-          content={maximumReachedContent}
-          wrap
-        />
-      )}
-      <AddArrayItemButton
-        href={addPartyHref}
-        buttonText={`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-        disabled={shouldDisableAddButton}
-        dataTestId={testId}
-      />
-    </div>
+    </ArrayItemListSection>
   );
 };

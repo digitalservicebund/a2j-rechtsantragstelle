@@ -846,7 +846,7 @@ export const translations = {
       de: "Beweisangebote",
     },
     optionalSuffix: {
-      de: "- Optional",
+      de: " - Optional",
     },
     undBeweisangebote: {
       de: "und Beweisangebote",
