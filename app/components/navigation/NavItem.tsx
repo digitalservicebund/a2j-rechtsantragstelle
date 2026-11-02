@@ -100,8 +100,8 @@ export function NavItem({
     "focus-visible:rounded-[var(--kern-metric-border-radius-default)]",
     "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_4px_var(--kern-color-action-focus-default),0_0_0_6px_var(--kern-color-action-focus-default)]",
     {
-      "rounded-t": isFirst,
-      "rounded-b": isLast,
+      "rounded-t": isFirst && !isChild,
+      "rounded-b": isLast && !isChild,
       "kern-alert--warning hover:bg-kern-orange-100!": isWarning,
       "kern-body--bold bg-kern-neutral-100": isCurrent && !hasSubflows,
       "pl-24!": isChild,
