@@ -42,7 +42,7 @@ describe("KlagePartei", () => {
     ].join(" ");
 
     expect(
-      screen.getByRole("link", { name: expectedLabel }),
+      screen.getByRole("button", { name: expectedLabel }),
     ).toBeInTheDocument();
   });
 });

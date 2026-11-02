@@ -836,6 +836,27 @@ export const translations = {
     annahmeverzugAddButton: {
       de: "Annahmeverzug hinzufügen",
     },
+    addVortragButton: {
+      de: "Vortragen",
+    },
+    absatz: {
+      de: "Absatz",
+    },
+    beweisangeboteTitle: {
+      de: "Beweisangebote",
+    },
+    optionalSuffix: {
+      de: " - Optional",
+    },
+    undBeweisangebote: {
+      de: "und Beweisangebote",
+    },
+    undDazugehoerigeBeweisangebote: {
+      de: "und dazugehörige Beweisangebote",
+    },
+    addAbsatzButton: {
+      de: "Absatz hinzufügen",
+    },
   },
   nachlass: {
     childOf: {

@@ -1,13 +1,33 @@
 import { hauptantragArraySchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
 export const tatsachenvortragPages = {
-  tatsachenvortragBeweiseUebersicht: {
+  antraegeUebersicht: {
     stepId: "/tatsachenvortrag-beweise/uebersicht",
     arraySummary: {
       name: "hauptantrag",
       schema: hauptantragArraySchema,
       isArrayRelevant: () => true,
+    },
+  },
+  absaetzeUebersicht: {
+    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "hauptantrag#absaetze",
+      schema: absaetzeArraySchema,
+      isArrayRelevant: () => true,
+    },
+  },
+  absatzDaten: {
+    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#formulierung": stringRequiredMaxSchema({
+        max: 10000,
+      }),
     },
   },
 } as const satisfies PageConfigMap;

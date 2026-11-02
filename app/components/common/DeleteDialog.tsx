@@ -54,9 +54,14 @@ export const DeleteDialog = ({
           disabled={pending}
         />
       </header>
-      <section id={dialogDescriptionId} className="kern-dialog__body text-wrap">
-        {description}
-      </section>
+      {description && (
+        <section
+          id={dialogDescriptionId}
+          className="kern-dialog__body text-wrap"
+        >
+          {description}
+        </section>
+      )}
       <footer className="kern-dialog__footer">
         <Button
           look="secondary"

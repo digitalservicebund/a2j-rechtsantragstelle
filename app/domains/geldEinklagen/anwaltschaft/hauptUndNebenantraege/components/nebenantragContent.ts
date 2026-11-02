@@ -28,7 +28,7 @@ const formatPartyNumbers = (numbers: number[]): string => {
     .join(", ");
 };
 
-const getBeklagteText = (count: number): string =>
+export const getBeklagteText = (count: number): string =>
   count === 1 ? "Die Beklagte" : "Die Beklagten";
 
 const getKlagendeText = (count: number): string =>
