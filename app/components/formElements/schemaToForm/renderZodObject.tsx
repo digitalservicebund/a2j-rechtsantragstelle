@@ -5,7 +5,7 @@ import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
 import DateInput from "~/components/formElements/inputs/date/DateInput";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
-import { SplitTimeInput } from "../inputs/time/SplitTimeInput";
+import { TimeInput } from "../inputs/time/TimeInput";
 import {
   dateInputOptionalZodDescription,
   dateInputZodDescription,
@@ -78,7 +78,7 @@ export const renderZodObject = (
 
   if (nestedSchema.meta()?.description === "split_time") {
     return (
-      <SplitTimeInput
+      <TimeInput
         key={fieldName}
         name={fieldName}
         suffix={suffix}

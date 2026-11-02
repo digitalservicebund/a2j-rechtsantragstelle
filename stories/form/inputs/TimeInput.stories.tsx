@@ -1,17 +1,17 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import z from "zod";
-import { SplitTimeInput } from "~/components/formElements/inputs/time/SplitTimeInput";
+import { TimeInput } from "~/components/formElements/inputs/time/TimeInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { createSplitTimeSchema } from "~/services/validation/timeObject";
+import { createTimeSchema } from "~/services/validation/timeObject";
 
 const meta = {
-  title: "form/inputs/SplitTimeInput",
-  component: SplitTimeInput,
+  title: "form/inputs/TimeInput",
+  component: TimeInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof SplitTimeInput>;
+} satisfies Meta<typeof TimeInput>;
 
 export default meta;
 
@@ -41,7 +41,7 @@ export const Default: Story = {
             </Grid>
           </GridSection>
         </>,
-        z.object({ time: createSplitTimeSchema() }),
+        z.object({ time: createTimeSchema() }),
       ),
   ],
 };

@@ -363,7 +363,7 @@ export const translations = {
       de: "Beispielsweise: 17.11.2025",
     },
   },
-  splitTimeComponent: {
+  timeComponent: {
     hourInputLabel: {
       de: "Stunde",
     },
