@@ -1,7 +1,7 @@
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -22,7 +22,7 @@ export const antragstellendePersonPages = {
   antragstellendePersonGeburtsdatumOrt: {
     stepId: "/antragstellende-person/geburtsdatum-ort",
     pageSchema: {
-      antragstellendePersonGeburtsdatum: createSplitDateSchema({
+      antragstellendePersonGeburtsdatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),

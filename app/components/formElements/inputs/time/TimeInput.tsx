@@ -22,7 +22,7 @@ const sharedAttributes = {
   },
 } as const;
 
-export const SplitTimeInput = ({
+export const TimeInput = ({
   name,
   label,
   suffix,
@@ -70,7 +70,7 @@ export const SplitTimeInput = ({
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">
         <div className="kern-form-input">
           <label className="kern-label" htmlFor={hour}>
-            {translations.splitTimeComponent.hourInputLabel.de}
+            {translations.timeComponent.hourInputLabel.de}
           </label>
           <input
             {...hourField.getInputProps({
@@ -98,7 +98,7 @@ export const SplitTimeInput = ({
 
         <div className="kern-form-input">
           <label className="kern-label" htmlFor={minute}>
-            {translations.splitTimeComponent.minuteInputLabel.de}
+            {translations.timeComponent.minuteInputLabel.de}
           </label>
           <input
             {...minuteField.getInputProps({

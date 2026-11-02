@@ -3,8 +3,8 @@ import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsac
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
-  createSplitDateSchema,
-  createSplitDateSchemaOptional,
+  createDateInputSchema,
+  createDateInputOptionalSchema,
 } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
@@ -30,8 +30,8 @@ export const nebenantragArraySchema = z.array(
         "monatlicherZinssatz",
       ])
       .optional(),
-    nebenantragZinsbeginn: createSplitDateSchemaOptional(),
-    nebenantragZinsende: createSplitDateSchemaOptional(),
+    nebenantragZinsbeginn: createDateInputOptionalSchema(),
+    nebenantragZinsende: createDateInputOptionalSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
 );
@@ -47,7 +47,7 @@ export const annahmeverzugArraySchema = z.array(
     annahmeverzugsFeststellung: annahmeverzugCheckboxSchema.describe(
       annahmeverzugCheckboxZodDescription,
     ),
-    annahmeverzugDatum: createSplitDateSchema(),
+    annahmeverzugDatum: createDateInputSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
 );
@@ -85,8 +85,8 @@ export const hauptantragArraySchema = z.array(
           "monatlicherZinssatz",
         ])
         .optional(),
-      zinsbeginn: createSplitDateSchemaOptional(),
-      zinsende: createSplitDateSchemaOptional(),
+      zinsbeginn: createDateInputOptionalSchema(),
+      zinsende: createDateInputOptionalSchema(),
       absaetze: absaetzeArraySchema.optional(),
       nebenantrag: nebenantragArraySchema.optional(),
       annahmeverzug: annahmeverzugArraySchema.optional(),

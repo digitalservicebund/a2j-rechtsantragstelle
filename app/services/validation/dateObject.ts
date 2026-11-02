@@ -1,5 +1,5 @@
 import z from "zod";
-import { isValidDate } from "./dateString";
+import isDate from "validator/lib/isDate";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { addYears, today } from "~/util/date";
 import { stringOptionalSchema } from "./stringOptional";
@@ -26,7 +26,14 @@ const assertValidDateRangeArgs = (args?: {
   }
 };
 
-export const createSplitDateSchema = (args?: {
+const isValidDate = (date: string) =>
+  isDate(date, {
+    format: "DD.MM.YYYY",
+    strictMode: true,
+    delimiters: ["."],
+  });
+
+export const createDateInputSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -100,7 +107,7 @@ const optionalDatePartRefine =
 const padIfPresent = (val?: string) =>
   isBlank(val) ? val : val.padStart(2, "0");
 
-export const createSplitDateSchemaOptional = (args?: {
+export const createDateInputOptionalSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -196,7 +203,7 @@ export const hasDateObject = (date: Partial<DateObject> | undefined) => {
   return objectKeysNonEmpty(date, ["day", "month", "year"]);
 };
 
-export const childBirthdaySchema = createSplitDateSchema({
+export const childBirthdaySchema = createDateInputSchema({
   earliest: () => addYears(today(), -24),
   latest: () => today(),
 });

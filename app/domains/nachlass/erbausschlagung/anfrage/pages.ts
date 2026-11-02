@@ -3,7 +3,7 @@ import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas"
 import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { createNumberIncrementSchema } from "~/services/validation/numberIncrement";
@@ -59,7 +59,7 @@ export const erbausschlagungAnfragePages = {
   verstorbeneGeburtsdatum: {
     stepId: "/verstorbene/geburtsdatum",
     pageSchema: {
-      verstorbeneGeburtsdatum: createSplitDateSchema({
+      verstorbeneGeburtsdatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),
@@ -68,7 +68,7 @@ export const erbausschlagungAnfragePages = {
   verstorbeneSterbedatum: {
     stepId: "/verstorbene/sterbedatum",
     pageSchema: {
-      verstorbeneSterbedatum: createSplitDateSchema({
+      verstorbeneSterbedatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),
@@ -138,7 +138,7 @@ export const erbausschlagungAnfragePages = {
   awarenessDate: {
     stepId: "/ausschlagende-person/kenntnisdatum",
     pageSchema: {
-      awarenessDate: createSplitDateSchema({
+      awarenessDate: createDateInputSchema({
         latest: () => today(),
       }),
       awarenessDateRemarks: stringOptionalSchema,
@@ -179,7 +179,7 @@ export const erbausschlagungAnfragePages = {
   ausschlagendePersonBirthday: {
     stepId: "/ausschlagende-person/geburtsdatum",
     pageSchema: {
-      ausschlagendePersonGeburtsdatum: createSplitDateSchema({
+      ausschlagendePersonGeburtsdatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),

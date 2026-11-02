@@ -1,7 +1,4 @@
-import {
-  createSplitTimeSchema,
-  createSplitTimeSchemaOptional,
-} from "../timeObject";
+import { createTimeSchema, createTimeOptionalSchema } from "../timeObject";
 
 describe("timeObject", () => {
   describe("check sucessfull results", () => {
@@ -41,7 +38,7 @@ describe("timeObject", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = createSplitTimeSchema().safeParse(input);
+        const actual = createTimeSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -102,7 +99,7 @@ describe("timeObject", () => {
     test.each(cases)(
       "given $input, returns $errorMessage on $errorPath",
       ({ input, errorPath, errorMessage }) => {
-        const actual = createSplitTimeSchema().safeParse(input);
+        const actual = createTimeSchema().safeParse(input);
         expect(actual.success).toBe(false);
 
         const issue = actual.error?.issues.find((i) =>
@@ -113,7 +110,7 @@ describe("timeObject", () => {
     );
 
     it("should fail when the time is not valid", () => {
-      const actual = createSplitTimeSchema().safeParse({
+      const actual = createTimeSchema().safeParse({
         hour: "24",
         minute: "59",
       });
@@ -123,9 +120,9 @@ describe("timeObject", () => {
   });
 });
 
-describe("createSplitTimeSchemaOptional", () => {
+describe("createTimeOptionalSchema", () => {
   it("succeeds when both fields are blank", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({
+    const actual = createTimeOptionalSchema().safeParse({
       hour: "",
       minute: "",
     });
@@ -133,12 +130,12 @@ describe("createSplitTimeSchemaOptional", () => {
   });
 
   it("succeeds when both fields are missing", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({});
+    const actual = createTimeOptionalSchema().safeParse({});
     expect(actual.success).toBe(true);
   });
 
   it("succeeds when a valid time is provided", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({
+    const actual = createTimeOptionalSchema().safeParse({
       hour: "10",
       minute: "30",
     });
@@ -149,7 +146,7 @@ describe("createSplitTimeSchemaOptional", () => {
   });
 
   it("fails when only the hour is provided", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({
+    const actual = createTimeOptionalSchema().safeParse({
       hour: "10",
       minute: "",
     });
@@ -160,7 +157,7 @@ describe("createSplitTimeSchemaOptional", () => {
   });
 
   it("fails when only the minute is provided", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({
+    const actual = createTimeOptionalSchema().safeParse({
       hour: "",
       minute: "30",
     });
@@ -171,7 +168,7 @@ describe("createSplitTimeSchemaOptional", () => {
   });
 
   it("fails when the time is not valid", () => {
-    const actual = createSplitTimeSchemaOptional().safeParse({
+    const actual = createTimeOptionalSchema().safeParse({
       hour: "24",
       minute: "59",
     });

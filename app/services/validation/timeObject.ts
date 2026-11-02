@@ -17,13 +17,13 @@ const isInvalidTimePart = (val?: string) =>
 
 type TimeField = "hour" | "minute";
 
-export const createSplitTimeSchema = () => {
+export const createTimeSchema = () => {
   return z
     .object({
       hour: stringRequiredSchema,
       minute: stringRequiredSchema,
     })
-    .meta({ description: "split_time" })
+    .meta({ description: "time_input" })
     .check((ctx) => {
       const pushIssue = (path: TimeField, message: string) =>
         ctx.issues.push({
@@ -37,12 +37,12 @@ export const createSplitTimeSchema = () => {
       let hasFieldError = false;
 
       if (isInvalidTimePart(hour)) {
-        pushIssue("hour", translations.splitTimeComponent.invalidHour.de);
+        pushIssue("hour", translations.timeComponent.invalidHour.de);
         hasFieldError = true;
       }
 
       if (isInvalidTimePart(minute)) {
-        pushIssue("minute", translations.splitTimeComponent.invalidMinute.de);
+        pushIssue("minute", translations.timeComponent.invalidMinute.de);
         hasFieldError = true;
       }
 
@@ -56,18 +56,18 @@ export const createSplitTimeSchema = () => {
       // attach to the leaf fields (not the parent path) so RVF's
       // per-field validation picks the error back up after it clears
       (["hour", "minute"] as const).forEach((path) =>
-        pushIssue(path, translations.splitTimeComponent.invalidTime.de),
+        pushIssue(path, translations.timeComponent.invalidTime.de),
       );
     });
 };
 
-export const createSplitTimeSchemaOptional = () => {
+export const createTimeOptionalSchema = () => {
   return z
     .object({
       hour: stringOptionalSchema,
       minute: stringOptionalSchema,
     })
-    .meta({ description: "split_time" })
+    .meta({ description: "time_input" })
     .check((ctx) => {
       const pushIssue = (path: TimeField, message: string) =>
         ctx.issues.push({
@@ -86,12 +86,12 @@ export const createSplitTimeSchemaOptional = () => {
       let hasFieldError = false;
 
       if (isInvalidTimePart(hour)) {
-        pushIssue("hour", translations.splitTimeComponent.invalidHour.de);
+        pushIssue("hour", translations.timeComponent.invalidHour.de);
         hasFieldError = true;
       }
 
       if (isInvalidTimePart(minute)) {
-        pushIssue("minute", translations.splitTimeComponent.invalidMinute.de);
+        pushIssue("minute", translations.timeComponent.invalidMinute.de);
         hasFieldError = true;
       }
 
@@ -104,7 +104,7 @@ export const createSplitTimeSchemaOptional = () => {
       if (isTime(toTimeString(time), { hourFormat: "hour24" })) return;
 
       (["hour", "minute"] as const).forEach((path) =>
-        pushIssue(path, translations.splitTimeComponent.invalidTime.de),
+        pushIssue(path, translations.timeComponent.invalidTime.de),
       );
     });
 };

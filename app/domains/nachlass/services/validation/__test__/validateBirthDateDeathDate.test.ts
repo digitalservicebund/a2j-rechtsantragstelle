@@ -4,10 +4,10 @@ import {
   validateDeathDate,
 } from "~/domains/nachlass/services/validation/validateBirthDateDeathDate";
 import { translations } from "~/services/translations/translations";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
-const dateSchema = createSplitDateSchema({
+const dateSchema = createDateInputSchema({
   earliest: () => new Date(1900, 0, 1),
   latest: () => new Date(2024, 0, 1),
 });

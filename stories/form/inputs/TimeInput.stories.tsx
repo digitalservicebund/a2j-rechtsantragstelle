@@ -1,17 +1,17 @@
 import { reactRouterFormContext } from "~/../.storybook/reactRouterFormContext";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import z from "zod";
-import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
+import { TimeInput } from "~/components/formElements/inputs/time/TimeInput";
 import { Grid } from "~/components/layout/grid/Grid";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { GridSection } from "~/components/layout/grid/GridSection";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createTimeSchema } from "~/services/validation/timeObject";
 
 const meta = {
-  title: "form/inputs/SplitDateInput",
-  component: SplitDateInput,
+  title: "form/inputs/TimeInput",
+  component: TimeInput,
   tags: ["autodocs"],
-} satisfies Meta<typeof SplitDateInput>;
+} satisfies Meta<typeof TimeInput>;
 
 export default meta;
 
@@ -19,9 +19,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    name: "date",
-    isRequired: true,
-    label: "Birthday",
+    name: "time",
+    label: "Time",
+    helperText: "Beispielsweise: 10:30",
+    errorMessages: [
+      {
+        code: "required",
+        text: "Enter a value",
+      },
+    ],
   },
   decorators: [
     (Story) =>
@@ -35,7 +41,7 @@ export const Default: Story = {
             </Grid>
           </GridSection>
         </>,
-        z.object({ date: createSplitDateSchema() }),
+        z.object({ time: createTimeSchema() }),
       ),
   ],
 };
