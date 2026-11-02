@@ -123,7 +123,7 @@ const DeleteButtonWithJavaScript = ({
         type="button"
         look="secondary"
         aria-haspopup="dialog"
-        className="border-kern-feedback-danger! w-full"
+        className="border-kern-feedback-danger! w-max"
         aria-label={ariaLabel.deleteButtonLabel}
         iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
         onClick={onDeleteClicked}
@@ -167,7 +167,7 @@ const DeleteButtonWithoutJavaScript = ({
         name={itemCategory}
         value={itemIndexDelete}
         look="secondary"
-        className="border-kern-feedback-danger! w-full"
+        className="border-kern-feedback-danger! w-max"
         iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
         aria-label={ariaLabel}
       />

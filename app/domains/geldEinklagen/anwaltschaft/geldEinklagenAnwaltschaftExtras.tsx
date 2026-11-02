@@ -4,6 +4,7 @@ import { ProzessbevollmaechtigteUebersicht } from "./shared/klageParties/prozess
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
+import ZahlungsAntragUebersicht from "./hauptUndNebenantraege/components/ZahlungsAntragUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -23,6 +24,8 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <ProzessbevollmaechtigteUebersicht relationship="beklagte" />;
         case "/sonstige-neben-und-prozessantraege/uebersicht":
           return <SonstigeNebenUndProzessantraegeUebersicht />;
+        case "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht":
+          return <ZahlungsAntragUebersicht />;
       }
     },
     getDynamicOptions: function (): DynamicOptions | undefined {

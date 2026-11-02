@@ -9,8 +9,8 @@ import { StrapiDropdownComponentSchema } from "./StrapiDropdown";
 import { StrapiInputComponentSchema } from "./StrapiInput";
 import { StrapiTextareaComponentSchema } from "./StrapiTextarea";
 import { StrapiTimeInputComponentSchema } from "./StrapiTimeInput";
-import { StrapiCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiCheckbox";
-import { StrapiStandaloneCheckboxComponentSchema } from "~/services/cms/models/formElements/StrapiStandaloneCheckbox";
+import { StrapiCheckboxComponentSchema } from "./StrapiCheckbox";
+import { StrapiStandaloneCheckboxComponentSchema } from "./StrapiStandaloneCheckbox";
 
 export const StrapiFieldSetComponentSchema = z.object({
   heading: buildRichTextValidation({
