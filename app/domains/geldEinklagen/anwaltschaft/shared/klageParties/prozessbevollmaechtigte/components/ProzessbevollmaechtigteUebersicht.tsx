@@ -1,5 +1,3 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../../../userData";
@@ -17,6 +15,7 @@ import {
   type ProzessbevollmaechtigteWithArrayIndex,
 } from "../useProzessbevollmaechtigte";
 import Prozessbevollmaechtigte from "./Prozessbevollmaechtigte";
+import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 export const ProzessbevollmaechtigteUebersicht = ({
   relationship,
@@ -107,19 +106,12 @@ const ProzessbevollmaechtigteList = ({
           onDelete={() => deleteArrayItem(arrayIndex)}
         />
       ))}
-      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
-        <Button
-          look="secondary"
-          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-          href={addHref}
-          data-testid={`add-${type}`}
-          fullWidth={true}
-          disabled={shouldDisableAddButton}
-          aria-disabled={shouldDisableAddButton}
-        >
-          {`${heading} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-        </Button>
-      </div>
+      <AddArrayItemButton
+        href={addHref}
+        disabled={shouldDisableAddButton}
+        dataTestId={`add-${type}`}
+        buttonText={`${heading} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+      />
     </div>
   );
 };
