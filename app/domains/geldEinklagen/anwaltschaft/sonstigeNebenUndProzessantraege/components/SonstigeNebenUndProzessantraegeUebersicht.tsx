@@ -1,5 +1,3 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import SonstigeNebenUndProzessantraege from "./SonstigeNebenUndProzessantraege";
@@ -7,6 +5,7 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag";
@@ -71,22 +70,15 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
               />
             ),
           )}
-        <div className="flex flex-col items-start gap-24 p-kern-space-default border border-dashed border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) bg-white">
-          <Button
-            look="secondary"
-            iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-            href={addButtonUrl}
-            data-testid="add-sonstigeNebenUndProzessantraege"
-            fullWidth={true}
-            disabled={shouldDisableAddButton}
-            aria-disabled={shouldDisableAddButton}
-          >
-            {
-              translations.geldEinklagenAnwaltschaft
-                .soenstigeProzessantragArrayButton.de
-            }
-          </Button>
-        </div>
+        <AddArrayItemButton
+          href={addButtonUrl}
+          disabled={shouldDisableAddButton}
+          dataTestId="add-sonstigeNebenUndProzessantraege"
+          buttonText={
+            translations.geldEinklagenAnwaltschaft
+              .soenstigeProzessantragArrayButton.de
+          }
+        />
         <div className="pt-24">
           {shouldDisableAddButton && (
             <InlineNotice

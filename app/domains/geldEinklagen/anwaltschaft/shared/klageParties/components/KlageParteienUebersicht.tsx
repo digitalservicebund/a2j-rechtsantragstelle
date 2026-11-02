@@ -1,5 +1,3 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
@@ -15,6 +13,7 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
+import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 export const KlageParteienUebersicht = ({
   relationship,
@@ -113,20 +112,12 @@ const KlageParteienList = ({
           wrap
         />
       )}
-
-      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
-        <Button
-          look="secondary"
-          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-          href={addPartyHref}
-          data-testid={testId}
-          fullWidth={true}
-          disabled={shouldDisableAddButton}
-          aria-disabled={shouldDisableAddButton}
-        >
-          {`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-        </Button>
-      </div>
+      <AddArrayItemButton
+        href={addPartyHref}
+        buttonText={`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+        disabled={shouldDisableAddButton}
+        dataTestId={testId}
+      />
     </div>
   );
 };

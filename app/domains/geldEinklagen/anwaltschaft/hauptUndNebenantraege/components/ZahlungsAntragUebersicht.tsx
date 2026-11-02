@@ -1,11 +1,10 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
+import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -59,22 +58,14 @@ const ZahlungsAntragUebersicht = () => {
             />
           </div>
         )}
-        <div className="flex flex-col items-start p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
-          <Button
-            look="secondary"
-            iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-            href={addButtonUrl}
-            data-testid="add-zahlungsantrag"
-            fullWidth={true}
-            disabled={shouldDisableAddButton}
-            aria-disabled={shouldDisableAddButton}
-          >
-            {
-              translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen
-                .de
-            }
-          </Button>
-        </div>
+        <AddArrayItemButton
+          href={addButtonUrl}
+          buttonText={
+            translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de
+          }
+          disabled={shouldDisableAddButton}
+          dataTestId="add-zahlungsantrag"
+        />
       </div>
     </div>
   );
