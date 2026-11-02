@@ -18,12 +18,14 @@ type Nebenantrag = {
   item: NonNullable<Hauptantrag["nebenantrag"]>[number];
   index: number;
   type: "nebenantrag";
+  arrayIndex: number;
 };
 
 type Annahmeverzug = {
   item: NonNullable<Hauptantrag["annahmeverzug"]>[number];
   index: number;
   type: "annahmeverzug";
+  arrayIndex: number;
 };
 
 type NebenantragItemData = Nebenantrag | Annahmeverzug;
@@ -47,6 +49,7 @@ export const NebenantragItem = ({
     (item, index) => ({
       item,
       index,
+      arrayIndex: index,
       type: "nebenantrag",
     }),
   );
@@ -55,6 +58,7 @@ export const NebenantragItem = ({
     (item, index) => ({
       item,
       index: (nebenantrag ?? []).length + index,
+      arrayIndex: index,
       type: "annahmeverzug",
     }),
   );
@@ -85,7 +89,7 @@ export const NebenantragItem = ({
       </div>
 
       {items.map((entry) => {
-        const { index, type } = entry;
+        const { index, type, arrayIndex } = entry;
         return (
           <div
             key={`hauptantrag-${parentArrayItemIndex}-${type}-${index}`}
@@ -113,7 +117,7 @@ export const NebenantragItem = ({
                   />
                 }
                 aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} bearbeiten`}
-                href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${index}/daten`}
+                href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${arrayIndex}/daten`}
                 className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
               />
               <Button

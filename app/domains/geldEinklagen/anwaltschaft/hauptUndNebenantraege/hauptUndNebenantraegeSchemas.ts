@@ -1,9 +1,7 @@
 import { z } from "zod";
 import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
-import {
-  checkedOptional,
-  checkedRequired,
-} from "~/services/validation/checkedCheckbox";
+import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
   createSplitDateSchema,
   createSplitDateSchemaOptional,
@@ -37,9 +35,18 @@ export const nebenantragArraySchema = z.array(
     absaetze: absaetzeArraySchema.optional(),
   }),
 );
+
+const annahmeverzugCheckboxSchema = z
+  .enum(["on", "off"])
+  .refine((value) => value === "on", {
+    message: "Bitte wählen Sie den Feststellungsantrag Annahmeverzug aus",
+  });
+
 export const annahmeverzugArraySchema = z.array(
   z.object({
-    annahmeverzugsFeststellung: checkedRequired,
+    annahmeverzugsFeststellung: annahmeverzugCheckboxSchema.describe(
+      annahmeverzugCheckboxZodDescription,
+    ),
     annahmeverzugDatum: createSplitDateSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
