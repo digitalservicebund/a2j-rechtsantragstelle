@@ -1,7 +1,10 @@
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
-import { getNebenantragItemText } from "./nebenantragContent";
+import {
+  getAlphabeticalEnumeration,
+  getNebenantragItemText,
+} from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const BASE_URL_NEBENANTRAG =
@@ -51,7 +54,7 @@ export const NebenantragItem = ({
   const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
     (item, index) => ({
       item,
-      index,
+      index: (nebenantrag ?? []).length + index,
       type: "annahmeverzug",
     }),
   );
@@ -89,6 +92,9 @@ export const NebenantragItem = ({
             className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
           >
             <div className="kern-body kern-body--default text-pretty flex flex-col">
+              <span className="kern-body max-w-[528px] font-bold!">
+                {getAlphabeticalEnumeration(index)}
+              </span>
               <span className="kern-body max-w-[528px]">
                 {getNebenantragItemText({
                   ...entry,
