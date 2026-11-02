@@ -66,7 +66,6 @@ export const getNebenantragItemText = ({
 }): string => {
   if (type === "nebenantrag") {
     const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
-    console.log("Current Hauptantrag:", hauptantrag);
 
     const beklagteNumbers = getSelectedPartyNumbers(
       userData.beklagten,
@@ -104,4 +103,20 @@ ${formatPartyNumbers(klagendeNumbers)}
   const date = formatSplitDate(item.annahmeverzugDatum);
 
   return `Feststellung des Annahmeverzugs${date ? ` seit dem ${date}` : ""}.`;
+};
+
+export const getBezifferterZahlungsantragText = ({
+  item,
+  type,
+  userData,
+  hauptantragIndex,
+}: NebenantragItemData & {
+  userData: GeldEinklagenAnwaltschaftUserData;
+  hauptantragIndex: number;
+}): string => {
+  if (type === "nebenantrag") {
+    return getNebenantragItemText({ item, type, userData, hauptantragIndex });
+  }
+
+  return "";
 };
