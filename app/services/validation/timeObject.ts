@@ -23,7 +23,7 @@ export const createTimeSchema = () => {
       hour: stringRequiredSchema,
       minute: stringRequiredSchema,
     })
-    .meta({ description: "split_time" })
+    .meta({ description: "time_input" })
     .check((ctx) => {
       const pushIssue = (path: TimeField, message: string) =>
         ctx.issues.push({
@@ -67,7 +67,7 @@ export const createTimeOptionalSchema = () => {
       hour: stringOptionalSchema,
       minute: stringOptionalSchema,
     })
-    .meta({ description: "split_time" })
+    .meta({ description: "time_input" })
     .check((ctx) => {
       const pushIssue = (path: TimeField, message: string) =>
         ctx.issues.push({

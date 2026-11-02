@@ -76,7 +76,7 @@ export const renderZodObject = (
     );
   }
 
-  if (nestedSchema.meta()?.description === "split_time") {
+  if (nestedSchema.meta()?.description === "time_input") {
     return (
       <TimeInput
         key={fieldName}
