@@ -1,86 +1,172 @@
 import { useField } from "@rvf/react-router";
 import classNames from "classnames";
-import { IMaskMixin } from "react-imask";
 import { type ErrorMessageProps } from "~/components/common/types";
+import { translations } from "~/services/translations/translations";
+import { autocompleteMap } from "~/util/autocompleteMap";
 import InputError from "../error/InputError";
-import { InputLabel } from "../label/InputLabel";
-import { InputHelperText } from "../helperText/InputHelperText";
 
-type DateInputProps = Readonly<{
+type DateInputProps = {
   name: string;
+  isRequired: boolean;
   label?: string;
   suffix?: string;
-  helperText?: string;
-  placeholder?: string;
   errorMessages?: ErrorMessageProps[];
-}>;
-
-type MaskedInputProps = DateInputProps & {
-  readonly mask: string | RegExp;
-  readonly eager?: boolean | ("remove" | "append");
 };
 
-const DateInputBase = function DateInputComponent({
+const sharedClassnames = "kern-form-input__input bg-white!" as const;
+const sharedAttributes = (isRequired: boolean) => {
+  return {
+    "aria-required": isRequired,
+    type: "text",
+    inputMode: "numeric" as const,
+    onInput: (e: React.InputEvent<HTMLInputElement>) => {
+      e.currentTarget.value = e.currentTarget.value.replaceAll(/\D/g, "");
+    },
+  };
+};
+
+const DateInput = ({
   name,
   label,
   suffix,
-  inputRef,
-  helperText,
-  placeholder,
   errorMessages,
-}: DateInputProps & { inputRef?: React.Ref<HTMLInputElement> }) {
+  isRequired,
+}: DateInputProps) => {
+  const day = name + ".day";
+  const month = name + ".month";
+  const year = name + ".year";
+
   const field = useField(name);
+  const dayField = useField(day);
+  const monthField = useField(month);
+  const yearField = useField(year);
+
+  const groupErrorMessage = field.error();
+  /**
+   * Should only display errors as soon as all 3 fields have been visited
+   */
+  const shouldDisplayErrors =
+    Boolean(groupErrorMessage) ||
+    (dayField.touched() && monthField.touched() && yearField.touched());
+
+  const dayErrorMessage = dayField.error();
+  const monthErrorMessage = monthField.error();
+  const yearErrorMessage = yearField.error();
+  const fieldErrorMessage =
+    dayErrorMessage ??
+    monthErrorMessage ??
+    yearErrorMessage ??
+    groupErrorMessage;
   const errorId = `${name}-error`;
   const helperId = `${name}-helper`;
 
   return (
-    <div
-      className={classNames("kern-form-input", {
-        "kern-form-input--error": field.error(),
+    <fieldset
+      className={classNames("kern-fieldset", {
+        "kern-fieldset--error":
+          Boolean(fieldErrorMessage) && shouldDisplayErrors,
       })}
+      aria-describedby={helperId}
     >
-      {label && <InputLabel name={name} label={label} suffix={suffix} />}
-
-      {helperText && (
-        <InputHelperText helperText={helperText} helperId={helperId} />
+      {label && (
+        <legend className="kern-label">
+          {label}
+          {suffix && <span className="kern-label__optional">{suffix}</span>}
+        </legend>
       )}
-      <input
-        {...field.getInputProps({
-          id: name,
-        })}
-        ref={inputRef}
-        className={classNames("kern-form-input__input bg-white!", {
-          "kern-form-input__input--error": field.error(),
-        })}
-        name={name}
-        type="text"
-        inputMode="numeric"
-        placeholder={placeholder}
-        aria-invalid={field.error() !== null}
-        aria-describedby={[field.error() && errorId, helperText && helperId]
-          .filter(Boolean)
-          .join(" ")}
-        aria-required={!!errorMessages?.find((err) => err.code === "required")}
-      />
-      <InputError id={errorId}>
-        {errorMessages?.find((err) => err.code === field.error())?.text ??
-          field.error()}
-      </InputError>
-    </div>
-  );
-};
+      <div className="kern-hint" id={helperId}>
+        {translations.dateComponent.hintText.de}
+      </div>
+      <div className="kern-fieldset__body kern-fieldset__body--horizontal">
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={day}>
+            {translations.dateComponent.tagInputLabel.de}
+          </label>
+          <input
+            {...dayField.getInputProps({
+              id: day,
+              min: 1,
+              max: 31,
+              maxLength: 2,
+              ...sharedAttributes(isRequired),
+            })}
+            autoComplete={autocompleteMap[day] ?? "off"}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-2",
+              {
+                "kern-form-input__input--error":
+                  dayErrorMessage && shouldDisplayErrors,
+              },
+            )}
+            aria-invalid={Boolean(dayErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              dayErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
+          />
+        </div>
 
-const MaskedDateInput = IMaskMixin<HTMLInputElement, DateInputProps>(
-  ({ inputRef, ...props }) => <DateInputBase {...props} inputRef={inputRef} />,
-);
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={month}>
+            {translations.dateComponent.monatInputLabel.de}
+          </label>
+          <input
+            {...monthField.getInputProps({
+              id: month,
+              min: 1,
+              max: 12,
+              maxLength: 2,
+              ...sharedAttributes(isRequired),
+            })}
+            autoComplete={autocompleteMap[month] ?? "off"}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-2",
+              {
+                "kern-form-input__input--error":
+                  monthErrorMessage && shouldDisplayErrors,
+              },
+            )}
+            aria-invalid={Boolean(monthErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              monthErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
+          />
+        </div>
 
-const DateInput = (props: DateInputProps) => {
-  return (
-    <MaskedDateInput
-      {...props}
-      {...({ mask: "0`0`.0`0`.0`0`0`0", eager: "append" } as MaskedInputProps)}
-      placeholder="TT.MM.JJJJ"
-    />
+        <div className="kern-form-input">
+          <label className="kern-label" htmlFor={year}>
+            {translations.dateComponent.jahrInputLabel.de}
+          </label>
+          <input
+            {...yearField.getInputProps({
+              id: year,
+              maxLength: 4,
+              ...sharedAttributes(isRequired),
+            })}
+            autoComplete={autocompleteMap[year] ?? "off"}
+            className={classNames(
+              sharedClassnames,
+              "kern-form-input__input--width-4",
+              {
+                "kern-form-input__input--error":
+                  yearErrorMessage && shouldDisplayErrors,
+              },
+            )}
+            aria-invalid={Boolean(yearErrorMessage) && shouldDisplayErrors}
+            aria-describedby={
+              yearErrorMessage && shouldDisplayErrors ? errorId : undefined
+            }
+          />
+        </div>
+      </div>
+      {Boolean(fieldErrorMessage) && shouldDisplayErrors && (
+        <InputError id={errorId}>
+          {errorMessages?.find((err) => err.code === fieldErrorMessage)?.text ??
+            fieldErrorMessage}
+        </InputError>
+      )}
+    </fieldset>
   );
 };
 

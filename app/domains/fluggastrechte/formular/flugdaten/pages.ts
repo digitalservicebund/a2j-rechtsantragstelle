@@ -3,8 +3,8 @@ import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 import {
-  createSplitDateSchema,
-  createSplitDateSchemaOptional,
+  createDateInputSchema,
+  createDateInputOptionalSchema,
 } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
@@ -17,12 +17,12 @@ import {
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const fourYearsAgoSchema = createSplitDateSchema({
+const fourYearsAgoSchema = createDateInputSchema({
   earliest: () => addYears(today(), -4),
   latest: () => today(),
 });
 
-const fourYearsAgoOptionalSchema = createSplitDateSchemaOptional({
+const fourYearsAgoOptionalSchema = createDateInputOptionalSchema({
   earliest: () => addYears(today(), -4),
   latest: () => today(),
 });

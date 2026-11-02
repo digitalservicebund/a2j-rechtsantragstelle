@@ -346,7 +346,7 @@ export const translations = {
       de: "hinzufügen",
     },
   },
-  splitDateComponent: {
+  dateComponent: {
     tagInputLabel: {
       de: "Tag",
     },

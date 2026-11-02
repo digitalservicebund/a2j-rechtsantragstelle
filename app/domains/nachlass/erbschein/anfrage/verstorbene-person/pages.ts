@@ -4,7 +4,7 @@ import {
   autoSuggestStreetNames,
   autoSuggestStringRequiredSchema,
 } from "~/services/validation/autoSuggest";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -25,13 +25,13 @@ export const verstorbenePersonPages = {
   sterbedatumOrt: {
     stepId: "/verstorbene/sterbedatum-ort",
     pageSchema: {
-      sterbedatum: createSplitDateSchema({
+      sterbedatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),
       verstorbeneGeburtsdatum: hiddenInputSchema(
         schemaOrEmptyStringOptional(
-          createSplitDateSchema({
+          createDateInputSchema({
             earliest: () => addYears(today(), -150),
             latest: () => today(),
           }),
@@ -44,12 +44,12 @@ export const verstorbenePersonPages = {
     stepId: "/verstorbene/geburtsdatum-ort",
     pageSchema: {
       sterbedatum: hiddenInputSchema(
-        createSplitDateSchema({
+        createDateInputSchema({
           earliest: () => addYears(today(), -150),
           latest: () => today(),
         }),
       ),
-      verstorbeneGeburtsdatum: createSplitDateSchema({
+      verstorbeneGeburtsdatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),

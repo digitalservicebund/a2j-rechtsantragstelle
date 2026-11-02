@@ -1,6 +1,6 @@
 import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { integerSchema } from "~/services/validation/integer";
@@ -70,7 +70,7 @@ export const grundbuchauszugAntragPages = {
   persoenlicheDatenGeburtsdatum: {
     stepId: "/persoenliche-daten/geburtsdatum",
     pageSchema: {
-      geburtsdatum: createSplitDateSchema({
+      geburtsdatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),

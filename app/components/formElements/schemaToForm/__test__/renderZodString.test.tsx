@@ -99,26 +99,6 @@ describe("renderZodString", () => {
     expect(textarea).toHaveAttribute("maxlength", "100");
   });
 
-  it("renders a date input with the date placeholder", () => {
-    const matchingElement = StrapiFormComponentSchema.parse({
-      __component: "form-elements.date-input",
-      id: 1,
-      name: "field",
-      label: "Date",
-      errors: [],
-    });
-
-    render(renderZodString("field", false, matchingElement), {
-      wrapper: RVFWrapper,
-    });
-
-    const input = screen.getByRole("textbox", { name: "Date" });
-    expect(input.tagName).toBe("INPUT");
-    expect(input).toHaveAttribute("name", "field");
-    expect(input).toHaveAttribute("inputmode", "numeric");
-    expect(input).toHaveAttribute("placeholder", "TT.MM.JJJJ");
-  });
-
   it("overwrites the fallback field-name label with the matching component label", () => {
     const matchingElement = StrapiFormComponentSchema.parse({
       __component: "form-elements.input",
