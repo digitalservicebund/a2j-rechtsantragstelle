@@ -70,6 +70,7 @@ const selectedKlagendeSchema = z
 export const hauptantragArraySchema = z.array(
   z
     .object({
+      id: z.string().check(z.uuid()).optional(),
       internesSchlagwortFordureung: z.string().max(50).optional(),
       betragForderung: integerSchema,
       klagende: selectedKlagendeSchema,

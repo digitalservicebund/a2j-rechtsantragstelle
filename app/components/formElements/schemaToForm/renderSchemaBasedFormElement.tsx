@@ -36,7 +36,7 @@ import { klageParteiCheckboxesZodDescription } from "~/services/validation/klage
 import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/KlageParteiCheckboxes";
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/AnnahmeverzugCheckbox";
+import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/AnnahmeverzugCheckbox";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,

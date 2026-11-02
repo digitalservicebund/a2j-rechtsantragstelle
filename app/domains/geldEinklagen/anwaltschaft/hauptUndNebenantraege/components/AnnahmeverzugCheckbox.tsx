@@ -2,8 +2,8 @@ import { useField } from "@rvf/react-router";
 import classNames from "classnames";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
-import type { KlageParteien } from "../shared/klageParties/klagePartySchemas";
-import { getBeklagteText } from "./components/nebenantragContent";
+import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
+import { getBeklagteText } from "./nebenantragContent";
 
 type Props = {
   name: string;

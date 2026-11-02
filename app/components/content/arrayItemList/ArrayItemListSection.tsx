@@ -2,7 +2,7 @@ import { type ComponentProps, type ReactNode } from "react";
 import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 type ArrayItemListSectionProps = {
-  readonly heading: ReactNode;
+  readonly heading?: ReactNode;
   readonly headingId: string;
   readonly helperText?: ReactNode;
   /** The list items, typically ArrayItemCards */
