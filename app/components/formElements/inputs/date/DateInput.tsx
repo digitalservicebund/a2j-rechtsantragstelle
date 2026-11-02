@@ -99,6 +99,11 @@ const DateInput = ({
                   dayErrorMessage && shouldDisplayErrors,
               },
             )}
+            ref={
+              groupErrorMessage && !monthErrorMessage && !yearErrorMessage
+                ? field.refs.controlled()
+                : null
+            }
             aria-invalid={Boolean(dayErrorMessage) && shouldDisplayErrors}
             aria-describedby={
               dayErrorMessage && shouldDisplayErrors ? errorId : undefined
