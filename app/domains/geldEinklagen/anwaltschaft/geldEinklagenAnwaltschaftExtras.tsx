@@ -5,6 +5,8 @@ import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
 import ZahlungsAntragUebersicht from "./hauptUndNebenantraege/components/ZahlungsAntragUebersicht";
+import { AntraegeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AntraegeUebersicht";
+import { AbsaetzeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AbsaetzeUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -26,6 +28,10 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <SonstigeNebenUndProzessantraegeUebersicht />;
         case "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht":
           return <ZahlungsAntragUebersicht />;
+        case "/tatsachenvortrag-beweise/uebersicht":
+          return <AntraegeUebersicht />;
+        case "/tatsachenvortrag-beweise/hauptantrag/#/absaetze":
+          return <AbsaetzeUebersicht />;
       }
     },
     getDynamicOptions: function (): DynamicOptions | undefined {
