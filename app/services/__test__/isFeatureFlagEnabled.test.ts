@@ -18,14 +18,14 @@ describe("isFeatureFlagEnabled", () => {
   });
 
   it("passes feature flag to PostHog and returns the results", async () => {
-    const result = await isFeatureFlagEnabled("showErbausschlagungFlow");
+    const result = await isFeatureFlagEnabled("showGrundbuchAuszugAntragFlow");
     expect(result).toBe(true);
     expect(mockEvaluateFlags).toHaveBeenCalledWith("backend");
   });
 
   it("falls back to local config if posthog instance is undefined", async () => {
     vi.mocked(getPosthogNodeClient).mockReturnValueOnce(undefined);
-    const result = await isFeatureFlagEnabled("showErbausschlagungFlow");
+    const result = await isFeatureFlagEnabled("showGrundbuchAuszugAntragFlow");
     expect(result).toBe(true);
   });
 });
