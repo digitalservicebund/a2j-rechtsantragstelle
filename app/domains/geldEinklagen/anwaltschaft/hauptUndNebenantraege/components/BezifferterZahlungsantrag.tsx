@@ -4,6 +4,7 @@ import { Badge } from "~/components/content/Badge";
 import Button from "~/components/common/Button";
 import { NebenantragItem } from "./NebenantragItem";
 import { translations } from "~/services/translations/translations";
+import { getBezifferterAntragText } from "./nebenantragContent";
 
 const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -43,7 +44,12 @@ export const BezifferterZahlungsantrag = ({
             </Badge>
           )}
           <div className="flex justify-between items-center">
-            <span className="kern-body max-w-[632px]"></span>
+            <span className="kern-body">
+              {getBezifferterAntragText({
+                userData,
+                hauptantragIndex: itemIndex,
+              })}
+            </span>
             <Button
               look="secondary"
               iconLeft={

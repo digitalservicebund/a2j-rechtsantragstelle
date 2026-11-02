@@ -91,7 +91,6 @@ export const hauptantragArraySchema = z.array(
       const hasZinsmethode =
         data.zinsmethode !== undefined && data.zinsmethode !== null;
 
-      // Zinssatz entered -> Zinsmethode required
       if (hasZinssatz && !hasZinsmethode) {
         ctx.addIssue({
           code: "custom",
@@ -100,14 +99,6 @@ export const hauptantragArraySchema = z.array(
         });
       }
 
-      // Zinsmethode selected -> Zinssatz required
-      if (hasZinsmethode && !hasZinssatz) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["zinssatzInProzent"],
-          message: "Bitte geben Sie einen Zinssatz an",
-        });
-      }
       if (hasZinsmethode && !hasZinssatz) {
         ctx.addIssue({
           code: "custom",
