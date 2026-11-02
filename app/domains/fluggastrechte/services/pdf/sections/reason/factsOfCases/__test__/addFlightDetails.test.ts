@@ -71,7 +71,7 @@ describe("addFlightDetails", () => {
       continued: true,
     });
 
-    expect(mockDoc.text).toHaveBeenCalledWith(userDataMock.direktAbflugsDatum);
+    expect(mockDoc.text).toHaveBeenCalledWith("10.10.2023");
   });
 
   it("should add the start and end airport to the pdf document", () => {

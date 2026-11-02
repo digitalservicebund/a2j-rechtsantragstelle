@@ -2,16 +2,27 @@ import z from "zod";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { airportSchema } from "~/services/validation/airport";
 import { autoSuggestSchema } from "~/services/validation/autoSuggest";
-import { createDateSchema } from "~/services/validation/dateString";
+import {
+  createSplitDateSchema,
+  createSplitDateSchemaOptional,
+} from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
-import { createSplitTimeSchema } from "~/services/validation/timeObject";
+import {
+  createSplitTimeSchema,
+  createSplitTimeSchemaOptional,
+} from "~/services/validation/timeObject";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const fourYearsAgoSchema = createDateSchema({
+const fourYearsAgoSchema = createSplitDateSchema({
+  earliest: () => addYears(today(), -4),
+  latest: () => today(),
+});
+
+const fourYearsAgoOptionalSchema = createSplitDateSchemaOptional({
   earliest: () => addYears(today(), -4),
   latest: () => today(),
 });
@@ -142,16 +153,10 @@ export const fluggastrechteFlugdatenPages = {
     pageSchema: {
       annullierungErsatzverbindungFlugnummer:
         schemaOrEmptyString(stringOptionalSchema),
-      annullierungErsatzverbindungAbflugsDatum:
-        schemaOrEmptyString(fourYearsAgoSchema),
-      annullierungErsatzverbindungAbflugsZeit: schemaOrEmptyString(
-        createSplitTimeSchema(),
-      ),
-      annullierungErsatzverbindungAnkunftsDatum:
-        schemaOrEmptyString(fourYearsAgoSchema),
-      annullierungErsatzverbindungAnkunftsZeit: schemaOrEmptyString(
-        createSplitTimeSchema(),
-      ),
+      annullierungErsatzverbindungAbflugsDatum: fourYearsAgoOptionalSchema,
+      annullierungErsatzverbindungAbflugsZeit: createSplitTimeSchemaOptional(),
+      annullierungErsatzverbindungAnkunftsDatum: fourYearsAgoOptionalSchema,
+      annullierungErsatzverbindungAnkunftsZeit: createSplitTimeSchemaOptional(),
       direktAbflugsDatum: hiddenInputSchema(fourYearsAgoSchema),
       direktAbflugsZeit: hiddenInputSchema(createSplitTimeSchema()),
       direktAnkunftsDatum: hiddenInputSchema(fourYearsAgoSchema),
