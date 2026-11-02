@@ -92,7 +92,7 @@ export const NebenantragItem = ({
             className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
           >
             <div className="kern-body kern-body--default text-pretty flex flex-col">
-              <span className="kern-body max-w-[528px] font-bold!">
+              <span className="kern-body font-bold!">
                 {getAlphabeticalEnumeration(index)}
               </span>
               <span className="kern-body max-w-[528px]">
