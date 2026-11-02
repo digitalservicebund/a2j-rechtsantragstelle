@@ -26,6 +26,7 @@ type Annahmeverzug = {
 type NebenantragItemData = Nebenantrag | Annahmeverzug;
 
 type NebenantragItemProps = {
+  readonly userData: GeldEinklagenAnwaltschaftUserData;
   readonly nebenantrag: Hauptantrag["nebenantrag"];
   readonly annahmeverzug: Hauptantrag["annahmeverzug"];
   readonly parentArrayItemIndex: number;
@@ -34,6 +35,7 @@ type NebenantragItemProps = {
 const MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS = 7;
 
 export const NebenantragItem = ({
+  userData,
   parentArrayItemIndex,
   nebenantrag,
   annahmeverzug,
@@ -88,7 +90,11 @@ export const NebenantragItem = ({
           >
             <div className="kern-body kern-body--default text-pretty flex flex-col">
               <span className="kern-body max-w-[528px]">
-                {getNebenantragItemText(entry)}
+                {getNebenantragItemText({
+                  ...entry,
+                  userData,
+                  hauptantragIndex: parentArrayItemIndex,
+                })}
               </span>
             </div>
             <div className="flex gap-24">
