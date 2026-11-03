@@ -61,12 +61,11 @@ export const BezifferterZahlungsantrag = ({
                 }
                 tagName={"div"}
                 look={"warning"}
-                content={`Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem allgemeinen Zahlungsantrag ${itemIndex + 1} oder 
-                möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. 
-                Wenn Sie den allgemeinen Zahlungsantrag ${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.
-<strong>Das können Sie tun:</strong>
-<li><strong>Behalten und bearbeiten:</strong> Falls Sie lediglich die Angaben für den allgemeinen Zahlungsantrag ${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.
-</li><li><strong>Endgültig löschen:</strong> Falls Sie den allgemeinen Zahlungsantrag ${itemIndex + 1} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.
+                content={`<p>Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem allgemeinen Zahlungsantrag ${itemIndex + 1} oder 
+                möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. Wenn Sie den allgemeinen Zahlungsantrag ${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
+<strong>Das können Sie tun:</strong><br />
+<li><strong>Behalten und bearbeiten:</strong></li><br /><p>Falls Sie lediglich die Angaben für den allgemeinen Zahlungsantrag ${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.</p><br />
+<li><strong>Endgültig löschen:</strong></li><br /><p>Falls Sie den allgemeinen Zahlungsantrag ${itemIndex + 1} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>
 </li>
             `}
               />

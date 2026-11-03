@@ -2,10 +2,7 @@ import { z } from "zod";
 import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
-import {
-  createDateInputSchema,
-  createDateInputOptionalSchema,
-} from "~/services/validation/dateObject";
+import { createDateInputOptionalSchema } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -38,6 +35,7 @@ export const nebenantragArraySchema = z.array(
 
 const annahmeverzugCheckboxSchema = z
   .enum(["on", "off"])
+  .or(z.undefined())
   .refine((value) => value === "on", {
     message: "Bitte wählen Sie den Feststellungsantrag Annahmeverzug aus",
   });
@@ -47,7 +45,7 @@ export const annahmeverzugArraySchema = z.array(
     annahmeverzugsFeststellung: annahmeverzugCheckboxSchema.describe(
       annahmeverzugCheckboxZodDescription,
     ),
-    annahmeverzugDatum: createDateInputSchema(),
+    annahmeverzugDatum: createDateInputOptionalSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
 );

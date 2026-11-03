@@ -47,8 +47,11 @@ const getSelectedPartyNumbers = (
     party.id && selection?.[party.id] === "on" ? [index + 1] : [],
   );
 
-const nebenantragArtLabels: Record<Nebenantrag["nebenantragArt"], string> = {
-  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
+export const nebenantragArtLabels: Record<
+  Nebenantrag["nebenantragArt"],
+  string
+> = {
+  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Angefallene Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Kosten der Adressermittlung",

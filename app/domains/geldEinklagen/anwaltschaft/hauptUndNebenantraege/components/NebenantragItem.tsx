@@ -3,9 +3,13 @@ import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
   getNebenantragItemText,
+  nebenantragArtLabels,
 } from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { formatEuro } from "../utils";
+import { InlineNotice } from "~/components/content/InlineNotice";
+import { Icon } from "~/components/common/Icon";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
@@ -38,7 +42,7 @@ type NebenantragItemProps = {
   readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
-const MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS = 7;
+const MAX_NEBENANTRAG_ITEMS = 6;
 
 export const NebenantragItem = ({
   userData,
@@ -72,9 +76,6 @@ export const NebenantragItem = ({
   const nextNebenantragIndex = (nebenantrag ?? []).length;
   const nextAnnahmeverzugIndex = (annahmeverzug ?? []).length;
 
-  const shouldDisableAddButton =
-    items.length >= MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS;
-
   const deleteNebenantrag = useDeleteArrayItem(
     "hauptantrag#nebenantrag",
     `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
@@ -95,12 +96,13 @@ export const NebenantragItem = ({
       }
       items={items.map((entry) => {
         const { index, type, arrayIndex } = entry;
-
         const deleteItem =
           type === "nebenantrag" ? deleteNebenantrag : deleteAnnahmeverzug;
 
         const itemLabel =
-          type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug";
+          type === "nebenantrag"
+            ? "Nebenantrag"
+            : "Feststellungsantrag auf Annahmeverzug";
 
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
@@ -125,24 +127,58 @@ export const NebenantragItem = ({
           },
           deleteButton: {
             onDelete: () => deleteItem(arrayIndex),
-            title: `${itemLabel} ${index + 1} löschen`,
+            title:
+              type === "nebenantrag"
+                ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                : `${itemLabel}`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
-            description: `Möchten Sie diesen ${itemLabel.toLowerCase()} wirklich löschen?`,
+            description: (
+              <>
+                <InlineNotice
+                  title={
+                    "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag"
+                  }
+                  tagName={"div"}
+                  look={"warning"}
+                  content={`<p>Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem ${itemLabel} verknüpft ist. Wenn Sie diesen Antrag löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.</p><br />
+<strong>Das können Sie tun:</strong><br />
+<li><strong>Behalten und bearbeiten:</strong></li><br /><p>Falls Sie lediglich die Angaben für diesen ${itemLabel} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.</p><br />
+<li><strong>Endgültig löschen:</strong></li><br /><p>Falls Sie den ${itemLabel} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p><br />`}
+                />
+                <p className="kern-body">Der folgende Antrag wird entfernt:</p>
+                <span className="flex flex-row items-center!">
+                  <Icon name="money-range" className="mr-8!" />
+                  <p className="kern-body! font-bold! text-xl!">
+                    {type === "nebenantrag"
+                      ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                      : itemLabel}
+                  </p>
+                </span>
+              </>
+            ),
           },
         };
       })}
       addLinks={[
-        {
-          href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`,
-          label: translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
-          disabled: shouldDisableAddButton,
-        },
-        {
-          href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`,
-          label:
-            translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton.de,
-          disabled: shouldDisableAddButton,
-        },
+        ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
+          ? [
+              {
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`,
+                label:
+                  translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
+              },
+            ]
+          : []),
+        ...(nextAnnahmeverzugIndex === 0
+          ? [
+              {
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`,
+                label:
+                  translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton
+                    .de,
+              },
+            ]
+          : []),
       ]}
     />
   );

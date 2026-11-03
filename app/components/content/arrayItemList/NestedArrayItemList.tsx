@@ -86,7 +86,7 @@ export const NestedArrayItemList = ({
           ))}
         </>
       )}
-      {addLinks?.length && addLinks.length > 0 && (
+      {addLinks && addLinks.length > 0 && (
         <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">
           {addLinks.map(({ href, label, id }) => (
             <a

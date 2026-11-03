@@ -4,6 +4,7 @@ import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
 import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 import { getBeklagteText } from "./nebenantragContent";
+import { useState } from "react";
 
 type Props = {
   name: string;
@@ -28,13 +29,10 @@ export const AnnahmeverzugCheckbox = ({
   zahlungsantragIndex,
 }: Props) => {
   const field = useField<"on" | "off">(name);
-  const fieldValue = field.value() ?? "off";
-
+  const [checked, setChecked] = useState(field.value() === "off");
   const beklagteNumbers = getPartyNumbers(parties, selectedBeklagte);
-
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
-
   const label = (
     <>
       Es wird festgestellt, dass sich{" "}
@@ -66,27 +64,23 @@ export const AnnahmeverzugCheckbox = ({
       <div className="kern-fieldset__body">
         <div className="flex items-center">
           <div className="kern-form-check">
-            {fieldValue !== "on" && (
-              <input type="hidden" name={name} value="off" />
-            )}
-
             <input
               type="checkbox"
               name={name}
               id={name}
               className="kern-form-check__checkbox"
-              checked={fieldValue === "on"}
+              checked={checked}
               value="on"
               onChange={(event) => {
-                field.setValue(event.target.checked ? "on" : "off");
+                const newValue = event.target.checked;
+                setChecked(newValue);
+                field.setValue(newValue ? "on" : "off");
               }}
             />
-
             <InputLabel name={name} label={label} />
           </div>
         </div>
       </div>
-
       {field.error() && <InputError id={errorId}>{field.error()}</InputError>}
     </fieldset>
   );
