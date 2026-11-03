@@ -125,6 +125,7 @@ jobs:
     needs: [vulnerability-scan-backend]
     if: always() && failure() && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - uses: digitalservicebund/notify-on-failure-gha@b8fdda76a38fa8e94cf623ebdd03e4570bc4ceb0
         with:
