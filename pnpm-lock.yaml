@@ -284,8 +284,8 @@ importers:
         specifier: 1.444.0
         version: 1.444.0(@types/react@19.3.0)(react@19.3.1)
       posthog-node:
-        specifier: 5.60.1
-        version: 5.60.1(@opentelemetry/api@1.9.1)
+        specifier: 5.61.1
+        version: 5.61.1(@opentelemetry/api@1.9.1)
       rate-limit-redis:
         specifier: ^6.0.2
         version: 6.0.2(express-rate-limit@8.7.2)
@@ -4228,8 +4228,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.60.1:
-    resolution: {integrity: sha512-dZPYbTi9gwBf0WFkhWa0CbKg/rbwMANT7OjaoQZbz1BZO/OFbmJWRUXY1OyKi7vu6Wiq/zRPPzlKsk9krMOBkQ==}
+  posthog-node@5.61.1:
+    resolution: {integrity: sha512-Az2H3hHyxxZ5PQpQAQEoJfa9FrLsM4OnuyIQwzi9hei5mtN0/mepw1yvLtAmPAbEkC6+muWXiBShBnVMKeBSXw==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
@@ -8800,9 +8800,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.60.1(@opentelemetry/api@1.9.1):
+  posthog-node@5.61.1(@opentelemetry/api@1.9.1):
     dependencies:
-      '@posthog/core': 1.61.2
+      '@posthog/core': 1.62.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
 
