@@ -6,7 +6,7 @@ import {
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
 export const MAX_ABSAETZE = 50;
-export const MAX_BEWEISE = 50;
+const MAX_BEWEISE = 50;
 
 const augenscheinSchema = z.object({
   beweismittel: z.literal("augenschein"),
@@ -41,8 +41,6 @@ const beweisSchema = z.discriminatedUnion("beweismittel", [
   sachverstaendigengutachtenSchema,
   parteivernehmungSchema,
 ]);
-
-export type Beweismittel = z.infer<typeof beweisSchema>["beweismittel"];
 
 const beweiseArraySchema = z.array(beweisSchema).max(MAX_BEWEISE).optional();
 

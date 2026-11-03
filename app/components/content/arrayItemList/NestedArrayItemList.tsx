@@ -1,5 +1,8 @@
-import { type ComponentProps, type ReactNode } from "react";
-import { DeleteButton } from "~/components/common/DeleteButton";
+import { type ReactNode } from "react";
+import {
+  DeleteButton,
+  type DeleteButtonProps,
+} from "~/components/common/DeleteButton";
 import { Icon } from "~/components/common/Icon";
 import {
   ArrayItemEditButton,
@@ -11,7 +14,8 @@ type NestedArrayItem = {
   id?: string;
   content: ReactNode;
   editButton: ArrayItemEditButtonProps;
-  deleteButton: Omit<ComponentProps<typeof DeleteButton>, "className">;
+  /** DeleteButton props, or a custom element (e.g. a placeholder until deletion is implemented) */
+  deleteButton: DeleteButtonProps;
 };
 
 type AddLink = {
@@ -28,8 +32,6 @@ type NestedArrayItemListProps = {
   readonly headingSuffix?: ReactNode;
   readonly subtitle?: ReactNode;
   readonly items: NestedArrayItem[];
-  /** Omit to hide the add link, e.g. once the maximum number of items is reached */
-  readonly addLink?: AddLink;
   readonly addLinks?: AddLink[];
 };
 
@@ -39,11 +41,8 @@ export const NestedArrayItemList = ({
   headingSuffix,
   subtitle,
   items,
-  addLink,
   addLinks,
 }: NestedArrayItemListProps) => {
-  const links = addLinks ?? (addLink ? [addLink] : []);
-
   return (
     <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
       <div className="flex flex-col">
@@ -87,9 +86,9 @@ export const NestedArrayItemList = ({
           ))}
         </>
       )}
-      {links.length > 0 && (
+      {addLinks?.length && addLinks.length > 0 && (
         <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">
-          {links.map(({ href, label, id }) => (
+          {addLinks.map(({ href, label, id }) => (
             <a
               key={href}
               id={id}

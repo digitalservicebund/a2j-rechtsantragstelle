@@ -75,7 +75,7 @@ export const hauptantragArraySchema = z.array(
       betragForderung: integerSchema,
       klagende: selectedKlagendeSchema,
       beklagte: selectedBeklagteSchema,
-      zugUndZug: checkedOptional,
+      zugUndZug: checkedOptional.optional(),
       beschreibungDerGegenleistung: stringOptionalSchema,
       zinssatzInProzent: integerSchema.optional(),
       zinsmethode: z

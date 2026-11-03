@@ -29,10 +29,6 @@ export const getInterestText = ({
 }: InterestTextParams): string => {
   if (rate == null || !method) return "";
 
-  const startDate = formatSplitDate(start);
-
-  if (!startDate) return "";
-
   const methods: Record<string, string> = {
     jaehrlicherZinssatzUeberBasiszins:
       "Prozentpunkten über dem jeweiligen Basiszinssatz p. a.",
@@ -46,11 +42,18 @@ export const getInterestText = ({
   if (!description) return "";
 
   const rateText = `${rate} ${description}`;
+  const startDate = formatSplitDate(start);
   const endDate = formatSplitDate(end);
 
-  const period = endDate
-    ? ` vom ${startDate} bis zum ${endDate}`
-    : ` seit dem ${startDate}`;
+  let period = "";
+
+  if (startDate && endDate) {
+    period = ` vom ${startDate} bis zum ${endDate}`;
+  } else if (startDate) {
+    period = ` seit dem ${startDate}`;
+  } else if (endDate) {
+    period = ` bis zum ${endDate}`;
+  }
 
   return ` nebst Zinsen in Höhe von ${rateText}${period}`;
 };

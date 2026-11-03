@@ -3,7 +3,7 @@ import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 type ArrayItemListSectionProps = {
   readonly heading?: ReactNode;
-  readonly headingId: string;
+  readonly headingId?: string;
   readonly helperText?: ReactNode;
   /** The list items, typically ArrayItemCards */
   readonly children?: ReactNode;
@@ -21,18 +21,22 @@ export const ArrayItemListSection = ({
   addButton,
 }: ArrayItemListSectionProps) => (
   <div className="kern-summary flex flex-col gap-kern-space-default">
-    <div className="flex flex-col kern-summary__header p-0!">
-      <h2
-        className="kern-body kern-body--large kern-body--bold p-0!"
-        id={headingId}
-        tabIndex={-1}
-      >
-        {heading}
-      </h2>
-      {helperText && (
-        <p className="kern-body kern-body--regular p-0!">{helperText}</p>
-      )}
-    </div>
+    {(heading || helperText) && (
+      <div className="flex flex-col kern-summary__header p-0!">
+        {heading && (
+          <h2
+            className="kern-body kern-body--large kern-body--bold p-0!"
+            id={headingId}
+            tabIndex={-1}
+          >
+            {heading}
+          </h2>
+        )}
+        {helperText && (
+          <p className="kern-body kern-body--regular p-0!">{helperText}</p>
+        )}
+      </div>
+    )}
     {children}
     {notice}
     <AddArrayItemButton {...addButton} />
