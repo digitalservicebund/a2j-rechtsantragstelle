@@ -15,7 +15,7 @@ import {
   type ProzessbevollmaechtigteWithArrayIndex,
 } from "../useProzessbevollmaechtigte";
 import Prozessbevollmaechtigte from "./Prozessbevollmaechtigte";
-import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 
 export const ProzessbevollmaechtigteUebersicht = ({
   relationship,
@@ -87,16 +87,16 @@ const ProzessbevollmaechtigteList = ({
           .berufsausuebungsgesellschaftHeadline.de;
 
   return (
-    <div className="kern-summary flex flex-col gap-kern-space-default">
-      <div className="flex flex-col kern-summary__header p-0!">
-        <h2
-          className="kern-body kern-body--large kern-body--bold p-0!"
-          id={`${relationship}-prozessbevollmaechtigte-${type}`}
-          tabIndex={-1}
-        >
-          {heading}
-        </h2>
-      </div>
+    <ArrayItemListSection
+      heading={heading}
+      headingId={`${relationship}-prozessbevollmaechtigte-${type}`}
+      addButton={{
+        href: addHref,
+        disabled: shouldDisableAddButton,
+        dataTestId: `add-${type}`,
+        buttonText: `${heading} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+      }}
+    >
       {items.map(({ prozessbevollmaechtigte, arrayIndex }) => (
         <Prozessbevollmaechtigte
           key={prozessbevollmaechtigte.id ?? arrayIndex}
@@ -106,12 +106,6 @@ const ProzessbevollmaechtigteList = ({
           onDelete={() => deleteArrayItem(arrayIndex)}
         />
       ))}
-      <AddArrayItemButton
-        href={addHref}
-        disabled={shouldDisableAddButton}
-        dataTestId={`add-${type}`}
-        buttonText={`${heading} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-      />
-    </div>
+    </ArrayItemListSection>
   );
 };

@@ -5,7 +5,7 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 
 export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag";
@@ -55,48 +55,44 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
     nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
   return (
-    <div className="flex flex-col gap-kern-space-default">
-      <div>
-        {arrayIsNonEmpty(
-          userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
-        ) &&
-          userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
-            (item, index) => (
-              <SonstigeNebenUndProzessantraege
-                key={item.antrag}
-                itemIndex={index}
-                item={item}
-                onDelete={deleteArrayItem}
-              />
-            ),
-          )}
-        <AddArrayItemButton
-          href={addButtonUrl}
-          disabled={shouldDisableAddButton}
-          dataTestId="add-sonstigeNebenUndProzessantraege"
-          buttonText={
-            translations.geldEinklagenAnwaltschaft
-              .soenstigeProzessantragArrayButton.de
-          }
-        />
-        <div className="pt-24">
-          {shouldDisableAddButton && (
-            <InlineNotice
-              title={
-                translations.geldEinklagenAnwaltschaft
-                  .soenstigeProzessantragInlineNoticeTitle.de
-              }
-              tagName={"p"}
-              look={"info"}
-              content={
-                translations.geldEinklagenAnwaltschaft
-                  .soenstigeProzessantragInlineNoticeContent.de
-              }
+    <ArrayItemListSection
+      notice={
+        shouldDisableAddButton && (
+          <InlineNotice
+            title={
+              translations.geldEinklagenAnwaltschaft
+                .soenstigeProzessantragInlineNoticeTitle.de
+            }
+            tagName={"p"}
+            look={"info"}
+            content={
+              translations.geldEinklagenAnwaltschaft
+                .soenstigeProzessantragInlineNoticeContent.de
+            }
+          />
+        )
+      }
+      addButton={{
+        href: addButtonUrl,
+        disabled: shouldDisableAddButton,
+        dataTestId: "add-sonstigeNebenUndProzessantraege",
+        buttonText:
+          translations.geldEinklagenAnwaltschaft
+            .soenstigeProzessantragArrayButton.de,
+      }}
+    >
+      {arrayIsNonEmpty(userDataGeldEinklagen.sonstigeNebenUndProzessantraege) &&
+        userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
+          (item, index) => (
+            <SonstigeNebenUndProzessantraege
+              key={item.antrag}
+              itemIndex={index}
+              item={item}
+              onDelete={deleteArrayItem}
             />
-          )}
-        </div>
-      </div>
-    </div>
+          ),
+        )}
+    </ArrayItemListSection>
   );
 };
 

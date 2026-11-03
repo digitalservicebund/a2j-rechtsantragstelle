@@ -1,10 +1,10 @@
+import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
   getNebenantragItemText,
 } from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 
 const BASE_URL_NEBENANTRAG =

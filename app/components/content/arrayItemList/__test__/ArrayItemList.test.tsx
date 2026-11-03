@@ -29,7 +29,38 @@ describe("ArrayItemListSection", () => {
   });
 });
 
+describe("ArrayItemListSection without heading", () => {
+  it("omits the header when neither heading nor helper text is given", () => {
+    render(
+      <ArrayItemListSection addButton={{ href: "/add", buttonText: "Add" }} />,
+    );
+
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Add" })).toBeInTheDocument();
+  });
+});
+
 describe("ArrayItemCard", () => {
+  it("renders the heading above the card and shows a badge", () => {
+    render(
+      <ArrayItemCard
+        dataTestId="card"
+        heading={{
+          text: "Absatz 1",
+          id: "absatz-0",
+          level: "h2",
+        }}
+        badge="Schlagwort"
+        content="Inhalt"
+        editButton={{ href: "/edit/0", ariaLabel: "Bearbeiten" }}
+      />,
+    );
+
+    const heading = screen.getByRole("heading", { level: 2, name: "Absatz 1" });
+    expect(heading.parentElement).toBe(screen.getByTestId("card"));
+    expect(screen.getByText("Schlagwort")).toBeInTheDocument();
+  });
+
   it("renders heading, content, edit button, children and delete action", () => {
     render(
       <ArrayItemCard
@@ -89,7 +120,7 @@ describe("NestedArrayItemList", () => {
         headingSuffix=" - Optional"
         subtitle="Untertitel"
         items={[item]}
-        addLink={{ href: "/nested/1/daten", label: "Hinzufügen", id: "add" }}
+        addLinks={[{ href: "/nested/1/daten", label: "Hinzufügen", id: "add" }]}
       />,
     );
 
@@ -115,6 +146,42 @@ describe("NestedArrayItemList", () => {
     const addLink = screen.getByRole("link", { name: "Hinzufügen" });
     expect(addLink).toHaveAttribute("href", "/nested/1/daten");
     expect(addLink).toHaveAttribute("id", "add");
+  });
+
+  it("renders multiple add links and a custom delete element", () => {
+    render(
+      <NestedArrayItemList
+        heading="Nebenanträge"
+        headingId="nebenantraege"
+        items={[
+          {
+            ...item,
+            deleteButton: {
+              title: "Person löschen?",
+              label: "Platzhalter",
+              onDelete: vi.fn(),
+            },
+          },
+        ]}
+        addLinks={[
+          { href: "/a", label: "A hinzufügen" },
+          { href: "/b", label: "B hinzufügen" },
+        ]}
+      />,
+    );
+
+    expect(
+      screen.getByRole("button", { name: "Platzhalter" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "A hinzufügen" })).toHaveAttribute(
+      "href",
+      "/a",
+    );
+    expect(screen.getByRole("link", { name: "B hinzufügen" })).toHaveAttribute(
+      "href",
+      "/b",
+    );
   });
 
   it("hides the add link when none is given", () => {

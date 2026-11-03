@@ -59,7 +59,7 @@ export const Default: Story = {
               deleteButton: { title: "Vertretung löschen?", onDelete },
             },
           ]}
-          addLink={{ href: "#", label: "Gesetzliche Vertretung hinzufügen" }}
+          addLinks={[{ href: "#", label: "Gesetzliche Vertretung hinzufügen" }]}
         />
       </ArrayItemCard>
     ),

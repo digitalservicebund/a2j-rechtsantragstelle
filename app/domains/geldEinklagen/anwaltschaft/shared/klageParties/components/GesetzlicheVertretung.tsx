@@ -133,12 +133,14 @@ export const GesetzlicheVertretung = ({
         translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungSubheader.de
       }
       items={gesetzlicheVertretungArrayItems}
-      addLink={
+      addLinks={
         nextItemIndex < MAX_REPRESENTATIVES
-          ? {
-              href: `${getGesetzlicheVertretungUrl(relationship, parentArrayItemIndex)}/${nextItemIndex}/daten${datenPageSuffix}`,
-              label: `${gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
-            }
+          ? [
+              {
+                href: `${getGesetzlicheVertretungUrl(relationship, parentArrayItemIndex)}/${nextItemIndex}/daten${datenPageSuffix}`,
+                label: `${gesetzlicheVetretungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+              },
+            ]
           : undefined
       }
     />

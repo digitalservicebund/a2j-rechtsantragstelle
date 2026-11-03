@@ -791,6 +791,9 @@ export const translations = {
     soenstigeProzessantragArrayButton: {
       de: "Antrag oder prozessuale Ausführung hinzufügen",
     },
+    soenstigeProzessantragItem: {
+      de: "Antrag/Ausführung",
+    },
     soenstigeProzessantragDelete: {
       de: "Antrag/Ausführung löschen?",
     },

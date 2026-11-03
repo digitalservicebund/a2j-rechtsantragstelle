@@ -1,4 +1,4 @@
-import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { Absatz } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/Absatz";
@@ -24,7 +24,13 @@ export const AbsaetzeUebersicht = () => {
   const nextAbsatzIndex = absaetze?.length ?? 0;
   const maxAbsaetzeReached = nextAbsatzIndex >= MAX_ABSAETZE;
   return (
-    <div className="flex flex-col gap-kern-space-default">
+    <ArrayItemListSection
+      addButton={{
+        href: `${getAbsaetzeBaseUrl(hauptantragArrayIndex)}/${nextAbsatzIndex}/daten`,
+        buttonText: translations.geldEinklagenAnwaltschaft.addAbsatzButton.de,
+        disabled: maxAbsaetzeReached,
+      }}
+    >
       {absaetze?.map((absatz, index) => (
         <Absatz
           // oxlint-disable-next-line react/no-array-index-key
@@ -34,13 +40,6 @@ export const AbsaetzeUebersicht = () => {
           hauptantragIndex={hauptantragArrayIndex}
         />
       ))}
-      <AddArrayItemButton
-        href={`${getAbsaetzeBaseUrl(
-          hauptantragArrayIndex,
-        )}/${nextAbsatzIndex}/daten`}
-        buttonText={translations.geldEinklagenAnwaltschaft.addAbsatzButton.de}
-        disabled={maxAbsaetzeReached}
-      />
-    </div>
+    </ArrayItemListSection>
   );
 };

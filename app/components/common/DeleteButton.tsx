@@ -5,7 +5,7 @@ import { Icon } from "./Icon";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 
-type DeleteButtonProps = {
+export type DeleteButtonProps = {
   label?: string;
   title: string;
   description?: ReactNode;

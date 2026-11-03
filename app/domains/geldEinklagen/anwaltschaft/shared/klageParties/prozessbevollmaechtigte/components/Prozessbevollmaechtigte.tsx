@@ -1,4 +1,4 @@
-import Button from "~/components/common/Button";
+import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { Icon } from "~/components/common/Icon";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
@@ -94,62 +94,48 @@ const Prozessbevollmaechtigte = ({
       "isProzessbevollmaechtigt" in prozessbevollmaechtigte,
     );
   return (
-    <div
-      data-testid="prozessbevollmaechtigte"
+    <ArrayItemCard
+      dataTestId="prozessbevollmaechtigte"
       id={`${relationship}-prozessbevollmaechtigte-${index}`}
-      tabIndex={-1}
-    >
-      <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-kern-space-large!">
-        <div className="flex gap-kern-space-default justify-between items-center">
-          <ProzessbevollmaechtigteDetails
-            prozessbevollmaechtigte={prozessbevollmaechtigte}
-          />
-          <Button
-            id={`${EDIT_BUTTON_ID_PREFIX}${getProzessbevollmaechtigteArrayName(relationship)}-${index}`}
-            look="secondary"
-            iconLeft={
-              <Icon
-                name="edit"
-                className="size-kern-dimension-default text-kern-action-default"
-              />
-            }
-            aria-label={`${prozessbevollmaechtigte.name} ${translations.arraySummary.arrayEditButtonLabel.de}`}
-            href={`${getBaseProzessbevollmaechtigteUrl(relationship)}/${index}/${prozessbevollmaechtigte.type}-daten`}
-            className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
-          />
-        </div>
-        {prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft" &&
-          !(
-            relationship === "beklagte" &&
-            prozessbevollmaechtigte.isProzessbevollmaechtigt === "on"
-          ) && (
-            <AdditionalPersonsList
-              berufsausuebungsgesellschaft={prozessbevollmaechtigte}
-              parentArrayItemIndex={index}
-              relationship={relationship}
-            />
-          )}
-        <div className="flex justify-end">
-          <DeleteButton
-            label={`${deleteButtonLabel} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
-            title={deleteButtonTitle}
-            description={
-              <div className="flex flex-col gap-kern-space-small">
-                <p>{deleteButtonDescription}</p>
-                <div className="flex gap-kern-space-small">
-                  <Icon
-                    name="business"
-                    className="size-kern-dimension-default"
-                  />
-                  <p className="font-bold">{prozessbevollmaechtigte.name}</p>
-                </div>
+      content={
+        <ProzessbevollmaechtigteDetails
+          prozessbevollmaechtigte={prozessbevollmaechtigte}
+        />
+      }
+      editButton={{
+        id: `${EDIT_BUTTON_ID_PREFIX}${getProzessbevollmaechtigteArrayName(relationship)}-${index}`,
+        ariaLabel: `${prozessbevollmaechtigte.name} ${translations.arraySummary.arrayEditButtonLabel.de}`,
+        href: `${getBaseProzessbevollmaechtigteUrl(relationship)}/${index}/${prozessbevollmaechtigte.type}-daten`,
+      }}
+      deleteButton={
+        <DeleteButton
+          label={`${deleteButtonLabel} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
+          title={deleteButtonTitle}
+          description={
+            <div className="flex flex-col gap-kern-space-small">
+              <p>{deleteButtonDescription}</p>
+              <div className="flex gap-kern-space-small">
+                <Icon name="business" className="size-kern-dimension-default" />
+                <p className="font-bold">{prozessbevollmaechtigte.name}</p>
               </div>
-            }
-            onDelete={onDelete}
+            </div>
+          }
+          onDelete={onDelete}
+        />
+      }
+    >
+      {prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft" &&
+        !(
+          relationship === "beklagte" &&
+          prozessbevollmaechtigte.isProzessbevollmaechtigt === "on"
+        ) && (
+          <AdditionalPersonsList
+            berufsausuebungsgesellschaft={prozessbevollmaechtigte}
+            parentArrayItemIndex={index}
+            relationship={relationship}
           />
-        </div>
-      </div>
-    </div>
+        )}
+    </ArrayItemCard>
   );
 };
 
