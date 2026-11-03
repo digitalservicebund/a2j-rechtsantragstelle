@@ -346,7 +346,7 @@ export const translations = {
       de: "hinzufügen",
     },
   },
-  splitDateComponent: {
+  dateComponent: {
     tagInputLabel: {
       de: "Tag",
     },
@@ -360,10 +360,10 @@ export const translations = {
       de: "Geburtsdatum",
     },
     hintText: {
-      de: "Beispielsweise: 17.3.2015",
+      de: "Beispielsweise: 17.11.2025",
     },
   },
-  splitTimeComponent: {
+  timeComponent: {
     hourInputLabel: {
       de: "Stunde",
     },
@@ -835,6 +835,27 @@ export const translations = {
     },
     annahmeverzugAddButton: {
       de: "Annahmeverzug hinzufügen",
+    },
+    addVortragButton: {
+      de: "Vortragen",
+    },
+    absatz: {
+      de: "Absatz",
+    },
+    beweisangeboteTitle: {
+      de: "Beweisangebote",
+    },
+    optionalSuffix: {
+      de: " - Optional",
+    },
+    undBeweisangebote: {
+      de: "und Beweisangebote",
+    },
+    undDazugehoerigeBeweisangebote: {
+      de: "und dazugehörige Beweisangebote",
+    },
+    addAbsatzButton: {
+      de: "Absatz hinzufügen",
     },
   },
   nachlass: {

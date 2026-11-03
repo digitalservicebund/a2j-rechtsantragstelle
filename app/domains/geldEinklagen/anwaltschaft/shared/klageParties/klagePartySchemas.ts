@@ -112,3 +112,6 @@ export const klageParteinArraySchema = z.array(
 );
 
 export type KlageParteien = z.infer<typeof klageParteinArraySchema>;
+export type GesetzlicherVertreter = NonNullable<
+  KlageParteien[number]["gesetzliche-vertretung"]
+>[number];

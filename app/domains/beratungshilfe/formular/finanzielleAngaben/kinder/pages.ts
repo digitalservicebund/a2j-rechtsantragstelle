@@ -1,6 +1,6 @@
 import z from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -9,7 +9,7 @@ import { addYears, today } from "~/util/date";
 const sharedKinderFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -24),
     latest: () => today(),
   }),

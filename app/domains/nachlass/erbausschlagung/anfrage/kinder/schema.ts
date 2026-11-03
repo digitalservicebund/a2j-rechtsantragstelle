@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -11,7 +11,7 @@ import { addYears, today } from "~/util/date";
 export const commonErbausschlagungKinderFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
@@ -68,14 +68,14 @@ export const sorgerechtOrganizationRequired = {
 };
 
 const minorChild = {
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -18),
     latest: () => today(),
   }),
 };
 
 const adultChild = {
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => addYears(today(), -18),
   }),

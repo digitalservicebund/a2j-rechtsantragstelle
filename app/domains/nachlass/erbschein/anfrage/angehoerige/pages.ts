@@ -3,7 +3,7 @@ import { elternteilePages } from "~/domains/nachlass/erbschein/anfrage/angehoeri
 import { kinderPages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderPages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -15,7 +15,7 @@ const commonAngehoerigeFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsname: stringOptionalSchema,
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
@@ -25,7 +25,7 @@ const commonAngehoerigeFields = {
 
 const deceasedAngehoerigeFields = {
   isAlive: z.literal("no"),
-  sterbedatum: createSplitDateSchema({
+  sterbedatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),

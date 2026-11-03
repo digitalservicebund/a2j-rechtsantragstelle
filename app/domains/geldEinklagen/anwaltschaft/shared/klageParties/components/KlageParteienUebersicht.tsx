@@ -1,5 +1,3 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type KlageParteiVerhaeltnis } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
@@ -15,6 +13,7 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 
 export const KlageParteienUebersicht = ({
   relationship,
@@ -79,20 +78,29 @@ const KlageParteienList = ({
     maximumReachedContent,
   } = getPartyTypeTranslations(partyType, relationship);
   return (
-    <div className="kern-summary flex flex-col gap-kern-space-default">
-      <div className="flex flex-col kern-summary__header p-0!">
-        <h2
-          className="kern-body kern-body--large kern-body--bold p-0!"
-          id={`${relationship}-${partyType}`}
-          tabIndex={-1}
-        >
-          {heading}
-        </h2>
-        {helperText && (
-          <p className="kern-body kern-body--regular p-0!">{helperText}</p>
-        )}
-      </div>
-
+    <ArrayItemListSection
+      heading={heading}
+      headingId={`${relationship}-${partyType}`}
+      helperText={helperText}
+      notice={
+        shouldDisableAddButton && (
+          <InlineNotice
+            className="w-full"
+            tagName="h2"
+            look="info"
+            title={maximumReachedTitle}
+            content={maximumReachedContent}
+            wrap
+          />
+        )
+      }
+      addButton={{
+        href: addPartyHref,
+        buttonText: `${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+        disabled: shouldDisableAddButton,
+        dataTestId: testId,
+      }}
+    >
       {parties.map(({ partei, arrayIndex, displayIndex }) => (
         <KlagePartei
           key={partei.id ?? arrayIndex}
@@ -102,31 +110,6 @@ const KlageParteienList = ({
           relationship={relationship}
         />
       ))}
-
-      {shouldDisableAddButton && (
-        <InlineNotice
-          className="w-full"
-          tagName="h2"
-          look="info"
-          title={maximumReachedTitle}
-          content={maximumReachedContent}
-          wrap
-        />
-      )}
-
-      <div className="bg-kern-white px-kern-space-default py-kern-space-large border-dashed border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default)">
-        <Button
-          look="secondary"
-          iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-          href={addPartyHref}
-          data-testid={testId}
-          fullWidth={true}
-          disabled={shouldDisableAddButton}
-          aria-disabled={shouldDisableAddButton}
-        >
-          {`${addButtonLabel} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-        </Button>
-      </div>
-    </div>
+    </ArrayItemListSection>
   );
 };

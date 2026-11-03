@@ -1,12 +1,10 @@
 import { z } from "zod";
 import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
+import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
+import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
-  checkedOptional,
-  checkedRequired,
-} from "~/services/validation/checkedCheckbox";
-import {
-  createSplitDateSchema,
-  createSplitDateSchemaOptional,
+  createDateInputSchema,
+  createDateInputOptionalSchema,
 } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
@@ -32,15 +30,24 @@ export const nebenantragArraySchema = z.array(
         "monatlicherZinssatz",
       ])
       .optional(),
-    nebenantragZinsbeginn: createSplitDateSchemaOptional(),
-    nebenantragZinsende: createSplitDateSchemaOptional(),
+    nebenantragZinsbeginn: createDateInputOptionalSchema(),
+    nebenantragZinsende: createDateInputOptionalSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
 );
+
+const annahmeverzugCheckboxSchema = z
+  .enum(["on", "off"])
+  .refine((value) => value === "on", {
+    message: "Bitte wählen Sie den Feststellungsantrag Annahmeverzug aus",
+  });
+
 export const annahmeverzugArraySchema = z.array(
   z.object({
-    annahmeverzugsFeststellung: checkedRequired,
-    annahmeverzugDatum: createSplitDateSchema(),
+    annahmeverzugsFeststellung: annahmeverzugCheckboxSchema.describe(
+      annahmeverzugCheckboxZodDescription,
+    ),
+    annahmeverzugDatum: createDateInputSchema(),
     absaetze: absaetzeArraySchema.optional(),
   }),
 );
@@ -63,6 +70,7 @@ const selectedKlagendeSchema = z
 export const hauptantragArraySchema = z.array(
   z
     .object({
+      id: z.string().check(z.uuid()).optional(),
       internesSchlagwortFordureung: z.string().max(50).optional(),
       betragForderung: integerSchema,
       klagende: selectedKlagendeSchema,
@@ -78,8 +86,8 @@ export const hauptantragArraySchema = z.array(
           "monatlicherZinssatz",
         ])
         .optional(),
-      zinsbeginn: createSplitDateSchemaOptional(),
-      zinsende: createSplitDateSchemaOptional(),
+      zinsbeginn: createDateInputOptionalSchema(),
+      zinsende: createDateInputOptionalSchema(),
       absaetze: absaetzeArraySchema.optional(),
       nebenantrag: nebenantragArraySchema.optional(),
       annahmeverzug: annahmeverzugArraySchema.optional(),
@@ -91,7 +99,6 @@ export const hauptantragArraySchema = z.array(
       const hasZinsmethode =
         data.zinsmethode !== undefined && data.zinsmethode !== null;
 
-      // Zinssatz entered -> Zinsmethode required
       if (hasZinssatz && !hasZinsmethode) {
         ctx.addIssue({
           code: "custom",
@@ -100,14 +107,6 @@ export const hauptantragArraySchema = z.array(
         });
       }
 
-      // Zinsmethode selected -> Zinssatz required
-      if (hasZinsmethode && !hasZinssatz) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["zinssatzInProzent"],
-          message: "Bitte geben Sie einen Zinssatz an",
-        });
-      }
       if (hasZinsmethode && !hasZinssatz) {
         ctx.addIssue({
           code: "custom",

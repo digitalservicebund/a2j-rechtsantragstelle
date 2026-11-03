@@ -1,11 +1,12 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
+import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
+import React from "react";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
@@ -15,68 +16,75 @@ const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 const ZahlungsAntragUebersicht = () => {
   const { userData, flowId } = useFormFlow();
 
+  const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
+
+  const deleteHauptantrag = useDeleteArrayItem(
+    "hauptantrag",
+    "/geld-einklagen/anwaltschaft",
+  );
+
   if (flowId !== "/geld-einklagen/anwaltschaft") {
     return null;
   }
-
-  const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
   const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag)
     ? (userDataGeldEinklagen.hauptantrag?.length ?? 0)
     : 0;
 
-  const addButtonUrl = `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`;
-
   const shouldDisableAddButton =
     nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
   return (
-    <div className="flex flex-col gap-kern-space-default">
-      <div>
-        {arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag) &&
-          userDataGeldEinklagen.hauptantrag.map((item, index) => (
+    <ArrayItemListSection
+      headingId="zahlungsantrag-heading"
+      notice={
+        shouldDisableAddButton ? (
+          <InlineNotice
+            title={
+              translations.geldEinklagenAnwaltschaft
+                .zahlungsAntragInlineNoticeTitle.de
+            }
+            tagName="p"
+            look="info"
+            content={
+              translations.geldEinklagenAnwaltschaft
+                .zahlungsAntragInlineNoticeContent.de
+            }
+          />
+        ) : undefined
+      }
+      addButton={{
+        href: `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
+        buttonText:
+          translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de,
+        disabled: shouldDisableAddButton,
+        dataTestId: "add-zahlungsantrag",
+      }}
+    >
+      {arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag) &&
+        userDataGeldEinklagen.hauptantrag.map((item, index) => (
+          <React.Fragment key={item.id}>
+            <h2
+              id={`zahlungsantrag-heading-${index}`}
+              className="kern-body kern-body--large kern-body--bold p-0! mb-16"
+            >
+              {
+                translations.geldEinklagenAnwaltschaft
+                  .bezifferterZahlungsantragHeadline.de
+              }{" "}
+              {index + 1}
+            </h2>
             <BezifferterZahlungsantrag
               key={item.internesSchlagwortFordureung}
               itemIndex={index}
               item={item}
-              index={index}
               userData={userDataGeldEinklagen}
+              index={index}
+              onDelete={deleteHauptantrag}
             />
-          ))}
-        {shouldDisableAddButton && (
-          <div className="pb-24">
-            <InlineNotice
-              title={
-                translations.geldEinklagenAnwaltschaft
-                  .zahlungsAntragInlineNoticeTitle.de
-              }
-              tagName={"p"}
-              look={"info"}
-              content={
-                translations.geldEinklagenAnwaltschaft
-                  .zahlungsAntragInlineNoticeContent.de
-              }
-            />
-          </div>
-        )}
-        <div className="flex flex-col items-start p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
-          <Button
-            look="secondary"
-            iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-            href={addButtonUrl}
-            data-testid="add-zahlungsantrag"
-            fullWidth={true}
-            disabled={shouldDisableAddButton}
-            aria-disabled={shouldDisableAddButton}
-          >
-            {
-              translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen
-                .de
-            }
-          </Button>
-        </div>
-      </div>
-    </div>
+          </React.Fragment>
+        ))}
+    </ArrayItemListSection>
   );
 };
 

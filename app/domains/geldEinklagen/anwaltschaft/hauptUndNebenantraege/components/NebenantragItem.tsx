@@ -1,11 +1,11 @@
-import Button from "~/components/common/Button";
-import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
   getNebenantragItemText,
 } from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
@@ -18,12 +18,14 @@ type Nebenantrag = {
   item: NonNullable<Hauptantrag["nebenantrag"]>[number];
   index: number;
   type: "nebenantrag";
+  arrayIndex: number;
 };
 
 type Annahmeverzug = {
   item: NonNullable<Hauptantrag["annahmeverzug"]>[number];
   index: number;
   type: "annahmeverzug";
+  arrayIndex: number;
 };
 
 type NebenantragItemData = Nebenantrag | Annahmeverzug;
@@ -33,20 +35,22 @@ type NebenantragItemProps = {
   readonly nebenantrag: Hauptantrag["nebenantrag"];
   readonly annahmeverzug: Hauptantrag["annahmeverzug"];
   readonly parentArrayItemIndex: number;
+  readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
 const MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS = 7;
 
 export const NebenantragItem = ({
   userData,
-  parentArrayItemIndex,
   nebenantrag,
   annahmeverzug,
+  parentArrayItemIndex,
 }: NebenantragItemProps) => {
   const nebenantragItems: Nebenantrag[] = (nebenantrag ?? []).map(
     (item, index) => ({
       item,
       index,
+      arrayIndex: index,
       type: "nebenantrag",
     }),
   );
@@ -55,6 +59,7 @@ export const NebenantragItem = ({
     (item, index) => ({
       item,
       index: (nebenantrag ?? []).length + index,
+      arrayIndex: index,
       type: "annahmeverzug",
     }),
   );
@@ -70,31 +75,41 @@ export const NebenantragItem = ({
   const shouldDisableAddButton =
     items.length >= MAX_NEBENANTRAG_UND_ANNAHMENVERZUG_ITEMS;
 
-  return (
-    <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
-      <div className="flex flex-col">
-        <span className="kern-body kern-body--muted">
-          <span className="kern-body kern-body--default kern-body--bold text-pretty p-0!">
-            {translations.geldEinklagenAnwaltschaft.nebenantragHeadline.de}
-          </span>
-          {""} - Optional
-        </span>
-        <span className="kern-body kern-body--muted">
-          {translations.geldEinklagenAnwaltschaft.nebenantragDescription.de}
-        </span>
-      </div>
+  const deleteNebenantrag = useDeleteArrayItem(
+    "hauptantrag#nebenantrag",
+    `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
+  );
 
-      {items.map((entry) => {
-        const { index, type } = entry;
-        return (
-          <div
-            key={`hauptantrag-${parentArrayItemIndex}-${type}-${index}`}
-            className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
-          >
-            <div className="kern-body kern-body--default text-pretty flex flex-col">
-              <span className="kern-body max-w-[528px] font-bold!">
+  const deleteAnnahmeverzug = useDeleteArrayItem(
+    "hauptantrag#annahmeverzug",
+    `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
+  );
+
+  return (
+    <NestedArrayItemList
+      heading={translations.geldEinklagenAnwaltschaft.nebenantragHeadline.de}
+      headingId={`nebenantrag-heading-${parentArrayItemIndex}`}
+      headingSuffix="Optional"
+      subtitle={
+        translations.geldEinklagenAnwaltschaft.nebenantragDescription.de
+      }
+      items={items.map((entry) => {
+        const { index, type, arrayIndex } = entry;
+
+        const deleteItem =
+          type === "nebenantrag" ? deleteNebenantrag : deleteAnnahmeverzug;
+
+        const itemLabel =
+          type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug";
+
+        return {
+          key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
+          content: (
+            <>
+              <span className="kern-body font-bold!">
                 {getAlphabeticalEnumeration(index)}
               </span>
+
               <span className="kern-body max-w-[528px]">
                 {getNebenantragItemText({
                   ...entry,
@@ -102,59 +117,33 @@ export const NebenantragItem = ({
                   hauptantragIndex: parentArrayItemIndex,
                 })}
               </span>
-            </div>
-            <div className="flex gap-24">
-              <Button
-                look="secondary"
-                iconLeft={
-                  <Icon
-                    name="edit"
-                    className="size-kern-dimension-default text-kern-action-default"
-                  />
-                }
-                aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} bearbeiten`}
-                href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${index}/daten`}
-                className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
-              />
-              <Button
-                look="secondary"
-                iconLeft={
-                  <Icon
-                    name="trash"
-                    className="size-kern-dimension-default text-kern-feedback-danger"
-                  />
-                }
-                aria-label={`${type === "nebenantrag" ? "Nebenantrag" : "Annahmeverzug"} ${index + 1} löschen`}
-                className="p-kern-space-small! min-h-0! border-kern-feedback-danger! size-kern-dimension-x-large"
-              />
-            </div>
-          </div>
-        );
+            </>
+          ),
+          editButton: {
+            href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${arrayIndex}/daten`,
+            ariaLabel: `${itemLabel} ${index + 1} bearbeiten`,
+          },
+          deleteButton: {
+            onDelete: () => deleteItem(arrayIndex),
+            title: `${itemLabel} ${index + 1} löschen`,
+            ariaLabel: `${itemLabel} ${index + 1} löschen`,
+            description: `Möchten Sie diesen ${itemLabel.toLowerCase()} wirklich löschen?`,
+          },
+        };
       })}
-      <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">
-        <Button
-          href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`}
-          aria-label={`Nebenantrag ${nextNebenantragIndex + 1} hinzufügen`}
-          className="text-kern-action-default! flex items-center pt-24 no-underline!"
-          aria-disabled={shouldDisableAddButton}
-          disabled={shouldDisableAddButton}
-          look="secondary"
-          iconLeft={<Icon name="plus" className="fill-kern-action-default!" />}
-        >
-          {translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de}
-        </Button>
-        <Button
-          href={`${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`}
-          aria-label={`Annahmeverzug ${nextAnnahmeverzugIndex + 1} hinzufügen`}
-          className="text-kern-action-default! flex items-center pt-24 no-underline!"
-          aria-disabled={shouldDisableAddButton}
-          disabled={shouldDisableAddButton}
-          look="secondary"
-          iconLeft={<Icon name="plus" className="fill-kern-action-default!" />}
-        >
-          {translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton.de}
-        </Button>
-      </div>
-    </div>
+      addLinks={[
+        {
+          href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`,
+          label: translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
+          disabled: shouldDisableAddButton,
+        },
+        {
+          href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`,
+          label:
+            translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton.de,
+          disabled: shouldDisableAddButton,
+        },
+      ]}
+    />
   );
 };

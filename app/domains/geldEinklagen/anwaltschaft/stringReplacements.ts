@@ -61,9 +61,20 @@ export const getKanzleiStrings = (
 
 // TODO: Fix when Antrag entry is working and all prerequesites live in UserData
 export const getAntraegeStrings = (
-  _context: GeldEinklagenAnwaltschaftUserData,
+  context: GeldEinklagenAnwaltschaftUserData,
 ) => {
-  return { keineAntraege: false };
+  const arrayIndices = context.pageData?.arrayIndexes;
+  const hauptantrag = context.hauptantrag?.at(arrayIndices?.at(0) ?? -1);
+  if (!hauptantrag) return {};
+  const internesSchlagwortFordureung = hauptantrag.internesSchlagwortFordureung
+    ? `(${hauptantrag.internesSchlagwortFordureung})`
+    : "";
+  return {
+    keineAntraege: false,
+    // TODO: refactor to base title on Hauptantrag type, e.g. Zahnungsantrag/Schmerzensgeldantrag
+    hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortFordureung}`,
+    absatzNumber: `${(arrayIndices?.at(1) ?? 0) + 1}`,
+  };
   // if (!context.hauptantrag && !context.sonstigeNebenUndProzessantraege)
   //   return {
   //     keineAntraege: true,

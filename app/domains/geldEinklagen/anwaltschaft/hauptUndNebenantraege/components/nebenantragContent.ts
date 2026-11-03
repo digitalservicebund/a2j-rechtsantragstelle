@@ -28,7 +28,7 @@ const formatPartyNumbers = (numbers: number[]): string => {
     .join(", ");
 };
 
-const getBeklagteText = (count: number): string =>
+export const getBeklagteText = (count: number): string =>
   count === 1 ? "Die Beklagte" : "Die Beklagten";
 
 const getKlagendeText = (count: number): string =>
@@ -80,43 +80,55 @@ export const getNebenantragItemText = ({
   );
 
   if (type === "nebenantrag") {
-    const interestText = getInterestText({
-      rate: item.nebenantragZinssatzInProzent,
-      method: item.nebenantragZinsmethode,
-      start: item.nebenantragZinsbeginn,
-      end: item.nebenantragZinsende,
-    });
+    const hasInterest =
+      item.nebenantragZinssatzInProzent !== undefined &&
+      item.nebenantragZinsmethode !== undefined;
+
+    const interestText = hasInterest
+      ? getInterestText({
+          rate: item.nebenantragZinssatzInProzent,
+          method: item.nebenantragZinsmethode,
+          start: item.nebenantragZinsbeginn,
+          end: item.nebenantragZinsende,
+        })
+      : "";
 
     return createElement(
       Fragment,
       null,
-      getBeklagteText(beklagteNumbers.length),
-      " ",
-      formatPartyNumbers(beklagteNumbers),
+      createElement(
+        "strong",
+        null,
+        getBeklagteText(beklagteNumbers.length),
+        " zu ",
+        formatPartyNumbers(beklagteNumbers),
+      ),
       " ",
       getVerb(beklagteNumbers.length),
       " ",
       beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
       "verurteilt, ",
-      getKlagendeText(klagendeNumbers.length),
-      " ",
-      formatPartyNumbers(klagendeNumbers),
+      createElement(
+        "strong",
+        null,
+        getKlagendeText(klagendeNumbers.length),
+        " zu ",
+        formatPartyNumbers(klagendeNumbers),
+      ),
       " ",
       createElement("strong", null, nebenantragArtLabels[item.nebenantragArt]),
       " in Höhe von ",
-      createElement(
-        "strong",
-        null,
-        `${formatEuro(item.nebenantragBetrag)} Euro`,
-      ),
-      " nebst Zinsen in Höhe von ",
-      createElement(
-        "strong",
-        null,
-        item.nebenantragZinssatzInProzent ?? "",
-        interestText,
-      ),
-      " zu zahlen.",
+      createElement("strong", null, formatEuro(item.nebenantragBetrag)),
+      hasInterest
+        ? [
+            " nebst ",
+            createElement(
+              "strong",
+              null,
+              interestText.trim().replace(/^nebst\s+/i, ""),
+            ),
+          ]
+        : "",
     );
   }
   if (item.annahmeverzugsFeststellung !== "on") {
@@ -140,6 +152,97 @@ export const getNebenantragItemText = ({
     createElement("strong", null, "Annahmeverzug"),
     " ",
     getBefindenText(beklagteNumbers.length),
+    ".",
+  );
+};
+
+export const getBezifferterAntragText = ({
+  userData,
+  hauptantragIndex,
+}: {
+  userData: GeldEinklagenAnwaltschaftUserData;
+  hauptantragIndex: number;
+}): ReactNode => {
+  const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
+
+  if (!hauptantrag) return "";
+
+  const beklagteNumbers = getSelectedPartyNumbers(
+    userData.beklagten,
+    hauptantrag.beklagte,
+  );
+
+  const klagendeNumbers = getSelectedPartyNumbers(
+    userData.klagenden,
+    hauptantrag.klagende,
+  );
+
+  const hasInterest =
+    hauptantrag.zinssatzInProzent !== undefined &&
+    hauptantrag.zinsmethode !== undefined;
+
+  const interestText = hasInterest
+    ? getInterestText({
+        rate: hauptantrag.zinssatzInProzent,
+        method: hauptantrag.zinsmethode,
+        start: hauptantrag.zinsbeginn,
+        end: hauptantrag.zinsende,
+      })
+    : "";
+
+  const hasZugUndZug = hauptantrag.zugUndZug === "on";
+
+  const gegenleistung = hauptantrag.beschreibungDerGegenleistung;
+
+  return createElement(
+    Fragment,
+    null,
+    createElement(
+      "strong",
+      null,
+      getBeklagteText(beklagteNumbers.length),
+      " ",
+      formatPartyNumbers(beklagteNumbers),
+    ),
+    " ",
+    getVerb(beklagteNumbers.length),
+    " ",
+    beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
+    "verurteilt, ",
+    createElement(
+      "strong",
+      null,
+      getKlagendeText(klagendeNumbers.length),
+      " ",
+      formatPartyNumbers(klagendeNumbers),
+    ),
+    " ",
+    klagendeNumbers.length > 1 ? "als Gesamtgläubiger " : "",
+    " ",
+    "einen Betrag in Höhe von ",
+    createElement(
+      "strong",
+      null,
+      `${formatEuro(hauptantrag.betragForderung)} Euro`,
+    ),
+    hasInterest
+      ? [
+          " nebst ",
+          createElement(
+            "strong",
+            null,
+            interestText.trim().replace(/^nebst\s+/i, ""),
+          ),
+        ]
+      : "",
+    hasZugUndZug
+      ? [
+          ", Zug-um-Zug",
+          gegenleistung?.trim()
+            ? [" gegen: ", createElement("strong", null, gegenleistung)]
+            : "",
+        ]
+      : "",
     ".",
   );
 };

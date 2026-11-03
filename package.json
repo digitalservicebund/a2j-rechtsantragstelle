@@ -45,7 +45,7 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1160.0",
+    "@aws-sdk/client-s3": "^3.1161.0",
     "@digitalservicebund/a2j-xjustiz-bridge": "^0.10.1",
     "@digitalservicebund/kern-ux-tailwind-theme": "^4.1.0",
     "@kern-ux/native": "^2.8.2",
@@ -79,8 +79,8 @@
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.20.2",
     "pino-http": "^11.0.0",
-    "posthog-js": "1.442.1",
-    "posthog-node": "5.60.1",
+    "posthog-js": "1.444.0",
+    "posthog-node": "5.61.1",
     "rate-limit-redis": "^6.0.2",
     "react": "^19.3.1",
     "react-collapsed": "^4.2.0",

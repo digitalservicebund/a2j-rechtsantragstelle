@@ -2,7 +2,6 @@ import pick from "lodash/pick";
 import type { z } from "zod";
 import Textarea from "~/components/formElements/inputs/textarea/Textarea";
 import type { StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
-import DateInput from "../inputs/date/DateInput";
 import NumberInput from "../inputs/number/NumberInput";
 import TextInput, { type InputProps } from "../inputs/text/TextInput";
 
@@ -43,8 +42,6 @@ export const renderZodString = (
         ])}
       />
     );
-  if (matchingElement?.__component === "form-elements.date-input")
-    return <DateInput key={fieldName} {...inputProps} />;
 
   const inputType =
     matchingElement && "type" in matchingElement

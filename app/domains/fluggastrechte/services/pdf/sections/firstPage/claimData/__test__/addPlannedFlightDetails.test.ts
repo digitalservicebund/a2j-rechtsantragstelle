@@ -29,9 +29,7 @@ describe("addPlannedFlightDetails", () => {
     expect(mockDoc.text).toHaveBeenCalledWith(PLANNED_DEPARTURE_DATE_TEXT, {
       continued: true,
     });
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      ` ${userDataMock.direktAbflugsDatum}`,
-    );
+    expect(mockDoc.text).toHaveBeenCalledWith(` 10.10.2023`);
   });
 
   it("should calculate compensation based on start and end airport", () => {

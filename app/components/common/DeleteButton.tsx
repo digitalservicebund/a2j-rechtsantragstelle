@@ -8,7 +8,7 @@ import classNames from "classnames";
 type DeleteButtonProps = {
   label?: string;
   title: string;
-  description: ReactNode;
+  description?: ReactNode;
   className?: string;
   onDelete: () => Promise<void>;
 };
@@ -56,14 +56,16 @@ export const DeleteButton = ({
       <DeleteDialog
         title={title}
         description={
-          <>
-            {description}
-            {hasError && (
-              <p role="alert" className="text-kern-feedback-danger">
-                {translations.deleteDialog.error.de}
-              </p>
-            )}
-          </>
+          description || hasError ? (
+            <>
+              {description}
+              {hasError && (
+                <p role="alert" className="text-kern-feedback-danger">
+                  {translations.deleteDialog.error.de}
+                </p>
+              )}
+            </>
+          ) : null
         }
         onClick={() => void deleteItem()}
         closeDialog={() => dialogRef.current?.close()}

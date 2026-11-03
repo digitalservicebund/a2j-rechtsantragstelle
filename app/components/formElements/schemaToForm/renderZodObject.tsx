@@ -3,9 +3,9 @@ import { type StrapiFormComponent } from "~/services/cms/models/formElements/Str
 import mapKeys from "lodash/mapKeys";
 import { SchemaComponents } from "~/components/formElements/SchemaComponents";
 import { ExclusiveCheckboxes } from "../inputs/exclusiveCheckboxes/ExclusiveCheckboxes";
-import SplitDateInput from "~/components/formElements/inputs/date/SplitDateInput";
+import DateInput from "~/components/formElements/inputs/date/DateInput";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
-import { SplitTimeInput } from "../inputs/time/SplitTimeInput";
+import { TimeInput } from "../inputs/time/TimeInput";
 import {
   dateInputOptionalZodDescription,
   dateInputZodDescription,
@@ -65,7 +65,7 @@ export const renderZodObject = (
     const isDateInputRequired =
       nestedSchema.meta()?.description === dateInputZodDescription;
     return (
-      <SplitDateInput
+      <DateInput
         key={fieldName}
         name={fieldName}
         suffix={suffix}
@@ -76,9 +76,9 @@ export const renderZodObject = (
     );
   }
 
-  if (nestedSchema.meta()?.description === "split_time") {
+  if (nestedSchema.meta()?.description === "time_input") {
     return (
-      <SplitTimeInput
+      <TimeInput
         key={fieldName}
         name={fieldName}
         suffix={suffix}

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { parentKindIndexSchema } from "~/domains/nachlass/erbschein/shared/erbfolgeSchemas";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -8,7 +8,7 @@ import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { addYears, today } from "~/util/date";
 
-const splitDateSchema = createSplitDateSchema({
+const dateInputSchema = createDateInputSchema({
   earliest: () => addYears(today(), -150),
   latest: () => today(),
 });
@@ -17,14 +17,14 @@ const commonPersonFields = {
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,
   geburtsname: stringOptionalSchema,
-  geburtsdatum: splitDateSchema,
+  geburtsdatum: dateInputSchema,
   geburtsort: stringRequiredSchema,
   isAlive: YesNoAnswer,
 };
 
 const deceasedPersonFields = {
   isAlive: z.literal("no"),
-  sterbedatum: splitDateSchema,
+  sterbedatum: dateInputSchema,
   sterbeort: stringRequiredSchema,
 };
 
@@ -70,9 +70,9 @@ export const nameFieldsHelper = (prefix: string) => ({
 });
 
 export const geburtsdatumFieldsHelper = (prefix: string) => ({
-  [`${prefix}geburtsdatum`]: splitDateSchema,
+  [`${prefix}geburtsdatum`]: dateInputSchema,
   [`${prefix}sterbedatum`]: hiddenInputSchema(
-    schemaOrEmptyStringOptional(splitDateSchema),
+    schemaOrEmptyStringOptional(dateInputSchema),
   ),
   [`${prefix}geburtsort`]: stringRequiredSchema,
 });
@@ -94,8 +94,8 @@ export const addressFieldsHelper = (prefix: string) => ({
 });
 
 export const deathDateFieldsHelper = (prefix: string) => ({
-  [`${prefix}sterbedatum`]: splitDateSchema,
-  [`${prefix}geburtsdatum`]: hiddenInputSchema(splitDateSchema),
+  [`${prefix}sterbedatum`]: dateInputSchema,
+  [`${prefix}geburtsdatum`]: hiddenInputSchema(dateInputSchema),
   [`${prefix}sterbeort`]: stringRequiredSchema,
 });
 

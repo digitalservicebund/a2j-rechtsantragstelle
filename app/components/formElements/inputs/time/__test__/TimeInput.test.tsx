@@ -1,5 +1,5 @@
 import { type FieldApi, useField } from "@rvf/react-router";
-import { SplitTimeInput } from "../SplitTimeInput";
+import { TimeInput } from "../TimeInput";
 import { render } from "@testing-library/react";
 
 vi.mock("@rvf/react-router");
@@ -18,9 +18,9 @@ beforeEach(() => {
   vi.mocked(useField).mockReturnValue(mockUseField());
 });
 
-describe("SplitTimeInput", () => {
+describe("TimeInput", () => {
   it("renders hour and minute input fields with correct labels", () => {
-    const { getByLabelText } = render(<SplitTimeInput name="time" />);
+    const { getByLabelText } = render(<TimeInput name="time" />);
 
     const hourInput = getByLabelText("Stunde");
     expect(hourInput).toBeInTheDocument();
@@ -29,9 +29,7 @@ describe("SplitTimeInput", () => {
   });
 
   it("renders legend", () => {
-    const { getByText } = render(
-      <SplitTimeInput name="time" label="Time flight" />,
-    );
+    const { getByText } = render(<TimeInput name="time" label="Time flight" />);
 
     const legend = getByText("Time flight");
     expect(legend).toBeInTheDocument();
@@ -40,7 +38,7 @@ describe("SplitTimeInput", () => {
 
   it("renders suffix when provided", () => {
     const { getByText } = render(
-      <SplitTimeInput name="time" label="Time flight" suffix="Optional" />,
+      <TimeInput name="time" label="Time flight" suffix="Optional" />,
     );
 
     expect(getByText("Optional")).toBeInTheDocument();
@@ -48,7 +46,7 @@ describe("SplitTimeInput", () => {
 
   it("renders helper text and aria-describedby when provided", () => {
     const { getByText } = render(
-      <SplitTimeInput name="time" label="Time flight" helperText="Helper" />,
+      <TimeInput name="time" label="Time flight" helperText="Helper" />,
     );
 
     expect(getByText("Helper")).toBeInTheDocument();
@@ -63,7 +61,7 @@ describe("SplitTimeInput", () => {
       const errorMessage = name === "time" ? "someError" : null;
       return mockUseField(errorMessage);
     });
-    const { getByText } = render(<SplitTimeInput name="time" />);
+    const { getByText } = render(<TimeInput name="time" />);
 
     expect(getByText("someError")).toBeInTheDocument();
   });
@@ -74,7 +72,7 @@ describe("SplitTimeInput", () => {
       const hasBeenTouched = name !== "time";
       return mockUseField(errorMessage, hasBeenTouched);
     });
-    const { getByText } = render(<SplitTimeInput name="time" />);
+    const { getByText } = render(<TimeInput name="time" />);
 
     expect(getByText("someError")).toBeInTheDocument();
   });
