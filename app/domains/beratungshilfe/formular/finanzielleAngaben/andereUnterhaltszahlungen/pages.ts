@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -22,7 +22,7 @@ const unterhaltszahlungenArraySchema = z
     ]),
     firstName: stringRequiredSchema,
     surname: stringRequiredSchema,
-    birthday: createSplitDateSchema({
+    birthday: createDateInputSchema({
       earliest: () => addYears(today(), MINUS_150_YEARS),
       latest: () => today(),
     }),

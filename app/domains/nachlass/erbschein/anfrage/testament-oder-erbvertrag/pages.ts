@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
@@ -14,7 +14,7 @@ const commonBeguenstigteFields = {
   nachname: stringRequiredSchema,
   geburtsname: stringOptionalSchema,
   verhaeltnis: relationshipToDeceasedSchema,
-  geburtsdatum: createSplitDateSchema({
+  geburtsdatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),
@@ -33,7 +33,7 @@ const livingBeguenstigteFields = {
 
 const deceasedBeguenstigteFields = {
   isAlive: z.literal("no"),
-  sterbedatum: createSplitDateSchema({
+  sterbedatum: createDateInputSchema({
     earliest: () => addYears(today(), -150),
     latest: () => today(),
   }),

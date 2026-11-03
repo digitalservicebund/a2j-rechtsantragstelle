@@ -145,6 +145,19 @@ describe("getItemValueBox", () => {
 
     expect(actual).toBe("10:08");
   });
+
+  it("should handle date object", () => {
+    const translations: Translations = {};
+    const userData: UserData = {
+      direktAbflugsDatum: { day: "01", month: "08", year: "2026" },
+    };
+
+    const actual = getItemValueBox(translations, userData, [
+      { field: "direktAbflugsDatum" },
+    ]);
+
+    expect(actual).toBe("01.08.2026");
+  });
 });
 
 describe("extractFieldItemsFromInlineItems", () => {

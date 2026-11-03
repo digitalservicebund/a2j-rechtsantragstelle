@@ -1,4 +1,3 @@
-import Image from "~/components/common/Image";
 import { GridItem } from "~/components/layout/grid/GridItem";
 import { Grid } from "~/components/layout/grid/Grid";
 import { FooterExternalLinks } from "./FooterExternalLinks";
@@ -10,6 +9,7 @@ import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
 import { isFlowIdInPathname } from "~/util/url";
 import { useLocation } from "react-router";
+import Image from "~/components/common/Image";
 
 type FooterProps = Readonly<{
   showDeletionBanner?: boolean;
@@ -52,6 +52,7 @@ export default function Footer({ showDeletionBanner = false }: FooterProps) {
               width={180}
               height={105}
               alternativeText={logoAltText}
+              bmjvLogo
             />
           </div>
           <FooterExternalLinks />

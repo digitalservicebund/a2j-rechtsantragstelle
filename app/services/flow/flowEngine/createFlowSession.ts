@@ -154,17 +154,29 @@ export const createFlowSession = <C extends PageConfigMap>(
     scope: Record<string, unknown>,
     pageData: PageData,
     forceValidation = false,
-  ) =>
-    (!forceValidation &&
-      compiledFlow.pages[key]?.isRelevantForDone?.({
-        ...effectiveUserData,
-        pageData,
-      } as UserData) === false) ||
-    isPageDone(
+  ) => {
+    const context = { ...effectiveUserData, pageData } as UserData;
+    if (
+      !forceValidation &&
+      compiledFlow.pages[key]?.isRelevantForDone?.(context) === false
+    ) {
+      return true;
+    }
+
+    const summary = compiledFlow.pages[key]?.arraySummary;
+    if (summary && summary.isArrayRelevant?.(context) !== false) {
+      const items = scope[resolveFieldName(summary.name)];
+      if (!z.validate(summary.schema, items === undefined ? [] : items)) {
+        return false;
+      }
+    }
+
+    return isPageDone(
       compiledFlow.getSchemaByNodeKey(key),
       compiledFlow.getFieldNamesByNodeKey(key),
       scope,
     );
+  };
 
   // The page the user is on evaluated at its own arrayIndexes. The BFS only
   // fans out array items already in the data, so a brand new item being added
@@ -218,8 +230,8 @@ export const createFlowSession = <C extends PageConfigMap>(
 
   // An empty array's "add" target is reachable so the user can add the first
   // item, but it is never visited (no item exists yet). Treat it as done only
-  // when the array is optional, so a still-empty optional array does not hold
-  // its section back, while an empty required array keeps it incomplete.
+  // when the array is optional or the page explicitly opts out of completion
+  // validation. An empty required array must still keep its section incomplete.
   const visitedKeys = new Set<string>(
     simulation.visitedContexts.map(({ key }) => key),
   );
@@ -227,7 +239,13 @@ export const createFlowSession = <C extends PageConfigMap>(
     const arrayName = inferArrayNameFromStepId(
       compiledFlow.getPathFromNodeKey(key) ?? "",
     );
-    return arrayName !== "" && compiledFlow.isOptionalArray(arrayName);
+    return (
+      (arrayName !== "" && compiledFlow.isOptionalArray(arrayName)) ||
+      compiledFlow.pages[key]?.isRelevantForDone?.({
+        ...effectiveUserData,
+        pageData: { arrayIndexes: [] },
+      } as UserData) === false
+    );
   };
   [...simulation.reachableSet]
     .filter((key) => !visitedKeys.has(key))

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { type PagesConfig } from "~/domains/pageSchemas";
-import { createSplitDateSchemaOptional } from "~/services/validation/dateObject";
+import { createDateInputOptionalSchema } from "~/services/validation/dateObject";
 import { ibanSchema } from "~/services/validation/iban";
 import { integerSchema } from "~/services/validation/integer";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
@@ -52,9 +52,7 @@ const kraftfahrzeugOver10000OrUnsureSchema = z.object({
       latest: () => today().getFullYear(),
     }),
   ),
-  baujahr: schemaOrEmptyString(
-    createYearSchema({ latest: () => today().getFullYear() }),
-  ),
+  baujahr: createYearSchema({ latest: () => today().getFullYear() }),
 });
 
 export const kraftfahrzeugeArraySchema = z
@@ -100,7 +98,7 @@ const befristetSchema = z.object({
     "fixedDepositAccount",
   ]),
   verwendungszweck: stringRequiredSchema,
-  auszahlungdatum: createSplitDateSchemaOptional(),
+  auszahlungdatum: createDateInputOptionalSchema(),
 });
 
 const forderungSchema = z.object({

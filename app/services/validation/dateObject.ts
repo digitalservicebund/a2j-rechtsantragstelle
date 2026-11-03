@@ -1,8 +1,9 @@
 import z from "zod";
-import { isValidDate } from "./dateString";
+import isDate from "validator/lib/isDate";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { addYears, today } from "~/util/date";
 import { stringOptionalSchema } from "./stringOptional";
+import { type AllowedUserTypes } from "~/domains/userData";
 
 const input_required = "Diese Felder müssen ausgefüllt werden.";
 const requiredString = z.string().trim().min(1, input_required);
@@ -25,7 +26,14 @@ const assertValidDateRangeArgs = (args?: {
   }
 };
 
-export const createSplitDateSchema = (args?: {
+const isValidDate = (date: string) =>
+  isDate(date, {
+    format: "DD.MM.YYYY",
+    strictMode: true,
+    delimiters: ["."],
+  });
+
+export const createDateInputSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -99,7 +107,7 @@ const optionalDatePartRefine =
 const padIfPresent = (val?: string) =>
   isBlank(val) ? val : val.padStart(2, "0");
 
-export const createSplitDateSchemaOptional = (args?: {
+export const createDateInputOptionalSchema = (args?: {
   earliest?: () => Date;
   latest?: () => Date;
 }) => {
@@ -174,8 +182,8 @@ export const createSplitDateSchemaOptional = (args?: {
 
 export type DateObject = { day: string; month: string; year: string };
 
-export const toDateString = (date: DateObject) =>
-  `${date.day}.${date.month}.${date.year}`;
+export const toDateString = (date?: DateObject) =>
+  hasDateObject(date) ? `${date.day}.${date.month}.${date.year}` : "";
 
 export const toDate = (date: DateObject) =>
   new Date(
@@ -195,7 +203,18 @@ export const hasDateObject = (date: Partial<DateObject> | undefined) => {
   return objectKeysNonEmpty(date, ["day", "month", "year"]);
 };
 
-export const childBirthdaySchema = createSplitDateSchema({
+export const childBirthdaySchema = createDateInputSchema({
   earliest: () => addYears(today(), -24),
   latest: () => today(),
 });
+
+export const isItemValueDateObject = (
+  itemValue: AllowedUserTypes,
+): itemValue is DateObject => {
+  return (
+    typeof itemValue === "object" &&
+    "day" in itemValue &&
+    "month" in itemValue &&
+    "year" in itemValue
+  );
+};

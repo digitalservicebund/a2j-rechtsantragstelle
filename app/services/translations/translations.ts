@@ -321,6 +321,20 @@ export const translations = {
       de: "Folgende Zeichen sind in diesem Feld nicht erlaubt:",
     },
   },
+  deleteDialog: {
+    cancel: {
+      de: "Nein, behalten",
+    },
+    confirm: {
+      de: "Ja, löschen",
+    },
+    description: {
+      de: "Folgendes wird entfernt:",
+    },
+    error: {
+      de: "Das Löschen ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    },
+  },
   arraySummary: {
     arrayEditButtonLabel: {
       de: "Bearbeiten",
@@ -332,7 +346,7 @@ export const translations = {
       de: "hinzufügen",
     },
   },
-  splitDateComponent: {
+  dateComponent: {
     tagInputLabel: {
       de: "Tag",
     },
@@ -346,10 +360,10 @@ export const translations = {
       de: "Geburtsdatum",
     },
     hintText: {
-      de: "Beispielsweise: 17.3.2015",
+      de: "Beispielsweise: 17.11.2025",
     },
   },
-  splitTimeComponent: {
+  timeComponent: {
     hourInputLabel: {
       de: "Stunde",
     },
@@ -536,6 +550,18 @@ export const translations = {
     boxZugangeZumRechtJustizLink: {
       de: "justiz.de",
     },
+    cardPrelineErbausschlagung: {
+      de: "Erbausschlagung",
+    },
+    cardHeadingErbausschlagung: {
+      de: "Ein Erbe ablehnen",
+    },
+    cardDescriptionErbausschlagung: {
+      de: "Hier finden Sie Informationen darüber, wie Sie eine Erbschaft ausschlagen können. Sie erfahren, welche Fristen Sie beachten müssen und welche Folgen die Ausschlagung hat.",
+    },
+    cardButtonLabelErbausschlagung: {
+      de: "Zu Erbe ausschlagen",
+    },
   },
   geldEinklagen: {
     begruendungBeschreibungHeadline: {
@@ -591,12 +617,6 @@ export const translations = {
     },
     begruendungBeschreibungBeweisePersonWithMissingDetails: {
       de: "Person mit fehlenden Angaben",
-    },
-    begruendungBeschreibungBeweiseDialogDeleteCancel: {
-      de: "Nein, behalten",
-    },
-    begruendungBeschreibungBeweiseDialogDeleteConfirm: {
-      de: "Ja, löschen",
     },
     begruendungBeschreibungBeweiseDocumentDeleteDialogTitle: {
       de: "Beweis: Dokument löschen?",
@@ -654,6 +674,60 @@ export const translations = {
     },
   },
   geldEinklagenAnwaltschaft: {
+    einzelkanzleiHeadline: {
+      de: "Einzelkanzlei",
+    },
+    berufsausuebungsgesellschaftHeadline: {
+      de: "Berufsausübungsgesellschaft",
+    },
+    geschaeftszeichen: {
+      de: "Geschäftszeichen",
+    },
+    prozessbevollmaechtigtePerson: {
+      de: "Prozessbevollmächtigte Person",
+    },
+    prozessbevollmaechtigtePersonen: {
+      de: "Prozessbevollmächtigte Personen",
+    },
+    namedInSignatureLabel: {
+      de: "(Wird in der Signatur genannt)",
+    },
+    gesamteKanzlei: {
+      de: "Gesamte Kanzlei",
+    },
+    noGeschaeftszeichen: {
+      de: "Keine Angabe",
+    },
+    einzelkanzleiDeleteTitle: {
+      de: "Einzelkanzlei löschen?",
+    },
+    einzelkanzleiDeleteDescription: {
+      de: "Die folgende Einzelkanzlei wird entfernt:",
+    },
+    signaturangabenTitle: {
+      de: "Signaturangaben (notwendig für die Klageschrift)",
+    },
+    additionalPersonsSubtitle: {
+      de: "Geben Sie mindestens eine Person an, maximal 5",
+    },
+    signaturangaben: {
+      de: "Signaturangaben",
+    },
+    signaturangabenDeletionTitle: {
+      de: "Signaturangaben löschen?",
+    },
+    prozessbevollmaechtigtePersonenDeletionTitle: {
+      de: "Prozessbevollmächtigte Personen löschen?",
+    },
+    additionalPersonDeletionDescription: {
+      de: "Die folgende Person wird entfernt:",
+    },
+    berufsausuebungsgesellschaftDeleteTitle: {
+      de: "Berufsausübungsgesellschaft löschen?",
+    },
+    berufsausuebungsgesellschaftDeleteDescription: {
+      de: "Die folgende Berufsausübungsgesellschaft wird entfernt:",
+    },
     zahlungsklageReferenzzeichenError: {
       de: "Sie müssen entweder „Bezeichnung“ und „Nummer” angeben oder keines von beiden",
     },
@@ -665,6 +739,9 @@ export const translations = {
     },
     gesetzlicheVetretungHeadline: {
       de: "Gesetzliche Vertretung",
+    },
+    gesetzlicheVetretungDeletionTitle: {
+      de: "Gesetzliche Vertretung löschen?",
     },
     gesetzlicheVetretungOrganisationHeadline: {
       de: "Weitere gesetzliche Vertretung",
@@ -714,17 +791,74 @@ export const translations = {
     soenstigeProzessantragArrayButton: {
       de: "Antrag oder prozessuale Ausführung hinzufügen",
     },
+    soenstigeProzessantragItem: {
+      de: "Antrag/Ausführung",
+    },
     soenstigeProzessantragDelete: {
       de: "Antrag/Ausführung löschen?",
-    },
-    soenstigeProzessantragDescription: {
-      de: "Folgendes wird entfernt:",
     },
     soenstigeProzessantragInlineNoticeTitle: {
       de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
     },
     soenstigeProzessantragInlineNoticeContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
+    },
+    bezifferterZahlungsantragHeadline: {
+      de: "Bezifferter Zahlungsantrag",
+    },
+    bezifferterZahlungsantragCheckboxesHint: {
+      de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft genannt werden soll. Fügen Sie für getrennte Forderungen gegen einzelne Beklagte bitte separate Zahlungsanträge hinzu.",
+    },
+    bezifferterZahlungsantragCheckboxesBeklagteLabel: {
+      de: "Beklagte:",
+    },
+    bezifferterZahlungsantragCheckboxesKlagendeLabel: {
+      de: "Klagende:",
+    },
+    bezifferterZahlungsantragCheckboxesLeistungLabel: {
+      de: "Zahlung zu leisten von",
+    },
+    zahlungsAntragHinzufuegen: {
+      de: "Zahlungsantrag hinzufügen",
+    },
+    zahlungsAntragInlineNoticeTitle: {
+      de: "Maximale Anzahl an Zahlungsanträgen erreicht",
+    },
+    zahlungsAntragInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 Zahlungsanträge hinzufügen.",
+    },
+    nebenantragHeadline: {
+      de: "Nebenanträge / Feststellung Annahmeverzug",
+    },
+    nebenantragDescription: {
+      de: "Maximal 7 (inklusive Annahmeverzug)",
+    },
+    nebenatragAddButton: {
+      de: "Nebenantrag hinzufügen",
+    },
+    annahmeverzugAddButton: {
+      de: "Annahmeverzug hinzufügen",
+    },
+    addVortragButton: {
+      de: "Vortragen",
+    },
+    absatz: {
+      de: "Absatz",
+    },
+    beweisangeboteTitle: {
+      de: "Beweisangebote",
+    },
+    optionalSuffix: {
+      de: " - Optional",
+    },
+    undBeweisangebote: {
+      de: "und Beweisangebote",
+    },
+    undDazugehoerigeBeweisangebote: {
+      de: "und dazugehörige Beweisangebote",
+    },
+    addAbsatzButton: {
+      de: "Absatz hinzufügen",
     },
   },
   nachlass: {

@@ -23,6 +23,7 @@ import { kontopfaendungWegweiserTestCases } from "../kontopfaendung/wegweiser/__
 import { erbausschlagungAnfrageTestCases } from "../nachlass/erbausschlagung/anfrage/__test__/testcasesWithUserInput";
 import { erbausschlagungGerichtFindenTestCases } from "../nachlass/erbausschlagung/gericht-finden/__test__/testcasesWithUserInput";
 import { erbscheinNachlassgerichtTestCases } from "../nachlass/erbschein/nachlassgericht/__test__/testcasesWithUserInputs";
+import { grundbuchauszugAntragTestCases } from "../grundbuchauszug/antrag/__test__/testcasesWithUserInputs";
 import { erbscheinWegweiserTestCases } from "../nachlass/erbschein/wegweiser/__test__/testcasesWithUserInputs";
 import { type FlowId } from "../flowIds";
 import { type Flow, flows } from "../flows.server";
@@ -45,6 +46,7 @@ const flowSchemaTests = {
   beratungshilfeAntragTestCases,
   fluggastrechteVorabcheckTestCases,
   fluggastrechteFormularTestCases,
+  grundbuchauszugAntragTestCases,
 };
 
 type VisitedSteps = Record<

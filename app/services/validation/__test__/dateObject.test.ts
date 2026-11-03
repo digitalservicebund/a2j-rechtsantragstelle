@@ -1,12 +1,12 @@
 import { z } from "zod";
 import {
-  createSplitDateSchema,
-  createSplitDateSchemaOptional,
+  createDateInputSchema,
+  createDateInputOptionalSchema,
   toDate,
   toDateObject,
 } from "../dateObject";
 
-describe("createSplitDateSchema", () => {
+describe("createDateInputSchema", () => {
   describe("success cases", () => {
     const cases = [
       {
@@ -38,7 +38,7 @@ describe("createSplitDateSchema", () => {
     test.each(cases)(
       "given $input, returns $expected",
       ({ input, expected }) => {
-        const actual = createSplitDateSchema().safeParse(input);
+        const actual = createDateInputSchema().safeParse(input);
         expect(actual).toEqual({ data: expected, success: true });
       },
     );
@@ -132,7 +132,7 @@ describe("createSplitDateSchema", () => {
     test.each(cases)(
       "given $input, returns $errorMessage on $errorPath",
       ({ input, errorPath, errorMessage }) => {
-        const actual = createSplitDateSchema().safeParse(input);
+        const actual = createDateInputSchema().safeParse(input);
         expect(actual.success).toBe(false);
 
         const issue = actual.error?.issues.find((i) =>
@@ -145,7 +145,7 @@ describe("createSplitDateSchema", () => {
 
   test("too early", () => {
     const actual = z.validate(
-      createSplitDateSchema({
+      createDateInputSchema({
         earliest: () =>
           toDate({
             day: "02",
@@ -164,7 +164,7 @@ describe("createSplitDateSchema", () => {
 
   test("too early", () => {
     const actual = z.validate(
-      createSplitDateSchema({
+      createDateInputSchema({
         latest: () =>
           toDate({
             day: "01",
@@ -182,9 +182,9 @@ describe("createSplitDateSchema", () => {
   });
 });
 
-describe("createSplitDateSchemaOptional", () => {
+describe("createDateInputOptionalSchema", () => {
   test("all fields empty strings succeeds", () => {
-    const actual = createSplitDateSchemaOptional().safeParse({
+    const actual = createDateInputOptionalSchema().safeParse({
       day: "",
       month: "",
       year: "",
@@ -196,12 +196,12 @@ describe("createSplitDateSchemaOptional", () => {
   });
 
   test("all fields missing succeeds", () => {
-    const actual = createSplitDateSchemaOptional().safeParse({});
+    const actual = createDateInputOptionalSchema().safeParse({});
     expect(actual.success).toBe(true);
   });
 
   test("valid full date succeeds and pads values", () => {
-    const actual = createSplitDateSchemaOptional().safeParse({
+    const actual = createDateInputOptionalSchema().safeParse({
       day: "1",
       month: "3",
       year: "2023",
@@ -213,7 +213,7 @@ describe("createSplitDateSchemaOptional", () => {
   });
 
   test("partially filled date fails with invalid date error", () => {
-    const actual = createSplitDateSchemaOptional().safeParse({
+    const actual = createDateInputOptionalSchema().safeParse({
       day: "1",
       month: "",
       year: "2023",

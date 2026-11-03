@@ -72,7 +72,7 @@ export const navigationLists: Record<HubPages, NavItem[]> = {
           state: "Open",
         },
         {
-          label: "Rechtsberatung in HH und HB",
+          label: "Rechtsberatung in Hamburg und Bremen",
           destination: "/beratungshilfe/oera",
           state: "Open",
         },

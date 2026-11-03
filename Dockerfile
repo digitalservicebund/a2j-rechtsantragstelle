@@ -2,12 +2,13 @@
 ARG CONTENT_IMAGE=content
 ARG APP_IMAGE=app
 
-FROM node:24.22.1-alpine3.24 AS app-base
+FROM node:26.12.1-alpine3.24 AS app-base
 
 WORKDIR /a2j
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN corepack enable pnpm
+# Node 25+ no longer ships corepack
+RUN npm install -g corepack && corepack enable pnpm
 
 RUN pnpm fetch --prod --ignore-scripts
 RUN pnpm install -r --offline --prod
@@ -27,7 +28,7 @@ COPY ./content.json /
 # === PROD IMAGE
 FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
-FROM node:24.22.1-alpine3.24 AS prod
+FROM node:26.12.1-alpine3.24 AS prod
 RUN apk --no-cache update && apk --no-cache upgrade && apk add --no-cache dumb-init
 
 USER 1000

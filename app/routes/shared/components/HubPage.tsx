@@ -1,6 +1,9 @@
+import classNames from "classnames";
 import { useLoaderData, useLocation } from "react-router";
 import Label from "~/components/common/Label";
-import ContentComponents from "~/components/content/ContentComponents";
+import ContentComponents, {
+  getSectionBackgroundColor,
+} from "~/components/content/ContentComponents";
 import Hero from "~/components/content/Hero";
 import TableOfContents from "~/components/content/TableOfContents";
 import { Grid } from "~/components/layout/grid/Grid";
@@ -32,9 +35,14 @@ export function HubPage() {
 
   return (
     <>
-      <GridSection className="bg-kern-darkblue-050 pb-kern-space-x-large text-pretty hyphens-none break-normal">
-        <Grid>
-          {heroComponent && (
+      {heroComponent && (
+        <GridSection
+          className={classNames(
+            "pb-kern-space-x-large md:text-pretty md:hyphens-none md:break-normal",
+            getSectionBackgroundColor(heroComponent),
+          )}
+        >
+          <Grid>
             <GridItem
               mdColumn={{ start: 1, span: 7 }}
               lgColumn={{ start: 1, span: 8 }}
@@ -42,11 +50,11 @@ export function HubPage() {
             >
               <Hero {...heroComponent} />
             </GridItem>
-          )}
-        </Grid>
-      </GridSection>
+          </Grid>
+        </GridSection>
+      )}
 
-      <GridSection className="py-kern-space-6x-large text-pretty hyphens-none break-normal">
+      <GridSection className="py-kern-space-6x-large md:text-pretty md:hyphens-none md:break-normal">
         <Grid>
           <GridItem
             mdColumn={{ start: 1, span: 7 }}
@@ -85,8 +93,11 @@ export function HubPage() {
             xlColumn={{ start: 10, span: 3 }}
             row={3}
           >
-            <aside aria-label={translations.hubPages.navigationLabel.de}>
-              <nav aria-labelledby="navigation-label">
+            <div>
+              <nav
+                aria-labelledby="navigation-label"
+                aria-label={translations.hubPages.navigationLabel.de}
+              >
                 <Label
                   tagName="h2"
                   text={translations.hubPages.navigationLabel.de}
@@ -98,7 +109,7 @@ export function HubPage() {
                   navItems={navItems}
                 ></NavigationList>
               </nav>
-            </aside>
+            </div>
           </GridItem>
         </Grid>
       </GridSection>

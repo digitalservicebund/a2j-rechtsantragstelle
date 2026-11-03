@@ -16,6 +16,7 @@ export const flowIds = [
   "/erbschein/anfrage",
   "/erbausschlagung/anfrage",
   "/erbausschlagung/gericht-finden",
+  "/grundbuchauszug/antrag",
 ] as const;
 
 export type FlowId = (typeof flowIds)[number];

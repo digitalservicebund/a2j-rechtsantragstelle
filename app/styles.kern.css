@@ -28,26 +28,6 @@
     color: var(--color-kern-feedback-danger);
   }
 
-  /* --- 
-  Embeddable High-contrast icons
-  usage: /fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung
-  --- */
-
-  @media (forced-colors: active) {
-    .app-icon--high-contrast {
-      forced-color-adjust: none;
-      fill: black;
-    }
-  }
-
-  @media (forced-colors: active) and (prefers-color-scheme: dark) {
-    .app-icon--high-contrast {
-      fill: white;
-    }
-  }
-
-  /* ------------------------------- */
-
   body {
     @apply text-balance;
     @apply hyphens-auto;
@@ -238,16 +218,30 @@
     }
   }
 
-  /* styling to make the accordion arrow work on HCM */
+  /* --- 
+  High-contrast mode styles
+  Usage
+    - Icons of FGR (/fluggastrechte/formular/grundvoraussetzungen/ausgleichszahlung)
+    - Styling to make the accordion arrow
+  --- */
   @media (forced-colors: active) {
     .kern-accordion .kern-accordion__header::after {
       background-color: white !important;
+    }
+
+    .app-icon--high-contrast {
+      forced-color-adjust: none;
+      fill: black;
     }
 
     @media (forced-colors: active) and (prefers-color-scheme: dark) {
       .kern-accordion[open].kern-title > summary:after,
       .kern-accordion__header:after {
         --kern-color-layout-background-inverted: white;
+      }
+
+      .app-icon--high-contrast {
+        fill: white;
       }
     }
   }

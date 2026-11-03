@@ -32,12 +32,20 @@ describe("validateSameFlightPage", () => {
 
   it("should return success false given an original arrival time after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      tatsaechlicherAnkunftsDatum: "01.01.2024",
+      tatsaechlicherAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       tatsaechlicherAnkunftsZeit: {
         hour: "11",
         minute: "00",
@@ -49,12 +57,20 @@ describe("validateSameFlightPage", () => {
 
   it("should return success false given an original arrival date after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      tatsaechlicherAnkunftsDatum: "01.01.2024",
+      tatsaechlicherAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       tatsaechlicherAnkunftsZeit: {
         hour: "15",
         minute: "00",
@@ -66,9 +82,17 @@ describe("validateSameFlightPage", () => {
 
   it("should return success false given an original arrival date before three hours after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: "14:00",
-      tatsaechlicherAnkunftsDatum: "02.01.2024",
+      tatsaechlicherAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       tatsaechlicherAnkunftsZeit: "15:00",
     });
 
@@ -77,12 +101,20 @@ describe("validateSameFlightPage", () => {
 
   it("should return success true given an original arrival date after three hours after the arrival", () => {
     const result = z.validate(validatorSameFlightPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      tatsaechlicherAnkunftsDatum: "02.01.2024",
+      tatsaechlicherAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       tatsaechlicherAnkunftsZeit: {
         hour: "19",
         minute: "01",

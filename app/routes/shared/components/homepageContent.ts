@@ -47,6 +47,15 @@ export const serviceCards: CardGroupItem[] = [
     description: translations.homepage.cardDescriptionKontopfaendung.de,
     buttonLabel: translations.homepage.cardButtonLabelKontopfaendung.de,
   },
+  {
+    span: 4,
+    link: "/erbausschlagung",
+    id: "erbausschlagung-card",
+    preline: translations.homepage.cardPrelineErbausschlagung.de,
+    heading: translations.homepage.cardHeadingErbausschlagung.de,
+    description: translations.homepage.cardDescriptionErbausschlagung.de,
+    buttonLabel: translations.homepage.cardButtonLabelErbausschlagung.de,
+  },
 ];
 
 export const lebenslagenCards: CardGroupItem[] = [

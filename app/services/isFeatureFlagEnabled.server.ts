@@ -3,12 +3,12 @@ import { getPosthogNodeClient } from "~/services/analytics/posthogClient.server"
 // These settings are used if posthog isn't available, including for e2e tests. They should match production as closely as possible
 const localFeatureFlags = {
   showBundID: false,
-  showErbausschlagungFlow: true,
-  showErbausschlagungGerichtFindenVorabcheck: true,
   showNachlassErbscheinAnfrageFlow: false,
   showNachlassErbscheinErbfolgeFlow: false,
   showGeldEinklagenAnwaltschaftFlow: false,
   showNewHubPage: true,
+  showGrundbuchAuszugAntragFlow: true,
+  showXjustizDownload: false,
 } as const;
 
 export type FeatureFlag = keyof typeof localFeatureFlags;

@@ -51,6 +51,10 @@ export type GetStrapiEntryOpts<T extends ApiId> = {
   pLevel?: number;
 };
 
+export type GetStrapiEntryApiOpts<T extends ApiId> = GetStrapiEntryOpts<T> & {
+  showDraftVersion: boolean;
+};
+
 export type GetStrapiEntry = <T extends ApiId>(
   opts: GetStrapiEntryOpts<T> & { apiId: T },
 ) => Promise<StrapiSchemas[T] | [null]>;

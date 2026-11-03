@@ -1,5 +1,4 @@
 import z from "zod";
-import { type StrapiFilesUploadComponentSchema } from "~/services/cms/models/formElements/StrapiFilesUpload";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { hiddenInputZodDescription } from "~/services/validation/hiddenInput";
 import { ibanZodDescription } from "~/services/validation/iban";
@@ -33,6 +32,11 @@ import {
   getPersonenToBeReusedFromOtherAbschnitte,
 } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
+import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/KlageParteiCheckboxes";
+import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
+import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
+import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/AnnahmeverzugCheckbox";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -43,6 +47,8 @@ const specialComponentDescriptions = [
   dynamicSelectZodDescription,
   autoSuggestZodDescription,
   reuseBeweisZodDescription,
+  klageParteiCheckboxesZodDescription,
+  annahmeverzugCheckboxZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -96,24 +102,30 @@ export const renderSpecialMetaDescriptions = (
 ) => {
   const { userData } = useFlowLoaderDataContext();
 
+  const errorMessages =
+    matchingElement && "errorMessages" in matchingElement
+      ? matchingElement.errorMessages
+      : undefined;
+
   switch (description) {
     case filesUploadZodDescription: {
-      const filesUploadElement = matchingElement as z.infer<
-        typeof StrapiFilesUploadComponentSchema
-      >;
+      const {
+        fileUploadDescription,
+        fileUploadInlineNotices,
+        fileUploadTitle,
+      } = getFileUploadContent(matchingElement);
+
       return (
         <FilesUpload
           key={fieldName}
           name={fieldName}
-          title={filesUploadElement.title}
-          description={filesUploadElement.description}
-          inlineNotices={filesUploadElement.inlineNotices?.map(
-            (inlineNotice) => ({
-              ...inlineNotice,
-              look: mapLookValue(inlineNotice.look),
-            }),
-          )}
-          errorMessages={filesUploadElement.errorMessages}
+          title={fileUploadTitle}
+          description={fileUploadDescription}
+          inlineNotices={fileUploadInlineNotices?.map((inlineNotice) => ({
+            ...inlineNotice,
+            look: mapLookValue(inlineNotice.look),
+          }))}
+          errorMessages={errorMessages}
         />
       );
     }
@@ -159,10 +171,6 @@ export const renderSpecialMetaDescriptions = (
       const label =
         matchingElement && "label" in matchingElement
           ? matchingElement.label
-          : undefined;
-      const errorMessages =
-        matchingElement && "errorMessages" in matchingElement
-          ? matchingElement.errorMessages
           : undefined;
 
       return (
@@ -229,6 +237,54 @@ export const renderSpecialMetaDescriptions = (
         />
       );
     }
+    case klageParteiCheckboxesZodDescription: {
+      const geldEinklagenUserData =
+        userData as GeldEinklagenFormularUserData & {
+          klagenden?: React.ComponentProps<
+            typeof KlageParteiCheckboxes
+          >["parties"];
+          beklagten?: React.ComponentProps<
+            typeof KlageParteiCheckboxes
+          >["parties"];
+        };
+      const isBeklagte = fieldName.endsWith("#beklagte");
+
+      const parties = isBeklagte
+        ? (geldEinklagenUserData.beklagten ?? [])
+        : (geldEinklagenUserData.klagenden ?? []);
+
+      return (
+        <KlageParteiCheckboxes
+          key={fieldName}
+          name={fieldName}
+          parties={parties}
+          relationship={isBeklagte ? "beklagte" : "klagende"}
+        />
+      );
+    }
+    case annahmeverzugCheckboxZodDescription: {
+      const geldEinklagenUserData =
+        userData as GeldEinklagenFormularUserData & {
+          beklagten?: React.ComponentProps<
+            typeof AnnahmeverzugCheckbox
+          >["parties"];
+          hauptantrag?: GeldEinklagenAnwaltschaftUserData["hauptantrag"];
+        };
+
+      const arrayIndexes = geldEinklagenUserData.pageData?.arrayIndexes;
+      const hauptantragIndex = arrayIndexes?.[0] ?? 0;
+      const hauptantrag = geldEinklagenUserData.hauptantrag?.[hauptantragIndex];
+
+      return (
+        <AnnahmeverzugCheckbox
+          key={fieldName}
+          name={fieldName}
+          parties={geldEinklagenUserData.beklagten ?? []}
+          selectedBeklagte={hauptantrag?.beklagte}
+          zahlungsantragIndex={hauptantragIndex}
+        />
+      );
+    }
   }
 };
 
@@ -241,3 +297,21 @@ function getMinMaxValueByFieldSchema(fieldSchema: z.ZodType) {
   const maxValue = fieldSchema.maxValue ?? undefined;
   return { minValue, maxValue };
 }
+
+const getFileUploadContent = (matchingElement?: StrapiFormComponent) => {
+  const fileUploadTitle =
+    matchingElement && "title" in matchingElement
+      ? matchingElement.title
+      : undefined;
+  const fileUploadDescription =
+    matchingElement && "description" in matchingElement
+      ? matchingElement.description
+      : undefined;
+
+  const fileUploadInlineNotices =
+    matchingElement && "inlineNotices" in matchingElement
+      ? matchingElement.inlineNotices
+      : undefined;
+
+  return { fileUploadTitle, fileUploadDescription, fileUploadInlineNotices };
+};

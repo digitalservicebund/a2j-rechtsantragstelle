@@ -1,7 +1,7 @@
 import { useFetcher, useLocation } from "react-router";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
-import { DeleteDialog } from "./DeleteDialog";
+import { DeleteDialog } from "~/components/common/DeleteDialog";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise";
 import { translations } from "~/services/translations/translations";

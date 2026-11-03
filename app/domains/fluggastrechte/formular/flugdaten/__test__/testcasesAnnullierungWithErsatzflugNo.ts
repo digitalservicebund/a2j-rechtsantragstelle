@@ -10,23 +10,39 @@ const baseContext = {
   bereich: "annullierung",
   direktFlugnummer: "AB1234",
   buchungsNummer: "X36Q9C",
-  direktAbflugsDatum: "01.05.2023",
+  direktAbflugsDatum: {
+    day: "01",
+    month: "05",
+    year: "2023",
+  },
   direktAbflugsZeit: {
     hour: "10",
     minute: "00",
   },
-  direktAnkunftsDatum: "02.05.2023",
+  direktAnkunftsDatum: {
+    day: "02",
+    month: "05",
+    year: "2023",
+  },
   direktAnkunftsZeit: {
     hour: "10",
     minute: "00",
   },
   annullierungErsatzverbindungFlugnummer: "BCA4321",
-  annullierungErsatzverbindungAbflugsDatum: "10.03.2024",
+  annullierungErsatzverbindungAbflugsDatum: {
+    day: "10",
+    month: "03",
+    year: "2024",
+  },
   annullierungErsatzverbindungAbflugsZeit: {
     hour: "10",
     minute: "10",
   },
-  annullierungErsatzverbindungAnkunftsDatum: "10.03.2024",
+  annullierungErsatzverbindungAnkunftsDatum: {
+    day: "10",
+    month: "03",
+    year: "2024",
+  },
   annullierungErsatzverbindungAnkunftsZeit: {
     hour: "10",
     minute: "10",

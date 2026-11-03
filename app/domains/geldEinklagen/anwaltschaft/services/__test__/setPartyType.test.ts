@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession";
 import { updateSession } from "~/services/session.server";
 import { geldEinklagenAnwaltschaftFlowConfig } from "../../flowConfig";
-import type { KlageParteien } from "../../shared/anwaltschaftSchemas";
+import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { setPartyType } from "../setPartyType";
 
@@ -60,7 +60,7 @@ describe("setPartyType", () => {
     },
   );
 
-  it("should set the claimant type and one-based index from the request URL", () => {
+  it("should set the klagende type and one-based index from the request URL", () => {
     const userData = {
       otherData: "preserved",
       klagenden: [

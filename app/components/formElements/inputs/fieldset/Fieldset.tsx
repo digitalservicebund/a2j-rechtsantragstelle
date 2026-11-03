@@ -72,7 +72,7 @@ export const Fieldset = ({
         )}
         <RichText
           html={heading}
-          className="text-kern-adaptive-medium! kern-label"
+          className="text-kern-adaptive-medium! kern-label text-nowrap"
         />
         {suffix && (
           <span className="text-kern-adaptive-medium! kern-label mb-8! kern-label__optional">

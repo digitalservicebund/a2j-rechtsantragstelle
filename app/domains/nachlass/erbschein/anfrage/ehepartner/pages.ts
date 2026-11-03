@@ -1,6 +1,6 @@
 import { type PagesConfig } from "~/domains/pageSchemas";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
-import { createSplitDateSchema } from "~/services/validation/dateObject";
+import { createDateInputSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
@@ -60,7 +60,7 @@ export const ehepartnerPages = {
   spouseSterbedatumOrt: {
     stepId: "/ehepartner-oder-ehepartnerin/sterbedatum-ort",
     pageSchema: {
-      spouseSterbedatum: createSplitDateSchema({
+      spouseSterbedatum: createDateInputSchema({
         earliest: () => addYears(today(), -150),
         latest: () => today(),
       }),

@@ -1,8 +1,12 @@
 import type { z } from "zod";
 import type { ParsePayload } from "zod/v4/core";
 import { type MultiFieldsValidationBaseSchema } from "~/domains/types";
-import { dateAndTimeToTimestamp } from "~/services/validation/timeObject";
+import {
+  dateAndTimeToTimestamp,
+  hasTimeObject,
+} from "~/services/validation/timeObject";
 import { fluggastrechteFlugdatenPages } from "../../flugdaten/pages";
+import { hasDateObject } from "~/services/validation/dateObject";
 
 const ONE_HOUR_MILLISECONDS = 1 * 60 * 60 * 1000;
 const TWO_HOURS_MILLISECONDS = 2 * 60 * 60 * 1000;
@@ -15,6 +19,17 @@ const FIELDS_FOR_VALIDATION = [
   "annullierungErsatzverbindungAnkunftsDatum",
   "annullierungErsatzverbindungAnkunftsZeit",
 ] as const;
+
+// split-date fields are still a truthy object even when every sub-field is blank
+const DATE_FIELDS = new Set<(typeof FIELDS_FOR_VALIDATION)[number]>([
+  "annullierungErsatzverbindungAbflugsDatum",
+  "annullierungErsatzverbindungAnkunftsDatum",
+]);
+
+const TIME_FIELDS = new Set<(typeof FIELDS_FOR_VALIDATION)[number]>([
+  "annullierungErsatzverbindungAbflugsZeit",
+  "annullierungErsatzverbindungAnkunftsZeit",
+]);
 
 const _schema =
   fluggastrechteFlugdatenPages.flugdatenErsatzverbindungDaten.pageSchema;
@@ -36,10 +51,16 @@ type SchemaSubset = Pick<
 type SubsetCtx = ParsePayload<z.infer<z.ZodObject<SchemaSubset>>>;
 
 const getFieldsForValidation = (data: SubsetCtx["value"]) => {
-  return FIELDS_FOR_VALIDATION.map((path) => ({
-    value: data[path],
-    path: [path],
-  }));
+  return FIELDS_FOR_VALIDATION.map((path) => {
+    const value = data[path];
+    const isFilled = DATE_FIELDS.has(path)
+      ? hasDateObject(value as Parameters<typeof hasDateObject>[0])
+      : TIME_FIELDS.has(path)
+        ? hasTimeObject(value as Parameters<typeof hasTimeObject>[0])
+        : Boolean(value);
+
+    return { value, path: [path], isFilled };
+  });
 };
 
 function isStartTimestampLessThan(
@@ -63,22 +84,26 @@ const getFlightTimestamps = (data: SubsetCtx["value"]) => ({
     data.direktAbflugsDatum,
     data.direktAbflugsZeit,
   ),
-  departureDateTime: data.annullierungErsatzverbindungAbflugsZeit
-    ? dateAndTimeToTimestamp(
-        data.annullierungErsatzverbindungAbflugsDatum,
-        data.annullierungErsatzverbindungAbflugsZeit,
-      )
-    : Number.NaN,
+  departureDateTime:
+    hasTimeObject(data.annullierungErsatzverbindungAbflugsZeit) &&
+    hasDateObject(data.annullierungErsatzverbindungAbflugsDatum)
+      ? dateAndTimeToTimestamp(
+          data.annullierungErsatzverbindungAbflugsDatum,
+          data.annullierungErsatzverbindungAbflugsZeit,
+        )
+      : Number.NaN,
   originalArrivalDateTime: dateAndTimeToTimestamp(
     data.direktAnkunftsDatum,
     data.direktAnkunftsZeit,
   ),
-  arrivalDateTime: data.annullierungErsatzverbindungAnkunftsZeit
-    ? dateAndTimeToTimestamp(
-        data.annullierungErsatzverbindungAnkunftsDatum,
-        data.annullierungErsatzverbindungAnkunftsZeit,
-      )
-    : Number.NaN,
+  arrivalDateTime:
+    hasTimeObject(data.annullierungErsatzverbindungAnkunftsZeit) &&
+    hasDateObject(data.annullierungErsatzverbindungAnkunftsDatum)
+      ? dateAndTimeToTimestamp(
+          data.annullierungErsatzverbindungAnkunftsDatum,
+          data.annullierungErsatzverbindungAnkunftsZeit,
+        )
+      : Number.NaN,
 });
 
 const addIssue = (
@@ -225,11 +250,11 @@ export function validateCancelFlightReplacementPage(
   return baseSchema.check((ctx) => {
     const fields = getFieldsForValidation(ctx.value);
 
-    const isAnyFieldFilled = fields.some(({ value }) => Boolean(value));
+    const isAnyFieldFilled = fields.some(({ isFilled }) => isFilled);
     if (!isAnyFieldFilled) return;
 
-    for (const { value, path } of fields) {
-      if (!value) {
+    for (const { isFilled, value, path } of fields) {
+      if (!isFilled) {
         ctx.issues.push({
           code: "custom",
           message: "fillAllOrNone",
@@ -238,7 +263,7 @@ export function validateCancelFlightReplacementPage(
         });
       }
     }
-    if (fields.some(({ value }) => !value)) return;
+    if (fields.some(({ isFilled }) => !isFilled)) return;
 
     if (ctx.value.ankuendigung === "between7And13Days") {
       validateFieldsBetween7And13Days(ctx);

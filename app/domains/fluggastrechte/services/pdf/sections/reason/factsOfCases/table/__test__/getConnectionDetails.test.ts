@@ -16,12 +16,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "12",
           minute: "00",
         },
-        tatsaechlicherAnkunftsDatum: "10.11.2024",
+        tatsaechlicherAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         tatsaechlicherAnkunftsZeit: {
           hour: "15",
           minute: "30",
@@ -38,12 +46,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         ersatzverbindungArt: "flug",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "12",
           minute: "00",
         },
-        ersatzFlugAnkunftsDatum: "10.11.2024",
+        ersatzFlugAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         ersatzFlugAnkunftsZeit: {
           hour: "15",
           minute: "30",
@@ -61,12 +77,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         ersatzverbindungArt: "etwasAnderes",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "12",
           minute: "00",
         },
-        andereErsatzverbindungAnkunftsDatum: "10.11.2024",
+        andereErsatzverbindungAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         andereErsatzverbindungAnkunftsZeit: {
           hour: "14",
           minute: "30",
@@ -104,12 +128,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "verspaetet",
         tatsaechlicherFlug: "yes",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "15",
           minute: "00",
         },
-        tatsaechlicherAnkunftsDatum: "10.11.2024",
+        tatsaechlicherAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         tatsaechlicherAnkunftsZeit: {
           hour: "12",
           minute: "00",
@@ -210,10 +242,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);
@@ -229,12 +275,20 @@ describe("getConnectionDetails", () => {
           bereich: "annullierung",
           ankuendigung: "no",
           ersatzflug: "no",
-          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAbflugsZeit: {
             hour: "10",
             minute: "20",
           },
-          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAnkunftsZeit: {
             hour: "11",
             minute: "40",
@@ -322,10 +376,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);
@@ -343,12 +411,20 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenEinStunde: "no",
           ersatzflugLandenZweiStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAbflugsZeit: {
             hour: "10",
             minute: "20",
           },
-          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAnkunftsZeit: {
             hour: "11",
             minute: "40",
@@ -436,10 +512,24 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenZweiStunden: "no",
           ersatzflugLandenVierStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "",
-          annullierungErsatzverbindungAbflugsZeit: "",
-          annullierungErsatzverbindungAnkunftsDatum: "",
-          annullierungErsatzverbindungAnkunftsZeit: "",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAbflugsZeit: {
+            hour: "",
+            minute: "",
+          },
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "",
+            month: "",
+            year: "",
+          },
+          annullierungErsatzverbindungAnkunftsZeit: {
+            hour: "",
+            minute: "",
+          },
           annullierungErsatzverbindungFlugnummer: "",
         };
         const result = getConnectionDetails(userData);
@@ -457,12 +547,20 @@ describe("getConnectionDetails", () => {
           ersatzflug: "yes",
           ersatzflugStartenZweiStunden: "no",
           ersatzflugLandenVierStunden: "yes",
-          annullierungErsatzverbindungAbflugsDatum: "10.10.2024",
+          annullierungErsatzverbindungAbflugsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAbflugsZeit: {
             hour: "10",
             minute: "20",
           },
-          annullierungErsatzverbindungAnkunftsDatum: "10.10.2024",
+          annullierungErsatzverbindungAnkunftsDatum: {
+            day: "10",
+            month: "10",
+            year: "2024",
+          },
           annullierungErsatzverbindungAnkunftsZeit: {
             hour: "11",
             minute: "40",
@@ -484,12 +582,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "flug",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "12",
           minute: "00",
         },
-        ersatzFlugAnkunftsDatum: "10.11.2024",
+        ersatzFlugAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         ersatzFlugAnkunftsZeit: {
           hour: "15",
           minute: "30",
@@ -507,12 +613,20 @@ describe("getConnectionDetails", () => {
       const userData: FluggastrechteUserData = {
         bereich: "nichtbefoerderung",
         ersatzverbindungArt: "etwasAnderes",
-        direktAnkunftsDatum: "10.11.2024",
+        direktAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         direktAnkunftsZeit: {
           hour: "12",
           minute: "00",
         },
-        andereErsatzverbindungAnkunftsDatum: "10.11.2024",
+        andereErsatzverbindungAnkunftsDatum: {
+          day: "10",
+          month: "11",
+          year: "2024",
+        },
         andereErsatzverbindungAnkunftsZeit: {
           hour: "14",
           minute: "30",

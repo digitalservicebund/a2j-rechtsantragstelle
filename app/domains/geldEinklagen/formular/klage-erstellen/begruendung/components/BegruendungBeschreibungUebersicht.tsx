@@ -1,6 +1,4 @@
-import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
-import Button from "~/components/common/Button";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { arrayIsNonEmpty } from "~/util/array";
@@ -8,6 +6,7 @@ import BegruendungBeschreibungAbschnitt from "./BegruendungBeschreibungAbschnitt
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { BegruendungAbschnitteContext } from "./begruendungAbschnitteContext";
 import { useMemo } from "react";
+import { AddArrayItemButton } from "~/components/common/AddArrayItemButton";
 
 export const BASE_URL_BESCHREIBUNG_ABSCHNITTE =
   "/geld-einklagen/formular/klage-erstellen/begruendung/beschreibung/abschnitte";
@@ -52,36 +51,30 @@ const BegruendungBeschreibungUebersicht = () => {
             ))}
           </BegruendungAbschnitteContext.Provider>
         )}
-        <div className="flex flex-col items-start gap-24 p-kern-space-default border-1 border-dashed border-kern-neutral-200 rounded-[var(--kern-metric-border-radius-default)] bg-white">
-          {shouldDisableAddButton && (
-            <InlineNotice
-              className="w-full"
-              tagName="h2"
-              look="info"
-              title={
-                translations.geldEinklagen
-                  .begruendungBeschreibungMaximumReachedTitleNotice.de
-              }
-              content={
-                translations.geldEinklagen
-                  .begruendungBeschreibungMaximumReachedContentNotice.de
-              }
-              wrap
-            />
-          )}
-
-          <Button
-            look="secondary"
-            iconLeft={<Icon name="plus" className="text-kern-action-default" />}
-            href={addButtonUrl}
-            data-testid="add-abschnitt"
-            fullWidth={true}
-            disabled={shouldDisableAddButton}
-            aria-disabled={shouldDisableAddButton}
-          >
-            {`${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`}
-          </Button>
-        </div>
+        <AddArrayItemButton
+          href={addButtonUrl}
+          disabled={shouldDisableAddButton}
+          dataTestId="add-abschnitt"
+          buttonText={`${translations.geldEinklagen.begruendungBeschreibungHeadline.de} ${translations.arraySummary.arrayAddButtonLabel.de}`}
+          additionalContent={
+            shouldDisableAddButton && (
+              <InlineNotice
+                className="w-full"
+                tagName="h2"
+                look="info"
+                title={
+                  translations.geldEinklagen
+                    .begruendungBeschreibungMaximumReachedTitleNotice.de
+                }
+                content={
+                  translations.geldEinklagen
+                    .begruendungBeschreibungMaximumReachedContentNotice.de
+                }
+                wrap
+              />
+            )
+          }
+        />
       </div>
     </div>
   );

@@ -35,12 +35,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success false given an original arrival time after the arrival", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "01.01.2024",
+      direktAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "01.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "11",
         minute: "00",
@@ -53,12 +61,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success false given an original arrival date after the arrival", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "01.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "01",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "15",
         minute: "00",
@@ -71,12 +87,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success false given an original arrival date before three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "02.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "15",
         minute: "00",
@@ -89,12 +113,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success true given an original arrival date after three hours after the arrival and bereich verspaetet", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "02.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "19",
         minute: "01",
@@ -107,12 +139,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich annullierung", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "02.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "15",
         minute: "00",
@@ -125,12 +165,20 @@ describe("validateReplacementConnectionPage", () => {
 
   it("should return success true given an original arrival date before three hours after the arrival and bereich nichtbefoerderung", () => {
     const result = z.validate(validatorReplacementConnectionPage, {
-      direktAnkunftsDatum: "02.01.2024",
+      direktAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       direktAnkunftsZeit: {
         hour: "14",
         minute: "00",
       },
-      andereErsatzverbindungAnkunftsDatum: "02.01.2024",
+      andereErsatzverbindungAnkunftsDatum: {
+        day: "02",
+        month: "01",
+        year: "2024",
+      },
       andereErsatzverbindungAnkunftsZeit: {
         hour: "15",
         minute: "00",

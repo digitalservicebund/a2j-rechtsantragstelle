@@ -53,10 +53,10 @@ type ErrorResult = {
 };
 
 const flowIdFeatureFlag: Partial<Record<FlowId, FeatureFlag>> = {
-  "/erbausschlagung/anfrage": "showErbausschlagungFlow",
   "/erbschein/anfrage": "showNachlassErbscheinAnfrageFlow",
   "/erbschein/erbfolge": "showNachlassErbscheinErbfolgeFlow",
   "/geld-einklagen/anwaltschaft": "showGeldEinklagenAnwaltschaftFlow",
+  "/grundbuchauszug/antrag": "showGrundbuchAuszugAntragFlow",
 } as const;
 
 export const getUserDataAndFlow = async (

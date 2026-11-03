@@ -7,6 +7,7 @@ export function isExternalUrl(url: string) {
 export function isFileDownloadUrl(url: string) {
   return (
     url.endsWith("/download/pdf") ||
+    url.endsWith("/download/xjustiz") ||
     url.endsWith("?print") ||
     url.endsWith(".pdf")
   );

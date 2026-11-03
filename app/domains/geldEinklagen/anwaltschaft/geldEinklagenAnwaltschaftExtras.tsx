@@ -1,8 +1,12 @@
 import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
-import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/components/KlageParteienUebersicht";
+import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteienUebersicht";
+import { ProzessbevollmaechtigteUebersicht } from "./shared/klageParties/prozessbevollmaechtigte/components/ProzessbevollmaechtigteUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
+import ZahlungsAntragUebersicht from "./hauptUndNebenantraege/components/ZahlungsAntragUebersicht";
+import { AntraegeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AntraegeUebersicht";
+import { AbsaetzeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AbsaetzeUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -10,18 +14,25 @@ type GeldEinklagenAnwaltschaftLoaderExtraData = {
 
 export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltschaftLoaderExtraData> =
   {
-    renderExtraComponents: (loaderData) => {
-      return (
-        <>
-          {loaderData.stepId === "/klagende-partei/klagenden/uebersicht" && (
-            <KlageParteienUebersicht relationship="klagende" />
-          )}
-          {loaderData.stepId ===
-            "/sonstige-neben-und-prozessantraege/uebersicht" && (
-            <SonstigeNebenUndProzessantraegeUebersicht />
-          )}
-        </>
-      );
+    renderExtraComponents: ({ stepId }) => {
+      switch (stepId) {
+        case "/klagende-partei/klagenden/uebersicht":
+          return <KlageParteienUebersicht relationship="klagende" />;
+        case "/beklagte-partei/beklagten/uebersicht":
+          return <KlageParteienUebersicht relationship="beklagte" />;
+        case "/klagende-partei/prozessbevollmaechtigte/uebersicht":
+          return <ProzessbevollmaechtigteUebersicht relationship="klagende" />;
+        case "/beklagte-partei/prozessbevollmaechtigte/uebersicht":
+          return <ProzessbevollmaechtigteUebersicht relationship="beklagte" />;
+        case "/sonstige-neben-und-prozessantraege/uebersicht":
+          return <SonstigeNebenUndProzessantraegeUebersicht />;
+        case "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht":
+          return <ZahlungsAntragUebersicht />;
+        case "/tatsachenvortrag-beweise/uebersicht":
+          return <AntraegeUebersicht />;
+        case "/tatsachenvortrag-beweise/hauptantrag/#/absaetze":
+          return <AbsaetzeUebersicht />;
+      }
     },
     getDynamicOptions: function (): DynamicOptions | undefined {
       return undefined;
