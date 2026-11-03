@@ -1,0 +1,2 @@
+# False positive: country code list in a Storybook locale chunk (".SE.SG.SH.") matches the SendGrid token pattern. We don't use SendGrid.
+sendgrid-api-token

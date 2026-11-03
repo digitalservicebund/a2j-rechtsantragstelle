@@ -119,3 +119,14 @@ jobs:
 
       - name: Attest vulnerability scan
         run: cosign attest --yes --replace --predicate vulnerabilities.json --type vuln $IMAGE_DIGEST
+
+  alert-scan-failure:
+    name: Send failure message to Slack
+    needs: [vulnerability-scan-backend]
+    if: always() && failure() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: digitalservicebund/notify-on-failure-gha@b8fdda76a38fa8e94cf623ebdd03e4570bc4ceb0
+        with:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_A2J_ALERT_ID }}

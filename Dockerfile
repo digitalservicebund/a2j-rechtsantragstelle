@@ -30,6 +30,8 @@ FROM ${CONTENT_IMAGE} AS contentStageForCopy
 FROM ${APP_IMAGE} AS appStageForCopy
 FROM node:26.12.1-alpine3.24 AS prod
 RUN apk --no-cache update && apk --no-cache upgrade && apk add --no-cache dumb-init
+# npm is not needed at runtime and its bundled dependencies fail the vulnerability scan
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
 USER 1000
 WORKDIR /a2j
