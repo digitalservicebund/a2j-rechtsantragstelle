@@ -143,16 +143,22 @@ export const NebenantragItem = ({
               <>
                 <InlineNotice
                   title={
-                    "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag"
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeTitle.de
                   }
                   tagName={"div"}
                   look={"warning"}
-                  content={`<p>Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem ${itemLabel} verknüpft ist. Wenn Sie diesen Antrag löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.</p><br />
-<strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li><br /><p>Falls Sie lediglich die Angaben für diesen ${itemLabel} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.</p><br />
-<li><strong>Endgültig löschen:</strong></li><br /><p>Falls Sie den ${itemLabel} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p><br />`}
+                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replace(
+                    /\${itemLabel}/g,
+                    itemLabel,
+                  )}
                 />
-                <p className="kern-body">Der folgende Antrag wird entfernt:</p>
+                <p className="kern-body">
+                  {
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeAntragToDelete.de
+                  }
+                </p>
                 <span className="flex flex-row items-center!">
                   <Icon name="money-range" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
