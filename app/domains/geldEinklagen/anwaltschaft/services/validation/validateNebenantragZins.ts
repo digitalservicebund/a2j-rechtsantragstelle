@@ -1,4 +1,4 @@
-import type z from "zod";
+import z from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/types";
 import type { SchemaObject } from "~/domains/userData";
 import { hauptUndNebenantraegePages } from "../../hauptUndNebenantraege/pages";
