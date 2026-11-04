@@ -73,7 +73,10 @@ export const getNebenantragItemText = ({
 
     const interestText = hasInterest
       ? getInterestText({
-          rate: item.nebenantragZinssatzInProzent,
+          rate:
+            item.nebenantragZinssatzInProzent === ""
+              ? undefined
+              : item.nebenantragZinssatzInProzent,
           method: item.nebenantragZinsmethode,
           start: item.nebenantragZinsbeginn,
           end: item.nebenantragZinsende,
@@ -170,7 +173,10 @@ export const getBezifferterAntragText = ({
 
   const interestText = hasInterest
     ? getInterestText({
-        rate: hauptantrag.zinssatzInProzent,
+        rate:
+          hauptantrag.zinssatzInProzent === ""
+            ? undefined
+            : hauptantrag.zinssatzInProzent,
         method: hauptantrag.zinsmethode,
         start: hauptantrag.zinsbeginn,
         end: hauptantrag.zinsende,
