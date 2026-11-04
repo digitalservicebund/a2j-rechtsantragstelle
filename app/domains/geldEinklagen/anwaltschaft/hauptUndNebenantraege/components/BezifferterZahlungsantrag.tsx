@@ -89,13 +89,7 @@ export const BezifferterZahlungsantrag = ({
         />
       }
     >
-      <NebenantragItem
-        parentArrayItemIndex={itemIndex}
-        nebenantrag={item.nebenantrag}
-        annahmeverzug={item.annahmeverzug}
-        userData={userData}
-        onDelete={onDelete}
-      />
+      <NebenantragItem parentArrayItemIndex={itemIndex} userData={userData} />
     </ArrayItemCard>
   );
 };

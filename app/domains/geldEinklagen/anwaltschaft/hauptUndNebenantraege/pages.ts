@@ -1,7 +1,7 @@
 import {
-  annahmeverzugArraySchema,
+  annahmeverzugSchema,
   hauptantragArraySchema,
-  nebenantragArraySchema,
+  nebenantragSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
 
@@ -48,17 +48,17 @@ export const hauptUndNebenantraegePages = {
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#nebenantrag#nebenantragArt":
-        nebenantragArraySchema.element.shape.nebenantragArt,
+        nebenantragSchema.shape.nebenantragArt,
       "hauptantrag#nebenantrag#nebenantragBetrag":
-        nebenantragArraySchema.element.shape.nebenantragBetrag,
+        nebenantragSchema.shape.nebenantragBetrag,
       "hauptantrag#nebenantrag#nebenantragZinssatzInProzent":
-        nebenantragArraySchema.element.shape.nebenantragZinssatzInProzent,
+        nebenantragSchema.shape.nebenantragZinssatzInProzent,
       "hauptantrag#nebenantrag#nebenantragZinsmethode":
-        nebenantragArraySchema.element.shape.nebenantragZinsmethode,
+        nebenantragSchema.shape.nebenantragZinsmethode,
       "hauptantrag#nebenantrag#nebenantragZinsbeginn":
-        nebenantragArraySchema.element.shape.nebenantragZinsbeginn,
+        nebenantragSchema.shape.nebenantragZinsbeginn,
       "hauptantrag#nebenantrag#nebenantragZinsende":
-        nebenantragArraySchema.element.shape.nebenantragZinsende,
+        nebenantragSchema.shape.nebenantragZinsende,
     },
   },
   annahmeverzugDaten: {
@@ -66,10 +66,10 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#annahmeverzug#annahmeverzugsFeststellung":
-        annahmeverzugArraySchema.element.shape.annahmeverzugsFeststellung,
-      "hauptantrag#annahmeverzug#annahmeverzugDatum":
-        annahmeverzugArraySchema.element.shape.annahmeverzugDatum,
+      "hauptantrag#nebenantrag#annahmeverzugsFeststellung":
+        annahmeverzugSchema.shape.annahmeverzugsFeststellung,
+      "hauptantrag#nebenantrag#annahmeverzugDatum":
+        annahmeverzugSchema.shape.annahmeverzugDatum,
     },
   },
 } as const satisfies PagesConfig;

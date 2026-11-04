@@ -10,79 +10,47 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { formatEuro } from "../utils";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
+import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
 
-type Hauptantrag = NonNullable<
-  GeldEinklagenAnwaltschaftUserData["hauptantrag"]
->[number];
-
-type Nebenantrag = {
-  item: NonNullable<Hauptantrag["nebenantrag"]>[number];
-  index: number;
-  type: "nebenantrag";
-  arrayIndex: number;
-};
-
-type Annahmeverzug = {
-  item: NonNullable<Hauptantrag["annahmeverzug"]>[number];
-  index: number;
-  type: "annahmeverzug";
-  arrayIndex: number;
-};
-
-type NebenantragItemData = Nebenantrag | Annahmeverzug;
-
 type NebenantragItemProps = {
   readonly userData: GeldEinklagenAnwaltschaftUserData;
-  readonly nebenantrag: Hauptantrag["nebenantrag"];
-  readonly annahmeverzug: Hauptantrag["annahmeverzug"];
   readonly parentArrayItemIndex: number;
-  readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
 const MAX_NEBENANTRAG_ITEMS = 6;
 
 export const NebenantragItem = ({
   userData,
-  nebenantrag,
-  annahmeverzug,
   parentArrayItemIndex,
 }: NebenantragItemProps) => {
-  const nebenantragItems: Nebenantrag[] = (nebenantrag ?? []).map(
-    (item, index) => ({
-      item,
-      index,
-      arrayIndex: index,
+  const items: Nebenantrag[] = (
+    userData.hauptantrag?.[parentArrayItemIndex]?.nebenantrag ?? []
+  ).map((item): Nebenantrag => {
+    if ("annahmeverzugsFeststellung" in item) {
+      return {
+        ...item,
+        type: "annahmeverzug",
+      };
+    }
+
+    return {
+      ...item,
       type: "nebenantrag",
-    }),
-  );
+    };
+  });
 
-  const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
-    (item, index) => ({
-      item,
-      index: (nebenantrag ?? []).length + index,
-      arrayIndex: index,
-      type: "annahmeverzug",
-    }),
-  );
-
-  const items: NebenantragItemData[] = [
-    ...nebenantragItems,
-    ...annahmeverzugItems,
-  ];
-
-  const nextNebenantragIndex = (nebenantrag ?? []).length;
-  const nextAnnahmeverzugIndex = (annahmeverzug ?? []).length;
+  const nextNebenantragIndex = items.filter(
+    (item) => item.type === "nebenantrag",
+  ).length;
+  const nextAnnahmeverzugIndex = items.filter(
+    (item) => item.type === "annahmeverzug",
+  ).length;
 
   const deleteNebenantrag = useDeleteArrayItem(
     "hauptantrag#nebenantrag",
-    `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
-  );
-
-  const deleteAnnahmeverzug = useDeleteArrayItem(
-    "hauptantrag#annahmeverzug",
     `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
   );
 
@@ -94,11 +62,9 @@ export const NebenantragItem = ({
       subtitle={
         translations.geldEinklagenAnwaltschaft.nebenantragDescription.de
       }
-      items={items.map((entry) => {
-        const { index, type, arrayIndex } = entry;
-        const deleteItem =
-          type === "nebenantrag" ? deleteNebenantrag : deleteAnnahmeverzug;
-
+      items={items.map((entry, index) => {
+        const type = entry.type;
+        const arrayIndex = index;
         const itemLabel =
           type === "nebenantrag"
             ? "Nebenantrag"
@@ -114,7 +80,7 @@ export const NebenantragItem = ({
 
               <span className="kern-body max-w-[528px]">
                 {getNebenantragItemText({
-                  ...entry,
+                  item: entry,
                   userData,
                   hauptantragIndex: parentArrayItemIndex,
                 })}
@@ -126,10 +92,10 @@ export const NebenantragItem = ({
             ariaLabel: `${itemLabel} ${index + 1} bearbeiten`,
           },
           deleteButton: {
-            onDelete: () => deleteItem(arrayIndex),
+            onDelete: () => deleteNebenantrag(arrayIndex),
             title:
               type === "nebenantrag"
-                ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? formatEuro(entry.nebenantragBetrag) : ""}`
                 : `${itemLabel}`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
@@ -150,7 +116,7 @@ export const NebenantragItem = ({
                   <Icon name="money-range" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
                     {type === "nebenantrag"
-                      ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                      ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? formatEuro(entry.nebenantragBetrag) : ""}`
                       : itemLabel}
                   </p>
                 </span>
@@ -163,7 +129,7 @@ export const NebenantragItem = ({
         ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },
@@ -172,7 +138,7 @@ export const NebenantragItem = ({
         ...(nextAnnahmeverzugIndex === 0
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton
                     .de,

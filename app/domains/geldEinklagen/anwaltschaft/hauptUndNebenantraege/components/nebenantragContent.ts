@@ -1,24 +1,7 @@
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { createElement, Fragment, type ReactNode } from "react";
 import { formatEuro, formatSplitDate, getInterestText } from "../utils";
-
-type Hauptantrag = NonNullable<
-  GeldEinklagenAnwaltschaftUserData["hauptantrag"]
->[number];
-
-type Nebenantrag = NonNullable<Hauptantrag["nebenantrag"]>[number];
-
-type Annahmeverzug = NonNullable<Hauptantrag["annahmeverzug"]>[number];
-
-type NebenantragItemData =
-  | {
-      type: "nebenantrag";
-      item: Nebenantrag;
-    }
-  | {
-      type: "annahmeverzug";
-      item: Annahmeverzug;
-    };
+import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const formatPartyNumbers = (numbers: number[]): string => {
   if (numbers.length === 0) return "";
@@ -48,7 +31,7 @@ const getSelectedPartyNumbers = (
   );
 
 export const nebenantragArtLabels: Record<
-  Nebenantrag["nebenantragArt"],
+  Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
   vorgerichtlicheAnwaltskosten: "Vorgerichtlich Angefallene Anwaltskosten",
@@ -64,14 +47,15 @@ export const getAlphabeticalEnumeration = (index: number): string =>
 
 export const getNebenantragItemText = ({
   item,
-  type,
   userData,
   hauptantragIndex,
-}: NebenantragItemData & {
+}: {
+  item: Nebenantrag;
   userData: GeldEinklagenAnwaltschaftUserData;
   hauptantragIndex: number;
 }): ReactNode => {
   const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
+
   const beklagteNumbers = getSelectedPartyNumbers(
     userData.beklagten,
     hauptantrag?.beklagte,
@@ -82,7 +66,7 @@ export const getNebenantragItemText = ({
     hauptantrag?.klagende,
   );
 
-  if (type === "nebenantrag") {
+  if (item.type === "nebenantrag") {
     const hasInterest =
       item.nebenantragZinssatzInProzent !== undefined &&
       item.nebenantragZinsmethode !== undefined;
@@ -134,29 +118,29 @@ export const getNebenantragItemText = ({
         : "",
     );
   }
-  if (item.annahmeverzugsFeststellung !== "on") {
-    return "";
+
+  if (item.type === "annahmeverzug") {
+    const date = formatSplitDate(item.annahmeverzugDatum);
+
+    return createElement(
+      Fragment,
+      null,
+      "Es wird festgestellt, dass sich ",
+      getBeklagteText(beklagteNumbers.length).toLowerCase(),
+      " ",
+      formatPartyNumbers(beklagteNumbers),
+      " mit der Annahme der im Antrag zu ",
+      `${hauptantragIndex + 1})`,
+      " genannten Gegenleistung",
+      date ? ` seit dem ${date}` : "",
+      " in ",
+      createElement("strong", null, "Annahmeverzug"),
+      " ",
+      getBefindenText(beklagteNumbers.length),
+      ".",
+    );
   }
-
-  const date = formatSplitDate(item.annahmeverzugDatum);
-
-  return createElement(
-    Fragment,
-    null,
-    "Es wird festgestellt, dass sich ",
-    getBeklagteText(beklagteNumbers.length).toLowerCase(),
-    " ",
-    formatPartyNumbers(beklagteNumbers),
-    " mit der Annahme der im Antrag zu ",
-    `${hauptantragIndex + 1})`,
-    " genannten Gegenleistung",
-    date ? ` seit dem ${date}` : "",
-    " in ",
-    createElement("strong", null, "Annahmeverzug"),
-    " ",
-    getBefindenText(beklagteNumbers.length),
-    ".",
-  );
+  return null;
 };
 
 export const getBezifferterAntragText = ({
