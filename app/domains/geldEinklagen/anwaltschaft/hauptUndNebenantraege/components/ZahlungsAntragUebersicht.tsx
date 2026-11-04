@@ -5,15 +5,40 @@ import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
-import React from "react";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { useEffect } from "react";
+import React from "react";
+import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
 
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
+const focusStorageKey = "focus-zahlungsantrag";
+
+const onEditZahlungsAntrag = (index: number) => () => {
+  sessionStorage.setItem(focusStorageKey, String(index));
+};
+
 const ZahlungsAntragUebersicht = () => {
+  useEffect(() => {
+    const focusTimer = setTimeout(() => {
+      const itemIndex = sessionStorage.getItem(focusStorageKey);
+
+      if (itemIndex === null) return;
+
+      const element = document.getElementById(`zahlungsAntrag-${itemIndex}`);
+
+      if (element) {
+        element.focus();
+        sessionStorage.removeItem(focusStorageKey);
+      }
+    }, 0);
+
+    return () => clearTimeout(focusTimer);
+  }, []);
+
   const { userData, flowId } = useFormFlow();
 
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
@@ -21,6 +46,7 @@ const ZahlungsAntragUebersicht = () => {
   const deleteHauptantrag = useDeleteArrayItem(
     "hauptantrag",
     "/geld-einklagen/anwaltschaft",
+    focusOnZahlungsAntrag,
   );
 
   if (flowId !== "/geld-einklagen/anwaltschaft") {
@@ -81,6 +107,7 @@ const ZahlungsAntragUebersicht = () => {
               userData={userDataGeldEinklagen}
               index={index}
               onDelete={deleteHauptantrag}
+              onEdit={onEditZahlungsAntrag(index)}
             />
           </React.Fragment>
         ))}

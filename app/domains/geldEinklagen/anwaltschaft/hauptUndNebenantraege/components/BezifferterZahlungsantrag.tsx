@@ -18,6 +18,7 @@ type BezifferterZahlungsantragProps = {
   >[number];
   readonly userData: GeldEinklagenAnwaltschaftUserData;
   readonly onDelete: (itemIndex: number) => Promise<void>;
+  readonly onEdit: (itemIndex: number) => void;
 };
 
 export const BezifferterZahlungsantrag = ({
@@ -25,6 +26,7 @@ export const BezifferterZahlungsantrag = ({
   item,
   userData,
   onDelete,
+  onEdit,
 }: BezifferterZahlungsantragProps) => {
   return (
     <ArrayItemCard
@@ -48,6 +50,7 @@ export const BezifferterZahlungsantrag = ({
       editButton={{
         href: `${BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
         ariaLabel: `Zahlungsantrag ${itemIndex + 1} bearbeiten`,
+        onClick: () => onEdit(itemIndex),
       }}
       deleteButton={
         <DeleteButton

@@ -1,4 +1,5 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
+import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
@@ -26,6 +27,31 @@ export const NebenantragItem = ({
   userData,
   parentArrayItemIndex,
 }: NebenantragItemProps) => {
+  const additionalFocusStorageKey = `focus-nebenantrag-${parentArrayItemIndex}`;
+
+  useEffect(() => {
+    const focusTimer = setTimeout(() => {
+      const itemIndex = sessionStorage.getItem(additionalFocusStorageKey);
+
+      if (itemIndex === null) return;
+
+      const element = document.getElementById(
+        `nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
+      );
+
+      if (element) {
+        element.focus();
+        sessionStorage.removeItem(additionalFocusStorageKey);
+      }
+    }, 0);
+
+    return () => clearTimeout(focusTimer);
+  }, [additionalFocusStorageKey, parentArrayItemIndex]);
+
+  const onEditNebenantrag = (index: number) => () => {
+    sessionStorage.setItem(additionalFocusStorageKey, String(index));
+  };
+
   const items: Nebenantrag[] = (
     userData.hauptantrag?.[parentArrayItemIndex]?.nebenantrag ?? []
   ).map((item): Nebenantrag => {
@@ -52,6 +78,19 @@ export const NebenantragItem = ({
   const deleteNebenantrag = useDeleteArrayItem(
     "hauptantrag#nebenantrag",
     `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
+    (itemIndex) => {
+      setTimeout(() => {
+        const element =
+          document.getElementById(
+            `nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
+          ) ??
+          document.getElementById(
+            `nebenantrag-heading-${parentArrayItemIndex}`,
+          );
+
+        element?.focus();
+      }, 100);
+    },
   );
 
   return (
@@ -72,6 +111,7 @@ export const NebenantragItem = ({
 
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
+          id: `nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
             <>
               <span className="kern-body font-bold!">
@@ -90,6 +130,7 @@ export const NebenantragItem = ({
           editButton: {
             href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${arrayIndex}/daten`,
             ariaLabel: `${itemLabel} ${index + 1} bearbeiten`,
+            onClick: onEditNebenantrag(index),
           },
           deleteButton: {
             onDelete: () => deleteNebenantrag(arrayIndex),
