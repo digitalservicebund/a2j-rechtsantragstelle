@@ -7,6 +7,22 @@ import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
+const optionalIntegerSchema = z
+  .union([integerSchema, z.literal("")])
+  .optional();
+
+const optionalZinsmethodeSchema = z
+  .union([
+    z.enum([
+      "jaehrlicherZinssatzUeberBasiszins",
+      "jaehrlicherZinssatz",
+      "monatlicherZinssatzUeberBasiszins",
+      "monatlicherZinssatz",
+    ]),
+    z.literal(""),
+  ])
+  .optional();
+
 const annahmeverzugCheckboxSchema = z
   .enum(["on", "off"])
   .or(z.undefined())
@@ -34,15 +50,8 @@ export const nebenantragSchema = z.object({
     "pauschale",
   ]),
   nebenantragBetrag: integerSchema,
-  nebenantragZinssatzInProzent: integerSchema.optional(),
-  nebenantragZinsmethode: z
-    .enum([
-      "jaehrlicherZinssatzUeberBasiszins",
-      "jaehrlicherZinssatz",
-      "monatlicherZinssatzUeberBasiszins",
-      "monatlicherZinssatz",
-    ])
-    .optional(),
+  nebenantragZinssatzInProzent: optionalIntegerSchema,
+  nebenantragZinsmethode: optionalZinsmethodeSchema,
   nebenantragZinsbeginn: createDateInputOptionalSchema(),
   nebenantragZinsende: createDateInputOptionalSchema(),
   absaetze: absaetzeArraySchema.optional(),
@@ -71,50 +80,19 @@ const selectedKlagendeSchema = z
   .describe(klageParteiCheckboxesZodDescription);
 
 export const hauptantragArraySchema = z.array(
-  z
-    .object({
-      id: z.string().check(z.uuid()).optional(),
-      internesSchlagwortFordureung: z.string().max(50).optional(),
-      betragForderung: integerSchema,
-      klagende: selectedKlagendeSchema,
-      beklagte: selectedBeklagteSchema,
-      zugUndZug: checkedOptional.optional(),
-      beschreibungDerGegenleistung: stringOptionalSchema,
-      zinssatzInProzent: integerSchema.optional(),
-      zinsmethode: z
-        .enum([
-          "jaehrlicherZinssatzUeberBasiszins",
-          "jaehrlicherZinssatz",
-          "monatlicherZinssatzUeberBasiszins",
-          "monatlicherZinssatz",
-        ])
-        .optional(),
-      zinsbeginn: createDateInputOptionalSchema(),
-      zinsende: createDateInputOptionalSchema(),
-      absaetze: absaetzeArraySchema.optional(),
-      nebenantrag: nebenantragArraySchema.optional(),
-    })
-    .superRefine((data, ctx) => {
-      const hasZinssatz =
-        data.zinssatzInProzent !== undefined && data.zinssatzInProzent !== null;
-
-      const hasZinsmethode =
-        data.zinsmethode !== undefined && data.zinsmethode !== null;
-
-      if (hasZinssatz && !hasZinsmethode) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["zinsmethode"],
-          message: "Bitte geben Sie eine Zinsmethode an",
-        });
-      }
-
-      if (hasZinsmethode && !hasZinssatz) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["zinssatzInProzent"],
-          message: "Bitte geben Sie einen Zinssatz an",
-        });
-      }
-    }),
+  z.object({
+    id: z.string().check(z.uuid()).optional(),
+    internesSchlagwortFordureung: z.string().max(50).optional(),
+    betragForderung: integerSchema,
+    klagende: selectedKlagendeSchema,
+    beklagte: selectedBeklagteSchema,
+    zugUndZug: checkedOptional.optional(),
+    beschreibungDerGegenleistung: stringOptionalSchema,
+    zinssatzInProzent: optionalIntegerSchema,
+    zinsmethode: optionalZinsmethodeSchema,
+    zinsbeginn: createDateInputOptionalSchema(),
+    zinsende: createDateInputOptionalSchema(),
+    absaetze: absaetzeArraySchema.optional(),
+    nebenantrag: nebenantragArraySchema.optional(),
+  }),
 );
