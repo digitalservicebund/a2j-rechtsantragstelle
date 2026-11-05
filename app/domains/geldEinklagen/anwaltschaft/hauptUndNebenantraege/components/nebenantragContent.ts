@@ -1,24 +1,7 @@
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { createElement, Fragment, type ReactNode } from "react";
-import { formatEuro, formatSplitDate, getInterestText } from "../utils";
-
-type Hauptantrag = NonNullable<
-  GeldEinklagenAnwaltschaftUserData["hauptantrag"]
->[number];
-
-type Nebenantrag = NonNullable<Hauptantrag["nebenantrag"]>[number];
-
-type Annahmeverzug = NonNullable<Hauptantrag["annahmeverzug"]>[number];
-
-type NebenantragItemData =
-  | {
-      type: "nebenantrag";
-      item: Nebenantrag;
-    }
-  | {
-      type: "annahmeverzug";
-      item: Annahmeverzug;
-    };
+import { formatSplitDate, getInterestText } from "../utils";
+import type { Nebenantraege } from "../hauptUndNebenantraegeSchemas";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const formatPartyNumbers = (numbers: number[]): string => {
   if (numbers.length === 0) return "";
@@ -48,7 +31,7 @@ const getSelectedPartyNumbers = (
   );
 
 export const nebenantragArtLabels: Record<
-  Nebenantrag["nebenantragArt"],
+  Extract<Nebenantraege, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
   vorgerichtlicheAnwaltskosten: "Vorgerichtlich Angefallene Anwaltskosten",
@@ -64,14 +47,15 @@ export const getAlphabeticalEnumeration = (index: number): string =>
 
 export const getNebenantragItemText = ({
   item,
-  type,
   userData,
   hauptantragIndex,
-}: NebenantragItemData & {
+}: {
+  item: Nebenantraege;
   userData: GeldEinklagenAnwaltschaftUserData;
   hauptantragIndex: number;
 }): ReactNode => {
   const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
+
   const beklagteNumbers = getSelectedPartyNumbers(
     userData.beklagten,
     hauptantrag?.beklagte,
@@ -82,14 +66,17 @@ export const getNebenantragItemText = ({
     hauptantrag?.klagende,
   );
 
-  if (type === "nebenantrag") {
+  if (item.type === "nebenantrag") {
     const hasInterest =
       item.nebenantragZinssatzInProzent !== undefined &&
       item.nebenantragZinsmethode !== undefined;
 
     const interestText = hasInterest
       ? getInterestText({
-          rate: item.nebenantragZinssatzInProzent,
+          rate:
+            item.nebenantragZinssatzInProzent === ""
+              ? undefined
+              : item.nebenantragZinssatzInProzent,
           method: item.nebenantragZinsmethode,
           start: item.nebenantragZinsbeginn,
           end: item.nebenantragZinsende,
@@ -121,7 +108,7 @@ export const getNebenantragItemText = ({
       " ",
       createElement("strong", null, nebenantragArtLabels[item.nebenantragArt]),
       " in Höhe von ",
-      createElement("strong", null, formatEuro(item.nebenantragBetrag)),
+      createElement("strong", null, item.nebenantragBetrag),
       hasInterest
         ? [
             " nebst ",
@@ -134,29 +121,29 @@ export const getNebenantragItemText = ({
         : "",
     );
   }
-  if (item.annahmeverzugsFeststellung !== "on") {
-    return "";
+
+  if (item.type === "annahmeverzug") {
+    const date = formatSplitDate(item.annahmeverzugDatum);
+
+    return createElement(
+      Fragment,
+      null,
+      "Es wird festgestellt, dass sich ",
+      getBeklagteText(beklagteNumbers.length).toLowerCase(),
+      " ",
+      formatPartyNumbers(beklagteNumbers),
+      " mit der Annahme der im Antrag zu ",
+      `${hauptantragIndex + 1})`,
+      " genannten Gegenleistung",
+      date ? ` seit dem ${date}` : "",
+      " in ",
+      createElement("strong", null, "Annahmeverzug"),
+      " ",
+      getBefindenText(beklagteNumbers.length),
+      ".",
+    );
   }
-
-  const date = formatSplitDate(item.annahmeverzugDatum);
-
-  return createElement(
-    Fragment,
-    null,
-    "Es wird festgestellt, dass sich ",
-    getBeklagteText(beklagteNumbers.length).toLowerCase(),
-    " ",
-    formatPartyNumbers(beklagteNumbers),
-    " mit der Annahme der im Antrag zu ",
-    `${hauptantragIndex + 1})`,
-    " genannten Gegenleistung",
-    date ? ` seit dem ${date}` : "",
-    " in ",
-    createElement("strong", null, "Annahmeverzug"),
-    " ",
-    getBefindenText(beklagteNumbers.length),
-    ".",
-  );
+  return null;
 };
 
 export const getBezifferterAntragText = ({
@@ -186,7 +173,10 @@ export const getBezifferterAntragText = ({
 
   const interestText = hasInterest
     ? getInterestText({
-        rate: hauptantrag.zinssatzInProzent,
+        rate:
+          hauptantrag.zinssatzInProzent === ""
+            ? undefined
+            : hauptantrag.zinssatzInProzent,
         method: hauptantrag.zinsmethode,
         start: hauptantrag.zinsbeginn,
         end: hauptantrag.zinsende,
@@ -223,11 +213,7 @@ export const getBezifferterAntragText = ({
     klagendeNumbers.length > 1 ? "als Gesamtgläubiger " : "",
     " ",
     "einen Betrag in Höhe von ",
-    createElement(
-      "strong",
-      null,
-      `${formatEuro(hauptantrag.betragForderung)} Euro`,
-    ),
+    createElement("strong", null, `${hauptantrag.betragForderung} Euro`),
     hasInterest
       ? [
           " nebst ",

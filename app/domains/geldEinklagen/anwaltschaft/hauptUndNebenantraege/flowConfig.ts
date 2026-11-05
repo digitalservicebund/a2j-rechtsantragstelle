@@ -25,7 +25,9 @@ export const hauptUndNebenantraegeFlowConfig = {
       type: "addArrayItem",
       target: "annahmeverzugDaten",
     },
-    { target: "hauptantragUebersicht" },
+    {
+      target: "hauptantragUebersicht",
+    },
   ],
   hauptantragWarnung: "hauptantragUebersicht",
   nebenantragDaten: "hauptantragUebersicht",

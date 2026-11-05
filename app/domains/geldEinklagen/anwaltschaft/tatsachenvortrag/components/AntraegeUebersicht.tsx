@@ -1,10 +1,72 @@
 import classNames from "classnames";
+import React from "react";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
-import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import {
+  type Hauptantraege,
+  type Nebenantraege,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import {
+  getAbsaetzeBaseUrl,
+  getNebenantragTitle,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
+
+type Antrag = Hauptantraege | Nebenantraege;
+
+const AntragRow = ({
+  antrag,
+  index,
+  parentIndex,
+}: {
+  antrag: Antrag;
+  index: number;
+  parentIndex?: number;
+}) => {
+  const isHauptantrag = "betragForderung" in antrag;
+  const title = isHauptantrag
+    ? `${
+        translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
+          .de
+      } ${index + 1} (${antrag.internesSchlagwortFordureung})`
+    : getNebenantragTitle(antrag, index, parentIndex ?? -1);
+  return (
+    <div
+      className={classNames(
+        "flex justify-between items-center py-kern-space-small px-kern-space-default",
+        {
+          "border-t border-kern-grey-200": index > 0 || !isHauptantrag,
+          "pl-kern-space-2x-large": !isHauptantrag,
+        },
+      )}
+    >
+      <div className="flex gap-kern-dimension-small">
+        <Icon
+          name="check-circle"
+          className={classNames("text-kern-grey-200", {
+            "text-kern-feedback-success!":
+              antrag.absaetze && antrag.absaetze.length > 0,
+          })}
+        />
+        <span className="kern-body--default">{title}</span>
+      </div>
+      <Button
+        look="secondary"
+        href={getAbsaetzeBaseUrl(
+          parentIndex ?? index,
+          parentIndex !== undefined ? index : undefined,
+        )}
+        iconRight={
+          <Icon name="chevron-right" className="text-kern-action-default" />
+        }
+      >
+        {translations.geldEinklagenAnwaltschaft.addVortragButton.de}
+      </Button>
+    </div>
+  );
+};
 
 export const AntraegeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
@@ -16,44 +78,19 @@ export const AntraegeUebersicht = () => {
   return (
     <div>
       {userDataGeldEinklagenAnwaltschaft.hauptantrag?.map((antrag, index) => (
-        <div
-          // oxlint-disable-next-line react/no-array-index-key
-          key={`index-${index}`}
-          className={classNames(
-            "flex justify-between items-center py-kern-space-small px-kern-space-default",
-            {
-              "border-t border-kern-grey-200": index > 0,
-            },
-          )}
-        >
-          <div className="flex gap-kern-dimension-small">
-            <Icon
-              name="check-circle"
-              className={classNames("text-kern-grey-200", {
-                "text-kern-feedback-success!":
-                  antrag.absaetze && antrag.absaetze.length > 0,
-              })}
+        /* oxlint-disable-next-line react/no-array-index-key */
+        <React.Fragment key={`hauptantrag-${index}`}>
+          <AntragRow antrag={antrag} index={index} />
+          {antrag.nebenantraege?.map((nebenantrag, nebenantragIndex) => (
+            <AntragRow
+              // oxlint-disable-next-line react/no-array-index-key
+              key={`nebenantrag-${nebenantragIndex}`}
+              antrag={nebenantrag}
+              index={nebenantragIndex}
+              parentIndex={index}
             />
-            <span className="kern-body--default">
-              {
-                translations.geldEinklagenAnwaltschaft
-                  .bezifferterZahlungsantragHeadline.de
-              }{" "}
-              {index + 1}{" "}
-              {antrag.internesSchlagwortFordureung &&
-                `(${antrag.internesSchlagwortFordureung})`}
-            </span>
-          </div>
-          <Button
-            look="secondary"
-            href={getAbsaetzeBaseUrl(index)}
-            iconRight={
-              <Icon name="chevron-right" className="text-kern-action-default" />
-            }
-          >
-            {translations.geldEinklagenAnwaltschaft.addVortragButton.de}
-          </Button>
-        </div>
+          ))}
+        </React.Fragment>
       ))}
     </div>
   );

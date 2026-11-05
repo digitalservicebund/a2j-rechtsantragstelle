@@ -1,5 +1,13 @@
-import { type BeweiseArray } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
+import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { focusOnItem } from "~/domains/geldEinklagen/anwaltschaft/shared/focusOnItem";
+import { useAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
+import {
+  MAX_BEWEISE,
+  type BeweiseArray,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
+import { getBeweisType } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 
 export const BeweisangeboteList = ({
   beweise,
@@ -8,85 +16,57 @@ export const BeweisangeboteList = ({
   beweise: BeweiseArray;
   absatzArrayIndex: number;
 }) => {
+  const { absaetzeBaseUrl, absaetzeArrayName } = useAbsaetze();
+  const beweiseBaseUrl = `${absaetzeBaseUrl}/${absatzArrayIndex}/beweise`;
+  const beweisIdPrefix = `absatz-${absatzArrayIndex}-beweis-`;
+  const deleteArrayItem = useDeleteArrayItem(
+    `${absaetzeArrayName}#beweise`,
+    beweiseBaseUrl,
+    focusOnItem(beweisIdPrefix),
+  );
+  const nextItemIndex = beweise?.length ?? 0;
   return (
-    <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
-      <div className="flex gap-kern-space-small items-center">
-        <h4
-          className="kern-body kern-body--default kern-body--bold text-pretty p-0!"
-          id={`absatz-${absatzArrayIndex}-beweisangebote`}
-          tabIndex={-1}
-        >
-          {translations.geldEinklagenAnwaltschaft.beweisangeboteTitle.de}
-        </h4>
-        <span className="kern-body kern-body--muted p-0!">
-          {translations.geldEinklagenAnwaltschaft.optionalSuffix.de}
-        </span>
-      </div>
-      {beweise && beweise.length > 0 && (
-        <>
-          {beweise.map((beweis, index) => (
-            <div
-              // oxlint-disable-next-line react/no-array-index-key
-              key={`absatz-${absatzArrayIndex}-beweisangebote-${index}`}
-              id={`absatz-${absatzArrayIndex}-beweisangebote-${index}`}
-              tabIndex={-1}
-              className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
-            >
-              {/* <div className="flex gap-24">
-                <Button
-                  look="secondary"
-                  iconLeft={
-                    <Icon
-                      name="edit"
-                      className="size-kern-dimension-default text-kern-action-default"
-                    />
-                  }
-                  aria-label={`${additionalPersonTranslations.itemTitle} ${additionalPerson.vorname} ${additionalPerson.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`}
-                  href={`${baseAdditionalPersonUrl}/${index}/daten`}
-                  onClick={onEditAdditionalPerson(index)}
-                  className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
-                />
-                <DeleteButton
-                  title={additionalPersonTranslations.deletionTitle}
-                  className={
-                    "border-1! border-kern-feedback-danger! px-8! min-w-48!"
-                  }
-                  description={
-                    <div className="flex flex-col gap-kern-space-small">
-                      <p>
-                        {
-                          translations.geldEinklagenAnwaltschaft
-                            .additionalPersonDeletionDescription.de
-                        }
-                      </p>
-                      <div className="flex gap-kern-space-small items-start">
-                        <Icon
-                          name="person"
-                          className="size-kern-dimension-default"
-                        />
-                        <div className="flex flex-col">
-                          <p className="font-bold">
-                            {getFullPlaintiffName(
-                              undefined,
-                              additionalPerson.titel,
-                              additionalPerson.vorname,
-                              additionalPerson.nachname,
-                            )}
-                          </p>
-                          {additionalPerson.berufsbezeichnung && (
-                            <p>({additionalPerson.berufsbezeichnung})</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  }
-                  onDelete={() => deleteAdditionalPerson(index)}
-                />
-              </div> */}
-            </div>
-          ))}
-        </>
-      )}
-    </div>
+    <NestedArrayItemList
+      heading={translations.geldEinklagenAnwaltschaft.beweisangeboteTitle.de}
+      headingSuffix={translations.geldEinklagenAnwaltschaft.optionalSuffix.de}
+      headingId={`absatz-${absatzArrayIndex}-beweisangebote`}
+      subtitle={
+        translations.geldEinklagenAnwaltschaft.beweisangeboteSubtitle.de
+      }
+      items={
+        beweise
+          ? beweise.map((beweis, index) => ({
+              key: `absatz-${absatzArrayIndex}-beweisangebote-${index}`,
+              id: `absatz-${absatzArrayIndex}-beweisangebote-${index}`,
+              content: null, // TODO: build out display
+              editButton: {
+                ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
+                href: `${beweiseBaseUrl}/${index}/daten`,
+              },
+              deleteButton: {
+                title:
+                  getBeweisType(beweis.beweismittel) === "document"
+                    ? translations.geldEinklagenAnwaltschaft
+                        .beweisangebotDeletionTitle.de
+                    : translations.geldEinklagenAnwaltschaft
+                        .beweisangebotPersonDeletionTitle.de,
+                description: "", // TODO: Fill out
+                onDelete: () => deleteArrayItem(index),
+              },
+            }))
+          : []
+      }
+      addLinks={
+        nextItemIndex < MAX_BEWEISE
+          ? [
+              {
+                id: `${beweisIdPrefix}add`,
+                href: `${beweiseBaseUrl}/${nextItemIndex}/daten`,
+                label: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+              },
+            ]
+          : undefined
+      }
+    />
   );
 };

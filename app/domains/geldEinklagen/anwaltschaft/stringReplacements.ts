@@ -1,3 +1,4 @@
+import { getNebenantragTitle } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { firstArrayIndex } from "~/services/flow/pageData";
@@ -69,19 +70,22 @@ export const getAntraegeStrings = (
   const internesSchlagwortFordureung = hauptantrag.internesSchlagwortFordureung
     ? `(${hauptantrag.internesSchlagwortFordureung})`
     : "";
+  const nebenantrag = hauptantrag.nebenantraege?.at(arrayIndices?.at(1) ?? -1);
+  // TODO: refactor to base title on Nebenantrag type
+  const nebenantragTitle = nebenantrag
+    ? getNebenantragTitle(
+        nebenantrag,
+        arrayIndices?.at(1) ?? 0,
+        arrayIndices?.at(0) ?? 0,
+      )
+    : "";
   return {
     keineAntraege: false,
+    // If there are 3 indices, that indicates a nebenantrag page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze/#/daten
+    isHauptantrag: Boolean(arrayIndices?.length && arrayIndices.length < 3),
     // TODO: refactor to base title on Hauptantrag type, e.g. Zahnungsantrag/Schmerzensgeldantrag
     hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortFordureung}`,
-    absatzNumber: `${(arrayIndices?.at(1) ?? 0) + 1}`,
+    absatzNumber: `${(arrayIndices?.at(-1) ?? 0) + 1}`,
+    nebenantragTitle: nebenantragTitle,
   };
-  // if (!context.hauptantrag && !context.sonstigeNebenUndProzessantraege)
-  //   return {
-  //     keineAntraege: true,
-  //   };
-  // return {
-  //   keineAntraege:
-  //     context.hauptantrag?.length === 0 &&
-  //     context.sonstigeNebenUndProzessantraege?.length === 0,
-  // };
 };

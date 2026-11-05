@@ -46,7 +46,8 @@ const Tile = ({
 
       <div
         className={classNames("grid gap-24", {
-          "grid-cols-[repeat(auto-fit,minmax(18.125rem,1fr))]": useTwoColumns,
+          "md:grid-cols-[repeat(auto-fit,minmax(18.125rem,1fr))]":
+            useTwoColumns,
         })}
       >
         {label && (

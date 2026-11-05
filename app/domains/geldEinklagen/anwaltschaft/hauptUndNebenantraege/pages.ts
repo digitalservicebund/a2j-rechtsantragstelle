@@ -1,9 +1,12 @@
+import { z } from "zod";
 import {
-  annahmeverzugArraySchema,
-  hauptantragArraySchema,
-  nebenantragArraySchema,
+  annahmeverzugSchema,
+  hauptantraegeArraySchema,
+  nebenantragSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
 export const hauptUndNebenantraegePages = {
   hauptantragUebersicht: {
@@ -11,7 +14,7 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
     arraySummary: {
       name: "hauptantrag",
-      schema: hauptantragArraySchema,
+      schema: hauptantraegeArraySchema,
       isArrayRelevant: () => true,
     },
   },
@@ -21,20 +24,21 @@ export const hauptUndNebenantraegePages = {
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#internesSchlagwortFordureung":
-        hauptantragArraySchema.element.shape.internesSchlagwortFordureung,
+        hauptantraegeArraySchema.element.shape.internesSchlagwortFordureung,
       "hauptantrag#betragForderung":
-        hauptantragArraySchema.element.shape.betragForderung,
-      "hauptantrag#beklagte": hauptantragArraySchema.element.shape.beklagte,
-      "hauptantrag#klagende": hauptantragArraySchema.element.shape.klagende,
-      "hauptantrag#zugUndZug": hauptantragArraySchema.element.shape.zugUndZug,
+        hauptantraegeArraySchema.element.shape.betragForderung,
+      "hauptantrag#beklagte": hauptantraegeArraySchema.element.shape.beklagte,
+      "hauptantrag#klagende": hauptantraegeArraySchema.element.shape.klagende,
+      "hauptantrag#zugUndZug": hauptantraegeArraySchema.element.shape.zugUndZug,
       "hauptantrag#beschreibungDerGegenleistung":
-        hauptantragArraySchema.element.shape.beschreibungDerGegenleistung,
+        hauptantraegeArraySchema.element.shape.beschreibungDerGegenleistung,
       "hauptantrag#zinssatzInProzent":
-        hauptantragArraySchema.element.shape.zinssatzInProzent,
+        hauptantraegeArraySchema.element.shape.zinssatzInProzent,
       "hauptantrag#zinsmethode":
-        hauptantragArraySchema.element.shape.zinsmethode,
-      "hauptantrag#zinsbeginn": hauptantragArraySchema.element.shape.zinsbeginn,
-      "hauptantrag#zinsende": hauptantragArraySchema.element.shape.zinsende,
+        hauptantraegeArraySchema.element.shape.zinsmethode,
+      "hauptantrag#zinsbeginn":
+        hauptantraegeArraySchema.element.shape.zinsbeginn,
+      "hauptantrag#zinsende": hauptantraegeArraySchema.element.shape.zinsende,
     },
   },
   hauptantragWarnung: {
@@ -48,17 +52,20 @@ export const hauptUndNebenantraegePages = {
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#nebenantrag#nebenantragArt":
-        nebenantragArraySchema.element.shape.nebenantragArt,
+        nebenantragSchema.shape.nebenantragArt,
       "hauptantrag#nebenantrag#nebenantragBetrag":
-        nebenantragArraySchema.element.shape.nebenantragBetrag,
+        nebenantragSchema.shape.nebenantragBetrag,
       "hauptantrag#nebenantrag#nebenantragZinssatzInProzent":
-        nebenantragArraySchema.element.shape.nebenantragZinssatzInProzent,
+        nebenantragSchema.shape.nebenantragZinssatzInProzent,
       "hauptantrag#nebenantrag#nebenantragZinsmethode":
-        nebenantragArraySchema.element.shape.nebenantragZinsmethode,
+        nebenantragSchema.shape.nebenantragZinsmethode,
       "hauptantrag#nebenantrag#nebenantragZinsbeginn":
-        nebenantragArraySchema.element.shape.nebenantragZinsbeginn,
+        nebenantragSchema.shape.nebenantragZinsbeginn,
       "hauptantrag#nebenantrag#nebenantragZinsende":
-        nebenantragArraySchema.element.shape.nebenantragZinsende,
+        nebenantragSchema.shape.nebenantragZinsende,
+      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(z.string()),
+      ),
     },
   },
   annahmeverzugDaten: {
@@ -66,10 +73,13 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#annahmeverzug#annahmeverzugsFeststellung":
-        annahmeverzugArraySchema.element.shape.annahmeverzugsFeststellung,
-      "hauptantrag#annahmeverzug#annahmeverzugDatum":
-        annahmeverzugArraySchema.element.shape.annahmeverzugDatum,
+      "hauptantrag#nebenantrag#annahmeverzugsFeststellung":
+        annahmeverzugSchema.shape.annahmeverzugsFeststellung,
+      "hauptantrag#nebenantrag#annahmeverzugDatum":
+        annahmeverzugSchema.shape.annahmeverzugDatum,
+      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(z.string()),
+      ),
     },
   },
 } as const satisfies PagesConfig;

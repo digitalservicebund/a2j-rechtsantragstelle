@@ -1,4 +1,5 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
+import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
@@ -7,83 +8,88 @@ import {
 } from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { formatEuro } from "../utils";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
+import type { Nebenantraege } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
 
-type Hauptantrag = NonNullable<
-  GeldEinklagenAnwaltschaftUserData["hauptantrag"]
->[number];
-
-type Nebenantrag = {
-  item: NonNullable<Hauptantrag["nebenantrag"]>[number];
-  index: number;
-  type: "nebenantrag";
-  arrayIndex: number;
-};
-
-type Annahmeverzug = {
-  item: NonNullable<Hauptantrag["annahmeverzug"]>[number];
-  index: number;
-  type: "annahmeverzug";
-  arrayIndex: number;
-};
-
-type NebenantragItemData = Nebenantrag | Annahmeverzug;
-
 type NebenantragItemProps = {
   readonly userData: GeldEinklagenAnwaltschaftUserData;
-  readonly nebenantrag: Hauptantrag["nebenantrag"];
-  readonly annahmeverzug: Hauptantrag["annahmeverzug"];
   readonly parentArrayItemIndex: number;
-  readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
 const MAX_NEBENANTRAG_ITEMS = 6;
 
 export const NebenantragItem = ({
   userData,
-  nebenantrag,
-  annahmeverzug,
   parentArrayItemIndex,
 }: NebenantragItemProps) => {
-  const nebenantragItems: Nebenantrag[] = (nebenantrag ?? []).map(
-    (item, index) => ({
-      item,
-      index,
-      arrayIndex: index,
+  const additionalFocusStorageKey = `focus-nebenantrag-${parentArrayItemIndex}`;
+
+  useEffect(() => {
+    const focusTimer = setTimeout(() => {
+      const itemIndex = sessionStorage.getItem(additionalFocusStorageKey);
+
+      if (itemIndex === null) return;
+
+      const element = document.getElementById(
+        `nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
+      );
+
+      if (element) {
+        element.focus();
+        sessionStorage.removeItem(additionalFocusStorageKey);
+      }
+    }, 0);
+
+    return () => clearTimeout(focusTimer);
+  }, [additionalFocusStorageKey, parentArrayItemIndex]);
+
+  const onEditNebenantrag = (index: number) => () => {
+    sessionStorage.setItem(additionalFocusStorageKey, String(index));
+  };
+
+  const items: Nebenantraege[] = (
+    userData.hauptantrag?.[parentArrayItemIndex]?.nebenantraege ?? []
+  ).map((item): Nebenantraege => {
+    if ("annahmeverzugsFeststellung" in item) {
+      return {
+        ...item,
+        type: "annahmeverzug",
+      };
+    }
+
+    return {
+      ...item,
       type: "nebenantrag",
-    }),
-  );
+    };
+  });
 
-  const annahmeverzugItems: Annahmeverzug[] = (annahmeverzug ?? []).map(
-    (item, index) => ({
-      item,
-      index: (nebenantrag ?? []).length + index,
-      arrayIndex: index,
-      type: "annahmeverzug",
-    }),
-  );
-
-  const items: NebenantragItemData[] = [
-    ...nebenantragItems,
-    ...annahmeverzugItems,
-  ];
-
-  const nextNebenantragIndex = (nebenantrag ?? []).length;
-  const nextAnnahmeverzugIndex = (annahmeverzug ?? []).length;
+  const nextNebenantragIndex = items.filter(
+    (item) => item.type === "nebenantrag",
+  ).length;
+  const nextAnnahmeverzugIndex = items.filter(
+    (item) => item.type === "annahmeverzug",
+  ).length;
 
   const deleteNebenantrag = useDeleteArrayItem(
     "hauptantrag#nebenantrag",
     `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
-  );
+    (itemIndex) => {
+      setTimeout(() => {
+        const element =
+          document.getElementById(
+            `nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
+          ) ??
+          document.getElementById(
+            `nebenantrag-heading-${parentArrayItemIndex}`,
+          );
 
-  const deleteAnnahmeverzug = useDeleteArrayItem(
-    "hauptantrag#annahmeverzug",
-    `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
+        element?.focus();
+      }, 100);
+    },
   );
 
   return (
@@ -94,11 +100,9 @@ export const NebenantragItem = ({
       subtitle={
         translations.geldEinklagenAnwaltschaft.nebenantragDescription.de
       }
-      items={items.map((entry) => {
-        const { index, type, arrayIndex } = entry;
-        const deleteItem =
-          type === "nebenantrag" ? deleteNebenantrag : deleteAnnahmeverzug;
-
+      items={items.map((entry, index) => {
+        const type = entry.type;
+        const arrayIndex = index;
         const itemLabel =
           type === "nebenantrag"
             ? "Nebenantrag"
@@ -106,6 +110,7 @@ export const NebenantragItem = ({
 
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
+          id: `nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
             <>
               <span className="kern-body font-bold!">
@@ -114,7 +119,7 @@ export const NebenantragItem = ({
 
               <span className="kern-body max-w-[528px]">
                 {getNebenantragItemText({
-                  ...entry,
+                  item: entry,
                   userData,
                   hauptantragIndex: parentArrayItemIndex,
                 })}
@@ -124,33 +129,40 @@ export const NebenantragItem = ({
           editButton: {
             href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${arrayIndex}/daten`,
             ariaLabel: `${itemLabel} ${index + 1} bearbeiten`,
+            onClick: onEditNebenantrag(index),
           },
           deleteButton: {
-            onDelete: () => deleteItem(arrayIndex),
+            onDelete: () => deleteNebenantrag(arrayIndex),
             title:
               type === "nebenantrag"
-                ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
                 : `${itemLabel}`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
               <>
                 <InlineNotice
                   title={
-                    "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag"
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeTitle.de
                   }
                   tagName={"div"}
                   look={"warning"}
-                  content={`<p>Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem ${itemLabel} verknüpft ist. Wenn Sie diesen Antrag löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.</p><br />
-<strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li><br /><p>Falls Sie lediglich die Angaben für diesen ${itemLabel} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.</p><br />
-<li><strong>Endgültig löschen:</strong></li><br /><p>Falls Sie den ${itemLabel} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p><br />`}
+                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replace(
+                    /\${itemLabel}/g,
+                    itemLabel,
+                  )}
                 />
-                <p className="kern-body">Der folgende Antrag wird entfernt:</p>
+                <p className="kern-body">
+                  {
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeAntragToDelete.de
+                  }
+                </p>
                 <span className="flex flex-row items-center!">
                   <Icon name="money-range" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
                     {type === "nebenantrag"
-                      ? `${itemLabel} ${nebenantragArtLabels[entry.item.nebenantragArt]}, ${entry.item.nebenantragBetrag ? formatEuro(entry.item.nebenantragBetrag) : ""}`
+                      ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
                       : itemLabel}
                   </p>
                 </span>
@@ -163,7 +175,7 @@ export const NebenantragItem = ({
         ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${nextNebenantragIndex}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },
@@ -172,7 +184,7 @@ export const NebenantragItem = ({
         ...(nextAnnahmeverzugIndex === 0
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${nextAnnahmeverzugIndex}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton
                     .de,
