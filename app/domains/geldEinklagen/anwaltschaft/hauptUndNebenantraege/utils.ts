@@ -1,4 +1,3 @@
-
 export const formatSplitDate = (
   date: { day?: string; month?: string; year?: string } | undefined,
 ) => {
