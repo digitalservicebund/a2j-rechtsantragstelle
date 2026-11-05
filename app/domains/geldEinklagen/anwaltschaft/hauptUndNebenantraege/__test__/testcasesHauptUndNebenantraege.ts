@@ -132,16 +132,11 @@ export const hauptUndNebenantraegeTestCases = {
         "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/0/annahmeverzug/1/daten",
       userInput: {
         ...testcaseData,
-        hauptantrag: [
+        "hauptantrag#nebenantrag": [
           {
-            ...testcaseData.hauptantrag[0],
-            nebenantraege: [
-              {
-                type: "nebenantrag",
-                nebenantragArt: "vorgerichtlicheAnwaltskosten",
-                nebenantragBetrag: "100",
-              },
-            ],
+            type: "nebenantrag",
+            nebenantragArt: "vorgerichtlicheAnwaltskosten",
+            nebenantragBetrag: "100",
           },
         ],
         "hauptantrag#nebenantrag#type": "annahmeverzug",
