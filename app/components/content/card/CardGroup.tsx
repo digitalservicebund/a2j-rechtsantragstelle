@@ -1,4 +1,3 @@
-import { GridItem } from "~/components/layout/grid/GridItem";
 import Card from "./Card";
 import type { CardGroupItem } from "./Card";
 
@@ -13,23 +12,16 @@ const CardGroup = ({ cards }: { cards: CardGroupItem[] }) => {
   if (!cards.length) return null;
 
   return (
-    <GridItem
-      smColumn={{ start: 1, span: 12 }}
-      mdColumn={{ start: 1, span: 12 }}
-      lgColumn={{ start: 1, span: 12 }}
-      xlColumn={{ start: 1, span: 12 }}
-    >
-      <div className="grid grid-cols-12 gap-32">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className={`col-span-12 ${spanMap[card.span] ?? "xl:col-span-4"}`}
-          >
-            <Card {...card} />
-          </div>
-        ))}
-      </div>
-    </GridItem>
+    <div className="grid md:grid-cols-12 grid-cols-10 md:gap-32 gap-20">
+      {cards.map((card) => (
+        <div
+          key={card.id}
+          className={`md:col-span-12 col-span-10 ${spanMap[card.span] ?? "xl:col-span-4"}`}
+        >
+          <Card {...card} />
+        </div>
+      ))}
+    </div>
   );
 };
 
