@@ -98,19 +98,21 @@ unterhaltPerson: "unterhaltUebersicht",
 
 ### `arraySummary` options
 
-| Option                   | Purpose                                                                                                                                                                                 |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name` (required)        | User data key of the array. Must match the `<name>#` prefix of the item fields                                                                                                          |
-| `schema` (required)      | `z.array(...)` of the item. Used for the user data type and to validate the whole array when the section is checked for completeness                                                    |
-| `isArrayRelevant`        | `(userData) => boolean`. **Required to render the shared summary UI**, see below. When `false`, the array is also not required for the section to be done (e.g. the user answered "no") |
-| `shouldDisableAddButton` | `(userData) => boolean`. Disable the "add" button, e.g. when a maximum is reached                                                                                                       |
-| `indexOffset`            | Shift the item number shown to users (e.g. start counting at 2 when item 1 is the applicant)                                                                                            |
-| `hiddenFields`           | Item fields that are not shown on the summary card                                                                                                                                      |
+| Option                   | Purpose                                                                                                                                                                                             |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` (required)        | User data key of the array. Must match the `<name>#` prefix of the item fields                                                                                                                      |
+| `schema` (required)      | `z.array(...)` of the item. Used for the user data type and to validate the whole array when the section is checked for completeness                                                                |
+| `isArrayRelevant`        | `(userData) => boolean`. **Required to render the shared summary UI**, see below. When `false`, the summary skips validating the whole array; reachable item pages are still checked for completion |
+| `shouldDisableAddButton` | `(userData) => boolean`. Disable the "add" button, e.g. when a maximum is reached                                                                                                                   |
+| `indexOffset`            | Shift the item number shown to users (e.g. start counting at 2 when item 1 is the applicant)                                                                                                        |
+| `hiddenFields`           | Item fields that are not shown on the summary card                                                                                                                                                  |
 
 `isArrayRelevant` controls two things:
 
 - **Rendering:** the shared array summary (item list and "add" button) is only rendered when `isArrayRelevant` returns `true`. If the option is missing, it counts as `false` and the summary and its "add" button are hidden.
-- **Completion:** when it returns `false`, the array does not have to be valid for the section to count as done.
+- **Completion:** when it returns `false`, only the summary's own check of the whole array against `arraySummary.schema` is skipped. Item pages that are still reachable keep taking part in the completion check, so an empty required array or an incomplete item can keep the section unfinished, even while the shared summary UI is hidden.
+
+To exclude an array from completion entirely, route around it: make sure its summary and item pages are not reachable. `unterhaltFrage` above does this. When the answer is not "yes", it goes straight to `naechsterAbschnitt`, so none of the array's pages count.
 
 So for a single-level array that is always shown with the shared summary UI (no yes/no question before it), set `isArrayRelevant: () => true`.
 
@@ -149,7 +151,7 @@ absatzDaten: {
 
 `/tatsachenvortrag/hauptantrag/1/absaetze/0/daten` then writes `hauptantrag[1].absaetze[0].formulierung`. The transitions follow the same pattern as above: the inner summary has an `addArrayItem` branch to `absatzDaten`, and `absatzDaten` goes back to `absaetzeUebersicht`. For full examples, see `app/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/` and the Erbschein Erbfolge flow (`app/domains/nachlass/erbschein/erbfolge/`).
 
-`isArrayRelevant` is set here so the arrays count towards the section's completion. The shared summary UI is not used for nested arrays (see below).
+`isArrayRelevant: () => true` makes each summary validate its whole array (e.g. a minimum item count) when the section is checked for completion. The shared summary UI is not used for nested arrays (see below).
 
 ### Summary UI for nested arrays
 
