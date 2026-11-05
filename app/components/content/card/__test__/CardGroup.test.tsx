@@ -48,7 +48,9 @@ describe("CardGroup", () => {
   });
   it("should render cards in a grid", () => {
     const { container } = render(<CardGroup cards={mockCards} />);
-    expect(container.querySelector(".grid.grid-cols-12")).toBeInTheDocument();
+    expect(
+      container.querySelector(".grid.md\\:grid-cols-12"),
+    ).toBeInTheDocument();
   });
 
   it("should not render when cards array is empty", () => {
