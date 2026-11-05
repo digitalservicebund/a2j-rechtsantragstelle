@@ -2,6 +2,7 @@ import { DeleteButton } from "~/components/common/DeleteButton";
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { focusOnItem } from "~/domains/geldEinklagen/anwaltschaft/shared/focusOnItem";
+import { useAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { BeweisangeboteList } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/BeweisangeboteList";
 import type { Absatz as AbsatzType } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
@@ -10,18 +11,15 @@ import { translations } from "~/services/translations/translations";
 export const Absatz = ({
   absatz,
   index,
-  baseUrl,
-  isNebenantragAbsatz = false,
 }: {
   absatz: AbsatzType;
   index: number;
-  baseUrl: string;
-  isNebenantragAbsatz?: boolean;
 }) => {
   const absatzTitle = `${translations.geldEinklagenAnwaltschaft.absatz.de} ${index + 1}`;
+  const { absaetzeBaseUrl, absaetzeArrayName } = useAbsaetze();
   const deleteArrayItem = useDeleteArrayItem(
-    `hauptantrag${isNebenantragAbsatz ? "#nebenantrag" : ""}#absaetze`,
-    baseUrl,
+    absaetzeArrayName,
+    absaetzeBaseUrl,
     focusOnItem("absatz-"),
   );
   const hasBeweise = absatz.beweise && absatz.beweise.length > 0;
@@ -37,7 +35,7 @@ export const Absatz = ({
       editButton={{
         id: `${EDIT_BUTTON_ID_PREFIX}absatz-${index}`,
         ariaLabel: `${absatzTitle} ${translations.arraySummary.arrayEditButtonLabel.de}`,
-        href: `${baseUrl}/${index}/daten`,
+        href: `${absaetzeBaseUrl}/${index}/daten`,
       }}
       deleteButton={
         <DeleteButton

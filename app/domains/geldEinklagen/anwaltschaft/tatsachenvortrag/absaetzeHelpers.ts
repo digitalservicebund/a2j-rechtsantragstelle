@@ -1,5 +1,6 @@
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { type BeweisMittel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 
 export const getAbsaetzeBaseUrl = (
@@ -23,4 +24,18 @@ export const getNebenantragTitle = (
       : translations.geldEinklagenAnwaltschaft.feststellungsantrag.de;
   const parentheticalInfo = `${nebenantrag.type === "nebenantrag" ? nebenantragArtLabels[nebenantrag.nebenantragArt] : translations.geldEinklagenAnwaltschaft.annahmeverzug.de}`;
   return `${title} ${displayIndex} (${parentheticalInfo})`;
+};
+
+export type BeweisType = "document" | "person";
+
+export const getBeweisType = (mittel: BeweisMittel): BeweisType => {
+  switch (mittel) {
+    case "urkunde":
+    case "augenschein":
+    case "sachverstaendigengutachten":
+      return "document";
+    case "zeuge":
+    case "parteivernehmung":
+      return "person";
+  }
 };

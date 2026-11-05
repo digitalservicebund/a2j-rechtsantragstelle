@@ -882,8 +882,32 @@ export const translations = {
     absatz: {
       de: "Absatz",
     },
+    absatzInlineNoticeTitle: {
+      de: "Maximale Anzahl an Absätzen erreicht",
+    },
+    absatzInlineNoticeContent: {
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 50 Absätze hinzufügen.",
+    },
     beweisangeboteTitle: {
       de: "Beweisangebote",
+    },
+    beweisangeboteSubtitle: {
+      de: "Maximal 50",
+    },
+    beweis: {
+      de: "Beweis",
+    },
+    beweisangebotDeletionTitle: {
+      de: "Beweisangebot löschen?",
+    },
+    beweisangebotDeletionDescription: {
+      de: "Das folgende Beweisangebot wird aus diesem Absatz entfernt:",
+    },
+    beweisangebotPersonDeletionTitle: {
+      de: "Beweisangebot: Person löschen?",
+    },
+    beweisangebotPersonDeletionDescription: {
+      de: "Die folgende Person wird aus diesem Absatz entfernt:",
     },
     optionalSuffix: {
       de: " - Optional",
