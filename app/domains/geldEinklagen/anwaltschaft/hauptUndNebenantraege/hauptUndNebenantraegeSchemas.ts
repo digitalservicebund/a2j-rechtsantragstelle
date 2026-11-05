@@ -5,6 +5,7 @@ import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateInputOptionalSchema } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
+import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const optionalIntegerSchema = z
@@ -49,11 +50,11 @@ export const nebenantragSchema = z.object({
     "ruecklastschriftgebühren",
     "pauschale",
   ]),
-  nebenantragBetrag: integerSchema,
+  nebenantragBetrag: buildMoneyValidationSchema(),
   nebenantragZinssatzInProzent: optionalIntegerSchema,
   nebenantragZinsmethode: optionalZinsmethodeSchema,
-  nebenantragZinsbeginn: createDateInputOptionalSchema(),
-  nebenantragZinsende: createDateInputOptionalSchema(),
+  nebenantragZinsbeginn: createDateInputOptionalSchema().optional(),
+  nebenantragZinsende: createDateInputOptionalSchema().optional(),
   absaetze: absaetzeArraySchema.optional(),
 });
 
@@ -83,7 +84,7 @@ export const hauptantragArraySchema = z.array(
   z.object({
     id: z.string().check(z.uuid()).optional(),
     internesSchlagwortFordureung: z.string().max(50).optional(),
-    betragForderung: integerSchema,
+    betragForderung: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,
     zugUndZug: checkedOptional.optional(),

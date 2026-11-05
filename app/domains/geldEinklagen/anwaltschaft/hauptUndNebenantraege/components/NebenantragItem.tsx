@@ -136,7 +136,7 @@ export const NebenantragItem = ({
             onDelete: () => deleteNebenantrag(arrayIndex),
             title:
               type === "nebenantrag"
-                ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? formatEuro(entry.nebenantragBetrag) : ""}`
+                ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
                 : `${itemLabel}`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
@@ -163,7 +163,7 @@ export const NebenantragItem = ({
                   <Icon name="money-range" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
                     {type === "nebenantrag"
-                      ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? formatEuro(entry.nebenantragBetrag) : ""}`
+                      ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
                       : itemLabel}
                   </p>
                 </span>

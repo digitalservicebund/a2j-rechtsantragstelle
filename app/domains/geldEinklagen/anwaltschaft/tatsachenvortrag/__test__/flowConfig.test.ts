@@ -22,7 +22,7 @@ const createHauptantrag = (
   absaetze: Hauptantrag["absaetze"],
   label = "1",
 ): Hauptantrag => ({
-  betragForderung: 100,
+  betragForderung: "100",
   klagende: {},
   beklagte: {},
   zinsbeginn: { day: "", month: "" },
@@ -32,7 +32,7 @@ const createHauptantrag = (
     {
       type: "nebenantrag",
       nebenantragArt: "mahnkosten",
-      nebenantragBetrag: 10,
+      nebenantragBetrag: "10",
       nebenantragZinsbeginn: { day: "", month: "" },
       nebenantragZinsende: { day: "", month: "" },
       absaetze: [

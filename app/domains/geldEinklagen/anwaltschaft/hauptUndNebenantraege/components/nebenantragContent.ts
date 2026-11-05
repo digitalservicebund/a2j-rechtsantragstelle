@@ -108,7 +108,7 @@ export const getNebenantragItemText = ({
       " ",
       createElement("strong", null, nebenantragArtLabels[item.nebenantragArt]),
       " in Höhe von ",
-      createElement("strong", null, formatEuro(item.nebenantragBetrag)),
+      createElement("strong", null, item.nebenantragBetrag),
       hasInterest
         ? [
             " nebst ",
@@ -213,11 +213,7 @@ export const getBezifferterAntragText = ({
     klagendeNumbers.length > 1 ? "als Gesamtgläubiger " : "",
     " ",
     "einen Betrag in Höhe von ",
-    createElement(
-      "strong",
-      null,
-      `${formatEuro(hauptantrag.betragForderung)} Euro`,
-    ),
+    createElement("strong", null, `${hauptantrag.betragForderung} Euro`),
     hasInterest
       ? [
           " nebst ",
