@@ -96,3 +96,5 @@ export const hauptantragArraySchema = z.array(
     nebenantrag: nebenantragArraySchema.optional(),
   }),
 );
+
+export type Hauptantrag = z.infer<typeof hauptantragArraySchema>[number];

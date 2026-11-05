@@ -30,4 +30,23 @@ export const tatsachenvortragPages = {
       }),
     },
   },
+  nebenantragAbsatzUebersicht: {
+    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze",
+    shouldCollapseIntoParentNavItem: true,
+    arraySummary: {
+      name: "hauptantrag#nebenantrag#absaetze",
+      schema: absaetzeArraySchema,
+      isArrayRelevant: () => true,
+    },
+  },
+  nebenantragAbsatzDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantrag#absaetze#formulierung": stringRequiredMaxSchema({
+        max: 10000,
+      }),
+    },
+  },
 } as const satisfies PageConfigMap;

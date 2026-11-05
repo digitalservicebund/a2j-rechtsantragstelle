@@ -841,6 +841,9 @@ export const translations = {
     zahlungsAntragInlineNoticeContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 Zahlungsanträge hinzufügen.",
     },
+    nebenantrag: {
+      de: "Nebenantrag",
+    },
     nebenantragHeadline: {
       de: "Nebenanträge / Feststellung Annahmeverzug",
     },

@@ -1,5 +1,4 @@
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { Badge } from "~/components/content/Badge";
 import { NebenantragItem } from "./NebenantragItem";
 import { getBezifferterAntragText } from "./nebenantragContent";
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
@@ -34,12 +33,6 @@ export const BezifferterZahlungsantrag = ({
       id={`zahlungsAntrag-${itemIndex}`}
       content={
         <div className="flex flex-col gap-kern-space-large min-w-0 flex-1">
-          {item.internesSchlagwortFordureung && (
-            <Badge className="w-full max-w-[450px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap py-kern-space-small! px-kern-space-default! bg-kern-neutral-025!">
-              {item.internesSchlagwortFordureung}
-            </Badge>
-          )}
-
           <span className="kern-body">
             {getBezifferterAntragText({
               userData,
@@ -48,6 +41,7 @@ export const BezifferterZahlungsantrag = ({
           </span>
         </div>
       }
+      badge={item.internesSchlagwortFordureung}
       editButton={{
         href: `${BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
         ariaLabel: `Zahlungsantrag ${itemIndex + 1} bearbeiten`,

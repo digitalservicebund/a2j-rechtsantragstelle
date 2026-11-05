@@ -33,13 +33,13 @@ type BfsState<C extends PageConfigMap> = {
   reachableSet: Set<NodeKey<C>>;
 };
 
-// Given a page and one of its addArrayItem targets, returns that array's name
-// and item count. Passing the target lets one page add to several arrays.
+// Returns array property names relative to the source page's current item.
+// ["nebenantrag", "absaetze"] means descend through both arrays, not just
+// the last one. These are data-path segments, not intermediate flow nodes.
 type ArrayFanOut<C extends PageConfigMap> = (
   sourceKey: NodeKey<C>,
   targetKey: NodeKey<C>,
-  scopeData: Record<string, unknown>,
-) => { name: string; count: number } | undefined;
+) => string[] | undefined;
 
 const createEdgeTracker = <T>() => {
   const edges = new Map<T, Set<T>>();
@@ -61,23 +61,31 @@ export const runSimulation = <C extends PageConfigMap>(
     compiledFlow.initialStep,
     data,
     true,
-    (sourceKey, targetKey, scopeData) => {
-      // Which array does this fan-out add to?
-      // Summary pages name it directly; others read it from the target's stepId.
-      // Reading the target lets one page add to several arrays.
-      const name =
-        compiledFlow.pages[sourceKey]?.arraySummary?.name ??
-        inferArrayNameFromStepId(compiledFlow.pages[targetKey]?.stepId ?? "");
-      if (!name) return undefined;
-      // scopeData is already the current item, so the key is the last "#" segment.
-      const leafName = name.split("#").at(-1)!;
-      const items = scopeData[leafName];
-      // Treat a missing array the same as an empty one so that the add-target
-      // remains reachable even before the first item has been submitted.
-      return {
-        name,
-        count: Array.isArray(items) ? items.length : 0,
-      };
+    (sourceKey, targetKey) => {
+      const source = compiledFlow.pages[sourceKey];
+      const targetName = inferArrayNameFromStepId(
+        compiledFlow.pages[targetKey]?.stepId ?? "",
+      );
+      // Each "#" in the source URL represents an array item already entered.
+      // The target's wildcard ancestors identify the item scope it needs;
+      // a trailing summary name without a "#" after it is not entered yet.
+      const sourceDepth =
+        (source?.stepId ?? "").split(ARRAY_WILDCARD).length - 1;
+      const targetArrays = targetName ? targetName.split("#") : [];
+
+      // Example: root overview -> /hauptantrag/#/nebenantrag/#/absaetze.
+      // The source is at depth 0, but the target needs depth 2, so descend
+      // through ["hauptantrag", "nebenantrag"]. From depth 1, slice(1) would
+      // omit the Hauptantrag we are already inside.
+      if (targetArrays.length > sourceDepth + 1) {
+        return targetArrays.slice(sourceDepth);
+      }
+
+      // Preserve ordinary one-level fan-outs: a summary explicitly names its
+      // array (which may differ from the URL); other pages infer it from the
+      // target. Only the leaf is needed because scopeData is already the parent.
+      const name = source?.arraySummary?.name ?? targetName;
+      return name ? [name.split("#").at(-1)!] : undefined;
     },
     (key) => {
       const stepId = compiledFlow.pages[key]?.stepId ?? "";
@@ -156,32 +164,43 @@ const enqueueRegularBranch = <C extends PageConfigMap>(
   });
 };
 
-// Enqueues one queue item per element of the fanned-out array.
+// Descends through each array level before enqueueing the target's item context.
+// For ["hauptantrag", "nebenantrag"], visit every Nebenantrag of every
+// Hauptantrag, keeping scopeData, arrayPath and arrayIndexes aligned.
 const enqueueFanOutItems = <C extends PageConfigMap>(
   state: BfsState<C>,
   ctx: VisitedContext<C>,
   target: NodeKey<C>,
-  leafName: string,
-  count: number,
+  arrayNames: string[],
 ): void => {
+  const [leafName, ...nestedNames] = arrayNames;
   const items = ctx.scopeData[leafName];
-  for (let i = 0; i < count; i++) {
-    const itemScopeData = (Array.isArray(items) ? items[i] : {}) as Record<
-      string,
-      unknown
-    >;
-    state.queue.push({
+  if (!Array.isArray(items) || items.length === 0) {
+    // Keep the add-target reachable without creating a phantom item context.
+    state.reachableSet.add(target);
+    return;
+  }
+  for (let i = 0; i < items.length; i++) {
+    const itemContext: VisitedContext<C> = {
       key: target,
       pageData: { arrayIndexes: [...(ctx.pageData.arrayIndexes ?? []), i] },
-      scopeData: itemScopeData,
+      scopeData: items[i] as Record<string, unknown>,
       arrayPath: [...ctx.arrayPath, leafName],
-    });
+    };
+    if (nestedNames.length > 0) {
+      // This is only an ancestor item, not the target page's actual scope.
+      // Do not enqueue it: pruning would copy fields from the wrong object.
+      enqueueFanOutItems(state, itemContext, target, nestedNames);
+    } else {
+      // All required array levels have been entered. Guards and pruning can
+      // now use the complete index path and the target's own item data.
+      state.queue.push(itemContext);
+    }
   }
 };
 
 // Fans out every addArrayItem branch of the current node. Reading each branch's
-// own target array lets a single page add to several sibling arrays. scopeData
-// is already the current item, so the property is the array name's last segment.
+// own target arrays lets a single page add to sibling or deeper nested arrays.
 const enqueueArrayFanOuts = <C extends PageConfigMap>(
   state: BfsState<C>,
   ctx: VisitedContext<C>,
@@ -194,19 +213,12 @@ const enqueueArrayFanOuts = <C extends PageConfigMap>(
     const target = transition?.target;
     if (transition?.type !== "addArrayItem" || target == null) continue;
 
-    const fanOut = getArrayFanOut(ctx.key, target, ctx.scopeData);
+    const fanOut = getArrayFanOut(ctx.key, target);
     if (!fanOut) continue;
 
     if (!state.parentMap.has(target)) state.parentMap.set(target, ctx.key);
 
-    const leafName = fanOut.name.split("#").at(-1)!;
-    if (fanOut.count === 0) {
-      // Empty array: mark the add-target reachable without enqueueing it.
-      // A phantom item would cause infinite BFS expansion.
-      state.reachableSet.add(target);
-      continue;
-    }
-    enqueueFanOutItems(state, ctx, target, leafName, fanOut.count);
+    enqueueFanOutItems(state, ctx, target, fanOut);
   }
 };
 
