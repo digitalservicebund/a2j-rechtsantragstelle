@@ -255,7 +255,18 @@ For flow-specific logic (guards, back navigation, array edge cases), write focus
 
 ## 13. Content (Strapi)
 
-Content is looked up by flow ID and `stepId`. In Strapi, create a page for every `stepId` in your pages config: `form-flow-pages` for Formular pages, `vorab-check-pages` for Vorab-Check questions and `result-pages` for `/ergebnis/...` pages. Link each page to the flow ID and set its `stepId` exactly as it appears in `pages.ts`, including `#` for array item pages (e.g. `/kinder/#/daten`). Form field names in Strapi must match the `pageSchema` keys.
+Content is looked up by flow ID and `stepId`. In Strapi, create a page for every page in your pages config: `form-flow-pages` for Formular pages, `vorab-check-pages` for Vorab-Check questions and `result-pages` for `/ergebnis/...` pages. Link each page to the flow ID.
+
+The Strapi `stepId` is derived from the engine `stepId`; it is not always identical. The loaders apply two mappings before fetching:
+
+| Page type    | Engine `stepId`                   | Strapi `stepId`               | Rule                   |
+| ------------ | --------------------------------- | ----------------------------- | ---------------------- |
+| Regular page | `/antragsgrund/angaben-zum-recht` | unchanged                     | none                   |
+| Array item   | `/kinder/#/daten`                 | `/kinder/daten`               | every `/#` is removed  |
+| Nested array | `/hauptantrag/#/absaetze/#/daten` | `/hauptantrag/absaetze/daten` | every `/#` is removed  |
+| Result page  | `/ergebnis/keine-kontopfaendung`  | `/keine-kontopfaendung`       | `ergebnis/` is removed |
+
+Form field names in Strapi must match the `pageSchema` keys exactly, including the `#` prefix for array fields (e.g. `kinder#vorname`).
 
 ---
 

@@ -98,14 +98,23 @@ unterhaltPerson: "unterhaltUebersicht",
 
 ### `arraySummary` options
 
-| Option                   | Purpose                                                                                                                              |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `name` (required)        | User data key of the array. Must match the `<name>#` prefix of the item fields                                                       |
-| `schema` (required)      | `z.array(...)` of the item. Used for the user data type and to validate the whole array when the section is checked for completeness |
-| `isArrayRelevant`        | `(userData) => boolean`. When `false`, the array is not required for the section to be done (e.g. the user answered "no")            |
-| `shouldDisableAddButton` | `(userData) => boolean`. Disable the "add" button, e.g. when a maximum is reached                                                    |
-| `indexOffset`            | Shift the item number shown to users (e.g. start counting at 2 when item 1 is the applicant)                                         |
-| `hiddenFields`           | Item fields that are not shown on the summary card                                                                                   |
+| Option                   | Purpose                                                                                                                                                                                 |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name` (required)        | User data key of the array. Must match the `<name>#` prefix of the item fields                                                                                                          |
+| `schema` (required)      | `z.array(...)` of the item. Used for the user data type and to validate the whole array when the section is checked for completeness                                                    |
+| `isArrayRelevant`        | `(userData) => boolean`. **Required to render the shared summary UI**, see below. When `false`, the array is also not required for the section to be done (e.g. the user answered "no") |
+| `shouldDisableAddButton` | `(userData) => boolean`. Disable the "add" button, e.g. when a maximum is reached                                                                                                       |
+| `indexOffset`            | Shift the item number shown to users (e.g. start counting at 2 when item 1 is the applicant)                                                                                            |
+| `hiddenFields`           | Item fields that are not shown on the summary card                                                                                                                                      |
+
+`isArrayRelevant` controls two things:
+
+- **Rendering:** the shared array summary (item list and "add" button) is only rendered when `isArrayRelevant` returns `true`. If the option is missing, it counts as `false` and the summary and its "add" button are hidden.
+- **Completion:** when it returns `false`, the array does not have to be valid for the section to count as done.
+
+So for a single-level array that is always shown with the shared summary UI (no yes/no question before it), set `isArrayRelevant: () => true`.
+
+The shared summary UI only supports **single-level arrays**. For nested arrays, see [Summary UI for nested arrays](#summary-ui-for-nested-arrays).
 
 ## Nested arrays
 
@@ -114,12 +123,20 @@ An array item can contain its own array. Add one `#` per level in both the `step
 ```ts
 antraegeUebersicht: {
   stepId: "/tatsachenvortrag/uebersicht",
-  arraySummary: { name: "hauptantrag", schema: hauptantragArraySchema },
+  arraySummary: {
+    name: "hauptantrag",
+    schema: hauptantragArraySchema,
+    isArrayRelevant: () => true,
+  },
 },
 absaetzeUebersicht: {
   stepId: "/tatsachenvortrag/hauptantrag/#/absaetze",
   shouldCollapseIntoParentNavItem: true,
-  arraySummary: { name: "hauptantrag#absaetze", schema: absaetzeArraySchema },
+  arraySummary: {
+    name: "hauptantrag#absaetze",
+    schema: absaetzeArraySchema,
+    isArrayRelevant: () => true,
+  },
 },
 absatzDaten: {
   stepId: "/tatsachenvortrag/hauptantrag/#/absaetze/#/daten",
@@ -132,10 +149,28 @@ absatzDaten: {
 
 `/tatsachenvortrag/hauptantrag/1/absaetze/0/daten` then writes `hauptantrag[1].absaetze[0].formulierung`. The transitions follow the same pattern as above: the inner summary has an `addArrayItem` branch to `absatzDaten`, and `absatzDaten` goes back to `absaetzeUebersicht`. For full examples, see `app/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/` and the Erbschein Erbfolge flow (`app/domains/nachlass/erbschein/erbfolge/`).
 
+`isArrayRelevant` is set here so the arrays count towards the section's completion. The shared summary UI is not used for nested arrays (see below).
+
+### Summary UI for nested arrays
+
+The engine handles nested arrays fully, but the shared Strapi summary UI (`page.array-summary`) does not:
+
+- It reads `userData[category]` literally, so a category like `hauptantrag#absaetze` finds no data.
+- It builds the "add" and edit URLs from the path before the first `/#` only, so it cannot address an item inside a specific parent item.
+
+For an inner summary page, render a custom component instead. It reads the parent index from `pageData.arrayIndexes` and builds the URLs itself. The TGA Anwaltschaft flow does this:
+
+1. **Component:** `AbsaetzeUebersicht.tsx` (in `app/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/`) gets `userData` from `useFormFlow()`, takes the Hauptantrag index from `pageData.arrayIndexes[0]`, lists `hauptantrag[index].absaetze` and links the "add" button to `.../hauptantrag/<index>/absaetze/<next>/daten`.
+2. **Flow extras:** `geldEinklagenAnwaltschaftExtras.tsx` implements `FlowExtras`. Its `renderExtraComponents` returns the component for the summary's `stepId` (`/tatsachenvortrag-beweise/hauptantrag/#/absaetze`). The extras are registered by flow ID in `app/domains/extraLoaderConfiguration.ts`.
+3. **Loader extras:** `renderExtraComponents` receives the loader's `extraData`. The same file exports `geldEinklagenAnwaltschaftLoaderExtras`, whose `buildLoaderData` puts the current `stepId` into `extraData`. The flow's route module (`app/routes/geld-einklagen.anwaltschaft.$.tsx`) passes it to `loadFormularData`.
+
+Don't add a `page.array-summary` component in Strapi for these pages; the custom component replaces it.
+
 ## Content (Strapi)
 
-- The summary page needs a `page.array-summary` component whose category matches `arraySummary.name`.
-- Item pages are created with the `stepId` including `#` (e.g. `/unterhalt/person/#/daten`), and their form field names include the prefix (`unterhaltszahlungen#firstName`).
+- A single-level summary page needs a `page.array-summary` component whose category matches `arraySummary.name`. Nested summaries use a custom component instead (see [Summary UI for nested arrays](#summary-ui-for-nested-arrays)).
+- Item pages are created with every `/#` removed from the `stepId`: `/unterhalt/person/#/daten` becomes `/unterhalt/person/daten`, and `/hauptantrag/#/absaetze/#/daten` becomes `/hauptantrag/absaetze/daten`. The loader strips `/#` before fetching the page.
+- Form field names keep the `#` prefix exactly as in `pageSchema` (`unterhaltszahlungen#firstName`).
 
 ## Testing
 
@@ -155,5 +190,7 @@ In `testcasesWithUserInputs.ts`, set `addArrayItemEvent: "add-<arrayName>"` on t
 
 ## Things to watch out for
 
+- For single-level arrays rendered with the shared summary UI, always set `isArrayRelevant`, using `() => true` for arrays that are always shown. Without it, the summary page renders without the item list and "add" button.
+- Nested summaries can't use the shared summary UI; they need a custom component wired through flow extras.
 - Always add the `addArrayItem` branch to the summary page. Without it, the summary has no "add" target and the engine cannot reach the item pages.
 - Don't create a separate `ArrayConfigServer` or `meta.arrays` entry; those belonged to the old XState setup. The summary's config is derived from `arraySummary` and the `addArrayItem` target.
