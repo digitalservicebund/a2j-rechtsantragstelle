@@ -173,7 +173,9 @@ export function NavItem({
           aria-describedby={isDone || isWarning ? iconId : undefined}
           aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
         >
-          <span>{label}</span>
+          <span className={classNames({ "mr-3": isDone || isWarning })}>
+            {label}
+          </span>
           <StateIcon id={iconId} isDone={isDone} showWarningIcon={isWarning} />
         </a>
       )}
