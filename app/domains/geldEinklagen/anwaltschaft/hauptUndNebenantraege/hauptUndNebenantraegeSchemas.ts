@@ -58,11 +58,11 @@ export const nebenantragSchema = z.object({
   absaetze: absaetzeArraySchema.optional(),
 });
 
-const nebenantragArraySchema = z.array(
+const nebenantraegeArraySchema = z.array(
   z.discriminatedUnion("type", [nebenantragSchema, annahmeverzugSchema]),
 );
 
-export type Nebenantrag = z.infer<typeof nebenantragArraySchema>[number];
+export type Nebenantraege = z.infer<typeof nebenantraegeArraySchema>[number];
 
 const selectedBeklagteSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
@@ -80,7 +80,7 @@ const selectedKlagendeSchema = z
   )
   .describe(klageParteiCheckboxesZodDescription);
 
-export const hauptantragArraySchema = z.array(
+export const hauptantraegeArraySchema = z.array(
   z.object({
     id: z.string().check(z.uuid()).optional(),
     internesSchlagwortFordureung: z.string().max(50).optional(),
@@ -94,8 +94,8 @@ export const hauptantragArraySchema = z.array(
     zinsbeginn: createDateInputOptionalSchema(),
     zinsende: createDateInputOptionalSchema(),
     absaetze: absaetzeArraySchema.optional(),
-    nebenantrag: nebenantragArraySchema.optional(),
+    nebenantraege: nebenantraegeArraySchema.optional(),
   }),
 );
 
-export type Hauptantrag = z.infer<typeof hauptantragArraySchema>[number];
+export type Hauptantraege = z.infer<typeof hauptantraegeArraySchema>[number];

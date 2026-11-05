@@ -30,7 +30,7 @@ export const AbsaetzeUebersicht = ({
   }
   const absaetze = isNebenantrag
     ? userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
-        .nebenantrag?.[nebenantragArrayIndex!].absaetze
+        .nebenantraege?.[nebenantragArrayIndex!].absaetze
     : userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
         .absaetze;
 

@@ -1,8 +1,3 @@
-export const formatEuro = (amount: number) =>
-  new Intl.NumberFormat("de-DE", {
-    style: "currency",
-    currency: "EUR",
-  }).format(amount);
 
 export const formatSplitDate = (
   date: { day?: string; month?: string; year?: string } | undefined,

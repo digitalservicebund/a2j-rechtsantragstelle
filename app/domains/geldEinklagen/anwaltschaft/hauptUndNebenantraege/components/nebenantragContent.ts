@@ -1,6 +1,6 @@
 import { createElement, Fragment, type ReactNode } from "react";
-import { formatEuro, formatSplitDate, getInterestText } from "../utils";
-import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
+import { formatSplitDate, getInterestText } from "../utils";
+import type { Nebenantraege } from "../hauptUndNebenantraegeSchemas";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 
 const formatPartyNumbers = (numbers: number[]): string => {
@@ -31,7 +31,7 @@ const getSelectedPartyNumbers = (
   );
 
 export const nebenantragArtLabels: Record<
-  Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
+  Extract<Nebenantraege, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
   vorgerichtlicheAnwaltskosten: "Vorgerichtlich Angefallene Anwaltskosten",
@@ -50,7 +50,7 @@ export const getNebenantragItemText = ({
   userData,
   hauptantragIndex,
 }: {
-  item: Nebenantrag;
+  item: Nebenantraege;
   userData: GeldEinklagenAnwaltschaftUserData;
   hauptantragIndex: number;
 }): ReactNode => {

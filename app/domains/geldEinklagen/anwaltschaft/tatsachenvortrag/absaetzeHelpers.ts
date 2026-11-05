@@ -1,5 +1,5 @@
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
-import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { type Nebenantraege } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { type BeweisMittel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 
@@ -13,7 +13,7 @@ export const getAbsaetzeBaseUrl = (
 };
 
 export const getNebenantragTitle = (
-  nebenantrag: Nebenantrag,
+  nebenantrag: Nebenantraege,
   index: number,
   parentIndex: number,
 ) => {

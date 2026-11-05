@@ -1,4 +1,4 @@
-import { hauptantragArraySchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { hauptantraegeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
@@ -8,7 +8,7 @@ export const tatsachenvortragPages = {
     stepId: "/tatsachenvortrag-beweise/uebersicht",
     arraySummary: {
       name: "hauptantrag",
-      schema: hauptantragArraySchema,
+      schema: hauptantraegeArraySchema,
       isArrayRelevant: () => true,
     },
   },

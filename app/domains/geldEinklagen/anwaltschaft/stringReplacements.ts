@@ -70,7 +70,7 @@ export const getAntraegeStrings = (
   const internesSchlagwortFordureung = hauptantrag.internesSchlagwortFordureung
     ? `(${hauptantrag.internesSchlagwortFordureung})`
     : "";
-  const nebenantrag = hauptantrag.nebenantrag?.at(arrayIndices?.at(1) ?? -1);
+  const nebenantrag = hauptantrag.nebenantraege?.at(arrayIndices?.at(1) ?? -1);
   // TODO: refactor to base title on Nebenantrag type
   const nebenantragTitle = nebenantrag
     ? getNebenantragTitle(

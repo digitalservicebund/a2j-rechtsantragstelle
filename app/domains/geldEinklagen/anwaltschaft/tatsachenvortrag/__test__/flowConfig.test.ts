@@ -1,4 +1,4 @@
-import { type Hauptantrag } from "../../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { type Hauptantraege } from "../../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { tatsachenvortragFlowConfig } from "../flowConfig";
 import { tatsachenvortragPages } from "../pages";
 import { compileFlow } from "~/services/flow/flowEngine/compileFlow";
@@ -19,16 +19,16 @@ const flow = compileFlow({
 });
 
 const createHauptantrag = (
-  absaetze: Hauptantrag["absaetze"],
+  absaetze: Hauptantraege["absaetze"],
   label = "1",
-): Hauptantrag => ({
+): Hauptantraege => ({
   betragForderung: "100",
   klagende: {},
   beklagte: {},
   zinsbeginn: { day: "", month: "" },
   zinsende: { day: "", month: "" },
   absaetze,
-  nebenantrag: [
+  nebenantraege: [
     {
       type: "nebenantrag",
       nebenantragArt: "mahnkosten",
@@ -76,7 +76,7 @@ describe("Tatsachenvortrag nested paragraphs", () => {
           })),
       ).toEqual(
         userData.hauptantrag.flatMap((hauptantrag, hauptantragIndex) =>
-          hauptantrag.nebenantrag?.flatMap((nebenantrag, nebenantragIndex) =>
+          hauptantrag.nebenantraege?.flatMap((nebenantrag, nebenantragIndex) =>
             nebenantrag.absaetze?.map(({ formulierung }, absatzIndex) => ({
               arrayPath: ["hauptantrag", "nebenantrag", "absaetze"],
               indexes: [hauptantragIndex, nebenantragIndex, absatzIndex],
@@ -94,7 +94,7 @@ describe("Tatsachenvortrag nested paragraphs", () => {
       expect(session.prunedUserData.hauptantrag).toEqual(
         userData.hauptantrag.map((hauptantrag) => ({
           ...(absaetze?.length ? { absaetze } : {}),
-          nebenantrag: hauptantrag.nebenantrag?.map(({ absaetze }) => ({
+          nebenantrag: hauptantrag.nebenantraege?.map(({ absaetze }) => ({
             absaetze,
           })),
         })),
@@ -107,7 +107,9 @@ describe("Tatsachenvortrag nested paragraphs", () => {
     ({ nebenantrag }) => {
       const simulation = runSimulation(
         {
-          hauptantrag: [{ ...createHauptantrag(undefined), nebenantrag }],
+          hauptantrag: [
+            { ...createHauptantrag(undefined), nebenantraege: nebenantrag },
+          ],
           pageData: { arrayIndexes: [] },
         },
         flow,

@@ -8,10 +8,9 @@ import {
 } from "./nebenantragContent";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { formatEuro } from "../utils";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
-import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
+import type { Nebenantraege } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
@@ -52,9 +51,9 @@ export const NebenantragItem = ({
     sessionStorage.setItem(additionalFocusStorageKey, String(index));
   };
 
-  const items: Nebenantrag[] = (
-    userData.hauptantrag?.[parentArrayItemIndex]?.nebenantrag ?? []
-  ).map((item): Nebenantrag => {
+  const items: Nebenantraege[] = (
+    userData.hauptantrag?.[parentArrayItemIndex]?.nebenantraege ?? []
+  ).map((item): Nebenantraege => {
     if ("annahmeverzugsFeststellung" in item) {
       return {
         ...item,
