@@ -1,9 +1,12 @@
+import { z } from "zod";
 import {
   annahmeverzugSchema,
   hauptantragArraySchema,
   nebenantragSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 
 export const hauptUndNebenantraegePages = {
   hauptantragUebersicht: {
@@ -59,6 +62,9 @@ export const hauptUndNebenantraegePages = {
         nebenantragSchema.shape.nebenantragZinsbeginn,
       "hauptantrag#nebenantrag#nebenantragZinsende":
         nebenantragSchema.shape.nebenantragZinsende,
+      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(z.string()),
+      ),
     },
   },
   annahmeverzugDaten: {
@@ -70,6 +76,9 @@ export const hauptUndNebenantraegePages = {
         annahmeverzugSchema.shape.annahmeverzugsFeststellung,
       "hauptantrag#nebenantrag#annahmeverzugDatum":
         annahmeverzugSchema.shape.annahmeverzugDatum,
+      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(z.string()),
+      ),
     },
   },
 } as const satisfies PagesConfig;

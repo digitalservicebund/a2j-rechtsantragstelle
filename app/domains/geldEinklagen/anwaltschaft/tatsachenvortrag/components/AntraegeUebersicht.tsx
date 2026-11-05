@@ -3,14 +3,13 @@ import React from "react";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
-import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import {
   type Hauptantrag,
   type Nebenantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   getAbsaetzeBaseUrl,
-  getNebenantragDisplayIndex,
+  getNebenantragTitle,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
@@ -27,14 +26,12 @@ const AntragRow = ({
   parentIndex?: number;
 }) => {
   const isHauptantrag = "betragForderung" in antrag;
-  const indexToDisplay =
-    parentIndex !== undefined
-      ? getNebenantragDisplayIndex(index, parentIndex)
-      : `${index + 1}`;
   const title = isHauptantrag
-    ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
-        .de
-    : translations.geldEinklagenAnwaltschaft.nebenantrag.de;
+    ? `${
+        translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
+          .de
+      } ${index + 1} (${antrag.internesSchlagwortFordureung})`
+    : getNebenantragTitle(antrag, index, parentIndex ?? -1);
   return (
     <div
       className={classNames(
@@ -53,15 +50,7 @@ const AntragRow = ({
               antrag.absaetze && antrag.absaetze.length > 0,
           })}
         />
-        <span className="kern-body--default">
-          {title} {indexToDisplay}{" "}
-          {!isHauptantrag &&
-            "nebenantragArt" in antrag &&
-            `(${nebenantragArtLabels[antrag.nebenantragArt]})`}
-          {isHauptantrag &&
-            antrag.internesSchlagwortFordureung &&
-            `(${antrag.internesSchlagwortFordureung})`}
-        </span>
+        <span className="kern-body--default">{title}</span>
       </div>
       <Button
         look="secondary"

@@ -1,5 +1,4 @@
-import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
-import { getNebenantragDisplayIndex } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getNebenantragTitle } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { firstArrayIndex } from "~/services/flow/pageData";
@@ -73,10 +72,13 @@ export const getAntraegeStrings = (
     : "";
   const nebenantrag = hauptantrag.nebenantrag?.at(arrayIndices?.at(1) ?? -1);
   // TODO: refactor to base title on Nebenantrag type
-  const nebenantragTitle =
-    nebenantrag && "nebenantragArt" in nebenantrag
-      ? `Nebenantrag ${getNebenantragDisplayIndex(arrayIndices?.at(1) ?? 0, arrayIndices?.at(0) ?? 0)} (${nebenantragArtLabels[nebenantrag.nebenantragArt]})`
-      : "";
+  const nebenantragTitle = nebenantrag
+    ? getNebenantragTitle(
+        nebenantrag,
+        arrayIndices?.at(1) ?? 0,
+        arrayIndices?.at(0) ?? 0,
+      )
+    : "";
   return {
     keineAntraege: false,
     // If there are 3 indices, that indicates a nebenantrag page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze/#/daten

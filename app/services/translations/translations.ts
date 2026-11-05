@@ -844,6 +844,12 @@ export const translations = {
     nebenantrag: {
       de: "Nebenantrag",
     },
+    annahmeverzug: {
+      de: "Annahmeverzug",
+    },
+    feststellungsantrag: {
+      de: "Feststellungsantrag",
+    },
     nebenantragHeadline: {
       de: "Nebenanträge / Feststellung Annahmeverzug",
     },

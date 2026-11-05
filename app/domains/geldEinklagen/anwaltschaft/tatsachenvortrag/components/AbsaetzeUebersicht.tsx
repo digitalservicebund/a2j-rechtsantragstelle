@@ -31,8 +31,6 @@ export const AbsaetzeUebersicht = ({
     : userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
         .absaetze;
 
-  const getAbsatzKey = (index: number) =>
-    `hauptantrag-${hauptantragArrayIndex}${isNebenantrag ? `-nebenantrag-${nebenantragArrayIndex}` : ""}-absatz-${index}`;
   const nextAbsatzIndex = absaetze?.length ?? 0;
   const maxAbsaetzeReached = nextAbsatzIndex >= MAX_ABSAETZE;
   return (
@@ -45,10 +43,15 @@ export const AbsaetzeUebersicht = ({
     >
       {absaetze?.map((absatz, index) => (
         <Absatz
-          key={getAbsatzKey(index)}
+          // oxlint-disable-next-line react/no-array-index-key
+          key={`absatz-${index}`}
           absatz={absatz}
           index={index}
-          hauptantragIndex={hauptantragArrayIndex}
+          baseUrl={getAbsaetzeBaseUrl(
+            hauptantragArrayIndex,
+            isNebenantrag ? nebenantragArrayIndex : undefined,
+          )}
+          isNebenantragAbsatz={isNebenantrag}
         />
       ))}
     </ArrayItemListSection>
