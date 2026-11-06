@@ -81,7 +81,7 @@ export const getAntraegeStrings = (
     : "";
   return {
     keineAntraege: false,
-    // If there are 3 indices, that indicates a nebenantrag page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze/#/daten
+    // If there are 3 indices, that indicates a nebenantraege page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/daten
     isHauptantrag: Boolean(arrayIndices?.length && arrayIndices.length < 3),
     // TODO: refactor to base title on Hauptantrag type, e.g. Zahnungsantrag/Schmerzensgeldantrag
     hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortFordureung}`,
