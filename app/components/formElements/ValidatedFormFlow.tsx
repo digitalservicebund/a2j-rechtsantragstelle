@@ -12,6 +12,7 @@ import {
   type ButtonNavigationProps,
 } from "../common/ButtonNavigation";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
+import { UnsavedChangesModal } from "./UnsavedChangesModal";
 
 type ValidatedFlowFormProps = {
   stepData: UserData;
@@ -42,6 +43,7 @@ function ValidatedFlowForm({
       defaultValues={stepData}
       noValidate
       action={pathname}
+      id="form-flow"
     >
       {(form) => (
         <>
@@ -61,6 +63,10 @@ function ValidatedFlowForm({
               next={next && { ...next, disabled: form.formState.isSubmitting }} // only attatch isSubmitting if 'next' exists
             />
           </div>
+          <UnsavedChangesModal
+            form={form}
+            isSubmitting={form.formState.isSubmitting}
+          />
         </>
       )}
     </ValidatedForm>
