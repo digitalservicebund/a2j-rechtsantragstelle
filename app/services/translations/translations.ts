@@ -795,7 +795,7 @@ export const translations = {
       de: "Antrag/Ausführung",
     },
     soenstigeProzessantragDelete: {
-      de: "Antrag/Ausführung löschen?",
+      de: "Antrag/Ausführung löschen",
     },
     soenstigeProzessantragInlineNoticeTitle: {
       de: "Maximale Anzahl an sonstigen Anträgen und prozessualen Ausführungen erreicht",
