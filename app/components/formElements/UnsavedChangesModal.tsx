@@ -61,9 +61,9 @@ function isAnyVisibleFieldDirty(form: FormApi<any>): boolean {
 
   for (const element of Array.from(elements)) {
     const name = element.name;
-    const isAutoSuggestionInput =
-      element.parentElement &&
-      element.parentElement.className.includes("auto-suggestion-input-div");
+    const isAutoSuggestionInput = element.parentElement?.className.includes(
+      "auto-suggestion-input-div",
+    );
 
     // Ignore nameless elements
     if (!name) {
@@ -157,10 +157,8 @@ export const UnsavedChangesModal: React.FC<UnsavedChangesModalProps> = ({
       if (!dialog.open) {
         dialog.showModal();
       }
-    } else {
-      if (dialog.open) {
-        dialog.close();
-      }
+    } else if (dialog.open) {
+      dialog.close();
     }
   }, [isModalOpen]);
 
