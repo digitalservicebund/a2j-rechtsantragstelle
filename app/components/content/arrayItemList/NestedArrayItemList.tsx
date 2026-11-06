@@ -33,6 +33,7 @@ type NestedArrayItemListProps = {
   readonly subtitle?: ReactNode;
   readonly items: NestedArrayItem[];
   readonly addLinks?: AddLink[];
+  readonly additionalComponents?: ReactNode;
 };
 
 export const NestedArrayItemList = ({
@@ -42,6 +43,7 @@ export const NestedArrayItemList = ({
   subtitle,
   items,
   addLinks,
+  additionalComponents,
 }: NestedArrayItemListProps) => {
   return (
     <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-0!">
@@ -100,6 +102,9 @@ export const NestedArrayItemList = ({
             </a>
           ))}
         </div>
+      )}
+      {additionalComponents && (
+        <div className="pt-24">{additionalComponents}</div>
       )}
     </div>
   );

@@ -1,5 +1,8 @@
 import { hauptantraegeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
-import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
+import {
+  absaetzeArraySchema,
+  augenscheinSchema,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
@@ -31,22 +34,41 @@ export const tatsachenvortragPages = {
     },
   },
   nebenantragAbsatzUebersicht: {
-    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze",
+    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
-      name: "hauptantrag#nebenantrag#absaetze",
+      name: "hauptantrag#nebenantraege#absaetze",
       schema: absaetzeArraySchema,
       isArrayRelevant: () => true,
     },
   },
   nebenantragAbsatzDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze/#/daten",
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#nebenantrag#absaetze#formulierung": stringRequiredMaxSchema({
-        max: 10000,
-      }),
+      "hauptantrag#nebenantraege#absaetze#formulierung":
+        stringRequiredMaxSchema({
+          max: 10000,
+        }),
+    },
+  },
+  augenscheinDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#beweise#beschreibung":
+        augenscheinSchema.shape.beschreibung,
+    },
+  },
+  nebenantragAugenscheinDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
+        augenscheinSchema.shape.beschreibung,
     },
   },
 } as const satisfies PageConfigMap;

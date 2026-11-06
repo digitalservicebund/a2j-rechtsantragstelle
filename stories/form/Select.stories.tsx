@@ -72,6 +72,7 @@ export const WithPlaceholder: Story = {
   args: {
     name: "select",
     label: "Bundesland",
+    placeholder: "A really good placeholder",
     options: [
       {
         value: "baden-wuerttemberg",

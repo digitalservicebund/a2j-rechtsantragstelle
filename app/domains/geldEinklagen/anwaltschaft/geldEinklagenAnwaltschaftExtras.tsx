@@ -32,7 +32,7 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <AntraegeUebersicht />;
         case "/tatsachenvortrag-beweise/hauptantrag/#/absaetze":
           return <AbsaetzeUebersicht />;
-        case "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze":
+        case "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze":
           return <AbsaetzeUebersicht isNebenantrag={true} />;
       }
     },

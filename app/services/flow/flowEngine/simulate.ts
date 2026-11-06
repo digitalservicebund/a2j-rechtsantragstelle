@@ -34,7 +34,7 @@ type BfsState<C extends PageConfigMap> = {
 };
 
 // Returns array property names relative to the source page's current item.
-// ["nebenantrag", "absaetze"] means descend through both arrays, not just
+// ["nebenantraege", "absaetze"] means descend through both arrays, not just
 // the last one. These are data-path segments, not intermediate flow nodes.
 type ArrayFanOut<C extends PageConfigMap> = (
   sourceKey: NodeKey<C>,
@@ -73,9 +73,9 @@ export const runSimulation = <C extends PageConfigMap>(
         (source?.stepId ?? "").split(ARRAY_WILDCARD).length - 1;
       const targetArrays = targetName ? targetName.split("#") : [];
 
-      // Example: root overview -> /hauptantrag/#/nebenantrag/#/absaetze.
+      // Example: root overview -> /hauptantrag/#/nebenantraege/#/absaetze.
       // The source is at depth 0, but the target needs depth 2, so descend
-      // through ["hauptantrag", "nebenantrag"]. From depth 1, slice(1) would
+      // through ["hauptantrag", "nebenantraege"]. From depth 1, slice(1) would
       // omit the Hauptantrag we are already inside.
       if (targetArrays.length > sourceDepth + 1) {
         return targetArrays.slice(sourceDepth);
@@ -165,7 +165,7 @@ const enqueueRegularBranch = <C extends PageConfigMap>(
 };
 
 // Descends through each array level before enqueueing the target's item context.
-// For ["hauptantrag", "nebenantrag"], visit every Nebenantrag of every
+// For ["hauptantrag", "nebenantraege"], visit every Nebenantrag of every
 // Hauptantrag, keeping scopeData, arrayPath and arrayIndexes aligned.
 const enqueueFanOutItems = <C extends PageConfigMap>(
   state: BfsState<C>,

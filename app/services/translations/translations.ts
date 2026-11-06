@@ -1,6 +1,13 @@
 import { type TranslationRecord } from "~/services/translations/getTranslationByKey";
 
 export const translations = {
+  beweismittel: {
+    augenschein: { de: "Augenschein" },
+    urkunde: { de: "Urkunde" },
+    zeuge: { de: "Zeugnis" },
+    sachverstaendigengutachten: { de: "Sachverständigengutachten" },
+    parteivernehmung: { de: "Parteivernehmung" },
+  },
   fileUpload: {
     select: {
       de: "Datei auswählen",
@@ -57,6 +64,9 @@ export const translations = {
     },
     parentSelectRequired: {
       de: "Bitte wählen Sie eine Person aus",
+    },
+    selectionRequired: {
+      de: "Bitte treffen Sie eine Auswahl",
     },
   },
   iban: {
@@ -899,6 +909,12 @@ export const translations = {
     },
     beweisangebotDeletionTitle: {
       de: "Beweisangebot löschen?",
+    },
+    addBeweisButton: {
+      de: "Auswahl bestätigen",
+    },
+    beweismittelPlaceholder: {
+      de: "Beweismittel auswählen",
     },
     beweisangebotDeletionDescription: {
       de: "Das folgende Beweisangebot wird aus diesem Absatz entfernt:",

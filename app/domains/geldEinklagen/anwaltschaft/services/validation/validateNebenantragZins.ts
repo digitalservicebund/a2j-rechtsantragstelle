@@ -10,19 +10,20 @@ const _schema = hauptUndNebenantraegePages.nebenantragDaten.pageSchema;
 export function validateNebenantragZins(): FunctionMultiFieldsValidation<
   Pick<
     typeof _schema,
-    | "hauptantrag#nebenantrag#nebenantragZinssatzInProzent"
-    | "hauptantrag#nebenantrag#nebenantragZinsmethode"
+    | "hauptantrag#nebenantraege#nebenantragZinssatzInProzent"
+    | "hauptantrag#nebenantraege#nebenantragZinsmethode"
   >
 > {
   return function (baseSchema: z.ZodObject<SchemaObject>) {
     return baseSchema.check((ctx) => {
       const zinssatz =
-        ctx.value["hauptantrag#nebenantrag#nebenantragZinssatzInProzent"];
+        ctx.value["hauptantrag#nebenantraege#nebenantragZinssatzInProzent"];
       const zinsmethode =
-        ctx.value["hauptantrag#nebenantrag#nebenantragZinsmethode"];
+        ctx.value["hauptantrag#nebenantraege#nebenantragZinsmethode"];
       const startDate =
-        ctx.value["hauptantrag#nebenantrag#nebenantragZinsbeginn"];
-      const endDate = ctx.value["hauptantrag#nebenantrag#nebenantragZinsende"];
+        ctx.value["hauptantrag#nebenantraege#nebenantragZinsbeginn"];
+      const endDate =
+        ctx.value["hauptantrag#nebenantraege#nebenantragZinsende"];
 
       const hasZinssatz = typeof zinssatz === "number";
       const hasZinsmethode =
@@ -32,7 +33,7 @@ export function validateNebenantragZins(): FunctionMultiFieldsValidation<
         ctx.issues.push({
           code: "custom",
           message: "Bitte geben Sie eine Zinsmethode an",
-          path: ["hauptantrag#nebenantrag#nebenantragZinsmethode"],
+          path: ["hauptantrag#nebenantraege#nebenantragZinsmethode"],
           fatal: true,
           input: zinsmethode,
         });
@@ -42,7 +43,7 @@ export function validateNebenantragZins(): FunctionMultiFieldsValidation<
         ctx.issues.push({
           code: "custom",
           message: "Bitte geben Sie einen Zinssatz an",
-          path: ["hauptantrag#nebenantrag#nebenantragZinssatzInProzent"],
+          path: ["hauptantrag#nebenantraege#nebenantragZinssatzInProzent"],
           fatal: true,
           input: zinssatz,
         });
@@ -55,7 +56,7 @@ export function validateNebenantragZins(): FunctionMultiFieldsValidation<
         typeof endDate === "object" && endDate !== null
           ? (endDate as DateInput)
           : undefined,
-        "hauptantrag#nebenantrag#nebenantragZinsende",
+        "hauptantrag#nebenantraege#nebenantragZinsende",
       );
       return z.NEVER;
     });

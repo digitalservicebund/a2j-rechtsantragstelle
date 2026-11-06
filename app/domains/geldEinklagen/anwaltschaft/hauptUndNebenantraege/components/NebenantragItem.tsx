@@ -10,7 +10,7 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
-import type { Nebenantraege } from "../hauptUndNebenantraegeSchemas";
+import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
@@ -51,9 +51,9 @@ export const NebenantragItem = ({
     sessionStorage.setItem(additionalFocusStorageKey, String(index));
   };
 
-  const items: Nebenantraege[] = (
+  const items: Nebenantrag[] = (
     userData.hauptantrag?.[parentArrayItemIndex]?.nebenantraege ?? []
-  ).map((item): Nebenantraege => {
+  ).map((item): Nebenantrag => {
     if ("annahmeverzugsFeststellung" in item) {
       return {
         ...item,
@@ -75,7 +75,7 @@ export const NebenantragItem = ({
   ).length;
 
   const deleteNebenantrag = useDeleteArrayItem(
-    "hauptantrag#nebenantrag",
+    "hauptantrag#nebenantraege",
     `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
     (itemIndex) => {
       setTimeout(() => {
@@ -175,7 +175,7 @@ export const NebenantragItem = ({
         ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },

@@ -21,6 +21,6 @@ export const geldEinklagenAnwaltschaftMultiFieldsValidation: MultiFieldsStepIdVa
   "/inhalt-klage": validateZahlungsklageReferenzzeichen(),
   "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/#/daten":
     validateHauptantragZins(),
-  "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantrag/#/daten":
+  "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
     validateNebenantragZins(),
 };

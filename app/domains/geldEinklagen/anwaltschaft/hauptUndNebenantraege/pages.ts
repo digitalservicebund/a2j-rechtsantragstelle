@@ -48,22 +48,22 @@ export const hauptUndNebenantraegePages = {
   },
   nebenantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantrag/#/daten",
+      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantraege/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#nebenantrag#nebenantragArt":
+      "hauptantrag#nebenantraege#nebenantragArt":
         nebenantragSchema.shape.nebenantragArt,
-      "hauptantrag#nebenantrag#nebenantragBetrag":
+      "hauptantrag#nebenantraege#nebenantragBetrag":
         nebenantragSchema.shape.nebenantragBetrag,
-      "hauptantrag#nebenantrag#nebenantragZinssatzInProzent":
+      "hauptantrag#nebenantraege#nebenantragZinssatzInProzent":
         nebenantragSchema.shape.nebenantragZinssatzInProzent,
-      "hauptantrag#nebenantrag#nebenantragZinsmethode":
+      "hauptantrag#nebenantraege#nebenantragZinsmethode":
         nebenantragSchema.shape.nebenantragZinsmethode,
-      "hauptantrag#nebenantrag#nebenantragZinsbeginn":
+      "hauptantrag#nebenantraege#nebenantragZinsbeginn":
         nebenantragSchema.shape.nebenantragZinsbeginn,
-      "hauptantrag#nebenantrag#nebenantragZinsende":
+      "hauptantrag#nebenantraege#nebenantragZinsende":
         nebenantragSchema.shape.nebenantragZinsende,
-      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+      "hauptantrag#nebenantraege#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
     },
@@ -73,11 +73,11 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#nebenantrag#annahmeverzugsFeststellung":
+      "hauptantrag#nebenantraege#annahmeverzugsFeststellung":
         annahmeverzugSchema.shape.annahmeverzugsFeststellung,
-      "hauptantrag#nebenantrag#annahmeverzugDatum":
+      "hauptantrag#nebenantraege#annahmeverzugDatum":
         annahmeverzugSchema.shape.annahmeverzugDatum,
-      "hauptantrag#nebenantrag#type": hiddenInputSchema(
+      "hauptantrag#nebenantraege#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
     },
