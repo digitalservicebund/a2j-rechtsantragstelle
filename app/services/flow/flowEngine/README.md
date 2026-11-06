@@ -43,7 +43,7 @@ session.isReachable(path); // → boolean: is this path reachable given current 
 session.pageSchema; // → compiled Zod schema for the current step
 session.fieldNames; // → field names belonging to the current step
 session.statusTree; // → section-level done/reachable tree (for sidebar nav)
-session.path; // → ordered list of steps visited in the linear simulation
+session.paths; // → ordered list of step paths visited in the linear simulation
 session.isComplete; // → true if the linear simulation reached a terminal node
 session.arrayInfo; // → { name, entryPoint } if the current step is an array summary
 session.nodeKey; // → the internal key for the current step (from the pages record)
@@ -54,25 +54,37 @@ session.prunedUserData; // → userData with only reachable pages' fields kept
 
 ### File Map
 
-| File                   | Role                                                                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `types.ts`             | Core type definitions: `PageConfig`, `PageConfigMap`, `NodeKey`, `TransitionConfigMap`, `InferredUserData`    |
-| `compileFlow.ts`       | One-time static initialization: schema cache, `stepId` ↔ `nodeKey` map, array metadata, graph pre-computation |
-| `precomputeGraph.ts`   | Static BFS over all possible transitions → progress depth per node, `isFinal` detection                       |
-| `routing.ts`           | Pure routing helpers: `evaluateRoute`, `extractEdges`, `evaluateAllBranches`                                  |
-| `simulate.ts`          | Dynamic two-pass simulation: linear path + BFS reachable set + parent map                                     |
-| `statusTree.ts`        | Section-level status projection (`buildStatusTree`) from simulation output                                    |
-| `pruneUserData.ts`     | Keeps only fields from reachable/visited pages, including nested arrays                                       |
-| `createFlowSession.ts` | Public API: combines compiled flow + simulation result into a per-request `FlowSession` object                |
+| File                                        | Role                                                                                                                 |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `types.ts`                                  | Core type definitions: `FlowEnginePageConfig`, `PageConfigMap`, `NodeKey`, `TransitionConfigMap`, `InferredUserData` |
+| `compileFlow.ts`                            | One-time static initialization: schema cache, `stepId` ↔ `nodeKey` map, array metadata, graph pre-computation        |
+| `precomputeProgress.ts`                     | Static BFS over all possible transitions → progress depth per node, `isFinal` detection                              |
+| `routing.ts`                                | Pure routing helpers: `evaluateRoute`, `extractEdges`, `evaluateAllBranches`                                         |
+| `simulate.ts`                               | Dynamic two-pass simulation: linear path + BFS reachable set + parent map                                            |
+| `statusTree.ts`                             | Section-level status projection (`buildStatusTree`) from simulation output                                           |
+| `pruneUserData.ts`                          | Keeps only fields from reachable/visited pages, including nested arrays                                              |
+| `createFlowSession.ts`                      | Public API: combines compiled flow + simulation result into a per-request `FlowSession` object                       |
+| `flowTransitionValidation.ts`               | Checks that a user reached the required pages of a source flow before entering this one                              |
+| `migrateSourceFlowDataToDestinationFlow.ts` | Copies answers from a source flow into the destination flow (`Flow.migration`)                                       |
 
 ### Key Types
 
 ```ts
 // The record key is the internal node identifier (e.g. "start", "personal-name")
-type PageConfig = {
+type FlowEnginePageConfig = {
   stepId: string; // URL path segment, must start with "/"
-  pageSchema?: z.ZodTypeAny | z.ZodRawShape; // optional — steps without input omit this
-  arraySummary?: { name: string; schema: z.ZodArray };
+  pageSchema?: SchemaObject; // optional — steps without input omit this
+  isRelevantForDone?: (userData: UserData) => boolean;
+  controlledFieldConfig?: ControlledFieldConfig;
+  shouldCollapseIntoParentNavItem?: boolean;
+  arraySummary?: {
+    name: string;
+    schema: z.ZodArray;
+    isArrayRelevant?: (userData: UserData) => boolean;
+    shouldDisableAddButton?: (userData: UserData) => boolean;
+    indexOffset?: number;
+    hiddenFields?: string[];
+  };
 };
 
 // NodeKey<C> = Extract<keyof C, string>  — always assignable to string
@@ -91,7 +103,7 @@ The engine has a hard split between what happens **once** (at module load) and *
 - Compiles `pageSchema` (raw shape or `ZodType`) into a single `ZodObject`
 - Extracts and caches `fieldNames` per page
 - Extracts array metadata (`name`, `entryPoint`) from `arraySummary` config + transitions
-- Pre-computes static graph depth via `precomputeGraph` → used for progress bars
+- Pre-computes static graph depth via `precomputeProgress` → used for progress bars
 - Exposes `initialPath` as a plain string (no per-request recomputation)
 
 **Dynamic (`createFlowSession`)** — runs per request:
@@ -104,17 +116,17 @@ The engine has a hard split between what happens **once** (at module load) and *
 
 Every session initialization runs two passes over the transition graph with current `userData`:
 
-**Pass 1 — Linear path:** Walks forward from `initialStep`, evaluating guards greedily. Uses an edge tracker to detect and escape cycles (required for array loops). The resulting `path` is the ordered list of nodes the user would traverse — the last element is the furthest the user has progressed. Drives `isDone` in the status tree.
+**Pass 1 — Linear path:** Walks forward from `initialStep`, evaluating guards greedily. Uses an edge tracker to detect and escape cycles (required for array loops). The resulting `keys` is the ordered list of nodes the user would traverse — the last element is the furthest the user has progressed. Drives `prevPath` and is exposed on the session as `paths`.
 
 **Pass 2 — BFS reachable set:** Exhaustive BFS from `initialStep`, evaluating all guards. Builds `reachableSet` (all nodes currently reachable given `userData`) and `parentMap` (for Back navigation). The BFS parent of a node is its canonical "Back" destination — deterministic regardless of browser history.
 
-The two passes serve different purposes: Pass 1 gives chronological order (for "done" status); Pass 2 gives complete reachability (for access control and data pruning).
+The two passes serve different purposes: Pass 1 gives chronological order (for back navigation); Pass 2 gives complete reachability (for access control and data pruning).
 
 `simulate` returns a `SimulationResult`:
 
 ```ts
 type SimulationResult = {
-  path: string[]; // Pass 1: linear walk order
+  keys: string[]; // Pass 1: linear walk order
   reachableSet: Set<string>; // Pass 2: all reachable nodeKeys
   isComplete: boolean; // true if linear walk reached a terminal node
 };
@@ -123,7 +135,7 @@ type SimulationResult = {
 
 ### Status Tree
 
-`statusTree` is a nested record of `StatusNode` objects, representing **section-level** navigation state (e.g. for a sidebar). It is built by `buildStatusTree(pages, simulationResult)` from the URL path segments of each `stepId`:
+`statusTree` is a nested record of `StatusNode` objects, representing **section-level** navigation state (e.g. for a sidebar). It is built by `buildStatusTree(pages, simulationResult, doneNodeKeys)` from the URL path segments of each `stepId`:
 
 - `"/grundvoraussetzungen/versicherung"` → contributes to a `"/grundvoraussetzungen"` section
 - `"/a/b/c"` → contributes to `"/a"` with a nested `"/b"` child
@@ -131,13 +143,15 @@ type SimulationResult = {
 
 ```ts
 type StatusNode = {
-  isDone: boolean; // linear path has exited this section
+  isDone: boolean; // every reachable node inside is in doneNodeKeys
   isReachable: boolean; // any node inside is in reachableSet
   children?: Record<string, StatusNode>;
 };
 ```
 
-`buildStatusTree` only needs `Record<string, { stepId: string }>` and a `SimulationResult` — it does not require a fully compiled flow, making it independently testable with plain objects.
+`isDone` is schema-based, not position-based: `createFlowSession` validates each visited page's fields against the user data, and pages whose fields are all valid (or that have no schema) go into `doneNodeKeys`. Pages whose `isRelevantForDone` returns `false` are treated as done without validation.
+
+`buildStatusTree` only needs the pages config, a `SimulationResult` and `doneNodeKeys` — it does not require a fully compiled flow, making it independently testable with plain objects.
 
 ### Array Traversal
 
@@ -149,7 +163,7 @@ Array pages have an `arraySummary` config and a transition with `type: "addArray
 
 ### Progress
 
-`compiledFlow.getProgress(path)` returns `{ progress, max }` where `progress` is the static depth of the node in the full transition graph (computed once by `precomputeGraph`). Array item nodes are assigned the same depth as their parent summary node (they don't advance the progress counter). Final nodes always return `{ progress: max, max }`.
+`compiledFlow.getProgress(path)` returns `{ progress, max }` where `progress` is the static depth of the node in the full transition graph (computed once by `precomputeProgress`). Array item nodes are assigned the same depth as their parent summary node (they don't advance the progress counter). Final nodes always return `{ progress: max, max }`.
 
 ## Comparison: New Engine vs. XState
 
@@ -168,7 +182,7 @@ Array pages have an `arraySummary` config and a transition with `type: "addArray
 ### Bugs / Code Quality
 
 - **Standardize `null` → `undefined`:** `evaluateRoute` returns `null` in some code paths; the rest of the engine uses `undefined`. Standardize to `undefined` throughout.
-- **Rename `stepId` → `path` in `PageConfig`:** `stepId` is the old XState engine's terminology. Once all flows have migrated, rename the field to `path` for clarity. A TODO comment marks the location in `types.ts`.
+- **Rename `stepId` → `path` in `FlowEnginePageConfig`:** `stepId` is the old XState engine's terminology. All flows have migrated, so the field can now be renamed to `path` for clarity. A TODO comment marks the location in `types.ts`.
 
 ### Features
 
