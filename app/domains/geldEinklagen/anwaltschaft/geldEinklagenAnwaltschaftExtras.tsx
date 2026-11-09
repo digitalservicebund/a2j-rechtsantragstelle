@@ -26,7 +26,7 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <ProzessbevollmaechtigteUebersicht relationship="beklagte" />;
         case "/sonstige-neben-und-prozessantraege/uebersicht":
           return <SonstigeNebenUndProzessantraegeUebersicht />;
-        case "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht":
+        case "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht":
           return <ZahlungsAntragUebersicht />;
         case "/tatsachenvortrag-beweise/uebersicht":
           return <AntraegeUebersicht />;
