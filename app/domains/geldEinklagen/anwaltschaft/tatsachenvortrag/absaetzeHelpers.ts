@@ -1,6 +1,9 @@
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
-import { type BeweisMittel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
+import {
+  type BeweiseArray,
+  type BeweisType,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 
 export const getAbsaetzeBaseUrl = (
@@ -8,7 +11,7 @@ export const getAbsaetzeBaseUrl = (
   nebenantragIndex?: number,
 ) => {
   const nebenantragSlug =
-    nebenantragIndex !== undefined ? `/nebenantrag/${nebenantragIndex}` : "";
+    nebenantragIndex !== undefined ? `/nebenantraege/${nebenantragIndex}` : "";
   return `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/${hauptantragIndex}${nebenantragSlug}/absaetze`;
 };
 
@@ -26,10 +29,35 @@ export const getNebenantragTitle = (
   return `${title} ${displayIndex} (${parentheticalInfo})`;
 };
 
-export type BeweisType = "document" | "person";
+export const getBeweisTitle = (type: BeweisType, index: number) => {
+  switch (type) {
+    case "zeuge":
+      return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.geldEinklagenAnwaltschaft.zeugnis.de}`;
+    case "parteivernehmung":
+      return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.beweismittel.parteivernehmung.de}`;
+    default:
+      return `${translations.geldEinklagenAnwaltschaft.beweis.de} K${index + 1}`;
+  }
+};
 
-export const getBeweisType = (mittel: BeweisMittel): BeweisType => {
-  switch (mittel) {
+export const getBeweisBody = (beweis: NonNullable<BeweiseArray>[number]) => {
+  switch (beweis.type) {
+    case "zeuge":
+      return "";
+    case "parteivernehmung":
+      return "";
+    default:
+      return beweis.beschreibung;
+  }
+};
+
+export const getBeweisArrayName = (isHauptantrag: boolean) =>
+  `hauptantrag#${isHauptantrag ? "" : "nebenantraege#"}absaetze#beweise`;
+
+export type BeweisCategory = "document" | "person";
+
+export const getBeweisCategory = (type: BeweisType): BeweisCategory => {
+  switch (type) {
     case "urkunde":
     case "augenschein":
     case "sachverstaendigengutachten":

@@ -907,6 +907,9 @@ export const translations = {
     beweis: {
       de: "Beweis",
     },
+    zeugnis: {
+      de: "Zeugnis",
+    },
     beweisangebotDeletionTitle: {
       de: "Beweisangebot löschen?",
     },
