@@ -284,8 +284,8 @@ importers:
         specifier: 1.447.2
         version: 1.447.2(@types/react@19.3.0)(react@19.3.1)
       posthog-node:
-        specifier: 5.61.2
-        version: 5.61.2(@opentelemetry/api@1.9.1)
+        specifier: 5.63.1
+        version: 5.63.1(@opentelemetry/api@1.9.1)
       rate-limit-redis:
         specifier: ^6.0.2
         version: 6.0.2(express-rate-limit@8.7.3)
@@ -1922,17 +1922,11 @@ packages:
   '@posthog/browser-common@0.10.7':
     resolution: {integrity: sha512-1V2SBu7gxVbroZk49YsCM++K9qy3qcrOaylemjkkTPvACgAGwm0Y/AkJN2eRZO1YME0FnagF6QKBaXmq3o0e8g==}
 
-  '@posthog/core@1.62.1':
-    resolution: {integrity: sha512-IncceYaKKQ6kirQuUWATQOjg0nDc4QXKJdvDfpIYhcaYJJb9Nk8S5Xqs+QMfuRGQs4NbemNzds/m+FyPRGUqyA==}
-
   '@posthog/core@1.64.0':
     resolution: {integrity: sha512-D284VHRgqw2AilzNOmpI4a2rmKrC+4b1xB1Z+p3edwlA1gGKpHxM0PwfB3Jz+TBxXP1uU3ceJ4dwYinzOkqscg==}
 
   '@posthog/core@1.64.1':
     resolution: {integrity: sha512-2ziryOLWTxftHrTLhGYQzLHDpPughaRRi/+L1vhg4cQFHJfgTevMzAz21R1zR7MKFDkyJ9lCJD/K2jxIkGbnfg==}
-
-  '@posthog/types@1.419.0':
-    resolution: {integrity: sha512-XX7zRYt/vK8AzaD6V+oDquAzacZf5exJv971dja9En8Qf6g84Qvc3rpT0w6hDYYLWrjaSSkdjFfvvoXI0ouJDg==}
 
   '@posthog/types@1.421.0':
     resolution: {integrity: sha512-KP34CqgRYYyp3wU77OixL0URb2ildKM+QxBOXtQ4YYaa1ARTt3looxkn/w8gwKo6gWZg2VW/DgSoqAW4XeDAPQ==}
@@ -4173,8 +4167,8 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.61.2:
-    resolution: {integrity: sha512-6pMhzR+APW+CBreUlHce3qrxwU7l90gYp1A5eN0kf/o3rVf++Zz2KPtZQC63ct+hWkzCwi3Arm+GT8EjUBrUag==}
+  posthog-node@5.63.1:
+    resolution: {integrity: sha512-CwJ1JEbFYtXYf8rctJdQy8S61bGNenqf1lBd5xw9z6MGMlfRwtWRrs96D3I3yV5MzKPctyGp0wPtYSTECBcLbQ==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
@@ -6382,10 +6376,6 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  '@posthog/core@1.62.1':
-    dependencies:
-      '@posthog/types': 1.419.0
-
   '@posthog/core@1.64.0':
     dependencies:
       '@posthog/types': 1.421.0
@@ -6393,8 +6383,6 @@ snapshots:
   '@posthog/core@1.64.1':
     dependencies:
       '@posthog/types': 1.421.0
-
-  '@posthog/types@1.419.0': {}
 
   '@posthog/types@1.421.0': {}
 
@@ -8718,9 +8706,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.61.2(@opentelemetry/api@1.9.1):
+  posthog-node@5.63.1(@opentelemetry/api@1.9.1):
     dependencies:
-      '@posthog/core': 1.62.1
+      '@posthog/core': 1.64.1
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
 
