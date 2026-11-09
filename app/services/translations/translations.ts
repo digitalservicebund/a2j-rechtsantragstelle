@@ -851,13 +851,6 @@ export const translations = {
     zahlungsAntragInlineNoticeMaxReachedContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 Zahlungsanträge hinzufügen.",
     },
-    zahlungsAntragInlineNoticeMissingParteiTitle: {
-      de: "Mindestens ein Kläger und ein Beklagter erforderlich",
-    },
-    zahlungsAntragInlineNoticeMissingParteiContent: {
-      de: "Bitte erfassen Sie zuerst mindestens je eine klagende und eine beklagte Person oder Organisation. Das ist notwendig, damit Sie diese in Ihrem Schmerzensgeldantrag auswählen und benennen können.",
-    },
-
     nebenantrag: {
       de: "Nebenantrag",
     },

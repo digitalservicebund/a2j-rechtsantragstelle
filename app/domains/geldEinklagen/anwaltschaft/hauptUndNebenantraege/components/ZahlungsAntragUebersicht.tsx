@@ -13,6 +13,9 @@ import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
 
+const BASE_URL_WARNUNG =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung";
+
 const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
 const focusStorageKey = "focus-zahlungsantrag";
@@ -64,26 +67,11 @@ const ZahlungsAntragUebersicht = () => {
   const maxAntraegeReached =
     nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
-  const shouldDisableAddButton = !hasParteien || maxAntraegeReached;
-
   return (
     <ArrayItemListSection
       headingId="zahlungsantrag-heading"
       notice={
-        !hasParteien ? (
-          <InlineNotice
-            title={
-              translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeMissingParteiTitle.de
-            }
-            tagName="p"
-            look="warning"
-            content={
-              translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeMissingParteiContent.de
-            }
-          />
-        ) : maxAntraegeReached ? (
+        maxAntraegeReached ? (
           <InlineNotice
             title={
               translations.geldEinklagenAnwaltschaft
@@ -99,10 +87,12 @@ const ZahlungsAntragUebersicht = () => {
         ) : undefined
       }
       addButton={{
-        href: `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
+        href: !hasParteien
+          ? `${BASE_URL_WARNUNG}`
+          : `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
         buttonText:
           translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de,
-        disabled: shouldDisableAddButton,
+        disabled: maxAntraegeReached,
         dataTestId: "add-zahlungsantrag",
       }}
     >
