@@ -9,32 +9,37 @@ export const MAX_ABSAETZE = 50;
 export const MAX_BEWEISE = 50;
 
 export const augenscheinSchema = z.object({
-  beweismittel: z.literal("augenschein"),
+  type: z.literal("augenschein"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
 const urkundeSchema = z.object({
-  beweismittel: z.literal("urkunde"),
+  type: z.literal("urkunde"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
 const zeugeSchema = z.object({
-  beweismittel: z.literal("zeuge"),
+  type: z.literal("zeuge"),
+  id: z.uuid().optional(),
   ...personFields,
   ...adresseFields,
 });
 
 const sachverstaendigengutachtenSchema = z.object({
-  beweismittel: z.literal("sachverstaendigengutachten"),
+  type: z.literal("sachverstaendigengutachten"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
 const parteivernehmungSchema = z.object({
-  beweismittel: z.literal("parteivernehmung"),
+  type: z.literal("parteivernehmung"),
+  id: z.uuid().optional(),
   personen: z.array(z.any()), // Will be displayed as checkboxes, but will hold IDs of referenced parties.
 });
 
-const beweisSchema = z.discriminatedUnion("beweismittel", [
+const beweisSchema = z.discriminatedUnion("type", [
   augenscheinSchema,
   urkundeSchema,
   zeugeSchema,
@@ -45,12 +50,10 @@ const beweisSchema = z.discriminatedUnion("beweismittel", [
 const beweiseArraySchema = z.array(beweisSchema);
 
 export const beweismittelSchema = z.object({
-  beweismittel: z.enum(
-    beweisSchema.options.map((option) => option.shape.beweismittel.value),
-  ),
+  type: z.enum(beweisSchema.options.map((option) => option.shape.type.value)),
 });
 
-export type BeweisMittel = z.infer<typeof beweismittelSchema>["beweismittel"];
+export type BeweisType = z.infer<typeof beweismittelSchema>["type"];
 
 export const absaetzeArraySchema = z
   .array(

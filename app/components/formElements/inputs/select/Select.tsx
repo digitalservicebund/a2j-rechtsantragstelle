@@ -47,7 +47,7 @@ const Select = ({
         )}
       >
         <select
-          className="kern-form-input__select"
+          className="kern-form-input__select bg-kern-white!"
           {...field.getInputProps({ id: name })}
           aria-invalid={field.error() !== null}
           defaultValue={options.find((option) => option.preSelected)?.value}

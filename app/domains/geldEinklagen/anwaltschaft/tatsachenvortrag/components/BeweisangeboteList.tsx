@@ -6,18 +6,23 @@ import {
   beweismittelSchema,
   MAX_BEWEISE,
   type BeweiseArray,
-  type BeweisMittel,
+  type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
-import { getBeweisType } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import {
+  getBeweisBody,
+  getBeweisCategory,
+  getBeweisTitle,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import Button from "~/components/common/Button";
 import { ValidatedForm } from "@rvf/react-router";
 import Select from "~/components/formElements/inputs/select/Select";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
 import { useLocation } from "react-router";
+import { Icon } from "~/components/common/Icon";
 
-const defaultValues: { beweismittel: BeweisMittel | undefined } = {
-  beweismittel: undefined,
+const defaultValues: { type: BeweisType | undefined } = {
+  type: undefined,
 };
 
 const addBeweisActionUrl = "/action/geld-einklagen/anwaltschaft/add-beweis";
@@ -49,14 +54,12 @@ const AddBeweis = ({
       <input type="hidden" name="beweisePathname" value={beweisePathname} />
       <div className="flex-1">
         <Select
-          name="beweismittel"
-          options={beweismittelSchema.shape.beweismittel.options.map(
-            (value) => ({
-              value,
-              text: translations.beweismittel[value].de,
-              preSelected: false,
-            }),
-          )}
+          name="type"
+          options={beweismittelSchema.shape.type.options.map((value) => ({
+            value,
+            text: translations.beweismittel[value].de,
+            preSelected: false,
+          }))}
           placeholder={
             translations.geldEinklagenAnwaltschaft.beweismittelPlaceholder.de
           }
@@ -96,6 +99,18 @@ export const BeweisangeboteList = ({
     focusOnItem(beweisIdPrefix),
   );
   const nextItemIndex = beweise?.length ?? 0;
+  const indexedBeweise = (beweise ?? []).map((beweis, sourceIndex) => ({
+    beweis,
+    sourceIndex,
+  }));
+  const orderedBeweise = [
+    ...indexedBeweise.filter(
+      ({ beweis }) => getBeweisCategory(beweis.type) === "document",
+    ),
+    ...indexedBeweise.filter(
+      ({ beweis }) => getBeweisCategory(beweis.type) === "person",
+    ),
+  ];
   return (
     <NestedArrayItemList
       heading={translations.geldEinklagenAnwaltschaft.beweisangeboteTitle.de}
@@ -105,24 +120,40 @@ export const BeweisangeboteList = ({
         translations.geldEinklagenAnwaltschaft.beweisangeboteSubtitle.de
       }
       items={
-        beweise
-          ? beweise.map((beweis, index) => ({
-              key: `absatz-${absatzArrayIndex}-beweisangebote-${index}`,
-              id: `absatz-${absatzArrayIndex}-beweisangebote-${index}`,
-              content: null, // TODO: build out display
+        orderedBeweise
+          ? orderedBeweise.map(({ beweis, sourceIndex }, displayIndex) => ({
+              key: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
+              id: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
+              content: (
+                <div className="flex gap-kern-space-small items-start">
+                  <Icon
+                    name={
+                      getBeweisCategory(beweis.type) === "document"
+                        ? "draft"
+                        : "person"
+                    }
+                  />
+                  <div className="flex flex-col">
+                    <span className="kern-body--bold">
+                      {getBeweisTitle(beweis.type, displayIndex)}
+                    </span>
+                    <span>{getBeweisBody(beweis)}</span>
+                  </div>
+                </div>
+              ),
               editButton: {
                 ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
-                href: `${beweiseBaseUrl}/${index}/daten`,
+                href: `${beweiseBaseUrl}/${sourceIndex}/daten`,
               },
               deleteButton: {
                 title:
-                  getBeweisType(beweis.beweismittel) === "document"
+                  getBeweisCategory(beweis.type) === "document"
                     ? translations.geldEinklagenAnwaltschaft
                         .beweisangebotDeletionTitle.de
                     : translations.geldEinklagenAnwaltschaft
                         .beweisangebotPersonDeletionTitle.de,
                 description: "", // TODO: Fill out
-                onDelete: () => deleteArrayItem(index),
+                onDelete: () => deleteArrayItem(sourceIndex),
               },
             }))
           : []

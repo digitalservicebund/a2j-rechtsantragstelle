@@ -4,6 +4,8 @@ import {
   augenscheinSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { hiddenInputSchema } from "~/services/validation/hiddenInput";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
 export const tatsachenvortragPages = {
@@ -60,6 +62,12 @@ export const tatsachenvortragPages = {
     pageSchema: {
       "hauptantrag#absaetze#beweise#beschreibung":
         augenscheinSchema.shape.beschreibung,
+      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
+      ),
+      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(augenscheinSchema.shape.type),
+      ),
     },
   },
   nebenantragAugenscheinDaten: {
@@ -69,6 +77,12 @@ export const tatsachenvortragPages = {
     pageSchema: {
       "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
         augenscheinSchema.shape.beschreibung,
+      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
+      ),
+      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(augenscheinSchema.shape.type),
+      ),
     },
   },
 } as const satisfies PageConfigMap;

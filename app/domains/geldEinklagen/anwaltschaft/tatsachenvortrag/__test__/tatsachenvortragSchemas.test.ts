@@ -1,7 +1,7 @@
 import { beweismittelSchema } from "../tatsachenvortragSchemas";
 
 describe("beweismittelSchema", () => {
-  const beweismittel = [
+  const type = [
     "augenschein",
     "urkunde",
     "zeuge",
@@ -10,21 +10,19 @@ describe("beweismittelSchema", () => {
   ];
 
   it("exposes all evidence types for dropdown options", () => {
-    expect(beweismittelSchema.shape.beweismittel.options).toEqual(beweismittel);
+    expect(beweismittelSchema.shape.type.options).toEqual(type);
   });
 
-  it.each(beweismittel)("accepts a form selecting %s", (value) => {
-    expect(beweismittelSchema.parse({ beweismittel: value })).toEqual({
-      beweismittel: value,
+  it.each(type)("accepts a form selecting %s", (value) => {
+    expect(beweismittelSchema.parse({ type: value })).toEqual({
+      type: value,
     });
   });
 
   it.each(["", "unknown", undefined, null, 1])(
     "rejects an invalid selection: %s",
     (value) => {
-      expect(
-        beweismittelSchema.safeParse({ beweismittel: value }).success,
-      ).toBe(false);
+      expect(beweismittelSchema.safeParse({ type: value }).success).toBe(false);
     },
   );
 });
