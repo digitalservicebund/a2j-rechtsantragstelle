@@ -24,19 +24,41 @@ export const tatsachenvortragFlowConfig = {
     },
     {
       type: "addArrayItem",
-      target: "nebenantragAugenscheinDaten",
+      target: "urkundeDaten",
+    },
+    {
+      type: "addArrayItem",
+      target: "sachverstaendigengutachtenDaten",
     },
     { target: "antraegeUebersicht" },
   ],
   absatzDaten: [{ target: "absaetzeUebersicht" }],
+  augenscheinDaten: [{ target: "absaetzeUebersicht" }],
+  urkundeDaten: [{ target: "absaetzeUebersicht" }],
+  sachverstaendigengutachtenDaten: [{ target: "absaetzeUebersicht" }],
   nebenantragAbsatzUebersicht: [
     {
       type: "addArrayItem",
       target: "nebenantragAbsatzDaten",
     },
+    {
+      type: "addArrayItem",
+      target: "nebenantragAugenscheinDaten",
+    },
+    {
+      type: "addArrayItem",
+      target: "nebenantragUrkundeDaten",
+    },
+    {
+      type: "addArrayItem",
+      target: "nebenantragSachverstaendigengutachtenDaten",
+    },
     { target: "antraegeUebersicht" },
   ],
   nebenantragAbsatzDaten: [{ target: "nebenantragAbsatzUebersicht" }],
-  augenscheinDaten: [{ target: "absaetzeUebersicht" }],
-  nebenantragAugenscheinDaten: [{ target: "absaetzeUebersicht" }],
+  nebenantragAugenscheinDaten: [{ target: "nebenantragAbsatzUebersicht" }],
+  nebenantragUrkundeDaten: [{ target: "nebenantragAbsatzUebersicht" }],
+  nebenantragSachverstaendigengutachtenDaten: [
+    { target: "nebenantragAbsatzUebersicht" },
+  ],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

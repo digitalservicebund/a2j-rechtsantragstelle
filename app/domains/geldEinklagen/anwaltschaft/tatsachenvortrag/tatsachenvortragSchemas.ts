@@ -14,7 +14,7 @@ export const augenscheinSchema = z.object({
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
-const urkundeSchema = z.object({
+export const urkundeSchema = z.object({
   type: z.literal("urkunde"),
   id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
@@ -27,7 +27,7 @@ const zeugeSchema = z.object({
   ...adresseFields,
 });
 
-const sachverstaendigengutachtenSchema = z.object({
+export const sachverstaendigengutachtenSchema = z.object({
   type: z.literal("sachverstaendigengutachten"),
   id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
@@ -67,5 +67,7 @@ export const absaetzeArraySchema = z
 export type BeweiseArray = z.infer<
   typeof absaetzeArraySchema
 >[number]["beweise"];
+
+export type Beweis = NonNullable<BeweiseArray>[number];
 
 export type Absatz = z.infer<typeof absaetzeArraySchema>[number];

@@ -3,6 +3,7 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { focusOnItem } from "~/domains/geldEinklagen/anwaltschaft/shared/focusOnItem";
 import { useAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import {
+  type Beweis,
   beweismittelSchema,
   MAX_BEWEISE,
   type BeweiseArray,
@@ -83,6 +84,44 @@ const AddBeweis = ({
   );
 };
 
+const BeweisDeletionDescription = ({
+  beweis,
+  displayIndex,
+}: {
+  beweis: Beweis;
+  displayIndex: number;
+}) => {
+  const isDocument = getBeweisCategory(beweis.type) === "document";
+  const beweisBody = getBeweisBody(beweis);
+  return (
+    <div className="flex flex-col gap-kern-space-small">
+      <p>
+        {isDocument
+          ? translations.geldEinklagenAnwaltschaft
+              .beweisangebotDeletionDescription.de
+          : translations.geldEinklagenAnwaltschaft
+              .additionalPersonDeletionDescription.de}
+      </p>
+      <div className="flex gap-kern-space-small items-start">
+        <Icon
+          name={isDocument ? "draft" : "person"}
+          className="size-kern-dimension-default"
+        />
+        <div className="flex flex-col">
+          <p className="font-bold">
+            {getBeweisTitle(beweis.type, displayIndex)}
+          </p>
+          <p>
+            {beweisBody.length > 100
+              ? beweisBody.substring(0, 100) + "..."
+              : beweisBody}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const BeweisangeboteList = ({
   beweise,
   absatzArrayIndex,
@@ -143,7 +182,7 @@ export const BeweisangeboteList = ({
               ),
               editButton: {
                 ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
-                href: `${beweiseBaseUrl}/${sourceIndex}/daten`,
+                href: `${beweiseBaseUrl}/${sourceIndex}/${beweis.type}-daten`,
               },
               deleteButton: {
                 title:
@@ -152,7 +191,12 @@ export const BeweisangeboteList = ({
                         .beweisangebotDeletionTitle.de
                     : translations.geldEinklagenAnwaltschaft
                         .beweisangebotPersonDeletionTitle.de,
-                description: "", // TODO: Fill out
+                description: (
+                  <BeweisDeletionDescription
+                    beweis={beweis}
+                    displayIndex={displayIndex}
+                  />
+                ),
                 onDelete: () => deleteArrayItem(sourceIndex),
               },
             }))
