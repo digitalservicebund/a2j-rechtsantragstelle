@@ -57,24 +57,43 @@ const ZahlungsAntragUebersicht = () => {
     ? (userDataGeldEinklagen.hauptantrag?.length ?? 0)
     : 0;
 
-  const shouldDisableAddButton =
+  const hasParteien =
+    arrayIsNonEmpty(userDataGeldEinklagen.beklagten) &&
+    arrayIsNonEmpty(userDataGeldEinklagen.klagenden);
+
+  const maxAntraegeReached =
     nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
+
+  const shouldDisableAddButton = !hasParteien || maxAntraegeReached;
 
   return (
     <ArrayItemListSection
       headingId="zahlungsantrag-heading"
       notice={
-        shouldDisableAddButton ? (
+        !hasParteien ? (
           <InlineNotice
             title={
               translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeTitle.de
+                .zahlungsAntragInlineNoticeMissingParteiTitle.de
+            }
+            tagName="p"
+            look="warning"
+            content={
+              translations.geldEinklagenAnwaltschaft
+                .zahlungsAntragInlineNoticeMissingParteiContent.de
+            }
+          />
+        ) : maxAntraegeReached ? (
+          <InlineNotice
+            title={
+              translations.geldEinklagenAnwaltschaft
+                .zahlungsAntragInlineNoticeMaxReachedTitle.de
             }
             tagName="p"
             look="info"
             content={
               translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeContent.de
+                .zahlungsAntragInlineNoticeMaxReachedContent.de
             }
           />
         ) : undefined
