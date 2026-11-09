@@ -56,7 +56,7 @@
     "@react-router/node": "8.3.0",
     "@remix-run/form-data-parser": "^1.1.1",
     "@rvf/react-router": "^8.2.1",
-    "@sentry/react-router": "^11.10.0",
+    "@sentry/react-router": "^11.11.0",
     "@sentry/vite-plugin": "^11.10.0",
     "axios": "^1.21.0",
     "classnames": "^2.5.1",
