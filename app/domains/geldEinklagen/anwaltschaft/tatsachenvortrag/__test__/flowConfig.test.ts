@@ -1,4 +1,4 @@
-import { type Hauptantrag } from "../../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { type Hauptantraege } from "../../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { tatsachenvortragFlowConfig } from "../flowConfig";
 import { tatsachenvortragPages } from "../pages";
 import { compileFlow } from "~/services/flow/flowEngine/compileFlow";
@@ -19,10 +19,10 @@ const flow = compileFlow({
 });
 
 const createHauptantrag = (
-  absaetze: Hauptantrag["absaetze"],
+  absaetze: Hauptantraege["absaetze"],
   label = "1",
-): Omit<Hauptantrag, "nebenantraege"> & {
-  nebenantraege: Hauptantrag["nebenantraege"];
+): Omit<Hauptantraege, "nebenantraege"> & {
+  nebenantraege: Hauptantraege["nebenantraege"];
 } => ({
   betragForderung: "100",
   klagende: {},
