@@ -8,7 +8,7 @@ import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
 
 const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
 
 type BezifferterZahlungsantragProps = {
   readonly itemIndex: number;
