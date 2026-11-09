@@ -9,9 +9,7 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import type {
-  Schmerzengeldantrag,
-} from "../hauptUndNebenantraegeSchemas";
+import type { Schmerzengeldantrag } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege";
