@@ -13,7 +13,7 @@ import { Icon } from "~/components/common/Icon";
 import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_NEBENANTRAG =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege";
 
 type NebenantragItemProps = {
   readonly userData: GeldEinklagenAnwaltschaftUserData;

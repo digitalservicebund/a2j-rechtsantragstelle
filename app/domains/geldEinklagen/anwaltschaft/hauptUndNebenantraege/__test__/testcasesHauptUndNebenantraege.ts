@@ -56,12 +56,12 @@ export const hauptUndNebenantraegeTestCases = {
   withHauptantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
       addArrayItemEvent: "add-hauptantrag",
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/0/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/0/daten",
       userInput: {
         "hauptantrag#internesSchlagwortFordureung": "Hauptforderung",
         "hauptantrag#betragForderung": "1000",
@@ -81,25 +81,25 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 
   withoutHauptantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/warnung",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung",
     },
   ],
 
   withNebenantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/0/nebenantraege/0/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/nebenantrag/0/daten",
       userInput: {
         ...testcaseData,
         "hauptantrag#nebenantraege#type": "nebenantrag",
@@ -122,14 +122,14 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 
   withAnnahmeverzug: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/0/annahmeverzug/1/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/annahmeverzug/1/daten",
       userInput: {
         ...testcaseData,
         "hauptantrag#nebenantraege": [
@@ -150,7 +150,7 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 } satisfies FlowTestCases<GeldEinklagenAnwaltschaftUserData>;
