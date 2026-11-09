@@ -19,8 +19,8 @@ export const geldEinklagenAnwaltschaftMultiFieldsValidation: MultiFieldsStepIdVa
   typeof _schema
 > = {
   "/inhalt-klage": validateZahlungsklageReferenzzeichen(),
-  "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/#/daten":
+  "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten":
     validateHauptantragZins(),
-  "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
+  "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantrag/#/daten":
     validateNebenantragZins(),
 };

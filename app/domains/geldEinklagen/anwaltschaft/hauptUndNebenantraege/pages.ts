@@ -11,7 +11,7 @@ import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmpty
 export const hauptUndNebenantraegePages = {
   hauptantragUebersicht: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     arraySummary: {
       name: "hauptantrag",
       schema: hauptantraegeArraySchema,
@@ -20,7 +20,7 @@ export const hauptUndNebenantraegePages = {
   },
   hauptantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/#/daten",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#internesSchlagwortFordureung":
@@ -43,12 +43,12 @@ export const hauptUndNebenantraegePages = {
   },
   hauptantragWarnung: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/warnung",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
   nebenantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/nebenantraege/#/daten",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#nebenantraege#nebenantragArt":
@@ -70,7 +70,7 @@ export const hauptUndNebenantraegePages = {
   },
   annahmeverzugDaten: {
     stepId:
-      "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#nebenantraege#annahmeverzugsFeststellung":
