@@ -24,7 +24,7 @@ describe.each(["klagende", "beklagte"] as const)(
       expect(session.nextPath).toBe(
         relationship === "klagende"
           ? "/beklagte-partei/beklagten/uebersicht"
-          : "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+          : "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
       );
       expect(session.prevPath).toBe(
         relationship === "klagende"
@@ -33,7 +33,7 @@ describe.each(["klagende", "beklagte"] as const)(
       );
       expect(
         session.isReachable(
-          "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+          "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
         ),
       ).toBe(true);
       expect(
