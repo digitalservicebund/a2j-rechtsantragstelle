@@ -57,6 +57,14 @@ export const geldEinklagenAnwaltschaft = {
       setBeweisIdentity("augenschein", true),
     "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten":
       setBeweisIdentity("augenschein", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten", false),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {

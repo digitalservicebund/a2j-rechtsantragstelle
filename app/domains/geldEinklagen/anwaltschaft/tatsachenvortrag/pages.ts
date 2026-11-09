@@ -2,6 +2,9 @@ import { hauptantraegeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/h
 import {
   absaetzeArraySchema,
   augenscheinSchema,
+  beweismittelSchema,
+  sachverstaendigengutachtenSchema,
+  urkundeSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -66,7 +69,7 @@ export const tatsachenvortragPages = {
         schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
       ),
       "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(augenscheinSchema.shape.type),
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },
@@ -81,7 +84,67 @@ export const tatsachenvortragPages = {
         schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
       ),
       "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(augenscheinSchema.shape.type),
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  urkundeDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#beweise#beschreibung":
+        urkundeSchema.shape.beschreibung,
+      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(urkundeSchema.shape.id),
+      ),
+      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  nebenantragUrkundeDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
+        urkundeSchema.shape.beschreibung,
+      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(urkundeSchema.shape.id),
+      ),
+      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  sachverstaendigengutachtenDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#beweise#beschreibung":
+        sachverstaendigengutachtenSchema.shape.beschreibung,
+      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(sachverstaendigengutachtenSchema.shape.id),
+      ),
+      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  nebenantragSachverstaendigengutachtenDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
+        sachverstaendigengutachtenSchema.shape.beschreibung,
+      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(sachverstaendigengutachtenSchema.shape.id),
+      ),
+      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },

@@ -1,7 +1,7 @@
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
-  type BeweiseArray,
+  type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
@@ -40,7 +40,7 @@ export const getBeweisTitle = (type: BeweisType, index: number) => {
   }
 };
 
-export const getBeweisBody = (beweis: NonNullable<BeweiseArray>[number]) => {
+export const getBeweisBody = (beweis: Beweis) => {
   switch (beweis.type) {
     case "zeuge":
       return "";

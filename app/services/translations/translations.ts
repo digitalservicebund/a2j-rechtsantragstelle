@@ -845,10 +845,10 @@ export const translations = {
     zahlungsAntragHinzufuegen: {
       de: "Zahlungsantrag hinzufügen",
     },
-    zahlungsAntragInlineNoticeTitle: {
+    zahlungsAntragInlineNoticeMaxReachedTitle: {
       de: "Maximale Anzahl an Zahlungsanträgen erreicht",
     },
-    zahlungsAntragInlineNoticeContent: {
+    zahlungsAntragInlineNoticeMaxReachedContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 Zahlungsanträge hinzufügen.",
     },
     nebenantrag: {
