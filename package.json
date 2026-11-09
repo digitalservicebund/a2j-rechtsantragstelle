@@ -99,7 +99,7 @@
     "@faker-js/faker": "^10.6.0",
     "@fast-csv/parse": "^5.0.8",
     "@lizenz/checker": "^0.0.2",
-    "@playwright/test": "^1.64.1",
+    "@playwright/test": "^1.65.0",
     "@react-router/dev": "8.3.0",
     "@react-router/fs-routes": "8.3.0",
     "@rvf/react": "^8.1.4",
