@@ -1,6 +1,5 @@
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
@@ -8,6 +7,7 @@ import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayIt
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { useEffect } from "react";
 import React from "react";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
@@ -16,7 +16,7 @@ const BASE_URL_ZAHLUNGS_ANTRAG =
 const BASE_URL_WARNUNG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung";
 
-const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
+const MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
 const focusStorageKey = "focus-zahlungsantrag";
 
@@ -24,7 +24,7 @@ const onEditZahlungsAntrag = (index: number) => () => {
   sessionStorage.setItem(focusStorageKey, String(index));
 };
 
-const ZahlungsAntragUebersicht = () => {
+const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
   useEffect(() => {
     const focusTimer = setTimeout(() => {
       const itemIndex = sessionStorage.getItem(focusStorageKey);
@@ -65,7 +65,7 @@ const ZahlungsAntragUebersicht = () => {
     arrayIsNonEmpty(userDataGeldEinklagen.klagenden);
 
   const maxAntraegeReached =
-    nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
+    nextItemIndex >= MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
   return (
     <ArrayItemListSection
@@ -124,4 +124,4 @@ const ZahlungsAntragUebersicht = () => {
   );
 };
 
-export default ZahlungsAntragUebersicht;
+export default BezifferteZahlungsUndNebenantraegeUebersicht;

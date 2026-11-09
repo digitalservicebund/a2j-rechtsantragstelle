@@ -13,7 +13,7 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "hauptantragWarnung",
     },
     {
-      target: "prozessualeAusfuehrungen",
+      target: "schmerzengeldantraegeUebersicht",
     },
   ],
   hauptantragDaten: [
@@ -32,4 +32,15 @@ export const hauptUndNebenantraegeFlowConfig = {
   hauptantragWarnung: "hauptantragUebersicht",
   nebenantragDaten: "hauptantragUebersicht",
   annahmeverzugDaten: "hauptantragUebersicht",
+  schmerzengeldantraegeUebersicht: [
+    {
+      type: "addArrayItem",
+      target: "schmerzengeldantragDaten",
+    },
+    {
+      target: "prozessualeAusfuehrungen",
+    },
+  ],
+  schmerzengeldantragDaten: "schmerzengeldantraegeUebersicht",
+  schmerzengeldantragWarnung: "schmerzengeldantraegeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

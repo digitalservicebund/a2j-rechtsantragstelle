@@ -1,10 +1,10 @@
-import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
+import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
