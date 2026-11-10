@@ -5,6 +5,7 @@ import {
   beweismittelSchema,
   sachverstaendigengutachtenSchema,
   urkundeSchema,
+  zeugeSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -142,6 +143,56 @@ export const tatsachenvortragPages = {
         sachverstaendigengutachtenSchema.shape.beschreibung,
       "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(sachverstaendigengutachtenSchema.shape.id),
+      ),
+      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  zeugeDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#beweise#anrede": zeugeSchema.shape.anrede,
+      "hauptantrag#absaetze#beweise#titel": zeugeSchema.shape.titel,
+      "hauptantrag#absaetze#beweise#vorname": zeugeSchema.shape.vorname,
+      "hauptantrag#absaetze#beweise#nachname": zeugeSchema.shape.nachname,
+      "hauptantrag#absaetze#beweise#strasse": zeugeSchema.shape.strasse,
+      "hauptantrag#absaetze#beweise#hausnummer": zeugeSchema.shape.hausnummer,
+      "hauptantrag#absaetze#beweise#plz": zeugeSchema.shape.plz,
+      "hauptantrag#absaetze#beweise#ort": zeugeSchema.shape.ort,
+      "hauptantrag#absaetze#beweise#land": zeugeSchema.shape.land,
+      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(zeugeSchema.shape.id),
+      ),
+      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  nebenantragZeugeDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#anrede":
+        zeugeSchema.shape.anrede,
+      "hauptantrag#nebenantraege#absaetze#beweise#titel":
+        zeugeSchema.shape.titel,
+      "hauptantrag#nebenantraege#absaetze#beweise#vorname":
+        zeugeSchema.shape.vorname,
+      "hauptantrag#nebenantraege#absaetze#beweise#nachname":
+        zeugeSchema.shape.nachname,
+      "hauptantrag#nebenantraege#absaetze#beweise#strasse":
+        zeugeSchema.shape.strasse,
+      "hauptantrag#nebenantraege#absaetze#beweise#hausnummer":
+        zeugeSchema.shape.hausnummer,
+      "hauptantrag#nebenantraege#absaetze#beweise#plz": zeugeSchema.shape.plz,
+      "hauptantrag#nebenantraege#absaetze#beweise#ort": zeugeSchema.shape.ort,
+      "hauptantrag#nebenantraege#absaetze#beweise#land": zeugeSchema.shape.land,
+      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(zeugeSchema.shape.id),
       ),
       "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),

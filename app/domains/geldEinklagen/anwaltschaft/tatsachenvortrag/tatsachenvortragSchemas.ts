@@ -20,7 +20,7 @@ export const urkundeSchema = z.object({
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
-const zeugeSchema = z.object({
+export const zeugeSchema = z.object({
   type: z.literal("zeuge"),
   id: z.uuid().optional(),
   ...personFields,

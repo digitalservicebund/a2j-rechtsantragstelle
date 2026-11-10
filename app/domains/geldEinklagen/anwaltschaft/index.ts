@@ -65,6 +65,10 @@ export const geldEinklagenAnwaltschaft = {
       setBeweisIdentity("sachverstaendigengutachten", true),
     "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
       setBeweisIdentity("sachverstaendigengutachten", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge", false),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {
