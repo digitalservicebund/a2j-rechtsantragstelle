@@ -113,7 +113,6 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
               itemIndex={index}
               item={item}
               userData={userDataGeldEinklagen}
-              index={index}
               onDelete={deleteHauptantrag}
               onEdit={onEditZahlungsAntrag(index)}
             />
