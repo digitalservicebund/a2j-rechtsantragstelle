@@ -5,7 +5,7 @@ import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import {
   type Hauptantraege,
-  type Nebenantraege,
+  type Nebenantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   getAbsaetzeBaseUrl,
@@ -14,7 +14,7 @@ import {
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
 
-type Antrag = Hauptantraege | Nebenantraege;
+type Antrag = Hauptantraege | Nebenantrag;
 
 const AntragRow = ({
   antrag,

@@ -22,7 +22,7 @@ const createHauptantrag = (
   absaetze: Hauptantraege["absaetze"],
   label = "1",
 ): Omit<Hauptantraege, "nebenantraege"> & {
-  nebenantrag: Hauptantraege["nebenantraege"];
+  nebenantraege: Hauptantraege["nebenantraege"];
 } => ({
   betragForderung: "100",
   klagende: {},
@@ -30,7 +30,7 @@ const createHauptantrag = (
   zinsbeginn: { day: "", month: "" },
   zinsende: { day: "", month: "" },
   absaetze,
-  nebenantrag: [
+  nebenantraege: [
     {
       type: "nebenantrag",
       nebenantragArt: "mahnkosten",
@@ -78,9 +78,9 @@ describe("Tatsachenvortrag nested paragraphs", () => {
           })),
       ).toEqual(
         userData.hauptantrag.flatMap((hauptantrag, hauptantragIndex) =>
-          hauptantrag.nebenantrag?.flatMap((nebenantrag, nebenantragIndex) =>
+          hauptantrag.nebenantraege?.flatMap((nebenantrag, nebenantragIndex) =>
             nebenantrag.absaetze?.map(({ formulierung }, absatzIndex) => ({
-              arrayPath: ["hauptantrag", "nebenantrag", "absaetze"],
+              arrayPath: ["hauptantrag", "nebenantraege", "absaetze"],
               indexes: [hauptantragIndex, nebenantragIndex, absatzIndex],
               formulierung,
             })),
@@ -96,7 +96,7 @@ describe("Tatsachenvortrag nested paragraphs", () => {
       expect(session.prunedUserData.hauptantrag).toEqual(
         userData.hauptantrag.map((hauptantrag) => ({
           ...(absaetze?.length ? { absaetze } : {}),
-          nebenantrag: hauptantrag.nebenantrag?.map(({ absaetze }) => ({
+          nebenantraege: hauptantrag.nebenantraege?.map(({ absaetze }) => ({
             absaetze,
           })),
         })),
@@ -104,11 +104,11 @@ describe("Tatsachenvortrag nested paragraphs", () => {
     },
   );
 
-  it.each([{ nebenantrag: undefined }, { nebenantrag: [] }])(
-    "does not create phantom Nebenantrag contexts for $nebenantrag",
-    ({ nebenantrag }) => {
+  it.each([{ nebenantraege: undefined }, { nebenantraege: [] }])(
+    "does not create phantom Nebenantrag contexts for $nebenantraege",
+    ({ nebenantraege }) => {
       const userData = {
-        hauptantrag: [{ ...createHauptantrag(undefined), nebenantrag }],
+        hauptantrag: [{ ...createHauptantrag(undefined), nebenantraege }],
         pageData: { arrayIndexes: [] },
       };
       const simulation = runSimulation(userData, flow);

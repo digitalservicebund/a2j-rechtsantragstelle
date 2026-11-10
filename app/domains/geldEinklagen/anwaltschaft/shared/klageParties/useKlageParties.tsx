@@ -45,18 +45,23 @@ export const useKlageParties = ({
   const naturalPersonCount = klageParteien.filter(
     (partei) => partei.type === "natuerliche-person",
   ).length;
-  let naturalPersonIndex = 0;
-  let organizationIndex = naturalPersonCount;
 
   return {
-    klageParteienWithIndex: klageParteien.map((partei, arrayIndex) => ({
-      partei,
-      arrayIndex,
-      displayIndex:
-        partei.type === "natuerliche-person"
-          ? naturalPersonIndex++
-          : organizationIndex++,
-    })),
+    klageParteienWithIndex: klageParteien.map((partei, arrayIndex) => {
+      const precedingNaturalPersons = klageParteien
+        .slice(0, arrayIndex)
+        .filter((p) => p.type === "natuerliche-person").length;
+      const precedingOrganizations = arrayIndex - precedingNaturalPersons;
+
+      return {
+        partei,
+        arrayIndex,
+        displayIndex:
+          partei.type === "natuerliche-person"
+            ? precedingNaturalPersons
+            : naturalPersonCount + precedingOrganizations,
+      };
+    }),
     nextItemIndex,
   };
 };

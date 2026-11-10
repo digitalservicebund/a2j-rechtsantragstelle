@@ -4,9 +4,10 @@ import { ProzessbevollmaechtigteUebersicht } from "./shared/klageParties/prozess
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeNebenUndProzessantraegeUebersicht from "./sonstigeNebenUndProzessantraege/components/SonstigeNebenUndProzessantraegeUebersicht";
-import ZahlungsAntragUebersicht from "./hauptUndNebenantraege/components/ZahlungsAntragUebersicht";
 import { AntraegeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AntraegeUebersicht";
 import { AbsaetzeUebersicht } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/AbsaetzeUebersicht";
+import BezifferteZahlungsUndNebenantraegeUebersicht from "./hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/BezifferteZahlungsUndNebenantraegeUebersicht";
+import UnbezifferteSchmerzensgeldUebersicht from "./hauptUndNebenantraege/unbezifferteSchmerzensgeldUndNebenantraege/UnbezifferteSchmerzensgeldUebersicht";
 
 type GeldEinklagenAnwaltschaftLoaderExtraData = {
   stepId: string;
@@ -26,13 +27,15 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <ProzessbevollmaechtigteUebersicht relationship="beklagte" />;
         case "/sonstige-neben-und-prozessantraege/uebersicht":
           return <SonstigeNebenUndProzessantraegeUebersicht />;
-        case "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht":
-          return <ZahlungsAntragUebersicht />;
+        case "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht":
+          return <BezifferteZahlungsUndNebenantraegeUebersicht />;
+        case "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht":
+          return <UnbezifferteSchmerzensgeldUebersicht />;
         case "/tatsachenvortrag-beweise/uebersicht":
           return <AntraegeUebersicht />;
         case "/tatsachenvortrag-beweise/hauptantrag/#/absaetze":
           return <AbsaetzeUebersicht />;
-        case "/tatsachenvortrag-beweise/hauptantrag/#/nebenantrag/#/absaetze":
+        case "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze":
           return <AbsaetzeUebersicht isNebenantrag={true} />;
       }
     },

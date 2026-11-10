@@ -11,6 +11,7 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacements";
 import { geldEinklagenAnwaltschaftFlowConfig } from "./flowConfig";
 import { geldEinklagenAnwaltschaftPdfFromUserdata } from "./services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
+import { setBeweisIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setBeweisIdentity";
 
 export const geldEinklagenAnwaltschaft = {
   flowType: "formFlow",
@@ -52,6 +53,22 @@ export const geldEinklagenAnwaltschaft = {
         "beklagte",
         "berufsausuebungsgesellschaft",
       ),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten":
+      setBeweisIdentity("augenschein", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten":
+      setBeweisIdentity("augenschein", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge", false),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {

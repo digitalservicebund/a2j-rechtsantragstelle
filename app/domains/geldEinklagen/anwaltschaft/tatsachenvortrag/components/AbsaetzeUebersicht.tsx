@@ -47,7 +47,7 @@ export const AbsaetzeUebersicht = ({
       hauptantragArrayIndex,
       nebenantragArrayIndex,
       absaetzeBaseUrl,
-      absaetzeArrayName: `hauptantrag${isNebenantrag ? "#nebenantrag" : ""}#absaetze`,
+      absaetzeArrayName: `hauptantrag${isNebenantrag ? "#nebenantraege" : ""}#absaetze`,
     }),
     [
       isNebenantrag,

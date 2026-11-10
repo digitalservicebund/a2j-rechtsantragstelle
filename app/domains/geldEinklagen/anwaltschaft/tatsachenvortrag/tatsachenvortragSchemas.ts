@@ -8,33 +8,38 @@ import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 export const MAX_ABSAETZE = 50;
 export const MAX_BEWEISE = 50;
 
-const augenscheinSchema = z.object({
-  beweismittel: z.literal("augenschein"),
+export const augenscheinSchema = z.object({
+  type: z.literal("augenschein"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
-const urkundeSchema = z.object({
-  beweismittel: z.literal("urkunde"),
+export const urkundeSchema = z.object({
+  type: z.literal("urkunde"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
-const zeugeSchema = z.object({
-  beweismittel: z.literal("zeuge"),
+export const zeugeSchema = z.object({
+  type: z.literal("zeuge"),
+  id: z.uuid().optional(),
   ...personFields,
   ...adresseFields,
 });
 
-const sachverstaendigengutachtenSchema = z.object({
-  beweismittel: z.literal("sachverstaendigengutachten"),
+export const sachverstaendigengutachtenSchema = z.object({
+  type: z.literal("sachverstaendigengutachten"),
+  id: z.uuid().optional(),
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
 const parteivernehmungSchema = z.object({
-  beweismittel: z.literal("parteivernehmung"),
+  type: z.literal("parteivernehmung"),
+  id: z.uuid().optional(),
   personen: z.array(z.any()), // Will be displayed as checkboxes, but will hold IDs of referenced parties.
 });
 
-const beweisSchema = z.discriminatedUnion("beweismittel", [
+const beweisSchema = z.discriminatedUnion("type", [
   augenscheinSchema,
   urkundeSchema,
   zeugeSchema,
@@ -44,9 +49,11 @@ const beweisSchema = z.discriminatedUnion("beweismittel", [
 
 const beweiseArraySchema = z.array(beweisSchema);
 
-export type BeweisMittel = z.infer<
-  typeof beweiseArraySchema
->[number]["beweismittel"];
+export const beweismittelSchema = z.object({
+  type: z.enum(beweisSchema.options.map((option) => option.shape.type.value)),
+});
+
+export type BeweisType = z.infer<typeof beweismittelSchema>["type"];
 
 export const absaetzeArraySchema = z
   .array(
@@ -60,5 +67,7 @@ export const absaetzeArraySchema = z
 export type BeweiseArray = z.infer<
   typeof absaetzeArraySchema
 >[number]["beweise"];
+
+export type Beweis = NonNullable<BeweiseArray>[number];
 
 export type Absatz = z.infer<typeof absaetzeArraySchema>[number];

@@ -25,7 +25,7 @@ describe("SonstigeNebenUndProzessantraege deletion", () => {
         />,
       );
       await user.click(
-        screen.getByRole("button", { name: "Antrag/Ausführung löschen?" }),
+        screen.getByRole("button", { name: "Antrag/Ausführung löschen" }),
       );
       const dialog = screen.getByRole("dialog", {
         name: "Antrag/Ausführung löschen?",

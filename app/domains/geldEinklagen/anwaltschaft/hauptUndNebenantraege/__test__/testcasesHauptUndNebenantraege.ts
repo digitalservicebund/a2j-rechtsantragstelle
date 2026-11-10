@@ -52,16 +52,17 @@ const testcaseData = {
     },
   ],
 } satisfies GeldEinklagenAnwaltschaftUserData;
+
 export const hauptUndNebenantraegeTestCases = {
   withHauptantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
       addArrayItemEvent: "add-hauptantrag",
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag/0/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/0/daten",
       userInput: {
         "hauptantrag#internesSchlagwortFordureung": "Hauptforderung",
         "hauptantrag#betragForderung": "1000",
@@ -81,39 +82,39 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 
   withoutHauptantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/warnung",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung",
     },
   ],
 
   withNebenantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/0/nebenantrag/0/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/nebenantrag/0/daten",
       userInput: {
         ...testcaseData,
-        "hauptantrag#nebenantrag#type": "nebenantrag",
-        "hauptantrag#nebenantrag#nebenantragArt":
+        "hauptantrag#nebenantraege#type": "nebenantrag",
+        "hauptantrag#nebenantraege#nebenantragArt":
           "vorgerichtlicheAnwaltskosten",
-        "hauptantrag#nebenantrag#nebenantragBetrag": "100",
-        "hauptantrag#nebenantrag#nebenantragZinssatzInProzent": 5,
-        "hauptantrag#nebenantrag#nebenantragZinsmethode": "",
-        "hauptantrag#nebenantrag#nebenantragZinsbeginn": {
+        "hauptantrag#nebenantraege#nebenantragBetrag": "100",
+        "hauptantrag#nebenantraege#nebenantragZinssatzInProzent": 5,
+        "hauptantrag#nebenantraege#nebenantragZinsmethode": "",
+        "hauptantrag#nebenantraege#nebenantragZinsbeginn": {
           day: "01",
           month: "02",
           year: "2003",
         },
-        "hauptantrag#nebenantrag#nebenantragZinsende": {
+        "hauptantrag#nebenantraege#nebenantragZinsende": {
           day: "02",
           month: "03",
           year: "2004",
@@ -122,26 +123,26 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 
   withAnnahmeverzug: [
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/0/annahmeverzug/1/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/annahmeverzug/1/daten",
       userInput: {
         ...testcaseData,
-        "hauptantrag#nebenantrag": [
+        "hauptantrag#nebenantraege": [
           {
-            type: "nebenantrag",
+            type: "nebenantraege",
             nebenantragArt: "vorgerichtlicheAnwaltskosten",
             nebenantragBetrag: "100",
           },
         ],
-        "hauptantrag#nebenantrag#type": "annahmeverzug",
-        "hauptantrag#nebenantrag#annahmeverzugsFeststellung": "on",
-        "hauptantrag#nebenantrag#annahmeverzugDatum": {
+        "hauptantrag#nebenantraege#type": "annahmeverzug",
+        "hauptantrag#nebenantraege#annahmeverzugsFeststellung": "on",
+        "hauptantrag#nebenantraege#annahmeverzugDatum": {
           day: "01",
           month: "02",
           year: "2003",
@@ -150,7 +151,7 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
 } satisfies FlowTestCases<GeldEinklagenAnwaltschaftUserData>;

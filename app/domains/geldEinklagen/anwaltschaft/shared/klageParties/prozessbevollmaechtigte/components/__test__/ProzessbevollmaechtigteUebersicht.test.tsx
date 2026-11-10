@@ -140,6 +140,11 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         `/geld-einklagen/anwaltschaft/${relationship}-partei/prozessbevollmaechtigte`,
       );
       expect(revalidate).toHaveBeenCalledOnce();
+      await waitFor(() => {
+        expect(
+          document.getElementById(`${relationship}-prozessbevollmaechtigte-1`),
+        ).toHaveFocus();
+      });
     },
   );
 

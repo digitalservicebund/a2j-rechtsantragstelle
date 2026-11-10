@@ -57,7 +57,7 @@ export const beklagteParteiTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withBeklagteBevollmaechtigteGesellschaft: [
@@ -119,7 +119,7 @@ export const beklagteParteiTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withNaturalPerson: [
@@ -152,7 +152,7 @@ export const beklagteParteiTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/uebersicht",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
   withOrganization: [

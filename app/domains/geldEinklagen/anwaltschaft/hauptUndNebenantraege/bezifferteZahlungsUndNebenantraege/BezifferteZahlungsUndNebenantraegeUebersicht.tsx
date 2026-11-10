@@ -1,6 +1,5 @@
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsantrag } from "./BezifferterZahlungsantrag";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
@@ -8,12 +7,16 @@ import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayIt
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { useEffect } from "react";
 import React from "react";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/allgemeine-zahlungs-und-nebenantraege/hauptantrag";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
 
-const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
+const BASE_URL_WARNUNG =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung";
+
+const MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
 const focusStorageKey = "focus-zahlungsantrag";
 
@@ -21,7 +24,7 @@ const onEditZahlungsAntrag = (index: number) => () => {
   sessionStorage.setItem(focusStorageKey, String(index));
 };
 
-const ZahlungsAntragUebersicht = () => {
+const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
   useEffect(() => {
     const focusTimer = setTimeout(() => {
       const itemIndex = sessionStorage.getItem(focusStorageKey);
@@ -57,33 +60,39 @@ const ZahlungsAntragUebersicht = () => {
     ? (userDataGeldEinklagen.hauptantrag?.length ?? 0)
     : 0;
 
-  const shouldDisableAddButton =
-    nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
+  const hasParteien =
+    arrayIsNonEmpty(userDataGeldEinklagen.beklagten) &&
+    arrayIsNonEmpty(userDataGeldEinklagen.klagenden);
+
+  const maxAntraegeReached =
+    nextItemIndex >= MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
 
   return (
     <ArrayItemListSection
       headingId="zahlungsantrag-heading"
       notice={
-        shouldDisableAddButton ? (
+        maxAntraegeReached ? (
           <InlineNotice
             title={
               translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeTitle.de
+                .zahlungsAntragInlineNoticeMaxReachedTitle.de
             }
             tagName="p"
             look="info"
             content={
               translations.geldEinklagenAnwaltschaft
-                .zahlungsAntragInlineNoticeContent.de
+                .zahlungsAntragInlineNoticeMaxReachedContent.de
             }
           />
         ) : undefined
       }
       addButton={{
-        href: `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
+        href: !hasParteien
+          ? `${BASE_URL_WARNUNG}`
+          : `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
         buttonText:
           translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de,
-        disabled: shouldDisableAddButton,
+        disabled: maxAntraegeReached,
         dataTestId: "add-zahlungsantrag",
       }}
     >
@@ -115,4 +124,4 @@ const ZahlungsAntragUebersicht = () => {
   );
 };
 
-export default ZahlungsAntragUebersicht;
+export default BezifferteZahlungsUndNebenantraegeUebersicht;

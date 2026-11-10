@@ -14,6 +14,7 @@ type SelectProps = {
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   size?: Size;
+  placeholder?: string;
 };
 
 const Select = ({
@@ -23,6 +24,7 @@ const Select = ({
   suffix,
   errorMessages,
   size = "large",
+  placeholder,
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
@@ -45,7 +47,7 @@ const Select = ({
         )}
       >
         <select
-          className="kern-form-input__select bg-white!"
+          className="kern-form-input__select bg-kern-white!"
           {...field.getInputProps({ id: name })}
           aria-invalid={field.error() !== null}
           defaultValue={options.find((option) => option.preSelected)?.value}
@@ -56,7 +58,9 @@ const Select = ({
           }
           data-testid="select"
         >
-          <option value="">{translations.select.placeholder.de}</option>
+          <option value="">
+            {placeholder ?? translations.select.placeholder.de}
+          </option>
           {options.map((option) => {
             return (
               <option value={option.value} key={option.value}>

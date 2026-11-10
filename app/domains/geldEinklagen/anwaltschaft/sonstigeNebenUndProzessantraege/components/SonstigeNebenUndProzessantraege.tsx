@@ -44,7 +44,11 @@ const SonstigeNebenUndProzessantraege = ({
     <ArrayItemCard
       id={`sonstigeNebenUndProzessantraege-${itemIndex}`}
       badge={item.internesSchlagwort}
-      content={<span className="max-w-[632px]">{item.antrag}</span>}
+      content={
+        <span className="max-w-[632px] text-ellipsis overflow-hidden whitespace-nowrap">
+          {item.antrag}
+        </span>
+      }
       editButton={{
         id: `edit-sonstigeNebenUndProzessantraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${itemIndex + 1} ${translations.arraySummary.arrayEditButtonLabel.de}`,
@@ -62,10 +66,10 @@ const SonstigeNebenUndProzessantraege = ({
             translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
               .de
           }
-          title={
+          title={`${
             translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
               .de
-          }
+          }${"?"}`}
           onDelete={() => onDelete(itemIndex)}
           description={
             <div className="flex flex-col gap-kern-space-small">

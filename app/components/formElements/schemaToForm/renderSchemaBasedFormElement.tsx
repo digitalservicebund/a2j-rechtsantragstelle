@@ -33,10 +33,10 @@ import {
 } from "~/domains/geldEinklagen/formular/klage-erstellen/begruendung/components/reuseBeweise";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
-import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/KlageParteiCheckboxes";
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/AnnahmeverzugCheckbox";
+import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/AnnahmeverzugCheckbox";
+import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,

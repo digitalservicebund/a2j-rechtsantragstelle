@@ -62,7 +62,7 @@ const nebenantraegeArraySchema = z.array(
   z.discriminatedUnion("type", [nebenantragSchema, annahmeverzugSchema]),
 );
 
-export type Nebenantraege = z.infer<typeof nebenantraegeArraySchema>[number];
+export type Nebenantrag = z.infer<typeof nebenantraegeArraySchema>[number];
 
 const selectedBeklagteSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
@@ -99,3 +99,21 @@ export const hauptantraegeArraySchema = z.array(
 );
 
 export type Hauptantraege = z.infer<typeof hauptantraegeArraySchema>[number];
+
+export const schmerzengeldantragSchema = z.array(
+  z.object({
+    id: z.string().check(z.uuid()).optional(),
+    internesSchlagwortFordureung: z.string().max(50).optional(),
+    mindestBetrag: buildMoneyValidationSchema(),
+    klagende: selectedKlagendeSchema,
+    beklagte: selectedBeklagteSchema,
+    zinsmethode: optionalZinsmethodeSchema,
+    zinssatzInProzent: optionalIntegerSchema,
+    zinsbeginn: createDateInputOptionalSchema(),
+    zinsende: createDateInputOptionalSchema(),
+  }),
+);
+
+export type Schmerzengeldantrag = z.infer<
+  typeof schmerzengeldantragSchema
+>[number];
