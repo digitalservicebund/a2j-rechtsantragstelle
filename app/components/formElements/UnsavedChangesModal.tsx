@@ -84,7 +84,7 @@ function isAnyVisibleFieldDirty(form: FormApi<any>): boolean {
       form.dirty(name) ||
       // Workaround for the autosuggestion input
       (isAutoSuggestionInput &&
-        form.getInputProps(name).defaultValue !== element.value)
+        (form.getInputProps(name).defaultValue ?? "") !== element.value)
     ) {
       return true;
     }
