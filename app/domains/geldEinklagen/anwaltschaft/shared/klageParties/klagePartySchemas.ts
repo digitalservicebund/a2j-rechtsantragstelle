@@ -22,7 +22,7 @@ export const adresseFields = {
 };
 
 export const personFields = {
-  anrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
+  anrede: schemaOrEmptyString(z.enum(["frau", "herr", "none"])),
   titel: stringOptionalSchema,
   vorname: stringRequiredSchema,
   nachname: stringRequiredSchema,

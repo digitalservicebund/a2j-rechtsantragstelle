@@ -1,13 +1,13 @@
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { NebenantragItem } from "./NebenantragItem";
-import { getBezifferterAntragText } from "./nebenantragContent";
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import { BezifferterZahlungsUndNebenantragItem } from "./BezifferterZahlungsUndNebenantragItem";
+import { getBezifferterAntragText } from "../hauptUndNebenantraegeContent";
 
-const BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE =
+const BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
 
 type BezifferterZahlungsantragProps = {
@@ -30,7 +30,7 @@ export const BezifferterZahlungsantrag = ({
 }: BezifferterZahlungsantragProps) => {
   return (
     <ArrayItemCard
-      id={`zahlungsAntrag-${itemIndex}`}
+      id={`bezifferterZahlungsAntrag-${itemIndex}`}
       content={
         <div className="flex flex-col gap-kern-space-large min-w-0 flex-1">
           <span className="kern-body">
@@ -43,7 +43,7 @@ export const BezifferterZahlungsantrag = ({
       }
       badge={item.internesSchlagwortFordureung}
       editButton={{
-        href: `${BASE_URL_ALLGEMEINE_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
+        href: `${BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
         ariaLabel: `Zahlungsantrag ${itemIndex + 1} bearbeiten`,
         onClick: () => onEdit(itemIndex),
       }}
@@ -87,7 +87,10 @@ export const BezifferterZahlungsantrag = ({
         />
       }
     >
-      <NebenantragItem parentArrayItemIndex={itemIndex} userData={userData} />
+      <BezifferterZahlungsUndNebenantragItem
+        parentArrayItemIndex={itemIndex}
+        userData={userData}
+      />
     </ArrayItemCard>
   );
 };

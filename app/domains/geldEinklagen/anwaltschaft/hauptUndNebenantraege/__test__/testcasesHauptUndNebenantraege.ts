@@ -52,6 +52,7 @@ const testcaseData = {
     },
   ],
 } satisfies GeldEinklagenAnwaltschaftUserData;
+
 export const hauptUndNebenantraegeTestCases = {
   withHauptantrag: [
     {
