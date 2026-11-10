@@ -80,12 +80,7 @@ function isAnyVisibleFieldDirty(form: FormApi<any>): boolean {
     }
     checkedNames.add(name);
 
-    if (
-      form.dirty(name) ||
-      // Workaround for the autosuggestion input
-      (isAutoSuggestionInput &&
-        (form.getInputProps(name).defaultValue ?? "") !== element.value)
-    ) {
+    if (form.getInputProps(name).defaultValue ?? "" !== element.value) {
       return true;
     }
   }
@@ -93,10 +88,10 @@ function isAnyVisibleFieldDirty(form: FormApi<any>): boolean {
   return false;
 }
 
-export const UnsavedChangesModal: React.FC<UnsavedChangesModalProps> = ({
+export const UnsavedChangesModal = ({
   form,
   isSubmitting = false,
-}) => {
+}: UnsavedChangesModalProps) => {
   const [pendingExternalUrl, setPendingExternalUrl] = useState<string | null>(
     null,
   );
