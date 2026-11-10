@@ -5,6 +5,7 @@
 - 2024-10-24: Drafted
 - 2024-10-31: Merged
 - 2025-04-04: Edited (Added chronological status)
+- 2026-11-05: Partially superseded by [ADR 0034](./0034-new-flow-engine.md) (pruning is still done, but by the flow engine using the page schemas instead of XState and Strapi)
 
 ## Context
 

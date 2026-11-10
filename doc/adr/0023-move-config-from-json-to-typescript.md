@@ -4,6 +4,7 @@
 
 - 2025-05-19: Drafted & Accepted
 - 2025-08-25: Edited (Added chronological status)
+- 2026-11-05: Superseded by [ADR 0034](./0034-new-flow-engine.md) (flows are now defined with `compileFlow`, XState was removed)
 
 ## Context
 
