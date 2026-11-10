@@ -41,6 +41,15 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "prozessualeAusfuehrungen",
     },
   ],
-  schmerzengeldantragDaten: "schmerzengeldantraegeUebersicht",
+  schmerzengeldantragDaten: [
+    {
+      type: "addArrayItem",
+      target: "schmerzengeldNebenantragDaten",
+    },
+    {
+      target: "schmerzengeldantraegeUebersicht",
+    },
+  ],
+  schmerzengeldNebenantragDaten: "schmerzengeldantraegeUebersicht",
   schmerzengeldantragWarnung: "schmerzengeldantraegeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

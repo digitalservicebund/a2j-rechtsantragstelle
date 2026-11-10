@@ -100,6 +100,27 @@ export const hauptantraegeArraySchema = z.array(
 
 export type Hauptantraege = z.infer<typeof hauptantraegeArraySchema>[number];
 
+export const schmerzengeldNebenantragSchema = z.object({
+  schmerzengeldNebenantragArt: z.enum([
+    "vorgerichtlicheAnwaltskosten",
+    "mahnkosten",
+    "inkassokosten",
+    "adressermittlungskosten",
+    "ruecklastschriftgebühren",
+    "pauschale",
+  ]),
+  schmerzengeldNebenantragBetrag: buildMoneyValidationSchema(),
+  schmerzengeldNebenantragZinssatzInProzent: optionalIntegerSchema,
+  schmerzengeldNebenantragZinsmethode: optionalZinsmethodeSchema,
+  schmerzengeldNebenantragZinsbeginn:
+    createDateInputOptionalSchema().optional(),
+  schmerzengeldNebenantragZinsende: createDateInputOptionalSchema().optional(),
+});
+
+export type SchmerzengeldNebenantrag = z.infer<
+  typeof schmerzengeldNebenantragSchema
+>;
+
 export const schmerzengeldantragSchema = z.array(
   z.object({
     id: z.string().check(z.uuid()).optional(),
@@ -111,9 +132,6 @@ export const schmerzengeldantragSchema = z.array(
     zinssatzInProzent: optionalIntegerSchema,
     zinsbeginn: createDateInputOptionalSchema(),
     zinsende: createDateInputOptionalSchema(),
+    nebenantraege: z.array(schmerzengeldNebenantragSchema).optional(),
   }),
 );
-
-export type Schmerzengeldantrag = z.infer<
-  typeof schmerzengeldantragSchema
->[number];

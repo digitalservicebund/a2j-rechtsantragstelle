@@ -15,7 +15,7 @@ const BASE_URL_SCHMERZENGELD_ANTRAG =
 const BASE_URL_WARNUNG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung";
 
-const MAX_SCHMERZENGELD_ANTRAG_ITEMS = 50;
+const MAX_SCHMERZENGELD_ANTRAG_ITEMS = 30;
 
 const focusStorageKey = "focus-schmerzengeldantrag";
 

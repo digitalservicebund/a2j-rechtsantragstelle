@@ -13,6 +13,7 @@ type InterestTextParams = {
   method?: string | null;
   start?: { day?: string; month?: string; year?: string };
   end?: { day?: string; month?: string; year?: string };
+  sinceRechtshaengigkeit?: boolean;
 };
 
 export const getInterestText = ({
@@ -20,6 +21,7 @@ export const getInterestText = ({
   method,
   start,
   end,
+  sinceRechtshaengigkeit = false,
 }: InterestTextParams): string => {
   if (rate == null || !method) return "";
 
@@ -35,13 +37,19 @@ export const getInterestText = ({
   const description = methods[method];
   if (!description) return "";
 
-  const rateText = `${rate} ${description}`;
+  const rateText = `${rate} ${
+    sinceRechtshaengigkeit ? description.replace("p. a.", "p.a.") : description
+  }`;
   const startDate = formatSplitDate(start);
   const endDate = formatSplitDate(end);
 
   let period = "";
 
-  if (startDate && endDate) {
+  if (sinceRechtshaengigkeit) {
+    period = ` seit ${startDate ? `dem ${startDate}` : "Rechtshängigkeit"}${
+      endDate ? ` bis zum ${endDate}` : ""
+    }`;
+  } else if (startDate && endDate) {
     period = ` vom ${startDate} bis zum ${endDate}`;
   } else if (startDate) {
     period = ` seit dem ${startDate}`;

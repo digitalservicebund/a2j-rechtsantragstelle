@@ -3,13 +3,12 @@ import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
 import {
   getAlphabeticalEnumeration,
-  getUnbezifferterSchmerzensgeldantragText,
+  getNebenantragItemText,
 } from "../hauptUndNebenantraegeContent";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import type { Schmerzengeldantrag } from "../hauptUndNebenantraegeSchemas";
 
 const BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege";
@@ -19,13 +18,13 @@ type UnbezifferteSchmerzensgeldNebenantragItemProps = {
   readonly parentArrayItemIndex: number;
 };
 
-// const MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS = 6;
+const MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS = 6;
 
 export const UnbezifferteSchmerzensgeldNebenantragItem = ({
   userData,
   parentArrayItemIndex,
 }: UnbezifferteSchmerzensgeldNebenantragItemProps) => {
-  const additionalFocusStorageKey = `focus-nebenantrag-${parentArrayItemIndex}`;
+  const additionalFocusStorageKey = `focus-schmerzensgeld-nebenantrag-${parentArrayItemIndex}`;
 
   useEffect(() => {
     const focusTimer = setTimeout(() => {
@@ -34,7 +33,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
       if (itemIndex === null) return;
 
       const element = document.getElementById(
-        `nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
+        `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
       );
 
       if (element) {
@@ -50,27 +49,21 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
     sessionStorage.setItem(additionalFocusStorageKey, String(index));
   };
 
-  const items: Schmerzengeldantrag[] = (userData.schmerzengeldantrag ?? []).map(
-    (item): Schmerzengeldantrag => {
-      return {
-        ...item,
-      };
-    },
-  );
+  const items =
+    userData.schmerzengeldantrag?.[parentArrayItemIndex]?.nebenantraege ?? [];
 
   const deleteUnbezifferteSchmerzensgeldNebenantrag = useDeleteArrayItem(
-    "hauptantrag#nebenantraege",
-    `/geld-einklagen/anwaltschaft/hauptantrag/${parentArrayItemIndex}`,
+    "schmerzengeldantrag#nebenantraege",
+    `/geld-einklagen/anwaltschaft/schmerzengeldantrag/${parentArrayItemIndex}`,
     (itemIndex) => {
       setTimeout(() => {
         const element =
           document.getElementById(
-            `schmerzensgeldantrag-${parentArrayItemIndex}-${itemIndex}`,
+            `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${itemIndex}`,
           ) ??
           document.getElementById(
-            `schmerzensgeldantrag-heading-${parentArrayItemIndex}`,
+            `schmerzensgeld-nebenantrag-heading-${parentArrayItemIndex}`,
           );
-
         element?.focus();
       }, 100);
     },
@@ -78,13 +71,13 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
 
   return (
     <NestedArrayItemList
-      heading={translations.geldEinklagenAnwaltschaft.schmerzengeldHeadline.de}
-      headingId={`schmerzensgeldantrag-heading-${parentArrayItemIndex}`}
+      heading={translations.geldEinklagenAnwaltschaft.nebenantrag.de}
+      headingId={`schmerzensgeld-nebenantrag-heading-${parentArrayItemIndex}`}
       headingSuffix=" - Optional"
       items={items.map((entry, index) => {
         return {
-          key: `schmerzensgeldantrag-${parentArrayItemIndex}-${index}`,
-          id: `schmerzensgeldantrag-${parentArrayItemIndex}-${index}`,
+          key: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
+          id: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
             <>
               <span className="kern-body font-bold!">
@@ -92,21 +85,22 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
               </span>
 
               <span className="kern-body max-w-[528px]">
-                {getUnbezifferterSchmerzensgeldantragText({
+                {getNebenantragItemText({
+                  item: entry,
                   userData,
-                  schmerzengeldantragIndex: index,
+                  schmerzengeldantragIndex: parentArrayItemIndex,
                 })}
               </span>
             </>
           ),
           editButton: {
-            href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/${index}/daten`,
-            ariaLabel: `Schmerzensgeldantrag ${index + 1} bearbeiten`,
+            href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${index}/daten`,
+            ariaLabel: `Nebenantrag ${index + 1} bearbeiten`,
             onClick: onEditUnbezifferteSchmerzensgeldNebenantrag(index),
           },
           deleteButton: {
             onDelete: () => deleteUnbezifferteSchmerzensgeldNebenantrag(index),
-            title: `${entry.zinsmethode ? entry.zinsmethode : ""}, ${entry.mindestBetrag ? entry.mindestBetrag : ""}`,
+            title: `${entry.schmerzengeldNebenantragZinsmethode ? entry.schmerzengeldNebenantragZinsmethode : ""}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag : ""}`,
             ariaLabel: `Schmerzensgeldantrag ${index + 1} löschen`,
             description: (
               <>
@@ -131,7 +125,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
                 <span className="flex flex-row items-center!">
                   <Icon name="money-range" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
-                    {`${entry.zinsmethode ? entry.zinsmethode : ""}, ${entry.mindestBetrag ? entry.mindestBetrag : ""}`}
+                    {`${entry.schmerzengeldNebenantragZinsmethode ? entry.schmerzengeldNebenantragZinsmethode : ""}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag : ""}`}
                   </p>
                 </span>
               </>
@@ -139,12 +133,17 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
           },
         };
       })}
-      addLinks={[
-        {
-          href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
-          label: translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
-        },
-      ]}
+      addLinks={
+        items.length < MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS
+          ? [
+              {
+                href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
+                label:
+                  translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
+              },
+            ]
+          : undefined
+      }
     />
   );
 };

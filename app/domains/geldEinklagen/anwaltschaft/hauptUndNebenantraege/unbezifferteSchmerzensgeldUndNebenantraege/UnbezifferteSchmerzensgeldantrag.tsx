@@ -49,7 +49,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
       deleteButton={
         <DeleteButton
           label={`Schmerzensgeldantrag ${itemIndex + 1} und Nebenanträge löschen`}
-          title={`Schmerzensgeldantrag ${itemIndex + 1} löschen`}
+          title={`Schmerzensgeldantrag ${itemIndex + 1} löschen?`}
           description={
             <>
               <InlineNotice
@@ -73,11 +73,11 @@ export const UnbezifferteSchmerzensgeldantrag = ({
               <span className="flex flex-row items-center!">
                 <Icon name="money-range" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
-                  {`Schmerzensgeldantrag ${itemIndex + 1}`}{" "}
+                  {`Schmerzensgeldantrag ${itemIndex + 1}`}
                   {item.internesSchlagwortFordureung
-                    ? `${item.internesSchlagwortFordureung}`
+                    ? `${item.internesSchlagwortFordureung},`
                     : ""}
-                  , {item.mindestBetrag ? `${item.mindestBetrag}` : ""}
+                  {item.mindestBetrag ? `${item.mindestBetrag} Euro` : ""}
                 </p>
               </span>
             </>
