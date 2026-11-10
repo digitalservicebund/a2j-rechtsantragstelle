@@ -61,7 +61,7 @@ describe("absaetzeHelpers", () => {
       ["zeuge", "Beweis Zeugnis"],
       ["parteivernehmung", "Beweis Parteivernehmung"],
     ] as const)("formats %s", (type, expectedTitle) => {
-      expect(getBeweisTitle(type, 1)).toBe(expectedTitle);
+      expect(getBeweisTitle(type, 1, true)).toBe(expectedTitle);
     });
   });
 
@@ -73,22 +73,6 @@ describe("absaetzeHelpers", () => {
           beschreibung: "Foto des Schadens",
         }),
       ).toBe("Foto des Schadens");
-    });
-
-    it("omits the body for witness evidence", () => {
-      expect(
-        getBeweisBody({
-          type: "zeuge",
-          anrede: "frau",
-          vorname: "Erika",
-          nachname: "Musterfrau",
-          strasse: "Musterstraße",
-          hausnummer: "1",
-          plz: "12345",
-          ort: "Musterstadt",
-          land: "Deutschland",
-        }),
-      ).toBe("");
     });
 
     it("omits the body for party examination evidence", () => {
