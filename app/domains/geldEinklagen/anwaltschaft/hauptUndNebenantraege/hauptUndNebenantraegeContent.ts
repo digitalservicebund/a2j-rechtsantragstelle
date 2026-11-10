@@ -1,7 +1,7 @@
 import { createElement, Fragment, type ReactNode } from "react";
-import { formatSplitDate, getInterestText } from "../utils";
-import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import type { GeldEinklagenAnwaltschaftUserData } from "../userData";
+import type { Nebenantrag } from "./hauptUndNebenantraegeSchemas";
+import { getInterestText, formatSplitDate } from "./utils";
 
 const formatPartyNumbers = (numbers: number[]): string => {
   if (numbers.length === 0) return "";
@@ -155,6 +155,53 @@ export const getBezifferterAntragText = ({
 }): ReactNode => {
   const hauptantrag = userData.hauptantrag?.[hauptantragIndex];
 
+  return getAntragText({
+    antrag: hauptantrag,
+    userData,
+    amountText: createElement(
+      Fragment,
+      null,
+      "einen Betrag in Höhe von ",
+      createElement("strong", null, `${hauptantrag?.betragForderung} Euro`),
+    ),
+  });
+};
+
+export const getUnbezifferterSchmerzensgeldantragText = ({
+  userData,
+  schmerzengeldantragIndex,
+}: {
+  userData: GeldEinklagenAnwaltschaftUserData;
+  schmerzengeldantragIndex: number;
+}): ReactNode => {
+  const antrag = userData.schmerzengeldantrag?.[schmerzengeldantragIndex];
+
+  return getAntragText({
+    antrag,
+    userData,
+    amountText: createElement(
+      Fragment,
+      null,
+      "ein angemessenes Schmerzensgeld in Höhe von mindestens ",
+      createElement("strong", null, `${antrag?.mindestBetrag} Euro`),
+    ),
+  });
+};
+
+const getAntragText = ({
+  antrag: hauptantrag,
+  userData,
+  amountText,
+}: {
+  antrag:
+    | NonNullable<GeldEinklagenAnwaltschaftUserData["hauptantrag"]>[number]
+    | NonNullable<
+        GeldEinklagenAnwaltschaftUserData["schmerzengeldantrag"]
+      >[number]
+    | undefined;
+  userData: GeldEinklagenAnwaltschaftUserData;
+  amountText: ReactNode;
+}): ReactNode => {
   if (!hauptantrag) return "";
 
   const beklagteNumbers = getSelectedPartyNumbers(
@@ -183,9 +230,13 @@ export const getBezifferterAntragText = ({
       })
     : "";
 
-  const hasZugUndZug = hauptantrag.zugUndZug === "on";
+  const hasZugUndZug =
+    "zugUndZug" in hauptantrag && hauptantrag.zugUndZug === "on";
 
-  const gegenleistung = hauptantrag.beschreibungDerGegenleistung;
+  const gegenleistung =
+    "beschreibungDerGegenleistung" in hauptantrag
+      ? hauptantrag.beschreibungDerGegenleistung
+      : undefined;
 
   return createElement(
     Fragment,
@@ -212,8 +263,7 @@ export const getBezifferterAntragText = ({
     " ",
     klagendeNumbers.length > 1 ? "als Gesamtgläubiger " : "",
     " ",
-    "einen Betrag in Höhe von ",
-    createElement("strong", null, `${hauptantrag.betragForderung} Euro`),
+    amountText,
     hasInterest
       ? [
           " nebst ",

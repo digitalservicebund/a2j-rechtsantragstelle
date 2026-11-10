@@ -1,31 +1,32 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
+
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { InlineNotice } from "~/components/content/InlineNotice";
+import { Icon } from "~/components/common/Icon";
+import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 import {
   getAlphabeticalEnumeration,
   getNebenantragItemText,
   nebenantragArtLabels,
-} from "./nebenantragContent";
-import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
-import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
+} from "../hauptUndNebenantraegeContent";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege";
 
-type NebenantragItemProps = {
+type BezifferterZahlungsUndNebenantragItemProps = {
   readonly userData: GeldEinklagenAnwaltschaftUserData;
   readonly parentArrayItemIndex: number;
 };
 
 const MAX_NEBENANTRAG_ITEMS = 6;
 
-export const NebenantragItem = ({
+export const BezifferterZahlungsUndNebenantragItem = ({
   userData,
   parentArrayItemIndex,
-}: NebenantragItemProps) => {
+}: BezifferterZahlungsUndNebenantragItemProps) => {
   const additionalFocusStorageKey = `focus-nebenantrag-${parentArrayItemIndex}`;
 
   useEffect(() => {

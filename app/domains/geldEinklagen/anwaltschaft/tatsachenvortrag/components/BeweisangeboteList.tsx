@@ -112,7 +112,7 @@ const BeweisDeletionDescription = ({
             {getBeweisTitle(beweis.type, displayIndex)}
           </p>
           <p>
-            {beweisBody.length > 100
+            {typeof beweisBody === "string" && beweisBody.length > 100
               ? beweisBody.substring(0, 100) + "..."
               : beweisBody}
           </p>
@@ -174,9 +174,9 @@ export const BeweisangeboteList = ({
                   />
                   <div className="flex flex-col">
                     <span className="kern-body--bold">
-                      {getBeweisTitle(beweis.type, displayIndex)}
+                      {getBeweisTitle(beweis.type, displayIndex, true)}
                     </span>
-                    <span>{getBeweisBody(beweis)}</span>
+                    <span>{getBeweisBody(beweis, true)}</span>
                   </div>
                 </div>
               ),

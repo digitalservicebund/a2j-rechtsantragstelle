@@ -3,6 +3,7 @@ import {
   annahmeverzugSchema,
   hauptantraegeArraySchema,
   nebenantragSchema,
+  schmerzengeldantragSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -81,5 +82,45 @@ export const hauptUndNebenantraegePages = {
         schemaOrEmptyStringOptional(z.string()),
       ),
     },
+  },
+  schmerzengeldantraegeUebersicht: {
+    stepId:
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+    arraySummary: {
+      name: "schmerzengeldantrag",
+      schema: schmerzengeldantragSchema,
+      isArrayRelevant: () => true,
+    },
+  },
+  schmerzengeldantragDaten: {
+    stepId:
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "schmerzengeldantrag#internesSchlagwortFordureung":
+        schmerzengeldantragSchema.element.shape.internesSchlagwortFordureung,
+      "schmerzengeldantrag#mindestBetrag":
+        schmerzengeldantragSchema.element.shape.mindestBetrag,
+      "schmerzengeldantrag#beklagte":
+        schmerzengeldantragSchema.element.shape.beklagte,
+      "schmerzengeldantrag#klagende":
+        schmerzengeldantragSchema.element.shape.klagende,
+      "schmerzengeldantrag#zinsmethode":
+        schmerzengeldantragSchema.element.shape.zinsmethode,
+      "schmerzengeldantrag#zinssatzInProzent":
+        schmerzengeldantragSchema.element.shape.zinssatzInProzent,
+      "schmerzengeldantrag#zinsbeginn":
+        schmerzengeldantragSchema.element.shape.zinsbeginn,
+      "schmerzengeldantrag#zinsende":
+        schmerzengeldantragSchema.element.shape.zinsende,
+      "schmerzengeldantrag#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(z.string()),
+      ),
+    },
+  },
+  schmerzengeldantragWarnung: {
+    stepId:
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung",
+    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PagesConfig;

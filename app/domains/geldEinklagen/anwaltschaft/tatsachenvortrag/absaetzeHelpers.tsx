@@ -1,10 +1,10 @@
-import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/components/nebenantragContent";
 import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
+import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
@@ -29,10 +29,16 @@ export const getNebenantragTitle = (
   return `${title} ${displayIndex} (${parentheticalInfo})`;
 };
 
-export const getBeweisTitle = (type: BeweisType, index: number) => {
+export const getBeweisTitle = (
+  type: BeweisType,
+  index: number,
+  isOverviewPage: boolean = false,
+): string | undefined => {
   switch (type) {
     case "zeuge":
-      return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.geldEinklagenAnwaltschaft.zeugnis.de}`;
+      return isOverviewPage
+        ? `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.geldEinklagenAnwaltschaft.zeugnis.de}`
+        : undefined;
     case "parteivernehmung":
       return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.beweismittel.parteivernehmung.de}`;
     default:
@@ -40,10 +46,31 @@ export const getBeweisTitle = (type: BeweisType, index: number) => {
   }
 };
 
-export const getBeweisBody = (beweis: Beweis) => {
+export const getBeweisBody = (
+  beweis: Beweis,
+  isOverviewPage: boolean = false,
+): string | React.ReactNode => {
   switch (beweis.type) {
     case "zeuge":
-      return "";
+      return (
+        <div className="flex flex-col">
+          <span className="kern-body--bold">
+            {beweis.anrede} {beweis.titel}
+            {beweis.vorname} {beweis.nachname}
+          </span>
+          {isOverviewPage && (
+            <>
+              <span>
+                {beweis.strasse} {beweis.hausnummer}
+              </span>
+              <span>
+                {beweis.plz} {beweis.ort}
+              </span>
+              <span>{beweis.land}</span>
+            </>
+          )}
+        </div>
+      );
     case "parteivernehmung":
       return "";
     default:

@@ -3,8 +3,8 @@ import classNames from "classnames";
 import { useState } from "react";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
-import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 import { translations } from "~/services/translations/translations";
+import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 
 type Props = {
   name: string;
