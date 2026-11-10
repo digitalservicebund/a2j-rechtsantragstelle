@@ -67,7 +67,7 @@ export type Nebenantrag = z.infer<typeof nebenantraegeArraySchema>[number];
 const selectedBeklagteSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
   .refine(
-    (parties) => Object.values(parties).some((value) => value === "on"),
+    (parties) => Object.values(parties).includes("on"),
     "Bitte wählen Sie mindestens eine Beklagte aus",
   )
   .describe(klageParteiCheckboxesZodDescription);
@@ -75,7 +75,7 @@ const selectedBeklagteSchema = z
 const selectedKlagendeSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
   .refine(
-    (parties) => Object.values(parties).some((value) => value === "on"),
+    (parties) => Object.values(parties).includes("on"),
     "Bitte wählen Sie mindestens eine Klagende aus",
   )
   .describe(klageParteiCheckboxesZodDescription);

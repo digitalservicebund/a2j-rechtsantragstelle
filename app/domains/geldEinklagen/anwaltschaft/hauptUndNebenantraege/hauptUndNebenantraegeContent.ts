@@ -46,7 +46,7 @@ export const nebenantragArtLabels: Record<
 };
 
 export const getAlphabeticalEnumeration = (index: number): string =>
-  `${String.fromCharCode(97 + index)}.`;
+  `${String.fromCodePoint(97 + index)}.`;
 
 export const getNebenantragItemText = ({
   item,

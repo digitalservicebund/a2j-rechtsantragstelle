@@ -111,7 +111,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
                   }
                   tagName={"div"}
                   look={"warning"}
-                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replace(
+                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replaceAll(
                     /\${itemLabel}/g,
                     "Schmerzensgeldantrag",
                   )}

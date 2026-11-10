@@ -5,8 +5,7 @@ import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { useEffect } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { UnbezifferteSchmerzensgeldantrag } from "./UnbezifferteSchmerzensgeldantrag";
 
 const BASE_URL_SCHMERZENGELD_ANTRAG =
