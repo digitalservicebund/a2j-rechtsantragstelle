@@ -18,6 +18,7 @@ import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
   optionalTypeC,
+  optionalTypeD,
   typeA,
   typeB,
   typeC,
@@ -40,6 +41,8 @@ const personSchema = z.object({
   ...anschriftShape,
   telefonnummer: optionalTypeC,
   email: optionalTypeC,
+  iban: optionalTypeC,
+  kontoinhaber: optionalTypeD,
 });
 
 const organisationSchema = z.object({
@@ -113,6 +116,11 @@ export const beteiligteFromUserData = (
     ort: userData.klagendePersonOrt,
     telefonnummer: userData.klagendeTelefonnummer,
     email: userData.klagendeEmail,
+    iban: userData.klagendePersonIban,
+    // Same fallback as the PDF bank information
+    kontoinhaber: userData.klagendePersonKontoinhaber?.trim()
+      ? userData.klagendePersonKontoinhaber
+      : `${userData.klagendePersonVorname} ${userData.klagendePersonNachname}`,
   },
   beklagter: beklagteFromUserData(userData),
   zeugen: collectZeugen(userData),
@@ -153,6 +161,9 @@ const toNatuerlichePerson = (person: Person): NatuerlichePerson => {
     anschrift: [toAnschrift(person)],
     telekommunikation:
       telekommunikation.length > 0 ? telekommunikation : undefined,
+    bankverbindung: person.iban
+      ? [{ iban: person.iban, kontoinhaber: person.kontoinhaber }]
+      : undefined,
   };
 };
 

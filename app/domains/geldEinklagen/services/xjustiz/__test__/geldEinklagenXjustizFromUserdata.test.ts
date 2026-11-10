@@ -1,6 +1,7 @@
 import { createServer, type Server } from "node:http";
 import {
   datatypeC,
+  datatypeE,
   ergonomics,
   Gerichte,
   Rollenbezeichnung,
@@ -53,7 +54,194 @@ const sonstigeAntraegeOfLastRequest = () =>
     }
   ).inhaltsdaten.antraege.auswahlSonstigeAntraege ?? [];
 
+type LastRequest = {
+  grunddaten: { verfahrensdaten: { beteiligung: unknown[] } };
+  inhaltsdaten: {
+    antraege: {
+      sachantraege: {
+        inhalt: string;
+        anspruch: Array<{ fortlaufendeNummer: string }>;
+      };
+      nebenantraegeZinsen?: { inhalt: string };
+    };
+    auswahlBegruendetheit: {
+      anderesKlageverfahren: {
+        vortrag: Array<{
+          ausfuehrungen: { inhalt: { rechtlicheWuerdigung?: string } };
+        }>;
+      };
+    };
+  };
+};
+
+const lastRequest = () => JSON.parse(receivedBody ?? "null") as LastRequest;
+
+const INTEREST_CLAUSE =
+  "nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit";
+
 describe("geldEinklagenXjustizFromUserdata", () => {
+  it("requests the Hauptforderung with the same wording as the PDF", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, prozesszinsen: "no" },
+      baseUrl,
+    });
+
+    expect(lastRequest().inhaltsdaten.antraege.sachantraege.inhalt).toBe(
+      `Die beklagte Partei wird verurteilt, an die klagende Partei ${userDataMock.forderungGesamtbetrag} Euro zu zahlen.`,
+    );
+  });
+
+  it("requests Zinsen when the user selected Prozesszinsen", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, prozesszinsen: "yes" },
+      baseUrl,
+    });
+
+    const { antraege } = lastRequest().inhaltsdaten;
+    expect(antraege.sachantraege.inhalt).toContain(INTEREST_CLAUSE);
+    expect(antraege.nebenantraegeZinsen?.inhalt).toContain(
+      "Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit",
+    );
+  });
+
+  it("does not request Zinsen when the user declined Prozesszinsen", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, prozesszinsen: "no" },
+      baseUrl,
+    });
+
+    const { antraege } = lastRequest().inhaltsdaten;
+    expect(antraege.sachantraege.inhalt).not.toContain(INTEREST_CLAUSE);
+    expect(antraege.nebenantraegeZinsen).toBeUndefined();
+  });
+
+  it("requests the Anwaltskosten as a separate Anspruch with its amount", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        anwaltskosten: "150,50",
+        prozesszinsen: "no",
+      },
+      baseUrl,
+    });
+
+    const hauptanspruch =
+      lastRequest().inhaltsdaten.antraege.sachantraege.anspruch[0];
+    expect(sonstigeAntraegeOfLastRequest()).toContainEqual({
+      antragSonstige: {
+        auswahlAntragSonstige: {
+          sonstigerAntragTextform:
+            "Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von 150,50 Euro zu zahlen.",
+        },
+        anspruch: [
+          expect.objectContaining({
+            fortlaufendeNummer: expect.not.stringMatching(
+              `^${hauptanspruch.fortlaufendeNummer}$`,
+            ) as unknown,
+            wertAnspruch: expect.objectContaining({ zahl: 150.5 }) as unknown,
+          }),
+        ],
+      },
+    });
+  });
+
+  it("does not request Anwaltskosten when none were entered", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, anwaltskosten: "" },
+      baseUrl,
+    });
+
+    expect(
+      JSON.stringify(sonstigeAntraegeOfLastRequest()).includes("Anwaltskosten"),
+    ).toBe(false);
+  });
+
+  it("requests the weitere Antraege as free text", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        weitereAntraege: "Die Kosten trägt die beklagte Partei.",
+      },
+      baseUrl,
+    });
+
+    expect(sonstigeAntraegeOfLastRequest()).toContainEqual(
+      ergonomics.weitererAntrag(
+        datatypeE("Die Kosten trägt die beklagte Partei.").value,
+      ),
+    );
+  });
+
+  it("includes the rechtliche Wuerdigung in the Vortrag", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        rechtlicheWuerdigung: "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+      },
+      baseUrl,
+    });
+
+    const [vortrag] =
+      lastRequest().inhaltsdaten.auswahlBegruendetheit.anderesKlageverfahren
+        .vortrag;
+    expect(vortrag.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBe(
+      "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+    );
+  });
+
+  it("includes the bank account of the Klaeger", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        klagendePersonIban: "DE68500123456789000000",
+        klagendePersonKontoinhaber: "Erika Musterfrau",
+      },
+      baseUrl,
+    });
+
+    const [klaeger] = lastRequest().grunddaten.verfahrensdaten.beteiligung;
+    expect(klaeger).toMatchObject({
+      beteiligter: {
+        auswahlBeteiligter: {
+          natuerlichePerson: {
+            bankverbindung: [
+              {
+                iban: "DE68500123456789000000",
+                kontoinhaber: "Erika Musterfrau",
+              },
+            ],
+          },
+        },
+      },
+    });
+  });
+
+  it("uses the Klaeger name as Kontoinhaber when none was entered, like the PDF", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        klagendePersonIban: "DE68500123456789000000",
+        klagendePersonKontoinhaber: "",
+      },
+      baseUrl,
+    });
+
+    const [klaeger] = lastRequest().grunddaten.verfahrensdaten.beteiligung;
+    expect(klaeger).toMatchObject({
+      beteiligter: {
+        auswahlBeteiligter: {
+          natuerlichePerson: {
+            bankverbindung: [
+              {
+                kontoinhaber: `${userDataMock.klagendePersonVorname} ${userDataMock.klagendePersonNachname}`,
+              },
+            ],
+          },
+        },
+      },
+    });
+  });
+
   it("requests a Versaeumnisurteil when the user selected it", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: { ...userDataWithBegruendung, versaeumnisurteil: "yes" },
