@@ -37,6 +37,7 @@ import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annah
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/AnnahmeverzugCheckbox";
 import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
+import { parteivernehmungBeweisCheckboxesZodDescription } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -49,6 +50,7 @@ const specialComponentDescriptions = [
   reuseBeweisZodDescription,
   klageParteiCheckboxesZodDescription,
   annahmeverzugCheckboxZodDescription,
+  parteivernehmungBeweisCheckboxesZodDescription,
 ] as const;
 
 type SpecialComponentDescription =
@@ -282,6 +284,24 @@ export const renderSpecialMetaDescriptions = (
           parties={geldEinklagenUserData.beklagten ?? []}
           selectedBeklagte={hauptantrag?.beklagte}
           zahlungsantragIndex={hauptantragIndex}
+        />
+      );
+    }
+    case parteivernehmungBeweisCheckboxesZodDescription: {
+      const geldEinklagenUserData =
+        userData as GeldEinklagenAnwaltschaftUserData;
+      const isBeklagte = true; //TODO: fix logic
+
+      const parties = isBeklagte
+        ? (geldEinklagenUserData.beklagten ?? [])
+        : (geldEinklagenUserData.klagenden ?? []);
+
+      return (
+        <KlageParteiCheckboxes
+          key={fieldName}
+          name={fieldName}
+          parties={parties}
+          relationship={isBeklagte ? "beklagte" : "klagende"}
         />
       );
     }

@@ -7,6 +7,8 @@ import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
 
 export const MAX_ABSAETZE = 50;
 export const MAX_BEWEISE = 50;
+export const parteivernehmungBeweisCheckboxesZodDescription =
+  "parteivernehmungBeweisCheckboxes";
 
 export const augenscheinSchema = z.object({
   type: z.literal("augenschein"),
@@ -33,10 +35,16 @@ export const sachverstaendigengutachtenSchema = z.object({
   beschreibung: stringRequiredMaxSchema({ max: 500 }),
 });
 
-const parteivernehmungSchema = z.object({
+export const parteivernehmungSchema = z.object({
   type: z.literal("parteivernehmung"),
   id: z.uuid().optional(),
-  personen: z.array(z.any()), // Will be displayed as checkboxes, but will hold IDs of referenced parties.
+  personen: z
+    .record(z.uuid(), z.enum(["on", "off"]))
+    .refine(
+      (parties) => Object.values(parties).includes("on"),
+      "Bitte wählen Sie mindestens eine Person aus",
+    )
+    .describe(parteivernehmungBeweisCheckboxesZodDescription),
 });
 
 const beweisSchema = z.discriminatedUnion("type", [

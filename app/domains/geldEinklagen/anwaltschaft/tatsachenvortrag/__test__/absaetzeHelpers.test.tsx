@@ -76,7 +76,7 @@ describe("absaetzeHelpers", () => {
     });
 
     it("omits the body for party examination evidence", () => {
-      expect(getBeweisBody({ type: "parteivernehmung", personen: [] })).toBe(
+      expect(getBeweisBody({ type: "parteivernehmung", personen: {} })).toBe(
         "",
       );
     });

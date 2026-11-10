@@ -34,6 +34,10 @@ export const tatsachenvortragFlowConfig = {
       type: "addArrayItem",
       target: "zeugeDaten",
     },
+    {
+      type: "addArrayItem",
+      target: "parteivernehmungDaten",
+    },
     { target: "antraegeUebersicht" },
   ],
   absatzDaten: [{ target: "absaetzeUebersicht" }],
@@ -41,6 +45,7 @@ export const tatsachenvortragFlowConfig = {
   urkundeDaten: [{ target: "absaetzeUebersicht" }],
   sachverstaendigengutachtenDaten: [{ target: "absaetzeUebersicht" }],
   zeugeDaten: [{ target: "absaetzeUebersicht" }],
+  parteivernehmungDaten: [{ target: "absaetzeUebersicht" }],
   nebenantragAbsatzUebersicht: [
     {
       type: "addArrayItem",
@@ -62,6 +67,10 @@ export const tatsachenvortragFlowConfig = {
       type: "addArrayItem",
       target: "nebenantragZeugeDaten",
     },
+    {
+      type: "addArrayItem",
+      target: "nebenantragParteivernehmungDaten",
+    },
     { target: "antraegeUebersicht" },
   ],
   nebenantragAbsatzDaten: [{ target: "nebenantragAbsatzUebersicht" }],
@@ -71,4 +80,5 @@ export const tatsachenvortragFlowConfig = {
     { target: "nebenantragAbsatzUebersicht" },
   ],
   nebenantragZeugeDaten: [{ target: "nebenantragAbsatzUebersicht" }],
+  nebenantragParteivernehmungDaten: [{ target: "nebenantragAbsatzUebersicht" }],
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;
