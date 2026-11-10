@@ -53,7 +53,6 @@ Migration was incremental. The engine started with Erbschein Erbfolge (2026-06) 
 
 - We now own the engine: bugs, edge cases (cycles in array loops, BFS scoping, back navigation from array summaries) and documentation are our job.
 - The team's XState knowledge no longer applies, and new team members have to learn a custom model. We address this with the engine README and the guides in `doc/`.
-- Some XState terminology remains, such as `stepId` for what is really a page path. A rename to `path` is planned (TODO in `types.ts`).
 - Cross-section rules (e.g. "all sections done before the summary") are written as guards on `pageData.subflowDoneStates` and are not built into the engine.
 
 ## Alternatives considered

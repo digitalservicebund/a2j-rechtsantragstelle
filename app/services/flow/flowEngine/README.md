@@ -182,7 +182,7 @@ Array pages have an `arraySummary` config and a transition with `type: "addArray
 ### Bugs / Code Quality
 
 - **Standardize `null` → `undefined`:** `evaluateRoute` returns `null` in some code paths; the rest of the engine uses `undefined`. Standardize to `undefined` throughout.
-- **Rename `stepId` → `path` in `FlowEnginePageConfig`:** `stepId` is the old XState engine's terminology. All flows have migrated, so the field can now be renamed to `path` for clarity. A TODO comment marks the location in `types.ts`.
+- **Rename `stepId` → `path` in `FlowEnginePageConfig`:** `stepId` is the part of the page URL that follows the flow ID. A TODO in `types.ts` proposes renaming it to `path` for clarity.
 
 ### Features
 
