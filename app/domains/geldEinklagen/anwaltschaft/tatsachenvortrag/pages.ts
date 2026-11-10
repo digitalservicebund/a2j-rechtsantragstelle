@@ -3,6 +3,7 @@ import {
   absaetzeArraySchema,
   augenscheinSchema,
   beweismittelSchema,
+  parteivernehmungSchema,
   sachverstaendigengutachtenSchema,
   urkundeSchema,
   zeugeSchema,
@@ -193,6 +194,32 @@ export const tatsachenvortragPages = {
       "hauptantrag#nebenantraege#absaetze#beweise#land": zeugeSchema.shape.land,
       "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(zeugeSchema.shape.id),
+      ),
+      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  parteivernehmungDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
+      ),
+      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
+        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
+      ),
+    },
+  },
+  nebenantragParteivernehmungDaten: {
+    stepId:
+      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
       ),
       "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
