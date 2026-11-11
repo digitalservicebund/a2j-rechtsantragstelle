@@ -59,7 +59,7 @@ export const BezifferterZahlungsantrag = ({
                 }
                 tagName={"div"}
                 look={"warning"}
-                content={translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragDeleteWarning.de.replace(
+                content={translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragDeleteWarning.de.replaceAll(
                   /\$\{itemIndex \+ 1\}/g,
                   `${itemIndex + 1}`,
                 )}

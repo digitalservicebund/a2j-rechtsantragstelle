@@ -154,6 +154,7 @@ export const getNebenantragItemText = ({
             ),
           )
         : "",
+      " zu zahlen.",
     );
   }
 
