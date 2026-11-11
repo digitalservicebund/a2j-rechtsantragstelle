@@ -80,7 +80,15 @@ function isAnyVisibleFieldDirty(form: FormApi<any>): boolean {
     }
     checkedNames.add(name);
 
-    if (form.getInputProps(name).defaultValue ?? "" !== element.value) {
+    // Radios share a name, so the first element's value is not the selected one
+    const currentValue =
+      element.type === "radio"
+        ? (formElement.querySelector<HTMLInputElement>(
+            `input[type="radio"][name="${CSS.escape(name)}"]:checked`,
+          )?.value ?? "")
+        : element.value;
+
+    if ((form.getInputProps(name).defaultValue ?? "") !== currentValue) {
       return true;
     }
   }
