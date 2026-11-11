@@ -22,7 +22,7 @@ function headerTextFromContent(content?: StrapiContentComponent[]) {
   const htmlContent = content?.find(isStrapiHero)?.content?.html;
 
   if (htmlContent) {
-    return htmlContent.replace(/<[^>]+>/g, "");
+    return htmlContent.replace(/<.*?>/gs, "");
   }
 }
 
