@@ -83,4 +83,30 @@ export const testCasesPKHFormularWeitereAngaben = {
       stepId: "/abgabe/zusammenfassung",
     },
   ],
+  // OtherPerson skips rechtsschutzversicherung, so it is never done
+  weitereAngabenOtherPersonAllSectionsDone: [
+    {
+      stepId: "/persoenliche-daten/beruf",
+      userInput: {
+        ...pkhTestcaseData,
+        empfaenger: "otherPerson",
+        beruf: "Softwareentwickler:in",
+      },
+    },
+    {
+      stepId: "/weitere-angaben",
+      userInput: {
+        weitereAngaben: "",
+      },
+      pageData: {
+        subflowDoneStates: {
+          ...allSectionsDone.subflowDoneStates,
+          "/rechtsschutzversicherung": false,
+        },
+      },
+    },
+    {
+      stepId: "/abgabe/zusammenfassung",
+    },
+  ],
 } satisfies FlowTestCases<ProzesskostenhilfeFormularUserData>;
