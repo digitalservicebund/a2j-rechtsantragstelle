@@ -153,7 +153,7 @@ const grundeigentumNotLivedInSchema = {
     grundeigentumIsBewohntSchema.enum.family,
   ]),
   strassehausnummer: stringRequiredSchema,
-  plz: stringOptionalSchema,
+  plz: stringRequiredSchema,
   ort: stringRequiredSchema,
   land: stringRequiredSchema,
 };
@@ -447,7 +447,7 @@ export const pkhFormularFinanzielleAngabenEigentumPages = {
       "grundeigentum#flaeche": sharedGrundeigentumFields.flaeche,
       "grundeigentum#verkaufswert": sharedGrundeigentumFields.verkaufswert,
       "grundeigentum#strassehausnummer": stringRequiredSchema,
-      "grundeigentum#plz": stringOptionalSchema,
+      "grundeigentum#plz": stringRequiredSchema,
       "grundeigentum#ort": stringRequiredSchema,
       "grundeigentum#land": stringRequiredSchema,
     },
