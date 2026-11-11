@@ -5,6 +5,10 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
+import {
+  type GetCheckboxLabel,
+  getPartyLabel,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
@@ -94,3 +98,25 @@ export const getBeweisCategory = (type: BeweisType): BeweisCategory => {
       return "person";
   }
 };
+
+export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
+  index,
+  party,
+  relationship,
+  representative,
+) => (
+  <>
+    {representative ? (
+      <>
+        {representative.anrede} {representative.titel} {representative.vorname}{" "}
+        {representative.nachname} (
+        {translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de}{" "}
+        von {getPartyLabel(party)}, {relationship} zu {index + 1})
+      </>
+    ) : (
+      <>
+        {relationship} <strong>zu {index + 1})</strong> {getPartyLabel(party)}
+      </>
+    )}
+  </>
+);

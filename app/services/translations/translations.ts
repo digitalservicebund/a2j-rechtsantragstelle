@@ -960,6 +960,9 @@ export const translations = {
     beweisangebotPersonDeletionDescription: {
       de: "Die folgende Person wird aus diesem Absatz entfernt:",
     },
+    parteivernehmungCheckboxesLabel: {
+      de: "Wählen Sie eine oder mehrere Personen aus",
+    },
     optionalSuffix: {
       de: " - Optional",
     },

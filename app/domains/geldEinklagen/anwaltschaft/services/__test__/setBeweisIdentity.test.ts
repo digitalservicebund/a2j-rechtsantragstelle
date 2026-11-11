@@ -145,6 +145,38 @@ describe("setBeweisIdentity", () => {
     });
   });
 
+  it.each([
+    {
+      step: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten",
+      url: "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/absaetze/0/beweise/1/parteivernehmung-daten",
+      nested: false,
+    },
+    {
+      step: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
+      url: "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/nebenantraege/0/absaetze/0/beweise/0/parteivernehmung-daten",
+      nested: true,
+    },
+  ])(
+    "sets Parteivernehmung identity for $step",
+    async ({ step, url, nested }) => {
+      const userData = createUserData();
+      const session = createSession(userData);
+      const action =
+        geldEinklagenAnwaltschaft.posFlowActions[
+          step as keyof typeof geldEinklagenAnwaltschaft.posFlowActions
+        ];
+      await action(new Request(url), userData, session);
+      const saved = session.get("hauptantrag") as typeof userData.hauptantrag;
+      const evidence = nested
+        ? saved?.[0]?.nebenantraege?.[0]?.absaetze?.[0]?.beweise?.[0]
+        : saved?.[0]?.absaetze?.[0]?.beweise?.[1];
+      expect(evidence).toMatchObject({
+        type: "parteivernehmung",
+        id: expect.any(String),
+      });
+    },
+  );
+
   it("throws when the submitted evidence item does not exist", () => {
     const userData = createUserData();
 
