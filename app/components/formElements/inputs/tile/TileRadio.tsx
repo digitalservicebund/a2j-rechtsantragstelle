@@ -47,7 +47,6 @@ const TileRadio = ({
       <label
         className="flex flex-row items-center cursor-pointer touch-manipulation p-kern-space-large h-full max-w-full"
         htmlFor={id}
-        aria-label={tileTitle}
       >
         <div className="kern-form-check">
           <input
