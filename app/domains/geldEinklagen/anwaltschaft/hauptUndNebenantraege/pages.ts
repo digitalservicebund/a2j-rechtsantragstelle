@@ -95,7 +95,7 @@ export const hauptUndNebenantraegePages = {
   },
   schmerzengeldantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "schmerzengeldantrag#internesSchlagwortFordureung":
