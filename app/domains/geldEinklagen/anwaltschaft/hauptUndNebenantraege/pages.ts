@@ -4,6 +4,7 @@ import {
   hauptantraegeArraySchema,
   nebenantragSchema,
   schmerzengeldantragSchema,
+  schmerzengeldNebenantragSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import type { PagesConfig } from "~/domains/pageSchemas";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
@@ -94,7 +95,7 @@ export const hauptUndNebenantraegePages = {
   },
   schmerzengeldantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "schmerzengeldantrag#internesSchlagwortFordureung":
@@ -116,6 +117,27 @@ export const hauptUndNebenantraegePages = {
       "schmerzengeldantrag#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
+    },
+  },
+  schmerzengeldNebenantragDaten: {
+    stepId:
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantrag/#/daten",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragArt":
+        schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragArt,
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragBetrag":
+        schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragBetrag,
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsmethode":
+        schmerzengeldNebenantragSchema.shape
+          .schmerzengeldNebenantragZinsmethode,
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinssatzInProzent":
+        schmerzengeldNebenantragSchema.shape
+          .schmerzengeldNebenantragZinssatzInProzent,
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn":
+        schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragZinsbeginn,
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende":
+        schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragZinsende,
     },
   },
   schmerzengeldantragWarnung: {

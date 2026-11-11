@@ -154,4 +154,103 @@ export const hauptUndNebenantraegeTestCases = {
         "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/uebersicht",
     },
   ],
+
+  withSchmerzengeldantrag: [
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+      addArrayItemEvent: "add-schmerzengeldantrag",
+    },
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/0/daten",
+      userInput: {
+        "schmerzengeldantrag#internesSchlagwortFordureung": "Schmerzensgeld",
+        "schmerzengeldantrag#mindestBetrag": "1000",
+        "schmerzengeldantrag#beklagte": testcaseData.hauptantrag[0].beklagte,
+        "schmerzengeldantrag#klagende": testcaseData.hauptantrag[0].klagende,
+        "schmerzengeldantrag#zinsmethode": "jaehrlicherZinssatzUeberBasiszins",
+        "schmerzengeldantrag#zinssatzInProzent": 5,
+        "schmerzengeldantrag#zinsbeginn": {
+          day: "01",
+          month: "02",
+          year: "2003",
+        },
+        "schmerzengeldantrag#zinsende": {
+          day: "02",
+          month: "03",
+          year: "2004",
+        },
+      },
+    },
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+    },
+    {
+      stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+    },
+  ],
+
+  withoutSchmerzengeldantrag: [
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+    },
+    {
+      stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+    },
+  ],
+
+  schmerzengeldantragWarnung: [
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung",
+    },
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+    },
+  ],
+
+  withSchmerzengeldNebenantrag: [
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/0/nebenantrag/0/daten",
+      userInput: {
+        ...testcaseData,
+        schmerzengeldantrag: [
+          {
+            mindestBetrag: "1000",
+            beklagte: testcaseData.hauptantrag[0].beklagte,
+            klagende: testcaseData.hauptantrag[0].klagende,
+            zinsbeginn: testcaseData.hauptantrag[0].zinsbeginn,
+            zinsende: testcaseData.hauptantrag[0].zinsende,
+          },
+        ],
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragArt":
+          "vorgerichtlicheAnwaltskosten",
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragBetrag":
+          "100",
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinssatzInProzent": 5,
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsmethode":
+          "jaehrlicherZinssatzUeberBasiszins",
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn":
+          {
+            day: "01",
+            month: "02",
+            year: "2003",
+          },
+        "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende": {
+          day: "02",
+          month: "03",
+          year: "2004",
+        },
+      },
+    },
+    {
+      stepId:
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
+    },
+  ],
 } satisfies FlowTestCases<GeldEinklagenAnwaltschaftUserData>;

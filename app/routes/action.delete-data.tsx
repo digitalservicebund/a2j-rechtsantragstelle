@@ -10,11 +10,15 @@ export const loader = () => redirect("/");
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
-  for (const userData of allSessionUserData) {
-    const sessionManager = getSessionManager(userData);
-    const session = await sessionManager.getSession(cookieHeader);
-    await sessionManager.destroySession(session);
-  }
+  await Promise.all(
+    allSessionUserData.map(async (userData) => {
+      const sessionManager = getSessionManager(userData);
+      const session = await sessionManager.getSession(cookieHeader);
+      if (session) {
+        await sessionManager.destroySession(session);
+      }
+    }),
+  );
 
   // see https://sergiodxa.com/tutorials/delete-a-cookie-using-remix-cookie-helpers
   const opts = { maxAge: 1 };

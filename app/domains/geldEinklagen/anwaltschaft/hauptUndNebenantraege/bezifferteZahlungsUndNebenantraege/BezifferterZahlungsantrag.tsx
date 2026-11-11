@@ -12,7 +12,6 @@ const BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE =
 
 type BezifferterZahlungsantragProps = {
   readonly itemIndex: number;
-  readonly index: number;
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["hauptantrag"]
   >[number];
@@ -60,7 +59,7 @@ export const BezifferterZahlungsantrag = ({
                 }
                 tagName={"div"}
                 look={"warning"}
-                content={translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragDeleteWarning.de.replace(
+                content={translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragDeleteWarning.de.replaceAll(
                   /\$\{itemIndex \+ 1\}/g,
                   `${itemIndex + 1}`,
                 )}
