@@ -1,4 +1,6 @@
-import formatCents from "~/services/validation/money/formatCents";
+import formatCents, {
+  parseCurrencyStringDE,
+} from "~/services/validation/money/formatCents";
 
 const cases = [
   { cents: Number.MIN_SAFE_INTEGER + 1, formatted: "-90.071.992.547.409,90" },
@@ -34,5 +36,20 @@ describe("formatCents", () => {
         "please pass only (safe) integers",
       );
     });
+  });
+});
+
+describe("parseCurrencyStringDE", () => {
+  test.each([
+    { input: "12,50", expected: 12.5 },
+    { input: "1.000,00", expected: 1000 },
+    { input: "1.000.000,00", expected: 1_000_000 },
+    { input: "12.345.678,90", expected: 12_345_678.9 },
+  ])("given $input, returns $expected", ({ input, expected }) => {
+    expect(parseCurrencyStringDE(input)).toBe(expected);
+  });
+
+  it("returns NaN for missing input", () => {
+    expect(parseCurrencyStringDE(undefined)).toBeNaN();
   });
 });
