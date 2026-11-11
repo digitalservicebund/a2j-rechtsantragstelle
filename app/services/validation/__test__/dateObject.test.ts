@@ -161,6 +161,25 @@ describe("createDateInputSchema", () => {
     );
     expect(actual).toBe(false);
   });
+
+  test("too late", () => {
+    const actual = z.validate(
+      createDateInputSchema({
+        latest: () =>
+          toDate({
+            day: "01",
+            month: "01",
+            year: "2025",
+          }),
+      }),
+      {
+        day: "02",
+        month: "01",
+        year: "2025",
+      },
+    );
+    expect(actual).toBe(false);
+  });
 });
 
 describe("createDateInputOptionalSchema", () => {
