@@ -189,6 +189,39 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     );
   });
 
+  it("includes the Dr. title of Klaeger and Beklagte, like the PDF", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: {
+        ...userDataWithBegruendung,
+        klagendePersonTitle: "dr",
+        beklagteTitle: "dr",
+      },
+      baseUrl,
+    });
+
+    const [klaeger, beklagter] =
+      lastRequest().grunddaten.verfahrensdaten.beteiligung;
+    const withTitel = {
+      beteiligter: {
+        auswahlBeteiligter: {
+          natuerlichePerson: { vollerName: { titel: "Dr." } },
+        },
+      },
+    };
+    expect(klaeger).toMatchObject(withTitel);
+    expect(beklagter).toMatchObject(withTitel);
+  });
+
+  it("omits the title when none was selected", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: { ...userDataWithBegruendung, klagendePersonTitle: "none" },
+      baseUrl,
+    });
+
+    const [klaeger] = lastRequest().grunddaten.verfahrensdaten.beteiligung;
+    expect(JSON.stringify(klaeger)).not.toContain("titel");
+  });
+
   it("includes the bank account of the Klaeger", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: {

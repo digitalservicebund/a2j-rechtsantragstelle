@@ -16,6 +16,7 @@ import {
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import { mapTitle } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   optionalTypeC,
   optionalTypeD,
@@ -97,6 +98,7 @@ const beklagteFromUserData = (userData: GeldEinklagenFormularUserData) => {
   return {
     art: "person",
     anrede: userData.beklagteAnrede,
+    title: mapTitle(userData.beklagteTitle),
     vorname: userData.beklagteVorname,
     nachname: userData.beklagteNachname,
     ...anschrift,
@@ -108,6 +110,7 @@ export const beteiligteFromUserData = (
 ) => ({
   klaeger: {
     anrede: userData.klagendePersonAnrede,
+    title: mapTitle(userData.klagendePersonTitle),
     vorname: userData.klagendePersonVorname,
     nachname: userData.klagendePersonNachname,
     strasse: userData.klagendePersonStrasse,
