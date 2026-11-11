@@ -21,6 +21,7 @@ export function renderZodEnum(
   const label = get(matchingElement, "label");
   const suffix = get(matchingElement, "suffix");
   const errorMessages = get(matchingElement, "errorMessages");
+  const altLabel = get(matchingElement, "altLabel");
 
   const sortedOptions = sortSchemaOptionsByFormComponents(
     schema,
@@ -63,6 +64,7 @@ export function renderZodEnum(
           useTwoColumns={matchingElement.useTwoColumns}
           label={label}
           errorMessages={errorMessages}
+          altLabel={altLabel}
           options={options.map(({ value }) => ({
             value,
             description: cmsObject[value]?.description,
@@ -110,7 +112,7 @@ export function renderZodEnum(
           key={fieldName}
           name={fieldName}
           label={label}
-          altLabel={get(matchingElement, "altLabel")}
+          altLabel={altLabel}
           errorMessages={errorMessages}
           options={options}
         />
@@ -121,7 +123,7 @@ export function renderZodEnum(
           key={fieldName}
           name={fieldName}
           label={label ?? fieldName} // Fallback to fieldName without matchingElement
-          altLabel={get(matchingElement, "altLabel")}
+          altLabel={altLabel}
           errorMessages={errorMessages}
           options={options}
         />
