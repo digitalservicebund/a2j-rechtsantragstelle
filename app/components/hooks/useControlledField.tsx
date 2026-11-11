@@ -1,5 +1,5 @@
 import { useField, useFormContext } from "@rvf/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, startTransition } from "react";
 import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 import { type AllowedUserTypes } from "~/domains/userData";
 
@@ -22,15 +22,15 @@ export const useControlledField = (
 
   useEffect(() => {
     const originalValue = originalValueRef.current;
-    async function fieldValueChangeHandler() {
+
+    startTransition(async () => {
       await handleFieldValueChange?.({
         originalValue,
         value,
         controlledField,
         setControlledFieldSrValue,
       });
-    }
-    fieldValueChangeHandler();
+    });
   }, [value, controlledField, originalValueRef, handleFieldValueChange]);
 
   const MemoizedScreenReaderAnnouncement = useMemo(

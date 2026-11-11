@@ -46,6 +46,12 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
 
 const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
 
+const getStatusText = (isDone: boolean, isWarning: boolean) => {
+  if (isDone) return translations.navigation.navigationItemFinished.de;
+  if (isWarning) return translations.navigation.navigationItemWarning.de;
+  return "";
+};
+
 export function NavItem({
   destination,
   label,
@@ -111,11 +117,7 @@ export function NavItem({
   );
   const iconId = useId();
 
-  const statusText = isDone
-    ? translations.navigation.navigationItemFinished.de
-    : isWarning
-      ? translations.navigation.navigationItemWarning.de
-      : "";
+  const statusText = getStatusText(isDone, isWarning);
 
   return (
     <li className={liClassNames}>
@@ -171,7 +173,7 @@ export function NavItem({
           ref={firstItemRef}
           data-testid={"nav-item-link"}
           aria-describedby={isDone || isWarning ? iconId : undefined}
-          aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
+          aria-label={statusText ? `${label},${statusText}` : label}
         >
           <span className={classNames({ "mr-3": isDone || isWarning })}>
             {label}

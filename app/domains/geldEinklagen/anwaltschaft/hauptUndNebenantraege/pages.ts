@@ -50,7 +50,7 @@ export const hauptUndNebenantraegePages = {
   },
   nebenantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten",
+      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "hauptantrag#nebenantraege#nebenantragArt":
@@ -95,7 +95,7 @@ export const hauptUndNebenantraegePages = {
   },
   schmerzengeldantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "schmerzengeldantrag#internesSchlagwortFordureung":
@@ -121,7 +121,7 @@ export const hauptUndNebenantraegePages = {
   },
   schmerzengeldNebenantragDaten: {
     stepId:
-      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantraege/#/daten",
+      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
       "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragArt":

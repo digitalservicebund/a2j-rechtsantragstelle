@@ -1,4 +1,7 @@
-import _ from "lodash";
+import flatMap from "lodash/flatMap";
+import groupBy from "lodash/groupBy";
+import mapValues from "lodash/mapValues";
+import update from "lodash/update";
 import type { PageConfigMap } from "./types";
 import { type SimulationResult } from "./simulate";
 
@@ -63,12 +66,12 @@ export const buildStatusTree = <C extends PageConfigMap>(
   // "bankkonten" plus item base "bankkonto"), which the boundary alone keeps as a
   // stray "bankkonten" section even though nothing labels it.
   const nonCollapsedPrefixes = new Set<string>(
-    _.flatMap(config, ({ stepId, shouldCollapseIntoParentNavItem }) =>
+    flatMap(config, ({ stepId, shouldCollapseIntoParentNavItem }) =>
       shouldCollapseIntoParentNavItem ? [] : getPrefixes(stepId),
     ),
   );
 
-  const prefixPairs = _.flatMap(
+  const prefixPairs = flatMap(
     config,
     ({ stepId: path, shouldCollapseIntoParentNavItem }, key) => {
       const prefixes = getPrefixes(path);
@@ -87,8 +90,8 @@ export const buildStatusTree = <C extends PageConfigMap>(
   );
 
   // Results in: { "kinder": Set(["key1", "key2"]), "kinder/spielzeuge": Set(["key3"]) }
-  const prefixMap = _.mapValues(
-    _.groupBy(prefixPairs, "prefix"),
+  const prefixMap = mapValues(
+    groupBy(prefixPairs, "prefix"),
     (items) => new Set(items.map((i) => i.key)),
   );
 
@@ -108,7 +111,7 @@ export const buildStatusTree = <C extends PageConfigMap>(
           index === arr.length - 1 ? [`/${part}`] : [`/${part}`, "children"],
         );
 
-      _.update(tree, lodashPath, (existingNode?: StatusNode) => ({
+      update(tree, lodashPath, (existingNode?: StatusNode) => ({
         children: {},
         ...existingNode,
         ...status,

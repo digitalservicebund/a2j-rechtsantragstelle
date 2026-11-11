@@ -4,6 +4,7 @@ import { type MultiFieldsStepIdValidation } from "~/domains/types";
 import { hauptUndNebenantraegePages } from "./hauptUndNebenantraege/pages";
 import { validateHauptantragZins } from "./services/validation/validateHauptantragZins";
 import { validateNebenantragZins } from "./services/validation/validateNebenantragZins";
+import { validateSchmerzgeldNebenantragZins } from "./services/validation/validateSchmerzgeldNebenantragZins";
 
 const _schema = Object.assign(
   {},
@@ -23,4 +24,6 @@ export const geldEinklagenAnwaltschaftMultiFieldsValidation: MultiFieldsStepIdVa
     validateHauptantragZins(),
   "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantrag/#/daten":
     validateNebenantragZins(),
+  "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantrag/#/daten":
+    validateSchmerzgeldNebenantragZins(),
 };

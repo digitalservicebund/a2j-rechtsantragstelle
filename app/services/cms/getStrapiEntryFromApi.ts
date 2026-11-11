@@ -44,7 +44,7 @@ const buildUrl = <T extends ApiId>({
   ].join("");
 
 const makeStrapiRequest = async <T extends ApiId>(url: string) =>
-  axios.get<{ data: StrapiSchemas[T] | null }>(url, {
+  await axios.get<{ data: StrapiSchemas[T] | null }>(url, {
     validateStatus: (status) => status < 500,
     headers: {
       Authorization: "Bearer " + config().STRAPI_ACCESS_KEY,

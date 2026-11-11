@@ -1,7 +1,6 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
-
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
@@ -173,7 +172,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
         ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },
