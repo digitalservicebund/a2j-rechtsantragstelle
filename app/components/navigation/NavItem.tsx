@@ -173,7 +173,7 @@ export function NavItem({
           ref={firstItemRef}
           data-testid={"nav-item-link"}
           aria-describedby={isDone || isWarning ? iconId : undefined}
-          aria-label={`${label}${statusText ? `, ${statusText}` : ""}`}
+          aria-label={statusText ? `${label},${statusText}` : label}
         >
           <span className={classNames({ "mr-3": isDone || isWarning })}>
             {label}
