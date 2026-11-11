@@ -22,8 +22,8 @@ export const geldEinklagenAnwaltschaftMultiFieldsValidation: MultiFieldsStepIdVa
   "/inhalt-klage": validateZahlungsklageReferenzzeichen(),
   "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten":
     validateHauptantragZins(),
-  "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantrag/#/daten":
+  "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
     validateNebenantragZins(),
-  "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantrag/#/daten":
+  "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantraege/#/daten":
     validateSchmerzgeldNebenantragZins(),
 };

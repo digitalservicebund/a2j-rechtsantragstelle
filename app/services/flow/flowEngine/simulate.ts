@@ -71,6 +71,15 @@ export const runSimulation = <C extends PageConfigMap>(
       // a trailing summary name without a "#" after it is not entered yet.
       const sourceDepth =
         (source?.stepId ?? "").split(ARRAY_WILDCARD).length - 1;
+      // URL segments can name an item rather than its array in user data.
+      const targetField = compiledFlow
+        .getFieldNamesByNodeKey(targetKey)
+        .find((name) => name.includes(ARRAY_WILDCARD));
+      const targetDataPath = targetField?.split(ARRAY_WILDCARD).slice(0, -1);
+      if (targetDataPath && targetDataPath.length > sourceDepth) {
+        return targetDataPath.slice(sourceDepth);
+      }
+
       const targetArrays = targetName ? targetName.split("#") : [];
 
       // Example: root overview -> /hauptantrag/#/nebenantraege/#/absaetze.

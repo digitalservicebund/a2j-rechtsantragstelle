@@ -28,7 +28,17 @@ export const setPartyType =
     const updatedParteien = targetArray.map((partei, idx) => ({
       ...partei,
       id: partei.id ?? randomUUID(),
-      ...(idx === arrayIndex ? { type } : {}),
+      ...(idx === arrayIndex
+        ? {
+            type,
+            // orgVertretungId needs to be assigned when the user fills out details for an org
+            ...(type === "organisation" && {
+              orgVertretungId:
+                (partei.type === "organisation" && partei.orgVertretungId) ||
+                randomUUID(),
+            }),
+          }
+        : {}),
     }));
 
     const updatedUserData = merge({}, userData, {

@@ -17,6 +17,11 @@ import z from "zod";
 import { Result } from "true-myth";
 import { type XjustizError } from "~/domains/flows.server";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
+import {
+  anwaltskostenAntragText,
+  hauptforderungAntragText,
+  zinsenAntragText,
+} from "~/domains/geldEinklagen/services/antragTexts";
 import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getResponsibleCourt";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { findGerichtByXjustizId } from "./findGerichtByXjustizId";
@@ -53,16 +58,42 @@ export async function geldEinklagenXjustizFromUserdata({
     return invalidUserData(z.treeifyError(beteiligte.error));
 
   const forderungInEuro = parseCurrencyStringDE(userData.forderungGesamtbetrag);
+  const { prozesszinsen, anwaltskosten } = userData;
 
   const sachantragText = datatypeE(
-    `Die beklagte Partei wird verurteilt, an die klagende Partei ${userData.forderungGesamtbetrag} EUR zu zahlen.`,
+    hauptforderungAntragText(
+      userData.forderungGesamtbetrag ?? "",
+      prozesszinsen,
+    ),
   );
   if (sachantragText.issues) return invalidUserData(sachantragText.issues);
+
+  const zinsenText =
+    prozesszinsen === "yes" ? datatypeE(zinsenAntragText) : undefined;
+  if (zinsenText?.issues) return invalidUserData(zinsenText.issues);
+
+  const anwaltskostenText = anwaltskosten
+    ? datatypeE(anwaltskostenAntragText(anwaltskosten, prozesszinsen))
+    : undefined;
+  if (anwaltskostenText?.issues)
+    return invalidUserData(anwaltskostenText.issues);
+
+  const weitereAntraegeText = userData.weitereAntraege
+    ? datatypeE(userData.weitereAntraege)
+    : undefined;
+  if (weitereAntraegeText?.issues)
+    return invalidUserData(weitereAntraegeText.issues);
 
   const begruendungText = datatypeC(
     (userData.abschnitte ?? []).map((a) => a.beschreibung).join("\n\n"),
   );
   if (begruendungText.issues) return invalidUserData(begruendungText.issues);
+
+  const rechtlicheWuerdigungText = userData.rechtlicheWuerdigung
+    ? datatypeC(userData.rechtlicheWuerdigung)
+    : undefined;
+  if (rechtlicheWuerdigungText?.issues)
+    return invalidUserData(rechtlicheWuerdigungText.issues);
 
   const result = await zahlungsklage(
     <NachrichtenScope>(scope: ScopeToken<NachrichtenScope>) => {
@@ -93,8 +124,9 @@ export async function geldEinklagenXjustizFromUserdata({
         beteiligte.data.zeugen,
       );
 
+      const nummerSachanspruch = fortlaufendeNummer.first("Anspruch");
       const sachanspruch = {
-        fortlaufendeNummer: fortlaufendeNummer.first("Anspruch"),
+        fortlaufendeNummer: nummerSachanspruch,
         anspruchssteller: [{ refRollennummer: reference(rollennummerKlaeger) }],
         anspruchsgegner: [
           { refRollennummer: reference(rollennummerBeklagter) },
@@ -102,6 +134,27 @@ export async function geldEinklagenXjustizFromUserdata({
         anspruchsart: Anspruchsart.Zahlung,
         wertAnspruch: ergonomics.geldbetrag(forderungInEuro),
       } satisfies AnspruchFuerZahlungsklage<NachrichtenScope>;
+
+      const sonstigeAntraege = [
+        ...(anwaltskostenText
+          ? [
+              ergonomics.antragAufAnwaltskosten(
+                scope,
+                fortlaufendeNummer.next(nummerSachanspruch, "Anspruch"),
+                rollennummerKlaeger,
+                rollennummerBeklagter,
+                ergonomics.geldbetrag(parseCurrencyStringDE(anwaltskosten)),
+                anwaltskostenText.value,
+              ),
+            ]
+          : []),
+        ...(userData.versaeumnisurteil === "yes"
+          ? [ergonomics.antragAufVersaeumnisurteil()]
+          : []),
+        ...(weitereAntraegeText
+          ? [ergonomics.weitererAntrag(weitereAntraegeText.value)]
+          : []),
+      ];
 
       return verifyZahlungsklage(scope, {
         nachrichtenkopf: ergonomics.nachrichtenkopf(
@@ -121,11 +174,11 @@ export async function geldEinklagenXjustizFromUserdata({
               inhalt: sachantragText.value,
               anspruch: [sachanspruch],
             },
-            nebenantraegeZinsen: undefined,
+            nebenantraegeZinsen: zinsenText
+              ? { inhalt: zinsenText.value }
+              : undefined,
             auswahlSonstigeAntraege:
-              userData.versaeumnisurteil === "yes"
-                ? [ergonomics.antragAufVersaeumnisurteil()]
-                : undefined,
+              sonstigeAntraege.length > 0 ? sonstigeAntraege : undefined,
           },
           beweis: zeugen.beweise.length > 0 ? zeugen.beweise : undefined,
           auswahlBegruendetheit: {
@@ -138,6 +191,7 @@ export async function geldEinklagenXjustizFromUserdata({
                     inhalt: {
                       tatsachenvortragSachverhaltsbeschreibung:
                         begruendungText.value,
+                      rechtlicheWuerdigung: rechtlicheWuerdigungText?.value,
                     },
                     refBeweisNummer: zeugen.beweise.map((beweis) =>
                       reference(beweis.beweisNummer),

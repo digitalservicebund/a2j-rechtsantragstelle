@@ -1,6 +1,6 @@
 import capitalize from "lodash/capitalize";
 
-const mapTitle = (title?: string) => {
+export const mapTitle = (title?: string) => {
   if (title === "dr") {
     return "Dr.";
   }

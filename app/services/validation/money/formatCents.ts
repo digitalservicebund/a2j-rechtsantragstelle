@@ -17,4 +17,6 @@ const formatCents = (cents: number) => {
 export default formatCents;
 
 export const parseCurrencyStringDE = (formattedCents?: string) =>
-  Number.parseFloat((formattedCents ?? "").replace(".", "").replace(",", "."));
+  Number.parseFloat(
+    (formattedCents ?? "").replaceAll(".", "").replace(",", "."),
+  );

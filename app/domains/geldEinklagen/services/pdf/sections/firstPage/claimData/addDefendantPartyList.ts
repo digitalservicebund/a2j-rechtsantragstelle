@@ -1,4 +1,8 @@
 import type PDFDocument from "pdfkit";
+import {
+  anwaltskostenAntragText,
+  hauptforderungAntragText,
+} from "~/domains/geldEinklagen/services/antragTexts";
 import { MARGIN_RIGHT } from "~/domains/geldEinklagen/services/pdf/configurations";
 import {
   FONTS_BUNDESSANS_BOLD,
@@ -15,15 +19,10 @@ export const addDefendantPartyList = (
   streitwert: string,
   anwaltskosten: string,
 ) => {
-  const interestClause =
-    prozesszinsen === "yes"
-      ? " nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit"
-      : "";
-
   const defendantPartyList = {
-    "1. ": `Die beklagte Partei wird verurteilt, an die klagende Partei ${streitwert} Euro${interestClause} zu zahlen.`,
+    "1. ": hauptforderungAntragText(streitwert, prozesszinsen),
     ...(anwaltskosten && {
-      "2. ": `Die beklagte Partei wird verurteilt die außergerichtlich angefallenen Anwaltskosten in Höhe von ${anwaltskosten} Euro${interestClause} zu zahlen.`,
+      "2. ": anwaltskostenAntragText(anwaltskosten, prozesszinsen),
     }),
   };
 

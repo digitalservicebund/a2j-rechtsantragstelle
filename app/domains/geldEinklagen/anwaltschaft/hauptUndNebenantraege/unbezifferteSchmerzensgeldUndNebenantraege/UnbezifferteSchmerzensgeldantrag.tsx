@@ -8,7 +8,7 @@ import { getUnbezifferterSchmerzensgeldantragText } from "../hauptUndNebenantrae
 import { UnbezifferteSchmerzensgeldNebenantragItem } from "./UnbezifferteSchmerzensgeldNebenantragItem";
 
 const BASE_URL_UNBEZIEFERTER_SCHMERZENSGELD_UND_NEBENANTRAEGE =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege";
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag";
 
 type UnbezifferteSchmerzensgeldantragProps = {
   readonly itemIndex: number;

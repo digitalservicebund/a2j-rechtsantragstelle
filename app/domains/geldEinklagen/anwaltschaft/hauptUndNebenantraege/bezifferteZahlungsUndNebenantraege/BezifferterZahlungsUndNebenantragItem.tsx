@@ -131,7 +131,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             </>
           ),
           editButton: {
-            href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type}/${arrayIndex}/daten`,
+            href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type === "annahmeverzug" ? "annahmeverzug" : "nebenantraege"}/${arrayIndex}/daten`,
             ariaLabel: `${itemLabel} ${index + 1} bearbeiten`,
             onClick: onEditNebenantrag(index),
           },
@@ -172,7 +172,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
         ...(nextNebenantragIndex < MAX_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
+                href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },
