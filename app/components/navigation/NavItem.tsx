@@ -46,6 +46,12 @@ const StateIcon: FC<StateIconProps> = ({ id, isDone, showWarningIcon }) => {
 
 const DEFAULT_EMPTY_SUBFLOWS: NavItem[] = [];
 
+const getStatusText = (isDone: boolean, isWarning: boolean) => {
+  if (isDone) return translations.navigation.navigationItemFinished.de;
+  if (isWarning) return translations.navigation.navigationItemWarning.de;
+  return "";
+};
+
 export function NavItem({
   destination,
   label,
@@ -111,11 +117,7 @@ export function NavItem({
   );
   const iconId = useId();
 
-  const statusText = isDone
-    ? translations.navigation.navigationItemFinished.de
-    : isWarning
-      ? translations.navigation.navigationItemWarning.de
-      : "";
+  const statusText = getStatusText(isDone, isWarning);
 
   return (
     <li className={liClassNames}>
