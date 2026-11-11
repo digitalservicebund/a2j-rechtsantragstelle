@@ -35,6 +35,7 @@ export const commonFields = {
 };
 
 export const vertretungFields = {
+  id: z.uuid().optional(),
   ...adresseFields,
   ...personFields,
 };
@@ -86,6 +87,7 @@ export const organizationSchema = z.object({
   ...commonFields,
   type: z.literal("organisation"),
   orgName: stringRequiredSchema,
+  orgVertretungId: z.uuid().optional(),
   orgVertretungArt: organizationGesetzlicheVertretungArt,
   orgVertretungAnrede: schemaOrEmptyString(z.enum(["herr", "frau", "none"])),
   orgVertretungTitel: stringOptionalSchema,

@@ -205,6 +205,8 @@ export const tatsachenvortragPages = {
       "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
+      "hauptantrag#absaetze#beweise#personen":
+        parteivernehmungSchema.shape.personen,
       "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
       ),
@@ -218,6 +220,8 @@ export const tatsachenvortragPages = {
       "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
+      "hauptantrag#nebenantraege#absaetze#beweise#personen":
+        parteivernehmungSchema.shape.personen,
       "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
       ),

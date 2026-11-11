@@ -53,7 +53,14 @@ describe("setPartyType", () => {
         expect.objectContaining({
           klagenden: [
             { ...existingParty, id: expect.any(String) },
-            { ...draftParty, type, id: expect.any(String) },
+            {
+              ...draftParty,
+              type,
+              id: expect.any(String),
+              ...(type === "organisation" && {
+                orgVertretungId: expect.any(String),
+              }),
+            },
           ],
         }),
       );
@@ -163,4 +170,32 @@ describe("setPartyType", () => {
 
     expect((session.get("klagenden") as KlageParteien)[0].id).toBe(partyId);
   });
+
+  it.each(["klagende", "beklagte"] as const)(
+    "assigns and preserves the organisation primary representative ID for %s",
+    (relationship) => {
+      const key = relationship === "klagende" ? "klagenden" : "beklagten";
+      const userData = {
+        [key]: [{ type: "organisation", id: crypto.randomUUID() }],
+      } as GeldEinklagenAnwaltschaftUserData;
+      const session = createSession(userData);
+      const request = new Request(
+        `http://localhost/${key}/0/organisation-daten`,
+      );
+      setPartyType(relationship, "organisation")(request, userData, session);
+      const saved = (session.get(key) as KlageParteien)[0];
+      expect(saved.type).toBe("organisation");
+      if (saved.type !== "organisation")
+        throw new Error("Expected organisation");
+      expect(z.uuid().safeParse(saved.orgVertretungId).success).toBe(true);
+      expect(saved.orgVertretungId).not.toBe(saved.id);
+      const pruned = createFlowSession(
+        geldEinklagenAnwaltschaftFlowConfig,
+        { ...session.data, pageData: { arrayIndexes: [0] } },
+        `/${relationship}-partei/${key}/#/organisation-daten`,
+      ).prunedUserData;
+      setPartyType(relationship, "organisation")(request, pruned, session);
+      expect((session.get(key) as KlageParteien)[0]).toEqual(saved);
+    },
+  );
 });

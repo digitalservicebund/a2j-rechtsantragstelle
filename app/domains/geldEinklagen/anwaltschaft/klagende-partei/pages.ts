@@ -56,6 +56,9 @@ export const klagendeParteiPages = {
     isRelevantForDone: ({ klagenden, pageData }: KlagePartyDoneContext) =>
       klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !== "organisation",
     pageSchema: {
+      "klagenden#gesetzliche-vertretung#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(vertretungFields.id),
+      ),
       "klagenden#gesetzliche-vertretung#art":
         naturalPersonGesetzlicheVertretungArt,
       "klagenden#gesetzliche-vertretung#anrede": vertretungFields.anrede,
@@ -82,6 +85,9 @@ export const klagendeParteiPages = {
       "klagenden#plz": organizationSchema.shape.plz,
       "klagenden#ort": organizationSchema.shape.ort,
       "klagenden#land": organizationSchema.shape.land,
+      "klagenden#orgVertretungId": hiddenInputSchema(
+        schemaOrEmptyStringOptional(organizationSchema.shape.orgVertretungId),
+      ),
       "klagenden#orgVertretungArt": organizationSchema.shape.orgVertretungArt,
       "klagenden#orgVertretungAnrede":
         organizationSchema.shape.orgVertretungAnrede,
@@ -107,6 +113,9 @@ export const klagendeParteiPages = {
       klagenden?.[pageData?.arrayIndexes?.[0] ?? -1]?.type !==
       "natuerliche-person",
     pageSchema: {
+      "klagenden#gesetzliche-vertretung#id": hiddenInputSchema(
+        schemaOrEmptyStringOptional(vertretungFields.id),
+      ),
       "klagenden#gesetzliche-vertretung#art":
         organizationGesetzlicheVertretungArt,
       "klagenden#gesetzliche-vertretung#anrede": vertretungFields.anrede,

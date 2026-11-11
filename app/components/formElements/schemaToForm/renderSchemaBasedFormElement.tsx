@@ -36,8 +36,13 @@ import { klageParteiCheckboxesZodDescription } from "~/services/validation/klage
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/AnnahmeverzugCheckbox";
-import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
+import {
+  getPartyLabel,
+  KlageParteiCheckboxes,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 import { parteivernehmungBeweisCheckboxesZodDescription } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
+import { translations } from "~/services/translations/translations";
+import { getParteivernehmungBeweisCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -240,38 +245,26 @@ export const renderSpecialMetaDescriptions = (
       );
     }
     case klageParteiCheckboxesZodDescription: {
-      const geldEinklagenUserData =
-        userData as GeldEinklagenFormularUserData & {
-          klagenden?: React.ComponentProps<
-            typeof KlageParteiCheckboxes
-          >["parties"];
-          beklagten?: React.ComponentProps<
-            typeof KlageParteiCheckboxes
-          >["parties"];
-        };
       const isBeklagte = fieldName.endsWith("#beklagte");
-
-      const parties = isBeklagte
-        ? (geldEinklagenUserData.beklagten ?? [])
-        : (geldEinklagenUserData.klagenden ?? []);
-
       return (
         <KlageParteiCheckboxes
           key={fieldName}
           name={fieldName}
-          parties={parties}
+          userData={userData as GeldEinklagenAnwaltschaftUserData}
           relationship={isBeklagte ? "beklagte" : "klagende"}
+          showPaymentHint
+          getCheckboxLabel={(index, party) => (
+            <>
+              <strong>zu {index + 1})</strong> {getPartyLabel(party)}
+            </>
+          )}
+          label={`${isBeklagte ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesBeklagteLabel.de : translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesKlagendeLabel.de} ${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesLeistungLabel.de}`}
         />
       );
     }
     case annahmeverzugCheckboxZodDescription: {
       const geldEinklagenUserData =
-        userData as GeldEinklagenFormularUserData & {
-          beklagten?: React.ComponentProps<
-            typeof AnnahmeverzugCheckbox
-          >["parties"];
-          hauptantrag?: GeldEinklagenAnwaltschaftUserData["hauptantrag"];
-        };
+        userData as GeldEinklagenAnwaltschaftUserData;
 
       const arrayIndexes = geldEinklagenUserData.pageData?.arrayIndexes;
       const hauptantragIndex = arrayIndexes?.[0] ?? 0;
@@ -288,20 +281,17 @@ export const renderSpecialMetaDescriptions = (
       );
     }
     case parteivernehmungBeweisCheckboxesZodDescription: {
-      const geldEinklagenUserData =
-        userData as GeldEinklagenAnwaltschaftUserData;
-      const isBeklagte = true; //TODO: fix logic
-
-      const parties = isBeklagte
-        ? (geldEinklagenUserData.beklagten ?? [])
-        : (geldEinklagenUserData.klagenden ?? []);
-
       return (
         <KlageParteiCheckboxes
           key={fieldName}
           name={fieldName}
-          parties={parties}
-          relationship={isBeklagte ? "beklagte" : "klagende"}
+          userData={userData as GeldEinklagenAnwaltschaftUserData}
+          includeGesetzlicheVertretung
+          label={
+            translations.geldEinklagenAnwaltschaft
+              .parteivernehmungCheckboxesLabel.de
+          }
+          getCheckboxLabel={getParteivernehmungBeweisCheckboxLabel}
         />
       );
     }

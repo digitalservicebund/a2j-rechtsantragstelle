@@ -100,7 +100,7 @@ export const hauptUndNebenantraegeTestCases = {
   withNebenantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/nebenantrag/0/daten",
+        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/0/nebenantraege/0/daten",
       userInput: {
         ...testcaseData,
         "hauptantrag#nebenantraege#type": "nebenantrag",
@@ -135,7 +135,7 @@ export const hauptUndNebenantraegeTestCases = {
         ...testcaseData,
         "hauptantrag#nebenantraege": [
           {
-            type: "nebenantraege",
+            type: "nebenantrag",
             nebenantragArt: "vorgerichtlicheAnwaltskosten",
             nebenantragBetrag: "100",
           },
@@ -163,7 +163,7 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/0/daten",
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/0/daten",
       userInput: {
         "schmerzengeldantrag#internesSchlagwortFordureung": "Schmerzensgeld",
         "schmerzengeldantrag#mindestBetrag": "1000",
@@ -216,7 +216,7 @@ export const hauptUndNebenantraegeTestCases = {
   withSchmerzengeldNebenantrag: [
     {
       stepId:
-        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/0/nebenantrag/0/daten",
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/0/nebenantraege/0/daten",
       userInput: {
         ...testcaseData,
         schmerzengeldantrag: [

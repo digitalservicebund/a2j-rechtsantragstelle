@@ -572,6 +572,18 @@ export const translations = {
     cardButtonLabelErbausschlagung: {
       de: "Zu Erbe ausschlagen",
     },
+    cardPrelineErbschein: {
+      de: "Erbschein",
+    },
+    cardHeadingErbschein: {
+      de: "Einen Erbschein beantragen",
+    },
+    cardDescriptionErbschein: {
+      de: "Mit einem Erbschein können Sie nachweisen, dass Sie geerbt haben. Hier finden Sie Informationen darüber, wie Sie einen Erbschein beim Nachlassgericht beantragen. Mit dem Wegweiser können Sie prüfen, ob Sie einen Erbschein benötigen. Sie erfahren außerdem, welche Unterlagen nötig sind und welche Kosten entstehen.",
+    },
+    cardButtonLabelErbschein: {
+      de: "Zum Erbschein",
+    },
   },
   geldEinklagen: {
     begruendungBeschreibungHeadline: {
@@ -959,6 +971,9 @@ export const translations = {
     },
     beweisangebotPersonDeletionDescription: {
       de: "Die folgende Person wird aus diesem Absatz entfernt:",
+    },
+    parteivernehmungCheckboxesLabel: {
+      de: "Wählen Sie eine oder mehrere Personen aus",
     },
     optionalSuffix: {
       de: " - Optional",

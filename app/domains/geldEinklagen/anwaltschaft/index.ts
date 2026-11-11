@@ -12,6 +12,7 @@ import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacemen
 import { geldEinklagenAnwaltschaftFlowConfig } from "./flowConfig";
 import { geldEinklagenAnwaltschaftPdfFromUserdata } from "./services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
 import { setBeweisIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setBeweisIdentity";
+import { setGesetzlicheVertretungIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setGesetzlicheVertretungIdentity";
 
 export const geldEinklagenAnwaltschaft = {
   flowType: "formFlow",
@@ -31,6 +32,10 @@ export const geldEinklagenAnwaltschaft = {
       "klagende",
       "organisation",
     ),
+    "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten":
+      setGesetzlicheVertretungIdentity("klagende"),
+    "/klagende-partei/klagenden/#/gesetzliche-vertretung/#/daten-organisation":
+      setGesetzlicheVertretungIdentity("klagende"),
     "/klagende-partei/prozessbevollmaechtigte/#/einzelkanzlei-daten":
       setProzessbevollmaechtigteType("klagende", "einzelkanzlei"),
     "/klagende-partei/prozessbevollmaechtigte/#/berufsausuebungsgesellschaft-daten":
@@ -46,6 +51,10 @@ export const geldEinklagenAnwaltschaft = {
       "beklagte",
       "organisation",
     ),
+    "/beklagte-partei/beklagten/#/gesetzliche-vertretung/#/daten":
+      setGesetzlicheVertretungIdentity("beklagte"),
+    "/beklagte-partei/beklagten/#/gesetzliche-vertretung/#/daten-organisation":
+      setGesetzlicheVertretungIdentity("beklagte"),
     "/beklagte-partei/prozessbevollmaechtigte/#/einzelkanzlei-daten":
       setProzessbevollmaechtigteType("beklagte", "einzelkanzlei"),
     "/beklagte-partei/prozessbevollmaechtigte/#/berufsausuebungsgesellschaft-daten":
@@ -69,6 +78,10 @@ export const geldEinklagenAnwaltschaft = {
       setBeweisIdentity("zeuge", true),
     "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten":
       setBeweisIdentity("zeuge", false),
+    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten":
+      setBeweisIdentity("parteivernehmung", true),
+    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten":
+      setBeweisIdentity("parteivernehmung", false),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {
