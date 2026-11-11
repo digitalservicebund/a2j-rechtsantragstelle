@@ -1,9 +1,7 @@
 import z from "zod";
 import type { FunctionMultiFieldsValidation } from "~/domains/types";
-import type { SchemaObject } from "~/domains/userData";
 import { hauptUndNebenantraegePages } from "../../hauptUndNebenantraege/pages";
 import { validateDateRange } from "./validateDateRange";
-import type { DateInput } from "./validateDateRange";
 
 const _schema = hauptUndNebenantraegePages.nebenantragDaten.pageSchema;
 
@@ -12,9 +10,11 @@ export function validateNebenantragZins(): FunctionMultiFieldsValidation<
     typeof _schema,
     | "hauptantrag#nebenantraege#nebenantragZinssatzInProzent"
     | "hauptantrag#nebenantraege#nebenantragZinsmethode"
+    | "hauptantrag#nebenantraege#nebenantragZinsbeginn"
+    | "hauptantrag#nebenantraege#nebenantragZinsende"
   >
 > {
-  return function (baseSchema: z.ZodObject<SchemaObject>) {
+  return function (baseSchema) {
     return baseSchema.check((ctx) => {
       const zinssatz =
         ctx.value["hauptantrag#nebenantraege#nebenantragZinssatzInProzent"];
@@ -50,12 +50,8 @@ export function validateNebenantragZins(): FunctionMultiFieldsValidation<
       }
       validateDateRange(
         ctx,
-        typeof startDate === "object" && startDate !== null
-          ? (startDate as DateInput)
-          : undefined,
-        typeof endDate === "object" && endDate !== null
-          ? (endDate as DateInput)
-          : undefined,
+        startDate,
+        endDate,
         "hauptantrag#nebenantraege#nebenantragZinsende",
       );
       return z.NEVER;

@@ -94,7 +94,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
             </>
           ),
           editButton: {
-            href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${index}/daten`,
+            href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantrag/${index}/daten`,
             ariaLabel: `Nebenantrag ${index + 1} bearbeiten`,
             onClick: onEditUnbezifferteSchmerzensgeldNebenantrag(index),
           },
@@ -137,7 +137,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
         items.length < MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS
           ? [
               {
-                href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
+                href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantrag/${items.length}/daten`,
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },

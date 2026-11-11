@@ -59,7 +59,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
                 }
                 tagName={"div"}
                 look={"warning"}
-                content={translations.geldEinklagenAnwaltschaft.schmerzengeldantragDeleteWarning.de.replace(
+                content={translations.geldEinklagenAnwaltschaft.schmerzengeldantragDeleteWarning.de.replaceAll(
                   /\$\{itemIndex \+ 1\}/g,
                   `${itemIndex + 1}`,
                 )}
