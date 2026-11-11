@@ -91,6 +91,9 @@ export const pruneUserData = <C extends PageConfigMap>(
     }
   }
 
+  // Copy pageData after pruning so we can get pageData
+  result.pageData = data.pageData;
+
   return result as InferredUserData<C>;
 };
 
