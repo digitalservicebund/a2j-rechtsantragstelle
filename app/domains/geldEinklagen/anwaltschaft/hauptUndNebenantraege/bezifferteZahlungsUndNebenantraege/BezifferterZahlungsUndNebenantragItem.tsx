@@ -96,7 +96,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
     <NestedArrayItemList
       heading={translations.geldEinklagenAnwaltschaft.nebenantragHeadline.de}
       headingId={`nebenantrag-heading-${parentArrayItemIndex}`}
-      headingSuffix="Optional"
+      headingSuffix=" - Optional"
       subtitle={
         translations.geldEinklagenAnwaltschaft.nebenantragDescription.de
       }

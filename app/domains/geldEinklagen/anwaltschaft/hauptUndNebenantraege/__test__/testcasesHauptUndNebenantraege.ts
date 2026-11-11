@@ -135,7 +135,7 @@ export const hauptUndNebenantraegeTestCases = {
         ...testcaseData,
         "hauptantrag#nebenantraege": [
           {
-            type: "nebenantraege",
+            type: "nebenantrag",
             nebenantragArt: "vorgerichtlicheAnwaltskosten",
             nebenantragBetrag: "100",
           },
