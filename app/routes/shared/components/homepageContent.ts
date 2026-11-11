@@ -56,6 +56,15 @@ export const serviceCards: CardGroupItem[] = [
     description: translations.homepage.cardDescriptionErbausschlagung.de,
     buttonLabel: translations.homepage.cardButtonLabelErbausschlagung.de,
   },
+  {
+    span: 4,
+    link: "/erbschein",
+    id: "erbschein-card",
+    preline: translations.homepage.cardPrelineErbschein.de,
+    heading: translations.homepage.cardHeadingErbschein.de,
+    description: translations.homepage.cardDescriptionErbschein.de,
+    buttonLabel: translations.homepage.cardButtonLabelErbschein.de,
+  },
 ];
 
 export const lebenslagenCards: CardGroupItem[] = [
