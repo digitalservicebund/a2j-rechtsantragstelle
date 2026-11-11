@@ -7,7 +7,6 @@ import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 import {
-  getAlphabeticalEnumeration,
   getNebenantragItemText,
   nebenantragArtLabels,
 } from "../hauptUndNebenantraegeContent";
@@ -116,19 +115,13 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
           id: `nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
-            <>
-              <span className="kern-body font-bold!">
-                {getAlphabeticalEnumeration(index)}
-              </span>
-
-              <span className="kern-body max-w-[528px]">
-                {getNebenantragItemText({
-                  item: entry,
-                  userData,
-                  hauptantragIndex: parentArrayItemIndex,
-                })}
-              </span>
-            </>
+            <span className="kern-body max-w-[528px]">
+              {getNebenantragItemText({
+                item: entry,
+                userData,
+                hauptantragIndex: parentArrayItemIndex,
+              })}
+            </span>
           ),
           editButton: {
             href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/${type === "annahmeverzug" ? "annahmeverzug" : "nebenantraege"}/${arrayIndex}/daten`,

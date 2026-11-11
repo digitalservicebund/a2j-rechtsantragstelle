@@ -45,9 +45,6 @@ export const nebenantragArtLabels: Record<
   pauschale: "Pauschale",
 };
 
-export const getAlphabeticalEnumeration = (index: number): string =>
-  `${String.fromCodePoint(97 + index)}.`;
-
 export const getNebenantragItemText = ({
   item,
   userData,

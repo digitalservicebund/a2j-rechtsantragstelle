@@ -163,7 +163,7 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantrag/0/daten",
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/0/daten",
       userInput: {
         "schmerzengeldantrag#internesSchlagwortFordureung": "Schmerzensgeld",
         "schmerzengeldantrag#mindestBetrag": "1000",
