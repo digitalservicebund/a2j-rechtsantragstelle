@@ -27,7 +27,12 @@ export const typeA = branded(datatypeA);
 export const typeB = branded(datatypeB);
 export const typeC = branded(datatypeC);
 export const typeD = branded(datatypeD);
-export const optionalTypeC = z.preprocess(
-  (value) => (value === "" ? undefined : value),
-  typeC.optional(),
-);
+// Empty form fields arrive as "", so treat them as not given.
+const optional = <Schema extends z.ZodType>(schema: Schema) =>
+  z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    schema.optional(),
+  );
+
+export const optionalTypeC = optional(typeC);
+export const optionalTypeD = optional(typeD);
