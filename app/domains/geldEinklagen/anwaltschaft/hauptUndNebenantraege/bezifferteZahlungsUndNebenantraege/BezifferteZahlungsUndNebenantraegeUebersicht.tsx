@@ -97,7 +97,7 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
     >
       {arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag) &&
         userDataGeldEinklagen.hauptantrag.map((item, index) => (
-          <React.Fragment key={item.id}>
+          <React.Fragment key={item.id ?? index}>
             <h2
               id={`zahlungsantrag-heading-${index}`}
               className="kern-body kern-body--large kern-body--bold p-0! mb-16"
