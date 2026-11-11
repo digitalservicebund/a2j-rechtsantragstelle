@@ -162,7 +162,7 @@ describe("createDateInputSchema", () => {
     expect(actual).toBe(false);
   });
 
-  test("too early", () => {
+  test("too late", () => {
     const actual = z.validate(
       createDateInputSchema({
         latest: () =>

@@ -3,6 +3,7 @@ import { isStrapiHero } from "../cms/models/content/isStrapiHero";
 import type { StrapiContentComponent } from "../cms/models/formElements/StrapiContentComponent";
 import type { StrapiMeta } from "../cms/models/StrapiMeta";
 import type { CMSContent } from "../flow/contentData/buildCmsContentAndTranslations";
+import { stripHtmlTags } from "../security/sanitizeHtml";
 
 type RouteMatchKnown = Omit<ReturnType<typeof useMatches>[0], "loaderData"> & {
   loaderData: {
@@ -22,7 +23,7 @@ function headerTextFromContent(content?: StrapiContentComponent[]) {
   const htmlContent = content?.find(isStrapiHero)?.content?.html;
 
   if (htmlContent) {
-    return htmlContent.replace(/<[^>]+>/g, "");
+    return stripHtmlTags(htmlContent);
   }
 }
 

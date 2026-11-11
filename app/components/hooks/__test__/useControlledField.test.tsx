@@ -18,7 +18,7 @@ const mockHandleFieldValueChange: FieldValueChangeHandler = ({
 };
 
 describe("useControlledField", () => {
-  it("should return a screenReader announcement component", () => {
+  it("should return a screenReader announcement component", async () => {
     const { result } = renderHook(() =>
       useControlledField("iban", {
         fieldName: "bankName",
@@ -26,11 +26,15 @@ describe("useControlledField", () => {
         getScreenReaderAnnouncementText: () => "Bank name updated",
       }),
     );
-    const { container } = render(result.current.SrAnnouncementComponent);
-    const srComponent = container.querySelector("div");
-    expect(srComponent).toBeDefined();
-    expect(srComponent).toHaveAttribute("aria-live", "polite");
-    expect(srComponent).toHaveTextContent("Bank name updated");
+    const { container, rerender } = render(<></>);
+
+    // result.current is the latest hook output, so re-render it on each poll
+    await waitFor(() => {
+      rerender(<>{result.current.SrAnnouncementComponent}</>);
+      const srComponent = container.querySelector("div");
+      expect(srComponent).toHaveAttribute("aria-live", "polite");
+      expect(srComponent).toHaveTextContent("Bank name updated");
+    });
   });
 
   it("should call the field value change handler", async () => {

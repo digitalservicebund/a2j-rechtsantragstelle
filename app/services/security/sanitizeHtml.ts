@@ -45,3 +45,11 @@ const sanitizer = new xss.FilterXSS({
 });
 
 export const sanitizeHtml = (html: string) => sanitizer.process(html);
+
+const textOnlySanitizer = new xss.FilterXSS({
+  allowList: {},
+  stripIgnoreTag: true,
+  stripIgnoreTagBody: ["script", "style"],
+});
+
+export const stripHtmlTags = (html: string) => textOnlySanitizer.process(html);
