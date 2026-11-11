@@ -108,6 +108,10 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           type === "nebenantrag"
             ? "Nebenantrag"
             : "Feststellungsantrag auf Annahmeverzug";
+        const title =
+          entry.type === "nebenantrag"
+            ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ?? ""}`
+            : itemLabel;
 
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
@@ -134,10 +138,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           },
           deleteButton: {
             onDelete: () => deleteNebenantrag(arrayIndex),
-            title:
-              type === "nebenantrag"
-                ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
-                : `${itemLabel}`,
+            title,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
               <>
@@ -148,7 +149,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
                   }
                   tagName={"div"}
                   look={"warning"}
-                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replace(
+                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replaceAll(
                     /\${itemLabel}/g,
                     itemLabel,
                   )}
@@ -161,11 +162,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
                 </p>
                 <span className="flex flex-row items-center!">
                   <Icon name="money-range" className="mr-8!" />
-                  <p className="kern-body! font-bold! text-xl!">
-                    {type === "nebenantrag"
-                      ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag : ""}`
-                      : itemLabel}
-                  </p>
+                  <p className="kern-body! font-bold! text-xl!">{title}</p>
                 </span>
               </>
             ),

@@ -12,7 +12,6 @@ const BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE =
 
 type BezifferterZahlungsantragProps = {
   readonly itemIndex: number;
-  readonly index: number;
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["hauptantrag"]
   >[number];

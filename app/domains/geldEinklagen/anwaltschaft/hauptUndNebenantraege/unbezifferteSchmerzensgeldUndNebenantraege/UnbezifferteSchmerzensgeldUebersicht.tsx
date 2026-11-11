@@ -5,8 +5,7 @@ import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { useEffect } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { UnbezifferteSchmerzensgeldantrag } from "./UnbezifferteSchmerzensgeldantrag";
 
 const BASE_URL_SCHMERZENGELD_ANTRAG =
@@ -15,7 +14,7 @@ const BASE_URL_SCHMERZENGELD_ANTRAG =
 const BASE_URL_WARNUNG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung";
 
-const MAX_SCHMERZENGELD_ANTRAG_ITEMS = 50;
+const MAX_SCHMERZENGELD_ANTRAG_ITEMS = 30;
 
 const focusStorageKey = "focus-schmerzengeldantrag";
 
