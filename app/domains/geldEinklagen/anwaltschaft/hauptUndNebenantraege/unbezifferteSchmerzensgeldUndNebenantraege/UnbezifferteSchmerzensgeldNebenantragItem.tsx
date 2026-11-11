@@ -1,10 +1,7 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
-import {
-  getAlphabeticalEnumeration,
-  getNebenantragItemText,
-} from "../hauptUndNebenantraegeContent";
+import { getNebenantragItemText } from "../hauptUndNebenantraegeContent";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
@@ -79,19 +76,13 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
           key: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           id: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
-            <>
-              <span className="kern-body font-bold!">
-                {getAlphabeticalEnumeration(index)}
-              </span>
-
-              <span className="kern-body max-w-[528px]">
-                {getNebenantragItemText({
-                  item: entry,
-                  userData,
-                  schmerzengeldantragIndex: parentArrayItemIndex,
-                })}
-              </span>
-            </>
+            <span className="kern-body max-w-[528px]">
+              {getNebenantragItemText({
+                item: entry,
+                userData,
+                schmerzengeldantragIndex: parentArrayItemIndex,
+              })}
+            </span>
           ),
           editButton: {
             href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${index}/daten`,
