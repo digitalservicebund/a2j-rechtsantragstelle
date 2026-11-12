@@ -12,7 +12,7 @@ import { GridSection } from "~/components/layout/grid/GridSection";
 import { NavigationList } from "~/components/navigation/NavigationList";
 import { type loader } from "~/routes/shared/hubPages";
 import { isStrapiHero } from "~/services/cms/models/content/isStrapiHero";
-import { navigationLists, tableOfContents } from "~/services/routing/hubPages";
+import { navigationLists } from "~/services/routing/hubPages";
 import { translations } from "~/services/translations/translations";
 
 export function HubPage() {
@@ -28,9 +28,10 @@ export function HubPage() {
   const nonHeroComponent = content?.filter(
     (c) => !isStrapiHero(c) && c.__component !== "page.table-of-contents",
   );
+  const tableOfContents = content?.find(
+    (c) => !isStrapiHero(c) && c.__component === "page.table-of-contents",
+  );
 
-  const tableOfContentLinks =
-    tableOfContents[pathname as keyof typeof tableOfContents];
   const navItems = navigationLists[pathname as keyof typeof navigationLists];
 
   return (
@@ -62,16 +63,18 @@ export function HubPage() {
             xlColumn={{ start: 1, span: 3 }}
             row={1}
           >
-            <TableOfContents
-              label={{
-                tagName: "h2",
-                className: "kern-label kern-label--small",
-                text: translations.hubPages.tableOfLinksLabel.de,
-                managedByParent: true,
-              }}
-              links={tableOfContentLinks}
-              classNameLinks="kern-link--small"
-            />
+            {tableOfContents && (
+              <TableOfContents
+                label={{
+                  tagName: "h2",
+                  className: "kern-label kern-label--small",
+                  text: translations.hubPages.tableOfLinksLabel.de,
+                  managedByParent: true,
+                }}
+                links={tableOfContents.links}
+                classNameLinks="kern-link--small"
+              />
+            )}
           </GridItem>
           <GridItem
             mdColumn={{ start: 1, span: 7 }}

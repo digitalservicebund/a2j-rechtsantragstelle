@@ -6,7 +6,9 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { z } from "zod";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import { parteivernehmungSchema } from "../../../tatsachenvortrag/tatsachenvortragSchemas";
+import { getParteivernehmungBeweisCheckboxLabel } from "../../../tatsachenvortrag/absaetzeHelpers";
 import { KlageParteiCheckboxes } from "../KlageParteiCheckboxes";
+import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 const ids = [
   "11111111-1111-4111-8111-111111111111",
@@ -102,12 +104,14 @@ const TestForm = ({
   enableRemoval = false,
   initialData = userData,
   showIndex = false,
+  getCheckboxLabel,
 }: {
   relationship?: "klagende" | "beklagte";
   includeGesetzlicheVertretung?: boolean;
   enableRemoval?: boolean;
   initialData?: GeldEinklagenAnwaltschaftUserData;
   showIndex?: boolean;
+  getCheckboxLabel?: GetCheckboxLabel;
 }) => {
   const [parties, setParties] =
     useState<GeldEinklagenAnwaltschaftUserData>(initialData);
@@ -124,8 +128,10 @@ const TestForm = ({
           label="Personen"
           relationship={relationship}
           includeGesetzlicheVertretung={includeGesetzlicheVertretung}
-          getCheckboxLabel={(index, party, side, representative) =>
-            `${side}${showIndex ? ` ${index + 1}` : ""}: ${representative?.vorname ?? (party.type === "natuerliche-person" ? party.vorname : party.orgName)}`
+          getCheckboxLabel={
+            getCheckboxLabel ??
+            ((index, party, side, representative) =>
+              `${side}${showIndex ? ` ${index + 1}` : ""}: ${representative?.vorname ?? (party.type === "natuerliche-person" ? party.vorname : party.orgName)}`)
           }
         />
         {enableRemoval && (
@@ -244,15 +250,12 @@ describe("KlageParteiCheckboxes", () => {
       "klagende 1: K-Person 1 Vertretung",
       "klagende 2: K-Person 2",
       "klagende 2: K-Person 2 Vertretung",
-      "klagende 3: K-Org 1",
       "klagende 3: K-Org 1 Hauptvertretung",
       "klagende 3: K-Org 1 weitere Vertretung",
-      "klagende 4: K-Org 2",
       "klagende 4: K-Org 2 Hauptvertretung",
       "klagende 4: K-Org 2 weitere Vertretung",
       "beklagte 1: B-Person",
       "beklagte 1: B-Person Vertretung",
-      "beklagte 2: B-Org",
       "beklagte 2: B-Org Hauptvertretung",
       "beklagte 2: B-Org weitere Vertretung",
     ]);
@@ -265,7 +268,6 @@ describe("KlageParteiCheckboxes", () => {
       screen.getByRole("form", { name: "Formular" }) as HTMLFormElement,
     );
     expect(formData.get(`personen.${klagendeOrg.orgVertretungId}`)).toBe("on");
-    expect(formData.get(`personen.${klagendeOrg.id}`)).toBe("off");
     const submitted = Object.fromEntries(
       Array.from(formData.entries())
         .filter(([name]) => name.startsWith("personen."))
@@ -274,6 +276,55 @@ describe("KlageParteiCheckboxes", () => {
     expect(
       parteivernehmungSchema.shape.personen.safeParse(submitted).success,
     ).toBe(true);
+  });
+
+  it("passes the default and additional organization representative labels in the expected order", () => {
+    renderForm({
+      relationship: "klagende",
+      includeGesetzlicheVertretung: true,
+      initialData: { klagenden: [organisation("K-Org")] },
+      getCheckboxLabel: getParteivernehmungBeweisCheckboxLabel,
+    });
+
+    const labels = screen
+      .getAllByRole("checkbox")
+      .map((element) =>
+        element instanceof HTMLInputElement
+          ? element.labels?.[0]?.textContent?.replace(/\s+/g, " ").trim()
+          : undefined,
+      );
+    expect(labels).toHaveLength(2);
+    expect(labels[0]).toContain("Kläger zu 1) K-Org, gesetzliche Vertretung:");
+    expect(labels[1]).toContain(
+      "Kläger zu 1) K-Org, weitere gesetzliche Vertretung:",
+    );
+  });
+
+  it("shows an organization only as its default representative when there are no additional representatives", () => {
+    const org = {
+      ...organisation("K-Org"),
+      "gesetzliche-vertretung": [],
+    };
+
+    renderForm({
+      relationship: "klagende",
+      includeGesetzlicheVertretung: true,
+      initialData: { klagenden: [org] },
+      getCheckboxLabel: getParteivernehmungBeweisCheckboxLabel,
+    });
+
+    expect(screen.getAllByRole("checkbox")).toHaveLength(1);
+    const [defaultLabel] = screen
+      .getAllByRole("checkbox")
+      .map((element) =>
+        element instanceof HTMLInputElement
+          ? element.labels?.[0]?.textContent?.replace(/\s+/g, " ").trim()
+          : undefined,
+      );
+    expect(defaultLabel).toContain(
+      "Kläger zu 1) K-Org, gesetzliche Vertretung:",
+    );
+    expect(defaultLabel).not.toContain("weitere gesetzliche Vertretung");
   });
 
   it.each(["klagende", "beklagte"] as const)(

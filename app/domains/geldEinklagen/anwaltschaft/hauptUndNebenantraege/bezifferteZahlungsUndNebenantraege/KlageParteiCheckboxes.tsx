@@ -4,36 +4,13 @@ import { useState } from "react";
 import InputError from "~/components/formElements/inputs/error/InputError";
 import { InputLabel } from "~/components/formElements/inputs/label/InputLabel";
 import { translations } from "~/services/translations/translations";
-import type {
-  KlageParteien,
-  KlageParteiVerhaeltnis,
-  GesetzlicherVertreter,
-} from "../../shared/klageParties/klagePartySchemas";
+import type { KlageParteiVerhaeltnis } from "../../shared/klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
+import { useKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
 import {
-  type KlagePartyWithArrayIndex,
-  useKlageParties,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
-
-type RepresentativeName = Pick<
-  GesetzlicherVertreter,
-  "anrede" | "titel" | "vorname" | "nachname"
->;
-
-export type GetCheckboxLabel = (
-  index: number,
-  party: KlageParteien[number],
-  relationship: KlageParteiVerhaeltnis,
-  representative?: RepresentativeName,
-) => React.ReactNode;
-
-type SelectableParty = {
-  id: string;
-  index: number;
-  party: KlageParteien[number];
-  relationship: KlageParteiVerhaeltnis;
-  representative?: RepresentativeName;
-};
+  getSelectableKlageParties,
+  type GetCheckboxLabel,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 type Props = {
   name: string;
@@ -44,55 +21,6 @@ type Props = {
   showPaymentHint?: boolean;
   getCheckboxLabel: GetCheckboxLabel;
 };
-
-export const getPartyLabel = (party: KlageParteien[number]) => {
-  if (party.type === "natuerliche-person") {
-    return `${party.anrede ?? ""} ${party.titel ?? ""} ${party.vorname} ${party.nachname}`;
-  }
-  return party.orgName;
-};
-
-const getSelectableKlageParties = (
-  parties: KlagePartyWithArrayIndex[],
-  relationship: KlageParteiVerhaeltnis,
-  includeGesetzlicheVertretung: boolean,
-) =>
-  [...parties]
-    .sort((a, b) => a.displayIndex - b.displayIndex)
-    .flatMap(({ partei: party, displayIndex: index }) => {
-      if (!party.id) return [];
-      const options: SelectableParty[] = [
-        { id: party.id, index, party, relationship },
-      ];
-      if (includeGesetzlicheVertretung) {
-        if (party.type === "organisation" && party.orgVertretungId) {
-          options.push({
-            id: party.orgVertretungId,
-            index,
-            party,
-            relationship,
-            representative: {
-              anrede: party.orgVertretungAnrede,
-              titel: party.orgVertretungTitel,
-              vorname: party.orgVertretungVorname,
-              nachname: party.orgVertretungNachname,
-            },
-          });
-        }
-        for (const representative of party["gesetzliche-vertretung"] ?? []) {
-          if (representative.id) {
-            options.push({
-              id: representative.id,
-              index,
-              party,
-              relationship,
-              representative,
-            });
-          }
-        }
-      }
-      return options;
-    });
 
 export const KlageParteiCheckboxes = ({
   name,
