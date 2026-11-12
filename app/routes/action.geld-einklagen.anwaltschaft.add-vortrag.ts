@@ -9,8 +9,9 @@ import { validatedSession } from "~/services/security/csrf/validatedSession.serv
 import { getSessionManager } from "~/services/session.server";
 
 /**
- * Opens the Absätze of an Antrag: assigns the Antrag a stable ID on first use
- * and finds or creates its linked Vortrag.
+ * Opens the Absätze of an Antrag by finding or creating its linked Vortrag.
+ * Anträge get their ID when saved (setAntragId, setNebenantragIdentity); the
+ * fallback below only covers Anträge saved before that existed.
  *
  * Vorträge whose Antrag no longer exists are deliberately left in place, because
  * users can reach any page without passing through here. Every reader resolves

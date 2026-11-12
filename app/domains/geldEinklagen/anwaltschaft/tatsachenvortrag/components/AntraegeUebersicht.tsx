@@ -11,8 +11,7 @@ import {
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
 
-const addVortragActionUrl =
-  "/action/geld-einklagen/anwaltschaft/add-vortrag";
+const addVortragActionUrl = "/action/geld-einklagen/anwaltschaft/add-vortrag";
 
 const AntragRow = ({
   antrag,

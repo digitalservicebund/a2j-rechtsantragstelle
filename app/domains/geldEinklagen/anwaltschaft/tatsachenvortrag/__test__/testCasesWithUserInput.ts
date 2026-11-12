@@ -43,8 +43,7 @@ export const tatsachenvortragTestCases = {
       stepId:
         "/tatsachenvortrag-beweise/vortraege/0/absaetze/0/beweise/0/sachverstaendigengutachten-daten",
       userInput: {
-        "vortraege#absaetze#beweise#beschreibung":
-          "Gutachten zur Schadenshöhe",
+        "vortraege#absaetze#beweise#beschreibung": "Gutachten zur Schadenshöhe",
         "vortraege#absaetze#beweise#id": "",
         "vortraege#absaetze#beweise#type": "sachverstaendigengutachten",
       },

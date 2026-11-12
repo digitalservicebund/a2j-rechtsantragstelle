@@ -15,7 +15,9 @@ const absatz = (beweise?: Beweis[]): Absatz => ({
 });
 const hauptantrag = (
   id: string,
-  nebenantraege: NonNullable<UserData["hauptantrag"]>[number]["nebenantraege"] = [],
+  nebenantraege: NonNullable<
+    UserData["hauptantrag"]
+  >[number]["nebenantraege"] = [],
 ): NonNullable<UserData["hauptantrag"]>[number] => ({
   id,
   betragForderung: "100",
@@ -107,9 +109,7 @@ describe("getOrderedAbsaetze", () => {
     ]);
     const [first] = getOrderedAbsaetze(userData);
     expect(first.vortragArrayIndex).toBe(5);
-    expect(first.beweise.map(({ sourceIndex }) => sourceIndex)).toEqual([
-      1, 0,
-    ]);
+    expect(first.beweise.map(({ sourceIndex }) => sourceIndex)).toEqual([1, 0]);
     expect(userData).toEqual(original);
   });
 

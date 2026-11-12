@@ -17,7 +17,9 @@ export const AbsaetzeUebersicht = () => {
   const vortragArrayIndex =
     userDataGeldEinklagenAnwaltschaft.pageData?.arrayIndexes?.[0];
   const absaetzeBaseUrl =
-    vortragArrayIndex === undefined ? "" : getAbsaetzeBaseUrl(vortragArrayIndex);
+    vortragArrayIndex === undefined
+      ? ""
+      : getAbsaetzeBaseUrl(vortragArrayIndex);
   const absaetzeContextValue = useMemo(
     () => ({ absaetzeBaseUrl, absaetzeArrayName: "vortraege#absaetze" }),
     [absaetzeBaseUrl],

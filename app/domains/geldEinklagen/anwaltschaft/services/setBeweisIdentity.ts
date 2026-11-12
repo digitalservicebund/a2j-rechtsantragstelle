@@ -16,7 +16,7 @@ export const setBeweisIdentity =
   (type: BeweisType): PosFlowAction =>
   (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const arrayIndexes = parseArrayIndexesFromPathname(request.url);
-        const arrayObjectString = resolveArrayCharacter(
+    const arrayObjectString = resolveArrayCharacter(
       BEWEISE_ARRAY_NAME.replaceAll("#", "#."),
       arrayIndexes,
     );
