@@ -109,7 +109,7 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
               {index + 1}
             </h2>
             <BezifferterZahlungsantrag
-              key={item.internesSchlagwortFordureung}
+              key={item.internesSchlagwortForderung}
               itemIndex={index}
               item={item}
               userData={userDataGeldEinklagen}

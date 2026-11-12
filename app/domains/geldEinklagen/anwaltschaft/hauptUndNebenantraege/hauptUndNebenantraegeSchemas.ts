@@ -83,7 +83,7 @@ const selectedKlagendeSchema = z
 export const hauptantraegeArraySchema = z.array(
   z.object({
     id: z.string().check(z.uuid()).optional(),
-    internesSchlagwortFordureung: z.string().max(50).optional(),
+    internesSchlagwortForderung: z.string().max(50).optional(),
     betragForderung: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,
@@ -125,7 +125,7 @@ export type SchmerzengeldNebenantrag = z.infer<
 export const schmerzengeldantragSchema = z.array(
   z.object({
     id: z.string().check(z.uuid()).optional(),
-    internesSchlagwortFordureung: z.string().max(50).optional(),
+    internesSchlagwortForderung: z.string().max(50).optional(),
     mindestBetrag: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,

@@ -67,8 +67,8 @@ export const getAntraegeStrings = (
   const arrayIndices = context.pageData?.arrayIndexes;
   const hauptantrag = context.hauptantrag?.at(arrayIndices?.at(0) ?? -1);
   if (!hauptantrag) return {};
-  const internesSchlagwortFordureung = hauptantrag.internesSchlagwortFordureung
-    ? `(${hauptantrag.internesSchlagwortFordureung})`
+  const internesSchlagwortForderung = hauptantrag.internesSchlagwortForderung
+    ? `(${hauptantrag.internesSchlagwortForderung})`
     : "";
   const nebenantrag = hauptantrag.nebenantraege?.at(arrayIndices?.at(1) ?? -1);
   // TODO: refactor to base title on Nebenantrag type
@@ -80,7 +80,7 @@ export const getAntraegeStrings = (
     // If there are 3 indices, that indicates a nebenantraege page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/daten
     isHauptantrag: Boolean(arrayIndices?.length && arrayIndices.length < 3),
     // TODO: refactor to base title on Hauptantrag type, e.g. Zahnungsantrag/Schmerzensgeldantrag
-    hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortFordureung}`,
+    hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortForderung}`,
     absatzNumber: `${(arrayIndices?.at(-1) ?? 0) + 1}`,
     nebenantragTitle: nebenantragTitle,
   };

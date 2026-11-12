@@ -40,7 +40,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
           </span>
         </div>
       }
-      badge={item.internesSchlagwortFordureung ?? ""}
+      badge={item.internesSchlagwortForderung ?? ""}
       editButton={{
         href: `${BASE_URL_UNBEZIEFERTER_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
         ariaLabel: `Schmerzensgeldantrag ${itemIndex + 1} bearbeiten`,
@@ -74,8 +74,8 @@ export const UnbezifferteSchmerzensgeldantrag = ({
                 <Icon name="draft" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
                   {`Schmerzensgeldantrag ${itemIndex + 1}`}
-                  {item.internesSchlagwortFordureung
-                    ? `${item.internesSchlagwortFordureung} + ",",`
+                  {item.internesSchlagwortForderung
+                    ? `${item.internesSchlagwortForderung} + ",",`
                     : ""}
                   {", "}
                   {item.mindestBetrag ? `${item.mindestBetrag} Euro` : ""}
