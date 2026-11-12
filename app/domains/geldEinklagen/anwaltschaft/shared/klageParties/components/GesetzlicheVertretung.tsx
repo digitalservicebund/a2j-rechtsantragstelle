@@ -107,7 +107,7 @@ export const GesetzlicheVertretung = ({
       content: <VertreterDetails vertreter={vertreter} />,
       editButton: {
         ariaLabel: `${gesetzlicheVetretungHeadline.de} ${vertreter.vorname} ${vertreter.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`,
-        href: `${getGesetzlicheVertretungUrl(relationship, index)}/daten${datenPageSuffix}`,
+        href: `${getGesetzlicheVertretungUrl(relationship, parentArrayItemIndex)}/${index}/daten${datenPageSuffix}`,
       },
       deleteButton: {
         title:
