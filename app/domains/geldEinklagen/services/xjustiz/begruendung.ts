@@ -134,7 +134,8 @@ const collectBeweise = (abschnitte: Abschnitt[]) => {
       const name = zeugeName(person);
       add(`person:${key}`, abschnittIndex, () => ({
         schlagwort: `Zeuge ${name}`,
-        text: `Beweis angeboten durch Vernehmung von ${name} als Zeuge oder Zeugin.`,
+        // Same wording as the PDF witness list, so the name stays nominative
+        text: `Beweis angeboten durch Vernehmung der folgenden Person als Zeuge oder Zeugin: ${name}`,
         beweismittel: { art: "zeuge", person },
       }));
     });

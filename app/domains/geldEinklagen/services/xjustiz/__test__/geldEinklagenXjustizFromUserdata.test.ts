@@ -887,7 +887,7 @@ describe("geldEinklagenXjustizFromUserdata", () => {
         zeugeVortrag?.ausfuehrungen.inhalt
           .tatsachenvortragSachverhaltsbeschreibung,
       ).toBe(
-        "Beweis angeboten durch Vernehmung von Herr Max Mustermann als Zeuge oder Zeugin.",
+        "Beweis angeboten durch Vernehmung der folgenden Person als Zeuge oder Zeugin: Herr Max Mustermann",
       );
       expect(zeugeVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([1]);
       expect(zeugeVortrag?.fremdeVortragsID).toStrictEqual([
