@@ -3,12 +3,10 @@ import {
   getAbsaetzeBaseUrl,
   getBeweisArrayName,
   getBeweisBody,
-  getBeweisCategory,
   getBeweisTitle,
   getNebenantragTitle,
   getParteivernehmungBeweisCheckboxLabel,
 } from "../absaetzeHelpers";
-import type { BeweisType } from "../tatsachenvortragSchemas";
 
 describe("absaetzeHelpers", () => {
   describe("getParteivernehmungBeweisCheckboxLabel", () => {
@@ -115,7 +113,13 @@ describe("absaetzeHelpers", () => {
       ["zeuge", "Beweis Zeugnis"],
       ["parteivernehmung", "Beweis Parteivernehmung"],
     ] as const)("formats %s", (type, expectedTitle) => {
-      expect(getBeweisTitle(type, 1, true)).toBe(expectedTitle);
+      expect(getBeweisTitle(type, 2, true)).toBe(expectedTitle);
+    });
+
+    it("rejects document evidence without a derived number", () => {
+      expect(() => getBeweisTitle("urkunde", undefined)).toThrow(
+        "Missing document number",
+      );
     });
   });
 
@@ -139,18 +143,6 @@ describe("absaetzeHelpers", () => {
       expect(getBeweisArrayName(false)).toBe(
         "hauptantrag#nebenantraege#absaetze#beweise",
       );
-    });
-  });
-
-  describe("getBeweisCategory", () => {
-    it.each([
-      ["augenschein", "document"],
-      ["urkunde", "document"],
-      ["sachverstaendigengutachten", "document"],
-      ["zeuge", "person"],
-      ["parteivernehmung", "person"],
-    ] as const)("categorizes %s", (type: BeweisType, expectedCategory) => {
-      expect(getBeweisCategory(type)).toBe(expectedCategory);
     });
   });
 });

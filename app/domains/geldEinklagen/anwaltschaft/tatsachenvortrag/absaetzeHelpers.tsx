@@ -35,7 +35,7 @@ export const getNebenantragTitle = (
 
 export const getBeweisTitle = (
   type: BeweisType,
-  index: number,
+  documentNumber: number | undefined,
   isOverviewPage: boolean = false,
 ): string | undefined => {
   switch (type) {
@@ -46,7 +46,10 @@ export const getBeweisTitle = (
     case "parteivernehmung":
       return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.beweismittel.parteivernehmung.de}`;
     default:
-      return `${translations.geldEinklagenAnwaltschaft.beweis.de} K${index + 1}`;
+      if (documentNumber === undefined) {
+        throw new Error("Missing document number for document evidence");
+      }
+      return `${translations.geldEinklagenAnwaltschaft.beweis.de} K${documentNumber}`;
   }
 };
 
@@ -84,20 +87,6 @@ export const getBeweisBody = (
 
 export const getBeweisArrayName = (isHauptantrag: boolean) =>
   `hauptantrag#${isHauptantrag ? "" : "nebenantraege#"}absaetze#beweise`;
-
-export type BeweisCategory = "document" | "person";
-
-export const getBeweisCategory = (type: BeweisType): BeweisCategory => {
-  switch (type) {
-    case "urkunde":
-    case "augenschein":
-    case "sachverstaendigengutachten":
-      return "document";
-    case "zeuge":
-    case "parteivernehmung":
-      return "person";
-  }
-};
 
 export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
   index,

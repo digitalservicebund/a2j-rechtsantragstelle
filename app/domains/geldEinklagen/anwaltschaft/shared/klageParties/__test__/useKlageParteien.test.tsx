@@ -46,10 +46,10 @@ describe("useKlageParteien", () => {
         ({ arrayIndex, displayIndex }) => ({ arrayIndex, displayIndex }),
       ),
     ).toEqual([
-      { arrayIndex: 0, displayIndex: 2 },
       { arrayIndex: 1, displayIndex: 0 },
-      { arrayIndex: 2, displayIndex: 3 },
       { arrayIndex: 3, displayIndex: 1 },
+      { arrayIndex: 0, displayIndex: 2 },
+      { arrayIndex: 2, displayIndex: 3 },
     ]);
   });
 
