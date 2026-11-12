@@ -1,33 +1,12 @@
 import { type NavItem } from "~/components/navigation/types";
 
-export const hubPages = ["/finanzielle-hilfen", "/nachlass"] as const;
+export const hubPages = [
+  "/finanzielle-hilfen",
+  "/nachlass",
+  "/schulden-einfordern",
+] as const;
 
 type HubPages = (typeof hubPages)[number];
-
-export const tableOfContents: Record<
-  HubPages,
-  Array<{ text?: string; url: string }>
-> = {
-  "/finanzielle-hilfen": [
-    { url: "#intro", text: "Beratungshilfe und Prozesskostenhilfe" },
-    {
-      url: "#unterschiede",
-      text: "Unterschiede und Gemeinsamkeiten von Beratungshilfe und Prozesskostenhilfe",
-    },
-    {
-      url: "#weitere-beratungsmoeglichkeiten",
-      text: "Weitere Beratungsmöglichkeiten",
-    },
-  ],
-  "/nachlass": [
-    { url: "#kurz", text: "Kurz erklärt" },
-    { url: "#erben", text: "Unter diesen Bedingungen können Sie erben" },
-    { url: "#pruefen", text: "Prüfen Sie das Erbe" },
-    { url: "#erbausschlagung", text: "Erbausschlagung: Ein Erbe ablehnen" },
-    { url: "#erbschein", text: "Erbschein: Ein Erbe nachweisen" },
-    { url: "#steuer", text: "Erbschaftssteuer" },
-  ],
-};
 
 export const navigationLists: Record<HubPages, NavItem[]> = {
   "/finanzielle-hilfen": [
@@ -182,6 +161,48 @@ export const navigationLists: Record<HubPages, NavItem[]> = {
         {
           label: "Erbschein vorbereiten",
           destination: "/erbschein/anfrage/start",
+          state: "Open",
+        },
+      ],
+    },
+  ],
+  "/schulden-einfordern": [
+    {
+      label: "Digitale Zahlungsklage",
+      destination: "/Zahlungsklage",
+      state: "Current",
+      subflows: [
+        {
+          label: "Informationen zu Zahlungsklage",
+          destination: "/geld-einklagen",
+          state: "Open",
+        },
+        {
+          label: "Online-Verfahren: Geld einfordern",
+          destination:
+            "/geld-einklagen/formular/gericht-pruefen/intro/anwaltschaft",
+          state: "Open",
+        },
+        {
+          label: "Geld bei Flugproblemen einfordern",
+          destination: "/fluggastrechte/vorabcheck/start",
+          state: "Open",
+        },
+      ],
+    },
+    {
+      label: "Mahnverfahren",
+      destination: "/Mahnverfahren",
+      state: "Open",
+      subflows: [
+        {
+          label: "Informationen zum Mahnverfahren",
+          destination: "/mahnverfahren",
+          state: "Open",
+        },
+        {
+          label: "Online-Mahnantrag stellen",
+          destination: "/mahnverfahren-beantragen",
           state: "Open",
         },
       ],
