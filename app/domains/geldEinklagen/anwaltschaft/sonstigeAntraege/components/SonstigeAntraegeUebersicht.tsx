@@ -1,39 +1,35 @@
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { arrayIsNonEmpty } from "~/util/array";
-import SonstigeNebenUndProzessantraege from "./SonstigeNebenUndProzessantraege";
+import SonstigeAntraege from "./SonstigeAntraege";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 
-export const BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE =
-  "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag";
+export const BASE_URL_SONSTIGE_ANTRAEGE =
+  "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag";
 
-const MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 10;
+const MAX_SONSTIGE_ANTRAEGE_ITEMS = 10;
 
 const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
 
-const focusOnSonstigeNebenUndProzessantraege = (itemIndex: number) => {
+const focusOnSonstigeAntraege = (itemIndex: number) => {
   setTimeout(() => {
-    let element = document.getElementById(
-      `sonstigeNebenUndProzessantraege-${itemIndex}`,
-    );
-    element ??= document.getElementById(
-      `sonstigeNebenUndProzessantraege-${itemIndex - 1}`,
-    );
+    let element = document.getElementById(`sonstigeAntraege-${itemIndex}`);
+    element ??= document.getElementById(`sonstigeAntraege-${itemIndex - 1}`);
     element ??= document.querySelector<HTMLElement>(
-      '[data-testid="add-sonstigeNebenUndProzessantraege"]',
+      '[data-testid="add-sonstigeAntraege"]',
     );
     element?.focus();
   }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
 };
 
-const SonstigeNebenUndProzessantraegeUebersicht = () => {
+const SonstigeAntraegeUebersicht = () => {
   const deleteArrayItem = useDeleteArrayItem(
-    "sonstigeNebenUndProzessantraege",
-    BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE,
-    focusOnSonstigeNebenUndProzessantraege,
+    "sonstigeAntraege",
+    BASE_URL_SONSTIGE_ANTRAEGE,
+    focusOnSonstigeAntraege,
   );
   const { userData, flowId } = useFormFlow();
 
@@ -43,16 +39,13 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
 
   const userDataGeldEinklagen = userData as GeldEinklagenAnwaltschaftUserData;
 
-  const nextItemIndex = arrayIsNonEmpty(
-    userDataGeldEinklagen.sonstigeNebenUndProzessantraege,
-  )
-    ? (userDataGeldEinklagen.sonstigeNebenUndProzessantraege?.length ?? 0)
+  const nextItemIndex = arrayIsNonEmpty(userDataGeldEinklagen.sonstigeAntraege)
+    ? (userDataGeldEinklagen.sonstigeAntraege?.length ?? 0)
     : 0;
 
-  const addButtonUrl = `${BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE}/${nextItemIndex}/daten`;
+  const addButtonUrl = `${BASE_URL_SONSTIGE_ANTRAEGE}/${nextItemIndex}/daten`;
 
-  const shouldDisableAddButton =
-    nextItemIndex >= MAX_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
+  const shouldDisableAddButton = nextItemIndex >= MAX_SONSTIGE_ANTRAEGE_ITEMS;
 
   return (
     <ArrayItemListSection
@@ -75,25 +68,23 @@ const SonstigeNebenUndProzessantraegeUebersicht = () => {
       addButton={{
         href: addButtonUrl,
         disabled: shouldDisableAddButton,
-        dataTestId: "add-sonstigeNebenUndProzessantraege",
+        dataTestId: "add-sonstigeAntraege",
         buttonText:
           translations.geldEinklagenAnwaltschaft
             .soenstigeProzessantragArrayButton.de,
       }}
     >
-      {arrayIsNonEmpty(userDataGeldEinklagen.sonstigeNebenUndProzessantraege) &&
-        userDataGeldEinklagen.sonstigeNebenUndProzessantraege.map(
-          (item, index) => (
-            <SonstigeNebenUndProzessantraege
-              key={item.antrag}
-              itemIndex={index}
-              item={item}
-              onDelete={deleteArrayItem}
-            />
-          ),
-        )}
+      {arrayIsNonEmpty(userDataGeldEinklagen.sonstigeAntraege) &&
+        userDataGeldEinklagen.sonstigeAntraege.map((item, index) => (
+          <SonstigeAntraege
+            key={item.antrag}
+            itemIndex={index}
+            item={item}
+            onDelete={deleteArrayItem}
+          />
+        ))}
     </ArrayItemListSection>
   );
 };
 
-export default SonstigeNebenUndProzessantraegeUebersicht;
+export default SonstigeAntraegeUebersicht;

@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import SonstigeNebenUndProzessantraege from "../SonstigeNebenUndProzessantraege";
+import SonstigeAntraege from "../SonstigeAntraege";
 
 beforeEach(() => {
   HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
@@ -11,14 +11,14 @@ beforeEach(() => {
   };
 });
 
-describe("SonstigeNebenUndProzessantraege deletion", () => {
+describe("SonstigeAntraege deletion", () => {
   it.each(["Internes Schlagwort", undefined])(
     "preserves the confirmation content with keyword %s",
     async (internesSchlagwort) => {
       const user = userEvent.setup();
       const onDelete = vi.fn().mockResolvedValue(undefined);
       render(
-        <SonstigeNebenUndProzessantraege
+        <SonstigeAntraege
           itemIndex={3}
           item={{ antrag: "Mein Antrag", internesSchlagwort }}
           onDelete={onDelete}
