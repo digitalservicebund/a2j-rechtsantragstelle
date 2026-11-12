@@ -748,6 +748,51 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       email: "",
     };
 
+    it("still generates the message when all Abschnitte were deleted", async () => {
+      const result = await geldEinklagenXjustizFromUserdata({
+        userData: { ...userDataMock, abschnitte: [] },
+        baseUrl,
+      });
+
+      expect(result.isOk).toBe(true);
+      expect(vortraege()).toStrictEqual([
+        expect.objectContaining({
+          schlagwort: "Sachverhalt",
+          ausfuehrungen: {
+            inhalt: { tatsachenvortragSachverhaltsbeschreibung: "" },
+            refBeweisNummer: [],
+          },
+        }),
+      ]);
+    });
+
+    it("keeps the capitalization of witness names as entered", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [
+            {
+              ...abschnitt("Erster Abschnitt"),
+              personen: [
+                {
+                  ...zeuge,
+                  anrede: "frau" as const,
+                  title: "Dr.",
+                  vorname: "JoAnne Jean-Marie",
+                  nachname: "McDonald",
+                },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      expect(
+        vortragBySchlagwort("Zeuge Frau Dr. JoAnne Jean-Marie McDonald"),
+      ).toBeDefined();
+    });
+
     it("adds one Vortrag per Abschnitt with its Beschreibung", async () => {
       await geldEinklagenXjustizFromUserdata({
         userData: {

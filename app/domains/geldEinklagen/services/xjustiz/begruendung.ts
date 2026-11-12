@@ -2,6 +2,7 @@ import {
   createBeweisNummerGenerator,
   createRollennummerGenerator,
   createUuidGenerator,
+  datatypeC,
   ergonomics,
   reference,
   Rollenbezeichnung,
@@ -13,9 +14,10 @@ import {
   type VortragZurBegruendetheitFuerZahlungsklage,
   type Zeuge,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
+import capitalize from "lodash/capitalize";
 import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
-import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
+import { mapTitle } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
   optionalTypeC,
   typeC,
@@ -47,8 +49,30 @@ const beweismittelSchema = z.discriminatedUnion("art", [
   }),
 ]);
 
+// Users can delete every Abschnitt, so an empty Sachverhalt is still sent.
+const LEERER_SACHVERHALT = {
+  schlagwort: datatypeC("Sachverhalt").value,
+  text: datatypeC("").value,
+};
+
+// Names keep their capitalization as entered, like in the PDF.
+const zeugeName = (
+  person: Extract<
+    NonNullable<Abschnitt["personen"]>[number],
+    { personAuswahl: "anotherPerson" }
+  >,
+) =>
+  [
+    person.anrede === "none" ? "" : capitalize(person.anrede),
+    mapTitle(person.title),
+    person.vorname,
+    person.nachname,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
 export const begruendungSchema = z.object({
-  abschnitte: z.array(z.object({ schlagwort: typeC, text: typeC })).min(1),
+  abschnitte: z.array(z.object({ schlagwort: typeC, text: typeC })),
   rechtlicheWuerdigung: optionalTypeC,
   beweise: z.array(
     z.object({
@@ -107,12 +131,7 @@ const collectBeweise = (abschnitte: Abschnitt[]) => {
         return;
       }
       const key = person.personReference || `${abschnittIndex}-${personIndex}`;
-      const name = getFullPlaintiffName(
-        person.anrede,
-        person.title,
-        person.vorname,
-        person.nachname,
-      );
+      const name = zeugeName(person);
       add(`person:${key}`, abschnittIndex, () => ({
         schlagwort: `Zeuge ${name}`,
         text: `Beweis angeboten durch Vernehmung von ${name} als Zeuge oder Zeugin.`,
@@ -199,7 +218,11 @@ export function composeBegruendung<NachrichtenScope>(
     }
   };
 
-  const abschnittIDs = begruendung.abschnitte.map(() => nextUuid());
+  const abschnitte =
+    begruendung.abschnitte.length > 0
+      ? begruendung.abschnitte
+      : [LEERER_SACHVERHALT];
+  const abschnittIDs = abschnitte.map(() => nextUuid());
 
   const beweisEintraege = begruendung.beweise.map((eintrag) => {
     const beweis = toBeweis(eintrag.beweismittel);
@@ -218,7 +241,7 @@ export function composeBegruendung<NachrichtenScope>(
     return { abschnitte: eintrag.abschnitte, beweis, vortrag };
   });
 
-  const [ersterAbschnitt, ...weitereAbschnitte] = begruendung.abschnitte.map(
+  const [ersterAbschnitt, ...weitereAbschnitte] = abschnitte.map(
     (
       abschnitt,
       index,
