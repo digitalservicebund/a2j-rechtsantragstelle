@@ -173,7 +173,7 @@ export const navigationLists: Record<HubPages, NavItem[]> = {
       state: "Current",
       subflows: [
         {
-          label: "Informationen zu Zahlungsklage",
+          label: "Informationen zur Zahlungsklage",
           destination: "/geld-einklagen",
           state: "Open",
         },
