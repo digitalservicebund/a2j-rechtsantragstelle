@@ -1,22 +1,15 @@
 import classNames from "classnames";
-import Image, { type ImageProps } from "~/components/common/Image";
+import Image from "~/components/common/Image";
+import { type TileOptions } from "./TileRadio";
 
 const IMAGE_HEIGHT = 32;
 const IMAGE_WIDTH = 32;
-
-export type TileContentProps = {
-  readonly description?: string;
-  readonly descriptionId?: string;
-  readonly title?: string;
-  readonly image?: ImageProps;
-};
 
 const TileContent = ({
   title,
   description,
   image,
-  descriptionId,
-}: TileContentProps) => {
+}: Omit<TileOptions, "value">) => {
   return (
     <div
       className={classNames("h-full flex flex-col", {
@@ -34,11 +27,9 @@ const TileContent = ({
         )}
       </div>
       <div>
-        {title && <h2 className="kern-body kern-body--bold">{title}</h2>}
+        <h2 className="kern-body kern-body--bold">{title}</h2>
         {description && (
-          <p id={descriptionId} className="kern-body kern-body--muted">
-            {description}
-          </p>
+          <p className="kern-body kern-body--muted">{description}</p>
         )}
       </div>
     </div>
