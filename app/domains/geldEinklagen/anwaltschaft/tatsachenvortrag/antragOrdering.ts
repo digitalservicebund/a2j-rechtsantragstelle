@@ -186,17 +186,6 @@ export const getOrderedAntraege = (
   addHauptantraege("hauptantrag", userData.hauptantrag ?? []);
   addHauptantraege("schmerzengeldantrag", userData.schmerzengeldantrag ?? []);
 
-  for (const { antragId, title } of getProzessantraege(userData)) {
-    result.push({
-      key: antragId,
-      antragId,
-      dataPath: undefined,
-      kind: "prozessantrag",
-      title,
-      isNebenantrag: false,
-    });
-  }
-
   for (const [index, antrag] of (userData.sonstigeAntraege ?? []).entries()) {
     const dataPath = `sonstigeAntraege.${index}`;
     result.push({
@@ -205,6 +194,17 @@ export const getOrderedAntraege = (
       dataPath,
       kind: "sonstigerAntrag",
       title: getNumberedAntragTitle(userData, "sonstigeAntraege", index),
+      isNebenantrag: false,
+    });
+  }
+
+  for (const { antragId, title } of getProzessantraege(userData)) {
+    result.push({
+      key: antragId,
+      antragId,
+      dataPath: undefined,
+      kind: "prozessantrag",
+      title,
       isNebenantrag: false,
     });
   }

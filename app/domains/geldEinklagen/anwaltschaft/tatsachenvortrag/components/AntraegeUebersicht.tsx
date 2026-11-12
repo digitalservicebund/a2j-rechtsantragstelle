@@ -38,7 +38,7 @@ const AntragRow = ({
           "text-kern-feedback-success!": hasAbsaetze,
         })}
       />
-      <span className="kern-body--default">{antrag.title}</span>
+      <span className="kern-body">{antrag.title}</span>
     </div>
     <form method="post" action={addVortragActionUrl}>
       <CsrfInput />

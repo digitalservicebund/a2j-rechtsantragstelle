@@ -93,6 +93,13 @@ describe("getOrderedAntraege", () => {
         isNebenantrag: true,
       },
       {
+        key: "sonstigeAntraege.0",
+        antragId: "s1",
+        kind: "sonstigerAntrag",
+        title: "Sonstiger Antrag oder Ausführung 4 (Kosten)",
+        isNebenantrag: false,
+      },
+      {
         key: "muendlicheVerhandlung",
         antragId: "muendlicheVerhandlung",
         kind: "prozessantrag",
@@ -111,13 +118,6 @@ describe("getOrderedAntraege", () => {
         antragId: "versaeumnisurteil",
         kind: "prozessantrag",
         title: "Prozessantrag – Versäumnisurteil",
-        isNebenantrag: false,
-      },
-      {
-        key: "sonstigeAntraege.0",
-        antragId: "s1",
-        kind: "sonstigerAntrag",
-        title: "Sonstiger Antrag oder Ausführung 4 (Kosten)",
         isNebenantrag: false,
       },
     ]);

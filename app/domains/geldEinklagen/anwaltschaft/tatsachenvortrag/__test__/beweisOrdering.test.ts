@@ -104,8 +104,8 @@ describe("getOrderedAbsaetze", () => {
       { antragId: "zahlung-neben", absatz: 0, documents: [3] },
       { antragId: "schmerz", absatz: 0, documents: [4] },
       { antragId: "schmerz-neben", absatz: 0, documents: [5] },
-      { antragId: "muendlicheVerhandlung", absatz: 0, documents: [6] },
-      { antragId: "sonstig", absatz: 0, documents: [7] },
+      { antragId: "sonstig", absatz: 0, documents: [6] },
+      { antragId: "muendlicheVerhandlung", absatz: 0, documents: [7] },
     ]);
     const [first] = getOrderedAbsaetze(userData);
     expect(first.vortragArrayIndex).toBe(5);

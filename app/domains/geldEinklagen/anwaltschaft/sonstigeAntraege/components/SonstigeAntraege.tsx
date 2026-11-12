@@ -47,6 +47,10 @@ const SonstigeAntraege = ({
           {item.antrag}
         </span>
       }
+      heading={{
+        text: `${translations.geldEinklagenAnwaltschaft.sonstigerAntragArrayItemTitle.de} ${antragNumber}`,
+        id: `sonstigeAntrag-${itemIndex}`,
+      }}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,

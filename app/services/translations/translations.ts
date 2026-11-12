@@ -1005,6 +1005,9 @@ export const translations = {
     sonstigerAntrag: {
       de: "Sonstiger Antrag oder Ausführung",
     },
+    sonstigerAntragArrayItemTitle: {
+      de: "Sonstiger Antrag/Prozessuale Ausführung",
+    },
     muendlicheVerhandlungTitle: {
       de: "Mündliche Verhandlung",
     },
