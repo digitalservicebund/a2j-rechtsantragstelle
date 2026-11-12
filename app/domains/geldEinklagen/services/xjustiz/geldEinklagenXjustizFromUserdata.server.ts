@@ -33,10 +33,14 @@ import { findGerichtByXjustizId } from "./findGerichtByXjustizId";
 import {
   beteiligteFromUserData,
   beteiligteSchema,
-  composeZeugen,
   toBeklagter,
   toKlaeger,
 } from "./beteiligte";
+import {
+  begruendungFromUserData,
+  begruendungSchema,
+  composeBegruendung,
+} from "./begruendung";
 
 type CompositionInput = {
   readonly userData: GeldEinklagenFormularUserData;
@@ -87,16 +91,11 @@ export async function geldEinklagenXjustizFromUserdata({
   if (weitereAntraegeText?.issues)
     return invalidUserData(weitereAntraegeText.issues);
 
-  const begruendungText = datatypeC(
-    (userData.abschnitte ?? []).map((a) => a.beschreibung).join("\n\n"),
+  const begruendung = begruendungSchema.safeParse(
+    begruendungFromUserData(userData),
   );
-  if (begruendungText.issues) return invalidUserData(begruendungText.issues);
-
-  const rechtlicheWuerdigungText = userData.rechtlicheWuerdigung
-    ? datatypeC(userData.rechtlicheWuerdigung)
-    : undefined;
-  if (rechtlicheWuerdigungText?.issues)
-    return invalidUserData(rechtlicheWuerdigungText.issues);
+  if (!begruendung.success)
+    return invalidUserData(z.treeifyError(begruendung.error));
 
   const prozessualeTexte = [
     muendlicheVerhandlungText(userData.muendlicheVerhandlung),
@@ -117,7 +116,6 @@ export async function geldEinklagenXjustizFromUserdata({
       const fortlaufendeNummer = createFortlaufendeNummerGenerator(scope);
 
       const eigeneNachrichtenID = uuid.first();
-      const vortragsID = uuid.next(eigeneNachrichtenID);
 
       const rollennummerKlaeger = rollennummer.first(
         Rollenbezeichnung["Kläger(in)"],
@@ -133,10 +131,14 @@ export async function geldEinklagenXjustizFromUserdata({
         beteiligte.data.beklagter,
       );
 
-      const zeugen = composeZeugen(
+      const { zeugen, beweise, vortraege } = composeBegruendung(
         scope,
-        rollennummerBeklagter,
-        beteiligte.data.zeugen,
+        begruendung.data,
+        {
+          letzteUuid: eigeneNachrichtenID,
+          rollennummerKlaeger,
+          rollennummerBeklagter,
+        },
       );
 
       const nummerSachanspruch = fortlaufendeNummer.first("Anspruch");
@@ -187,7 +189,7 @@ export async function geldEinklagenXjustizFromUserdata({
                 datatypeC(`${KLAGE_TITEL} ${KLAGE_UNTERTITEL}`).value,
               ),
             ],
-            beteiligung: [klaeger, beklagter, ...zeugen.beteiligungen],
+            beteiligung: [klaeger, beklagter, ...zeugen],
           },
         },
         inhaltsdaten: {
@@ -202,7 +204,7 @@ export async function geldEinklagenXjustizFromUserdata({
             auswahlSonstigeAntraege:
               sonstigeAntraege.length > 0 ? sonstigeAntraege : undefined,
           },
-          beweis: zeugen.beweise.length > 0 ? zeugen.beweise : undefined,
+          beweis: beweise.length > 0 ? beweise : undefined,
           sonstigeProzessualeAusfuehrungen: prozessualeAusfuehrungenText
             ? {
                 inhalt: {
@@ -213,24 +215,7 @@ export async function geldEinklagenXjustizFromUserdata({
               }
             : undefined,
           auswahlBegruendetheit: {
-            anderesKlageverfahren: {
-              vortrag: [
-                {
-                  schlagwort: datatypeC("Begruendung").value,
-                  vortragsID,
-                  ausfuehrungen: {
-                    inhalt: {
-                      tatsachenvortragSachverhaltsbeschreibung:
-                        begruendungText.value,
-                      rechtlicheWuerdigung: rechtlicheWuerdigungText?.value,
-                    },
-                    refBeweisNummer: zeugen.beweise.map((beweis) =>
-                      reference(beweis.beweisNummer),
-                    ),
-                  },
-                },
-              ],
-            },
+            anderesKlageverfahren: { vortrag: vortraege },
           },
         },
       });
