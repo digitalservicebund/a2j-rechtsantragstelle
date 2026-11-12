@@ -29,7 +29,8 @@ const antrag = {
   zinsende: { day: "", month: "", year: "" },
 } as const;
 
-const baseUrl = "/geld-einklagen/anwaltschaft/hauptantrag";
+const baseUrl =
+  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege";
 
 const deleteItem = vi.fn().mockResolvedValue(undefined);
 
