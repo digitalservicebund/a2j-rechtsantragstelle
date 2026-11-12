@@ -13,6 +13,7 @@ import { geldEinklagenAnwaltschaftFlowConfig } from "./flowConfig";
 import { geldEinklagenAnwaltschaftPdfFromUserdata } from "./services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
 import { setBeweisIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setBeweisIdentity";
 import { setGesetzlicheVertretungIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setGesetzlicheVertretungIdentity";
+import { setNebenantragType } from "~/domains/geldEinklagen/anwaltschaft/services/setNebenantragType";
 
 export const geldEinklagenAnwaltschaft = {
   flowType: "formFlow",
@@ -62,6 +63,10 @@ export const geldEinklagenAnwaltschaft = {
         "beklagte",
         "berufsausuebungsgesellschaft",
       ),
+    "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
+      setNebenantragType("nebenantrag"),
+    "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten":
+      setNebenantragType("annahmeverzug"),
     "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten":
       setBeweisIdentity("augenschein", true),
     "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten":

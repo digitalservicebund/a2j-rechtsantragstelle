@@ -3,12 +3,10 @@ import {
   getAbsaetzeBaseUrl,
   getBeweisArrayName,
   getBeweisBody,
-  getBeweisCategory,
   getBeweisTitle,
   getNebenantragTitle,
   getParteivernehmungBeweisCheckboxLabel,
 } from "../absaetzeHelpers";
-import type { BeweisType } from "../tatsachenvortragSchemas";
 
 describe("absaetzeHelpers", () => {
   describe("getParteivernehmungBeweisCheckboxLabel", () => {
@@ -86,10 +84,9 @@ describe("absaetzeHelpers", () => {
             nebenantragArt: "mahnkosten",
             nebenantragBetrag: "10",
           },
-          1,
           0,
         ),
-      ).toBe("Nebenantrag 1b (Mahnkosten)");
+      ).toBe("Nebenantrag zu Antrag 1 - Mahnkosten");
     });
 
     it("formats an Annahmeverzug with its parent and alphabetical indexes", () => {
@@ -100,10 +97,21 @@ describe("absaetzeHelpers", () => {
             annahmeverzugsFeststellung: "on",
             annahmeverzugDatum: { day: "", month: "" },
           },
-          0,
           1,
         ),
-      ).toBe("Feststellungsantrag 2a (Annahmeverzug)");
+      ).toBe("Feststellungsantrag zu Antrag 2 - Annahmeverzug");
+    });
+
+    it("formats a Schmerzensgeldantrag Nebenantrag using its own art field", () => {
+      expect(
+        getNebenantragTitle(
+          {
+            schmerzengeldNebenantragArt: "ruecklastschriftgebühren",
+            schmerzengeldNebenantragBetrag: "10",
+          },
+          0,
+        ),
+      ).toBe("Nebenantrag zu Antrag 1 - Rücklastschriftgebühren");
     });
   });
 
@@ -115,7 +123,13 @@ describe("absaetzeHelpers", () => {
       ["zeuge", "Beweis Zeugnis"],
       ["parteivernehmung", "Beweis Parteivernehmung"],
     ] as const)("formats %s", (type, expectedTitle) => {
-      expect(getBeweisTitle(type, 1, true)).toBe(expectedTitle);
+      expect(getBeweisTitle(type, 2, true)).toBe(expectedTitle);
+    });
+
+    it("rejects document evidence without a derived number", () => {
+      expect(() => getBeweisTitle("urkunde", undefined)).toThrow(
+        "Missing document number",
+      );
     });
   });
 
@@ -128,12 +142,6 @@ describe("absaetzeHelpers", () => {
         }),
       ).toBe("Foto des Schadens");
     });
-
-    it("omits the body for party examination evidence", () => {
-      expect(getBeweisBody({ type: "parteivernehmung", personen: {} })).toBe(
-        "",
-      );
-    });
   });
 
   describe("getBeweisArrayName", () => {
@@ -145,18 +153,6 @@ describe("absaetzeHelpers", () => {
       expect(getBeweisArrayName(false)).toBe(
         "hauptantrag#nebenantraege#absaetze#beweise",
       );
-    });
-  });
-
-  describe("getBeweisCategory", () => {
-    it.each([
-      ["augenschein", "document"],
-      ["urkunde", "document"],
-      ["sachverstaendigengutachten", "document"],
-      ["zeuge", "person"],
-      ["parteivernehmung", "person"],
-    ] as const)("categorizes %s", (type: BeweisType, expectedCategory) => {
-      expect(getBeweisCategory(type)).toBe(expectedCategory);
     });
   });
 });

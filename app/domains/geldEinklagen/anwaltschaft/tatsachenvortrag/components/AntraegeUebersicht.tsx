@@ -4,34 +4,28 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import {
-  type Hauptantraege,
-  type Nebenantrag,
-} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
-import {
+  type AntragRowItem,
   getAbsaetzeBaseUrl,
+  getHauptantragTitle,
   getNebenantragTitle,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
-
-type Antrag = Hauptantraege | Nebenantrag;
 
 const AntragRow = ({
   antrag,
   index,
   parentIndex,
 }: {
-  antrag: Antrag;
+  antrag: AntragRowItem;
   index: number;
   parentIndex?: number;
 }) => {
-  const isHauptantrag = "betragForderung" in antrag;
+  const isHauptantrag =
+    "betragForderung" in antrag || "mindestBetrag" in antrag;
   const title = isHauptantrag
-    ? `${
-        translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
-          .de
-      } ${index + 1} (${antrag.internesSchlagwortFordureung})`
-    : getNebenantragTitle(antrag, index, parentIndex ?? -1);
+    ? getHauptantragTitle(antrag, index)
+    : getNebenantragTitle(antrag, parentIndex ?? -1);
   return (
     <div
       className={classNames(
@@ -70,14 +64,18 @@ const AntragRow = ({
 
 export const AntraegeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
-  const userDataGeldEinklagenAnwaltschaft =
+  const { hauptantrag, schmerzengeldantrag } =
     userData as GeldEinklagenAnwaltschaftUserData;
   if (flowId !== "/geld-einklagen/anwaltschaft") {
     return null;
   }
+  const antraegeToDisplay = [
+    ...(hauptantrag ?? []),
+    ...(schmerzengeldantrag ?? []),
+  ];
   return (
     <div>
-      {userDataGeldEinklagenAnwaltschaft.hauptantrag?.map((antrag, index) => (
+      {antraegeToDisplay.map((antrag, index) => (
         /* oxlint-disable-next-line react/no-array-index-key */
         <React.Fragment key={`hauptantrag-${index}`}>
           <AntragRow antrag={antrag} index={index} />

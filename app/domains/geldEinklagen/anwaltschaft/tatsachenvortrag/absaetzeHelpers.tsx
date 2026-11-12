@@ -1,13 +1,19 @@
-import { type Nebenantrag } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import {
+  type Schmerzensgeldantrag,
+  type Hauptantraege,
+  type Nebenantrag,
+  type SchmerzengeldNebenantrag,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
-import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
+import { ParteivernehmungBeweisBody } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/ParteivernehmungBeweisBody";
+import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
@@ -18,23 +24,52 @@ export const getAbsaetzeBaseUrl = (
   return `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/${hauptantragIndex}${nebenantragSlug}/absaetze`;
 };
 
-export const getNebenantragTitle = (
-  nebenantrag: Nebenantrag,
+export type AntragRowItem =
+  Hauptantraege | Nebenantrag | Schmerzensgeldantrag | SchmerzengeldNebenantrag;
+
+export const getHauptantragTitle = (
+  antrag: Hauptantraege | Schmerzensgeldantrag,
   index: number,
+) => {
+  const schlagwort =
+    antrag.internesSchlagwortFordureung &&
+    `(${antrag.internesSchlagwortFordureung})`;
+  return `${
+    "betragForderung" in antrag
+      ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
+          .de
+      : translations.geldEinklagenAnwaltschaft
+          .unbezifferterZahlungsantragHeadline.de
+  } ${index + 1} ${schlagwort}`;
+};
+
+export const getNebenantragTitle = (
+  nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
   parentIndex: number,
 ) => {
-  const displayIndex = `${parentIndex + 1}${String.fromCodePoint(("a".codePointAt(0) ?? 0) + index)}`;
-  const title =
-    nebenantrag.type === "nebenantrag"
-      ? translations.geldEinklagenAnwaltschaft.nebenantrag.de
-      : translations.geldEinklagenAnwaltschaft.feststellungsantrag.de;
-  const parentheticalInfo = `${nebenantrag.type === "nebenantrag" ? nebenantragArtLabels[nebenantrag.nebenantragArt] : translations.geldEinklagenAnwaltschaft.annahmeverzug.de}`;
-  return `${title} ${displayIndex} (${parentheticalInfo})`;
+  const isFeststellungsantrag =
+    "type" in nebenantrag && nebenantrag.type === "annahmeverzug";
+  const title = isFeststellungsantrag
+    ? translations.geldEinklagenAnwaltschaft.feststellungsantrag.de
+    : translations.geldEinklagenAnwaltschaft.nebenantrag.de;
+
+  let nebenantragTypeInfo: string;
+  if ("schmerzengeldNebenantragArt" in nebenantrag) {
+    nebenantragTypeInfo =
+      nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
+  } else if (nebenantrag.type === "annahmeverzug") {
+    nebenantragTypeInfo =
+      translations.geldEinklagenAnwaltschaft.annahmeverzug.de;
+  } else {
+    nebenantragTypeInfo = nebenantragArtLabels[nebenantrag.nebenantragArt];
+  }
+
+  return `${title} ${translations.geldEinklagenAnwaltschaft.zuAntrag.de} ${parentIndex + 1} - ${nebenantragTypeInfo}`;
 };
 
 export const getBeweisTitle = (
   type: BeweisType,
-  index: number,
+  documentNumber: number | undefined,
   isOverviewPage: boolean = false,
 ): string | undefined => {
   switch (type) {
@@ -45,7 +80,10 @@ export const getBeweisTitle = (
     case "parteivernehmung":
       return `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.beweismittel.parteivernehmung.de}`;
     default:
-      return `${translations.geldEinklagenAnwaltschaft.beweis.de} K${index + 1}`;
+      if (documentNumber === undefined) {
+        throw new Error("Missing document number for document evidence");
+      }
+      return `${translations.geldEinklagenAnwaltschaft.beweis.de} K${documentNumber}`;
   }
 };
 
@@ -75,7 +113,7 @@ export const getBeweisBody = (
         </div>
       );
     case "parteivernehmung":
-      return "";
+      return <ParteivernehmungBeweisBody parteivernehmung={beweis} />;
     default:
       return beweis.beschreibung;
   }
@@ -83,20 +121,6 @@ export const getBeweisBody = (
 
 export const getBeweisArrayName = (isHauptantrag: boolean) =>
   `hauptantrag#${isHauptantrag ? "" : "nebenantraege#"}absaetze#beweise`;
-
-export type BeweisCategory = "document" | "person";
-
-export const getBeweisCategory = (type: BeweisType): BeweisCategory => {
-  switch (type) {
-    case "urkunde":
-    case "augenschein":
-    case "sachverstaendigengutachten":
-      return "document";
-    case "zeuge":
-    case "parteivernehmung":
-      return "person";
-  }
-};
 
 export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
   index,
@@ -123,9 +147,9 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
     )
   );
   return (
-    <>
+    <div>
       <div>
-        <span className="text-kern-feedback-success">
+        <span>
           {relationship === "klagende"
             ? translations.geldEinklagenAnwaltschaft.klaeger.de
             : translations.geldEinklagenAnwaltschaft.beklagter.de}
@@ -163,6 +187,6 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
           )}
         </span>
       )}
-    </>
+    </div>
   );
 };
