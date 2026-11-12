@@ -27,17 +27,16 @@ type Abschnitt = NonNullable<
 >[number];
 type Partei = "klagende" | "beklagte";
 
-const PARTEIVERNEHMUNG: Record<Partei, { schlagwort: string; text: string }> =
-  {
-    klagende: {
-      schlagwort: "Parteivernehmung klagende Partei",
-      text: "Beweis angeboten durch Parteivernehmung der klagenden Partei.",
-    },
-    beklagte: {
-      schlagwort: "Parteivernehmung beklagte Partei",
-      text: "Beweis angeboten durch Parteivernehmung der beklagten Partei.",
-    },
-  };
+const PARTEIVERNEHMUNG: Record<Partei, { schlagwort: string; text: string }> = {
+  klagende: {
+    schlagwort: "Parteivernehmung klagende Partei",
+    text: "Beweis angeboten durch Parteivernehmung der klagenden Partei.",
+  },
+  beklagte: {
+    schlagwort: "Parteivernehmung beklagte Partei",
+    text: "Beweis angeboten durch Parteivernehmung der beklagten Partei.",
+  },
+};
 
 const beweismittelSchema = z.discriminatedUnion("art", [
   z.object({ art: z.literal("dokument") }),
@@ -86,7 +85,8 @@ const collectBeweise = (abschnitte: Abschnitt[]) => {
 
   abschnitte.forEach((abschnitt, abschnittIndex) => {
     (abschnitt.dokumenten ?? []).forEach((dokument, dokumentIndex) => {
-      const key = dokument.dokumentReference || `${abschnittIndex}-${dokumentIndex}`;
+      const key =
+        dokument.dokumentReference || `${abschnittIndex}-${dokumentIndex}`;
       add(`dokument:${key}`, abschnittIndex, () => {
         dokumentNummer += 1;
         return {
@@ -211,13 +211,18 @@ export function composeBegruendung<NachrichtenScope>(
           inhalt: { tatsachenvortragSachverhaltsbeschreibung: eintrag.text },
           refBeweisNummer: beweis ? [reference(beweis.beweisNummer)] : [],
         },
-        fremdeVortragsID: eintrag.abschnitte.map((index) => abschnittIDs[index]),
+        fremdeVortragsID: eintrag.abschnitte.map(
+          (index) => abschnittIDs[index],
+        ),
       };
     return { abschnitte: eintrag.abschnitte, beweis, vortrag };
   });
 
   const [ersterAbschnitt, ...weitereAbschnitte] = begruendung.abschnitte.map(
-    (abschnitt, index): VortragZurBegruendetheitFuerZahlungsklage<NachrichtenScope> => ({
+    (
+      abschnitt,
+      index,
+    ): VortragZurBegruendetheitFuerZahlungsklage<NachrichtenScope> => ({
       schlagwort: abschnitt.schlagwort,
       vortragsID: abschnittIDs[index],
       ausfuehrungen: {

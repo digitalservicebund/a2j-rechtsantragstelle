@@ -81,6 +81,16 @@ type LastRequest = {
 
 const lastRequest = () => JSON.parse(receivedBody ?? "null") as LastRequest;
 
+const tatsachenvortrag = () =>
+  lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen?.inhalt
+    .tatsachenvortragSachverhaltsbeschreibung;
+
+const abschnitt = (beschreibung: string) => ({
+  beschreibung,
+  personIdAsBeklagte: "",
+  personIdAsKlagende: "",
+});
+
 const INTEREST_CLAUSE =
   "nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit";
 
@@ -129,10 +139,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
   });
 
   describe("sonstige prozessuale Ausfuehrungen", () => {
-    const tatsachenvortrag = () =>
-      lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen?.inhalt
-        .tatsachenvortragSachverhaltsbeschreibung;
-
     it("states muendliche Verhandlung, Videoverhandlung and Streitbeilegung with the PDF wording", async () => {
       await geldEinklagenXjustizFromUserdata({
         userData: {
@@ -726,12 +732,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     const vortragBySchlagwort = (schlagwort: string) =>
       vortraege().find((vortrag) => vortrag.schlagwort === schlagwort);
 
-    const abschnitt = (beschreibung: string) => ({
-      beschreibung,
-      personIdAsBeklagte: "",
-      personIdAsKlagende: "",
-    });
-
     const zeuge = {
       personAuswahl: "anotherPerson" as const,
       personId: "zeuge-1",
@@ -882,7 +882,9 @@ describe("geldEinklagenXjustizFromUserdata", () => {
         {
           beweisNummer: 1,
           auswahlBeweismittel: {
-            parteivernehmung: { refRollennummer: klaeger.rolle[0].rollennummer },
+            parteivernehmung: {
+              refRollennummer: klaeger.rolle[0].rollennummer,
+            },
           },
         },
         {
@@ -901,12 +903,8 @@ describe("geldEinklagenXjustizFromUserdata", () => {
         klagendeVortrag?.ausfuehrungen.inhalt
           .tatsachenvortragSachverhaltsbeschreibung,
       ).toBe("Beweis angeboten durch Parteivernehmung der klagenden Partei.");
-      expect(klagendeVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([
-        1,
-      ]);
-      expect(beklagteVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([
-        2,
-      ]);
+      expect(klagendeVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([1]);
+      expect(beklagteVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([2]);
       expect(beklagteVortrag?.fremdeVortragsID).toStrictEqual([
         abschnittVortrag.vortragsID,
       ]);
