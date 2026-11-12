@@ -47,6 +47,8 @@ export const parteivernehmungSchema = z.object({
     .describe(parteivernehmungBeweisCheckboxesZodDescription),
 });
 
+export type Parteivernehmung = z.infer<typeof parteivernehmungSchema>;
+
 const beweisSchema = z.discriminatedUnion("type", [
   augenscheinSchema,
   urkundeSchema,
