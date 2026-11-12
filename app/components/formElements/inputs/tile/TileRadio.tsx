@@ -1,35 +1,31 @@
 import { useField } from "@rvf/react-router";
-import TileContent, { type TileContentProps } from "./TileContent";
+import TileContent from "./TileContent";
 import { type ImageProps } from "~/components/common/Image";
 import classNames from "classnames";
 
 export type TileOptions = Readonly<{
   value: string;
+  title: string;
   description?: string;
-  title?: string;
   image?: ImageProps;
-  tileDescription?: string;
-  tileTitle?: string;
-  errorId?: string;
 }>;
 
-type TileRadioProps = TileOptions &
-  Readonly<
-    {
-      name: string;
-      ref: React.Ref<HTMLInputElement>;
-      image?: ImageProps;
-    } & TileContentProps
-  >;
+type Props = TileOptions &
+  Readonly<{
+    name: string;
+    ref: React.Ref<HTMLInputElement>;
+    errorId?: string;
+  }>;
+
 const TileRadio = ({
   name,
-  tileDescription,
   value,
-  tileTitle,
+  title,
+  description,
   image,
   ref,
   errorId,
-}: TileRadioProps) => {
+}: Props) => {
   const field = useField(name);
   const id = `${name}-${value}`;
   const ariaDescribedBy = field.error() ? errorId : undefined;
@@ -59,11 +55,7 @@ const TileRadio = ({
             ref={ref}
           />
         </div>
-        <TileContent
-          title={tileTitle}
-          description={tileDescription}
-          image={image}
-        />
+        <TileContent title={title} description={description} image={image} />
       </label>
     </div>
   );

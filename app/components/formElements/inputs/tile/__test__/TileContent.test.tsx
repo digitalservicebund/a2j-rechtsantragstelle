@@ -9,7 +9,9 @@ describe("TileContent", () => {
   });
 
   it("should render image when provided", () => {
-    const { container } = render(<TileContent image={{ url: "/test.png" }} />);
+    const { container } = render(
+      <TileContent title="Title" image={{ url: "/test.png" }} />,
+    );
     const img = container.querySelector("img");
     expect(img).toBeInTheDocument();
   });
