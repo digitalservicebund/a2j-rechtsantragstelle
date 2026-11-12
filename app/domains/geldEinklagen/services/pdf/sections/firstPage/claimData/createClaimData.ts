@@ -1,4 +1,8 @@
 import type PDFDocument from "pdfkit";
+import {
+  KLAGE_TITEL,
+  KLAGE_UNTERTITEL,
+} from "~/domains/geldEinklagen/services/antragTexts";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { addPlaintiffDetails } from "./addPlaintiffDetails";
 import type {
@@ -11,9 +15,8 @@ import { addLegalRepresentation } from "./addLegalRepresentation";
 const IN_THE_MATTER = "in der Sache";
 const AGAINST = "gegen";
 
-const MAIN_TITLE = "Klage";
-const MAIN_SUBTITLE =
-  "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
+const MAIN_TITLE = KLAGE_TITEL;
+const MAIN_SUBTITLE = KLAGE_UNTERTITEL;
 
 const DUE_REASON_TEXT = "Wegen: Zahlungsklage";
 

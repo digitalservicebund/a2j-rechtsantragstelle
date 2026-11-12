@@ -55,7 +55,9 @@ const sonstigeAntraegeOfLastRequest = () =>
   ).inhaltsdaten.antraege.auswahlSonstigeAntraege ?? [];
 
 type LastRequest = {
-  grunddaten: { verfahrensdaten: { beteiligung: unknown[] } };
+  grunddaten: {
+    verfahrensdaten: { instanzdaten?: unknown[]; beteiligung: unknown[] };
+  };
   inhaltsdaten: {
     antraege: {
       sachantraege: {
@@ -63,6 +65,9 @@ type LastRequest = {
         anspruch: Array<{ fortlaufendeNummer: string }>;
       };
       nebenantraegeZinsen?: { inhalt: string };
+    };
+    sonstigeProzessualeAusfuehrungen?: {
+      inhalt: { tatsachenvortragSachverhaltsbeschreibung: string };
     };
     auswahlBegruendetheit: {
       anderesKlageverfahren: {
@@ -91,6 +96,25 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     );
   });
 
+  it("uses the PDF title as Verfahrensgegenstand of the responsible court", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: userDataWithBegruendung,
+      baseUrl,
+    });
+
+    expect(lastRequest().grunddaten.verfahrensdaten.instanzdaten).toEqual([
+      {
+        auswahlInstanzbehoerde: { gericht: Gerichte["Amtsgericht Schöneberg"] },
+        verfahrensgegenstand: [
+          {
+            gegenstand:
+              "Klage im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung",
+          },
+        ],
+      },
+    ]);
+  });
+
   it("requests Zinsen only as Nebenantrag when the user selected Prozesszinsen", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: { ...userDataWithBegruendung, prozesszinsen: "yes" },
@@ -102,6 +126,68 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     expect(antraege.nebenantraegeZinsen?.inhalt).toContain(
       "Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit",
     );
+  });
+
+  describe("sonstige prozessuale Ausfuehrungen", () => {
+    const tatsachenvortrag = () =>
+      lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen?.inhalt
+        .tatsachenvortragSachverhaltsbeschreibung;
+
+    it("states muendliche Verhandlung, Videoverhandlung and Streitbeilegung with the PDF wording", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "yes",
+          videoVerhandlung: "yes",
+          streitbeilegung: "yes",
+        },
+        baseUrl,
+      });
+
+      expect(tatsachenvortrag()).toBe(
+        [
+          "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
+          "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
+          "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.",
+        ].join("\n\n"),
+      );
+    });
+
+    it("states objections to a Videoverhandlung and the Streitbeilegung assumption", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "no",
+          videoVerhandlung: "no",
+          streitbeilegung: "no",
+          streitbeilegungGruende: "yes",
+        },
+        baseUrl,
+      });
+
+      expect(tatsachenvortrag()).toBe(
+        [
+          "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
+          "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
+        ].join("\n\n"),
+      );
+    });
+
+    it("omits the element when nothing was specified", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "noSpecification",
+          videoVerhandlung: "noSpecification",
+          streitbeilegung: "noSpecification",
+        },
+        baseUrl,
+      });
+
+      expect(
+        lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen,
+      ).toBeUndefined();
+    });
   });
 
   it("does not request Zinsen when the user declined Prozesszinsen", async () => {

@@ -20,9 +20,14 @@ import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/form
 import {
   anwaltskostenAntragText,
   hauptforderungAntragText,
+  KLAGE_TITEL,
+  KLAGE_UNTERTITEL,
+  muendlicheVerhandlungText,
+  videoVerhandlungText,
   zinsenAntragText,
 } from "~/domains/geldEinklagen/services/antragTexts";
 import { getResponsibleCourt } from "~/domains/geldEinklagen/services/court/getResponsibleCourt";
+import { getDisputeResolutionText } from "~/domains/shared/services/pdf/addDisputeResolution";
 import { parseCurrencyStringDE } from "~/services/validation/money/formatCents";
 import { findGerichtByXjustizId } from "./findGerichtByXjustizId";
 import {
@@ -92,6 +97,18 @@ export async function geldEinklagenXjustizFromUserdata({
     : undefined;
   if (rechtlicheWuerdigungText?.issues)
     return invalidUserData(rechtlicheWuerdigungText.issues);
+
+  const prozessualeTexte = [
+    muendlicheVerhandlungText(userData.muendlicheVerhandlung),
+    videoVerhandlungText(userData.videoVerhandlung),
+    getDisputeResolutionText(userData),
+  ].filter(Boolean);
+  const prozessualeAusfuehrungenText =
+    prozessualeTexte.length > 0
+      ? datatypeC(prozessualeTexte.join("\n\n"))
+      : undefined;
+  if (prozessualeAusfuehrungenText?.issues)
+    return invalidUserData(prozessualeAusfuehrungenText.issues);
 
   const result = await zahlungsklage(
     <NachrichtenScope>(scope: ScopeToken<NachrichtenScope>) => {
@@ -163,6 +180,13 @@ export async function geldEinklagenXjustizFromUserdata({
         ),
         grunddaten: {
           verfahrensdaten: {
+            // The court comm team asked for the PDF title as Verfahrensgegenstand
+            instanzdaten: [
+              ergonomics.instanzdaten(
+                gericht,
+                datatypeC(`${KLAGE_TITEL} ${KLAGE_UNTERTITEL}`).value,
+              ),
+            ],
             beteiligung: [klaeger, beklagter, ...zeugen.beteiligungen],
           },
         },
@@ -179,6 +203,15 @@ export async function geldEinklagenXjustizFromUserdata({
               sonstigeAntraege.length > 0 ? sonstigeAntraege : undefined,
           },
           beweis: zeugen.beweise.length > 0 ? zeugen.beweise : undefined,
+          sonstigeProzessualeAusfuehrungen: prozessualeAusfuehrungenText
+            ? {
+                inhalt: {
+                  tatsachenvortragSachverhaltsbeschreibung:
+                    prozessualeAusfuehrungenText.value,
+                },
+                refBeweisNummer: [],
+              }
+            : undefined,
           auswahlBegruendetheit: {
             anderesKlageverfahren: {
               vortrag: [
