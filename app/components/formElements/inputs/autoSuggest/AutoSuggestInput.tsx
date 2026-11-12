@@ -293,7 +293,7 @@ const AutoSuggestInput = ({
           styles={customStyles()}
           classNames={{
             control: () =>
-              classNames("kern-form-input__input bg-white!", {
+              classNames("kern-form-input__input bg-white! hover:py-0!", {
                 "kern-form-input__input--error": hasError,
               }),
             placeholder: () => "absolute",
