@@ -762,6 +762,12 @@ export const translations = {
     gesetzlicheVetretungHeadline: {
       de: "Gesetzliche Vertretung",
     },
+    gesetzlicheVertretung: {
+      de: "gesetzliche Vertretung",
+    },
+    weitereGesetzlicheVertretung: {
+      de: "weitere gesetzliche Vertretung",
+    },
     gesetzlicheVetretungDeletionTitle: {
       de: "Gesetzliche Vertretung löschen?",
     },
@@ -974,6 +980,12 @@ export const translations = {
     },
     parteivernehmungCheckboxesLabel: {
       de: "Wählen Sie eine oder mehrere Personen aus",
+    },
+    klaeger: {
+      de: "Kläger",
+    },
+    beklagter: {
+      de: "Beklagter",
     },
     optionalSuffix: {
       de: " - Optional",

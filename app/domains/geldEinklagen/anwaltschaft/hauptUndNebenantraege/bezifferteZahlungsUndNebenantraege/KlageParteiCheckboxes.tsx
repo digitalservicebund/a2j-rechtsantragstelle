@@ -14,17 +14,20 @@ import {
   type KlagePartyWithArrayIndex,
   useKlageParties,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 
-type RepresentativeName = Pick<
-  GesetzlicherVertreter,
-  "anrede" | "titel" | "vorname" | "nachname"
->;
+type CheckboxRepresentative = Partial<GesetzlicherVertreter> & {
+  /**
+   * Used to delineate between the default organizational representative, and additional ones entered
+   */
+  source?: "organisation-default" | "additional";
+};
 
 export type GetCheckboxLabel = (
   index: number,
   party: KlageParteien[number],
   relationship: KlageParteiVerhaeltnis,
-  representative?: RepresentativeName,
+  representative?: CheckboxRepresentative,
 ) => React.ReactNode;
 
 type SelectableParty = {
@@ -32,7 +35,7 @@ type SelectableParty = {
   index: number;
   party: KlageParteien[number];
   relationship: KlageParteiVerhaeltnis;
-  representative?: RepresentativeName;
+  representative?: CheckboxRepresentative;
 };
 
 type Props = {
@@ -47,7 +50,12 @@ type Props = {
 
 export const getPartyLabel = (party: KlageParteien[number]) => {
   if (party.type === "natuerliche-person") {
-    return `${party.anrede ?? ""} ${party.titel ?? ""} ${party.vorname} ${party.nachname}`;
+    return getFullPlaintiffName(
+      party.anrede,
+      party.titel,
+      party.vorname,
+      party.nachname,
+    );
   }
   return party.orgName;
 };
@@ -61,9 +69,10 @@ const getSelectableKlageParties = (
     .sort((a, b) => a.displayIndex - b.displayIndex)
     .flatMap(({ partei: party, displayIndex: index }) => {
       if (!party.id) return [];
-      const options: SelectableParty[] = [
-        { id: party.id, index, party, relationship },
-      ];
+      const options: SelectableParty[] =
+        includeGesetzlicheVertretung && party.type === "organisation"
+          ? []
+          : [{ id: party.id, index, party, relationship }];
       if (includeGesetzlicheVertretung) {
         if (party.type === "organisation" && party.orgVertretungId) {
           options.push({
@@ -76,6 +85,8 @@ const getSelectableKlageParties = (
               titel: party.orgVertretungTitel,
               vorname: party.orgVertretungVorname,
               nachname: party.orgVertretungNachname,
+              art: party.orgVertretungArt,
+              source: "organisation-default",
             },
           });
         }
@@ -86,7 +97,11 @@ const getSelectableKlageParties = (
               index,
               party,
               relationship,
-              representative,
+              representative: {
+                ...representative,
+                source:
+                  party.type === "organisation" ? "additional" : undefined,
+              },
             });
           }
         }

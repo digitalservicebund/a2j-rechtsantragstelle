@@ -5,10 +5,9 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
-import {
-  type GetCheckboxLabel,
-  getPartyLabel,
-} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
+import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
+import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
@@ -104,19 +103,66 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
   party,
   relationship,
   representative,
-) => (
-  <>
-    {representative ? (
-      <>
-        {representative.anrede} {representative.titel} {representative.vorname}{" "}
-        {representative.nachname} (
-        {translations.geldEinklagenAnwaltschaft.gesetzlicheVetretungHeadline.de}{" "}
-        von {getPartyLabel(party)}, {relationship} zu {index + 1})
-      </>
-    ) : (
-      <>
-        {relationship} <strong>zu {index + 1})</strong> {getPartyLabel(party)}
-      </>
-    )}
-  </>
-);
+) => {
+  const isOrg = party.type === "organisation";
+  const isRepresentative = Boolean(representative);
+  const naturalPersonTitle = isRepresentative ? (
+    <span>
+      {translations.geldEinklagenAnwaltschaft.gesetzlicheVertretung.de}:
+    </span>
+  ) : (
+    !isOrg && (
+      <span className="kern-body--bold">
+        {getFullPlaintiffName(
+          party.anrede,
+          party.titel,
+          party.vorname,
+          party.nachname,
+        )}
+      </span>
+    )
+  );
+  return (
+    <>
+      <div>
+        <span className="text-kern-feedback-success">
+          {relationship === "klagende"
+            ? translations.geldEinklagenAnwaltschaft.klaeger.de
+            : translations.geldEinklagenAnwaltschaft.beklagter.de}
+        </span>
+        <span> zu {index + 1}) </span>
+
+        {isOrg ? (
+          <span>
+            {" "}
+            {party.orgName}
+            {representative && (
+              <>
+                ,{" "}
+                {representative.source === "organisation-default"
+                  ? translations.geldEinklagenAnwaltschaft.gesetzlicheVertretung
+                      .de
+                  : translations.geldEinklagenAnwaltschaft
+                      .weitereGesetzlicheVertretung.de}
+                :
+              </>
+            )}
+          </span>
+        ) : (
+          naturalPersonTitle
+        )}
+      </div>
+      {representative && (
+        <span className="kern-body--bold">
+          {getGesetzlicheVertretungArtLabel(representative.art)},{" "}
+          {getFullPlaintiffName(
+            representative.anrede,
+            representative.titel,
+            representative.vorname,
+            representative.nachname,
+          )}
+        </span>
+      )}
+    </>
+  );
+};
