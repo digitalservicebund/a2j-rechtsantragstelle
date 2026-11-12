@@ -1,7 +1,10 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
-import { getNebenantragItemText } from "../hauptUndNebenantraegeContent";
+import {
+  getNebenantragItemText,
+  nebenantragArtLabels,
+} from "../hauptUndNebenantraegeContent";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { Icon } from "~/components/common/Icon";
@@ -91,7 +94,8 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
           },
           deleteButton: {
             onDelete: () => deleteUnbezifferteSchmerzensgeldNebenantrag(index),
-            title: `${entry.schmerzengeldNebenantragZinsmethode ? entry.schmerzengeldNebenantragZinsmethode : ""}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag : ""}`,
+            title:
+              translations.geldEinklagenAnwaltschaft.nebenatragDeleteButton.de,
             ariaLabel: `Schmerzensgeldantrag ${index + 1} löschen`,
             description: (
               <>
@@ -114,9 +118,9 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
                   }
                 </p>
                 <span className="flex flex-row items-center!">
-                  <Icon name="money-range" className="mr-8!" />
+                  <Icon name="draft" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
-                    {`${entry.schmerzengeldNebenantragZinsmethode ? entry.schmerzengeldNebenantragZinsmethode : ""}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag : ""}`}
+                    {`Nebenantrag - ${nebenantragArtLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`}
                   </p>
                 </span>
               </>
