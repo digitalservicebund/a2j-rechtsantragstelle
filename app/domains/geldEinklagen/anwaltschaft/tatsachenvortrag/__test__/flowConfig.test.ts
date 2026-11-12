@@ -1,4 +1,3 @@
-import { type Hauptantraege } from "../../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { tatsachenvortragFlowConfig } from "../flowConfig";
 import { tatsachenvortragPages } from "../pages";
 import { compileFlow } from "~/services/flow/flowEngine/compileFlow";
@@ -18,109 +17,61 @@ const flow = compileFlow({
   pruningStrategy: "cascading",
 });
 
-const createHauptantrag = (
-  absaetze: Hauptantraege["absaetze"],
-  label = "1",
-): Omit<Hauptantraege, "nebenantraege"> & {
-  nebenantraege: Hauptantraege["nebenantraege"];
-} => ({
-  betragForderung: "100",
-  klagende: {},
-  beklagte: {},
-  zinsbeginn: { day: "", month: "" },
-  zinsende: { day: "", month: "" },
-  absaetze,
-  nebenantraege: [
-    {
-      type: "nebenantrag",
-      nebenantragArt: "mahnkosten",
-      nebenantragBetrag: "10",
-      nebenantragZinsbeginn: { day: "", month: "" },
-      nebenantragZinsende: { day: "", month: "" },
-      absaetze: [
-        { formulierung: `Nebenantrag ${label} Absatz 1` },
-        { formulierung: `Nebenantrag ${label} Absatz 2` },
-      ],
-    },
-    {
-      type: "annahmeverzug",
-      annahmeverzugsFeststellung: "on",
-      annahmeverzugDatum: { day: "", month: "" },
-      absaetze: [{ formulierung: `Annahmeverzug ${label} Absatz 1` }],
-    },
-  ],
-});
+const vortraege = [
+  {
+    antragId: "11111111-1111-4111-8111-111111111111",
+    absaetze: [
+      {
+        formulierung: "Zahlungsantrag Absatz 1",
+        beweise: [{ type: "urkunde" as const, beschreibung: "Vertrag" }],
+      },
+      { formulierung: "Zahlungsantrag Absatz 2" },
+    ],
+  },
+  {
+    antragId: "muendlicheVerhandlung",
+    absaetze: [{ formulierung: "Prozessantrag Absatz 1" }],
+  },
+];
 
-describe("Tatsachenvortrag nested paragraphs", () => {
-  it.each([
-    { absaetze: undefined },
-    { absaetze: [] },
-    { absaetze: [{ formulierung: "Hauptantrag Absatz 1" }] },
-  ])(
-    "keeps Nebenantrag paragraphs with Hauptantrag paragraphs $absaetze",
-    ({ absaetze }) => {
-      const userData = {
-        hauptantrag: [
-          createHauptantrag(absaetze, "2"),
-          createHauptantrag(absaetze),
-        ],
-        pageData: { arrayIndexes: [1, 0] },
-      };
+describe("Tatsachenvortrag Vorträge", () => {
+  it("visits the Absätze of every Vortrag", () => {
+    const simulation = runSimulation(
+      { vortraege, pageData: { arrayIndexes: [] } },
+      flow,
+    );
 
-      const simulation = runSimulation(userData, flow);
-      expect(
-        simulation.visitedContexts
-          .filter(({ key }) => key === "nebenantragAbsatzDaten")
-          .map(({ arrayPath, pageData, scopeData }) => ({
-            arrayPath,
-            indexes: pageData.arrayIndexes,
-            formulierung: scopeData.formulierung,
-          })),
-      ).toEqual(
-        userData.hauptantrag.flatMap((hauptantrag, hauptantragIndex) =>
-          hauptantrag.nebenantraege?.flatMap((nebenantrag, nebenantragIndex) =>
-            nebenantrag.absaetze?.map(({ formulierung }, absatzIndex) => ({
-              arrayPath: ["hauptantrag", "nebenantraege", "absaetze"],
-              indexes: [hauptantragIndex, nebenantragIndex, absatzIndex],
-              formulierung,
-            })),
-          ),
-        ),
-      );
-
-      const session = createFlowSession(
-        flow,
-        userData,
-        tatsachenvortragPages.nebenantragAbsatzUebersicht.stepId,
-      );
-      expect(session.prunedUserData.hauptantrag).toEqual(
-        userData.hauptantrag.map((hauptantrag) => ({
-          ...(absaetze?.length ? { absaetze } : {}),
-          nebenantraege: hauptantrag.nebenantraege?.map(({ absaetze }) => ({
-            absaetze,
-          })),
+    expect(
+      simulation.visitedContexts
+        .filter(({ key }) => key === "absatzDaten")
+        .map(({ pageData, scopeData }) => ({
+          indexes: pageData.arrayIndexes,
+          formulierung: scopeData.formulierung,
         })),
-      );
-    },
-  );
+    ).toEqual([
+      { indexes: [0, 0], formulierung: "Zahlungsantrag Absatz 1" },
+      { indexes: [0, 1], formulierung: "Zahlungsantrag Absatz 2" },
+      { indexes: [1, 0], formulierung: "Prozessantrag Absatz 1" },
+    ]);
+  });
 
-  it.each([{ nebenantraege: undefined }, { nebenantraege: [] }])(
-    "does not create phantom Nebenantrag contexts for $nebenantraege",
-    ({ nebenantraege }) => {
-      const userData = {
-        hauptantrag: [{ ...createHauptantrag(undefined), nebenantraege }],
-        pageData: { arrayIndexes: [] },
-      };
-      const simulation = runSimulation(userData, flow);
+  it("keeps the Antrag link and Absätze when pruning", () => {
+    const session = createFlowSession(
+      flow,
+      { vortraege, pageData: { arrayIndexes: [1] } },
+      tatsachenvortragPages.absaetzeUebersicht.stepId,
+    );
 
-      expect(
-        simulation.visitedContexts.filter(
-          ({ key }) => key === "nebenantragAbsatzUebersicht",
-        ),
-      ).toEqual([]);
-      expect(simulation.reachableSet.has("nebenantragAbsatzUebersicht")).toBe(
-        true,
-      );
-    },
-  );
+    expect(session.prunedUserData.vortraege).toEqual(vortraege);
+  });
+
+  it("returns from the Absätze overview to the Anträge overview", () => {
+    const session = createFlowSession(
+      flow,
+      { vortraege, pageData: { arrayIndexes: [1] } },
+      tatsachenvortragPages.absaetzeUebersicht.stepId,
+    );
+
+    expect(session.prevPath).toBe("/tatsachenvortrag-beweise/uebersicht");
+  });
 });

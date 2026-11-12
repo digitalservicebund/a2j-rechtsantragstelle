@@ -42,6 +42,7 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
     render(
       <UnbezifferteSchmerzensgeldantrag
         itemIndex={1}
+        antragNumber={4}
         item={antrag}
         userData={{ schmerzengeldantrag: [antrag, antrag] }}
         onEdit={onEdit}
@@ -54,7 +55,7 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
       "5000 Euro nicht unterschreiten sollte",
     );
     const edit = screen.getByRole("link", {
-      name: "Schmerzensgeldantrag 2 bearbeiten",
+      name: "Schmerzensgeldantrag 4 bearbeiten",
     });
     expect(edit).toHaveAttribute(
       "href",
@@ -66,11 +67,11 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "Schmerzensgeldantrag 2 und Nebenanträge löschen",
+        name: "Schmerzensgeldantrag 4 und Nebenanträge löschen",
       }),
     );
     const dialog = screen.getByRole("dialog", {
-      name: "Schmerzensgeldantrag 2 löschen?",
+      name: "Schmerzensgeldantrag 4 löschen?",
     });
     expect(dialog).toHaveTextContent("Unfall");
     expect(dialog).toHaveTextContent("5000 Euro");

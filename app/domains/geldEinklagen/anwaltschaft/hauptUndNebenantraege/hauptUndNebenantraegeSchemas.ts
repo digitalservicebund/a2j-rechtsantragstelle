@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { absaetzeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import { createDateInputOptionalSchema } from "~/services/validation/dateObject";
 import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
+import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const optionalIntegerSchema = z
@@ -31,17 +31,20 @@ const annahmeverzugCheckboxSchema = z
     message: "Bitte wählen Sie den Feststellungsantrag Annahmeverzug aus",
   });
 
+export const antragIdSchema = schemaOrEmptyStringOptional(z.uuid());
+
 export const annahmeverzugSchema = z.object({
   type: z.literal("annahmeverzug"),
+  id: antragIdSchema,
   annahmeverzugsFeststellung: annahmeverzugCheckboxSchema.describe(
     annahmeverzugCheckboxZodDescription,
   ),
   annahmeverzugDatum: createDateInputOptionalSchema(),
-  absaetze: absaetzeArraySchema.optional(),
 });
 
 export const nebenantragSchema = z.object({
   type: z.literal("nebenantrag"),
+  id: antragIdSchema,
   nebenantragArt: z.enum([
     "vorgerichtlicheAnwaltskosten",
     "mahnkosten",
@@ -55,7 +58,6 @@ export const nebenantragSchema = z.object({
   nebenantragZinsmethode: optionalZinsmethodeSchema,
   nebenantragZinsbeginn: createDateInputOptionalSchema().optional(),
   nebenantragZinsende: createDateInputOptionalSchema().optional(),
-  absaetze: absaetzeArraySchema.optional(),
 });
 
 const nebenantraegeArraySchema = z.array(
@@ -82,7 +84,7 @@ const selectedKlagendeSchema = z
 
 export const hauptantraegeArraySchema = z.array(
   z.object({
-    id: z.string().check(z.uuid()).optional(),
+    id: antragIdSchema,
     internesSchlagwortForderung: z.string().max(50).optional(),
     betragForderung: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
@@ -93,7 +95,6 @@ export const hauptantraegeArraySchema = z.array(
     zinsmethode: optionalZinsmethodeSchema,
     zinsbeginn: createDateInputOptionalSchema(),
     zinsende: createDateInputOptionalSchema(),
-    absaetze: absaetzeArraySchema.optional(),
     nebenantraege: nebenantraegeArraySchema.optional(),
   }),
 );
@@ -101,6 +102,7 @@ export const hauptantraegeArraySchema = z.array(
 export type Hauptantraege = z.infer<typeof hauptantraegeArraySchema>[number];
 
 export const schmerzengeldNebenantragSchema = z.object({
+  id: antragIdSchema,
   schmerzengeldNebenantragArt: z.enum([
     "vorgerichtlicheAnwaltskosten",
     "mahnkosten",
@@ -115,7 +117,6 @@ export const schmerzengeldNebenantragSchema = z.object({
   schmerzengeldNebenantragZinsbeginn:
     createDateInputOptionalSchema().optional(),
   schmerzengeldNebenantragZinsende: createDateInputOptionalSchema().optional(),
-  absaetze: absaetzeArraySchema.optional(),
 });
 
 export type SchmerzengeldNebenantrag = z.infer<
@@ -124,7 +125,7 @@ export type SchmerzengeldNebenantrag = z.infer<
 
 export const schmerzengeldantragSchema = z.array(
   z.object({
-    id: z.string().check(z.uuid()).optional(),
+    id: antragIdSchema,
     internesSchlagwortForderung: z.string().max(50).optional(),
     mindestBetrag: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
@@ -133,7 +134,6 @@ export const schmerzengeldantragSchema = z.array(
     zinssatzInProzent: optionalIntegerSchema,
     zinsbeginn: createDateInputOptionalSchema(),
     zinsende: createDateInputOptionalSchema(),
-    absaetze: absaetzeArraySchema.optional(),
     nebenantraege: z.array(schmerzengeldNebenantragSchema).optional(),
   }),
 );

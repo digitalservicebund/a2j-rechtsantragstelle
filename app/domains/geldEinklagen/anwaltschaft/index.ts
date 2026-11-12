@@ -67,26 +67,16 @@ export const geldEinklagenAnwaltschaft = {
       setNebenantragType("nebenantrag"),
     "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten":
       setNebenantragType("annahmeverzug"),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten":
-      setBeweisIdentity("augenschein", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten":
-      setBeweisIdentity("augenschein", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten":
-      setBeweisIdentity("urkunde", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten":
-      setBeweisIdentity("urkunde", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
-      setBeweisIdentity("sachverstaendigengutachten", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
-      setBeweisIdentity("sachverstaendigengutachten", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten":
-      setBeweisIdentity("zeuge", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten":
-      setBeweisIdentity("zeuge", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten":
-      setBeweisIdentity("parteivernehmung", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten":
-      setBeweisIdentity("parteivernehmung", false),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/augenschein-daten":
+      setBeweisIdentity("augenschein"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/parteivernehmung-daten":
+      setBeweisIdentity("parteivernehmung"),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {

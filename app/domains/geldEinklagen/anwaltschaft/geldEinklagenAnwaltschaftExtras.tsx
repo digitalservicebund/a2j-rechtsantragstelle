@@ -33,10 +33,8 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
           return <UnbezifferteSchmerzensgeldUebersicht />;
         case "/tatsachenvortrag-beweise/uebersicht":
           return <AntraegeUebersicht />;
-        case "/tatsachenvortrag-beweise/hauptantrag/#/absaetze":
+        case "/tatsachenvortrag-beweise/vortraege/#/absaetze":
           return <AbsaetzeUebersicht />;
-        case "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze":
-          return <AbsaetzeUebersicht isNebenantrag={true} />;
       }
     },
     getDynamicOptions: function (): DynamicOptions | undefined {

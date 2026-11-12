@@ -6,6 +6,7 @@ import { translations } from "~/services/translations/translations";
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
+import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
 
 export const BASE_URL_SONSTIGE_ANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag";
@@ -79,6 +80,11 @@ const SonstigeAntraegeUebersicht = () => {
           <SonstigeAntraege
             key={item.antrag}
             itemIndex={index}
+            antragNumber={getAntragNumber(
+              userDataGeldEinklagen,
+              "sonstigeAntraege",
+              index,
+            )}
             item={item}
             onDelete={deleteArrayItem}
           />

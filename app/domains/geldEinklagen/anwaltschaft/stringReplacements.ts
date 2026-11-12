@@ -1,4 +1,4 @@
-import { getNebenantragTitle } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getOrderedAntraege } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/antragOrdering";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { firstArrayIndex } from "~/services/flow/pageData";
@@ -60,28 +60,20 @@ export const getKanzleiStrings = (
   };
 };
 
-// TODO: Fix when Antrag entry is working and all prerequesites live in UserData
 export const getAntraegeStrings = (
   context: GeldEinklagenAnwaltschaftUserData,
 ) => {
-  const arrayIndices = context.pageData?.arrayIndexes;
-  const hauptantrag = context.hauptantrag?.at(arrayIndices?.at(0) ?? -1);
-  if (!hauptantrag) return {};
-  const internesSchlagwortForderung = hauptantrag.internesSchlagwortForderung
-    ? `(${hauptantrag.internesSchlagwortForderung})`
-    : "";
-  const nebenantrag = hauptantrag.nebenantraege?.at(arrayIndices?.at(1) ?? -1);
-  // TODO: refactor to base title on Nebenantrag type
-  const nebenantragTitle = nebenantrag
-    ? getNebenantragTitle(nebenantrag, arrayIndices?.at(0) ?? 0)
-    : "";
+  const antraege = getOrderedAntraege(context);
+  const [vortragIndex, absatzIndex] = context.pageData?.arrayIndexes ?? [];
+  if (vortragIndex === undefined) {
+    return { keineAntraege: antraege.length === 0 };
+  }
+  const antragId = context.vortraege?.at(vortragIndex)?.antragId;
+  const antrag = antraege.find((item) => item.antragId === antragId);
   return {
-    keineAntraege: false,
-    // If there are 3 indices, that indicates a nebenantraege page like /tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/daten
-    isHauptantrag: Boolean(arrayIndices?.length && arrayIndices.length < 3),
-    // TODO: refactor to base title on Hauptantrag type, e.g. Zahnungsantrag/Schmerzensgeldantrag
-    hauptantragTitle: `Bezifferter Zahlungsantrag ${(arrayIndices?.at(0) ?? 0) + 1} ${internesSchlagwortForderung}`,
-    absatzNumber: `${(arrayIndices?.at(-1) ?? 0) + 1}`,
-    nebenantragTitle: nebenantragTitle,
+    keineAntraege: antraege.length === 0,
+    antragTitle: antrag?.title ?? "",
+    isNebenantrag: antrag?.isNebenantrag ?? false,
+    ...(absatzIndex !== undefined && { absatzNumber: `${absatzIndex + 1}` }),
   };
 };

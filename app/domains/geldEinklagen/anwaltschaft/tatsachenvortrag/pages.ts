@@ -1,4 +1,3 @@
-import { hauptantraegeArraySchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   absaetzeArraySchema,
   augenscheinSchema,
@@ -6,6 +5,7 @@ import {
   parteivernehmungSchema,
   sachverstaendigengutachtenSchema,
   urkundeSchema,
+  vortraegeArraySchema,
   zeugeSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type PageConfigMap } from "~/services/flow/flowEngine/types";
@@ -17,215 +17,118 @@ export const tatsachenvortragPages = {
   antraegeUebersicht: {
     stepId: "/tatsachenvortrag-beweise/uebersicht",
     arraySummary: {
-      name: "hauptantrag",
-      schema: hauptantraegeArraySchema,
+      name: "vortraege",
+      schema: vortraegeArraySchema,
       isArrayRelevant: () => true,
     },
   },
+  // Never shown: the add-vortrag action creates items and redirects past it.
+  // It declares antragId so pruning keeps the link between Vortrag and Antrag.
+  vortragZuordnung: {
+    stepId: "/tatsachenvortrag-beweise/vortraege/#/zuordnung",
+    shouldCollapseIntoParentNavItem: true,
+    pageSchema: {
+      "vortraege#antragId": hiddenInputSchema(
+        vortraegeArraySchema.element.shape.antragId,
+      ),
+    },
+  },
   absaetzeUebersicht: {
-    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze",
+    stepId: "/tatsachenvortrag-beweise/vortraege/#/absaetze",
     shouldCollapseIntoParentNavItem: true,
     arraySummary: {
-      name: "hauptantrag#absaetze",
+      name: "vortraege#absaetze",
       schema: absaetzeArraySchema,
       isArrayRelevant: () => true,
     },
   },
   absatzDaten: {
-    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/daten",
+    stepId: "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#formulierung": stringRequiredMaxSchema({
+      "vortraege#absaetze#formulierung": stringRequiredMaxSchema({
         max: 10000,
       }),
     },
   },
-  nebenantragAbsatzUebersicht: {
-    stepId: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze",
-    shouldCollapseIntoParentNavItem: true,
-    arraySummary: {
-      name: "hauptantrag#nebenantraege#absaetze",
-      schema: absaetzeArraySchema,
-      isArrayRelevant: () => true,
-    },
-  },
-  nebenantragAbsatzDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#formulierung":
-        stringRequiredMaxSchema({
-          max: 10000,
-        }),
-    },
-  },
   augenscheinDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten",
+      "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/augenschein-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#beweise#beschreibung":
+      "vortraege#absaetze#beweise#beschreibung":
         augenscheinSchema.shape.beschreibung,
-      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+      "vortraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
       ),
-      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
-      ),
-    },
-  },
-  nebenantragAugenscheinDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
-        augenscheinSchema.shape.beschreibung,
-      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
-        schemaOrEmptyStringOptional(augenscheinSchema.shape.id),
-      ),
-      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+      "vortraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },
   urkundeDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten",
+      "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/urkunde-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#beweise#beschreibung":
+      "vortraege#absaetze#beweise#beschreibung":
         urkundeSchema.shape.beschreibung,
-      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+      "vortraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(urkundeSchema.shape.id),
       ),
-      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
-      ),
-    },
-  },
-  nebenantragUrkundeDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
-        urkundeSchema.shape.beschreibung,
-      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
-        schemaOrEmptyStringOptional(urkundeSchema.shape.id),
-      ),
-      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+      "vortraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },
   sachverstaendigengutachtenDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
+      "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#beweise#beschreibung":
+      "vortraege#absaetze#beweise#beschreibung":
         sachverstaendigengutachtenSchema.shape.beschreibung,
-      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+      "vortraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(sachverstaendigengutachtenSchema.shape.id),
       ),
-      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
-      ),
-    },
-  },
-  nebenantragSachverstaendigengutachtenDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#beweise#beschreibung":
-        sachverstaendigengutachtenSchema.shape.beschreibung,
-      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
-        schemaOrEmptyStringOptional(sachverstaendigengutachtenSchema.shape.id),
-      ),
-      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+      "vortraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },
   zeugeDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten",
+      "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/zeuge-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#beweise#anrede": zeugeSchema.shape.anrede,
-      "hauptantrag#absaetze#beweise#titel": zeugeSchema.shape.titel,
-      "hauptantrag#absaetze#beweise#vorname": zeugeSchema.shape.vorname,
-      "hauptantrag#absaetze#beweise#nachname": zeugeSchema.shape.nachname,
-      "hauptantrag#absaetze#beweise#strasse": zeugeSchema.shape.strasse,
-      "hauptantrag#absaetze#beweise#hausnummer": zeugeSchema.shape.hausnummer,
-      "hauptantrag#absaetze#beweise#plz": zeugeSchema.shape.plz,
-      "hauptantrag#absaetze#beweise#ort": zeugeSchema.shape.ort,
-      "hauptantrag#absaetze#beweise#land": zeugeSchema.shape.land,
-      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+      "vortraege#absaetze#beweise#anrede": zeugeSchema.shape.anrede,
+      "vortraege#absaetze#beweise#titel": zeugeSchema.shape.titel,
+      "vortraege#absaetze#beweise#vorname": zeugeSchema.shape.vorname,
+      "vortraege#absaetze#beweise#nachname": zeugeSchema.shape.nachname,
+      "vortraege#absaetze#beweise#strasse": zeugeSchema.shape.strasse,
+      "vortraege#absaetze#beweise#hausnummer": zeugeSchema.shape.hausnummer,
+      "vortraege#absaetze#beweise#plz": zeugeSchema.shape.plz,
+      "vortraege#absaetze#beweise#ort": zeugeSchema.shape.ort,
+      "vortraege#absaetze#beweise#land": zeugeSchema.shape.land,
+      "vortraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(zeugeSchema.shape.id),
       ),
-      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
-      ),
-    },
-  },
-  nebenantragZeugeDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#beweise#anrede":
-        zeugeSchema.shape.anrede,
-      "hauptantrag#nebenantraege#absaetze#beweise#titel":
-        zeugeSchema.shape.titel,
-      "hauptantrag#nebenantraege#absaetze#beweise#vorname":
-        zeugeSchema.shape.vorname,
-      "hauptantrag#nebenantraege#absaetze#beweise#nachname":
-        zeugeSchema.shape.nachname,
-      "hauptantrag#nebenantraege#absaetze#beweise#strasse":
-        zeugeSchema.shape.strasse,
-      "hauptantrag#nebenantraege#absaetze#beweise#hausnummer":
-        zeugeSchema.shape.hausnummer,
-      "hauptantrag#nebenantraege#absaetze#beweise#plz": zeugeSchema.shape.plz,
-      "hauptantrag#nebenantraege#absaetze#beweise#ort": zeugeSchema.shape.ort,
-      "hauptantrag#nebenantraege#absaetze#beweise#land": zeugeSchema.shape.land,
-      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
-        schemaOrEmptyStringOptional(zeugeSchema.shape.id),
-      ),
-      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+      "vortraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },
   },
   parteivernehmungDaten: {
     stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten",
+      "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#absaetze#beweise#personen":
+      "vortraege#absaetze#beweise#personen":
         parteivernehmungSchema.shape.personen,
-      "hauptantrag#absaetze#beweise#id": hiddenInputSchema(
+      "vortraege#absaetze#beweise#id": hiddenInputSchema(
         schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
       ),
-      "hauptantrag#absaetze#beweise#type": hiddenInputSchema(
-        schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
-      ),
-    },
-  },
-  nebenantragParteivernehmungDaten: {
-    stepId:
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
-    shouldCollapseIntoParentNavItem: true,
-    pageSchema: {
-      "hauptantrag#nebenantraege#absaetze#beweise#personen":
-        parteivernehmungSchema.shape.personen,
-      "hauptantrag#nebenantraege#absaetze#beweise#id": hiddenInputSchema(
-        schemaOrEmptyStringOptional(parteivernehmungSchema.shape.id),
-      ),
-      "hauptantrag#nebenantraege#absaetze#beweise#type": hiddenInputSchema(
+      "vortraege#absaetze#beweise#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(beweismittelSchema.shape.type),
       ),
     },

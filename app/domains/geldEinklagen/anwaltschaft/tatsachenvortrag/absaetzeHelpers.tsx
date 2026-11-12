@@ -1,71 +1,15 @@
 import {
-  type Schmerzensgeldantrag,
-  type Hauptantraege,
-  type Nebenantrag,
-  type SchmerzengeldNebenantrag,
-} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
-import {
   type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
-import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
 import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { ParteivernehmungBeweisBody } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/ParteivernehmungBeweisBody";
 import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
-export const getAbsaetzeBaseUrl = (
-  hauptantragIndex: number,
-  nebenantragIndex?: number,
-) => {
-  const nebenantragSlug =
-    nebenantragIndex !== undefined ? `/nebenantraege/${nebenantragIndex}` : "";
-  return `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/${hauptantragIndex}${nebenantragSlug}/absaetze`;
-};
-
-export type AntragRowItem =
-  Hauptantraege | Nebenantrag | Schmerzensgeldantrag | SchmerzengeldNebenantrag;
-
-export const getHauptantragTitle = (
-  antrag: Hauptantraege | Schmerzensgeldantrag,
-  index: number,
-) => {
-  const schlagwort =
-    antrag.internesSchlagwortForderung &&
-    `(${antrag.internesSchlagwortForderung})`;
-  return `${
-    "betragForderung" in antrag
-      ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
-          .de
-      : translations.geldEinklagenAnwaltschaft
-          .unbezifferterZahlungsantragHeadline.de
-  } ${index + 1} ${schlagwort}`;
-};
-
-export const getNebenantragTitle = (
-  nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
-  parentIndex: number,
-) => {
-  const isFeststellungsantrag =
-    "type" in nebenantrag && nebenantrag.type === "annahmeverzug";
-  const title = isFeststellungsantrag
-    ? translations.geldEinklagenAnwaltschaft.feststellungsantrag.de
-    : translations.geldEinklagenAnwaltschaft.nebenantrag.de;
-
-  let nebenantragTypeInfo: string;
-  if ("schmerzengeldNebenantragArt" in nebenantrag) {
-    nebenantragTypeInfo =
-      nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
-  } else if (nebenantrag.type === "annahmeverzug") {
-    nebenantragTypeInfo =
-      translations.geldEinklagenAnwaltschaft.annahmeverzug.de;
-  } else {
-    nebenantragTypeInfo = nebenantragArtLabels[nebenantrag.nebenantragArt];
-  }
-
-  return `${title} ${translations.geldEinklagenAnwaltschaft.zuAntrag.de} ${parentIndex + 1} - ${nebenantragTypeInfo}`;
-};
+export const getAbsaetzeBaseUrl = (vortragIndex: number) =>
+  `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/vortraege/${vortragIndex}/absaetze`;
 
 export const getBeweisTitle = (
   type: BeweisType,
@@ -119,8 +63,7 @@ export const getBeweisBody = (
   }
 };
 
-export const getBeweisArrayName = (isHauptantrag: boolean) =>
-  `hauptantrag#${isHauptantrag ? "" : "nebenantraege#"}absaetze#beweise`;
+export const BEWEISE_ARRAY_NAME = "vortraege#absaetze#beweise";
 
 export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
   index,
