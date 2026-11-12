@@ -60,11 +60,9 @@ export async function geldEinklagenXjustizFromUserdata({
   const forderungInEuro = parseCurrencyStringDE(userData.forderungGesamtbetrag);
   const { prozesszinsen, anwaltskosten } = userData;
 
+  // Zinsen go in nebenantraegeZinsen, so they are left out of the Sachantrag
   const sachantragText = datatypeE(
-    hauptforderungAntragText(
-      userData.forderungGesamtbetrag ?? "",
-      prozesszinsen,
-    ),
+    hauptforderungAntragText(userData.forderungGesamtbetrag ?? ""),
   );
   if (sachantragText.issues) return invalidUserData(sachantragText.issues);
 

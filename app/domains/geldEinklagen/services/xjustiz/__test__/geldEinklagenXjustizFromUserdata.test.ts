@@ -91,14 +91,14 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     );
   });
 
-  it("requests Zinsen when the user selected Prozesszinsen", async () => {
+  it("requests Zinsen only as Nebenantrag when the user selected Prozesszinsen", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: { ...userDataWithBegruendung, prozesszinsen: "yes" },
       baseUrl,
     });
 
     const { antraege } = lastRequest().inhaltsdaten;
-    expect(antraege.sachantraege.inhalt).toContain(INTEREST_CLAUSE);
+    expect(antraege.sachantraege.inhalt).not.toContain(INTEREST_CLAUSE);
     expect(antraege.nebenantraegeZinsen?.inhalt).toContain(
       "Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit",
     );
