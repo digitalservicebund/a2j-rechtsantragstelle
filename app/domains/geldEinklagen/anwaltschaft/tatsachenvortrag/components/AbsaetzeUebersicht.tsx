@@ -2,6 +2,7 @@ import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayIt
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getOrderedAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import { Absatz } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/Absatz";
 import { AbsaetzeContext } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { MAX_ABSAETZE } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
@@ -28,13 +29,14 @@ export const AbsaetzeUebersicht = ({
   ) {
     return null;
   }
-  const absaetze = isNebenantrag
-    ? userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
-        .nebenantraege?.[nebenantragArrayIndex!].absaetze
-    : userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
-        .absaetze;
+  const absaetze = getOrderedAbsaetze(userDataGeldEinklagenAnwaltschaft).filter(
+    (absatz) =>
+      absatz.hauptantragArrayIndex === hauptantragArrayIndex &&
+      absatz.nebenantragArrayIndex ===
+        (isNebenantrag ? nebenantragArrayIndex : undefined),
+  );
 
-  const nextAbsatzIndex = absaetze?.length ?? 0;
+  const nextAbsatzIndex = absaetze.length;
   const maxAbsaetzeReached = nextAbsatzIndex >= MAX_ABSAETZE;
   const absaetzeBaseUrl = getAbsaetzeBaseUrl(
     hauptantragArrayIndex,
@@ -56,7 +58,6 @@ export const AbsaetzeUebersicht = ({
       absaetzeBaseUrl,
     ],
   );
-
   return (
     <AbsaetzeContext.Provider value={absaetzeContextValue}>
       <ArrayItemListSection
@@ -81,12 +82,12 @@ export const AbsaetzeUebersicht = ({
           ),
         }}
       >
-        {absaetze?.map((absatz, index) => (
+        {absaetze.map(({ absatz, absatzArrayIndex, beweise }) => (
           <Absatz
-            // oxlint-disable-next-line react/no-array-index-key
-            key={`absatz-${index}`}
+            key={`absatz-${absatzArrayIndex}`}
             absatz={absatz}
-            index={index}
+            index={absatzArrayIndex}
+            beweise={beweise}
           />
         ))}
       </ArrayItemListSection>

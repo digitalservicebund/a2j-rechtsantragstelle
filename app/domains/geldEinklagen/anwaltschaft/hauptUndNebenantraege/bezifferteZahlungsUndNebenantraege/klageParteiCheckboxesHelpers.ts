@@ -3,7 +3,7 @@ import {
   type KlageParteiVerhaeltnis,
   type GesetzlicherVertreter,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
-import { type KlagePartyWithArrayIndex } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
+import { type KlagePartyWithArrayIndex } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyOrdering";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 
 type CheckboxRepresentative = Partial<GesetzlicherVertreter> & {
