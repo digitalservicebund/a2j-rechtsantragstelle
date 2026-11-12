@@ -1,6 +1,8 @@
 import {
+  type Schmerzensgeldantrag,
   type Hauptantraege,
   type Nebenantrag,
+  type SchmerzengeldNebenantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
   type Beweis,
@@ -22,26 +24,46 @@ export const getAbsaetzeBaseUrl = (
   return `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/${hauptantragIndex}${nebenantragSlug}/absaetze`;
 };
 
-export type AntragRowItem = Hauptantraege | Nebenantrag;
+export type AntragRowItem =
+  Hauptantraege | Nebenantrag | Schmerzensgeldantrag | SchmerzengeldNebenantrag;
 
-export const getHauptantragTitle = (antrag: Hauptantraege, index: number) => {
+export const getHauptantragTitle = (
+  antrag: Hauptantraege | Schmerzensgeldantrag,
+  index: number,
+) => {
   const schlagwort =
     antrag.internesSchlagwortFordureung &&
     `(${antrag.internesSchlagwortFordureung})`;
   return `${
-    translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline.de
+    "betragForderung" in antrag
+      ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
+          .de
+      : translations.geldEinklagenAnwaltschaft
+          .unbezifferterZahlungsantragHeadline.de
   } ${index + 1} ${schlagwort}`;
 };
 
 export const getNebenantragTitle = (
-  nebenantrag: Nebenantrag,
+  nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
   parentIndex: number,
 ) => {
-  const title =
-    nebenantrag.type === "nebenantrag"
-      ? translations.geldEinklagenAnwaltschaft.nebenantrag.de
-      : translations.geldEinklagenAnwaltschaft.feststellungsantrag.de;
-  const nebenantragTypeInfo = `${nebenantrag.type === "nebenantrag" ? nebenantragArtLabels[nebenantrag.nebenantragArt] : translations.geldEinklagenAnwaltschaft.annahmeverzug.de}`;
+  const isFeststellungsantrag =
+    "type" in nebenantrag && nebenantrag.type === "annahmeverzug";
+  const title = isFeststellungsantrag
+    ? translations.geldEinklagenAnwaltschaft.feststellungsantrag.de
+    : translations.geldEinklagenAnwaltschaft.nebenantrag.de;
+
+  let nebenantragTypeInfo: string;
+  if ("schmerzengeldNebenantragArt" in nebenantrag) {
+    nebenantragTypeInfo =
+      nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
+  } else if (nebenantrag.type === "annahmeverzug") {
+    nebenantragTypeInfo =
+      translations.geldEinklagenAnwaltschaft.annahmeverzug.de;
+  } else {
+    nebenantragTypeInfo = nebenantragArtLabels[nebenantrag.nebenantragArt];
+  }
+
   return `${title} ${translations.geldEinklagenAnwaltschaft.zuAntrag.de} ${parentIndex + 1} - ${nebenantragTypeInfo}`;
 };
 

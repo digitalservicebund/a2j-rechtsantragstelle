@@ -101,6 +101,18 @@ describe("absaetzeHelpers", () => {
         ),
       ).toBe("Feststellungsantrag zu Antrag 2 - Annahmeverzug");
     });
+
+    it("formats a Schmerzensgeldantrag Nebenantrag using its own art field", () => {
+      expect(
+        getNebenantragTitle(
+          {
+            schmerzengeldNebenantragArt: "ruecklastschriftgebühren",
+            schmerzengeldNebenantragBetrag: "10",
+          },
+          0,
+        ),
+      ).toBe("Nebenantrag zu Antrag 1 - Rücklastschriftgebühren");
+    });
   });
 
   describe("getBeweisTitle", () => {

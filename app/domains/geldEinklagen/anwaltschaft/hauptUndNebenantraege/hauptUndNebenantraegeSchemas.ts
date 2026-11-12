@@ -115,6 +115,7 @@ export const schmerzengeldNebenantragSchema = z.object({
   schmerzengeldNebenantragZinsbeginn:
     createDateInputOptionalSchema().optional(),
   schmerzengeldNebenantragZinsende: createDateInputOptionalSchema().optional(),
+  absaetze: absaetzeArraySchema.optional(),
 });
 
 export type SchmerzengeldNebenantrag = z.infer<
@@ -132,6 +133,11 @@ export const schmerzengeldantragSchema = z.array(
     zinssatzInProzent: optionalIntegerSchema,
     zinsbeginn: createDateInputOptionalSchema(),
     zinsende: createDateInputOptionalSchema(),
+    absaetze: absaetzeArraySchema.optional(),
     nebenantraege: z.array(schmerzengeldNebenantragSchema).optional(),
   }),
 );
+
+export type Schmerzensgeldantrag = z.infer<
+  typeof schmerzengeldantragSchema
+>[number];
