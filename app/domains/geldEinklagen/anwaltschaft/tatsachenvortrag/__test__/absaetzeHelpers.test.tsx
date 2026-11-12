@@ -84,10 +84,9 @@ describe("absaetzeHelpers", () => {
             nebenantragArt: "mahnkosten",
             nebenantragBetrag: "10",
           },
-          1,
           0,
         ),
-      ).toBe("Nebenantrag 1b (Mahnkosten)");
+      ).toBe("Nebenantrag zu Antrag 1 - Mahnkosten");
     });
 
     it("formats an Annahmeverzug with its parent and alphabetical indexes", () => {
@@ -98,10 +97,9 @@ describe("absaetzeHelpers", () => {
             annahmeverzugsFeststellung: "on",
             annahmeverzugDatum: { day: "", month: "" },
           },
-          0,
           1,
         ),
-      ).toBe("Feststellungsantrag 2a (Annahmeverzug)");
+      ).toBe("Feststellungsantrag zu Antrag 2 - Annahmeverzug");
     });
   });
 

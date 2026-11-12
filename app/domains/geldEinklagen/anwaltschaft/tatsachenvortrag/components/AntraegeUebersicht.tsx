@@ -4,34 +4,27 @@ import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import {
-  type Hauptantraege,
-  type Nebenantrag,
-} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
-import {
+  type AntragRowItem,
   getAbsaetzeBaseUrl,
+  getHauptantragTitle,
   getNebenantragTitle,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
-
-type Antrag = Hauptantraege | Nebenantrag;
 
 const AntragRow = ({
   antrag,
   index,
   parentIndex,
 }: {
-  antrag: Antrag;
+  antrag: AntragRowItem;
   index: number;
   parentIndex?: number;
 }) => {
   const isHauptantrag = "betragForderung" in antrag;
   const title = isHauptantrag
-    ? `${
-        translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
-          .de
-      } ${index + 1} (${antrag.internesSchlagwortFordureung})`
-    : getNebenantragTitle(antrag, index, parentIndex ?? -1);
+    ? getHauptantragTitle(antrag, index)
+    : getNebenantragTitle(antrag, parentIndex ?? -1);
   return (
     <div
       className={classNames(

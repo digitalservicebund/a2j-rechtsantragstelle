@@ -73,11 +73,7 @@ export const getAntraegeStrings = (
   const nebenantrag = hauptantrag.nebenantraege?.at(arrayIndices?.at(1) ?? -1);
   // TODO: refactor to base title on Nebenantrag type
   const nebenantragTitle = nebenantrag
-    ? getNebenantragTitle(
-        nebenantrag,
-        arrayIndices?.at(1) ?? 0,
-        arrayIndices?.at(0) ?? 0,
-      )
+    ? getNebenantragTitle(nebenantrag, arrayIndices?.at(0) ?? 0)
     : "";
   return {
     keineAntraege: false,

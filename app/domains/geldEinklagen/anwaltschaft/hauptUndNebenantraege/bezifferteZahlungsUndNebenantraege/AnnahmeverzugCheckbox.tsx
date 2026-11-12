@@ -29,7 +29,7 @@ export const AnnahmeverzugCheckbox = ({
   zahlungsantragIndex,
 }: Props) => {
   const field = useField<"on" | "off">(name);
-  const [checked, setChecked] = useState(field.value() === "off");
+  const [checked, setChecked] = useState(field.value() === "on");
   const beklagteNumbers = getPartyNumbers(parties, selectedBeklagte);
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());

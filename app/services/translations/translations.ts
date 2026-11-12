@@ -990,6 +990,9 @@ export const translations = {
     beklagter: {
       de: "Beklagter",
     },
+    zuAntrag: {
+      de: "zu Antrag",
+    },
     optionalSuffix: {
       de: " - Optional",
     },
