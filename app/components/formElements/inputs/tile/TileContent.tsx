@@ -11,12 +11,7 @@ export type TileContentProps = {
   readonly image?: ImageProps;
 };
 
-const TileContent = ({
-  title,
-  description,
-  image,
-  descriptionId,
-}: TileContentProps) => {
+const TileContent = ({ title, description, image }: TileContentProps) => {
   return (
     <div
       className={classNames("h-full flex flex-col", {
@@ -36,9 +31,7 @@ const TileContent = ({
       <div>
         {title && <h2 className="kern-body kern-body--bold">{title}</h2>}
         {description && (
-          <p id={descriptionId} className="kern-body kern-body--muted">
-            {description}
-          </p>
+          <p className="kern-body kern-body--muted">{description}</p>
         )}
       </div>
     </div>

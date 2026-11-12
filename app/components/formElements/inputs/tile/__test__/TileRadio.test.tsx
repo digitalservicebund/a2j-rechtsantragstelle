@@ -70,14 +70,4 @@ describe("TileRadio", () => {
       `${COMPONENT_NAME}-error`,
     );
   });
-
-  it("sets proper aria attributes when does not an error and contains a description", () => {
-    render(<TileRadio {...mockProps} />);
-
-    const radio = screen.getByRole("radio");
-    expect(radio).toHaveAttribute(
-      "aria-describedby",
-      `${mockProps.value}-description`,
-    );
-  });
 });

@@ -32,8 +32,7 @@ const TileRadio = ({
 }: TileRadioProps) => {
   const field = useField(name);
   const id = `${name}-${value}`;
-  const descriptionId = tileDescription ? `${value}-description` : undefined;
-  const ariaDescribedBy = field.error() ? errorId : descriptionId;
+  const ariaDescribedBy = field.error() ? errorId : undefined;
 
   return (
     <div
@@ -64,7 +63,6 @@ const TileRadio = ({
           title={tileTitle}
           description={tileDescription}
           image={image}
-          descriptionId={descriptionId}
         />
       </label>
     </div>
