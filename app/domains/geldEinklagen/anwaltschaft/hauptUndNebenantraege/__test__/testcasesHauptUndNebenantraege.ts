@@ -188,7 +188,7 @@ export const hauptUndNebenantraegeTestCases = {
         "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
     },
     {
-      stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+      stepId: "/prozessantraege",
     },
   ],
 
@@ -198,7 +198,7 @@ export const hauptUndNebenantraegeTestCases = {
         "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
     },
     {
-      stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+      stepId: "/prozessantraege",
     },
   ],
 

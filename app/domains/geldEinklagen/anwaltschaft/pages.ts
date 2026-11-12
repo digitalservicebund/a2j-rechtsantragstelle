@@ -68,7 +68,7 @@ export const geldEinklagenAnwaltschaftPages = {
   ...beklagteParteiPages,
   ...hauptUndNebenantraegePages,
   prozessualeAusfuehrungen: {
-    stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+    stepId: "/prozessantraege",
     pageSchema: {
       muendlicheVerhandlung: schemaOrEmptyString(checkedOptional),
       videoverhandlung: schemaOrEmptyString(
