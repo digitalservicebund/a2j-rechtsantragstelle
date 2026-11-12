@@ -25,8 +25,8 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#internesSchlagwortFordureung":
-        hauptantraegeArraySchema.element.shape.internesSchlagwortFordureung,
+      "hauptantrag#internesSchlagwortForderung":
+        hauptantraegeArraySchema.element.shape.internesSchlagwortForderung,
       "hauptantrag#betragForderung":
         hauptantraegeArraySchema.element.shape.betragForderung,
       "hauptantrag#beklagte": hauptantraegeArraySchema.element.shape.beklagte,
@@ -98,8 +98,8 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "schmerzengeldantrag#internesSchlagwortFordureung":
-        schmerzengeldantragSchema.element.shape.internesSchlagwortFordureung,
+      "schmerzengeldantrag#internesSchlagwortForderung":
+        schmerzengeldantragSchema.element.shape.internesSchlagwortForderung,
       "schmerzengeldantrag#mindestBetrag":
         schmerzengeldantragSchema.element.shape.mindestBetrag,
       "schmerzengeldantrag#beklagte":

@@ -7,7 +7,7 @@ const testcaseData = {
   pilotgericht: "steinfurt",
   hauptantrag: [
     {
-      internesSchlagwortFordureung: "Hauptforderung",
+      internesSchlagwortForderung: "Hauptforderung",
       betragForderung: "1000",
       beklagte: {
         "11111111-1111-4111-8111-111111111111": "on",
@@ -64,7 +64,7 @@ export const hauptUndNebenantraegeTestCases = {
       stepId:
         "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/0/daten",
       userInput: {
-        "hauptantrag#internesSchlagwortFordureung": "Hauptforderung",
+        "hauptantrag#internesSchlagwortForderung": "Hauptforderung",
         "hauptantrag#betragForderung": "1000",
         "hauptantrag#beklagte": {
           "11111111-1111-4111-8111-111111111111": "on",
@@ -165,7 +165,7 @@ export const hauptUndNebenantraegeTestCases = {
       stepId:
         "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/0/daten",
       userInput: {
-        "schmerzengeldantrag#internesSchlagwortFordureung": "Schmerzensgeld",
+        "schmerzengeldantrag#internesSchlagwortForderung": "Schmerzensgeld",
         "schmerzengeldantrag#mindestBetrag": "1000",
         "schmerzengeldantrag#beklagte": testcaseData.hauptantrag[0].beklagte,
         "schmerzengeldantrag#klagende": testcaseData.hauptantrag[0].klagende,

@@ -32,8 +32,8 @@ export const getHauptantragTitle = (
   index: number,
 ) => {
   const schlagwort =
-    antrag.internesSchlagwortFordureung &&
-    `(${antrag.internesSchlagwortFordureung})`;
+    antrag.internesSchlagwortForderung &&
+    `(${antrag.internesSchlagwortForderung})`;
   return `${
     "betragForderung" in antrag
       ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
