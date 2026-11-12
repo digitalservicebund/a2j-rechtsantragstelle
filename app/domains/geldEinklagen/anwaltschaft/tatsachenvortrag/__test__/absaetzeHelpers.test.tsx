@@ -128,12 +128,6 @@ describe("absaetzeHelpers", () => {
         }),
       ).toBe("Foto des Schadens");
     });
-
-    it("omits the body for party examination evidence", () => {
-      expect(getBeweisBody({ type: "parteivernehmung", personen: {} })).toBe(
-        "",
-      );
-    });
   });
 
   describe("getBeweisArrayName", () => {

@@ -7,10 +7,8 @@ import { z } from "zod";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import { parteivernehmungSchema } from "../../../tatsachenvortrag/tatsachenvortragSchemas";
 import { getParteivernehmungBeweisCheckboxLabel } from "../../../tatsachenvortrag/absaetzeHelpers";
-import {
-  KlageParteiCheckboxes,
-  type GetCheckboxLabel,
-} from "../KlageParteiCheckboxes";
+import { KlageParteiCheckboxes } from "../KlageParteiCheckboxes";
+import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 const ids = [
   "11111111-1111-4111-8111-111111111111",

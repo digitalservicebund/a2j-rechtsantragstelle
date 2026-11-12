@@ -36,13 +36,11 @@ import { klageParteiCheckboxesZodDescription } from "~/services/validation/klage
 import { annahmeverzugCheckboxZodDescription } from "~/services/validation/annahmeverzugCheckbox";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { AnnahmeverzugCheckbox } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/AnnahmeverzugCheckbox";
-import {
-  getPartyLabel,
-  KlageParteiCheckboxes,
-} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
+import { KlageParteiCheckboxes } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 import { parteivernehmungBeweisCheckboxesZodDescription } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import { getParteivernehmungBeweisCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getKlagePartyCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,
@@ -255,7 +253,8 @@ export const renderSpecialMetaDescriptions = (
           showPaymentHint
           getCheckboxLabel={(index, party) => (
             <>
-              <strong>zu {index + 1})</strong> {getPartyLabel(party)}
+              <strong>zu {index + 1})</strong>{" "}
+              {getKlagePartyCheckboxLabel(party)}
             </>
           )}
           label={`${isBeklagte ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesBeklagteLabel.de : translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesKlagendeLabel.de} ${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesLeistungLabel.de}`}

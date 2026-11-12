@@ -71,12 +71,13 @@ export const UnbezifferteSchmerzensgeldantrag = ({
                 }
               </p>
               <span className="flex flex-row items-center!">
-                <Icon name="money-range" className="mr-8!" />
+                <Icon name="draft" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
                   {`Schmerzensgeldantrag ${itemIndex + 1}`}
                   {item.internesSchlagwortFordureung
-                    ? `${item.internesSchlagwortFordureung},`
+                    ? `${item.internesSchlagwortFordureung} + ",",`
                     : ""}
+                  {", "}
                   {item.mindestBetrag ? `${item.mindestBetrag} Euro` : ""}
                 </p>
               </span>

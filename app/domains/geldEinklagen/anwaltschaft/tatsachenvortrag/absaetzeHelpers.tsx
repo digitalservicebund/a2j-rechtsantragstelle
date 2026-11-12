@@ -5,9 +5,10 @@ import {
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import { nebenantragArtLabels } from "../hauptUndNebenantraege/hauptUndNebenantraegeContent";
-import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/KlageParteiCheckboxes";
 import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
+import { ParteivernehmungBeweisBody } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/ParteivernehmungBeweisBody";
+import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 
 export const getAbsaetzeBaseUrl = (
   hauptantragIndex: number,
@@ -75,7 +76,7 @@ export const getBeweisBody = (
         </div>
       );
     case "parteivernehmung":
-      return "";
+      return <ParteivernehmungBeweisBody parteivernehmung={beweis} />;
     default:
       return beweis.beschreibung;
   }
@@ -123,9 +124,9 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
     )
   );
   return (
-    <>
+    <div>
       <div>
-        <span className="text-kern-feedback-success">
+        <span>
           {relationship === "klagende"
             ? translations.geldEinklagenAnwaltschaft.klaeger.de
             : translations.geldEinklagenAnwaltschaft.beklagter.de}
@@ -163,6 +164,6 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
           )}
         </span>
       )}
-    </>
+    </div>
   );
 };
