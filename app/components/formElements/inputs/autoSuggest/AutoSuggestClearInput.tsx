@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import type { RefObject } from "react";
 import { useRouteLoaderData } from "react-router";
 import type { ClearIndicatorProps } from "react-select";
@@ -27,7 +28,12 @@ const AutoSuggestClearInput = (
        *  erronously clearing the AutoSuggest
        */
       type="reset"
-      className="outline-hidden focus-within:outline-solid focus-within:outline-4 focus-within:outline-offset-4 focus-within:outline-blue-800 hover:outline-[2px] hover:outline-gray-900 forced-color-adjust-none"
+      className={classNames(
+        "outline-none rounded-[var(--kern-metric-border-radius-default)]",
+        "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_2px_var(--kern-color-action-focus-default),0_0_0_6px_var(--kern-color-action-focus-default)]",
+        "hover:shadow-[0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_4px_var(--kern-color-layout-border-contextual)]",
+        "forced-color-adjust-none",
+      )}
       onClick={() => {
         props.clearValue();
       }}
