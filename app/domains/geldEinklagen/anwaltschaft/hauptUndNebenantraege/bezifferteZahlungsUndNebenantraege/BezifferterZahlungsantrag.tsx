@@ -40,7 +40,7 @@ export const BezifferterZahlungsantrag = ({
           </span>
         </div>
       }
-      badge={item.internesSchlagwortFordureung}
+      badge={item.internesSchlagwortForderung}
       editButton={{
         href: `${BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
         ariaLabel: `Zahlungsantrag ${itemIndex + 1} bearbeiten`,
@@ -74,8 +74,8 @@ export const BezifferterZahlungsantrag = ({
                 <Icon name="money-range" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
                   {`Bezifferter Zahlungsantrag ${itemIndex + 1}`}{" "}
-                  {item.internesSchlagwortFordureung
-                    ? `${item.internesSchlagwortFordureung}`
+                  {item.internesSchlagwortForderung
+                    ? `${item.internesSchlagwortForderung}`
                     : ""}
                   , {item.betragForderung ? `${item.betragForderung}` : ""}
                 </p>

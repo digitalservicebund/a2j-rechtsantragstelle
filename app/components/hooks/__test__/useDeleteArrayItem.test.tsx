@@ -26,8 +26,8 @@ afterEach(() => {
 describe("useDeleteArrayItem", () => {
   it.each([
     [
-      "sonstigeNebenUndProzessantraege",
-      "/geld-einklagen/anwaltschaft/sonstige-neben-und-prozessantraege/antrag",
+      "sonstigeAntraege",
+      "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag",
     ],
     [
       "klagendeProzessbevollmaechtigte",

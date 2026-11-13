@@ -1,10 +1,7 @@
 import { render } from "@testing-library/react";
 import {
-  getAbsaetzeBaseUrl,
-  getBeweisArrayName,
   getBeweisBody,
   getBeweisTitle,
-  getNebenantragTitle,
   getParteivernehmungBeweisCheckboxLabel,
 } from "../absaetzeHelpers";
 
@@ -61,60 +58,6 @@ describe("absaetzeHelpers", () => {
     });
   });
 
-  describe("getAbsaetzeBaseUrl", () => {
-    it("includes the nested Nebenantrag path when supplied", () => {
-      expect(getAbsaetzeBaseUrl(2, 1)).toBe(
-        "/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/2/nebenantraege/1/absaetze",
-      );
-    });
-
-    it("omits the Nebenantrag path when not supplied", () => {
-      expect(getAbsaetzeBaseUrl(2)).toBe(
-        "/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/2/absaetze",
-      );
-    });
-  });
-
-  describe("getNebenantragTitle", () => {
-    it("formats a Nebenantrag with its alphabetical index and type", () => {
-      expect(
-        getNebenantragTitle(
-          {
-            type: "nebenantrag",
-            nebenantragArt: "mahnkosten",
-            nebenantragBetrag: "10",
-          },
-          0,
-        ),
-      ).toBe("Nebenantrag zu Antrag 1 - Mahnkosten");
-    });
-
-    it("formats an Annahmeverzug with its parent and alphabetical indexes", () => {
-      expect(
-        getNebenantragTitle(
-          {
-            type: "annahmeverzug",
-            annahmeverzugsFeststellung: "on",
-            annahmeverzugDatum: { day: "", month: "" },
-          },
-          1,
-        ),
-      ).toBe("Feststellungsantrag zu Antrag 2 - Annahmeverzug");
-    });
-
-    it("formats a Schmerzensgeldantrag Nebenantrag using its own art field", () => {
-      expect(
-        getNebenantragTitle(
-          {
-            schmerzengeldNebenantragArt: "ruecklastschriftgebühren",
-            schmerzengeldNebenantragBetrag: "10",
-          },
-          0,
-        ),
-      ).toBe("Nebenantrag zu Antrag 1 - Rücklastschriftgebühren");
-    });
-  });
-
   describe("getBeweisTitle", () => {
     it.each([
       ["augenschein", "Beweis K2"],
@@ -141,18 +84,6 @@ describe("absaetzeHelpers", () => {
           beschreibung: "Foto des Schadens",
         }),
       ).toBe("Foto des Schadens");
-    });
-  });
-
-  describe("getBeweisArrayName", () => {
-    it("selects the Hauptantrag evidence array", () => {
-      expect(getBeweisArrayName(true)).toBe("hauptantrag#absaetze#beweise");
-    });
-
-    it("selects the nested Nebenantrag evidence array", () => {
-      expect(getBeweisArrayName(false)).toBe(
-        "hauptantrag#nebenantraege#absaetze#beweise",
-      );
     });
   });
 });
