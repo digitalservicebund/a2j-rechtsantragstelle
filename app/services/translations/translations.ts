@@ -714,14 +714,17 @@ export const translations = {
     berufsausuebungsgesellschaftHeadline: {
       de: "Berufsausübungsgesellschaft",
     },
+    berufsausuebungsgesellschaftHelperText: {
+      de: "Darunter fallen alle Formen gemeinschaftlicher Berufsausübung, die keine Einzelkanzlei sind",
+    },
     geschaeftszeichen: {
       de: "Geschäftszeichen",
     },
     prozessbevollmaechtigtePerson: {
       de: "Prozessbevollmächtigte Person",
     },
-    prozessbevollmaechtigtePersonen: {
-      de: "Prozessbevollmächtigte Personen",
+    verantwortendePersonen: {
+      de: "Verantwortende Personen (Namen unter der Klageschrift)",
     },
     namedInSignatureLabel: {
       de: "(Wird in der Signatur genannt)",
@@ -739,16 +742,16 @@ export const translations = {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
     signaturangabenTitle: {
-      de: "Signaturangaben (notwendig für die Klageschrift)",
+      de: "Verantwortende Person (notwendig für die Klageschrift)",
     },
     additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
     signaturangaben: {
-      de: "Signaturangaben",
+      de: "Verantwortende Person",
     },
     signaturangabenDeletionTitle: {
-      de: "Signaturangaben löschen?",
+      de: "Verantwortende Person löschen?",
     },
     prozessbevollmaechtigtePersonenDeletionTitle: {
       de: "Prozessbevollmächtigte Personen löschen?",

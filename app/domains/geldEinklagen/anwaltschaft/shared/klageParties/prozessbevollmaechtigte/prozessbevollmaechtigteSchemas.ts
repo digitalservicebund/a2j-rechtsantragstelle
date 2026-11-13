@@ -4,7 +4,6 @@ import {
   commonFields,
   personFields,
 } from "../../klageParties/klagePartySchemas";
-import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -25,7 +24,7 @@ const contactFields = {
 
 const commonProzessbevollmaechtigteFields = {
   id: commonFields.id,
-  name: stringRequiredSchema,
+  name: stringOptionalSchema,
   geschaeftszeichen: stringOptionalSchema,
   ...adresseFields,
   ...contactFields,

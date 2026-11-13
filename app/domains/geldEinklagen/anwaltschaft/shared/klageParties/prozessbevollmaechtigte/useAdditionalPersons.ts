@@ -11,7 +11,6 @@ import {
   type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
   type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
-import { translations } from "~/services/translations/translations";
 
 type AdditionalPerson =
   | Berufsausuebungsgesellschaft["prozessbevollmaechtigte-personen"][number]
@@ -104,25 +103,5 @@ export function useAdditionalPersons(
     deleteAdditionalPerson,
     additionalPersonIdPrefix,
     onEditAdditionalPerson,
-    additionalPersonTranslations: {
-      itemTitle:
-        translations.geldEinklagenAnwaltschaft[
-          arrayName === "signaturangaben"
-            ? "signaturangaben"
-            : "prozessbevollmaechtigtePersonen"
-        ].de,
-      deletionTitle:
-        translations.geldEinklagenAnwaltschaft[
-          arrayName === "signaturangaben"
-            ? "signaturangabenDeletionTitle"
-            : "prozessbevollmaechtigtePersonenDeletionTitle"
-        ].de,
-      addItemLabel:
-        translations.geldEinklagenAnwaltschaft[
-          arrayName === "signaturangaben"
-            ? "signaturangaben"
-            : "prozessbevollmaechtigtePerson"
-        ].de,
-    },
   };
 }

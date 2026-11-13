@@ -77,9 +77,6 @@ describe.each(["klagende", "beklagte"] as const)(
         expect(schema).toBeDefined();
         expect(z.validate(schema!, input)).toBe(true);
         expect(
-          z.validate(schema!, { ...input, [`${arrayName}#name`]: "" }),
-        ).toBe(false);
-        expect(
           z.validate(schema!, { ...input, [`${arrayName}#email`]: "invalid" }),
         ).toBe(false);
         if (type === "berufsausuebungsgesellschaft") {
