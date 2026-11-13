@@ -30,8 +30,8 @@ const AutoSuggestClearInput = (
       type="reset"
       className={classNames(
         "outline-none rounded-[var(--kern-metric-border-radius-default)]",
-        "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-on-default),0_0_0_2px_var(--kern-color-action-focus-default),0_0_0_6px_var(--kern-color-action-focus-default)]",
-        "hover:shadow-[0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_4px_var(--kern-color-layout-border-contextual)]",
+        "focus-visible:shadow-[0_0_0_2px_var(--kern-color-action-default-contextual),0_0_0_2px_var(--kern-color-action-default-contextual),0_0_0_2px_var(--kern-color-action-default-contextual)]",
+        "hover:shadow-[0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_2px_var(--kern-color-layout-border-contextual),0_0_0_2px_var(--kern-color-layout-border-contextual)]",
         "forced-color-adjust-none",
       )}
       onClick={() => {
