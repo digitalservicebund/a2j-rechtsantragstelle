@@ -37,6 +37,7 @@ const AutoSuggestCustomInput = (
       maxLength={INPUT_CHAR_LIMIT}
       aria-describedby={selectProps["aria-describedby"]}
       aria-required={hasError}
+      autoComplete="new-password"
     />
   );
 };
