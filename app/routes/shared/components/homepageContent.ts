@@ -88,6 +88,16 @@ export const lebenslagenCards: CardGroupItem[] = [
     buttonLabel: translations.homepage.cardButtonLabelNachlass.de,
     cardStyleOverrides: "bg-kern-darkblue-050!",
   },
+  {
+    span: 6,
+    link: "/schulden-einfordern",
+    id: "schulden-einfordern-card",
+    preline: translations.homepage.cardPrelineSchuldenEinfordern.de,
+    heading: translations.homepage.cardHeadingSchuldenEinfordern.de,
+    description: translations.homepage.cardDescriptionSchuldenEinfordern.de,
+    buttonLabel: translations.homepage.cardButtonLabelSchuldenEinfordern.de,
+    cardStyleOverrides: "bg-kern-darkblue-050!",
+  },
 ];
 
 export const infoCards: CardGroupItem[] = [

@@ -521,6 +521,18 @@ export const translations = {
     cardButtonLabelNachlass: {
       de: "Zum Nachlass",
     },
+    cardPrelineSchuldenEinfordern: {
+      de: "Schulden",
+    },
+    cardHeadingSchuldenEinfordern: {
+      de: "Schulden einfordern",
+    },
+    cardDescriptionSchuldenEinfordern: {
+      de: "Wenn Ihnen jemand Geld schuldet, gibt es mehrere Wege, eine Zahlung durchzusetzen. Hier erfahren Sie, welche Möglichkeiten es gibt.",
+    },
+    cardButtonLabelSchuldenEinfordern: {
+      de: "Zum Einfordern von Schulden",
+    },
     headingMitmachen: {
       de: "Mitmachen",
     },
