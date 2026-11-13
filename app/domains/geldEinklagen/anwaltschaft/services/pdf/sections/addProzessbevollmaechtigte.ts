@@ -62,9 +62,10 @@ export const addProzessbevollmaechtigte = (
             );
         }
       }
+      if (representative.name) {
+        doc.font(FONTS_BUNDESSANS_BOLD).text(representative.name);
+      }
       doc
-        .font(FONTS_BUNDESSANS_BOLD)
-        .text(representative.name)
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(
           formatAddress(
