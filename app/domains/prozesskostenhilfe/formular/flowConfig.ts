@@ -34,12 +34,13 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
               ([stepId]) =>
                 stepId.split("/").length === 2 && stepId !== "/abgabe",
             )
-            // Nachueberpruefung skips rechtsschutzversicherung, so it is never done
+            // Nachueberpruefung or otherPerson skips rechtsschutzversicherung, so it is never done
             .filter(
               ([stepId]) =>
                 !(
                   stepId === "/rechtsschutzversicherung" &&
-                  isNachueberpruefung({ context })
+                  (context.empfaenger === "otherPerson" ||
+                    isNachueberpruefung({ context }))
                 ),
             )
             .every(([, subflowDone]) => Boolean(subflowDone)),
