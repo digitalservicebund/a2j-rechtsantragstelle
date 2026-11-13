@@ -61,10 +61,27 @@ function handleBotRequest(
 ) {
   return new Promise((resolve, reject) => {
     let didError = false;
+    const cspNonce = generateNonce();
+    responseHeaders.set(
+      "Content-Security-Policy",
+      cspHeader({
+        nonce: cspNonce,
+        environment: configPublic().ENVIRONMENT,
+        additionalConnectSrc: CONNECT_SOURCES,
+        reportUri: config().CSP_REPORT_URI,
+      }),
+    );
 
     const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={reactRouterContext} url={request.url} />,
+      <NonceContext.Provider value={cspNonce}>
+        <ServerRouter
+          context={reactRouterContext}
+          url={request.url}
+          nonce={cspNonce}
+        />
+      </NonceContext.Provider>,
       {
+        nonce: cspNonce,
         onAllReady() {
           const body = new PassThrough();
           responseHeaders.set("Content-Type", "text/html");
