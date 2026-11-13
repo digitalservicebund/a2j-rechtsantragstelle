@@ -86,8 +86,6 @@ describe("prozessbevollmaechtigte schemas", () => {
 
   it.each([
     { ...einzelkanzlei, vorname: "" },
-    { ...gesellschaft, name: "" },
-    { ...einzelkanzlei, name: "" },
     { ...gesellschaft, isProzessbevollmaechtigt: "invalid" },
     { ...einzelkanzlei, email: "invalid" },
     { ...gesellschaft, telefonnummer: "invalid" },

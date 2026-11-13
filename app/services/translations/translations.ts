@@ -521,6 +521,18 @@ export const translations = {
     cardButtonLabelNachlass: {
       de: "Zum Nachlass",
     },
+    cardPrelineSchuldenEinfordern: {
+      de: "Schulden",
+    },
+    cardHeadingSchuldenEinfordern: {
+      de: "Schulden einfordern",
+    },
+    cardDescriptionSchuldenEinfordern: {
+      de: "Wenn Ihnen jemand Geld schuldet, gibt es mehrere Wege, eine Zahlung durchzusetzen. Hier erfahren Sie, welche Möglichkeiten es gibt.",
+    },
+    cardButtonLabelSchuldenEinfordern: {
+      de: "Zum Einfordern von Schulden",
+    },
     headingMitmachen: {
       de: "Mitmachen",
     },
@@ -702,14 +714,17 @@ export const translations = {
     berufsausuebungsgesellschaftHeadline: {
       de: "Berufsausübungsgesellschaft",
     },
+    berufsausuebungsgesellschaftHelperText: {
+      de: "Darunter fallen alle Formen gemeinschaftlicher Berufsausübung, die keine Einzelkanzlei sind",
+    },
     geschaeftszeichen: {
       de: "Geschäftszeichen",
     },
     prozessbevollmaechtigtePerson: {
       de: "Prozessbevollmächtigte Person",
     },
-    prozessbevollmaechtigtePersonen: {
-      de: "Prozessbevollmächtigte Personen",
+    verantwortendePersonen: {
+      de: "Verantwortende Personen (Namen unter der Klageschrift)",
     },
     namedInSignatureLabel: {
       de: "(Wird in der Signatur genannt)",
@@ -727,16 +742,16 @@ export const translations = {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
     signaturangabenTitle: {
-      de: "Signaturangaben (notwendig für die Klageschrift)",
+      de: "Verantwortende Person (notwendig für die Klageschrift)",
     },
     additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
     signaturangaben: {
-      de: "Signaturangaben",
+      de: "Verantwortende Person",
     },
     signaturangabenDeletionTitle: {
-      de: "Signaturangaben löschen?",
+      de: "Verantwortende Person löschen?",
     },
     prozessbevollmaechtigtePersonenDeletionTitle: {
       de: "Prozessbevollmächtigte Personen löschen?",

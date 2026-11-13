@@ -107,7 +107,6 @@ export const AdditionalPersonsList = ({
     deleteAdditionalPerson,
     additionalPersonIdPrefix,
     onEditAdditionalPerson,
-    additionalPersonTranslations,
   } = useAdditionalPersons(
     berufsausuebungsgesellschaft,
     relationship,
@@ -115,7 +114,7 @@ export const AdditionalPersonsList = ({
   );
   return (
     <NestedArrayItemList
-      heading={additionalPersonTranslations.itemTitle}
+      heading={translations.geldEinklagenAnwaltschaft.verantwortendePersonen.de}
       headingId={`prozessbevollmaechtigte-${parentArrayItemIndex}-additional-persons`}
       subtitle={
         translations.geldEinklagenAnwaltschaft.additionalPersonsSubtitle.de
@@ -130,12 +129,14 @@ export const AdditionalPersonsList = ({
           />
         ),
         editButton: {
-          ariaLabel: `${additionalPersonTranslations.itemTitle} ${additionalPerson.vorname} ${additionalPerson.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`,
+          ariaLabel: `${translations.geldEinklagenAnwaltschaft.signaturangaben.de} ${additionalPerson.vorname} ${additionalPerson.nachname} ${translations.arraySummary.arrayEditButtonLabel.de}`,
           href: `${baseAdditionalPersonUrl}/${index}/daten`,
           onClick: onEditAdditionalPerson(index),
         },
         deleteButton: {
-          title: additionalPersonTranslations.deletionTitle,
+          title:
+            translations.geldEinklagenAnwaltschaft.signaturangabenDeletionTitle
+              .de,
           description: (
             <AdditionalPersonDeletionDescription
               additionalPerson={additionalPerson}
@@ -150,7 +151,7 @@ export const AdditionalPersonsList = ({
               {
                 id: `${additionalPersonIdPrefix}-add`,
                 href: `${baseAdditionalPersonUrl}/${nextItemIndex}/daten`,
-                label: `${additionalPersonTranslations.itemTitle} ${translations.arraySummary.arrayAddButtonLabel.de}`,
+                label: `${translations.geldEinklagenAnwaltschaft.signaturangaben.de} ${translations.arraySummary.arrayAddButtonLabel.de}`,
               },
             ]
           : undefined
