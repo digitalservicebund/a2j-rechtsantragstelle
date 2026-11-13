@@ -7,18 +7,17 @@ import {
   type BeweiseArray,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
-import { getBeweisArrayName } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { BEWEISE_ARRAY_NAME } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import get from "lodash/get";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import set from "lodash/set";
 
 export const setBeweisIdentity =
-  (type: BeweisType, isHauptantrag: boolean): PosFlowAction =>
+  (type: BeweisType): PosFlowAction =>
   (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const arrayIndexes = parseArrayIndexesFromPathname(request.url);
-    const arrayName = getBeweisArrayName(isHauptantrag);
     const arrayObjectString = resolveArrayCharacter(
-      arrayName.replaceAll("#", "#."),
+      BEWEISE_ARRAY_NAME.replaceAll("#", "#."),
       arrayIndexes,
     );
     const items = get(userData, arrayObjectString) as BeweiseArray | undefined;

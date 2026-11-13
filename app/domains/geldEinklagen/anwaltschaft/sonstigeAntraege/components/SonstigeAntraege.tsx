@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 type SonstigeAntraegeProps = {
   readonly itemIndex: number;
+  readonly antragNumber: number;
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["sonstigeAntraege"]
   >[number];
@@ -15,6 +16,7 @@ type SonstigeAntraegeProps = {
 
 const SonstigeAntraege = ({
   itemIndex,
+  antragNumber,
   item,
   onDelete,
 }: SonstigeAntraegeProps) => {
@@ -45,9 +47,13 @@ const SonstigeAntraege = ({
           {item.antrag}
         </span>
       }
+      heading={{
+        text: `${translations.geldEinklagenAnwaltschaft.sonstigerAntragArrayItemTitle.de} ${antragNumber}`,
+        id: `sonstigeAntrag-${itemIndex}`,
+      }}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
-        ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${itemIndex + 1} ${translations.arraySummary.arrayEditButtonLabel.de}`,
+        ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
         href: `${BASE_URL_SONSTIGE_ANTRAEGE}/${itemIndex}/daten`,
         onClick: () => {
           sessionStorage.setItem("focusSonstigeAntraege", String(itemIndex));

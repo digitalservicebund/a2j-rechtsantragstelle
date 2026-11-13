@@ -29,7 +29,7 @@ export const hauptUndNebenantraegeFlowConfig = {
       target: "hauptantragUebersicht",
     },
   ],
-  hauptantragWarnung: "hauptantragUebersicht",
+  hauptantragWarnung: "schmerzengeldantraegeUebersicht",
   nebenantragDaten: "hauptantragUebersicht",
   annahmeverzugDaten: "hauptantragUebersicht",
   schmerzengeldantraegeUebersicht: [

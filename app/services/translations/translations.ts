@@ -996,6 +996,30 @@ export const translations = {
     zuAntrag: {
       de: "zu Antrag",
     },
+    prozessantrag: {
+      de: "Prozessantrag",
+    },
+    prozessualeAusfuehrung: {
+      de: "Prozessuale Ausführung",
+    },
+    sonstigerAntrag: {
+      de: "Sonstiger Antrag oder Ausführung",
+    },
+    sonstigerAntragArrayItemTitle: {
+      de: "Sonstiger Antrag/Prozessuale Ausführung",
+    },
+    muendlicheVerhandlungTitle: {
+      de: "Mündliche Verhandlung",
+    },
+    videoverhandlungTitle: {
+      de: "Teilnahme per Videoverhandlung",
+    },
+    bedenkenVideoverhandlungTitle: {
+      de: "Bedenken gegen Videoverhandlung",
+    },
+    versaeumnisurteilTitle: {
+      de: "Versäumnisurteil",
+    },
     optionalSuffix: {
       de: " - Optional",
     },

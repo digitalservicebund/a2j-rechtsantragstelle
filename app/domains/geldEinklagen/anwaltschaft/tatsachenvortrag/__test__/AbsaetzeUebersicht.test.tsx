@@ -11,19 +11,19 @@ const absatz = (beschreibung: string): Absatz => ({
   beweise: [{ type: "urkunde", beschreibung }],
 });
 
-const createHauptantrag = (name: string) => ({
+const hauptantrag = (id: string, nebenantragId: string) => ({
+  id,
   betragForderung: "100",
   klagende: {},
   beklagte: {},
   zinsbeginn: { day: "", month: "" },
   zinsende: { day: "", month: "" },
-  absaetze: [absatz(name)],
   nebenantraege: [
     {
+      id: nebenantragId,
       type: "nebenantrag" as const,
       nebenantragArt: "mahnkosten" as const,
       nebenantragBetrag: "10",
-      absaetze: [absatz(`${name} Nebenantrag`)],
     },
   ],
 });
@@ -49,58 +49,50 @@ const TestFormFlow = ({
 };
 
 describe("AbsaetzeUebersicht", () => {
-  it.each([
-    { isNebenantrag: false, indexes: [1], number: 3 },
-    { isNebenantrag: true, indexes: [1, 0], number: 4 },
-  ])(
-    "uses global numbering and updates after additions/deletions (Nebenantrag: $isNebenantrag)",
-    ({ isNebenantrag, indexes, number }) => {
-      const userData: GeldEinklagenAnwaltschaftUserData = {
-        hauptantrag: [createHauptantrag("First"), createHauptantrag("Second")],
-        pageData: { arrayIndexes: indexes },
-      };
-      const Stub = createRoutesStub([
-        {
-          id: "root",
-          path: "/",
-          Component: () => <AbsaetzeUebersicht isNebenantrag={isNebenantrag} />,
-        },
-      ]);
-      const { rerender } = render(
-        <TestFormFlow userData={userData}>
-          <Stub />
-        </TestFormFlow>,
-      );
+  it("uses global numbering in Antrag order and updates after deletions", () => {
+    // The current Vortrag (index 0) belongs to the second Hauptantrag, so its
+    // document follows those of the first Hauptantrag and its Nebenantrag.
+    const vortraege = [
+      { antragId: "second", absaetze: [absatz("Second")] },
+      { antragId: "first", absaetze: [absatz("First")] },
+      { antragId: "first-neben", absaetze: [absatz("First Nebenantrag")] },
+    ];
+    const userData: GeldEinklagenAnwaltschaftUserData = {
+      hauptantrag: [
+        hauptantrag("first", "first-neben"),
+        hauptantrag("second", "second-neben"),
+      ],
+      vortraege,
+      pageData: { arrayIndexes: [0] },
+    };
+    const Stub = createRoutesStub([
+      { id: "root", path: "/", Component: () => <AbsaetzeUebersicht /> },
+    ]);
+    const { rerender } = render(
+      <TestFormFlow userData={userData}>
+        <Stub />
+      </TestFormFlow>,
+    );
 
-      expect(screen.getAllByText(`Beweis K${number}`)).toHaveLength(2);
-      expect(
-        screen.getByRole("link", { name: "Beweis Bearbeiten" }),
-      ).toHaveAttribute(
-        "href",
-        `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/hauptantrag/1${isNebenantrag ? "/nebenantraege/0" : ""}/absaetze/0/beweise/0/urkunde-daten`,
-      );
+    expect(screen.getAllByText("Beweis K3")).toHaveLength(2);
+    expect(
+      screen.getByRole("link", { name: "Beweis Bearbeiten" }),
+    ).toHaveAttribute(
+      "href",
+      "/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/vortraege/0/absaetze/0/beweise/0/urkunde-daten",
+    );
 
-      const withoutFirstParagraph = {
-        ...userData,
-        hauptantrag: [
-          { ...createHauptantrag("First"), absaetze: [] },
-          createHauptantrag("Second"),
-        ],
-      };
-      rerender(
-        <TestFormFlow userData={withoutFirstParagraph}>
-          <Stub />
-        </TestFormFlow>,
-      );
-      expect(screen.getAllByText(`Beweis K${number - 1}`)).toHaveLength(2);
-      expect(screen.queryByText(`Beweis K${number}`)).not.toBeInTheDocument();
-
-      rerender(
-        <TestFormFlow userData={userData}>
-          <Stub />
-        </TestFormFlow>,
-      );
-      expect(screen.getAllByText(`Beweis K${number}`)).toHaveLength(2);
-    },
-  );
+    rerender(
+      <TestFormFlow
+        userData={{
+          ...userData,
+          vortraege: [vortraege[0], { antragId: "first", absaetze: [] }],
+        }}
+      >
+        <Stub />
+      </TestFormFlow>,
+    );
+    expect(screen.getAllByText("Beweis K1")).toHaveLength(2);
+    expect(screen.queryByText("Beweis K3")).not.toBeInTheDocument();
+  });
 });

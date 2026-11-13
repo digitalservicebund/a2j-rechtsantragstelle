@@ -20,6 +20,7 @@ describe("SonstigeAntraege deletion", () => {
       render(
         <SonstigeAntraege
           itemIndex={3}
+          antragNumber={5}
           item={{ antrag: "Mein Antrag", internesSchlagwort }}
           onDelete={onDelete}
         />,
