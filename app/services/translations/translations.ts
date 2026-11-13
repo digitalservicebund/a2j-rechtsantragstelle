@@ -726,9 +726,6 @@ export const translations = {
     verantwortendePersonen: {
       de: "Verantwortende Personen (Namen unter der Klageschrift)",
     },
-    namedInSignatureLabel: {
-      de: "(Wird in der Signatur genannt)",
-    },
     gesamteKanzlei: {
       de: "Gesamte Kanzlei",
     },
@@ -741,20 +738,14 @@ export const translations = {
     einzelkanzleiDeleteDescription: {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
-    signaturangabenTitle: {
-      de: "Verantwortende Person (notwendig für die Klageschrift)",
-    },
     additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
-    signaturangaben: {
+    verantwortendePerson: {
       de: "Verantwortende Person",
     },
-    signaturangabenDeletionTitle: {
+    verantwortendePersonDeletionTitle: {
       de: "Verantwortende Person löschen?",
-    },
-    prozessbevollmaechtigtePersonenDeletionTitle: {
-      de: "Prozessbevollmächtigte Personen löschen?",
     },
     additionalPersonDeletionDescription: {
       de: "Die folgende Person wird entfernt:",

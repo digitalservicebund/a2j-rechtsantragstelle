@@ -71,39 +71,6 @@ export const beklagteParteiTestCases = {
         "beklagteProzessbevollmaechtigte#plz": "12345",
         "beklagteProzessbevollmaechtigte#ort": "Musterstadt",
         "beklagteProzessbevollmaechtigte#land": "Deutschland",
-        "beklagteProzessbevollmaechtigte#isProzessbevollmaechtigt": "on",
-      },
-    },
-    {
-      stepId: "/beklagte-partei/prozessbevollmaechtigte/uebersicht",
-    },
-  ],
-  withBeklagteAddProzessbevollmaechtigtePerson: [
-    {
-      stepId:
-        "/beklagte-partei/prozessbevollmaechtigte/0/berufsausuebungsgesellschaft-daten",
-      addArrayItemEvent: "add-beklagteProzessbevollmaechtigte",
-    },
-    {
-      stepId:
-        "/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen/0/daten",
-    },
-  ],
-  withBeklagteProzessbevollmaechtigtePerson: [
-    {
-      stepId:
-        "/beklagte-partei/prozessbevollmaechtigte/0/prozessbevollmaechtigte-personen/0/daten",
-      userInput: {
-        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#anrede":
-          "frau",
-        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#titel":
-          "",
-        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#vorname":
-          "Erika",
-        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#nachname":
-          "Musterfrau",
-        "beklagteProzessbevollmaechtigte#prozessbevollmaechtigte-personen#berufsbezeichnung":
-          "Rechtsanwältin",
       },
     },
     {

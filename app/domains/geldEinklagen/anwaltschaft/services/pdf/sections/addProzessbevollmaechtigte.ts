@@ -43,24 +43,18 @@ export const addProzessbevollmaechtigte = (
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(`Prozessbevollmächtigte ${legalType}:`);
       if (relationship === "beklagte") {
-        const persons =
-          representative.type === "einzelkanzlei"
-            ? [representative]
-            : "prozessbevollmaechtigte-personen" in representative
-              ? representative["prozessbevollmaechtigte-personen"]
-              : [];
-        for (const person of persons) {
-          doc
-            .font(FONTS_BUNDESSANS_BOLD)
-            .text(
-              getFullPlaintiffName(
-                person.anrede,
-                person.titel,
-                person.vorname,
-                person.nachname,
-              ),
-            );
-        }
+        doc
+          .font(FONTS_BUNDESSANS_BOLD)
+          .text(
+            "anrede" in representative
+              ? getFullPlaintiffName(
+                  representative.anrede,
+                  representative.titel,
+                  representative.vorname,
+                  representative.nachname,
+                )
+              : (representative.name ?? ""),
+          );
       }
       if (representative.name) {
         doc.font(FONTS_BUNDESSANS_BOLD).text(representative.name);

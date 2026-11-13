@@ -79,20 +79,6 @@ describe.each(["klagende", "beklagte"] as const)(
         expect(
           z.validate(schema!, { ...input, [`${arrayName}#email`]: "invalid" }),
         ).toBe(false);
-        if (type === "berufsausuebungsgesellschaft") {
-          expect(
-            z.validate(schema!, {
-              ...input,
-              [`${arrayName}#isProzessbevollmaechtigt`]: "off",
-            }),
-          ).toBe(true);
-          expect(
-            z.validate(schema!, {
-              ...input,
-              [`${arrayName}#isProzessbevollmaechtigt`]: undefined,
-            }),
-          ).toBe(false);
-        }
         const session = createFlowSession(
           geldEinklagenAnwaltschaftFlowConfig,
           { [arrayName]: [item], pageData: { arrayIndexes: [0] } },
@@ -115,36 +101,29 @@ describe.each(["klagende", "beklagte"] as const)(
       },
     );
 
-    it("only validates signature and contact fields on klagende representative forms", () => {
-      const path = `${basePath}/#/prozessbevollmaechtigte-personen/#/daten`;
+    it("provides a responsible-person form only for the klagende party", () => {
+      const path = `${basePath}/#/verantwortende-personen/#/daten`;
       const schema = geldEinklagenAnwaltschaftFlowConfig.getSchema(path);
-      const prefix = `${arrayName}#prozessbevollmaechtigte-personen`;
+      if (relationship === "beklagte") {
+        expect(schema).toBeUndefined();
+        return;
+      }
+
+      const prefix = `${arrayName}#verantwortende-personen`;
       const personInput = {
-        [`${prefix}#anrede`]: "frau",
         [`${prefix}#titel`]: "",
         [`${prefix}#vorname`]: "Erika",
         [`${prefix}#nachname`]: "Musterfrau",
         [`${prefix}#berufsbezeichnung`]: "Rechtsanwältin",
       };
-      const input = {
-        ...personInput,
-        [`${prefix}#namedInSignature`]: "on",
-        [`${prefix}#telefonnummer`]: "+49 30 123456",
-        [`${prefix}#email`]: "erika@example.com",
-      };
       expect(schema).toBeDefined();
-      expect(schema!.parse(input)).toEqual(
-        relationship === "klagende" ? input : personInput,
-      );
+      expect(schema!.parse(personInput)).toEqual(personInput);
       expect(
         schema!.safeParse({
-          ...input,
-          [`${prefix}#email`]: "invalid",
+          ...personInput,
+          [`${prefix}#vorname`]: 42,
         }).success,
-      ).toBe(relationship === "beklagte");
-      expect(schema!.safeParse(personInput).success).toBe(
-        relationship === "beklagte",
-      );
+      ).toBe(false);
     });
 
     it.each([einzelkanzlei, company])(
@@ -180,58 +159,5 @@ describe.each(["klagende", "beklagte"] as const)(
         ]?.isDone,
       ).toBe(false);
     });
-
-    describe.each(["on", "off"] as const)(
-      "company with isProzessbevollmaechtigt=%s",
-      (isProzessbevollmaechtigt) => {
-        const requiresPersons =
-          relationship === "klagende" || isProzessbevollmaechtigt === "off";
-        const personsKey =
-          relationship === "klagende" && isProzessbevollmaechtigt === "on"
-            ? "signaturangaben"
-            : "prozessbevollmaechtigte-personen";
-        const person = {
-          ...gesellschaft.signaturangaben[0],
-          anrede: "frau",
-          namedInSignature: "on",
-        };
-
-        it.each([
-          {
-            label: "missing persons",
-            persons: undefined,
-            isDone: !requiresPersons,
-          },
-          { label: "empty persons", persons: [], isDone: !requiresPersons },
-          { label: "one complete person", persons: [person], isDone: true },
-          {
-            label: "one incomplete person",
-            persons: [{ ...person, vorname: "" }],
-            isDone: !requiresPersons,
-          },
-        ])("$label keeps completion at $isDone", ({ persons, isDone }) => {
-          const session = createFlowSession(
-            geldEinklagenAnwaltschaftFlowConfig,
-            {
-              [arrayName]: [
-                {
-                  ...company,
-                  isProzessbevollmaechtigt,
-                  signaturangaben: undefined,
-                  "prozessbevollmaechtigte-personen": undefined,
-                  [personsKey]: persons,
-                },
-              ],
-            },
-            `${basePath}/uebersicht`,
-          );
-          expect(
-            session.statusTree[`/${relationship}-partei`]?.children?.[
-              "/prozessbevollmaechtigte"
-            ]?.isDone,
-          ).toBe(isDone);
-        });
-      },
-    );
   },
 );
