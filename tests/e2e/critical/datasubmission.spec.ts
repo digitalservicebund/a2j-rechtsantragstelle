@@ -7,11 +7,11 @@ test.describe("Data submission", () => {
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
 
-    await page.getByRole("button", { name: "Weiter" }).click();
+    await page.locator(`button[name="_action"]`).click();
     await page.getByLabel("Ja").click();
-    await page.getByText("Weiter").click();
+    await page.locator(`button[name="_action"]`).click();
     await page.getByLabel("Ja, komplett").click();
-    await page.getByText("Weiter").click();
+    await page.locator(`button[name="_action"]`).click();
     await expect(
       page.getByText("wahrscheinlich keine Beratungshilfe"),
     ).toBeVisible();
