@@ -290,12 +290,20 @@ const AutoSuggestInput = ({
           screenReaderStatus={screenReaderStatus(
             rootLoaderData?.accessibilityTranslations,
           )}
-          styles={customStyles()}
+          styles={customStyles(hasError)}
           classNames={{
             control: () =>
-              classNames("kern-form-input__input bg-white! hover:py-0!", {
-                "kern-form-input__input--error": hasError,
-              }),
+              classNames(
+                // Kern grows the bottom border on hover; an inset shadow fakes the extra 2px so the height stays constant
+                "kern-form-input__input bg-white! hover:pt-0! hover:border-b-2!",
+                {
+                  "kern-form-input__input--error": hasError,
+                  "hover:not-focus-within:shadow-[inset_0_-2px_0_0_var(--kern-color-form-input-border-contextual,#171A2B)]":
+                    !hasError,
+                  "hover:not-focus-within:shadow-[inset_0_-2px_0_0_var(--kern-color-feedback-danger-contextual,#BD0F09)]":
+                    hasError,
+                },
+              ),
             placeholder: () => "absolute",
             singleValue: () => "absolute",
             input: () => "w-full h-full z-50",
