@@ -19,6 +19,7 @@ import {
 } from "../../prozessbevollmaechtigteSchemas";
 import { AdditionalPersonsList } from "../AdditionalPersonsList";
 import { MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+import { translations } from "~/services/translations/translations";
 
 const individualRepresentatives = {
   ...gesellschaft,
@@ -187,7 +188,8 @@ describe("AdditionalPersonsList with individual representatives", () => {
 
       expect(
         screen.getByRole("heading", {
-          name: "Prozessbevollmächtigte Personen",
+          name: translations.geldEinklagenAnwaltschaft.verantwortendePersonen
+            .de,
         }),
       ).toBeInTheDocument();
       expect(
@@ -209,7 +211,7 @@ describe("AdditionalPersonsList with individual representatives", () => {
       }
       expect(
         screen.getByRole("link", {
-          name: /Prozessbevollmächtigte Personen hinzufügen/i,
+          name: /Verantwortende Person hinzufügen/i,
         }),
       ).toHaveAttribute(
         "href",
