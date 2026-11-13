@@ -1,17 +1,12 @@
 import {
-  createBeweisNummerGenerator,
-  createRollennummerGenerator,
   ergonomics,
   Geschlecht,
   Rollenbezeichnung,
   Staaten,
   type Beklagter,
-  type Beweis,
-  type BeweisNummer,
   type Klaeger,
   type NatuerlichePerson,
   type Rollennummer,
-  type ScopeToken,
   type Zeuge,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import z from "zod";
@@ -34,7 +29,7 @@ const anschriftShape = {
   land: z.string().optional(),
 };
 
-const personSchema = z.object({
+export const personSchema = z.object({
   anrede: z.string().optional(),
   title: optionalTypeC,
   vorname: typeA,
@@ -63,24 +58,7 @@ type Beklagte = z.output<typeof beklagteSchema>;
 export const beteiligteSchema = z.object({
   klaeger: personSchema,
   beklagter: beklagteSchema,
-  zeugen: z.array(personSchema),
 });
-
-type BeweisPerson = NonNullable<
-  NonNullable<GeldEinklagenFormularUserData["abschnitte"]>[number]["personen"]
->[number];
-
-// Reused persons are copies carrying a personReference to their origin, so
-// only originals are collected to list every witness exactly once.
-const collectZeugen = (userData: GeldEinklagenFormularUserData) =>
-  (userData.abschnitte ?? [])
-    .flatMap((abschnitt) => abschnitt.personen ?? [])
-    .filter(
-      (
-        person,
-      ): person is Extract<BeweisPerson, { personAuswahl: "anotherPerson" }> =>
-        person.personAuswahl === "anotherPerson" && !person.personReference,
-    );
 
 const beklagteFromUserData = (userData: GeldEinklagenFormularUserData) => {
   const anschrift = {
@@ -126,7 +104,6 @@ export const beteiligteFromUserData = (
       : `${userData.klagendePersonVorname} ${userData.klagendePersonNachname}`,
   },
   beklagter: beklagteFromUserData(userData),
-  zeugen: collectZeugen(userData),
 });
 
 const anredeToGeschlecht = (anrede?: string) => {
@@ -215,7 +192,7 @@ export const toBeklagter = <NachrichtenScope>(
   };
 };
 
-const toZeuge = <NachrichtenScope>(
+export const toZeuge = <NachrichtenScope>(
   rollennummer: Rollennummer<
     NachrichtenScope,
     (typeof Rollenbezeichnung)["Zeuge (Zeugin)"]
@@ -229,37 +206,3 @@ const toZeuge = <NachrichtenScope>(
     auswahlBeteiligter: { natuerlichePerson: toNatuerlichePerson(person) },
   },
 });
-
-// Generators memoize next() per predecessor, so each Zeuge must chain from
-// the previously generated Rollennummer/BeweisNummer to get a unique one.
-export function composeZeugen<NachrichtenScope>(
-  scope: ScopeToken<NachrichtenScope>,
-  letzteRollennummer: Rollennummer<NachrichtenScope>,
-  zeugen: Person[],
-) {
-  const rollennummer = createRollennummerGenerator(scope);
-  const beweisNummer = createBeweisNummerGenerator(scope);
-  const beteiligungen: Array<Zeuge<NachrichtenScope>> = [];
-  const beweise: Array<Beweis<NachrichtenScope>> = [];
-
-  let vorherigeRollennummer = letzteRollennummer;
-  let vorherigeBeweisNummer: BeweisNummer<NachrichtenScope> | undefined;
-
-  for (const zeuge of zeugen) {
-    const rollennummerZeuge = rollennummer.next(
-      vorherigeRollennummer,
-      Rollenbezeichnung["Zeuge (Zeugin)"],
-    );
-    const nummer = vorherigeBeweisNummer
-      ? beweisNummer.next(vorherigeBeweisNummer)
-      : beweisNummer.first();
-
-    beteiligungen.push(toZeuge(rollennummerZeuge, zeuge));
-    beweise.push(ergonomics.zeuge(scope, nummer, rollennummerZeuge));
-
-    vorherigeRollennummer = rollennummerZeuge;
-    vorherigeBeweisNummer = nummer;
-  }
-
-  return { beteiligungen, beweise };
-}

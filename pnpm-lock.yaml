@@ -183,8 +183,8 @@ importers:
         specifier: ^3.1164.0
         version: 3.1164.0
       '@digitalservicebund/a2j-xjustiz-bridge':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^0.11.1
+        version: 0.11.1
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^4.1.0
         version: 4.1.0(@kern-ux/native@2.8.2)(tailwindcss@4.3.5)
@@ -731,8 +731,8 @@ packages:
     resolution: {integrity: sha512-c+xgSWboV2pdwXP67BUWDVRHi2BO5Q3KwxyFVs7taVTY+fsK47/L51ZXQoV9rozHJDNHvJ4v4WEsI/IlxV2l2A==}
     engines: {node: ^22.18.0 || >=24.11.0}
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.10.1':
-    resolution: {integrity: sha512-6aj/8yqmAf2/992nzbvN4sIGFolU8ZVoZaQwhOOvPWu4AgjQL9hM5bLiy5t4CJoZqN7obQ856umXftYnC659Ow==}
+  '@digitalservicebund/a2j-xjustiz-bridge@0.11.1':
+    resolution: {integrity: sha512-IZkJW/SbtC4n/HVkL068loNCV4/gJyWgDhyPLNtiyqC5oluGkZXp/dqgQsIEX1Y09t53dSohBlmQbw0HXUXmVg==}
     engines: {node: 26.5.0, pnpm: 11.4.0}
 
   '@digitalservicebund/kern-ux-tailwind-theme@4.1.0':
@@ -3584,8 +3584,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  ky@2.1.0:
-    resolution: {integrity: sha512-nIKwelw+7qVqKOlX4Eht6GXfEXlDHcdIjyLWV3s119kYt5s+70ayTnYS+0fRNmtgGRRAfqdeWQbh8YizqkS0ng==}
+  ky@2.2.0:
+    resolution: {integrity: sha512-4+B63kyZt+Y8snQiUGydK1vgY9xYQJZEh9K/nIAIEts+gYJzy1EiAw3BbK8xpWRuWUpN70SNCMjqRGTm75xxIA==}
     engines: {node: '>=22'}
 
   lefthook-darwin-arm64@2.2.1:
@@ -5443,10 +5443,10 @@ snapshots:
       '@babel/helper-string-parser': 8.0.6
       '@babel/helper-validator-identifier': 8.0.6
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.10.1':
+  '@digitalservicebund/a2j-xjustiz-bridge@0.11.1':
     dependencies:
       '@standard-schema/spec': 1.1.0
-      ky: 2.1.0
+      ky: 2.2.0
 
   '@digitalservicebund/kern-ux-tailwind-theme@4.1.0(@kern-ux/native@2.8.2)(tailwindcss@4.3.5)':
     dependencies:
@@ -7976,7 +7976,7 @@ snapshots:
       yaml: 2.9.1
       zod: 4.6.7
 
-  ky@2.1.0: {}
+  ky@2.2.0: {}
 
   lefthook-darwin-arm64@2.2.1:
     optional: true
