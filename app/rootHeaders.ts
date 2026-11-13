@@ -1,6 +1,7 @@
 import type { HeadersArgs } from "react-router";
 
 export const defaultHeaders = {
+  "Strict-Transport-Security": "max-age=31536000",
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
