@@ -110,7 +110,55 @@ const parseUserAgent = (userAgent: string): UserAgentInfo => {
   };
 };
 
+const normalizeStatusCode = (statusCode: number): string => {
+  return `${Math.floor(statusCode / 100)}xx`;
+};
+
+const initializeMetrics = () => {
+  // Initialize histogram with common paths and methods
+  const commonPaths = ["/", "/login", "/dashboard", "/api"];
+  const commonMethods = ["GET", "POST"];
+
+  commonPaths.forEach((path) => {
+    commonMethods.forEach((method) => {
+      httpRequestHistogram.labels(method, path).observe(0);
+    });
+  });
+
+  // Initialize counters with common label combinations
+  const statusCodes = ["2xx", "3xx", "4xx", "5xx"];
+  const browsers = [
+    "chrome",
+    "firefox",
+    "safari",
+    "edge",
+    "bot",
+    "api-client",
+    "other",
+  ];
+  const devices = ["mobile", "desktop"];
+
+  statusCodes.forEach((code) => {
+    browsers.forEach((browser) => {
+      devices.forEach((device) => {
+        httpRequestCounterByClient.labels(code, browser, device).inc(0);
+      });
+    });
+  });
+
+  statusCodes.forEach((code) => {
+    commonMethods.forEach((method) => {
+      commonPaths.forEach((path) => {
+        httpRequestCounterByPath.labels(code, method, path).inc(0);
+      });
+    });
+  });
+};
+
 export const createPrometheusMetricsMiddleware = () => {
+  // Initialize metrics with expected label values
+  initializeMetrics();
+
   return async (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
 
@@ -142,7 +190,7 @@ export const createPrometheusMetricsMiddleware = () => {
       const labels = {
         method: req.method,
         path: sanitizePath(req.path),
-        statusCode: res.statusCode.toString(),
+        statusCode: normalizeStatusCode(res.statusCode),
         browser: userAgentInfo.browser,
         device: userAgentInfo.device,
       };
