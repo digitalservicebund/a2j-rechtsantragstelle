@@ -7,6 +7,7 @@ import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayIt
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import React, { useEffect } from "react";
 import { UnbezifferteSchmerzensgeldantrag } from "./UnbezifferteSchmerzensgeldantrag";
+import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
 
 const BASE_URL_SCHMERZENGELD_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege";
@@ -111,27 +112,35 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
       }}
     >
       {arrayIsNonEmpty(userDataGeldEinklagen.schmerzengeldantrag) &&
-        userDataGeldEinklagen.schmerzengeldantrag.map((item, index) => (
-          <React.Fragment key={item.id ?? index}>
-            <h2
-              id={`schmerzengeldantrag-heading-${index}`}
-              className="kern-body kern-body--large kern-body--bold p-0! mb-16"
-            >
-              {
-                translations.geldEinklagenAnwaltschaft
-                  .schmerzengeldantragHeadline.de
-              }{" "}
-              {index + 1}
-            </h2>
-            <UnbezifferteSchmerzensgeldantrag
-              item={item}
-              itemIndex={index}
-              userData={userDataGeldEinklagen}
-              onDelete={deleteSchmerzengeldAntrag}
-              onEdit={onEditSchmerzengeldAntrag}
-            />
-          </React.Fragment>
-        ))}
+        userDataGeldEinklagen.schmerzengeldantrag.map((item, index) => {
+          const antragNumber = getAntragNumber(
+            userDataGeldEinklagen,
+            "schmerzengeldantrag",
+            index,
+          );
+          return (
+            <React.Fragment key={item.id ?? index}>
+              <h2
+                id={`schmerzengeldantrag-heading-${index}`}
+                className="kern-body kern-body--large kern-body--bold p-0! mb-16"
+              >
+                {
+                  translations.geldEinklagenAnwaltschaft
+                    .schmerzengeldantragHeadline.de
+                }{" "}
+                {antragNumber}
+              </h2>
+              <UnbezifferteSchmerzensgeldantrag
+                item={item}
+                itemIndex={index}
+                antragNumber={antragNumber}
+                userData={userDataGeldEinklagen}
+                onDelete={deleteSchmerzengeldAntrag}
+                onEdit={onEditSchmerzengeldAntrag}
+              />
+            </React.Fragment>
+          );
+        })}
     </ArrayItemListSection>
   );
 };

@@ -1,10 +1,11 @@
+import { randomUUID } from "node:crypto";
 import { type PosFlowAction } from "~/domains/flows.server";
 import { type Nebenantrag } from "../hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { parseArrayIndexesFromPathname } from "~/services/array/parseArrayIndexesFromPathname";
 import { updateSession } from "~/services/session.server";
 import { type GeldEinklagenAnwaltschaftUserData } from "../userData";
 
-export const setNebenantragType =
+export const setNebenantragIdentity =
   (type: Nebenantrag["type"]): PosFlowAction =>
   (request, userData: GeldEinklagenAnwaltschaftUserData, flowSession) => {
     const [hauptantragIndex, nebenantragIndex] = parseArrayIndexesFromPathname(
@@ -27,7 +28,9 @@ export const setNebenantragType =
           ? {
               ...hauptantrag,
               nebenantraege: hauptantrag.nebenantraege?.map((item, index) =>
-                index === nebenantragIndex ? { ...item, type } : item,
+                index === nebenantragIndex
+                  ? { ...item, id: item.id || randomUUID(), type }
+                  : item,
               ),
             }
           : hauptantrag,

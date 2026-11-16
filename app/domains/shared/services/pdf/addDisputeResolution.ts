@@ -22,7 +22,7 @@ export type DisputeResolution = {
   streitbeilegungGruende?: "yes" | "no" | "noSpecification";
 };
 
-const getDisputeResolutionText = ({
+export const getDisputeResolutionText = ({
   streitbeilegung,
   streitbeilegungGruende,
 }: DisputeResolution): string => {

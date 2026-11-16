@@ -10,54 +10,32 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { translations } from "~/services/translations/translations";
 import { useMemo } from "react";
 
-export const AbsaetzeUebersicht = ({
-  isNebenantrag = false,
-}: {
-  isNebenantrag?: boolean;
-}) => {
+export const AbsaetzeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
   const userDataGeldEinklagenAnwaltschaft =
     userData as GeldEinklagenAnwaltschaftUserData;
-  const hauptantragArrayIndex =
+  const vortragArrayIndex =
     userDataGeldEinklagenAnwaltschaft.pageData?.arrayIndexes?.[0];
-  const nebenantragArrayIndex =
-    userDataGeldEinklagenAnwaltschaft.pageData?.arrayIndexes?.[1];
+  const absaetzeBaseUrl =
+    vortragArrayIndex === undefined
+      ? ""
+      : getAbsaetzeBaseUrl(vortragArrayIndex);
+  const absaetzeContextValue = useMemo(
+    () => ({ absaetzeBaseUrl, absaetzeArrayName: "vortraege#absaetze" }),
+    [absaetzeBaseUrl],
+  );
   if (
     flowId !== "/geld-einklagen/anwaltschaft" ||
-    hauptantragArrayIndex === undefined ||
-    (isNebenantrag && nebenantragArrayIndex === undefined)
+    vortragArrayIndex === undefined
   ) {
     return null;
   }
   const absaetze = getOrderedAbsaetze(userDataGeldEinklagenAnwaltschaft).filter(
-    (absatz) =>
-      absatz.hauptantragArrayIndex === hauptantragArrayIndex &&
-      absatz.nebenantragArrayIndex ===
-        (isNebenantrag ? nebenantragArrayIndex : undefined),
+    (absatz) => absatz.vortragArrayIndex === vortragArrayIndex,
   );
 
   const nextAbsatzIndex = absaetze.length;
   const maxAbsaetzeReached = nextAbsatzIndex >= MAX_ABSAETZE;
-  const absaetzeBaseUrl = getAbsaetzeBaseUrl(
-    hauptantragArrayIndex,
-    isNebenantrag ? nebenantragArrayIndex : undefined,
-  );
-
-  const absaetzeContextValue = useMemo(
-    () => ({
-      isNebenantrag,
-      hauptantragArrayIndex,
-      nebenantragArrayIndex,
-      absaetzeBaseUrl,
-      absaetzeArrayName: `hauptantrag${isNebenantrag ? "#nebenantraege" : ""}#absaetze`,
-    }),
-    [
-      isNebenantrag,
-      hauptantragArrayIndex,
-      nebenantragArrayIndex,
-      absaetzeBaseUrl,
-    ],
-  );
   return (
     <AbsaetzeContext.Provider value={absaetzeContextValue}>
       <ArrayItemListSection

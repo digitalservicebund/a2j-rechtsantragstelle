@@ -521,6 +521,18 @@ export const translations = {
     cardButtonLabelNachlass: {
       de: "Zum Nachlass",
     },
+    cardPrelineSchuldenEinfordern: {
+      de: "Schulden",
+    },
+    cardHeadingSchuldenEinfordern: {
+      de: "Schulden einfordern",
+    },
+    cardDescriptionSchuldenEinfordern: {
+      de: "Wenn Ihnen jemand Geld schuldet, gibt es mehrere Wege, eine Zahlung durchzusetzen. Hier erfahren Sie, welche Möglichkeiten es gibt.",
+    },
+    cardButtonLabelSchuldenEinfordern: {
+      de: "Zum Einfordern von Schulden",
+    },
     headingMitmachen: {
       de: "Mitmachen",
     },
@@ -702,17 +714,17 @@ export const translations = {
     berufsausuebungsgesellschaftHeadline: {
       de: "Berufsausübungsgesellschaft",
     },
+    berufsausuebungsgesellschaftHelperText: {
+      de: "Darunter fallen alle Formen gemeinschaftlicher Berufsausübung, die keine Einzelkanzlei sind",
+    },
     geschaeftszeichen: {
       de: "Geschäftszeichen",
     },
     prozessbevollmaechtigtePerson: {
       de: "Prozessbevollmächtigte Person",
     },
-    prozessbevollmaechtigtePersonen: {
-      de: "Prozessbevollmächtigte Personen",
-    },
-    namedInSignatureLabel: {
-      de: "(Wird in der Signatur genannt)",
+    verantwortendePersonen: {
+      de: "Verantwortende Personen (Namen unter der Klageschrift)",
     },
     gesamteKanzlei: {
       de: "Gesamte Kanzlei",
@@ -726,20 +738,14 @@ export const translations = {
     einzelkanzleiDeleteDescription: {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
-    signaturangabenTitle: {
-      de: "Signaturangaben (notwendig für die Klageschrift)",
-    },
     additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
-    signaturangaben: {
-      de: "Signaturangaben",
+    verantwortendePerson: {
+      de: "Verantwortende Person",
     },
-    signaturangabenDeletionTitle: {
-      de: "Signaturangaben löschen?",
-    },
-    prozessbevollmaechtigtePersonenDeletionTitle: {
-      de: "Prozessbevollmächtigte Personen löschen?",
+    verantwortendePersonDeletionTitle: {
+      de: "Verantwortende Person löschen?",
     },
     additionalPersonDeletionDescription: {
       de: "Die folgende Person wird entfernt:",
@@ -793,10 +799,49 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte natürliche Personen hinzufügen.",
     },
     klagendeParteiHeadline: {
-      de: "Klagende zu",
+      de: "Kläger zu",
+    },
+    klageParteiDeletionWarning: {
+      de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Anträge",
+    },
+    auswirkungen: {
+      de: "Auswirkungen",
+    },
+    antragWithOnePartyDeletionDescription: {
+      de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
+    },
+    antragWithMultiplePartiesDeletionDescription: {
+      de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Dort wird die {{ partyType }} mit anderen Klagenden als Gesamtgläubiger aufgeführt. Wenn Sie den {{ partyText }} löschen, wird er auch aus den betroffenen Anträgen entfernt und diese werden entsprechend umformuliert. Das betrifft auch dazugehörige Nebenanträge.",
+    },
+    person: {
+      de: "Person",
+    },
+    followingKlaeger: {
+      de: "Folgende Kläger",
+    },
+    willBeDeletedWithRepresentatives: {
+      de: "wird inklusive möglicher Vertretungen entfernt:",
+    },
+    dasKoennenSieTun: {
+      de: "Das können Sie tun",
+    },
+    keepAndEdit: {
+      de: "Behalten und bearbeiten",
+    },
+    keepAndEditBodyText: {
+      de: "Falls Sie lediglich die Angaben zu dieser {{ partyType }} ändern möchten, behalten und bearbeiten Sie den {{ partyText }}, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Anträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer Anträge.",
+    },
+    deletePermanently: {
+      de: "Endgültig löschen",
+    },
+    deletePermanentlyText: {
+      de: "Falls Sie den {{ partyText }} mitsamt den betroffenen Anträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Anträge.",
+    },
+    followingBeklagter: {
+      de: "Folgender Beklagter",
     },
     beklagteParteiHeadline: {
-      de: "Beklagte zu",
+      de: "Beklagter zu",
     },
     organisationHeadline: {
       de: "Organisation",
@@ -995,6 +1040,30 @@ export const translations = {
     },
     zuAntrag: {
       de: "zu Antrag",
+    },
+    prozessantrag: {
+      de: "Prozessantrag",
+    },
+    prozessualeAusfuehrung: {
+      de: "Prozessuale Ausführung",
+    },
+    sonstigerAntrag: {
+      de: "Sonstiger Antrag oder Ausführung",
+    },
+    sonstigerAntragArrayItemTitle: {
+      de: "Sonstiger Antrag/Prozessuale Ausführung",
+    },
+    muendlicheVerhandlungTitle: {
+      de: "Mündliche Verhandlung",
+    },
+    videoverhandlungTitle: {
+      de: "Teilnahme per Videoverhandlung",
+    },
+    bedenkenVideoverhandlungTitle: {
+      de: "Bedenken gegen Videoverhandlung",
+    },
+    versaeumnisurteilTitle: {
+      de: "Versäumnisurteil",
     },
     optionalSuffix: {
       de: " - Optional",

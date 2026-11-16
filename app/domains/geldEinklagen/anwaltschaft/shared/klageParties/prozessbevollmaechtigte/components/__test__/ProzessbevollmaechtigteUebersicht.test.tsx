@@ -129,7 +129,9 @@ describe("ProzessbevollmaechtigteUebersicht", () => {
         }),
       );
       const dialog = screen.getByRole("dialog");
-      expect(within(dialog).getByText("Super Kanzlei")).toBeInTheDocument();
+      expect(
+        within(dialog).getByText("Frau Erika Musterfrau"),
+      ).toBeInTheDocument();
       expect(fetchMock).not.toHaveBeenCalled();
       await user.click(
         within(dialog).getByRole("button", { name: "Ja, löschen" }),

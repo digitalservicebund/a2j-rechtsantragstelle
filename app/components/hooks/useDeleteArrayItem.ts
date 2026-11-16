@@ -13,6 +13,7 @@ export const useDeleteArrayItem = (
   arrayName: string,
   arrayUrl: string,
   focusFunction?: (itemIndex: number) => void,
+  deleteEndpointOverride?: string,
 ) => {
   const csrf = useRouteLoaderData<RootLoader>("root")?.csrf ?? "";
   const revalidator = useRevalidator();
@@ -27,10 +28,13 @@ export const useDeleteArrayItem = (
     formData.append(arrayName, String(itemIndex));
     formData.append(CSRFKey, csrf);
 
-    const response = await fetch(DELETE_URL_ENDPOINT, {
-      method: "post",
-      body: formData,
-    });
+    const response = await fetch(
+      deleteEndpointOverride ?? DELETE_URL_ENDPOINT,
+      {
+        method: "post",
+        body: formData,
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Array item deletion failed (${response.status})`);

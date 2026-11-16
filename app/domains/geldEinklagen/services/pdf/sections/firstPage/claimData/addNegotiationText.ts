@@ -1,20 +1,14 @@
 import type PDFDocument from "pdfkit";
 import type { GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import {
+  muendlicheVerhandlungText,
+  videoVerhandlungText,
+} from "~/domains/geldEinklagen/services/antragTexts";
+import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
-
-const videoTrialAgreement = (
-  videoverhandlung: GeldEinklagenFormularUserData["videoVerhandlung"],
-): string => {
-  const responses: Record<string, string> = {
-    yes: "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
-    no: "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
-  };
-  return responses[videoverhandlung ?? ""] ?? "";
-};
 
 export const addNegotiationText = (
   doc: typeof PDFDocument,
@@ -26,17 +20,14 @@ export const addNegotiationText = (
   const negotiationTitle = "Mündliche Verhandlung:";
   const defaultJudgmentTitle = "Versäumnisurteil:";
 
-  const oralNegotiationText =
-    muendlicheVerhandlung === "yes"
-      ? "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen."
-      : "";
+  const oralNegotiationText = muendlicheVerhandlungText(muendlicheVerhandlung);
 
   const defaultJudgmentText =
     versaeumnisurteil === "yes"
       ? "Sofern die gesetzlichen Voraussetzungen vorliegen, wird hiermit der Erlass eines Versäumnisurteils gemäß § 1128 Absatz 2 in Verbindung mit § 331 Absatz 3 ZPO bzw. § 331 Absatz 1 ZPO beantragt."
       : "";
 
-  const videoNegotiationText = videoTrialAgreement(videoVerhandlung);
+  const videoNegotiationText = videoVerhandlungText(videoVerhandlung);
   const negotiationTexts = [oralNegotiationText, videoNegotiationText].filter(
     (text): text is string => Boolean(text),
   );

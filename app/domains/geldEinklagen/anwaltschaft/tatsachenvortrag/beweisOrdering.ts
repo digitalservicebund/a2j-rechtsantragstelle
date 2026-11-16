@@ -1,5 +1,11 @@
 import type { Absatz, Beweis, BeweisType } from "./tatsachenvortragSchemas";
 import type { GeldEinklagenAnwaltschaftUserData } from "../userData";
+import {
+  type AntraegeUserData,
+  getOrderedAntraege,
+  getVortragIndex,
+  type OrderedAntrag,
+} from "./antragOrdering";
 
 export type BeweisCategory = "document" | "person";
 
@@ -23,61 +29,48 @@ export type OrderedBeweis = {
 
 export type OrderedAbsatz = {
   absatz: Absatz;
-  hauptantragArrayIndex: number;
-  nebenantragArrayIndex: number | undefined;
+  antrag: OrderedAntrag;
+  vortragArrayIndex: number;
   absatzArrayIndex: number;
   beweise: OrderedBeweis[];
 };
 
 /**
- * Shared UI/PDF order: each Hauptantrag's paragraphs, then its Nebenantraege,
- * followed by the next Hauptantrag. Document numbers are one-based and derived
- * across the entire Klageschrift; source indexes remain unchanged.
+ * Shared UI/PDF order of paragraphs, following getOrderedAntraege. Document
+ * numbers (K1, K2, …) are one-based and run across the entire Klageschrift;
+ * source indexes remain unchanged. Vorträge of deleted Anträge are skipped.
  */
 export const getOrderedAbsaetze = (
-  userData: Pick<GeldEinklagenAnwaltschaftUserData, "hauptantrag">,
+  userData: AntraegeUserData &
+    Pick<GeldEinklagenAnwaltschaftUserData, "vortraege">,
 ): OrderedAbsatz[] => {
   const result: OrderedAbsatz[] = [];
   let documentNumber = 0;
 
-  for (const [hauptantragArrayIndex, hauptantrag] of (
-    userData.hauptantrag ?? []
-  ).entries()) {
-    const groups = [
-      {
-        nebenantragArrayIndex: undefined,
-        absaetze: hauptantrag.absaetze,
-      },
-      ...(hauptantrag.nebenantraege ?? []).map(
-        (nebenantrag, nebenantragArrayIndex) => ({
-          nebenantragArrayIndex,
-          absaetze: nebenantrag.absaetze,
-        }),
-      ),
-    ];
+  for (const antrag of getOrderedAntraege(userData)) {
+    const vortragArrayIndex = getVortragIndex(userData, antrag.antragId);
+    const absaetze = userData.vortraege?.[vortragArrayIndex]?.absaetze ?? [];
 
-    for (const { nebenantragArrayIndex, absaetze } of groups) {
-      for (const [absatzArrayIndex, absatz] of (absaetze ?? []).entries()) {
-        const documents: OrderedBeweis[] = [];
-        const people: OrderedBeweis[] = [];
+    for (const [absatzArrayIndex, absatz] of absaetze.entries()) {
+      const documents: OrderedBeweis[] = [];
+      const people: OrderedBeweis[] = [];
 
-        for (const [sourceIndex, beweis] of (absatz.beweise ?? []).entries()) {
-          if (getBeweisCategory(beweis.type) === "document") {
-            documentNumber += 1;
-            documents.push({ beweis, sourceIndex, documentNumber });
-          } else {
-            people.push({ beweis, sourceIndex, documentNumber: undefined });
-          }
+      for (const [sourceIndex, beweis] of (absatz.beweise ?? []).entries()) {
+        if (getBeweisCategory(beweis.type) === "document") {
+          documentNumber += 1;
+          documents.push({ beweis, sourceIndex, documentNumber });
+        } else {
+          people.push({ beweis, sourceIndex, documentNumber: undefined });
         }
-
-        result.push({
-          absatz,
-          hauptantragArrayIndex,
-          nebenantragArrayIndex,
-          absatzArrayIndex,
-          beweise: [...documents, ...people],
-        });
       }
+
+      result.push({
+        absatz,
+        antrag,
+        vortragArrayIndex,
+        absatzArrayIndex,
+        beweise: [...documents, ...people],
+      });
     }
   }
 

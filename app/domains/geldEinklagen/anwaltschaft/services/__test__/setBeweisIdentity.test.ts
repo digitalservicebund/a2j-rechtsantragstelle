@@ -12,179 +12,82 @@ vi.mock("~/services/session.server", () => ({
   ),
 }));
 
-const createUserData = () =>
-  ({
-    hauptantrag: [
-      {
-        absaetze: [
-          {
-            formulierung: "Hauptantrag Absatz",
-            beweise: [
-              {
-                id: "11111111-1111-4111-8111-111111111111",
-                type: "augenschein",
-                beschreibung: "Hauptantrag Beweis",
-              },
-              {
-                type: "augenschein",
-                beschreibung: "Hauptantrag Entwurf",
-              },
-            ],
-          },
-        ],
-        nebenantraege: [
-          {
-            type: "nebenantrag",
-            nebenantragArt: "mahnkosten",
-            nebenantragBetrag: "10",
-            nebenantragZinsbeginn: { day: "", month: "" },
-            nebenantragZinsende: { day: "", month: "" },
-            absaetze: [
-              {
-                formulierung: "Nebenantrag Absatz",
-                beweise: [
-                  {
-                    type: "augenschein",
-                    beschreibung: "Nebenantrag Entwurf",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  }) as GeldEinklagenAnwaltschaftUserData;
+const createUserData = (): GeldEinklagenAnwaltschaftUserData => ({
+  vortraege: [
+    { antragId: "muendlicheVerhandlung" },
+    {
+      antragId: "22222222-2222-4222-8222-222222222222",
+      absaetze: [
+        {
+          formulierung: "Absatz",
+          beweise: [
+            {
+              id: "11111111-1111-4111-8111-111111111111",
+              type: "augenschein",
+              beschreibung: "Beweis",
+            },
+            { type: "augenschein", beschreibung: "Entwurf" },
+          ],
+        },
+      ],
+    },
+  ],
+});
+
+const beweisUrl = (index: number, type = "augenschein") =>
+  `http://localhost/tatsachenvortrag-beweise/vortraege/1/absaetze/0/beweise/${index}/${type}-daten`;
 
 describe("setBeweisIdentity", () => {
-  it("sets the submitted Hauptantrag evidence type and preserves existing IDs", async () => {
+  it("sets the submitted evidence type and preserves existing IDs", async () => {
     const userData = createUserData();
     const session = createSession(userData);
 
-    await setBeweisIdentity("urkunde", true)(
-      new Request(
-        "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/absaetze/0/beweise/1/augenschein-daten",
-      ),
+    await setBeweisIdentity("urkunde")(
+      new Request(beweisUrl(1)),
       userData,
       session,
     );
 
-    const saved = session.get("hauptantrag") as typeof userData.hauptantrag;
-    const savedBeweise = saved?.[0]?.absaetze?.[0]?.beweise;
-    expect(savedBeweise).toEqual([
+    const saved = session.get("vortraege") as typeof userData.vortraege;
+    expect(saved?.[1]?.absaetze?.[0]?.beweise).toEqual([
       {
         id: "11111111-1111-4111-8111-111111111111",
         type: "augenschein",
-        beschreibung: "Hauptantrag Beweis",
+        beschreibung: "Beweis",
       },
-      {
-        id: expect.any(String),
-        type: "urkunde",
-        beschreibung: "Hauptantrag Entwurf",
-      },
+      { id: expect.any(String), type: "urkunde", beschreibung: "Entwurf" },
     ]);
   });
 
-  it("sets the submitted Nebenantrag evidence type in its nested array", async () => {
-    const userData = createUserData();
-    const session = createSession(userData);
-
-    await setBeweisIdentity("urkunde", false)(
-      new Request(
-        "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/nebenantraege/0/absaetze/0/beweise/0/augenschein-daten",
-      ),
-      userData,
-      session,
-    );
-
-    const saved = session.get("hauptantrag") as typeof userData.hauptantrag;
-    expect(saved?.[0]?.nebenantraege?.[0]).toMatchObject({
-      absaetze: [
-        {
-          beweise: [
-            {
-              id: expect.any(String),
-              type: "urkunde",
-              beschreibung: "Nebenantrag Entwurf",
-            },
-          ],
-        },
-      ],
-    });
-  });
-
-  it("uses the nested evidence array for the Nebenantrag flow action", async () => {
-    const stepId =
-      "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten";
-    const action = geldEinklagenAnwaltschaft.posFlowActions[stepId];
-    if (action === undefined) throw new Error(`Missing flow action: ${stepId}`);
-
-    const userData = createUserData();
-    const session = createSession(userData);
-    await action(
-      new Request(
-        "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/nebenantraege/0/absaetze/0/beweise/0/augenschein-daten",
-      ),
-      userData,
-      session,
-    );
-
-    const saved = session.get("hauptantrag") as typeof userData.hauptantrag;
-    expect(saved?.[0]?.nebenantraege?.[0]).toMatchObject({
-      absaetze: [
-        {
-          beweise: [
-            {
-              id: expect.any(String),
-              type: "augenschein",
-              beschreibung: "Nebenantrag Entwurf",
-            },
-          ],
-        },
-      ],
-    });
-  });
-
   it.each([
-    {
-      step: "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten",
-      url: "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/absaetze/0/beweise/1/parteivernehmung-daten",
-      nested: false,
-    },
-    {
-      step: "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
-      url: "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/nebenantraege/0/absaetze/0/beweise/0/parteivernehmung-daten",
-      nested: true,
-    },
-  ])(
-    "sets Parteivernehmung identity for $step",
-    async ({ step, url, nested }) => {
-      const userData = createUserData();
-      const session = createSession(userData);
-      const action =
-        geldEinklagenAnwaltschaft.posFlowActions[
-          step as keyof typeof geldEinklagenAnwaltschaft.posFlowActions
-        ];
-      await action(new Request(url), userData, session);
-      const saved = session.get("hauptantrag") as typeof userData.hauptantrag;
-      const evidence = nested
-        ? saved?.[0]?.nebenantraege?.[0]?.absaetze?.[0]?.beweise?.[0]
-        : saved?.[0]?.absaetze?.[0]?.beweise?.[1];
-      expect(evidence).toMatchObject({
-        type: "parteivernehmung",
-        id: expect.any(String),
-      });
-    },
-  );
+    "augenschein",
+    "urkunde",
+    "sachverstaendigengutachten",
+    "zeuge",
+    "parteivernehmung",
+  ] as const)("is registered as flow action for %s", async (type) => {
+    const action =
+      geldEinklagenAnwaltschaft.posFlowActions[
+        `/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/${type}-daten`
+      ];
+    const userData = createUserData();
+    const session = createSession(userData);
+
+    await action(new Request(beweisUrl(1, type)), userData, session);
+
+    const saved = session.get("vortraege") as typeof userData.vortraege;
+    expect(saved?.[1]?.absaetze?.[0]?.beweise?.[1]).toMatchObject({
+      type,
+      id: expect.any(String),
+    });
+  });
 
   it("throws when the submitted evidence item does not exist", () => {
     const userData = createUserData();
 
     expect(() =>
-      setBeweisIdentity("urkunde", true)(
-        new Request(
-          "http://localhost/tatsachenvortrag-beweise/hauptantrag/0/absaetze/0/beweise/3/augenschein-daten",
-        ),
+      setBeweisIdentity("urkunde")(
+        new Request(beweisUrl(3)),
         userData,
         createSession(userData),
       ),

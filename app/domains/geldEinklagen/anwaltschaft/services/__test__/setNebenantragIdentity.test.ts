@@ -1,6 +1,7 @@
+import get from "lodash/get";
 import { createSession, type Session } from "react-router";
 import { geldEinklagenAnwaltschaft } from "../../index";
-import { setNebenantragType } from "../setNebenantragType";
+import { setNebenantragIdentity } from "../setNebenantragIdentity";
 
 vi.mock("~/services/session.server", () => ({
   updateSession: vi.fn(
@@ -11,12 +12,12 @@ vi.mock("~/services/session.server", () => ({
   ),
 }));
 
-describe("setNebenantragType", () => {
+describe("setNebenantragIdentity", () => {
   it.each([
     { page: "nebenantraege", type: "nebenantrag" },
     { page: "annahmeverzug", type: "annahmeverzug" },
   ] as const)(
-    "persists $type through its flow action without changing other items",
+    "persists $type and a stable ID without changing other items",
     async ({ page, type }) => {
       const draft =
         type === "nebenantrag"
@@ -55,6 +56,7 @@ describe("setNebenantragType", () => {
             { type: "annahmeverzug" },
             {
               ...draft,
+              id: expect.any(String),
               type,
               absaetze: [{ formulierung: "Nebenantrag Absatz" }],
             },
@@ -62,9 +64,16 @@ describe("setNebenantragType", () => {
         },
       ];
       expect(session.get("hauptantrag")).toEqual(expected);
+      const firstId = get(
+        session.data,
+        "hauptantrag[1].nebenantraege[1].id",
+      ) as unknown;
 
       await action(request, session.data, session);
       expect(session.get("hauptantrag")).toEqual(expected);
+      expect(
+        get(session.data, "hauptantrag[1].nebenantraege[1].id") as unknown,
+      ).toBe(firstId);
     },
   );
 
@@ -80,7 +89,7 @@ describe("setNebenantragType", () => {
     };
 
     expect(() =>
-      setNebenantragType("nebenantrag")(
+      setNebenantragIdentity("nebenantrag")(
         new Request(`http://localhost${path}`),
         userData,
         createSession(userData),

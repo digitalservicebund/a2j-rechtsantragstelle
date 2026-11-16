@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   annahmeverzugSchema,
+  antragIdSchema,
   hauptantraegeArraySchema,
   nebenantragSchema,
   schmerzengeldantragSchema,
@@ -25,8 +26,8 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "hauptantrag#internesSchlagwortFordureung":
-        hauptantraegeArraySchema.element.shape.internesSchlagwortFordureung,
+      "hauptantrag#internesSchlagwortForderung":
+        hauptantraegeArraySchema.element.shape.internesSchlagwortForderung,
       "hauptantrag#betragForderung":
         hauptantraegeArraySchema.element.shape.betragForderung,
       "hauptantrag#beklagte": hauptantraegeArraySchema.element.shape.beklagte,
@@ -41,6 +42,7 @@ export const hauptUndNebenantraegePages = {
       "hauptantrag#zinsbeginn":
         hauptantraegeArraySchema.element.shape.zinsbeginn,
       "hauptantrag#zinsende": hauptantraegeArraySchema.element.shape.zinsende,
+      "hauptantrag#id": hiddenInputSchema(antragIdSchema),
     },
   },
   hauptantragWarnung: {
@@ -65,6 +67,7 @@ export const hauptUndNebenantraegePages = {
         nebenantragSchema.shape.nebenantragZinsbeginn,
       "hauptantrag#nebenantraege#nebenantragZinsende":
         nebenantragSchema.shape.nebenantragZinsende,
+      "hauptantrag#nebenantraege#id": hiddenInputSchema(antragIdSchema),
       "hauptantrag#nebenantraege#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
@@ -79,6 +82,7 @@ export const hauptUndNebenantraegePages = {
         annahmeverzugSchema.shape.annahmeverzugsFeststellung,
       "hauptantrag#nebenantraege#annahmeverzugDatum":
         annahmeverzugSchema.shape.annahmeverzugDatum,
+      "hauptantrag#nebenantraege#id": hiddenInputSchema(antragIdSchema),
       "hauptantrag#nebenantraege#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
@@ -98,8 +102,8 @@ export const hauptUndNebenantraegePages = {
       "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten",
     shouldCollapseIntoParentNavItem: true,
     pageSchema: {
-      "schmerzengeldantrag#internesSchlagwortFordureung":
-        schmerzengeldantragSchema.element.shape.internesSchlagwortFordureung,
+      "schmerzengeldantrag#internesSchlagwortForderung":
+        schmerzengeldantragSchema.element.shape.internesSchlagwortForderung,
       "schmerzengeldantrag#mindestBetrag":
         schmerzengeldantragSchema.element.shape.mindestBetrag,
       "schmerzengeldantrag#beklagte":
@@ -114,6 +118,7 @@ export const hauptUndNebenantraegePages = {
         schmerzengeldantragSchema.element.shape.zinsbeginn,
       "schmerzengeldantrag#zinsende":
         schmerzengeldantragSchema.element.shape.zinsende,
+      "schmerzengeldantrag#id": hiddenInputSchema(antragIdSchema),
       "schmerzengeldantrag#type": hiddenInputSchema(
         schemaOrEmptyStringOptional(z.string()),
       ),
@@ -138,6 +143,7 @@ export const hauptUndNebenantraegePages = {
         schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragZinsbeginn,
       "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende":
         schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragZinsende,
+      "schmerzengeldantrag#nebenantraege#id": hiddenInputSchema(antragIdSchema),
     },
   },
   schmerzengeldantragWarnung: {

@@ -12,6 +12,7 @@ const BASE_URL_UNBEZIEFERTER_SCHMERZENSGELD_UND_NEBENANTRAEGE =
 
 type UnbezifferteSchmerzensgeldantragProps = {
   readonly itemIndex: number;
+  readonly antragNumber: number;
   readonly item: NonNullable<
     GeldEinklagenAnwaltschaftUserData["schmerzengeldantrag"]
   >[number];
@@ -22,6 +23,7 @@ type UnbezifferteSchmerzensgeldantragProps = {
 
 export const UnbezifferteSchmerzensgeldantrag = ({
   itemIndex,
+  antragNumber,
   item,
   userData,
   onDelete,
@@ -40,16 +42,16 @@ export const UnbezifferteSchmerzensgeldantrag = ({
           </span>
         </div>
       }
-      badge={item.internesSchlagwortFordureung ?? ""}
+      badge={item.internesSchlagwortForderung ?? ""}
       editButton={{
         href: `${BASE_URL_UNBEZIEFERTER_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${itemIndex}/daten`,
-        ariaLabel: `Schmerzensgeldantrag ${itemIndex + 1} bearbeiten`,
+        ariaLabel: `Schmerzensgeldantrag ${antragNumber} bearbeiten`,
         onClick: () => onEdit(itemIndex),
       }}
       deleteButton={
         <DeleteButton
-          label={`Schmerzensgeldantrag ${itemIndex + 1} und Nebenanträge löschen`}
-          title={`Schmerzensgeldantrag ${itemIndex + 1} löschen?`}
+          label={`Schmerzensgeldantrag ${antragNumber} und Nebenanträge löschen`}
+          title={`Schmerzensgeldantrag ${antragNumber} löschen?`}
           description={
             <>
               <InlineNotice
@@ -61,7 +63,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
                 look={"warning"}
                 content={translations.geldEinklagenAnwaltschaft.schmerzengeldantragDeleteWarning.de.replaceAll(
                   /\$\{itemIndex \+ 1\}/g,
-                  `${itemIndex + 1}`,
+                  `${antragNumber}`,
                 )}
               />
               <p className="kern-body">
@@ -73,9 +75,9 @@ export const UnbezifferteSchmerzensgeldantrag = ({
               <span className="flex flex-row items-center!">
                 <Icon name="draft" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
-                  {`Schmerzensgeldantrag ${itemIndex + 1}`}
-                  {item.internesSchlagwortFordureung
-                    ? `${item.internesSchlagwortFordureung} + ",",`
+                  {`Schmerzensgeldantrag ${antragNumber}`}
+                  {item.internesSchlagwortForderung
+                    ? `${item.internesSchlagwortForderung} + ",",`
                     : ""}
                   {", "}
                   {item.mindestBetrag ? `${item.mindestBetrag} Euro` : ""}

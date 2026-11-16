@@ -5,7 +5,6 @@ import {
   getBeklagteStrings,
   getKanzleiStrings,
   getKlagendeStrings,
-  getAntraegeStrings,
 } from "~/domains/geldEinklagen/anwaltschaft/stringReplacements";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getArrayIndexStrings } from "~/domains/shared/formular/stringReplacements";
@@ -13,7 +12,8 @@ import { geldEinklagenAnwaltschaftFlowConfig } from "./flowConfig";
 import { geldEinklagenAnwaltschaftPdfFromUserdata } from "./services/pdf/geldEinklagenAnwaltschaftPdfFromUserData";
 import { setBeweisIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setBeweisIdentity";
 import { setGesetzlicheVertretungIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setGesetzlicheVertretungIdentity";
-import { setNebenantragType } from "~/domains/geldEinklagen/anwaltschaft/services/setNebenantragType";
+import { setNebenantragIdentity } from "~/domains/geldEinklagen/anwaltschaft/services/setNebenantragIdentity";
+import { setAntragId } from "~/domains/geldEinklagen/anwaltschaft/services/setAntragId";
 
 export const geldEinklagenAnwaltschaft = {
   flowType: "formFlow",
@@ -22,7 +22,6 @@ export const geldEinklagenAnwaltschaft = {
     ...getKlagendeStrings(context),
     ...getBeklagteStrings(context),
     ...getKanzleiStrings(context),
-    ...getAntraegeStrings(context),
   }),
   posFlowActions: {
     "/klagende-partei/klagenden/#/natuerliche-person-daten": setPartyType(
@@ -63,30 +62,27 @@ export const geldEinklagenAnwaltschaft = {
         "beklagte",
         "berufsausuebungsgesellschaft",
       ),
+    "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten":
+      setAntragId("hauptantrag"),
+    "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/#/daten":
+      setAntragId("schmerzengeldantrag"),
+    "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/#/nebenantraege/#/daten":
+      setAntragId("schmerzengeldantrag#nebenantraege"),
+    "/sonstige-antraege/antrag/#/daten": setAntragId("sonstigeAntraege"),
     "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
-      setNebenantragType("nebenantrag"),
+      setNebenantragIdentity("nebenantrag"),
     "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/annahmeverzug/#/daten":
-      setNebenantragType("annahmeverzug"),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/augenschein-daten":
-      setBeweisIdentity("augenschein", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/augenschein-daten":
-      setBeweisIdentity("augenschein", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/urkunde-daten":
-      setBeweisIdentity("urkunde", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/urkunde-daten":
-      setBeweisIdentity("urkunde", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
-      setBeweisIdentity("sachverstaendigengutachten", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
-      setBeweisIdentity("sachverstaendigengutachten", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/zeuge-daten":
-      setBeweisIdentity("zeuge", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/zeuge-daten":
-      setBeweisIdentity("zeuge", false),
-    "/tatsachenvortrag-beweise/hauptantrag/#/absaetze/#/beweise/#/parteivernehmung-daten":
-      setBeweisIdentity("parteivernehmung", true),
-    "/tatsachenvortrag-beweise/hauptantrag/#/nebenantraege/#/absaetze/#/beweise/#/parteivernehmung-daten":
-      setBeweisIdentity("parteivernehmung", false),
+      setNebenantragIdentity("annahmeverzug"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/augenschein-daten":
+      setBeweisIdentity("augenschein"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/urkunde-daten":
+      setBeweisIdentity("urkunde"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten":
+      setBeweisIdentity("sachverstaendigengutachten"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/zeuge-daten":
+      setBeweisIdentity("zeuge"),
+    "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/parteivernehmung-daten":
+      setBeweisIdentity("parteivernehmung"),
   },
   config: geldEinklagenAnwaltschaftFlowConfig,
   pdfConfig: {
