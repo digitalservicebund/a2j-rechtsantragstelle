@@ -6,6 +6,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import { addMissingData } from "./addMissingData";
 
 const formatAddress = (
   strasse: string,
@@ -30,6 +31,10 @@ export const addProzessbevollmaechtigte = (
     (relationship === "klagende"
       ? userData.klagendeProzessbevollmaechtigte
       : userData.beklagteProzessbevollmaechtigte) ?? [];
+
+  if (relationship === "klagende" && representatives.length === 0) {
+    addMissingData(doc, documentStruct, "Prozessbevollmächtigte");
+  }
 
   representatives.forEach((representative) => {
     const paragraph = doc.struct("P", {}, () => {
@@ -57,7 +62,7 @@ export const addProzessbevollmaechtigte = (
           );
       }
       if (representative.name) {
-        doc.font(FONTS_BUNDESSANS_BOLD).text(representative.name);
+        doc.font(FONTS_BUNDESSANS_REGULAR).text(representative.name);
       }
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
@@ -83,7 +88,7 @@ export const addProzessbevollmaechtigte = (
         doc.text(`Geschäftszeichen: ${representative.geschaeftszeichen}`);
       }
 
-      doc.moveDown(0.5);
+      doc.moveDown(2);
     });
     documentStruct.add(paragraph);
   });

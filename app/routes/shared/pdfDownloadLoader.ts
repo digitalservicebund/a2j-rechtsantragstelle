@@ -28,7 +28,9 @@ export async function loader({ request, url }: LoaderFunctionArgs) {
     compiledStaticFlow,
     sessionData,
   );
-  if (isEmpty(userData)) return redirect(flowId);
+  if (isEmpty(userData) && flowId !== "/geld-einklagen/anwaltschaft") {
+    return redirect(flowId);
+  }
 
   const { pdfFunction, name } = pdfConfig;
   const fileContent = await pdfFunction(userData, flowTranslations);

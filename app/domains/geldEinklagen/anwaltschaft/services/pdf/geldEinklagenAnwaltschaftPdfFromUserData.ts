@@ -4,6 +4,9 @@ import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
 import { createFirstPage } from "./sections/createFirstPage";
 import { createSecondPage } from "./sections/createSecondPage";
+import { createThirdPage } from "./sections/createThirdPage";
+import { createFourthPage } from "./sections/createFourthPage";
+import { createFifthPage } from "./sections/createFifthPage";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 
 const TITLE = "Klage Neueingang";
@@ -16,6 +19,9 @@ const buildGeldEinklagenAnwaltschaftPDFDocument: PDFDocumentBuilder<
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
   createFirstPage(doc, documentStruct, userData);
   createSecondPage(doc, documentStruct, userData);
+  createThirdPage(doc, documentStruct, userData);
+  createFourthPage(doc, documentStruct, userData);
+  createFifthPage(doc, documentStruct, userData);
 
   const { start, count } = doc.bufferedPageRange();
   const margins = Array.from({ length: count }, (_, index) => {
