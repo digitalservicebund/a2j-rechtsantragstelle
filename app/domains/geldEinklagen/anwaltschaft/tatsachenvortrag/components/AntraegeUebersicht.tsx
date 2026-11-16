@@ -24,7 +24,7 @@ const AntragRow = ({
 }) => (
   <div
     className={classNames(
-      "flex justify-between items-center py-kern-space-small px-kern-space-default",
+      "flex justify-between items-center gap-kern-space-default py-kern-space-small px-kern-space-default",
       {
         "border-t border-kern-grey-200": !isFirst,
         "pl-kern-space-2x-large": antrag.isNebenantrag,
@@ -49,6 +49,8 @@ const AntragRow = ({
         iconRight={
           <Icon name="chevron-right" className="text-kern-action-default" />
         }
+        className="w-max"
+        textClassName="text-nowrap"
       >
         {translations.geldEinklagenAnwaltschaft.addVortragButton.de}
       </Button>

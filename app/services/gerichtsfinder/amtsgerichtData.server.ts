@@ -46,6 +46,17 @@ const courtAddress = (
   return fullCourtData;
 };
 
+export const findCourtByName = (name: string) => {
+  const courts = getCourtData()["JMTD14_VT_ERWERBER_GERBEH_DATA_TABLE.json"] as
+    GerbehFile | undefined;
+
+  return Object.values(courts ?? {}).find(
+    (court) =>
+      court?.TYP_INFO === "Zivilgericht - Amtsgericht" &&
+      court.BEZEICHNUNG === name,
+  );
+};
+
 export const courtForPlz = (
   PLZ: string | undefined,
   angelegenheitInfo: AngelegenheitInfo = ANGELEGENHEIT_INFO.PROZESSKOSTENHILFE,

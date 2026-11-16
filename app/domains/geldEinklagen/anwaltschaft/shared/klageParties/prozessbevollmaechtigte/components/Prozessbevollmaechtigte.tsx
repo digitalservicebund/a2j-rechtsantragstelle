@@ -10,8 +10,11 @@ import {
   getProzessbevollmaechtigteArrayName,
   getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
-import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
-import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/AdditionalPersonsList";
+import {
+  type Berufsausuebungsgesellschaft,
+  type Prozessbevollmaechtigte as ProzessbevollmaechtigteData,
+} from "../prozessbevollmaechtigteSchemas";
+import { VerantwortendePersonenList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/VerantwortendePersonenList";
 import classNames from "classnames";
 
 const ProzessbevollmaechtigteDetails = ({
@@ -61,20 +64,6 @@ const ProzessbevollmaechtigteDetails = ({
     {prozessbevollmaechtigte.email && (
       <span>{prozessbevollmaechtigte.email}</span>
     )}
-    {"isProzessbevollmaechtigt" in prozessbevollmaechtigte &&
-      prozessbevollmaechtigte.isProzessbevollmaechtigt === "on" && (
-        <>
-          <span className="kern-body--bold pt-kern-space-small">
-            {
-              translations.geldEinklagenAnwaltschaft
-                .prozessbevollmaechtigtePerson.de
-            }
-          </span>
-          <span>
-            {translations.geldEinklagenAnwaltschaft.gesamteKanzlei.de}
-          </span>
-        </>
-      )}
   </div>
 );
 
@@ -91,7 +80,7 @@ const Prozessbevollmaechtigte = ({
 }) => {
   const { deleteButtonLabel, deleteButtonTitle, deleteButtonDescription } =
     getProzessbevollmaechtigteTranslations(
-      "isProzessbevollmaechtigt" in prozessbevollmaechtigte,
+      prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft",
     );
   return (
     <ArrayItemCard
@@ -134,14 +123,12 @@ const Prozessbevollmaechtigte = ({
       }
     >
       {prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft" &&
-        !(
-          relationship === "beklagte" &&
-          prozessbevollmaechtigte.isProzessbevollmaechtigt === "on"
-        ) && (
-          <AdditionalPersonsList
-            berufsausuebungsgesellschaft={prozessbevollmaechtigte}
+        relationship === "klagende" && (
+          <VerantwortendePersonenList
+            berufsausuebungsgesellschaft={
+              prozessbevollmaechtigte as Berufsausuebungsgesellschaft
+            }
             parentArrayItemIndex={index}
-            relationship={relationship}
           />
         )}
     </ArrayItemCard>
