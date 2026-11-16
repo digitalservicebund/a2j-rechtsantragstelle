@@ -10,8 +10,12 @@ import {
   getProzessbevollmaechtigteArrayName,
   getProzessbevollmaechtigteTranslations,
 } from "../prozessbevollmaechtigteHelpers";
-import { type Prozessbevollmaechtigte as ProzessbevollmaechtigteData } from "../prozessbevollmaechtigteSchemas";
-import { AdditionalPersonsList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/AdditionalPersonsList";
+import {
+  type Berufsausuebungsgesellschaft,
+  type Prozessbevollmaechtigte as ProzessbevollmaechtigteData,
+} from "../prozessbevollmaechtigteSchemas";
+import { VerantwortendePersonenList } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/components/VerantwortendePersonenList";
+import classNames from "classnames";
 
 const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte,
@@ -19,7 +23,28 @@ const ProzessbevollmaechtigteDetails = ({
   prozessbevollmaechtigte: ProzessbevollmaechtigteData;
 }) => (
   <div className="flex flex-col kern-body kern-body--default text-pretty">
-    <span className="kern-body--bold">{prozessbevollmaechtigte.name}</span>
+    {"anrede" in prozessbevollmaechtigte && (
+      <>
+        <span className="kern-body--bold">
+          {getFullPlaintiffName(
+            prozessbevollmaechtigte.anrede,
+            prozessbevollmaechtigte.titel,
+            prozessbevollmaechtigte.vorname,
+            prozessbevollmaechtigte.nachname,
+          )}
+        </span>
+        {prozessbevollmaechtigte.berufsbezeichnung !== "" && (
+          <span>({prozessbevollmaechtigte.berufsbezeichnung})</span>
+        )}
+      </>
+    )}
+    <span
+      className={classNames({
+        "kern-body--bold": !("anrede" in prozessbevollmaechtigte),
+      })}
+    >
+      {prozessbevollmaechtigte.name}
+    </span>
     <span>
       {translations.geldEinklagenAnwaltschaft.geschaeftszeichen.de}:{" "}
       {prozessbevollmaechtigte.geschaeftszeichen === ""
@@ -39,42 +64,6 @@ const ProzessbevollmaechtigteDetails = ({
     {prozessbevollmaechtigte.email && (
       <span>{prozessbevollmaechtigte.email}</span>
     )}
-    {"isProzessbevollmaechtigt" in prozessbevollmaechtigte &&
-      prozessbevollmaechtigte.isProzessbevollmaechtigt === "on" && (
-        <>
-          <span className="kern-body--bold pt-kern-space-small">
-            {
-              translations.geldEinklagenAnwaltschaft
-                .prozessbevollmaechtigtePerson.de
-            }
-          </span>
-          <span>
-            {translations.geldEinklagenAnwaltschaft.gesamteKanzlei.de}
-          </span>
-        </>
-      )}
-
-    {"anrede" in prozessbevollmaechtigte && (
-      <>
-        <span className="kern-body--bold pt-kern-space-small">
-          {
-            translations.geldEinklagenAnwaltschaft.prozessbevollmaechtigtePerson
-              .de
-          }
-        </span>
-        <span>
-          {getFullPlaintiffName(
-            prozessbevollmaechtigte.anrede,
-            prozessbevollmaechtigte.titel,
-            prozessbevollmaechtigte.vorname,
-            prozessbevollmaechtigte.nachname,
-          )}
-        </span>
-        {prozessbevollmaechtigte.berufsbezeichnung !== "" && (
-          <span>({prozessbevollmaechtigte.berufsbezeichnung})</span>
-        )}
-      </>
-    )}
   </div>
 );
 
@@ -91,7 +80,7 @@ const Prozessbevollmaechtigte = ({
 }) => {
   const { deleteButtonLabel, deleteButtonTitle, deleteButtonDescription } =
     getProzessbevollmaechtigteTranslations(
-      "isProzessbevollmaechtigt" in prozessbevollmaechtigte,
+      prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft",
     );
   return (
     <ArrayItemCard
@@ -116,7 +105,16 @@ const Prozessbevollmaechtigte = ({
               <p>{deleteButtonDescription}</p>
               <div className="flex gap-kern-space-small">
                 <Icon name="business" className="size-kern-dimension-default" />
-                <p className="font-bold">{prozessbevollmaechtigte.name}</p>
+                <p className="kern-body--bold">
+                  {"anrede" in prozessbevollmaechtigte
+                    ? getFullPlaintiffName(
+                        prozessbevollmaechtigte.anrede,
+                        prozessbevollmaechtigte.titel,
+                        prozessbevollmaechtigte.vorname,
+                        prozessbevollmaechtigte.nachname,
+                      )
+                    : prozessbevollmaechtigte.name}
+                </p>
               </div>
             </div>
           }
@@ -125,14 +123,12 @@ const Prozessbevollmaechtigte = ({
       }
     >
       {prozessbevollmaechtigte.type === "berufsausuebungsgesellschaft" &&
-        !(
-          relationship === "beklagte" &&
-          prozessbevollmaechtigte.isProzessbevollmaechtigt === "on"
-        ) && (
-          <AdditionalPersonsList
-            berufsausuebungsgesellschaft={prozessbevollmaechtigte}
+        relationship === "klagende" && (
+          <VerantwortendePersonenList
+            berufsausuebungsgesellschaft={
+              prozessbevollmaechtigte as Berufsausuebungsgesellschaft
+            }
             parentArrayItemIndex={index}
-            relationship={relationship}
           />
         )}
     </ArrayItemCard>

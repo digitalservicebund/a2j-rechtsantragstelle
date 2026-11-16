@@ -9,8 +9,8 @@ import {
 import {
   MAX_KLAGE_PARTIES,
   useKlageParties,
-  type KlagePartyWithArrayIndex,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/useKlageParties";
+import { type KlagePartyWithArrayIndex } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyOrdering";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";

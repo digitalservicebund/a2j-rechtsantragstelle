@@ -17,13 +17,14 @@ const formatPartyNumbers = (numbers: number[]): string => {
 export const getBeklagteText = (count: number): string =>
   count === 1 ? "Die Beklagte" : "Die Beklagten";
 
-const getKlagendeText = (count: number): string =>
+export const getKlagendeText = (count: number): string =>
   count === 1 ? "die Klagende" : "die Klagenden";
 
-const getBefindenText = (count: number): string =>
+export const getBefindenText = (count: number): string =>
   count === 1 ? "befindet" : "befinden";
 
-const getVerb = (count: number): string => (count === 1 ? "wird" : "werden");
+export const getVerb = (count: number): string =>
+  count === 1 ? "wird" : "werden";
 
 const getSelectedPartyNumbers = (
   parties: Array<{ id?: string }> | undefined,

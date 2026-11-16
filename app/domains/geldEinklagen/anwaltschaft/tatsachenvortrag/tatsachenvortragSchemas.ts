@@ -47,6 +47,8 @@ export const parteivernehmungSchema = z.object({
     .describe(parteivernehmungBeweisCheckboxesZodDescription),
 });
 
+export type Parteivernehmung = z.infer<typeof parteivernehmungSchema>;
+
 const beweisSchema = z.discriminatedUnion("type", [
   augenscheinSchema,
   urkundeSchema,
@@ -79,3 +81,12 @@ export type BeweiseArray = z.infer<
 export type Beweis = NonNullable<BeweiseArray>[number];
 
 export type Absatz = z.infer<typeof absaetzeArraySchema>[number];
+
+// Links Absätze to an Antrag by its stable ID (UUID for array-based Anträge,
+// fixed key for Prozessanträge), so that all Anträge share one set of pages.
+export const vortraegeArraySchema = z.array(
+  z.object({
+    antragId: z.string().min(1),
+    absaetze: absaetzeArraySchema.optional(),
+  }),
+);

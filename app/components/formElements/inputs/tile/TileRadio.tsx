@@ -1,39 +1,34 @@
 import { useField } from "@rvf/react-router";
-import TileContent, { type TileContentProps } from "./TileContent";
+import TileContent from "./TileContent";
 import { type ImageProps } from "~/components/common/Image";
 import classNames from "classnames";
 
 export type TileOptions = Readonly<{
   value: string;
+  title: string;
   description?: string;
-  title?: string;
   image?: ImageProps;
-  tileDescription?: string;
-  tileTitle?: string;
-  errorId?: string;
 }>;
 
-type TileRadioProps = TileOptions &
-  Readonly<
-    {
-      name: string;
-      ref: React.Ref<HTMLInputElement>;
-      image?: ImageProps;
-    } & TileContentProps
-  >;
+type Props = TileOptions &
+  Readonly<{
+    name: string;
+    ref: React.Ref<HTMLInputElement>;
+    errorId?: string;
+  }>;
+
 const TileRadio = ({
   name,
-  tileDescription,
   value,
-  tileTitle,
+  title,
+  description,
   image,
   ref,
   errorId,
-}: TileRadioProps) => {
+}: Props) => {
   const field = useField(name);
   const id = `${name}-${value}`;
-  const descriptionId = tileDescription ? `${value}-description` : undefined;
-  const ariaDescribedBy = field.error() ? errorId : descriptionId;
+  const ariaDescribedBy = field.error() ? errorId : undefined;
 
   return (
     <div
@@ -47,7 +42,6 @@ const TileRadio = ({
       <label
         className="flex flex-row items-center cursor-pointer touch-manipulation p-kern-space-large h-full max-w-full"
         htmlFor={id}
-        aria-label={tileTitle}
       >
         <div className="kern-form-check">
           <input
@@ -61,12 +55,7 @@ const TileRadio = ({
             ref={ref}
           />
         </div>
-        <TileContent
-          title={tileTitle}
-          description={tileDescription}
-          image={image}
-          descriptionId={descriptionId}
-        />
+        <TileContent title={title} description={description} image={image} />
       </label>
     </div>
   );

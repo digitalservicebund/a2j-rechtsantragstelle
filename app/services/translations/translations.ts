@@ -521,6 +521,18 @@ export const translations = {
     cardButtonLabelNachlass: {
       de: "Zum Nachlass",
     },
+    cardPrelineSchuldenEinfordern: {
+      de: "Schulden",
+    },
+    cardHeadingSchuldenEinfordern: {
+      de: "Schulden einfordern",
+    },
+    cardDescriptionSchuldenEinfordern: {
+      de: "Wenn Ihnen jemand Geld schuldet, gibt es mehrere Wege, eine Zahlung durchzusetzen. Hier erfahren Sie, welche Möglichkeiten es gibt.",
+    },
+    cardButtonLabelSchuldenEinfordern: {
+      de: "Zum Einfordern von Schulden",
+    },
     headingMitmachen: {
       de: "Mitmachen",
     },
@@ -702,17 +714,17 @@ export const translations = {
     berufsausuebungsgesellschaftHeadline: {
       de: "Berufsausübungsgesellschaft",
     },
+    berufsausuebungsgesellschaftHelperText: {
+      de: "Darunter fallen alle Formen gemeinschaftlicher Berufsausübung, die keine Einzelkanzlei sind",
+    },
     geschaeftszeichen: {
       de: "Geschäftszeichen",
     },
     prozessbevollmaechtigtePerson: {
       de: "Prozessbevollmächtigte Person",
     },
-    prozessbevollmaechtigtePersonen: {
-      de: "Prozessbevollmächtigte Personen",
-    },
-    namedInSignatureLabel: {
-      de: "(Wird in der Signatur genannt)",
+    verantwortendePersonen: {
+      de: "Verantwortende Personen (Namen unter der Klageschrift)",
     },
     gesamteKanzlei: {
       de: "Gesamte Kanzlei",
@@ -726,20 +738,14 @@ export const translations = {
     einzelkanzleiDeleteDescription: {
       de: "Die folgende Einzelkanzlei wird entfernt:",
     },
-    signaturangabenTitle: {
-      de: "Signaturangaben (notwendig für die Klageschrift)",
-    },
     additionalPersonsSubtitle: {
       de: "Geben Sie mindestens eine Person an, maximal 5",
     },
-    signaturangaben: {
-      de: "Signaturangaben",
+    verantwortendePerson: {
+      de: "Verantwortende Person",
     },
-    signaturangabenDeletionTitle: {
-      de: "Signaturangaben löschen?",
-    },
-    prozessbevollmaechtigtePersonenDeletionTitle: {
-      de: "Prozessbevollmächtigte Personen löschen?",
+    verantwortendePersonDeletionTitle: {
+      de: "Verantwortende Person löschen?",
     },
     additionalPersonDeletionDescription: {
       de: "Die folgende Person wird entfernt:",
@@ -834,6 +840,9 @@ export const translations = {
     bezifferterZahlungsantragHeadline: {
       de: "Bezifferter Zahlungsantrag",
     },
+    unbezifferterZahlungsantragHeadline: {
+      de: "Unbezifferter Schmerzensgeldantrag",
+    },
     bezifferterZahlungsantragCheckboxesHint: {
       de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft genannt werden soll. Fügen Sie für getrennte Forderungen gegen einzelne Beklagte bitte separate Zahlungsanträge hinzu.",
     },
@@ -887,6 +896,9 @@ export const translations = {
     nebenatragAddButton: {
       de: "Nebenantrag hinzufügen",
     },
+    nebenatragDeleteButton: {
+      de: "Nebenantrag löschen?",
+    },
     nebenantragInlineNoticeTitle: {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
     },
@@ -923,11 +935,11 @@ export const translations = {
       de: "Der folgende Antrag wird entfernt:",
     },
     schmerzengeldantragDeleteWarning: {
-      de: `<p>Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem Schmerzensgeldantrag oder möglichen dazugehörigen Nebenanträgen verknüpft ist. Wenn Sie den Schmerzensgeldantrag \${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
+      de: `<p>Auswirkungen:<br />Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem Schmerzensgeldantrag oder möglichen dazugehörigen Nebenanträgen verknüpft ist. Wenn Sie den Schmerzensgeldantrag \${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
 <strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li><br />
+<li><strong>Behalten und bearbeiten:</strong></li>
 <p>Falls Sie lediglich die Angaben für den Schmerzensgeldantrag \${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.</p><br />
-<li><strong>Endgültig löschen:</strong></li><br />
+<li><strong>Endgültig löschen:</strong></li>
 <p>Falls Sie den Schmerzensgeldantrag \${itemIndex + 1} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>`,
     },
     schmerzengeldantragItemsToDelete: {
@@ -986,6 +998,33 @@ export const translations = {
     },
     beklagter: {
       de: "Beklagter",
+    },
+    zuAntrag: {
+      de: "zu Antrag",
+    },
+    prozessantrag: {
+      de: "Prozessantrag",
+    },
+    prozessualeAusfuehrung: {
+      de: "Prozessuale Ausführung",
+    },
+    sonstigerAntrag: {
+      de: "Sonstiger Antrag oder Ausführung",
+    },
+    sonstigerAntragArrayItemTitle: {
+      de: "Sonstiger Antrag/Prozessuale Ausführung",
+    },
+    muendlicheVerhandlungTitle: {
+      de: "Mündliche Verhandlung",
+    },
+    videoverhandlungTitle: {
+      de: "Teilnahme per Videoverhandlung",
+    },
+    bedenkenVideoverhandlungTitle: {
+      de: "Bedenken gegen Videoverhandlung",
+    },
+    versaeumnisurteilTitle: {
+      de: "Versäumnisurteil",
     },
     optionalSuffix: {
       de: " - Optional",

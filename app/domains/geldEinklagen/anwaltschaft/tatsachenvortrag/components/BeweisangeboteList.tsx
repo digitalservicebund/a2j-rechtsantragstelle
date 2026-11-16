@@ -6,15 +6,17 @@ import {
   type Beweis,
   beweismittelSchema,
   MAX_BEWEISE,
-  type BeweiseArray,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { translations } from "~/services/translations/translations";
 import {
   getBeweisBody,
-  getBeweisCategory,
   getBeweisTitle,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import {
+  getBeweisCategory,
+  type OrderedBeweis,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import Button from "~/components/common/Button";
 import { ValidatedForm } from "@rvf/react-router";
 import Select from "~/components/formElements/inputs/select/Select";
@@ -86,10 +88,10 @@ const AddBeweis = ({
 
 const BeweisDeletionDescription = ({
   beweis,
-  displayIndex,
+  documentNumber,
 }: {
   beweis: Beweis;
-  displayIndex: number;
+  documentNumber: number | undefined;
 }) => {
   const isDocument = getBeweisCategory(beweis.type) === "document";
   const beweisBody = getBeweisBody(beweis);
@@ -109,7 +111,7 @@ const BeweisDeletionDescription = ({
         />
         <div className="flex flex-col">
           <p className="font-bold">
-            {getBeweisTitle(beweis.type, displayIndex)}
+            {getBeweisTitle(beweis.type, documentNumber)}
           </p>
           <p>
             {typeof beweisBody === "string" && beweisBody.length > 100
@@ -126,7 +128,7 @@ export const BeweisangeboteList = ({
   beweise,
   absatzArrayIndex,
 }: {
-  beweise: BeweiseArray;
+  beweise: OrderedBeweis[];
   absatzArrayIndex: number;
 }) => {
   const { absaetzeBaseUrl, absaetzeArrayName } = useAbsaetze();
@@ -137,19 +139,7 @@ export const BeweisangeboteList = ({
     beweiseBaseUrl,
     focusOnItem(beweisIdPrefix),
   );
-  const nextItemIndex = beweise?.length ?? 0;
-  const indexedBeweise = (beweise ?? []).map((beweis, sourceIndex) => ({
-    beweis,
-    sourceIndex,
-  }));
-  const orderedBeweise = [
-    ...indexedBeweise.filter(
-      ({ beweis }) => getBeweisCategory(beweis.type) === "document",
-    ),
-    ...indexedBeweise.filter(
-      ({ beweis }) => getBeweisCategory(beweis.type) === "person",
-    ),
-  ];
+  const nextItemIndex = beweise.length;
   return (
     <NestedArrayItemList
       heading={translations.geldEinklagenAnwaltschaft.beweisangeboteTitle.de}
@@ -158,50 +148,46 @@ export const BeweisangeboteList = ({
       subtitle={
         translations.geldEinklagenAnwaltschaft.beweisangeboteSubtitle.de
       }
-      items={
-        orderedBeweise
-          ? orderedBeweise.map(({ beweis, sourceIndex }, displayIndex) => ({
-              key: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
-              id: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
-              content: (
-                <div className="flex gap-kern-space-small items-start">
-                  <Icon
-                    name={
-                      getBeweisCategory(beweis.type) === "document"
-                        ? "draft"
-                        : "person"
-                    }
-                  />
-                  <div className="flex flex-col">
-                    <span className="kern-body--bold">
-                      {getBeweisTitle(beweis.type, displayIndex, true)}
-                    </span>
-                    <span>{getBeweisBody(beweis, true)}</span>
-                  </div>
-                </div>
-              ),
-              editButton: {
-                ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
-                href: `${beweiseBaseUrl}/${sourceIndex}/${beweis.type}-daten`,
-              },
-              deleteButton: {
-                title:
-                  getBeweisCategory(beweis.type) === "document"
-                    ? translations.geldEinklagenAnwaltschaft
-                        .beweisangebotDeletionTitle.de
-                    : translations.geldEinklagenAnwaltschaft
-                        .beweisangebotPersonDeletionTitle.de,
-                description: (
-                  <BeweisDeletionDescription
-                    beweis={beweis}
-                    displayIndex={displayIndex}
-                  />
-                ),
-                onDelete: () => deleteArrayItem(sourceIndex),
-              },
-            }))
-          : []
-      }
+      items={beweise.map(({ beweis, sourceIndex, documentNumber }) => ({
+        key: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
+        id: `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
+        content: (
+          <div className="flex gap-kern-space-small items-start">
+            <Icon
+              name={
+                getBeweisCategory(beweis.type) === "document"
+                  ? "draft"
+                  : "person"
+              }
+            />
+            <div className="flex flex-col">
+              <span className="kern-body--bold">
+                {getBeweisTitle(beweis.type, documentNumber, true)}
+              </span>
+              <span>{getBeweisBody(beweis, true)}</span>
+            </div>
+          </div>
+        ),
+        editButton: {
+          ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
+          href: `${beweiseBaseUrl}/${sourceIndex}/${beweis.type}-daten`,
+        },
+        deleteButton: {
+          title:
+            getBeweisCategory(beweis.type) === "document"
+              ? translations.geldEinklagenAnwaltschaft
+                  .beweisangebotDeletionTitle.de
+              : translations.geldEinklagenAnwaltschaft
+                  .beweisangebotPersonDeletionTitle.de,
+          description: (
+            <BeweisDeletionDescription
+              beweis={beweis}
+              documentNumber={documentNumber}
+            />
+          ),
+          onDelete: () => deleteArrayItem(sourceIndex),
+        },
+      }))}
       additionalComponents={
         <AddBeweis absatzIndex={absatzArrayIndex} nextIndex={nextItemIndex} />
       }

@@ -8,7 +8,7 @@ import {
 } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { beklagteParteiPages } from "./beklagte-partei/pages";
-import { sonstigeNebenUndProzessantraegePages } from "./sonstigeNebenUndProzessantraege/pages";
+import { sonstigeAntraegePages } from "./sonstigeAntraege/pages";
 import { tatsachenvortragPages } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/pages";
 import { hauptUndNebenantraegePages } from "./hauptUndNebenantraege/pages";
 
@@ -68,7 +68,7 @@ export const geldEinklagenAnwaltschaftPages = {
   ...beklagteParteiPages,
   ...hauptUndNebenantraegePages,
   prozessualeAusfuehrungen: {
-    stepId: "/prozessantraege-prozessuale-ausfuehrungen",
+    stepId: "/prozessantraege",
     pageSchema: {
       muendlicheVerhandlung: schemaOrEmptyString(checkedOptional),
       videoverhandlung: schemaOrEmptyString(
@@ -77,7 +77,7 @@ export const geldEinklagenAnwaltschaftPages = {
       versaeumnisurteil: schemaOrEmptyString(checkedOptional),
     },
   },
-  ...sonstigeNebenUndProzessantraegePages,
+  ...sonstigeAntraegePages,
   ...tatsachenvortragPages,
   rechtlicheWuerdigung: {
     stepId: "/rechtliche-wuerdigung",

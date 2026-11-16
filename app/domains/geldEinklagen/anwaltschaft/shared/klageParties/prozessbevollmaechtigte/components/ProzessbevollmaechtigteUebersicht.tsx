@@ -89,6 +89,11 @@ const ProzessbevollmaechtigteList = ({
   return (
     <ArrayItemListSection
       heading={heading}
+      helperText={
+        type === "berufsausuebungsgesellschaft" &&
+        translations.geldEinklagenAnwaltschaft
+          .berufsausuebungsgesellschaftHelperText.de
+      }
       headingId={`${relationship}-prozessbevollmaechtigte-${type}`}
       addButton={{
         href: addHref,

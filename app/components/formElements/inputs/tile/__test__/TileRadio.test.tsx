@@ -9,7 +9,6 @@ const mockProps = {
   value: "any-value",
   title: "Test Title",
   description: "Test Description",
-  tagDescription: "New",
   ref: { current: null },
   image: {
     url: "test.jpg",
@@ -18,7 +17,6 @@ const mockProps = {
     height: 32,
   },
   errorId: `${COMPONENT_NAME}-error`,
-  tileDescription: "Some description",
 };
 
 const getErrorMock = vi.fn();
@@ -53,7 +51,14 @@ describe("TileRadio", () => {
   it("forwards ref to input element", () => {
     const ref = { current: null };
 
-    render(<TileRadio name={COMPONENT_NAME} value="any-value" ref={ref} />);
+    render(
+      <TileRadio
+        name={COMPONENT_NAME}
+        title="title"
+        value="any-value"
+        ref={ref}
+      />,
+    );
 
     const input = screen.getByRole("radio");
     expect(ref.current).toBe(input);
@@ -68,16 +73,6 @@ describe("TileRadio", () => {
     expect(radio).toHaveAttribute(
       "aria-describedby",
       `${COMPONENT_NAME}-error`,
-    );
-  });
-
-  it("sets proper aria attributes when does not an error and contains a description", () => {
-    render(<TileRadio {...mockProps} />);
-
-    const radio = screen.getByRole("radio");
-    expect(radio).toHaveAttribute(
-      "aria-describedby",
-      `${mockProps.value}-description`,
     );
   });
 });

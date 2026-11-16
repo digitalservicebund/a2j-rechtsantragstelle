@@ -16,7 +16,15 @@ const getOptionBackgroundColor = (
   return undefined;
 };
 
-const customStyles = (): StylesConfig<DataListOptions, false> => {
+const getColorFocus = (hasError: boolean) => {
+  return hasError
+    ? "--kern-color-feedback-danger-contextual"
+    : "--kern-color-form-input-border";
+};
+
+const customStyles = (
+  hasError: boolean,
+): StylesConfig<DataListOptions, false> => {
   return {
     menuPortal: (base) => ({
       ...base,
@@ -38,7 +46,7 @@ const customStyles = (): StylesConfig<DataListOptions, false> => {
         borderRadius: isFocused ? 4 : 0,
         // Apply KERN focus outline when focused using KERN color variable
         outline: isFocused
-          ? "4px solid var(--kern-color-form-input-border)"
+          ? `4px solid var(${getColorFocus(hasError)})`
           : "none",
         outlineOffset: isFocused ? "-4px" : "0",
         // Don't set any border, background, or other visual properties

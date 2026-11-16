@@ -1,8 +1,7 @@
 import omit from "lodash/omit";
 import {
   type BeklagteBerufsausuebungsgesellschaft,
-  type BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt,
-  type BerufsausuebungsgesellschaftProzessbevollmaechtigt,
+  type Berufsausuebungsgesellschaft,
   type KlagendeProzessbevollmaechtigte,
 } from "../prozessbevollmaechtigteSchemas";
 
@@ -37,8 +36,7 @@ export const gesellschaft = {
   geschaeftszeichen: "BAG-123",
   telefonnummer: "+49 30 654321",
   email: "gesellschaft@example.com",
-  isProzessbevollmaechtigt: "on",
-  signaturangaben: [
+  "verantwortende-personen": [
     {
       titel: "",
       vorname: "Erika",
@@ -46,18 +44,10 @@ export const gesellschaft = {
       berufsbezeichnung: "Rechtsanwältin",
     },
   ],
-} satisfies BerufsausuebungsgesellschaftProzessbevollmaechtigt;
+} satisfies Berufsausuebungsgesellschaft;
 
 export const beklagteGesellschaft = {
-  ...omit(gesellschaft, "signaturangaben", "prozessbevollmaechtigte-personen"),
-} satisfies BeklagteBerufsausuebungsgesellschaftProzessbevollmaechtigt;
-
-export const beklagteIndividualRepresentatives = {
-  ...beklagteGesellschaft,
-  isProzessbevollmaechtigt: "off",
-  "prozessbevollmaechtigte-personen": [
-    { ...gesellschaft.signaturangaben[0], anrede: "frau" },
-  ],
+  ...omit(gesellschaft, "verantwortende-personen"),
 } satisfies BeklagteBerufsausuebungsgesellschaft;
 
 export const unrelatedParty = {

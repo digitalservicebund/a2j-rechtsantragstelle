@@ -1,39 +1,37 @@
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
-import { BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE } from "./SonstigeNebenUndProzessantraegeUebersicht";
+import { BASE_URL_SONSTIGE_ANTRAEGE } from "./SonstigeAntraegeUebersicht";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { translations } from "~/services/translations/translations";
 import { useEffect } from "react";
 
-type SonstigeNebenUndProzessantraegeProps = {
+type SonstigeAntraegeProps = {
   readonly itemIndex: number;
+  readonly antragNumber: number;
   readonly item: NonNullable<
-    GeldEinklagenAnwaltschaftUserData["sonstigeNebenUndProzessantraege"]
+    GeldEinklagenAnwaltschaftUserData["sonstigeAntraege"]
   >[number];
   readonly onDelete: (itemIndex: number) => Promise<void>;
 };
 
-const SonstigeNebenUndProzessantraege = ({
+const SonstigeAntraege = ({
   itemIndex,
+  antragNumber,
   item,
   onDelete,
-}: SonstigeNebenUndProzessantraegeProps) => {
+}: SonstigeAntraegeProps) => {
   useEffect(() => {
     const focusTimer = setTimeout(() => {
-      const itemIndex = sessionStorage.getItem(
-        "focusSonstigeNebenUndProzessantraege",
-      );
+      const itemIndex = sessionStorage.getItem("focusSonstigeAntraege");
 
       if (itemIndex === null) return;
 
-      const element = document.getElementById(
-        `sonstigeNebenUndProzessantraege-${itemIndex}`,
-      );
+      const element = document.getElementById(`sonstigeAntraege-${itemIndex}`);
 
       if (element) {
         element.focus();
 
-        sessionStorage.removeItem("focusSonstigeNebenUndProzessantraege");
+        sessionStorage.removeItem("focusSonstigeAntraege");
       }
     }, 0);
 
@@ -42,22 +40,23 @@ const SonstigeNebenUndProzessantraege = ({
 
   return (
     <ArrayItemCard
-      id={`sonstigeNebenUndProzessantraege-${itemIndex}`}
+      id={`sonstigeAntraege-${itemIndex}`}
       badge={item.internesSchlagwort}
       content={
         <span className="max-w-[632px] text-ellipsis overflow-hidden whitespace-nowrap">
           {item.antrag}
         </span>
       }
+      heading={{
+        text: `${translations.geldEinklagenAnwaltschaft.sonstigerAntragArrayItemTitle.de} ${antragNumber}`,
+        id: `sonstigeAntrag-${itemIndex}`,
+      }}
       editButton={{
-        id: `edit-sonstigeNebenUndProzessantraege-${itemIndex}`,
-        ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${itemIndex + 1} ${translations.arraySummary.arrayEditButtonLabel.de}`,
-        href: `${BASE_URL_SONSTIGE_NEBEN_UND_PROZESSANTRAEGE}/${itemIndex}/daten`,
+        id: `edit-sonstigeAntraege-${itemIndex}`,
+        ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
+        href: `${BASE_URL_SONSTIGE_ANTRAEGE}/${itemIndex}/daten`,
         onClick: () => {
-          sessionStorage.setItem(
-            "focusSonstigeNebenUndProzessantraege",
-            String(itemIndex),
-          );
+          sessionStorage.setItem("focusSonstigeAntraege", String(itemIndex));
         },
       }}
       deleteButton={
@@ -86,4 +85,4 @@ const SonstigeNebenUndProzessantraege = ({
   );
 };
 
-export default SonstigeNebenUndProzessantraege;
+export default SonstigeAntraege;

@@ -2,6 +2,7 @@ import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayIt
 import { InlineNotice } from "~/components/content/InlineNotice";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getOrderedAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import { Absatz } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/Absatz";
 import { AbsaetzeContext } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { MAX_ABSAETZE } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
@@ -9,54 +10,32 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import { translations } from "~/services/translations/translations";
 import { useMemo } from "react";
 
-export const AbsaetzeUebersicht = ({
-  isNebenantrag = false,
-}: {
-  isNebenantrag?: boolean;
-}) => {
+export const AbsaetzeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
   const userDataGeldEinklagenAnwaltschaft =
     userData as GeldEinklagenAnwaltschaftUserData;
-  const hauptantragArrayIndex =
+  const vortragArrayIndex =
     userDataGeldEinklagenAnwaltschaft.pageData?.arrayIndexes?.[0];
-  const nebenantragArrayIndex =
-    userDataGeldEinklagenAnwaltschaft.pageData?.arrayIndexes?.[1];
+  const absaetzeBaseUrl =
+    vortragArrayIndex === undefined
+      ? ""
+      : getAbsaetzeBaseUrl(vortragArrayIndex);
+  const absaetzeContextValue = useMemo(
+    () => ({ absaetzeBaseUrl, absaetzeArrayName: "vortraege#absaetze" }),
+    [absaetzeBaseUrl],
+  );
   if (
     flowId !== "/geld-einklagen/anwaltschaft" ||
-    hauptantragArrayIndex === undefined ||
-    (isNebenantrag && nebenantragArrayIndex === undefined)
+    vortragArrayIndex === undefined
   ) {
     return null;
   }
-  const absaetze = isNebenantrag
-    ? userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
-        .nebenantraege?.[nebenantragArrayIndex!].absaetze
-    : userDataGeldEinklagenAnwaltschaft.hauptantrag?.[hauptantragArrayIndex]
-        .absaetze;
+  const absaetze = getOrderedAbsaetze(userDataGeldEinklagenAnwaltschaft).filter(
+    (absatz) => absatz.vortragArrayIndex === vortragArrayIndex,
+  );
 
-  const nextAbsatzIndex = absaetze?.length ?? 0;
+  const nextAbsatzIndex = absaetze.length;
   const maxAbsaetzeReached = nextAbsatzIndex >= MAX_ABSAETZE;
-  const absaetzeBaseUrl = getAbsaetzeBaseUrl(
-    hauptantragArrayIndex,
-    isNebenantrag ? nebenantragArrayIndex : undefined,
-  );
-
-  const absaetzeContextValue = useMemo(
-    () => ({
-      isNebenantrag,
-      hauptantragArrayIndex,
-      nebenantragArrayIndex,
-      absaetzeBaseUrl,
-      absaetzeArrayName: `hauptantrag${isNebenantrag ? "#nebenantraege" : ""}#absaetze`,
-    }),
-    [
-      isNebenantrag,
-      hauptantragArrayIndex,
-      nebenantragArrayIndex,
-      absaetzeBaseUrl,
-    ],
-  );
-
   return (
     <AbsaetzeContext.Provider value={absaetzeContextValue}>
       <ArrayItemListSection
@@ -81,12 +60,12 @@ export const AbsaetzeUebersicht = ({
           ),
         }}
       >
-        {absaetze?.map((absatz, index) => (
+        {absaetze.map(({ absatz, absatzArrayIndex, beweise }) => (
           <Absatz
-            // oxlint-disable-next-line react/no-array-index-key
-            key={`absatz-${index}`}
+            key={`absatz-${absatzArrayIndex}`}
             absatz={absatz}
-            index={index}
+            index={absatzArrayIndex}
+            beweise={beweise}
           />
         ))}
       </ArrayItemListSection>

@@ -3,7 +3,7 @@ import { beklagteParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/be
 import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/flowConfig";
 import { klagendeParteiTestCases } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/__test__/testCasesWithUserInput";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import { sonstigeNebenUndProzessantraegeTestCases } from "../sonstigeNebenUndProzessantraege/__test__/testcasesSonstigeNebenUndProzessantraege";
+import { sonstigeAntraegeTestCases } from "../sonstigeAntraege/__test__/testcasesSonstigeAntraege";
 import { hauptUndNebenantraegeTestCases } from "../hauptUndNebenantraege/__test__/testcasesHauptUndNebenantraege";
 import { tatsachenvortragTestCases } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/__test__/testCasesWithUserInput";
 
@@ -31,7 +31,7 @@ export const geldEinklagenAnwaltschaftTestCases = {
     ...klagendeParteiTestCases,
     ...beklagteParteiTestCases,
     ...hauptUndNebenantraegeTestCases,
-    ...sonstigeNebenUndProzessantraegeTestCases,
+    ...sonstigeAntraegeTestCases,
     ...tatsachenvortragTestCases,
     rechtlicheWuerdigung: [
       {

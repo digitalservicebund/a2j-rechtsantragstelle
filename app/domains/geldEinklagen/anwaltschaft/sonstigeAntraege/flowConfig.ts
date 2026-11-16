@@ -1,16 +1,15 @@
 import { type GeldEinklagenAnwaltschaftPages } from "../pages";
 import { type TransitionConfigMap } from "~/services/flow/flowEngine/types";
 
-export const sonstigeNebenUndProzessantraegeFlowConfig = {
-  sonstigeNebenUndProzessantraegeUebersicht: [
+export const sonstigeAntraegeFlowConfig = {
+  sonstigeAntraegeUebersicht: [
     {
       type: "addArrayItem",
-      target: "sonstigeNebenUndProzessantraegeAntrag",
+      target: "sonstigeAntraegeAntragDaten",
     },
     {
       target: "antraegeUebersicht",
     },
   ],
-  sonstigeNebenUndProzessantraegeAntrag:
-    "sonstigeNebenUndProzessantraegeUebersicht",
+  sonstigeAntraegeAntragDaten: "sonstigeAntraegeUebersicht",
 } satisfies Partial<TransitionConfigMap<GeldEinklagenAnwaltschaftPages>>;

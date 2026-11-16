@@ -58,8 +58,8 @@ const Tile = ({
             key={value}
             name={name}
             value={value}
-            tileDescription={description}
-            tileTitle={title}
+            title={title}
+            description={description}
             image={image}
             errorId={errorId}
             ref={index === 0 && field.error() ? field.refs.transient() : null}
