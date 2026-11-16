@@ -88,8 +88,10 @@ const pages = {
       .object(pick(userDataSchemas, [hasLawyer, isAdult]))
       .refine(
         ({ hasLawyer, isAdult }) =>
-          !(isAdult === "yes" && hasLawyer === "no",
-          { message: "Under age applicants need a lawyer" }),
+          !(
+            isAdult === "yes" && hasLawyer === "no",
+            { message: "Under age applicants need a lawyer" }
+          ),
       ),
   },
 };
