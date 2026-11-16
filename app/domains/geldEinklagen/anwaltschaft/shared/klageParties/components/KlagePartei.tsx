@@ -8,11 +8,14 @@ import { GesetzlicheVertretung } from "~/domains/geldEinklagen/anwaltschaft/shar
 import {
   getBaseKlagePartyUrl,
   getGesetzlicheVertretungArtLabel,
+  KLAGE_PARTY_DELETION_URL_ENDPOINT,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 import { translations } from "~/services/translations/translations";
 import { DeleteButton } from "~/components/common/DeleteButton";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
+import { KlageParteiDeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteiDeletionDialog";
 
 type KlageParteiProps = {
   readonly partei: KlageParteien[number];
@@ -83,6 +86,12 @@ const KlagePartei = ({
   relationship,
 }: KlageParteiProps) => {
   const headingText = `${translations.geldEinklagenAnwaltschaft[relationship === "klagende" ? "klagendeParteiHeadline" : "beklagteParteiHeadline"].de} ${displayIndex + 1})`;
+  const deleteArrayItem = useDeleteArrayItem(
+    getPluralOfKlageParteiRelationship(relationship),
+    getBaseKlagePartyUrl(relationship),
+    undefined, // TODO: replace w focus function
+    KLAGE_PARTY_DELETION_URL_ENDPOINT,
+  );
 
   return (
     <ArrayItemCard
@@ -95,7 +104,6 @@ const KlagePartei = ({
         href: `${getBaseKlagePartyUrl(relationship)}/${index}/${"orgName" in partei ? "organisation" : "natuerliche-person"}-daten`,
       }}
       deleteButton={
-        //TODO: fix when deletion is implemented
         <DeleteButton
           label={`${headingText} ${
             (Boolean(partei["gesetzliche-vertretung"]?.length) &&
@@ -105,8 +113,15 @@ const KlagePartei = ({
                   .gesetzlicheVertretungDeletionLabel.de
               : ""
           } ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
-          title={""}
-          onDelete={() => Promise.resolve()}
+          title={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}?`}
+          description={
+            <KlageParteiDeletionDialog
+              partei={partei}
+              relationship={relationship}
+              partyText={headingText}
+            />
+          }
+          onDelete={() => deleteArrayItem(index)}
         />
       }
     >
