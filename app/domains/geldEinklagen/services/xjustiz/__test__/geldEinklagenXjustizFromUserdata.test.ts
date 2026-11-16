@@ -55,7 +55,9 @@ const sonstigeAntraegeOfLastRequest = () =>
   ).inhaltsdaten.antraege.auswahlSonstigeAntraege ?? [];
 
 type LastRequest = {
-  grunddaten: { verfahrensdaten: { beteiligung: unknown[] } };
+  grunddaten: {
+    verfahrensdaten: { instanzdaten?: unknown[]; beteiligung: unknown[] };
+  };
   inhaltsdaten: {
     antraege: {
       sachantraege: {
@@ -63,6 +65,9 @@ type LastRequest = {
         anspruch: Array<{ fortlaufendeNummer: string }>;
       };
       nebenantraegeZinsen?: { inhalt: string };
+    };
+    sonstigeProzessualeAusfuehrungen?: {
+      inhalt: { tatsachenvortragSachverhaltsbeschreibung: string };
     };
     auswahlBegruendetheit: {
       anderesKlageverfahren: {
@@ -75,6 +80,16 @@ type LastRequest = {
 };
 
 const lastRequest = () => JSON.parse(receivedBody ?? "null") as LastRequest;
+
+const tatsachenvortrag = () =>
+  lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen?.inhalt
+    .tatsachenvortragSachverhaltsbeschreibung;
+
+const abschnitt = (beschreibung: string) => ({
+  beschreibung,
+  personIdAsBeklagte: "",
+  personIdAsKlagende: "",
+});
 
 const INTEREST_CLAUSE =
   "nebst Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit";
@@ -91,17 +106,94 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     );
   });
 
-  it("requests Zinsen when the user selected Prozesszinsen", async () => {
+  it("uses the PDF title as Verfahrensgegenstand of the responsible court", async () => {
+    await geldEinklagenXjustizFromUserdata({
+      userData: userDataWithBegruendung,
+      baseUrl,
+    });
+
+    expect(lastRequest().grunddaten.verfahrensdaten.instanzdaten).toEqual([
+      {
+        auswahlInstanzbehoerde: { gericht: Gerichte["Amtsgericht Schöneberg"] },
+        verfahrensgegenstand: [
+          {
+            gegenstand:
+              "Klage im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung",
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("requests Zinsen only as Nebenantrag when the user selected Prozesszinsen", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: { ...userDataWithBegruendung, prozesszinsen: "yes" },
       baseUrl,
     });
 
     const { antraege } = lastRequest().inhaltsdaten;
-    expect(antraege.sachantraege.inhalt).toContain(INTEREST_CLAUSE);
+    expect(antraege.sachantraege.inhalt).not.toContain(INTEREST_CLAUSE);
     expect(antraege.nebenantraegeZinsen?.inhalt).toContain(
       "Zinsen in Höhe von 5 Prozentpunkten über dem jeweiligen Basiszinssatz seit Rechtshängigkeit",
     );
+  });
+
+  describe("sonstige prozessuale Ausfuehrungen", () => {
+    it("states muendliche Verhandlung, Videoverhandlung and Streitbeilegung with the PDF wording", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "yes",
+          videoVerhandlung: "yes",
+          streitbeilegung: "yes",
+        },
+        baseUrl,
+      });
+
+      expect(tatsachenvortrag()).toBe(
+        [
+          "Es wird beantragt, eine mündliche Verhandlung gemäß §§ 1127 Absatz 1 Satz 2 Nummer 4 ZPO anzuberaumen.",
+          "Die Teilnahme an einer mündlichen Verhandlung per Video gemäß §§ 1127 Absatz 3, 128a ZPO wird beantragt.",
+          "Der Versuch einer außergerichtlichen Streitbeilegung hat stattgefunden.",
+        ].join("\n\n"),
+      );
+    });
+
+    it("states objections to a Videoverhandlung and the Streitbeilegung assumption", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "no",
+          videoVerhandlung: "no",
+          streitbeilegung: "no",
+          streitbeilegungGruende: "yes",
+        },
+        baseUrl,
+      });
+
+      expect(tatsachenvortrag()).toBe(
+        [
+          "Gegen die Durchführung einer Verhandlung per Video bestehen gemäß § 253 Absatz 3 Nr. 4 ZPO Bedenken.",
+          "Der Versuch einer außergerichtlichen Streitbeilegung hat nicht stattgefunden. Es wird davon ausgegangen, dass eine gütliche Einigung gemäß § 253 Absatz 3 Nummer 1 ZPO nicht erreichbar ist.",
+        ].join("\n\n"),
+      );
+    });
+
+    it("omits the element when nothing was specified", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          muendlicheVerhandlung: "noSpecification",
+          videoVerhandlung: "noSpecification",
+          streitbeilegung: "noSpecification",
+        },
+        baseUrl,
+      });
+
+      expect(
+        lastRequest().inhaltsdaten.sonstigeProzessualeAusfuehrungen,
+      ).toBeUndefined();
+    });
   });
 
   it("does not request Zinsen when the user declined Prozesszinsen", async () => {
@@ -557,10 +649,12 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     expect(
       beweis.map((b) => b.auswahlBeweismittel.zeugen.refRollennummer),
     ).toStrictEqual(rollennummern.slice(2));
-    expect(
-      auswahlBegruendetheit.anderesKlageverfahren.vortrag[0].ausfuehrungen
-        .refBeweisNummer,
-    ).toStrictEqual([1, 2]);
+    const [ersterAbschnitt, zweiterAbschnitt] =
+      auswahlBegruendetheit.anderesKlageverfahren.vortrag;
+    expect(ersterAbschnitt.ausfuehrungen.refBeweisNummer).toStrictEqual([1]);
+    expect(zweiterAbschnitt.ausfuehrungen.refBeweisNummer).toStrictEqual([
+      1, 2,
+    ]);
   });
 
   it("references the declared Rollennummern in the Anspruch", async () => {
@@ -596,5 +690,269 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     expect(anspruch.anspruchsgegner[0].refRollennummer).toBe(
       beklagter.rolle[0].rollennummer,
     );
+  });
+
+  describe("Begruendung with Beweise", () => {
+    type Vortrag = {
+      schlagwort: string;
+      vortragsID: string;
+      fremdeVortragsID?: string[];
+      ausfuehrungen: {
+        inhalt: {
+          tatsachenvortragSachverhaltsbeschreibung: string;
+          rechtlicheWuerdigung?: string;
+        };
+        refBeweisNummer: number[];
+      };
+    };
+    type Payload = {
+      grunddaten: {
+        verfahrensdaten: {
+          beteiligung: Array<{ rolle: Array<{ rollennummer: string }> }>;
+        };
+      };
+      inhaltsdaten: {
+        beweis?: Array<{
+          beweisNummer: number;
+          auswahlBeweismittel: {
+            zeugen?: { refRollennummer: string };
+            parteivernehmung?: { refRollennummer: string };
+          };
+        }>;
+        auswahlBegruendetheit: {
+          anderesKlageverfahren: { vortrag: Vortrag[] };
+        };
+      };
+    };
+
+    const payload = () => JSON.parse(receivedBody ?? "null") as Payload;
+    const vortraege = () =>
+      payload().inhaltsdaten.auswahlBegruendetheit.anderesKlageverfahren
+        .vortrag;
+    const vortragBySchlagwort = (schlagwort: string) =>
+      vortraege().find((vortrag) => vortrag.schlagwort === schlagwort);
+
+    const zeuge = {
+      personAuswahl: "anotherPerson" as const,
+      personId: "zeuge-1",
+      anrede: "herr" as const,
+      title: "",
+      vorname: "Max",
+      nachname: "Mustermann",
+      strasse: "Hauptstraße",
+      hausnummer: "1",
+      plz: "10115",
+      ort: "Berlin",
+      land: "Deutschland",
+      telefonnummer: "",
+      email: "",
+    };
+
+    it("still generates the message when all Abschnitte were deleted", async () => {
+      const result = await geldEinklagenXjustizFromUserdata({
+        userData: { ...userDataMock, abschnitte: [] },
+        baseUrl,
+      });
+
+      expect(result.isOk).toBe(true);
+      expect(vortraege()).toStrictEqual([
+        expect.objectContaining({
+          schlagwort: "Sachverhalt",
+          ausfuehrungen: {
+            inhalt: { tatsachenvortragSachverhaltsbeschreibung: "" },
+            refBeweisNummer: [],
+          },
+        }),
+      ]);
+    });
+
+    it("keeps the capitalization of witness names as entered", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [
+            {
+              ...abschnitt("Erster Abschnitt"),
+              personen: [
+                {
+                  ...zeuge,
+                  anrede: "frau" as const,
+                  title: "Dr.",
+                  vorname: "JoAnne Jean-Marie",
+                  nachname: "McDonald",
+                },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      expect(
+        vortragBySchlagwort("Zeuge Frau Dr. JoAnne Jean-Marie McDonald"),
+      ).toBeDefined();
+    });
+
+    it("adds one Vortrag per Abschnitt with its Beschreibung", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [abschnitt("Erster Abschnitt"), abschnitt("Zweiter")],
+          rechtlicheWuerdigung: "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+        },
+        baseUrl,
+      });
+
+      const [erster, zweiter] = vortraege();
+      expect(vortraege()).toHaveLength(2);
+      expect(erster.schlagwort).toBe("Sachverhalt 1");
+      expect(
+        erster.ausfuehrungen.inhalt.tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe("Erster Abschnitt");
+      expect(erster.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBe(
+        "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+      );
+      expect(zweiter.schlagwort).toBe("Sachverhalt 2");
+      expect(
+        zweiter.ausfuehrungen.inhalt.tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe("Zweiter");
+      expect(zweiter.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBeUndefined();
+      expect(erster.vortragsID).not.toBe(zweiter.vortragsID);
+    });
+
+    it("adds one Vortrag per document, numbered like the PDF and linked to its Abschnitte", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [
+            {
+              ...abschnitt("Erster Abschnitt"),
+              dokumenten: [{ beschreibung: "Mietvertrag" }],
+            },
+            {
+              ...abschnitt("Zweiter Abschnitt"),
+              dokumenten: [
+                { beschreibung: "Mietvertrag", dokumentReference: "0-0" },
+                { beschreibung: "Mahnung" },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      const [erster, zweiter] = vortraege();
+      const mietvertrag = vortragBySchlagwort("Beweis K1");
+      const mahnung = vortragBySchlagwort("Beweis K2");
+
+      expect(vortraege()).toHaveLength(4);
+      expect(
+        mietvertrag?.ausfuehrungen.inhalt
+          .tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe("Mietvertrag");
+      expect(mietvertrag?.fremdeVortragsID).toStrictEqual([
+        erster.vortragsID,
+        zweiter.vortragsID,
+      ]);
+      expect(
+        mahnung?.ausfuehrungen.inhalt.tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe("Mahnung");
+      expect(mahnung?.fremdeVortragsID).toStrictEqual([zweiter.vortragsID]);
+      expect(payload().inhaltsdaten.beweis).toBeUndefined();
+    });
+
+    it("adds one Vortrag per Zeuge referencing its Beweis, a reused Zeuge only once", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [
+            { ...abschnitt("Erster Abschnitt"), personen: [zeuge] },
+            {
+              ...abschnitt("Zweiter Abschnitt"),
+              personen: [
+                { ...zeuge, personId: "zeuge-1-kopie", personReference: "0-0" },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      const [erster, zweiter] = vortraege();
+      const zeugeVortrag = vortragBySchlagwort("Zeuge Herr Max Mustermann");
+
+      expect(vortraege()).toHaveLength(3);
+      expect(payload().inhaltsdaten.beweis).toHaveLength(1);
+      expect(
+        zeugeVortrag?.ausfuehrungen.inhalt
+          .tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe(
+        "Beweis angeboten durch Vernehmung der folgenden Person als Zeuge oder Zeugin: Herr Max Mustermann",
+      );
+      expect(zeugeVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([1]);
+      expect(zeugeVortrag?.fremdeVortragsID).toStrictEqual([
+        erster.vortragsID,
+        zweiter.vortragsID,
+      ]);
+    });
+
+    it("offers a Parteivernehmung of Klaeger and Beklagte as Beweis", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [
+            {
+              ...abschnitt("Erster Abschnitt"),
+              personen: [
+                { personAuswahl: "klagende", personId: "klagende-1" },
+                { personAuswahl: "beklagte", personId: "beklagte-1" },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      const [klaeger, beklagter] =
+        payload().grunddaten.verfahrensdaten.beteiligung;
+      const [abschnittVortrag] = vortraege();
+      const klagendeVortrag = vortragBySchlagwort(
+        "Parteivernehmung klagende Partei",
+      );
+      const beklagteVortrag = vortragBySchlagwort(
+        "Parteivernehmung beklagte Partei",
+      );
+
+      expect(payload().inhaltsdaten.beweis).toStrictEqual([
+        {
+          beweisNummer: 1,
+          auswahlBeweismittel: {
+            parteivernehmung: {
+              refRollennummer: klaeger.rolle[0].rollennummer,
+            },
+          },
+        },
+        {
+          beweisNummer: 2,
+          auswahlBeweismittel: {
+            parteivernehmung: {
+              refRollennummer: beklagter.rolle[0].rollennummer,
+            },
+          },
+        },
+      ]);
+      expect(abschnittVortrag.ausfuehrungen.refBeweisNummer).toStrictEqual([
+        1, 2,
+      ]);
+      expect(
+        klagendeVortrag?.ausfuehrungen.inhalt
+          .tatsachenvortragSachverhaltsbeschreibung,
+      ).toBe("Beweis angeboten durch Parteivernehmung der klagenden Partei.");
+      expect(klagendeVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([1]);
+      expect(beklagteVortrag?.ausfuehrungen.refBeweisNummer).toStrictEqual([2]);
+      expect(beklagteVortrag?.fremdeVortragsID).toStrictEqual([
+        abschnittVortrag.vortragsID,
+      ]);
+    });
   });
 });
