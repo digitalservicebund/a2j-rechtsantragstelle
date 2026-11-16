@@ -9,6 +9,9 @@ import { translations } from "~/services/translations/translations";
 export const getBaseKlagePartyUrl = (relationship: KlageParteiVerhaeltnis) =>
   `/geld-einklagen/anwaltschaft/${relationship}-partei/${getPluralOfKlageParteiRelationship(relationship)}`;
 
+export const KLAGE_PARTY_DELETION_URL_ENDPOINT =
+  "/action/geld-einklagen/anwaltschaft/delete-klage-partei";
+
 export const getPartyTypeTranslations = (
   type: KlageParteiType,
   relationship: KlageParteiVerhaeltnis,

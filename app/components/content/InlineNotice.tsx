@@ -11,7 +11,7 @@ export type InlineNoticeProps = {
   title: string;
   tagName: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div";
   look: "info" | "warning" | "danger" | "success";
-  content?: string;
+  content?: string | React.ReactNode;
   wrap?: boolean;
   nested?: boolean;
   className?: string;
@@ -64,7 +64,11 @@ export const InlineNotice = ({
   nested,
   className,
 }: InlineNoticeProps) => {
-  if (!content || removeMarkupTags(content).length === 0) return null;
+  if (
+    !content ||
+    (typeof content === "string" && removeMarkupTags(content).length === 0)
+  )
+    return null;
   const { iconName, iconClassName, containerClassName, ariaLabel } =
     lookConfig[look];
   const Tag = tagName;
@@ -87,7 +91,7 @@ export const InlineNotice = ({
         </Tag>
       </div>
       <div className="kern-alert__body">
-        <RichText html={content} />
+        {typeof content === "string" ? <RichText html={content} /> : content}
       </div>
     </div>
   );
