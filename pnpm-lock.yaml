@@ -285,8 +285,8 @@ importers:
         specifier: 1.448.0
         version: 1.448.0(@types/react@19.3.0)(react@19.3.1)
       posthog-node:
-        specifier: 5.66.0
-        version: 5.66.0(@opentelemetry/api@1.9.1)
+        specifier: 5.72.0
+        version: 5.72.0(@opentelemetry/api@1.9.1)
       rate-limit-redis:
         specifier: ^6.0.2
         version: 6.0.2(express-rate-limit@8.7.4)
@@ -1871,9 +1871,6 @@ packages:
 
   '@posthog/browser-common@0.10.8':
     resolution: {integrity: sha512-TQmqLVNFoKaL4dDV5Q8AScX2dIwdq8By2cj2KU1hMGe88tn7Usbf3U/hv5okhobEojntqJeslPIRBrG79Su+vg==}
-
-  '@posthog/core@1.66.0':
-    resolution: {integrity: sha512-UKXwy3MUkQiXdbUyZ2DKi9pDRICH0ueFv2XlaQB7qUhzRoG4wMJNoYD8iaWQNwfZMdX0786rFSLYna83W9ZrXA==}
 
   '@posthog/core@1.67.2':
     resolution: {integrity: sha512-FcDdAm3L2UKxA2NWCxwG8KKgZ4QjGBl7f9WASLlCVPeKgXI0FeguSq81x0f2htEB37itKbUwLkNFgA3FV4b7iQ==}
@@ -4137,14 +4134,17 @@ packages:
       react:
         optional: true
 
-  posthog-node@5.66.0:
-    resolution: {integrity: sha512-gKVSYC7Fo3e3YDkbyhNdcHfIplhu9cmqHwflCPAtKFXZYJth9+4x5y+NoEU2Q3PGxxM3uph6PjPacxRQyrsOUQ==}
+  posthog-node@5.72.0:
+    resolution: {integrity: sha512-f4DL1WtbXF7tNymwNAUCaaPB3wGRrQY3Bh6j83sZpLAG1s3EH4JyPTDesR/XyG8AgPkvmyyLnLMLQXVXTu0/bA==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@opentelemetry/api': ^1.2.0
+      '@react-email/render': ^2.1.0
       rxjs: ^7.0.0
     peerDependenciesMeta:
       '@opentelemetry/api':
+        optional: true
+      '@react-email/render':
         optional: true
       rxjs:
         optional: true
@@ -6291,10 +6291,6 @@ snapshots:
       preact: 10.29.8
     transitivePeerDependencies:
       - preact-render-to-string
-
-  '@posthog/core@1.66.0':
-    dependencies:
-      '@posthog/types': 1.423.0
 
   '@posthog/core@1.67.2':
     dependencies:
@@ -8640,9 +8636,9 @@ snapshots:
     transitivePeerDependencies:
       - preact-render-to-string
 
-  posthog-node@5.66.0(@opentelemetry/api@1.9.1):
+  posthog-node@5.72.0(@opentelemetry/api@1.9.1):
     dependencies:
-      '@posthog/core': 1.66.0
+      '@posthog/core': 1.67.2
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
 
