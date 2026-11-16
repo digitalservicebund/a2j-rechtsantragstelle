@@ -104,7 +104,13 @@ describe("EmailCapture", () => {
         search: "?success",
       } as Location);
       const { getByText } = renderEmailCapture();
-      expect(getByText(successBanner.content ?? "")).toBeInTheDocument();
+      expect(
+        getByText(
+          typeof successBanner.content === "string"
+            ? (successBanner.content ?? "")
+            : "",
+        ),
+      ).toBeInTheDocument();
     });
 
     it("should display a success state if a user has previously consented (session storage)", () => {
@@ -112,7 +118,13 @@ describe("EmailCapture", () => {
         emailCaptureConsent: true,
       });
       const { getByText } = renderEmailCapture();
-      expect(getByText(successBanner.content ?? "")).toBeInTheDocument();
+      expect(
+        getByText(
+          typeof successBanner.content === "string"
+            ? (successBanner.content ?? "")
+            : "",
+        ),
+      ).toBeInTheDocument();
     });
   });
 });

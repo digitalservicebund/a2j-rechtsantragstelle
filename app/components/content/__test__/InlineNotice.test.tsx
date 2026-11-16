@@ -1,6 +1,8 @@
 import { render, screen, type RenderResult } from "@testing-library/react";
 import { InlineNotice } from "~/components/content/InlineNotice";
 
+const ReactNodeContent = () => <span data-testid="react-node">React Node</span>;
+
 describe("InlineNotice Component", () => {
   let component: RenderResult;
 
@@ -48,5 +50,16 @@ describe("InlineNotice Component", () => {
   it("doesn't render without content", () => {
     component = render(<InlineNotice look="info" {...mockProps} content="" />);
     expect(screen.queryByRole("note")).not.toBeInTheDocument();
+  });
+
+  it("should render a react node as content", () => {
+    component = render(
+      <InlineNotice
+        look="info"
+        {...mockProps}
+        content={<ReactNodeContent />}
+      />,
+    );
+    expect(screen.getByTestId("react-node")).toBeVisible();
   });
 });
