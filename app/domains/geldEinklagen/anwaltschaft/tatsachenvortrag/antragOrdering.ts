@@ -1,5 +1,5 @@
 import {
-  type Hauptantraege,
+  type Hauptantrag,
   type Nebenantrag,
   type Schmerzensgeldantrag,
   type SchmerzengeldNebenantrag,
@@ -151,7 +151,7 @@ export const getOrderedAntraege = (
 
   const addHauptantraege = (
     arrayName: "hauptantrag" | "schmerzengeldantrag",
-    antraege: Array<Hauptantraege | Schmerzensgeldantrag>,
+    antraege: Array<Hauptantrag | Schmerzensgeldantrag>,
   ) => {
     for (const [index, antrag] of antraege.entries()) {
       const antragNumber = getAntragNumber(userData, arrayName, index);

@@ -99,7 +99,7 @@ export const hauptantraegeArraySchema = z.array(
   }),
 );
 
-export type Hauptantraege = z.infer<typeof hauptantraegeArraySchema>[number];
+export type Hauptantrag = z.infer<typeof hauptantraegeArraySchema>[number];
 
 export const schmerzengeldNebenantragSchema = z.object({
   id: antragIdSchema,

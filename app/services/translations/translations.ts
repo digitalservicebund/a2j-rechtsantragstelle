@@ -799,10 +799,49 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 5 beklagte natürliche Personen hinzufügen.",
     },
     klagendeParteiHeadline: {
-      de: "Klagende zu",
+      de: "Kläger zu",
+    },
+    klageParteiDeletionWarning: {
+      de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Anträge",
+    },
+    auswirkungen: {
+      de: "Auswirkungen",
+    },
+    antragWithOnePartyDeletionDescription: {
+      de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
+    },
+    antragWithMultiplePartiesDeletionDescription: {
+      de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Dort wird die {{ partyType }} mit anderen Klagenden als Gesamtgläubiger aufgeführt. Wenn Sie den {{ partyText }} löschen, wird er auch aus den betroffenen Anträgen entfernt und diese werden entsprechend umformuliert. Das betrifft auch dazugehörige Nebenanträge.",
+    },
+    person: {
+      de: "Person",
+    },
+    followingKlaeger: {
+      de: "Folgende Kläger",
+    },
+    willBeDeletedWithRepresentatives: {
+      de: "wird inklusive möglicher Vertretungen entfernt:",
+    },
+    dasKoennenSieTun: {
+      de: "Das können Sie tun",
+    },
+    keepAndEdit: {
+      de: "Behalten und bearbeiten",
+    },
+    keepAndEditBodyText: {
+      de: "Falls Sie lediglich die Angaben zu dieser {{ partyType }} ändern möchten, behalten und bearbeiten Sie den {{ partyText }}, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Anträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer Anträge.",
+    },
+    deletePermanently: {
+      de: "Endgültig löschen",
+    },
+    deletePermanentlyText: {
+      de: "Falls Sie den {{ partyText }} mitsamt den betroffenen Anträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Anträge.",
+    },
+    followingBeklagter: {
+      de: "Folgender Beklagter",
     },
     beklagteParteiHeadline: {
-      de: "Beklagte zu",
+      de: "Beklagter zu",
     },
     organisationHeadline: {
       de: "Organisation",

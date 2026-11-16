@@ -272,7 +272,10 @@ export const runFormularAction = async (args: ActionFunctionArgs) => {
 
   await postValidationFlowAction(
     request,
-    flowSessionEngineSaved.prunedUserData,
+    {
+      ...flowSessionEngineSaved.prunedUserData,
+      pageData: userDataToSave.pageData,
+    },
     flowSession,
     url,
   );
