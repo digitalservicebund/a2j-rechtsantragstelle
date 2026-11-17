@@ -7,30 +7,53 @@ import { InlineNotice } from "~/components/content/InlineNotice";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
+import React, { useEffect } from "react";
 
 export const BASE_URL_SONSTIGE_ANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag";
 
 const MAX_SONSTIGE_ANTRAEGE_ITEMS = 10;
 
-const MILLISECONDS_TIME_OUT_FOCUS_INPUT = 100;
+const focusStorageKey = "focus-sonstigesantrag";
 
-const focusOnSonstigeAntraege = (itemIndex: number) => {
+const onEditSonstigeAntrag = (index: number) => {
+  sessionStorage.setItem(focusStorageKey, String(index));
+};
+
+const focusOnSonstigerAntrag = (itemIndex: number) => {
   setTimeout(() => {
-    let element = document.getElementById(`sonstigeAntraege-${itemIndex}`);
-    element ??= document.getElementById(`sonstigeAntraege-${itemIndex - 1}`);
-    element ??= document.querySelector<HTMLElement>(
-      '[data-testid="add-sonstigeAntraege"]',
-    );
+    const element =
+      document.getElementById(`sonstigeAntraege-${itemIndex}`) ??
+      document.querySelector<HTMLAnchorElement>(
+        '[data-testid="add-sonstigeAntraege"]',
+      );
+
     element?.focus();
-  }, MILLISECONDS_TIME_OUT_FOCUS_INPUT);
+  }, 100);
 };
 
 const SonstigeAntraegeUebersicht = () => {
-  const deleteArrayItem = useDeleteArrayItem(
+  useEffect(() => {
+    const focusTimer = setTimeout(() => {
+      const itemIndex = sessionStorage.getItem(focusStorageKey);
+
+      if (itemIndex === null) return;
+
+      const element = document.getElementById(`sonstigeAntraege-${itemIndex}`);
+
+      if (element) {
+        element.focus();
+        sessionStorage.removeItem(focusStorageKey);
+      }
+    }, 0);
+
+    return () => clearTimeout(focusTimer);
+  }, []);
+
+  const deleteSonstigeAntrag = useDeleteArrayItem(
     "sonstigeAntraege",
     BASE_URL_SONSTIGE_ANTRAEGE,
-    focusOnSonstigeAntraege,
+    focusOnSonstigerAntrag,
   );
   const { userData, flowId } = useFormFlow();
 
@@ -77,17 +100,33 @@ const SonstigeAntraegeUebersicht = () => {
     >
       {arrayIsNonEmpty(userDataGeldEinklagen.sonstigeAntraege) &&
         userDataGeldEinklagen.sonstigeAntraege.map((item, index) => (
-          <SonstigeAntraege
-            key={item.antrag}
-            itemIndex={index}
-            antragNumber={getAntragNumber(
-              userDataGeldEinklagen,
-              "sonstigeAntraege",
-              index,
-            )}
-            item={item}
-            onDelete={deleteArrayItem}
-          />
+          <React.Fragment key={item.id}>
+            <h2
+              id={`sonstigeAntrag-${index}`}
+              className="kern-body kern-body--large kern-body--bold p-0! mb-16"
+            >
+              {
+                translations.geldEinklagenAnwaltschaft
+                  .sonstigerAntragArrayItemTitle.de
+              }{" "}
+              {getAntragNumber(
+                userDataGeldEinklagen,
+                "sonstigeAntraege",
+                index,
+              )}
+            </h2>
+            <SonstigeAntraege
+              itemIndex={index}
+              antragNumber={getAntragNumber(
+                userDataGeldEinklagen,
+                "sonstigeAntraege",
+                index,
+              )}
+              item={item}
+              onDelete={deleteSonstigeAntrag}
+              onEdit={onEditSonstigeAntrag}
+            />
+          </React.Fragment>
         ))}
     </ArrayItemListSection>
   );

@@ -17,12 +17,14 @@ describe("SonstigeAntraege deletion", () => {
     async (internesSchlagwort) => {
       const user = userEvent.setup();
       const onDelete = vi.fn().mockResolvedValue(undefined);
+      const onEdit = vi.fn();
       render(
         <SonstigeAntraege
           itemIndex={3}
           antragNumber={5}
           item={{ antrag: "Mein Antrag", internesSchlagwort }}
           onDelete={onDelete}
+          onEdit={onEdit}
         />,
       );
       await user.click(
