@@ -264,23 +264,6 @@ describe("geldEinklagenXjustizFromUserdata", () => {
     );
   });
 
-  it("includes the rechtliche Wuerdigung in the Vortrag", async () => {
-    await geldEinklagenXjustizFromUserdata({
-      userData: {
-        ...userDataWithBegruendung,
-        rechtlicheWuerdigung: "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
-      },
-      baseUrl,
-    });
-
-    const [vortrag] =
-      lastRequest().inhaltsdaten.auswahlBegruendetheit.anderesKlageverfahren
-        .vortrag;
-    expect(vortrag.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBe(
-      "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
-    );
-  });
-
   it("includes the Dr. title of Klaeger and Beklagte, like the PDF", async () => {
     await geldEinklagenXjustizFromUserdata({
       userData: {
@@ -804,20 +787,61 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       });
 
       const [erster, zweiter] = vortraege();
-      expect(vortraege()).toHaveLength(2);
       expect(erster.schlagwort).toBe("Sachverhalt 1");
       expect(
         erster.ausfuehrungen.inhalt.tatsachenvortragSachverhaltsbeschreibung,
       ).toBe("Erster Abschnitt");
-      expect(erster.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBe(
-        "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
-      );
+      expect(erster.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBeUndefined();
       expect(zweiter.schlagwort).toBe("Sachverhalt 2");
       expect(
         zweiter.ausfuehrungen.inhalt.tatsachenvortragSachverhaltsbeschreibung,
       ).toBe("Zweiter");
       expect(zweiter.ausfuehrungen.inhalt.rechtlicheWuerdigung).toBeUndefined();
       expect(erster.vortragsID).not.toBe(zweiter.vortragsID);
+    });
+
+    it("adds the rechtliche Wuerdigung as its own Vortrag without links", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [{ ...abschnitt("Erster Abschnitt"), personen: [zeuge] }],
+          rechtlicheWuerdigung: "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+        },
+        baseUrl,
+      });
+
+      const wuerdigung = vortragBySchlagwort("Rechtliche Würdigung");
+      expect(wuerdigung).toStrictEqual({
+        schlagwort: "Rechtliche Würdigung",
+        vortragsID: expect.any(String),
+        ausfuehrungen: {
+          inhalt: {
+            tatsachenvortragSachverhaltsbeschreibung: "",
+            rechtlicheWuerdigung: "Der Anspruch folgt aus § 535 Abs. 2 BGB.",
+          },
+          refBeweisNummer: [],
+        },
+      });
+      const ids = vortraege().map(({ vortragsID }) => vortragsID);
+      expect(new Set(ids).size).toBe(ids.length);
+      expect(
+        vortraege().filter(
+          (vortrag) => vortrag.ausfuehrungen.inhalt.rechtlicheWuerdigung,
+        ),
+      ).toHaveLength(1);
+    });
+
+    it("adds no rechtliche Wuerdigung Vortrag when it is empty", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataMock,
+          abschnitte: [abschnitt("Erster Abschnitt")],
+          rechtlicheWuerdigung: "",
+        },
+        baseUrl,
+      });
+
+      expect(vortragBySchlagwort("Rechtliche Würdigung")).toBeUndefined();
     });
 
     it("adds one Vortrag per document, numbered like the PDF and linked to its Abschnitte", async () => {
