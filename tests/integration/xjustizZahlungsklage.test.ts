@@ -82,6 +82,9 @@ describe.runIf(baseUrl)("XJustiz Zahlungsklage against XJustiz-Tools", () => {
       expect(xml).toContain("<tns:schlagwort>Beweis K2</tns:schlagwort>");
       expect(xml).toContain("<tns:fremdeVortragsID>");
       expect(xml).toContain("<tns:parteivernehmung>");
+      expect(xml).toContain(
+        "<tns:schlagwort>Rechtliche Würdigung</tns:schlagwort>",
+      );
       expect(xml.match(/<tns:zeugen>/g)).toHaveLength(1);
     },
   );
