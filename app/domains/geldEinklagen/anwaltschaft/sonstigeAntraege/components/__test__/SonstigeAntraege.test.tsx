@@ -23,8 +23,9 @@ describe("SonstigeAntraege deletion", () => {
           itemIndex={3}
           antragNumber={5}
           item={{ antrag: "Mein Antrag", internesSchlagwort }}
-          onDelete={onDelete} 
-          onEdit={onEdit} />,
+          onDelete={onDelete}
+          onEdit={onEdit}
+        />,
       );
       await user.click(
         screen.getByRole("button", { name: "Antrag/Ausführung löschen" }),
