@@ -5,6 +5,7 @@ import { addKlagende } from "./addKlagende";
 import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { findCourtByName } from "~/services/gerichtsfinder/amtsgerichtData.server";
+import { addMissingData } from "./addMissingData";
 
 const pilotCourtNames = {
   bitburg: "Amtsgericht Bitburg",
@@ -42,9 +43,12 @@ export const createFirstPage = (
     ? pilotCourtNames[userData.pilotgericht]
     : "";
 
-  const amtsgericht = findCourtByName(courtName);
+  const amtsgericht = courtName ? findCourtByName(courtName) : undefined;
 
   createLocalCourtAndDate(doc, documentStruct, amtsgericht);
+  if (!amtsgericht) {
+    addMissingData(doc, documentStruct, "Amtsgericht");
+  }
   doc.moveDown(4);
 
   documentStruct.add(
