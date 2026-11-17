@@ -6,11 +6,14 @@ import {
   type Schmerzensgeldantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import {
+  getConnectedAntraege,
+  antragHasOnlyOneParty,
+} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import {
   type KlageParteiType,
   type KlageParteien,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
-import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
 import { applyStringReplacement } from "~/util/applyStringReplacement";
@@ -70,12 +73,9 @@ const DeletionInlineNoticeText = ({
    * we need to inform the user that the entire Antrag will be affected,
    * and not just the party itself.
    */
-  const hasAntragWithSingularParty = connectedAntraege.some(
-    (antrag) =>
-      Object.keys(antrag[relationship]).filter(
-        (key) => antrag[relationship][key] === "on",
-      ).length === 1,
-  );
+  const hasAntragWithSingularParty =
+    connectedAntraege.filter(antragHasOnlyOneParty(relationship)).length > 0;
+
   const partyTypeText =
     partyType === "natuerliche-person"
       ? translations.geldEinklagenAnwaltschaft.person.de.toLocaleLowerCase()
@@ -140,16 +140,10 @@ export const KlageParteiDeletionDialog = ({
   partyText,
 }: KlageParteiDeletionDialogProps) => {
   const { userData } = useFormFlow();
-  const hauptAntraege = [
-    ...((userData as GeldEinklagenAnwaltschaftUserData).hauptantrag ?? []),
-    ...((userData as GeldEinklagenAnwaltschaftUserData).schmerzengeldantrag ??
-      []),
-  ];
-  const connectedAntraege = hauptAntraege.filter(
-    (antrag: Hauptantrag | Schmerzensgeldantrag) =>
-      Object.entries(antrag[relationship]).some(
-        ([key, value]) => key === partei.id && value === "on",
-      ),
+  const connectedAntraege = getConnectedAntraege(
+    partei.id,
+    relationship,
+    userData,
   );
 
   return (

@@ -13,6 +13,11 @@ export const getPluralOfKlageParteiRelationship = (
   relationship: KlageParteiVerhaeltnis,
 ) => (relationship === "klagende" ? "klagenden" : "beklagten");
 
+export const getSingularOfKlageParteiRelationship = (
+  relationship: string,
+): KlageParteiVerhaeltnis =>
+  relationship === "klagenden" ? "klagende" : "beklagte";
+
 export const adresseFields = {
   strasse: stringRequiredSchema,
   hausnummer: stringRequiredSchema,
