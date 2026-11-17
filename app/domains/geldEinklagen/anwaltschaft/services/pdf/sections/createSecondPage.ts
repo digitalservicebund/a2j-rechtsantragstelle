@@ -24,4 +24,5 @@ export const createSecondPage = (
   addInhalteDerKlage(doc, section, userData);
   doc.moveDown(2);
   addHauptantraege(doc, section, userData);
+  doc.moveDown(2);
 };

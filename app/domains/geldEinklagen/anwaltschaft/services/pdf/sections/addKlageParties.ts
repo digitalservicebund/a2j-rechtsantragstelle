@@ -11,6 +11,7 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
 } from "~/services/pdf/createPdfKitDocument";
+import { addMissingData } from "./addMissingData";
 
 type KlagePartei = KlageParteien[number];
 
@@ -55,14 +56,22 @@ const addNaturalPerson = (
   const representatives = party["gesetzliche-vertretung"] ?? [];
 
   if (representatives.length > 0) {
-    doc.text("gesetzlich vertreten durch:");
+    doc.text("gesetzlich vertreten durch:", { indent: 8 });
     for (const representative of representatives) {
-      doc.text(
-        `${getGesetzlicheVertretungArtLabel(representative.art)}, ${formatRepresentativeName(representative)}, ${formatAddress(representative)}`,
-      );
+      doc
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text(`${getGesetzlicheVertretungArtLabel(representative.art)}, `, {
+          indent: 8,
+          continued: true,
+        });
+      doc
+        .font(FONTS_BUNDESSANS_REGULAR)
+        .text(formatRepresentativeName(representative));
+      doc.text(formatAddress(representative), { indent: 6 });
     }
   }
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
+  doc.moveDown(2);
 };
 
 const addOrganization = (
@@ -78,7 +87,7 @@ const addOrganization = (
     .text(formatAddress(party))
     .text("gesetzlich vertreten durch:")
     .text(
-      `${getGesetzlicheVertretungArtLabel(party.orgVertretungArt)}, ${getFullPlaintiffName(
+      `${getFullPlaintiffName(
         party.orgVertretungAnrede,
         party.orgVertretungTitel,
         party.orgVertretungVorname,
@@ -87,12 +96,16 @@ const addOrganization = (
     );
 
   for (const representative of party["gesetzliche-vertretung"] ?? []) {
-    doc.text(
-      `${getGesetzlicheVertretungArtLabel(representative.art)}, ${formatRepresentativeName(representative)}, ${formatAddress(representative)}`,
-    );
+    doc
+      .text(
+        `${getGesetzlicheVertretungArtLabel(representative.art)}, ${formatRepresentativeName(representative)}`,
+        { indent: 8 },
+      )
+      .text(formatAddress(representative), { indent: 8 });
   }
 
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
+  doc.moveDown(2);
 };
 
 export const addKlageParties = (
@@ -107,23 +120,25 @@ export const addKlageParties = (
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(relationship === "klagende" ? "in der Sache" : "gegen");
-      doc.moveDown();
+      doc.moveDown(2);
     }),
   );
 
   const label = relationship === "klagende" ? "Kläger" : "Beklagter";
-  getOrderedKlageParties(userData, relationship).forEach(
-    ({ partei, displayIndex }) => {
-      const partyParagraph = doc.struct("P", {}, () => {
-        doc.fontSize(10);
-        if (partei.type === "natuerliche-person") {
-          addNaturalPerson(doc, partei, displayIndex + 1, label);
-        } else {
-          addOrganization(doc, partei, displayIndex + 1, label);
-        }
-        doc.moveDown();
-      });
-      claimantSection.add(partyParagraph);
-    },
-  );
+  const parties = getOrderedKlageParties(userData, relationship);
+  if (parties.length === 0) {
+    addMissingData(doc, claimantSection, label);
+  }
+  parties.forEach(({ partei, displayIndex }) => {
+    const partyParagraph = doc.struct("P", {}, () => {
+      doc.fontSize(10);
+      if (partei.type === "natuerliche-person") {
+        addNaturalPerson(doc, partei, displayIndex + 1, label);
+      } else {
+        addOrganization(doc, partei, displayIndex + 1, label);
+      }
+      doc.moveDown(2);
+    });
+    claimantSection.add(partyParagraph);
+  });
 };

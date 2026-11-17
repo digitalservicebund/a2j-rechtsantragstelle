@@ -1,6 +1,6 @@
-import { decode } from "html-entities";
 import type PDFDocument from "pdfkit";
 import type { ReactNode } from "react";
+import { decode } from "html-entities";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
   getBezifferterAntragText,
@@ -15,9 +15,14 @@ import {
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
+import { addMissingData } from "./addMissingData";
 
-const textContent = (node: ReactNode) =>
-  decode(renderToStaticMarkup(node).replace(/<[^>]*>/g, ""))
+export const getPdfText = (node: ReactNode) =>
+  decode(
+    renderToStaticMarkup(node)
+      .replace(/<\/div>|<br\s*\/?>/g, " ")
+      .replace(/<[^>]*>/g, ""),
+  )
     .replace(/\s+/g, " ")
     .trim();
 
@@ -29,7 +34,7 @@ export const addHauptantraege = (
   documentStruct.add(
     doc.struct("H2", {}, () => {
       doc.fontSize(18).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
-      doc.moveDown();
+      doc.moveDown(2);
     }),
   );
   documentStruct.add(
@@ -41,6 +46,16 @@ export const addHauptantraege = (
       doc.moveDown(0.5);
     }),
   );
+
+  if (
+    !userData.hauptantrag?.length &&
+    !userData.schmerzengeldantrag?.length &&
+    !userData.sonstigeAntraege?.length
+  ) {
+    addMissingData(doc, documentStruct, "Bezifferter Zahlungsantrag");
+    addMissingData(doc, documentStruct, "Unbezifferter Schmerzensgeldantrag");
+    return;
+  }
 
   const orderedUserData = {
     ...userData,
@@ -64,17 +79,31 @@ export const addHauptantraege = (
         doc
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
-          .text(`${number}. ${textContent(mainText)}`, PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(0.5);
+          .text(`${number}. ${getPdfText(mainText)}`, PDF_MARGIN_HORIZONTAL);
+        doc.moveDown(2);
       }),
     );
+    if (additionalTexts.length > 0) {
+      body.add(
+        doc.struct("P", {}, () => {
+          doc
+            .fontSize(10)
+            .font(FONTS_BUNDESSANS_REGULAR)
+            .text("Daneben:", PDF_MARGIN_HORIZONTAL);
+          doc.moveDown(0.5);
+        }),
+      );
+    }
     for (const text of additionalTexts) {
       body.add(
         doc.struct("P", {}, () => {
-          doc.text(textContent(text), PDF_MARGIN_HORIZONTAL, undefined, {
-            indent: 12,
-          });
-          doc.moveDown(0.5);
+          doc.text(
+            `\u2022 ${getPdfText(text)}`,
+            PDF_MARGIN_HORIZONTAL,
+            undefined,
+            { indent: 12 },
+          );
+          doc.moveDown(2);
         }),
       );
     }
