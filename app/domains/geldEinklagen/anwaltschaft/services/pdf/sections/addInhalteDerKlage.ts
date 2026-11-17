@@ -7,14 +7,25 @@ export const addInhalteDerKlage = (
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,
 ) => {
-  const subject = userData.zahlungsklageSubjectLine?.trim();
   documentStruct.add(
     doc.struct("P", {}, () => {
       doc
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
-        .text(`Wegen: Zahlungsklage${subject ? ` – ${subject}` : ""}`)
-        .text(`Streitwert: ${userData.zahlungsklageGesamtstreitwert} Euro`);
+        .text(
+          `Wegen: Zahlungsklage ${userData.zahlungsklageSubjectLine ? ` – ${userData.zahlungsklageSubjectLine}` : ""}`,
+        );
+      if (userData.zahlungsklageGesamtstreitwert?.trim()) {
+        doc.text(`Streitwert: ${userData.zahlungsklageGesamtstreitwert} Euro`);
+      } else {
+        doc
+          .text("Streitwert: ", { continued: true })
+          .text(`${userData.zahlungsklageGesamtstreitwert}`, {
+            continued: true,
+          })
+          .text(" Euro");
+      }
     }),
   );
+  doc.moveDown(2);
 };
