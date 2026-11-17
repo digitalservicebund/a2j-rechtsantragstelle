@@ -218,6 +218,16 @@
     }
   }
 
+  .hub-navigation-left {
+    svg {
+      fill: var(--kern-color-action-default, #1a3da5);
+    }
+
+    li {
+      border-color: var(--kern-color-darkblue-100, #d8e1f4);
+    }
+  }
+
   /* --- 
   High-contrast mode styles
   Usage
