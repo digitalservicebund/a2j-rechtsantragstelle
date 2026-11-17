@@ -55,6 +55,10 @@ const LEERER_SACHVERHALT = {
   text: datatypeC("").value,
 };
 
+const RECHTLICHE_WUERDIGUNG_SCHLAGWORT = datatypeC(
+  "Rechtliche Würdigung",
+).value;
+
 // Names keep their capitalization as entered, like in the PDF.
 const zeugeName = (
   person: Extract<
@@ -167,8 +171,8 @@ type Ids<NachrichtenScope> = {
   >;
 };
 
-// One Vortrag per Abschnitt and one per Beweis, as agreed with the court comm
-// team. Each Beweis Vortrag links back to the Abschnitte that offer it.
+// One Vortrag per Abschnitt, one per Beweis and one for the rechtliche
+// Wuerdigung, as agreed with the court comm team and the PM. Each Beweis Vortrag links back to the Abschnitte that offer it.
 // Generators memoize next() per predecessor, so every identifier chains from
 // the previously generated one to stay unique.
 export function composeBegruendung<NachrichtenScope>(
@@ -250,11 +254,7 @@ export function composeBegruendung<NachrichtenScope>(
       schlagwort: abschnitt.schlagwort,
       vortragsID: abschnittIDs[index],
       ausfuehrungen: {
-        inhalt: {
-          tatsachenvortragSachverhaltsbeschreibung: abschnitt.text,
-          rechtlicheWuerdigung:
-            index === 0 ? begruendung.rechtlicheWuerdigung : undefined,
-        },
+        inhalt: { tatsachenvortragSachverhaltsbeschreibung: abschnitt.text },
         refBeweisNummer: beweisEintraege.flatMap(({ abschnitte, beweis }) =>
           beweis && abschnitte.includes(index)
             ? [reference(beweis.beweisNummer)]
@@ -264,6 +264,25 @@ export function composeBegruendung<NachrichtenScope>(
     }),
   );
 
+  // Not tied to any Abschnitt, so it gets its own Vortrag without links
+  const rechtlicheWuerdigung: Array<
+    VortragZurBegruendetheitFuerZahlungsklage<NachrichtenScope>
+  > = begruendung.rechtlicheWuerdigung
+    ? [
+        {
+          schlagwort: RECHTLICHE_WUERDIGUNG_SCHLAGWORT,
+          vortragsID: nextUuid(),
+          ausfuehrungen: {
+            inhalt: {
+              tatsachenvortragSachverhaltsbeschreibung: datatypeC("").value,
+              rechtlicheWuerdigung: begruendung.rechtlicheWuerdigung,
+            },
+            refBeweisNummer: [],
+          },
+        },
+      ]
+    : [];
+
   const vortraege: [
     VortragZurBegruendetheitFuerZahlungsklage<NachrichtenScope>,
     ...Array<VortragZurBegruendetheitFuerZahlungsklage<NachrichtenScope>>,
@@ -271,6 +290,7 @@ export function composeBegruendung<NachrichtenScope>(
     ersterAbschnitt,
     ...weitereAbschnitte,
     ...beweisEintraege.map(({ vortrag }) => vortrag),
+    ...rechtlicheWuerdigung,
   ];
 
   return {
