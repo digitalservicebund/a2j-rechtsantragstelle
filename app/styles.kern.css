@@ -228,6 +228,10 @@
     }
   }
 
+  .hub-card {
+    border-color: var(--kern-color-decorative-border-contextual, #c0c3d5);
+  }
+
   /* --- 
   High-contrast mode styles
   Usage
