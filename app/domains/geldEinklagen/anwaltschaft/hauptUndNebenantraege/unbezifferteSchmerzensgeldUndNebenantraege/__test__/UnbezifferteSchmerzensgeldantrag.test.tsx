@@ -67,7 +67,7 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "Schmerzensgeldantrag 4 und Nebenanträge löschen",
+        name: "Schmerzensgeldantrag 4 löschen",
       }),
     );
     const dialog = screen.getByRole("dialog", {

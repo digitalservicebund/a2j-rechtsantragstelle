@@ -303,6 +303,7 @@ const getAntragText = ({
         ? "Der Beklagte"
         : getBeklagteText(beklagteNumbers.length),
       " ",
+      "zu ",
       formatNumbers(beklagteNumbers),
     ),
     " ",
@@ -313,12 +314,13 @@ const getAntragText = ({
     createElement(
       "strong",
       null,
+      " an ",
       isSchmerzensgeldantrag
         ? klagendeNumbers.length === 1
-          ? "den Kläger"
+          ? "der Kläger"
           : "die Kläger"
         : getKlagendeText(klagendeNumbers.length),
-      " ",
+      " zu ",
       formatNumbers(klagendeNumbers),
     ),
     " ",
@@ -333,7 +335,7 @@ const getAntragText = ({
           createElement(
             "strong",
             null,
-            interestText.trim().replace(/^nebst\s+/i, "") + " Euro",
+            interestText.trim().replace(/^nebst\s+/i, ""),
           ),
         )
       : "",
