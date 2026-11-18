@@ -93,7 +93,7 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId:
-        "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung",
+        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
     },
   ],
 
@@ -199,17 +199,6 @@ export const hauptUndNebenantraegeTestCases = {
     },
     {
       stepId: "/prozessantraege",
-    },
-  ],
-
-  schmerzengeldantragWarnung: [
-    {
-      stepId:
-        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung",
-    },
-    {
-      stepId:
-        "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/uebersicht",
     },
   ],
 

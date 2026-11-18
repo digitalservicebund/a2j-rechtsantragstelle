@@ -45,11 +45,6 @@ export const hauptUndNebenantraegePages = {
       "hauptantrag#id": hiddenInputSchema(antragIdSchema),
     },
   },
-  hauptantragWarnung: {
-    stepId:
-      "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung",
-    shouldCollapseIntoParentNavItem: true,
-  },
   nebenantragDaten: {
     stepId:
       "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten",
@@ -145,10 +140,5 @@ export const hauptUndNebenantraegePages = {
         schmerzengeldNebenantragSchema.shape.schmerzengeldNebenantragZinsende,
       "schmerzengeldantrag#nebenantraege#id": hiddenInputSchema(antragIdSchema),
     },
-  },
-  schmerzengeldantragWarnung: {
-    stepId:
-      "/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung",
-    shouldCollapseIntoParentNavItem: true,
   },
 } as const satisfies PagesConfig;
