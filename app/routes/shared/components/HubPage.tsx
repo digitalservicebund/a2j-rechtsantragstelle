@@ -95,7 +95,7 @@ export function HubPage() {
             mdColumn={{ start: 1, span: 6 }}
             lgColumn={{ start: 10, span: 3 }}
             xlColumn={{ start: 10, span: 3 }}
-            className="md:ml-kern-space-large"
+            className="md:ml-kern-space-x-large"
             row={3}
           >
             <div>
