@@ -232,6 +232,11 @@
     border-color: var(--kern-color-decorative-border-contextual, #c0c3d5);
   }
 
+  /* workaround to add border-width on the hub page */
+  .hub-card-not-first {
+    border-width: 1px;
+  }
+
   /* --- 
   High-contrast mode styles
   Usage

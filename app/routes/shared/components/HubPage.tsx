@@ -39,7 +39,7 @@ export function HubPage() {
       {heroComponent && (
         <GridSection
           className={classNames(
-            "py-kern-space-x-large md:text-pretty md:hyphens-none md:break-normal",
+            "py-kern-space-3x-large md:text-pretty md:hyphens-none md:break-normal",
             getSectionBackgroundColor(heroComponent),
           )}
         >

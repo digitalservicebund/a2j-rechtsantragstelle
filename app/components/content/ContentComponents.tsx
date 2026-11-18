@@ -168,7 +168,7 @@ function ContentComponents({
 
   const nodes = content
     .filter((el) => el.__component !== "page.array-summary")
-    .map((el) => {
+    .map((el, contentIndex) => {
       if (managedByParent) {
         return (
           <div
@@ -178,6 +178,11 @@ function ContentComponents({
                 el.__component === "page.box" &&
                 el.contentBackgroundColor !== "white" &&
                 isHubPage,
+              "hub-card-not-first":
+                el.__component === "page.box" &&
+                el.contentBackgroundColor !== "white" &&
+                isHubPage &&
+                contentIndex > 0,
               [getContentBackgroundColor(el)]: isHubPage,
             })}
           >
