@@ -22,6 +22,28 @@ const antrag = {
   zinsende: { day: "", month: "", year: "" },
 };
 
+const person = {
+  anrede: "frau",
+  titel: "",
+  vorname: "Erika",
+  nachname: "Musterfrau",
+  strasse: "Musterstraße",
+  hausnummer: "1",
+  plz: "12345",
+  ort: "Musterstadt",
+  land: "Deutschland",
+  type: "natuerliche-person",
+} as const;
+
+const claimParties = {
+  klagenden: [
+    { ...person, parteiverhaeltnis: "klagende", "gesetzliche-vertretung": [] },
+  ],
+  beklagten: [
+    { ...person, parteiverhaeltnis: "beklagte", "gesetzliche-vertretung": [] },
+  ],
+} satisfies Pick<GeldEinklagenAnwaltschaftUserData, "klagenden" | "beklagten">;
+
 const renderOverview = (
   userData: GeldEinklagenAnwaltschaftUserData,
   flowId: FlowId = "/geld-einklagen/anwaltschaft",
@@ -80,10 +102,28 @@ describe("UnbezifferteSchmerzensgeldUebersicht", () => {
     );
   });
 
+  it.each(["klagenden", "beklagten"] as const)(
+    "should disable adding a claim and show the warning when %s are missing",
+    (missingParty) => {
+      renderOverview({ ...claimParties, [missingParty]: [] });
+
+      const addLink = screen.getByTestId("add-schmerzengeldantrag");
+      expect(addLink).toHaveAttribute("aria-disabled", "true");
+      expect(addLink).not.toHaveAttribute("href");
+      expect(
+        screen.getByText(
+          translations.geldEinklagenAnwaltschaft
+            .zahlungsAntragInlineNoticeMissingPartiesTitle.de,
+        ),
+      ).toBeInTheDocument();
+    },
+  );
+
   it.each([29, 30])(
     "should enforce the 30 antrag limit at %i claims",
     (count) => {
       renderOverview({
+        ...claimParties,
         schmerzengeldantrag: Array.from({ length: count }, () => antrag),
       });
       expect(screen.getByTestId("add-schmerzengeldantrag")).toHaveAttribute(
@@ -105,7 +145,10 @@ describe("UnbezifferteSchmerzensgeldUebersicht", () => {
   it("should restore focus after editing and deletion", () => {
     vi.useFakeTimers();
     sessionStorage.setItem("focus-schmerzengeldantrag", "0");
-    const { rerender } = renderOverview({ schmerzengeldantrag: [antrag] });
+    const { rerender } = renderOverview({
+      ...claimParties,
+      schmerzengeldantrag: [antrag],
+    });
     const item = document.getElementById("schmerzengeldantrag-0");
     act(() => vi.advanceTimersByTime(0));
     expect(item).toHaveFocus();
@@ -119,7 +162,7 @@ describe("UnbezifferteSchmerzensgeldUebersicht", () => {
     act(() => vi.advanceTimersByTime(100));
     expect(item).toHaveFocus();
     vi.mocked(useFormFlow).mockReturnValue({
-      userData: {},
+      userData: claimParties,
       flowId: "/geld-einklagen/anwaltschaft",
       translations: {},
       validFlowPages: {},

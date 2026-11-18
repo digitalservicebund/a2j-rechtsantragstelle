@@ -8,12 +8,10 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import React, { useEffect } from "react";
 import { UnbezifferteSchmerzensgeldantrag } from "./UnbezifferteSchmerzensgeldantrag";
 import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
+import { getOrderedKlageParties } from "../../shared/klageParties/klagePartyOrdering";
 
 const BASE_URL_SCHMERZENGELD_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege";
-
-const BASE_URL_WARNUNG =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege/schmerzensgeldantraege/warnung";
 
 const MAX_SCHMERZENGELD_ANTRAG_ITEMS = 30;
 
@@ -76,8 +74,8 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
     : 0;
 
   const hasParteien =
-    arrayIsNonEmpty(userDataGeldEinklagen.beklagten) &&
-    arrayIsNonEmpty(userDataGeldEinklagen.klagenden);
+    getOrderedKlageParties(userDataGeldEinklagen, "klagende").length > 0 &&
+    getOrderedKlageParties(userDataGeldEinklagen, "beklagte").length > 0;
 
   const maxAntraegeReached = nextItemIndex >= MAX_SCHMERZENGELD_ANTRAG_ITEMS;
 
@@ -98,16 +96,29 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
                 .schmerzengeldantragInlineNoticeMaxReachedContent.de
             }
           />
-        ) : undefined
+        ) : (
+          !hasParteien && (
+            <InlineNotice
+              title={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeMissingPartiesTitle.de
+              }
+              tagName="p"
+              look="warning"
+              content={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeMissingPartiesContent.de
+              }
+            />
+          )
+        )
       }
       addButton={{
-        href: !hasParteien
-          ? `${BASE_URL_WARNUNG}`
-          : `${BASE_URL_SCHMERZENGELD_ANTRAG}/${nextItemIndex}/daten`,
+        href: `${BASE_URL_SCHMERZENGELD_ANTRAG}/${nextItemIndex}/daten`,
         buttonText:
           translations.geldEinklagenAnwaltschaft.schmerzengeldantragAddButton
             .de,
-        disabled: maxAntraegeReached,
+        disabled: maxAntraegeReached || !hasParteien,
         dataTestId: "add-schmerzengeldantrag",
       }}
     >

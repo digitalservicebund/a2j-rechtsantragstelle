@@ -22,6 +22,28 @@ const antrag = {
   zinsende: { day: "", month: "", year: "" },
 } as const;
 
+const person = {
+  anrede: "frau",
+  titel: "",
+  vorname: "Erika",
+  nachname: "Musterfrau",
+  strasse: "Musterstraße",
+  hausnummer: "1",
+  plz: "12345",
+  ort: "Musterstadt",
+  land: "Deutschland",
+  type: "natuerliche-person",
+} as const;
+
+const claimParties = {
+  klagenden: [
+    { ...person, parteiverhaeltnis: "klagende", "gesetzliche-vertretung": [] },
+  ],
+  beklagten: [
+    { ...person, parteiverhaeltnis: "beklagte", "gesetzliche-vertretung": [] },
+  ],
+} satisfies Pick<GeldEinklagenAnwaltschaftUserData, "klagenden" | "beklagten">;
+
 const renderOverview = (
   userData: GeldEinklagenAnwaltschaftUserData,
   flowId: FlowId = "/geld-einklagen/anwaltschaft",
@@ -80,10 +102,28 @@ describe("BezifferteZahlungsUndNebenantraegeUebersicht", () => {
     );
   });
 
+  it.each(["klagenden", "beklagten"] as const)(
+    "should disable adding a claim and show the warning when %s are missing",
+    (missingParty) => {
+      renderOverview({ ...claimParties, [missingParty]: [] });
+
+      const addLink = screen.getByTestId("add-zahlungsantrag");
+      expect(addLink).toHaveAttribute("aria-disabled", "true");
+      expect(addLink).not.toHaveAttribute("href");
+      expect(
+        screen.getByText(
+          translations.geldEinklagenAnwaltschaft
+            .zahlungsAntragInlineNoticeMissingPartiesTitle.de,
+        ),
+      ).toBeInTheDocument();
+    },
+  );
+
   it.each([49, 50])(
     "should enforce the 50 antrag limit at %i claims",
     (count) => {
       renderOverview({
+        ...claimParties,
         hauptantrag: Array.from({ length: count }, () => antrag),
       });
       expect(screen.getByTestId("add-zahlungsantrag")).toHaveAttribute(

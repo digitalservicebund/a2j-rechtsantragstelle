@@ -6,14 +6,12 @@ import { InlineNotice } from "~/components/content/InlineNotice";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import React, { useEffect } from "react";
+import { getOrderedKlageParties } from "../../shared/klageParties/klagePartyOrdering";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
-
-const BASE_URL_WARNUNG =
-  "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/warnung";
 
 const MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS = 50;
 
@@ -60,8 +58,8 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
     : 0;
 
   const hasParteien =
-    arrayIsNonEmpty(userDataGeldEinklagen.beklagten) &&
-    arrayIsNonEmpty(userDataGeldEinklagen.klagenden);
+    getOrderedKlageParties(userDataGeldEinklagen, "klagende").length > 0 &&
+    getOrderedKlageParties(userDataGeldEinklagen, "beklagte").length > 0;
 
   const maxAntraegeReached =
     nextItemIndex >= MAX_BEZIFFERTE_NEBEN_UND_PROZESSANTRAEGE_ITEMS;
@@ -83,15 +81,28 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
                 .zahlungsAntragInlineNoticeMaxReachedContent.de
             }
           />
-        ) : undefined
+        ) : (
+          !hasParteien && (
+            <InlineNotice
+              title={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeMissingPartiesTitle.de
+              }
+              tagName="p"
+              look="warning"
+              content={
+                translations.geldEinklagenAnwaltschaft
+                  .zahlungsAntragInlineNoticeMissingPartiesContent.de
+              }
+            />
+          )
+        )
       }
       addButton={{
-        href: !hasParteien
-          ? `${BASE_URL_WARNUNG}`
-          : `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
+        href: `${BASE_URL_ZAHLUNGS_ANTRAG}/${nextItemIndex}/daten`,
         buttonText:
           translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de,
-        disabled: maxAntraegeReached,
+        disabled: maxAntraegeReached || !hasParteien,
         dataTestId: "add-zahlungsantrag",
       }}
     >

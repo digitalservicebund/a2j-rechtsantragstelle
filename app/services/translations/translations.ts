@@ -915,7 +915,13 @@ export const translations = {
       de: "Maximale Anzahl an Zahlungsanträgen erreicht",
     },
     zahlungsAntragInlineNoticeMaxReachedContent: {
-      de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 Zahlungsanträge hinzufügen.",
+      de: "Mit diesem Onlinedienst können Sie nicht mehr als 50 Zahlungsanträge hinzufügen.",
+    },
+    zahlungsAntragInlineNoticeMissingPartiesTitle: {
+      de: "Mindestens ein Kläger und ein Beklagter erforderlich",
+    },
+    zahlungsAntragInlineNoticeMissingPartiesContent: {
+      de: "Bitte erfassen Sie zuerst mindestens je eine klagende und eine beklagte Person oder Organisation. Das ist notwendig, damit Sie diese in Ihrem Zahlungsantrag auswählen und benennen können.",
     },
     nebenantrag: {
       de: "Nebenantrag",
