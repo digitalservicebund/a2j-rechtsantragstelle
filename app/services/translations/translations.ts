@@ -435,7 +435,7 @@ export const translations = {
       de: "Digitale Zahlungsklage für Fluggastrechte",
     },
     cardHeadingFGR: {
-      de: "Online-Verfahren: Geld bei Flugproblemen einfordern",
+      de: "OV: Geld bei Flugproblemen einfordern",
     },
     cardDescriptionFGR: {
       de: "Ihr Flug war verspätet, wurde annulliert oder Sie wurden nicht mitgenommen? Hier finden Sie Informationen darüber, welche Ansprüche und Handlungsoptionen Sie haben. Nach dem Vorab-Check können Sie direkt eine Klage erstellen, wenn sich das ermittelte Amtsgericht am Pilotprojekt beteiligt. Im Anschluss können Sie Ihre Klage selbst digital bei Gericht einreichen und ein Online-Verfahren eröffnen.",
