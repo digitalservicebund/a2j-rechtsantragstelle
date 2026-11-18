@@ -39,7 +39,7 @@ export function HubPage() {
       {heroComponent && (
         <GridSection
           className={classNames(
-            "pb-kern-space-x-large md:text-pretty md:hyphens-none md:break-normal",
+            "py-kern-space-x-large md:text-pretty md:hyphens-none md:break-normal",
             getSectionBackgroundColor(heroComponent),
           )}
         >
@@ -80,6 +80,7 @@ export function HubPage() {
             mdColumn={{ start: 1, span: 7 }}
             lgColumn={{ start: 4, span: 6 }}
             xlColumn={{ start: 4, span: 6 }}
+            className="md:pt-34"
             row={2}
           >
             <ContentComponents
@@ -94,6 +95,7 @@ export function HubPage() {
             mdColumn={{ start: 1, span: 6 }}
             lgColumn={{ start: 10, span: 3 }}
             xlColumn={{ start: 10, span: 3 }}
+            className="md:ml-kern-space-x-large"
             row={3}
           >
             <div>
@@ -104,11 +106,11 @@ export function HubPage() {
                 <Label
                   tagName="h2"
                   text={translations.hubPages.navigationLabel.de}
-                  className="kern-label kern-label--small"
+                  className="kern-label kern-label--small mb-10!"
                   elementId="navigation-label"
                 />
                 <NavigationList
-                  className={"!bg-kern-darkblue-050"}
+                  className={"!bg-kern-darkblue-050 hub-navigation-left"}
                   navItems={navItems}
                 ></NavigationList>
               </nav>

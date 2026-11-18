@@ -3,7 +3,6 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BASE_URL_SONSTIGE_ANTRAEGE } from "./SonstigeAntraegeUebersicht";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { translations } from "~/services/translations/translations";
-import { useEffect } from "react";
 
 type SonstigeAntraegeProps = {
   readonly itemIndex: number;
@@ -12,6 +11,7 @@ type SonstigeAntraegeProps = {
     GeldEinklagenAnwaltschaftUserData["sonstigeAntraege"]
   >[number];
   readonly onDelete: (itemIndex: number) => Promise<void>;
+  readonly onEdit: (itemIndex: number) => void;
 };
 
 const SonstigeAntraege = ({
@@ -19,44 +19,19 @@ const SonstigeAntraege = ({
   antragNumber,
   item,
   onDelete,
+  onEdit,
 }: SonstigeAntraegeProps) => {
-  useEffect(() => {
-    const focusTimer = setTimeout(() => {
-      const itemIndex = sessionStorage.getItem("focusSonstigeAntraege");
-
-      if (itemIndex === null) return;
-
-      const element = document.getElementById(`sonstigeAntraege-${itemIndex}`);
-
-      if (element) {
-        element.focus();
-
-        sessionStorage.removeItem("focusSonstigeAntraege");
-      }
-    }, 0);
-
-    return () => clearTimeout(focusTimer);
-  }, []);
-
   return (
     <ArrayItemCard
       id={`sonstigeAntraege-${itemIndex}`}
       badge={item.internesSchlagwort}
-      content={
-        <span className="max-w-[632px] text-ellipsis overflow-hidden whitespace-nowrap">
-          {item.antrag}
-        </span>
-      }
-      heading={{
-        text: `${translations.geldEinklagenAnwaltschaft.sonstigerAntragArrayItemTitle.de} ${antragNumber}`,
-        id: `sonstigeAntrag-${itemIndex}`,
-      }}
+      content={<span className="max-w-[632px]">{item.antrag}</span>}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
         href: `${BASE_URL_SONSTIGE_ANTRAEGE}/${itemIndex}/daten`,
         onClick: () => {
-          sessionStorage.setItem("focusSonstigeAntraege", String(itemIndex));
+          onEdit(itemIndex);
         },
       }}
       deleteButton={

@@ -32,7 +32,7 @@ export default function Breadcrumbs({
   return (
     <GridSection
       className={classNames({
-        "bg-kern-darkblue-050": isHubPage,
+        "bg-kern-darkblue-050 border-t border-t-[#D8E1F4]": isHubPage,
         "bg-kern-neutral-050": !isHubPage,
       })}
     >
