@@ -15,10 +15,10 @@ const formatPartyNumbers = (numbers: number[]): string => {
 };
 
 export const getBeklagteText = (count: number): string =>
-  count === 1 ? "Die Beklagte" : "Die Beklagten";
+  count === 1 ? "Der Beklagte" : "Die Beklagten";
 
 export const getKlagendeText = (count: number): string =>
-  count === 1 ? "die Klagende" : "die Klagenden";
+  count === 1 ? "der Kläger" : "die Kläger";
 
 export const getBefindenText = (count: number): string =>
   count === 1 ? "befindet" : "befinden";
@@ -38,12 +38,12 @@ export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Angefallene Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "vorgerichtliche angefallene Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
-  adressermittlungskosten: "Kosten der Adressermittlung",
+  adressermittlungskosten: "Adressermittlungkosten",
   ruecklastschriftgebühren: "Rücklastschriftgebühren",
-  pauschale: "Pauschale",
+  pauschale: "eine Pauschale gemäß § 288 Absatz 5 Satz 1 BGB",
 };
 
 export const getNebenantragItemText = ({
@@ -114,7 +114,7 @@ export const getNebenantragItemText = ({
       Fragment,
       null,
       createElement(
-        "strong",
+        "a",
         null,
         getBeklagteText(beklagteNumbers.length),
         " zu ",
@@ -126,8 +126,9 @@ export const getNebenantragItemText = ({
       beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
       "verurteilt, ",
       createElement(
-        "strong",
+        "a",
         null,
+        "an ",
         getKlagendeText(klagendeNumbers.length),
         " zu ",
         formatPartyNumbers(klagendeNumbers),
@@ -139,7 +140,7 @@ export const getNebenantragItemText = ({
         nebenantragArtLabels[nebenantrag.nebenantragArt],
       ),
       " in Höhe von ",
-      createElement("strong", null, nebenantrag.nebenantragBetrag),
+      createElement("strong", null, `${nebenantrag.nebenantragBetrag} Euro`),
       interestText
         ? createElement(
             Fragment,
@@ -217,9 +218,13 @@ export const getUnbezifferterSchmerzensgeldantragText = ({
     amountText: createElement(
       Fragment,
       null,
-      "ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von ",
+      "ein in das Ermessen des Gerichts gestelltes ",
+      createElement("strong", null, "Schmerzensgeld"),
+      " zu zahlen, welches einen Betrag von ",
       createElement("strong", null, antrag?.mindestBetrag),
-      " Euro nicht unterschreiten sollte",
+      " ",
+      createElement("strong", null, "Euro"),
+      " nicht unterschreiten sollte",
     ),
   });
 };
@@ -328,7 +333,7 @@ const getAntragText = ({
           createElement(
             "strong",
             null,
-            interestText.trim().replace(/^nebst\s+/i, ""),
+            interestText.trim().replace(/^nebst\s+/i, "") + " Euro",
           ),
         )
       : "",

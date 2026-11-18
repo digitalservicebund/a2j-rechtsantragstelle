@@ -77,7 +77,7 @@ export const KlageParteiCheckboxes = ({
     >
       <div className="flex flex-col">
         <legend className="kern-label">{label}</legend>
-        {showPaymentHint && selectableParties.length > 0 && (
+        {showPaymentHint && selectableParties.length > 1 && (
           <span className="kern-body pb-16!">
             {
               translations.geldEinklagenAnwaltschaft

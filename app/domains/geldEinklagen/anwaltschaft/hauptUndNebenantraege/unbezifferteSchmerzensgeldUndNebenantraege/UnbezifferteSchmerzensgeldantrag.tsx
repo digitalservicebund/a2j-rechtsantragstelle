@@ -50,7 +50,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
       }}
       deleteButton={
         <DeleteButton
-          label={`Schmerzensgeldantrag ${antragNumber} und Nebenanträge löschen`}
+          label={`Schmerzensgeldantrag ${antragNumber} ${(item.nebenantraege?.length ?? 0) > 0 ? "und Nebenanträge" : ""} löschen`}
           title={`Schmerzensgeldantrag ${antragNumber} löschen?`}
           description={
             <>
