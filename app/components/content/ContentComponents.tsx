@@ -173,11 +173,12 @@ function ContentComponents({
         return (
           <div
             key={`${el.__component}_${el.id}`}
-            className={classNames(className, getContentBackgroundColor(el), {
+            className={classNames(className, {
               "md:px-kern-space-x-large hub-card":
                 el.__component === "page.box" &&
                 el.contentBackgroundColor !== "white" &&
                 isHubPage,
+              [getContentBackgroundColor(el)]: isHubPage,
             })}
           >
             {cmsToReact(el, { inFlow: true })}
