@@ -36,6 +36,14 @@ const DateInput = ({
   const month = name + ".month";
   const year = name + ".year";
 
+  // TODO: Replace this addind the helperText to the DateInput component
+  const isInterestStartDate =
+    name ===
+    "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn";
+  const isInterestEndDate =
+    name ===
+    "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende";
+
   const field = useField(name);
   const dayField = useField(day);
   const monthField = useField(month);
@@ -75,7 +83,12 @@ const DateInput = ({
         </legend>
       )}
       <div className="kern-hint" id={helperId}>
-        {translations.dateComponent.hintText.de}
+        {/* TODO: Replace this adding the helperText field to the DateInput component */}
+        {isInterestStartDate
+          ? "Ab Rechtshängigkeit, wenn Sie kein Datum angeben"
+          : isInterestEndDate
+            ? "Nur ausfüllen, wenn die Verzinsung zu einem bestimmten Datum endet"
+            : translations.dateComponent.hintText.de}
       </div>
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">
         <div className="kern-form-input">

@@ -19,6 +19,7 @@ type Props = {
   relationship?: KlageParteiVerhaeltnis;
   includeGesetzlicheVertretung?: boolean;
   showPaymentHint?: boolean;
+  paymentHintType?: "hauptantrag" | "schmerzensgeld";
   getCheckboxLabel: GetCheckboxLabel;
 };
 
@@ -29,6 +30,7 @@ export const KlageParteiCheckboxes = ({
   relationship,
   includeGesetzlicheVertretung = false,
   showPaymentHint = false,
+  paymentHintType,
   getCheckboxLabel,
 }: Props) => {
   const { klageParteienWithIndex: klagenden } = useKlageParties({
@@ -65,6 +67,38 @@ export const KlageParteiCheckboxes = ({
   const selectableIds = new Set(selectableParties.map((option) => option.id));
   const errorId = `${name}-error`;
   const hasError = Boolean(field.error());
+  const hintType =
+    paymentHintType ??
+    (name.toLowerCase().includes("schmerzengeld") ||
+    name.toLowerCase().includes("schmerzensgeld")
+      ? "schmerzensgeld"
+      : "hauptantrag");
+  const hintRelationships = relationship
+    ? [relationship]
+    : [...new Set(selectableParties.map((party) => party.relationship))];
+  const paymentHints = hintRelationships.flatMap((partyRelationship) => {
+    if (hintType === "schmerzensgeld") {
+      return partyRelationship === "beklagte"
+        ? [
+            translations.geldEinklagenAnwaltschaft
+              .schmerzensgeldantragCheckboxesBeklagterHint.de,
+          ]
+        : [
+            translations.geldEinklagenAnwaltschaft
+              .schmerzensgeldantragCheckboxesKlagendeHint.de,
+          ];
+    }
+
+    return partyRelationship === "beklagte"
+      ? [
+          translations.geldEinklagenAnwaltschaft
+            .bezifferterZahlungsantragCheckboxesBeklagterHint.de,
+        ]
+      : [
+          translations.geldEinklagenAnwaltschaft
+            .bezifferterZahlungsantragCheckboxesKlagendeHint.de,
+        ];
+  });
 
   return (
     <fieldset
@@ -77,14 +111,15 @@ export const KlageParteiCheckboxes = ({
     >
       <div className="flex flex-col">
         <legend className="kern-label">{label}</legend>
-        {showPaymentHint && selectableParties.length > 1 && (
-          <span className="kern-body pb-16!">
-            {
-              translations.geldEinklagenAnwaltschaft
-                .bezifferterZahlungsantragCheckboxesHint.de
-            }
-          </span>
-        )}
+        {showPaymentHint &&
+          selectableParties.length > 1 &&
+          paymentHints.length > 0 && (
+            <span className="kern-body pb-16!">
+              {paymentHints.map((hint) => (
+                <span key={hint}>{hint}</span>
+              ))}
+            </span>
+          )}
       </div>
       <div className="kern-fieldset__body">
         {Object.keys(selectedParties)
