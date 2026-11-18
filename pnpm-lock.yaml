@@ -282,8 +282,8 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
       posthog-js:
-        specifier: 1.449.1
-        version: 1.449.1(@types/react@19.3.0)(react@19.3.1)
+        specifier: 1.449.2
+        version: 1.449.2(@types/react@19.3.0)(react@19.3.1)
       posthog-node:
         specifier: 5.73.1
         version: 5.73.1(@opentelemetry/api@1.9.1)
@@ -4115,8 +4115,8 @@ packages:
     resolution: {integrity: sha512-LJlKCCAUFKOuZxipUdYw1NzIITEsPcgyOG9LkvRJvuKj/bRzbuRY0ARXvL0pWGpsZvn8jku+LMep2eU0seHp8g==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.449.1:
-    resolution: {integrity: sha512-URSS2opUkEHMLeBhkWe3hsSoW0N4nT6wArQoMjG1pOryx1fMYtNlDRz2f8cOrYwgERS3ddC4kbb2L14n9Lw9ow==}
+  posthog-js@1.449.2:
+    resolution: {integrity: sha512-vji+h92IHaLlFSEnRH1hwe8uLWGOdDUImmPXexj/+V7Xm7HTxIQisYE/Kom7Aaw4DRpzfdhQxiyAN1YVYR4G8Q==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       react: '>=16.8.0'
@@ -8601,7 +8601,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.2
 
-  posthog-js@1.449.1(@types/react@19.3.0)(react@19.3.1):
+  posthog-js@1.449.2(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       '@posthog/browser-common': 0.11.0
       '@posthog/core': 1.67.3
