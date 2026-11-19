@@ -70,7 +70,7 @@ const selectedBeklagteSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
   .refine(
     (parties) => Object.values(parties).includes("on"),
-    "Bitte wählen Sie mindestens eine Beklagte aus",
+    "Bitte wählen Sie mindestens einen Beklagten aus",
   )
   .describe(klageParteiCheckboxesZodDescription);
 
@@ -78,7 +78,7 @@ const selectedKlagendeSchema = z
   .record(z.uuid(), z.enum(["on", "off"]))
   .refine(
     (parties) => Object.values(parties).includes("on"),
-    "Bitte wählen Sie mindestens eine Klagende aus",
+    "Bitte wählen Sie mindestens einen Kläger aus",
   )
   .describe(klageParteiCheckboxesZodDescription);
 

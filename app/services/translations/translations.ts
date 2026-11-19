@@ -882,17 +882,23 @@ export const translations = {
     unbezifferterZahlungsantragHeadline: {
       de: "Unbezifferter Schmerzensgeldantrag",
     },
-    bezifferterZahlungsantragCheckboxesHint: {
+    bezifferterZahlungsantragCheckboxesBeklagterHint: {
       de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft genannt werden soll. Fügen Sie für getrennte Forderungen gegen einzelne Beklagte bitte separate Zahlungsanträge hinzu.",
     },
+    bezifferterZahlungsantragCheckboxesKlagendeHint: {
+      de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtgläubiger aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtgläubigerschaft genannt werden soll. Fügen Sie für getrennte Forderungen zugunsten einzelner Kläger bitte separate Zahlungsanträge hinzu.",
+    },
+    schmerzensgeldantragCheckboxesBeklagterHint: {
+      de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtschuldner aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtschuldnerschaft genannt werden soll. Fügen Sie für getrennte Forderungen gegen einzelne Beklagte bitte separate Schmerzensgeldanträge hinzu.",
+    },
+    schmerzensgeldantragCheckboxesKlagendeHint: {
+      de: "Wenn Sie mehr als eine Person auswählen, werden die Personen im Antrag automatisch als Gesamtgläubiger aufgeführt. Wählen Sie bitte nur eine Person aus, wenn im Antrag keine Gesamtgläubigerschaft genannt werden soll. Fügen Sie für getrennte Forderungen zugunsten einzelner Kläger bitte separate Schmerzensgeldanträge hinzu.",
+    },
     bezifferterZahlungsantragCheckboxesBeklagteLabel: {
-      de: "Beklagte:",
+      de: "Beklagter: Zahlung zu leisten von",
     },
     bezifferterZahlungsantragCheckboxesKlagendeLabel: {
-      de: "Klagende:",
-    },
-    bezifferterZahlungsantragCheckboxesLeistungLabel: {
-      de: "Zahlung zu leisten von",
+      de: "Kläger: Zahlung zu leisten an",
     },
     bezifferterZahlungsantragInlineNoticeTitle: {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Tatsachenvorträge",

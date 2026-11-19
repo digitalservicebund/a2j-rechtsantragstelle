@@ -257,7 +257,18 @@ export const renderSpecialMetaDescriptions = (
               {getKlagePartyCheckboxLabel(party)}
             </>
           )}
-          label={`${isBeklagte ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesBeklagteLabel.de : translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesKlagendeLabel.de} ${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragCheckboxesLeistungLabel.de}`}
+          label={`${
+            isBeklagte
+              ? `${
+                  translations.geldEinklagenAnwaltschaft
+                    .bezifferterZahlungsantragCheckboxesBeklagteLabel.de
+                }`
+              : `${
+                  translations.geldEinklagenAnwaltschaft
+                    .bezifferterZahlungsantragCheckboxesKlagendeLabel.de
+                }`
+          }
+           `}
         />
       );
     }

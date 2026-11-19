@@ -50,13 +50,13 @@ const textContent = (node: ReactNode) => {
 
 describe("hauptUndNebenantraegeContent", () => {
   it("should use the singular and plural Beklagte labels", () => {
-    expect(getBeklagteText(1)).toBe("Die Beklagte");
+    expect(getBeklagteText(1)).toBe("Der Beklagte");
     expect(getBeklagteText(2)).toBe("Die Beklagten");
   });
 
   it("should use the singular and plural Klagende labels", () => {
-    expect(getKlagendeText(1)).toBe("die Klagende");
-    expect(getKlagendeText(2)).toBe("die Klagenden");
+    expect(getKlagendeText(1)).toBe("der Kläger");
+    expect(getKlagendeText(2)).toBe("die Kläger");
   });
 
   it("should use the singuler and plural befindet labels", () => {
@@ -101,7 +101,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Die Beklagten zu 1), zu 2) werden als Gesamtschuldner verurteilt, die Klagende zu 2) Mahnkosten in Höhe von 25 nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 zu zahlen.",
+      "Die Beklagten zu 1), zu 2) werden als Gesamtschuldner verurteilt, an der Kläger zu 2) Mahnkosten in Höhe von 25 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 zu zahlen.",
     );
   });
 
@@ -138,7 +138,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Es wird festgestellt, dass sich die beklagte 2) mit der Annahme der im Antrag zu 2) genannten Gegenleistung seit dem 03.04.2025 in Annahmeverzug befindet.",
+      "Es wird festgestellt, dass sich der beklagte 2) mit der Annahme der im Antrag zu 2) genannten Gegenleistung seit dem 03.04.2025 in Annahmeverzug befindet.",
     );
   });
 
@@ -207,7 +207,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Die Beklagte zu 1) wird verurteilt, die Klagende zu 1) Inkassokosten in Höhe von 12 nebst Zinsen in Höhe von 3 Prozent p. a. seit dem 01.01.2025 zu zahlen.",
+      "Der Beklagte zu 1) wird verurteilt, an der Kläger zu 1) Inkassokosten in Höhe von 12 Euro nebst Zinsen in Höhe von 3 Prozent p. a. seit dem 01.01.2025 zu zahlen.",
     );
   });
 
@@ -231,7 +231,7 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(
       textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
     ).toBe(
-      "Die Beklagte 1) wird verurteilt, die Klagende 1) einen Betrag in Höhe von 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024, Zug-um-Zug gegen: Rückgabe der Sache.",
+      "Der Beklagte zu 1) wird verurteilt, an der Kläger zu 1) einen Betrag in Höhe von 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024, Zug-um-Zug gegen: Rückgabe der Sache.",
     );
   });
 });
