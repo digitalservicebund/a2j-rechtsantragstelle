@@ -175,7 +175,7 @@ function ContentComponents({
           <div
             key={`${el.__component}_${el.id}`}
             className={classNames(className, {
-              "md:px-kern-space-x-large hub-card":
+              "md:px-kern-space-x-large px-kern-space-large hub-card":
                 el.__component === "page.box" &&
                 el.contentBackgroundColor !== "white" &&
                 isHubPage,
