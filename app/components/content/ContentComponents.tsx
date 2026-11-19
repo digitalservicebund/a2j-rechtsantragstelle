@@ -66,7 +66,7 @@ export function mapLookValue(
 
 function cmsToReact(
   componentProps: StrapiContentComponent,
-  opts?: { inFlow?: boolean },
+  opts: { inFlow: boolean },
 ) {
   switch (componentProps.__component) {
     case "basic.heading":
@@ -86,6 +86,7 @@ function cmsToReact(
               look: mapLookValue(notice.look),
             })),
           }))}
+          wrap={opts.inFlow}
         />
       );
     case "page.details-summary":
@@ -105,7 +106,7 @@ function cmsToReact(
         <InlineNotice
           {...componentProps}
           look={mapLookValue(componentProps.look)}
-          wrap={opts?.inFlow}
+          wrap={opts.inFlow}
         />
       );
     case "page.email-capture": {
@@ -209,7 +210,7 @@ function ContentComponents({
               ),
             }}
           >
-            {cmsToReact(el)}
+            {cmsToReact(el, { inFlow: false })}
           </Grid>
         </GridSection>
       );
