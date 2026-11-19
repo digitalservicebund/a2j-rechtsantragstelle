@@ -23,7 +23,7 @@ describe("getAntraegeStrings", () => {
     [
       `${schmerzensgeld}/schmerzensgeldantraege/#/daten`,
       [0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
     // A new Schmerzensgeldantrag that isn't saved yet
     [
@@ -34,12 +34,12 @@ describe("getAntraegeStrings", () => {
     [
       `${schmerzensgeld}/#/nebenantraege/#/daten`,
       [0, 0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
     [
       "/tatsachenvortrag-beweise/vortraege/#/absaetze",
       [0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
   ])("titles %s with %j as %s", (stepId, arrayIndexes, antragTitle) => {
     expect(getAntraegeStrings(userData, stepId, arrayIndexes)).toMatchObject({

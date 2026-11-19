@@ -16,6 +16,7 @@ import { translations } from "~/services/translations/translations";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { KlageParteiDeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteiDeletionDialog";
+import { focusOnKlageParteiTitle } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyFocus";
 
 type KlageParteiProps = {
   readonly partei: KlageParteien[number];
@@ -89,7 +90,8 @@ const KlagePartei = ({
   const deleteArrayItem = useDeleteArrayItem(
     getPluralOfKlageParteiRelationship(relationship),
     getBaseKlagePartyUrl(relationship),
-    undefined, // TODO: replace w focus function
+    (itemIndex) =>
+      focusOnKlageParteiTitle(relationship, partei.type, itemIndex),
     KLAGE_PARTY_DELETION_URL_ENDPOINT,
   );
 

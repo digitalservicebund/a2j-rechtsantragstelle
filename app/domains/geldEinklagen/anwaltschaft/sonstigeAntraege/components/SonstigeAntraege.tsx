@@ -3,6 +3,7 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BASE_URL_SONSTIGE_ANTRAEGE } from "./SonstigeAntraegeUebersicht";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { translations } from "~/services/translations/translations";
+import { SonstigeAntraegeDeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/sonstigeAntraege/components/SonstigeAntraegeDeletionDialog";
 
 type SonstigeAntraegeProps = {
   readonly itemIndex: number;
@@ -21,11 +22,14 @@ const SonstigeAntraege = ({
   onDelete,
   onEdit,
 }: SonstigeAntraegeProps) => {
+  const deletionTitle = `${
+    translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de
+  } ${antragNumber} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`;
   return (
     <ArrayItemCard
       id={`sonstigeAntraege-${itemIndex}`}
       badge={item.internesSchlagwort}
-      content={<p className="max-w-[632px]">{item.antrag}</p>}
+      content={<p className="max-w-632">{item.antrag}</p>}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
@@ -36,24 +40,15 @@ const SonstigeAntraege = ({
       }}
       deleteButton={
         <DeleteButton
-          label={
-            translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
-              .de
-          }
-          title={`${
-            translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
-              .de
-          }${"?"}`}
-          onDelete={() => onDelete(itemIndex)}
+          label={deletionTitle}
+          title={`${deletionTitle}?`}
           description={
-            <div className="flex flex-col gap-kern-space-small">
-              <p>{translations.deleteDialog.description.de}</p>
-              {item.internesSchlagwort && (
-                <p className="font-bold">{item.internesSchlagwort}</p>
-              )}
-              <p className="font-normal">{item.antrag}</p>
-            </div>
+            <SonstigeAntraegeDeletionDialog
+              item={item}
+              antragNumber={antragNumber}
+            />
           }
+          onDelete={() => onDelete(itemIndex)}
         />
       }
     />
