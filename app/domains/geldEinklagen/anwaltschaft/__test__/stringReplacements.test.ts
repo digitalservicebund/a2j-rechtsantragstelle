@@ -17,21 +17,9 @@ const schmerzensgeld =
 
 describe("getAntraegeStrings", () => {
   it.each([
-    [
-      `${zahlung}/hauptantrag/#/daten`,
-      [0],
-      "Zahlungsantrag 1",
-    ],
-    [
-      `${zahlung}/#/nebenantraege/#/daten`,
-      [1, 0],
-      "Zahlungsantrag 2",
-    ],
-    [
-      `${zahlung}/#/annahmeverzug/#/daten`,
-      [1, 1],
-      "Zahlungsantrag 2",
-    ],
+    [`${zahlung}/hauptantrag/#/daten`, [0], "Zahlungsantrag 1"],
+    [`${zahlung}/#/nebenantraege/#/daten`, [1, 0], "Zahlungsantrag 2"],
+    [`${zahlung}/#/annahmeverzug/#/daten`, [1, 1], "Zahlungsantrag 2"],
     [
       `${schmerzensgeld}/schmerzensgeldantraege/#/daten`,
       [0],
