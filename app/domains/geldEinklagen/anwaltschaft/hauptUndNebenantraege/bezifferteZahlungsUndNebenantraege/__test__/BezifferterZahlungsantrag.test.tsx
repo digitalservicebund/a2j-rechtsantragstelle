@@ -54,7 +54,7 @@ describe("BezifferterZahlungsantrag", () => {
     );
 
     expect(screen.getByText("Lohn")).toBeInTheDocument();
-    expect(screen.getByText("1000 Euro")).toBeInTheDocument();
+    expect(screen.getByText(/^1\.?000 Euro$/)).toBeInTheDocument();
     const edit = screen.getByRole("link", {
       name: "Zahlungsantrag 2 bearbeiten",
     });
@@ -65,13 +65,15 @@ describe("BezifferterZahlungsantrag", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "Zahlungsantrag 2 und Nebenanträge löschen",
+        name: "Zahlungsantrag 2 löschen",
       }),
     );
     const dialog = screen.getByRole("dialog", {
       name: "Zahlungsantrag 2 löschen",
     });
-    expect(dialog).toHaveTextContent("Bezifferter Zahlungsantrag 2 Lohn, 1000");
+    expect(dialog).toHaveTextContent(
+      /Bezifferter Zahlungsantrag 2 \(Lohn\)\s*, 1000 Euro/,
+    );
     expect(onDelete).not.toHaveBeenCalled();
     await user.click(
       within(dialog).getByRole("button", {

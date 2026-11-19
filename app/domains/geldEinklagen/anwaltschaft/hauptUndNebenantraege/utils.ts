@@ -50,7 +50,7 @@ export const getInterestText = ({
       endDate ? ` bis zum ${endDate}` : ""
     }`;
   } else if (startDate && endDate) {
-    period = ` vom ${startDate} bis zum ${endDate}`;
+    period = ` seit dem ${startDate} bis zum ${endDate}`;
   } else if (startDate) {
     period = ` seit dem ${startDate}`;
   } else {

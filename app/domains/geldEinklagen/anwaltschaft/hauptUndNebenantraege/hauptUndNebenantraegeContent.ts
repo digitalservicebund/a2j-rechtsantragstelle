@@ -11,14 +11,14 @@ const formatPartyNumbers = (numbers: number[]): string => {
 
   return numbers
     .map((number, index) => (index === 0 ? `${number})` : `zu ${number})`))
-    .join(", ");
+    .join(" und ");
 };
 
 export const getBeklagteText = (count: number): string =>
   count === 1 ? "Der Beklagte" : "Die Beklagten";
 
 export const getKlagendeText = (count: number): string =>
-  count === 1 ? "der Kläger" : "die Kläger";
+  count === 1 ? "den Kläger" : "die Kläger";
 
 export const getBefindenText = (count: number): string =>
   count === 1 ? "befindet" : "befinden";
@@ -164,13 +164,21 @@ export const getNebenantragItemText = ({
       Fragment,
       null,
       "Es wird festgestellt, dass sich ",
-      getBeklagteText(beklagteNumbers.length).toLowerCase(),
-      " ",
+      getBeklagteText(beklagteNumbers.length).replace(/^./, (letter) =>
+        letter.toLowerCase(),
+      ),
+      " zu ",
       formatPartyNumbers(beklagteNumbers),
       " mit der Annahme der im Antrag zu ",
       `${parentIndex + 1})`,
       " genannten Gegenleistung",
-      date ? ` seit dem ${date}` : "",
+      date
+        ? createElement(
+            Fragment,
+            null,
+            createElement("strong", null, ` seit dem ${date}`),
+          )
+        : "",
       " in ",
       createElement("strong", null, "Annahmeverzug"),
       " ",

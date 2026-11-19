@@ -79,7 +79,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
           key: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           id: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
-            <span className="kern-body max-w-[528px]">
+            <span className="kern-body">
               {getNebenantragItemText({
                 item: entry,
                 userData,

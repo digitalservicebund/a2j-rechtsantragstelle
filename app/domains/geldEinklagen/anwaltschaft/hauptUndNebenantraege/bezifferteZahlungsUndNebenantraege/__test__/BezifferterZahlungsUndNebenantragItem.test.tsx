@@ -141,11 +141,13 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
         parentArrayItemIndex={0}
       />,
     );
-    const item = document.getElementById("nebenantrag-0-1")!;
-    await user.click(within(item).getByRole("button"));
+    await user.click(
+      screen.getByRole("button", { name: "Nebenantrag 2 löschen" }),
+    );
     const dialog = screen.getByRole("dialog", {
-      name: "Nebenantrag Mahnkosten, 100",
+      name: "Nebenantrag löschen?",
     });
+    expect(dialog).toHaveTextContent("Nebenantrag - Mahnkosten, 100 Euro");
     expect(deleteItem).not.toHaveBeenCalled();
     await user.click(
       within(dialog).getByRole("button", {

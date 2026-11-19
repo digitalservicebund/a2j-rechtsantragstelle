@@ -48,7 +48,7 @@ export const BezifferterZahlungsantrag = ({
       }}
       deleteButton={
         <DeleteButton
-          label={`Zahlungsantrag ${itemIndex + 1} und Nebenanträge löschen`}
+          label={`Zahlungsantrag ${itemIndex + 1}${(item.nebenantraege?.length ?? 0) > 0 ? " und Nebenanträge" : ""} löschen`}
           title={`Zahlungsantrag ${itemIndex + 1} löschen`}
           description={
             <>
@@ -71,13 +71,13 @@ export const BezifferterZahlungsantrag = ({
                 }
               </p>
               <span className="flex flex-row items-center!">
-                <Icon name="money-range" className="mr-8!" />
+                <Icon name="draft" className="mr-8!" />
                 <p className="kern-body! font-bold! text-xl!">
                   {`Bezifferter Zahlungsantrag ${itemIndex + 1}`}{" "}
                   {item.internesSchlagwortForderung
-                    ? `${item.internesSchlagwortForderung}`
+                    ? `(${item.internesSchlagwortForderung})`
                     : ""}
-                  , {item.betragForderung ? `${item.betragForderung}` : ""}
+                  , {item.betragForderung ? `${item.betragForderung} Euro` : ""}
                 </p>
               </span>
             </>

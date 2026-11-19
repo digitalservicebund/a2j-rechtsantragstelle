@@ -108,7 +108,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             : "Feststellungsantrag auf Annahmeverzug";
         const title =
           entry.type === "nebenantrag"
-            ? `${itemLabel} ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ?? ""}`
+            ? `${itemLabel} - ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag + " Euro" : ""}`
             : itemLabel;
 
         return {
@@ -130,7 +130,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           },
           deleteButton: {
             onDelete: () => deleteNebenantrag(arrayIndex),
-            title,
+            title: `${itemLabel} löschen?`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
               <>
@@ -153,7 +153,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
                   }
                 </p>
                 <span className="flex flex-row items-center!">
-                  <Icon name="money-range" className="mr-8!" />
+                  <Icon name="draft" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">{title}</p>
                 </span>
               </>
