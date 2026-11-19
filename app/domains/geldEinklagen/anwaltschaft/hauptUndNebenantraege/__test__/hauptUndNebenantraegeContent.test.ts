@@ -8,6 +8,7 @@ import {
   getBefindenText,
   getNebenantragItemText,
   getBezifferterAntragText,
+  getUnbezifferterSchmerzensgeldantragText,
 } from "../hauptUndNebenantraegeContent";
 
 const party = (id: string) => ({
@@ -211,6 +212,88 @@ describe("hauptUndNebenantraegeContent", () => {
     );
   });
 
+  it("uses Rechtshängigkeit when a Hauptantrag has no interest start date", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "1.000,00",
+          beklagte: { [beklagten[1].id]: "on" },
+          klagende: { [klagenden[1].id]: "on" },
+          zinssatzInProzent: 12,
+          zinsmethode: "monatlicherZinssatzUeberBasiszins",
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
+    ).toContain(
+      "nebst Zinsen in Höhe von 12 Prozentpunkten über dem jeweiligen Basiszinssatz p. a., monatlich abrechenbar seit Rechtshängigkeit.",
+    );
+  });
+
+  it("uses Rechtshängigkeit with an end date for a Nebenantrag", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "100",
+          beklagte: { [beklagten[0].id]: "on" },
+          klagende: { [klagenden[0].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(
+        getNebenantragItemText({
+          item: {
+            type: "nebenantrag",
+            nebenantragArt: "mahnkosten",
+            nebenantragBetrag: "25",
+            nebenantragZinssatzInProzent: 5,
+            nebenantragZinsmethode: "jaehrlicherZinssatz",
+            nebenantragZinsende: { day: "3", month: "4", year: "2025" },
+          },
+          userData,
+          hauptantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "nebst Zinsen in Höhe von 5 Prozent p. a. seit Rechtshängigkeit bis zum 03.04.2025 zu zahlen.",
+    );
+  });
+
+  it("keeps the Rechtshängigkeit fallback for Schmerzensgeld interest", () => {
+    const userData = createUserData({
+      schmerzengeldantrag: [
+        {
+          mindestBetrag: "500",
+          beklagte: { [beklagten[0].id]: "on" },
+          klagende: { [klagenden[0].id]: "on" },
+          zinssatzInProzent: 5,
+          zinsmethode: "jaehrlicherZinssatz",
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(
+        getUnbezifferterSchmerzensgeldantragText({
+          userData,
+          schmerzengeldantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "nebst Zinsen in Höhe von 5 Prozent p.a. seit Rechtshängigkeit.",
+    );
+  });
+
   it("should include the amount, interest, and Zug-um-Zug description in a Hauptantrag", () => {
     const userData = createUserData({
       hauptantrag: [
@@ -231,7 +314,10 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(
       textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt, an der Kläger zu 1) einen Betrag in Höhe von 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024, Zug-um-Zug gegen: Rückgabe der Sache.",
+      "Der Beklagte zu 1) wird verurteilt an, der Kläger zu 1) 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 Zug-um-Zug gegen Rückgabe der Sache zu zahlen.",
+    
+
     );
+
   });
 });

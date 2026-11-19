@@ -196,7 +196,6 @@ export const getBezifferterAntragText = ({
     amountText: createElement(
       Fragment,
       null,
-      "einen Betrag in Höhe von ",
       createElement("strong", null, `${hauptantrag?.betragForderung} Euro`),
     ),
   });
@@ -309,12 +308,13 @@ const getAntragText = ({
     " ",
     getVerb(beklagteNumbers.length),
     " ",
-    beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
-    isSchmerzensgeldantrag ? "verurteilt, an " : "verurteilt, ",
+    beklagteNumbers.length > 1
+      ? createElement("strong", null, "als Gesamtschuldner ")
+      : "",
+    "verurteilt an, ",
     createElement(
       "strong",
       null,
-      " an ",
       isSchmerzensgeldantrag
         ? klagendeNumbers.length === 1
           ? "der Kläger"
@@ -341,9 +341,13 @@ const getAntragText = ({
       : "",
     hasZugUndZug
       ? [
-          ", Zug-um-Zug",
+          createElement("strong", null, " Zug-um-Zug"),
           gegenleistung?.trim()
-            ? [" gegen: ", createElement("strong", null, gegenleistung)]
+            ? [
+                " gegen ",
+                createElement("strong", null, gegenleistung),
+                " zu zahlen",
+              ]
             : "",
         ]
       : "",
