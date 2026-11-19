@@ -84,10 +84,7 @@ export const getNumberedAntragTitle = (
     arrayName === "hauptantrag"
       ? strings.bezifferterZahlungsantragHeadline.de
       : strings.unbezifferterZahlungsantragHeadline.de;
-  return getTitleWithSchlagwort(
-    `${headline} ${antragNumber}`,
-    userData[arrayName]?.[index]?.internesSchlagwortForderung,
-  );
+  return getTitleWithSchlagwort(`${headline} ${antragNumber}`);
 };
 
 export const getNebenantragTitle = (

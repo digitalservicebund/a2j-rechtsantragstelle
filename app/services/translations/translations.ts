@@ -877,7 +877,7 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
     bezifferterZahlungsantragHeadline: {
-      de: "Bezifferter Zahlungsantrag",
+      de: "Zahlungsantrag",
     },
     unbezifferterZahlungsantragHeadline: {
       de: "Unbezifferter Schmerzensgeldantrag",
