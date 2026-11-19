@@ -42,6 +42,7 @@ export const Default: Story = {
     content: {
       html: "<p>This is the content area with some explanatory text about the box component.</p>",
     },
+    wrap: false,
   },
 };
 
@@ -68,6 +69,7 @@ export const WithButtons: Story = {
         look: "secondary",
       },
     ],
+    wrap: false,
   },
 };
 
@@ -80,6 +82,7 @@ export const OnlyHeading: Story = {
     content: {
       html: "<p>This box demonstrates content with a heading but no label.</p>",
     },
+    wrap: false,
   },
 };
 
@@ -92,6 +95,7 @@ export const OnlyLabel: Story = {
     content: {
       html: "<p>This box has a label but no main heading, suitable for smaller informational sections.</p>",
     },
+    wrap: false,
   },
 };
 
@@ -100,6 +104,7 @@ export const MinimalContent: Story = {
     content: {
       html: "<p>Just content, no headings or labels. Perfect for simple text blocks.</p>",
     },
+    wrap: false,
   },
 };
 
@@ -134,5 +139,6 @@ export const MultipleButtons: Story = {
         look: "tertiary",
       },
     ],
+    wrap: false,
   },
 };

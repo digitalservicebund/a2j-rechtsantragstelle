@@ -7,6 +7,7 @@ import ButtonContainer from "~/components/common/ButtonContainer";
 import Heading, { type HeadingProps } from "../common/Heading";
 import RichText from "~/components/common/RichText";
 import BoxItem, { type BoxItemProps } from "./BoxItem";
+import classNames from "classnames";
 
 type BoxProps = {
   id?: number;
@@ -18,6 +19,7 @@ type BoxProps = {
   buttons?: ButtonProps[];
   image?: ImageProps;
   items?: BoxItemProps[];
+  wrap: boolean;
 };
 
 const Box = ({
@@ -30,6 +32,7 @@ const Box = ({
   buttons,
   image,
   items,
+  wrap,
 }: BoxProps) => {
   const labelElementId = label
     ? `box-label-${identifier?.toLowerCase() ?? id}`
@@ -98,7 +101,12 @@ const Box = ({
       xlColumn={{ start: 3, span: 8 }}
       id={identifier}
     >
-      <div className="flex flex-col gap-kern-space-small py-kern-space-x-large px-kern-space-large lg:px-0 xl:px-0">
+      <div
+        className={classNames(
+          "flex flex-col gap-kern-space-small py-kern-space-x-large lg:px-0 xl:px-0",
+          { "px-kern-space-large": !wrap },
+        )}
+      >
         {image ? (
           <div className="flex flex-col lg:flex-row items-start gap-kern-space-large">
             <div className="shrink-0 max-w-full lg:max-w-[200px]">
