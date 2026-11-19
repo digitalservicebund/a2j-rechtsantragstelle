@@ -93,6 +93,7 @@ const SonstigeAntraegeUebersicht = () => {
         href: addButtonUrl,
         disabled: shouldDisableAddButton,
         dataTestId: "add-sonstigeAntraege",
+        onClick: () => onEditSonstigeAntrag(nextItemIndex),
         buttonText:
           translations.geldEinklagenAnwaltschaft
             .soenstigeProzessantragArrayButton.de,
