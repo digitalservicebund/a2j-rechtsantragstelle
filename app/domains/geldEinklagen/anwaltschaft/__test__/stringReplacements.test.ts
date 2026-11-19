@@ -20,17 +20,17 @@ describe("getAntraegeStrings", () => {
     [
       `${zahlung}/hauptantrag/#/daten`,
       [0],
-      "Bezifferter Zahlungsantrag 1 (Miete)",
+      "Zahlungsantrag 1",
     ],
     [
       `${zahlung}/#/nebenantraege/#/daten`,
       [1, 0],
-      "Bezifferter Zahlungsantrag 2",
+      "Zahlungsantrag 2",
     ],
     [
       `${zahlung}/#/annahmeverzug/#/daten`,
       [1, 1],
-      "Bezifferter Zahlungsantrag 2",
+      "Zahlungsantrag 2",
     ],
     [
       `${schmerzensgeld}/schmerzensgeldantraege/#/daten`,
