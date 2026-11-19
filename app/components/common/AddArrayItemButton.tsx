@@ -7,6 +7,7 @@ type AddArrayItemButtonProps = {
   dataTestId?: string;
   buttonText: string;
   additionalContent?: React.ReactNode;
+  onClick?: () => void;
 };
 
 export const AddArrayItemButton = ({
@@ -15,6 +16,7 @@ export const AddArrayItemButton = ({
   buttonText,
   additionalContent,
   dataTestId,
+  onClick,
 }: AddArrayItemButtonProps) => {
   return (
     <div className="flex flex-col items-start gap-24 p-kern-space-default border border-dashed border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) bg-kern-white">
@@ -28,6 +30,7 @@ export const AddArrayItemButton = ({
         fullWidth={true}
         disabled={disabled}
         aria-disabled={disabled}
+        onClick={onClick}
       >
         {buttonText}
       </Button>

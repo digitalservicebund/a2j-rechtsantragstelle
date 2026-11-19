@@ -120,6 +120,7 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
             .de,
         disabled: maxAntraegeReached || !hasParteien,
         dataTestId: "add-schmerzengeldantrag",
+        onClick: () => onEditSchmerzengeldAntrag(nextItemIndex),
       }}
     >
       {arrayIsNonEmpty(userDataGeldEinklagen.schmerzengeldantrag) &&
