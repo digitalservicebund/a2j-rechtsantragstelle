@@ -71,6 +71,35 @@ afterEach(() => {
 });
 
 describe("UnbezifferteSchmerzensgeldUebersicht", () => {
+  it.each([0, 29])(
+    "focuses the newly added claim after returning, starting with %i claims",
+    (count) => {
+      vi.useFakeTimers();
+      const items = Array.from({ length: count }, () => antrag);
+      const { unmount } = renderOverview({
+        ...claimParties,
+        schmerzengeldantrag: items,
+      });
+      act(() => vi.runAllTimers());
+
+      const addLink = screen.getByTestId("add-schmerzengeldantrag");
+      addLink.addEventListener("click", (event) => event.preventDefault());
+      fireEvent.click(addLink);
+      unmount();
+
+      renderOverview({
+        ...claimParties,
+        schmerzengeldantrag: [...items, antrag],
+      });
+      act(() => vi.runAllTimers());
+
+      expect(
+        document.getElementById(`schmerzengeldantrag-${count}`),
+      ).toHaveFocus();
+      expect(sessionStorage.getItem("focus-schmerzengeldantrag")).toBeNull();
+    },
+  );
+
   it("should render a schmerzensgeldantrag with edit link", () => {
     renderOverview({
       schmerzengeldantrag: [

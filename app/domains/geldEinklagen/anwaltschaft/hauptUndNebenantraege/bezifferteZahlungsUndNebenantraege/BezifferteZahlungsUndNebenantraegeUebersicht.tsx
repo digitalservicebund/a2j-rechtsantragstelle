@@ -28,7 +28,9 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
 
       if (itemIndex === null) return;
 
-      const element = document.getElementById(`zahlungsAntrag-${itemIndex}`);
+      const element = document.getElementById(
+        `bezifferterZahlungsAntrag-${itemIndex}`,
+      );
 
       if (element) {
         element.focus();
@@ -104,6 +106,7 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
           translations.geldEinklagenAnwaltschaft.zahlungsAntragHinzufuegen.de,
         disabled: maxAntraegeReached || !hasParteien,
         dataTestId: "add-zahlungsantrag",
+        onClick: onEditZahlungsAntrag(nextItemIndex),
       }}
     >
       {arrayIsNonEmpty(userDataGeldEinklagen.hauptantrag) &&

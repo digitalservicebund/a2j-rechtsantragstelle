@@ -26,6 +26,6 @@ export const ArrayItemEditButton = ({
     aria-label={ariaLabel}
     href={href}
     onClick={onClick}
-    className="p-kern-space-small! min-h-0! size-kern-dimension-x-large"
+    className="p-kern-space-small! min-h-0! size-kern-dimension-x-large shrink-0"
   />
 );

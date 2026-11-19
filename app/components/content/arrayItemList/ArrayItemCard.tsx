@@ -52,12 +52,12 @@ export const ArrayItemCard = ({
       {headingElement}
       <div className="kern-summary__body bg-white! border border-kern-neutral-200 rounded-(--kern-metric-border-radius-default) gap-kern-space-large!">
         {badge && (
-          <Badge className="h-[32px] w-[409px]! max-w-full! min-w-0 py-kern-space-x-small! px-kern-space-default! bg-kern-neutral-025! border border-kern-neutral-200! rounded-(--kern-metric-border-radius-default)">
+          <Badge className="h-auto min-h-[32px] md:h-[32px] w-fit! max-w-full! py-kern-space-x-small! px-kern-space-default! bg-kern-neutral-025! border border-kern-neutral-200! rounded-(--kern-metric-border-radius-default)">
             {badge}
           </Badge>
         )}
         <div className="flex gap-kern-space-default justify-between items-center">
-          {content}
+          <div className="min-w-0 wrap-anywhere">{content}</div>
           <ArrayItemEditButton {...editButton} />
         </div>
         {children}

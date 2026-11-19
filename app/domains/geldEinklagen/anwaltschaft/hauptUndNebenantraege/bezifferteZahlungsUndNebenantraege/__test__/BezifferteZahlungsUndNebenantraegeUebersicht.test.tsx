@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import type { FlowId } from "~/domains/flowIds";
@@ -66,10 +66,40 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.useRealTimers();
   sessionStorage.clear();
 });
 
 describe("BezifferteZahlungsUndNebenantraegeUebersicht", () => {
+  it.each([0, 49])(
+    "focuses the newly added claim after returning, starting with %i claims",
+    (count) => {
+      vi.useFakeTimers();
+      const items = Array.from({ length: count }, () => antrag);
+      const { unmount } = renderOverview({
+        ...claimParties,
+        hauptantrag: items,
+      });
+      act(() => vi.runAllTimers());
+
+      const addLink = screen.getByTestId("add-zahlungsantrag");
+      addLink.addEventListener("click", (event) => event.preventDefault());
+      fireEvent.click(addLink);
+      unmount();
+
+      renderOverview({
+        ...claimParties,
+        hauptantrag: [...items, antrag],
+      });
+      act(() => vi.runAllTimers());
+
+      expect(
+        document.getElementById(`bezifferterZahlungsAntrag-${count}`),
+      ).toHaveFocus();
+      expect(sessionStorage.getItem("focus-zahlungsantrag")).toBeNull();
+    },
+  );
+
   it("should render a bezifferterantrag with edit link", () => {
     renderOverview({
       hauptantrag: [

@@ -65,6 +65,7 @@ const Homepage = () => {
                 bmjvLogo: true,
                 className: "mt-8 has-bmjv-logo",
               }}
+              wrap={false}
             />
           </GridItem>
         </Grid>
@@ -187,6 +188,7 @@ const Homepage = () => {
                   </a>
                 </>
               }
+              wrap={false}
             />
           </GridItem>
         </Grid>

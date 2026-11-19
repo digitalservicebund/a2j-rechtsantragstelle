@@ -25,7 +25,7 @@ const SonstigeAntraege = ({
     <ArrayItemCard
       id={`sonstigeAntraege-${itemIndex}`}
       badge={item.internesSchlagwort}
-      content={<span className="max-w-[632px]">{item.antrag}</span>}
+      content={<p className="max-w-[632px]">{item.antrag}</p>}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
