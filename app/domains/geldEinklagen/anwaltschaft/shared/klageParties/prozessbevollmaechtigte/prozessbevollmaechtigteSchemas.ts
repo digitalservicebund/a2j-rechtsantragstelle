@@ -14,6 +14,7 @@ import {
   MAX_PROZESSBEVOLLMAECHTIGTE,
   MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_VERANTWORTENDE_PERSONEN,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteHelpers";
+import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 const contactFields = {
   telefonnummer: schemaOrEmptyStringOptional(phoneNumberSchema),
@@ -22,7 +23,7 @@ const contactFields = {
 
 const commonProzessbevollmaechtigteFields = {
   id: commonFields.id,
-  name: stringOptionalSchema,
+  name: stringRequiredSchema,
   geschaeftszeichen: stringOptionalSchema,
   ...adresseFields,
   ...contactFields,
