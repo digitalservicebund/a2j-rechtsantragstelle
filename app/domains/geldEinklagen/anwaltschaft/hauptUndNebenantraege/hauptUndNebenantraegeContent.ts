@@ -38,7 +38,7 @@ export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "vorgerichtliche angefallene Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Adressermittlungkosten",
@@ -298,7 +298,8 @@ const getAntragText = ({
             return `${separator}zu ${number})`;
           })
           .join("")
-    : formatPartyNumbers;
+    : (numbers: number[]) =>
+        numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
 
   return createElement(
     Fragment,
@@ -310,7 +311,6 @@ const getAntragText = ({
         ? "Der Beklagte"
         : getBeklagteText(beklagteNumbers.length),
       " ",
-      "zu ",
       formatNumbers(beklagteNumbers),
     ),
     " ",
@@ -328,7 +328,7 @@ const getAntragText = ({
           ? "der Kläger"
           : "die Kläger"
         : getKlagendeText(klagendeNumbers.length),
-      " zu ",
+      " ",
       formatNumbers(klagendeNumbers),
     ),
     " ",

@@ -21,6 +21,11 @@ type BezifferterZahlungsUndNebenantragItemProps = {
 
 const MAX_NEBENANTRAG_ITEMS = 6;
 
+const nebenantragArtDeleteDialogLabels = {
+  ...nebenantragArtLabels,
+  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+};
+
 export const BezifferterZahlungsUndNebenantragItem = ({
   userData,
   parentArrayItemIndex,
@@ -108,9 +113,8 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             : "Feststellungsantrag auf Annahmeverzug";
         const title =
           entry.type === "nebenantrag"
-            ? `${itemLabel} - ${nebenantragArtLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag + " Euro" : ""}`
+            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag + " Euro" : ""}`
             : itemLabel;
-
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
           id: `nebenantrag-${parentArrayItemIndex}-${index}`,

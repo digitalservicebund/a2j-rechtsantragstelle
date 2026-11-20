@@ -157,6 +157,40 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
     expect(deleteItem).toHaveBeenCalledExactlyOnceWith(1);
   });
 
+  it("should use a shorter label for pre-litigation legal fees in the deletion dialog", async () => {
+    const user = userEvent.setup();
+    render(
+      <BezifferterZahlungsUndNebenantragItem
+        userData={{
+          hauptantrag: [
+            {
+              ...antrag,
+              nebenantraege: [
+                {
+                  ...nebenantrag,
+                  nebenantragArt: "vorgerichtlicheAnwaltskosten",
+                },
+              ],
+            },
+          ],
+        }}
+        parentArrayItemIndex={0}
+      />,
+    );
+    expect(
+      screen.getByText("vorgerichtlich angefallene Anwaltskosten", {
+        selector: "strong",
+      }),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "Nebenantrag 1 löschen" }),
+    );
+    expect(
+      screen.getByRole("dialog", { name: "Nebenantrag löschen?" }),
+    ).toHaveTextContent("Nebenantrag - Vorgerichtlich Anwaltskosten, 100 Euro");
+  });
+
   it("should restore focus after editing or deleting a nebenantrag", () => {
     vi.useFakeTimers();
     sessionStorage.setItem("focus-nebenantrag-0", "0");

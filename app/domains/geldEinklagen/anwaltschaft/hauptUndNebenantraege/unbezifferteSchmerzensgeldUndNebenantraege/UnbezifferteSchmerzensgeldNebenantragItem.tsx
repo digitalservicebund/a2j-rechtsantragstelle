@@ -20,6 +20,11 @@ type UnbezifferteSchmerzensgeldNebenantragItemProps = {
 
 const MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS = 6;
 
+const nebenantragArtDeleteDialogLabels = {
+  ...nebenantragArtLabels,
+  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+};
+
 export const UnbezifferteSchmerzensgeldNebenantragItem = ({
   userData,
   parentArrayItemIndex,
@@ -120,7 +125,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
                 <span className="flex flex-row items-center!">
                   <Icon name="draft" className="mr-8!" />
                   <p className="kern-body! font-bold! text-xl!">
-                    {`Nebenantrag - ${nebenantragArtLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`}
+                    {`Nebenantrag - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`}
                   </p>
                 </span>
               </>

@@ -292,6 +292,60 @@ describe("hauptUndNebenantraegeContent", () => {
     ).toContain(
       "nebst Zinsen in Höhe von 5 Prozent p.a. seit Rechtshängigkeit.",
     );
+
+    expect(
+      renderToStaticMarkup(
+        getUnbezifferterSchmerzensgeldantragText({
+          userData,
+          schmerzengeldantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "<strong>Der Beklagte zu 1)</strong> wird verurteilt an, <strong>der Kläger zu 1)</strong>",
+    );
+  });
+
+  it("prefixes each selected party number in a Bezifferter Antrag", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "1.000,00",
+          beklagte: { [beklagten[0].id]: "on", [beklagten[1].id]: "on" },
+          klagende: { [klagenden[0].id]: "on", [klagenden[1].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    const markup = renderToStaticMarkup(
+      getBezifferterAntragText({ userData, hauptantragIndex: 0 }),
+    );
+    expect(markup).toContain("<strong>Die Beklagten zu 1) und zu 2)</strong>");
+    expect(markup).toContain("<strong>die Kläger zu 1) und zu 2)</strong>");
+  });
+
+  it("does not duplicate the prefix in a Schmerzensgeldantrag", () => {
+    const userData = createUserData({
+      schmerzengeldantrag: [
+        {
+          mindestBetrag: "500",
+          beklagte: { [beklagten[0].id]: "on", [beklagten[1].id]: "on" },
+          klagende: { [klagenden[0].id]: "on", [klagenden[1].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    const markup = renderToStaticMarkup(
+      getUnbezifferterSchmerzensgeldantragText({
+        userData,
+        schmerzengeldantragIndex: 0,
+      }),
+    );
+    expect(markup).toContain("<strong>Die Beklagten zu 1) und zu 2)</strong>");
+    expect(markup).toContain("<strong>die Kläger zu 1) und zu 2)</strong>");
   });
 
   it("should include the amount, interest, and Zug-um-Zug description in a Hauptantrag", () => {
