@@ -4,6 +4,7 @@ import {
   type Schmerzensgeldantrag,
   type SchmerzengeldNebenantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { hauptantraegeTypes as numberedAntragArrays } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeContent";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
@@ -40,12 +41,6 @@ export type AntraegeUserData = Pick<
 
 const strings = translations.geldEinklagenAnwaltschaft;
 
-const numberedAntragArrays = [
-  "hauptantrag",
-  "schmerzengeldantrag",
-  "sonstigeAntraege",
-] as const;
-
 /**
  * Converts an index within one of the numbered Antrag arrays into the Antrag
  * number shared across Zahlungs-, Schmerzensgeld- and Sonstige Anträge.
@@ -61,9 +56,6 @@ export const getAntragNumber = (
   index +
   1;
 
-const getTitleWithSchlagwort = (title: string, schlagwort?: string) =>
-  schlagwort ? `${title} (${schlagwort})` : title;
-
 /**
  * Title of a Zahlungs-, Schmerzensgeld- or Sonstiger Antrag by its position, so
  * it also works for an item that is only just being added.
@@ -75,22 +67,13 @@ export const getNumberedAntragTitle = (
 ) => {
   const antragNumber = getAntragNumber(userData, arrayName, index);
   if (arrayName === "sonstigeAntraege") {
-    return getTitleWithSchlagwort(
-      `${strings.sonstigerAntrag.de} ${antragNumber}`,
-      userData.sonstigeAntraege?.[index]?.internesSchlagwort,
-    );
+    return `${strings.sonstigerAntrag.de} ${antragNumber}`;
   }
   const headline =
     arrayName === "hauptantrag"
       ? strings.bezifferterZahlungsantragHeadline.de
       : strings.unbezifferterZahlungsantragHeadline.de;
-  const title = `${headline} ${antragNumber}`;
-  return arrayName === "hauptantrag"
-    ? title
-    : getTitleWithSchlagwort(
-        title,
-        userData[arrayName]?.[index]?.internesSchlagwortForderung,
-      );
+  return `${headline} ${antragNumber}`;
 };
 
 export const getNebenantragTitle = (

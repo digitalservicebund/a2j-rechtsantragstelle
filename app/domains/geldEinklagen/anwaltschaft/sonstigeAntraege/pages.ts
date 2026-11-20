@@ -12,6 +12,10 @@ const sonstigeAntraegeArraySchema = z.array(
   }),
 );
 
+export type SonstigeAntrag = z.infer<
+  typeof sonstigeAntraegeArraySchema
+>[number];
+
 export const sonstigeAntraegePages = {
   sonstigeAntraegeUebersicht: {
     stepId: "/sonstige-antraege/uebersicht",

@@ -115,3 +115,14 @@ describe("SonstigeAntraegeUebersicht focus", () => {
     },
   );
 });
+
+it("routes other Antrag deletions through the action that also removes Vorträge", () => {
+  renderOverview([{ id: "antrag", antrag: "Mein Antrag" }]);
+
+  expect(useDeleteArrayItem).toHaveBeenCalledWith(
+    "sonstigeAntraege",
+    "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag",
+    expect.any(Function),
+    "/action/geld-einklagen/anwaltschaft/delete-antrag",
+  );
+});

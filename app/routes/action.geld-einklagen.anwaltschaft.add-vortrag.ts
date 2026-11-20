@@ -2,7 +2,10 @@ import { randomUUID } from "node:crypto";
 import set from "lodash/set";
 import { redirectDocument, type ActionFunctionArgs } from "react-router";
 import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
-import { getOrderedAntraege } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/antragOrdering";
+import {
+  getOrderedAntraege,
+  getVortragIndex,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/antragOrdering";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
@@ -57,9 +60,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const vortraege = [...(userData.vortraege ?? [])];
-  let vortragIndex = vortraege.findIndex(
-    (vortrag) => vortrag.antragId === antragId,
-  );
+  let vortragIndex = getVortragIndex(userData, antragId);
   if (vortragIndex === -1) {
     vortraege.push({ antragId });
     vortragIndex = vortraege.length - 1;

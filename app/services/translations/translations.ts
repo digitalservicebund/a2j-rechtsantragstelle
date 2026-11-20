@@ -807,6 +807,18 @@ export const translations = {
     auswirkungen: {
       de: "Auswirkungen",
     },
+    antragDeletionWarning: {
+      de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
+    },
+    antragDeletionAuswirkungen: {
+      de: "Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem Antrag beziehungweise dieser prozessualen Ausführung verknüpft ist. Wenn Sie den Antrag/die Ausführung löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.",
+    },
+    keepAndEditAntrag: {
+      de: "Falls Sie lediglich die Angaben für diesen Antrag/diese Ausführung ändern möchten, behalten und bearbeiten Sie diese anstatt sie zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.",
+    },
+    deleteAntragPermanently: {
+      de: "Falls Sie den Antrag/die Ausführung mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
+    },
     antragWithOnePartyDeletionDescription: {
       de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
     },
