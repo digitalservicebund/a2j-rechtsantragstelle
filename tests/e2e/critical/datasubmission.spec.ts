@@ -20,4 +20,21 @@ test.describe("Data submission", () => {
       .click();
     await expect(page.getByLabel("Ja, komplett")).toBeChecked();
   });
+
+  test("should open dialog for unsaved changes", async ({ page }) => {
+    await page.goto("/beratungshilfe/vorabcheck");
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
+
+    await page.locator(`button[name="_action"]`).click();
+    await page.getByLabel("Ja").click();
+    await page.locator(`button[name="_action"]`).click();
+
+    await page.getByTestId("back-button").click();
+
+    await page.getByLabel("Nein").click();
+    await page.getByTestId("back-button").click();
+
+    await expect(page.getByText("Änderungen speichern?")).toBeVisible();
+  });
 });
