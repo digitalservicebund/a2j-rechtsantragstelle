@@ -22,8 +22,8 @@ const isAllowed = (targetPathOrUrl: string) => {
       // relative path
     }
 
-    const normTarget = targetPath.replace(/\/+$/, "") || "/";
-    const normAllowed = allowed.replace(/\/+$/, "") || "/";
+    const normTarget = targetPath.replace(/^(.*?)\/*$/, "$1") || "/";
+    const normAllowed = allowed.replace(/^(.*?)\/*$/, "$1") || "/";
 
     if (normTarget === normAllowed) {
       return true;
