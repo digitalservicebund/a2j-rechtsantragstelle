@@ -6,19 +6,27 @@ import { translations } from "~/services/translations/translations";
 type Props = {
   title: string;
   description: React.ReactNode;
-  onClick: () => void;
+  leftButton: {
+    onClick: () => void;
+    description: string;
+  };
+  rightButton: {
+    onClick: () => void;
+    description: string;
+  };
   closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement | null>;
   pending?: boolean;
 };
 
-export const DeleteDialog = ({
+export const DialogWithButtons = ({
   title,
   description,
-  onClick,
   closeDialog,
   dialogRef,
   pending = false,
+  leftButton,
+  rightButton,
 }: Props) => {
   const dialogLabelId = useId();
   const dialogDescriptionId = useId();
@@ -67,19 +75,19 @@ export const DeleteDialog = ({
           look="secondary"
           className="kern-btn--large"
           type="button"
-          onClick={closeDialog}
+          onClick={leftButton.onClick}
           disabled={pending}
         >
-          {translations.deleteDialog.cancel.de}
+          {leftButton.description}
         </Button>
 
         <Button
           className="bg-kern-feedback-danger! hover:bg-kern-red-500!"
           type="button"
-          onClick={onClick}
+          onClick={rightButton.onClick}
           disabled={pending}
         >
-          {translations.deleteDialog.confirm.de}
+          {rightButton.description}
         </Button>
       </footer>
     </dialog>
