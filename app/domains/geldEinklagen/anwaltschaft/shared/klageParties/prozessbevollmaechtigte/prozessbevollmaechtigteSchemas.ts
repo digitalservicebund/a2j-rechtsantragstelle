@@ -46,7 +46,8 @@ export const berufsausuebungsgesellschaftSchema = z.object({
   ["verantwortende-personen"]: z
     .array(verantwortendePersonSchema)
     .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_VERANTWORTENDE_PERSONEN)
-    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS),
+    .max(MAX_BERUFSAUSUEBUNGSGESELLSCHAFT_ADDITIONAL_PERSONS)
+    .optional(),
   type: z.literal("berufsausuebungsgesellschaft"),
 });
 

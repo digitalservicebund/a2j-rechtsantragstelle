@@ -3,7 +3,9 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BASE_URL_SONSTIGE_ANTRAEGE } from "./SonstigeAntraegeUebersicht";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { translations } from "~/services/translations/translations";
-import { SonstigeAntraegeDeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/sonstigeAntraege/components/SonstigeAntraegeDeletionDialog";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
+import { getAntragDeletionDialogProps } from "~/domains/geldEinklagen/anwaltschaft/services/antragDeletionDialog";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
 
 type SonstigeAntraegeProps = {
   readonly itemIndex: number;
@@ -22,6 +24,7 @@ const SonstigeAntraege = ({
   onDelete,
   onEdit,
 }: SonstigeAntraegeProps) => {
+  const { userData } = useFormFlow();
   const deletionTitle = `${
     translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de
   } ${antragNumber} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`;
@@ -43,9 +46,22 @@ const SonstigeAntraege = ({
           label={deletionTitle}
           title={`${deletionTitle}?`}
           description={
-            <SonstigeAntraegeDeletionDialog
-              item={item}
-              antragNumber={antragNumber}
+            <DeletionDialog
+              {...getAntragDeletionDialogProps({
+                antrag: item,
+                userData,
+                itemLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber}${item.internesSchlagwort ? ` (${item.internesSchlagwort})` : ""}`,
+                warningTexts: {
+                  auswirkungenText:
+                    translations.geldEinklagenAnwaltschaft
+                      .antragDeletionAuswirkungen.de,
+                  keepAndEditText:
+                    translations.geldEinklagenAnwaltschaft.keepAndEditAntrag.de,
+                  deletePermanentlyText:
+                    translations.geldEinklagenAnwaltschaft
+                      .deleteAntragPermanently.de,
+                },
+              })}
             />
           }
           onDelete={() => onDelete(itemIndex)}
