@@ -73,7 +73,6 @@ export const DialogWithButtons = ({
       <footer className="kern-dialog__footer">
         <Button
           look="secondary"
-          className="kern-btn--large"
           type="button"
           onClick={leftButton.onClick}
           disabled={pending}
