@@ -2,6 +2,7 @@ import { createSession } from "react-router";
 import {
   deleteAntrag,
   getAllConnectedVortraegeIndices,
+  getAntragDeletionDialogProps,
   getAntragIndex,
 } from "../antragHelpers";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
@@ -26,14 +27,26 @@ const hauptantrag = {
   GeldEinklagenAnwaltschaftUserData["hauptantrag"]
 >[number];
 
+const warningTexts = {
+  auswirkungenText: "Auswirkungen",
+  keepAndEditText: "Bearbeiten",
+  deletePermanentlyText: "Löschen",
+};
+
+// A Vortrag only counts as connected once it has content besides its antragId
+const vortrag = (antragId: string) => ({
+  antragId,
+  absaetze: [{ formulierung: "Sachverhalt" }],
+});
+
 const userData = {
   hauptantrag: [hauptantrag],
   sonstigeAntraege: [{ antrag: "Entwurf" }, sonstigerAntrag],
   vortraege: [
-    { antragId: "haupt" },
-    { antragId: "sonstig" },
-    { antragId: "neben" },
-    { antragId: "haupt" },
+    vortrag("haupt"),
+    vortrag("sonstig"),
+    vortrag("neben"),
+    vortrag("haupt"),
   ],
 };
 
@@ -59,6 +72,18 @@ describe("getAllConnectedVortraegeIndices", () => {
     ]);
     expect(getAllConnectedVortraegeIndices(hauptantrag, {})).toEqual([]);
   });
+
+  it("ignores Vorträge that only have an antragId unless includeEmpty is set", () => {
+    const emptyVortraege = {
+      vortraege: [{ antragId: "haupt" }, { antragId: "neben" }],
+    };
+    expect(
+      getAllConnectedVortraegeIndices(hauptantrag, emptyVortraege),
+    ).toEqual([]);
+    expect(
+      getAllConnectedVortraegeIndices(hauptantrag, emptyVortraege, true),
+    ).toEqual([0, 1]);
+  });
 });
 
 describe("deleteAntrag", () => {
@@ -70,7 +95,23 @@ describe("deleteAntrag", () => {
     expect(response.status).toBe(200);
     expect(session.data.hauptantrag).toEqual([]);
     expect(session.data.sonstigeAntraege).toEqual(userData.sonstigeAntraege);
-    expect(session.data.vortraege).toEqual([{ antragId: "sonstig" }]);
+    expect(session.data.vortraege).toEqual([vortrag("sonstig")]);
+  });
+
+  it("also deletes empty Vorträge of the Antrag so none are orphaned", () => {
+    const session = createSession({
+      ...userData,
+      vortraege: [
+        { antragId: "haupt" },
+        vortrag("sonstig"),
+        { antragId: "neben" },
+      ],
+    });
+
+    const response = deleteAntrag(session, hauptantrag, "hauptantrag");
+
+    expect(response.status).toBe(200);
+    expect(session.data.vortraege).toEqual([vortrag("sonstig")]);
   });
 
   it("does not delete Vorträge when the Antrag is absent from the requested array", async () => {
@@ -81,5 +122,30 @@ describe("deleteAntrag", () => {
     expect(response.status).toBe(422);
     expect(await response.text()).toBe("Antrag not found or missing ID.");
     expect(session.data).toEqual(userData);
+  });
+});
+
+describe("getAntragDeletionDialogProps", () => {
+  it("includes the warning when the Antrag has connected Vorträge", () => {
+    const props = getAntragDeletionDialogProps({
+      antrag: sonstigerAntrag,
+      userData: { vortraege: [vortrag("sonstig")] },
+      itemLabel: "Antrag 1",
+      warningTexts,
+    });
+
+    expect(props.itemLabel).toBe("Antrag 1");
+    expect(props.warning).toMatchObject(warningTexts);
+  });
+
+  it("omits the warning when the Antrag has no connected Vorträge", () => {
+    const props = getAntragDeletionDialogProps({
+      antrag: sonstigerAntrag,
+      userData: { vortraege: [vortrag("other")] },
+      itemLabel: "Antrag 1",
+      warningTexts,
+    });
+
+    expect(props.warning).toBeUndefined();
   });
 });

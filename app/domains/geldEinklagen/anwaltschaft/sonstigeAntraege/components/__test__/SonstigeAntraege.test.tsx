@@ -12,8 +12,10 @@ const warningCases = [true, false].map((hasLinkedVortrag) => ({
     validFlowPages: {},
     userData: {
       vortraege: [
-        { antragId: "unrelated" },
-        ...(hasLinkedVortrag ? [{ antragId: "target" }] : []),
+        { antragId: "unrelated", internesSchlagwort: "Kosten" },
+        ...(hasLinkedVortrag
+          ? [{ antragId: "target", internesSchlagwort: "Kosten" }]
+          : []),
       ],
     },
   },

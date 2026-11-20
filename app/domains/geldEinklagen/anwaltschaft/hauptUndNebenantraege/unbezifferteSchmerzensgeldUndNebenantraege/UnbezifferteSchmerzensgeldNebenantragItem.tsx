@@ -6,9 +6,12 @@ import {
   nebenantragArtLabels,
 } from "../hauptUndNebenantraegeContent";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import {
+  ANTRAG_DELETION_URL_ENDPOINT,
+  getAntragDeletionDialogProps,
+} from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
 
 const BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege";
@@ -72,6 +75,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
         element?.focus();
       }, 100);
     },
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
 
   return (
@@ -103,32 +107,24 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
               translations.geldEinklagenAnwaltschaft.nebenatragDeleteButton.de,
             ariaLabel: `Schmerzensgeldantrag ${index + 1} löschen`,
             description: (
-              <>
-                <InlineNotice
-                  title={
-                    translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeTitle.de
-                  }
-                  tagName={"div"}
-                  look={"warning"}
-                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replaceAll(
-                    /\${itemLabel}/g,
-                    "Schmerzensgeldantrag",
-                  )}
-                />
-                <p className="kern-body">
-                  {
-                    translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeAntragToDelete.de
-                  }
-                </p>
-                <span className="flex flex-row items-center!">
-                  <Icon name="draft" className="mr-8!" />
-                  <p className="kern-body! font-bold! text-xl!">
-                    {`Nebenantrag - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`}
-                  </p>
-                </span>
-              </>
+              <DeletionDialog
+                {...getAntragDeletionDialogProps({
+                  antrag: entry,
+                  userData,
+                  itemLabel: `Nebenantrag - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`,
+                  warningTexts: {
+                    auswirkungenText:
+                      translations.geldEinklagenAnwaltschaft
+                        .antragDeletionAuswirkungen.de,
+                    keepAndEditText:
+                      translations.geldEinklagenAnwaltschaft.keepAndEditAntrag
+                        .de,
+                    deletePermanentlyText:
+                      translations.geldEinklagenAnwaltschaft
+                        .deleteAntragPermanently.de,
+                  },
+                })}
+              />
             ),
           },
         };

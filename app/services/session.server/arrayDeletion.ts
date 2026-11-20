@@ -4,6 +4,7 @@ import { Result, type Unit } from "true-myth";
 import { type FlowId, parsePathname } from "~/domains/flowIds";
 import { arrayChar } from "~/services/array";
 import { filterFormData } from "~/util/filterFormData";
+import { type UserData } from "~/domains/userData";
 
 export function getArrayDataFromFormData(formData: FormData): Result<
   {
@@ -53,13 +54,24 @@ export function getArrayDataFromFormData(formData: FormData): Result<
   });
 }
 
-const buildParentPath = (fieldName: string, indices: number[]) =>
-  fieldName
-    .split(arrayChar)
-    .map((segment, i) =>
-      indices[i] === undefined ? segment : `${segment}[${indices[i]}]`,
-    )
-    .join(".");
+export const getArrayForDeletion = (
+  userData: UserData,
+  arrayName: string,
+  arrayIndexes: number[] = [],
+) => {
+  const segments = arrayName.split(arrayChar);
+  const parentCount = segments.length - 1;
+  if (arrayIndexes.length < parentCount) {
+    return undefined;
+  }
+
+  // Only parent segments consume pathname indices; the form supplies the item index.
+  const path = segments.map((segment, i) =>
+    i < parentCount ? `${segment}[${arrayIndexes[i]}]` : segment,
+  );
+  const array = get(userData, path.join("."));
+  return Array.isArray(array) ? array : undefined;
+};
 
 export const deleteArrayItem = (
   arrayName: string,
@@ -68,23 +80,22 @@ export const deleteArrayItem = (
   arrayIndexes: number[] = [],
 ): Result<Unit, { message: string }> => {
   const topLevelArrayName = arrayName.split(arrayChar)[0];
-  const parentPath = buildParentPath(arrayName, arrayIndexes);
   const newUserData = structuredClone(flowSession.data);
-  const arrayToMutate = get(newUserData, parentPath);
+  const targetArray = getArrayForDeletion(newUserData, arrayName, arrayIndexes);
 
-  if (!Array.isArray(arrayToMutate)) {
+  if (!targetArray) {
     return Result.err({
       message: `Deletion failed: '${arrayName}' is not an array.`,
     });
   }
 
-  if (arrayToMutate.length <= index) {
+  if (targetArray.length <= index) {
     return Result.err({
-      message: `Requested array isn't long enough. Deletion request at index ${index}, but array is only of length ${arrayToMutate.length}.`,
+      message: `Requested array isn't long enough. Deletion request at index ${index}, but array is only of length ${targetArray.length}.`,
     });
   }
 
-  arrayToMutate.splice(index, 1);
+  targetArray.splice(index, 1);
   flowSession.set(topLevelArrayName, newUserData[topLevelArrayName]);
 
   return Result.ok();

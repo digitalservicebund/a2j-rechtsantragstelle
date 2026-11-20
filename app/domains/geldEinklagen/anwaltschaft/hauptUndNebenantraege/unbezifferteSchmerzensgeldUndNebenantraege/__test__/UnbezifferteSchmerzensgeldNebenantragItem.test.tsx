@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { translations } from "~/services/translations/translations";
 import { UnbezifferteSchmerzensgeldNebenantragItem } from "../UnbezifferteSchmerzensgeldNebenantragItem";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -74,6 +75,7 @@ describe("UnbezifferteSchmerzensgeldNebenantragItem", () => {
       "schmerzengeldantrag#nebenantraege",
       "/geld-einklagen/anwaltschaft/schmerzengeldantrag/1",
       expect.any(Function),
+      ANTRAG_DELETION_URL_ENDPOINT,
     );
   });
 

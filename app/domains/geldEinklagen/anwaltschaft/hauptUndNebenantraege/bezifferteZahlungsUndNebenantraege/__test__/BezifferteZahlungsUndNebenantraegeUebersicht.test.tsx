@@ -5,6 +5,7 @@ import type { FlowId } from "~/domains/flowIds";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import { translations } from "~/services/translations/translations";
 import BezifferteZahlungsUndNebenantraegeUebersicht from "../BezifferteZahlungsUndNebenantraegeUebersicht";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 vi.mock("~/components/hooks/formFlowContext", () => ({
   useFormFlow: vi.fn(),
@@ -129,6 +130,7 @@ describe("BezifferteZahlungsUndNebenantraegeUebersicht", () => {
       "hauptantrag",
       "/geld-einklagen/anwaltschaft",
       expect.any(Function),
+      ANTRAG_DELETION_URL_ENDPOINT,
     );
   });
 

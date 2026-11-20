@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { translations } from "~/services/translations/translations";
 import { BezifferterZahlungsUndNebenantragItem } from "../BezifferterZahlungsUndNebenantragItem";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -100,6 +101,7 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
       "hauptantrag#nebenantraege",
       "/geld-einklagen/anwaltschaft/hauptantrag/1",
       expect.any(Function),
+      ANTRAG_DELETION_URL_ENDPOINT,
     );
   });
 
