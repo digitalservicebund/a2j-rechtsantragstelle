@@ -72,7 +72,7 @@ describe("BezifferterZahlungsantrag", () => {
       name: "Zahlungsantrag 2 löschen",
     });
     expect(dialog).toHaveTextContent(
-      "Bezifferter Zahlungsantrag 2 (Lohn), 1000 Euro",
+      /Bezifferter Zahlungsantrag 2 \(Lohn\)\s*, 1000 Euro/,
     );
     expect(onDelete).not.toHaveBeenCalled();
     await user.click(

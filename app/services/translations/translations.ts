@@ -816,14 +816,8 @@ export const translations = {
     keepAndEditAntrag: {
       de: "Falls Sie lediglich die Angaben für diesen Antrag/diese Ausführung ändern möchten, behalten und bearbeiten Sie diese anstatt sie zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.",
     },
-    keepAndEditBezifferterZahlungsantrag: {
-      de: " Falls Sie lediglich die Angaben für den bezifferten Zahlungsantrag {{ antragNumber }} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.",
-    },
     deleteAntragPermanently: {
       de: "Falls Sie den Antrag/die Ausführung mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
-    },
-    deleteBezifferterZahlungsantragPermanently: {
-      de: "Falls Sie den bezifferten Zahlungsantrag {{ antragNumber }} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
     },
     antragWithOnePartyDeletionDescription: {
       de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
@@ -897,9 +891,6 @@ export const translations = {
     bezifferterZahlungsantragHeadline: {
       de: "Zahlungsantrag",
     },
-    bezifferterZahlungsantrag: {
-      de: "Bezifferter Zahlungsantrag",
-    },
     unbezifferterZahlungsantragHeadline: {
       de: "Unbezifferter Schmerzensgeldantrag",
     },
@@ -925,7 +916,12 @@ export const translations = {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Tatsachenvorträge",
     },
     bezifferterZahlungsantragDeleteWarning: {
-      de: "Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem bezifferten Zahlungsantrag {{ antragNumber }} oder möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. Wenn Sie den bezifferten Zahlungsantrag {{ antragNumber }} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.",
+      de: `<p>Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem allgemeinen Zahlungsantrag \${itemIndex + 1} oder möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. Wenn Sie den allgemeinen Zahlungsantrag \${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
+<strong>Das können Sie tun:</strong><br />
+<li><strong>Behalten und bearbeiten:</strong></li><br />
+<p>Falls Sie lediglich die Angaben für den allgemeinen Zahlungsantrag \${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.</p><br />
+<li><strong>Endgültig löschen:</strong></li><br />
+<p>Falls Sie den allgemeinen Zahlungsantrag \${itemIndex + 1} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>`,
     },
     bezifferterZahlungsantragItemsToDelete: {
       de: "Der folgende Zahlungsantrag wird inklusive dazugehöriger Nebenanträge/Feststellungsantrag auf Annahmeverzug entfernt:",
