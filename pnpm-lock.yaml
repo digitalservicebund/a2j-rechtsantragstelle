@@ -252,8 +252,8 @@ importers:
         specifier: ^2.6.0
         version: 2.6.0
       html-react-parser:
-        specifier: ^6.1.9
-        version: 6.1.9(@types/react@19.3.0)(react@19.3.1)
+        specifier: ^6.1.10
+        version: 6.1.10(@types/react@19.3.0)(react@19.3.1)
       ioredis:
         specifier: ^6.0.0
         version: 6.0.0(supports-color@8.1.1)
@@ -264,8 +264,8 @@ importers:
         specifier: ^4.18.1
         version: 4.18.1
       marked:
-        specifier: ^18.2.0
-        version: 18.2.0
+        specifier: ^18.2.1
+        version: 18.2.1
       match-sorter:
         specifier: ^8.3.1
         version: 8.3.1
@@ -3379,8 +3379,8 @@ packages:
   html-entities@2.6.0:
     resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
 
-  html-react-parser@6.1.9:
-    resolution: {integrity: sha512-5lQzzUQXrFe1+OR7GOGkATsm/2h3UIIWQvPkl+84+A9vYG6zbGxhZJjrCDlGvmQs7qPMbffO3XYizVrHekLZbA==}
+  html-react-parser@6.1.10:
+    resolution: {integrity: sha512-MMsfO02B6eUl+Tvl5zR07nU8BgvBZwP6tcrjHOGjyzAy4/kQ6ltnVdplrCbJYj8LuxJ3NrgAvezlSJiNkiPa8A==}
     peerDependencies:
       '@types/react': 0.14 || 15 || 16 || 17 || 18 || 19
       react: 0.14 || 15 || 16 || 17 || 18 || 19
@@ -3748,8 +3748,8 @@ packages:
     resolution: {integrity: sha512-Je0fLJ0F5atA7F+eIlLzk+Wkcl57JDf4kf+EW8xiP5E31xOQxkIxTbgf1Oi1Lw9tRI9UEMRdI5Vz2xTzoNU1Jw==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  marked@18.2.0:
-    resolution: {integrity: sha512-KaeL+tAbtvI930q7HE2PN5lYXYdT8EiSmxHlN6F3rsfb57wd5mp5W5TLazpdj4inTQBJdgjYwbs40W/0VUGU+Q==}
+  marked@18.2.1:
+    resolution: {integrity: sha512-ii4bxCTCqqwpT86XZWgJNs+ZnAIZksmLGYMViWA7PDIXYIeNo1x6cDdX3JOip9NM/cI6p8z57FxliACboTruMA==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -7753,7 +7753,7 @@ snapshots:
 
   html-entities@2.6.0: {}
 
-  html-react-parser@6.1.9(@types/react@19.3.0)(react@19.3.1):
+  html-react-parser@6.1.10(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       domhandler: 6.0.1
       html-dom-parser: 8.0.2
@@ -8095,7 +8095,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  marked@18.2.0: {}
+  marked@18.2.1: {}
 
   match-sorter@8.3.1:
     dependencies:
