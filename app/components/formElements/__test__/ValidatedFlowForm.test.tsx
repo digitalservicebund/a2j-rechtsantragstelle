@@ -14,7 +14,7 @@ import { integerSchema } from "~/services/validation/integer";
 import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { type SchemaObject } from "~/domains/userData";
+import type { UserData, SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { createDateInputSchema } from "~/services/validation/dateObject";
@@ -54,6 +54,12 @@ vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
 describe("ValidatedFlowForm", () => {
   beforeAll(() => {
     configureZod(); // Need to auto-configure enum errors
+    HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+      this.open = true;
+    };
+    HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+      this.open = false;
+    };
   });
 
   it("should render", () => {
@@ -105,6 +111,23 @@ describe("ValidatedFlowForm", () => {
         expect(inputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "10",
+      });
+
+      const inputComponent = getByRole("textbox");
+      fireEvent.input(inputComponent, {
+        target: { value: "12" },
+      });
+      fireEvent.blur(inputComponent);
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -195,6 +218,32 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getAllByRole, getByRole } = renderValidatedFlowForm(
+        [component],
+        { inputName: { day: "10", month: "11", year: "2024" } },
+      );
+      const dateDayInputComponent = getAllByRole("textbox")[0];
+      const dateMonthInputComponent = getAllByRole("textbox")[1];
+      const dateYearInputComponent = getAllByRole("textbox")[2];
+
+      fireEvent.input(dateDayInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.input(dateMonthInputComponent, {
+        target: { value: "12" },
+      });
+      fireEvent.input(dateYearInputComponent, {
+        target: { value: "2024" },
+      });
+
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("Textarea Component", () => {
@@ -240,6 +289,23 @@ describe("ValidatedFlowForm", () => {
         expect(textareaComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "value",
+      });
+
+      const inputComponent = getByRole("textbox");
+      fireEvent.input(inputComponent, {
+        target: { value: "new value" },
+      });
+      fireEvent.blur(inputComponent);
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -302,6 +368,22 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByLabelText } = renderValidatedFlowForm(
+        [component],
+        {
+          mySelect: "ja",
+        },
+      );
+
+      fireEvent.click(getByLabelText("Nein"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("Dropdown Component", () => {
@@ -340,6 +422,23 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByTestId } = renderValidatedFlowForm(
+        [component],
+        {
+          myDropdown: "option1",
+        },
+      );
+
+      const select = getByTestId("select");
+      fireEvent.change(select, { target: { value: "option2" } });
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -425,6 +524,22 @@ describe("ValidatedFlowForm", () => {
         );
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByLabelText } = renderValidatedFlowForm(
+        [checkbox1.component],
+        {
+          checkbox1: "off",
+        },
+      );
+
+      fireEvent.click(getByLabelText("Checkbox 1"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("TileGroup Component", () => {
@@ -493,21 +608,38 @@ describe("ValidatedFlowForm", () => {
         expect(secondRadio).not.toHaveFocus();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        myTileGroup: "firstTile",
+      });
+
+      fireEvent.click(getByText("secondTile"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 });
 
 function renderValidatedFlowForm(
   formElements: Array<Partial<StrapiFormComponent>>,
+  stepData: UserData = {},
 ) {
   const router = createMemoryRouter([
     {
       path: "/",
       element: (
         <ValidatedFlowForm
-          stepData={{}}
+          stepData={stepData}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
           formElements={formElements}
-          buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
+          buttonNavigationProps={{
+            next: { destination: "", label: "NEXT" },
+            back: { destination: "/back", label: "BACK" },
+          }}
           csrf={""}
         />
       ),

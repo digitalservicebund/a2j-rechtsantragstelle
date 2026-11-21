@@ -17,6 +17,7 @@ export function ButtonNavigation({ back, next }: ButtonNavigationProps) {
     <ButtonContainer className="pt-kern-space-x-large pb-kern-space-x-large">
       {back?.destination && (
         <Button
+          data-testid={"back-button"}
           href={back.destination}
           look="secondary"
           className="w-fit print:hidden"

@@ -238,9 +238,12 @@ const AutoSuggestInput = ({
           ariaLiveMessages={ariaLiveMessages(
             rootLoaderData?.accessibilityTranslations,
           )}
-          className={classNames("w-full ph-no-capture", {
-            "option-was-selected": optionWasSelected,
-          })}
+          className={classNames(
+            "w-full ph-no-capture auto-suggestion-input-div",
+            {
+              "option-was-selected": optionWasSelected,
+            },
+          )}
           components={{
             ClearIndicator: (props) =>
               AutoSuggestClearInput(props, buttonExclusionRef),
