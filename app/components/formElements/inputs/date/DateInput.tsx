@@ -36,13 +36,19 @@ const DateInput = ({
   const month = name + ".month";
   const year = name + ".year";
 
-  // TODO: Replace this addind the helperText to the DateInput component
+  // TODO: Replace this adding the helperText to the DateInput component
   const isInterestStartDate =
+    name === "schmerzengeldantrag#zinsbeginn" ||
     name ===
-    "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn";
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn" ||
+    name === "hauptantrag#nebenantraege#nebenantragZinsbeginn" ||
+    name === "hauptantrag#zinsbeginn";
   const isInterestEndDate =
+    name === "schmerzengeldantrag#zinsende" ||
     name ===
-    "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende";
+      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende" ||
+    name === "hauptantrag#nebenantraege#nebenantragZinsende" ||
+    name === "hauptantrag#zinsende";
 
   const field = useField(name);
   const dayField = useField(day);

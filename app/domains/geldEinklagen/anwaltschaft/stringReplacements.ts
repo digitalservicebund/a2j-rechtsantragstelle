@@ -112,3 +112,16 @@ export const getAntraegeStrings = (
     antragTitle: getNumberedAntragTitle(userData, arrayName, firstIndex),
   };
 };
+
+export const getGegenleistungen = (
+  userData: GeldEinklagenAnwaltschaftUserData,
+  arrayIndexes: number[] = [],
+) => {
+  const [firstIndex] = arrayIndexes;
+  if (firstIndex === undefined) return {};
+  const gegenleistung =
+    userData.hauptantrag?.at(firstIndex)?.beschreibungDerGegenleistung;
+  return {
+    gegenleistungTitle: gegenleistung ?? "",
+  };
+};

@@ -21,6 +21,7 @@ describe("getOrderedAntraege", () => {
         {
           ...forderung,
           mindestBetrag: "100",
+          internesSchlagwortForderung: "Unfall",
           nebenantraege: [
             {
               schmerzengeldNebenantragArt: "mahnkosten",
@@ -61,14 +62,14 @@ describe("getOrderedAntraege", () => {
         key: "hauptantrag.0",
         antragId: "z1",
         kind: "zahlungsantrag",
-        title: "Bezifferter Zahlungsantrag 1",
+        title: "Zahlungsantrag 1",
         isNebenantrag: false,
       },
       {
         key: "hauptantrag.1",
         antragId: undefined,
         kind: "zahlungsantrag",
-        title: "Bezifferter Zahlungsantrag 2 (Miete)",
+        title: "Zahlungsantrag 2",
         isNebenantrag: false,
       },
       {
@@ -96,7 +97,7 @@ describe("getOrderedAntraege", () => {
         key: "sonstigeAntraege.0",
         antragId: "s1",
         kind: "sonstigerAntrag",
-        title: "Sonstiger Antrag oder Ausführung 4 (Kosten)",
+        title: "Sonstiger Antrag oder Ausführung 4",
         isNebenantrag: false,
       },
       {

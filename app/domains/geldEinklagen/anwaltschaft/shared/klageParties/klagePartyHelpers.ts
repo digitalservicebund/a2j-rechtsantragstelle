@@ -1,5 +1,3 @@
-import { type Session } from "react-router";
-import { Result, Unit } from "true-myth";
 import {
   type Hauptantrag,
   type Schmerzensgeldantrag,
@@ -12,7 +10,6 @@ import {
   getPluralOfKlageParteiRelationship,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
-import { deleteArrayItem } from "~/services/session.server/arrayDeletion";
 import { translations } from "~/services/translations/translations";
 
 export const getBaseKlagePartyUrl = (relationship: KlageParteiVerhaeltnis) =>
@@ -126,49 +123,3 @@ export const antragHasOnlyOneParty =
     Object.keys(antrag[relationship]).filter(
       (key) => antrag[relationship][key] === "on",
     ).length === 1;
-
-export const deleteConnectedVortraege = (
-  antrag: Hauptantrag | Schmerzensgeldantrag,
-  flowSession: Session,
-): Result<Unit, { message: string }> => {
-  const connectedVortragIndexes = (
-    (flowSession.data as GeldEinklagenAnwaltschaftUserData).vortraege ?? []
-  ).flatMap((vortrag, index) =>
-    vortrag.antragId === antrag.id ||
-    // Include an Antrag's Nebenanträge as well, which are stored as discrete Vorträge array items
-    antrag.nebenantraege?.some(
-      (nebenantrag) => nebenantrag.id === vortrag.antragId,
-    )
-      ? [index]
-      : [],
-  );
-  // Delete backwards so cloning and removing items cannot invalidate later indexes.
-  for (const index of connectedVortragIndexes.reverse()) {
-    const vortragDeletionResult = deleteArrayItem(
-      "vortraege",
-      index,
-      flowSession,
-      [],
-    );
-    if (vortragDeletionResult.isErr) {
-      return Result.err({
-        message: `Could not delete Vortrag: ${vortragDeletionResult.error.message}`,
-      });
-    }
-  }
-  return Result.ok(Unit);
-};
-
-export const getAntragDetails = (
-  antrag: Hauptantrag | Schmerzensgeldantrag,
-  userData: GeldEinklagenAnwaltschaftUserData,
-) => {
-  const isHauptantrag = "betragForderung" in antrag;
-  const antragArrayName = isHauptantrag ? "hauptantrag" : "schmerzengeldantrag";
-  const antragIndex = antrag.id
-    ? (userData[antragArrayName]?.findIndex(
-        (current) => current.id === antrag.id,
-      ) ?? -1)
-    : -1;
-  return { antragArrayName, antragIndex } as const;
-};

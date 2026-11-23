@@ -17,6 +17,50 @@ describe("deleting a Klagepartei's connected Antraege", () => {
     vi.mocked(validatedSession).mockResolvedValue(Result.ok());
   });
 
+  it("finds a draft Hauptantrag by its array even when its amount is missing", async () => {
+    const session = createSession({
+      klagenden: [{ id: "deleted" }, { id: "remaining" }],
+      hauptantrag: [
+        {
+          id: "draft",
+          klagende: { deleted: "on", remaining: "on" },
+          beklagte: { defendant: "on" },
+        },
+      ],
+    });
+    vi.mocked(getSessionManager).mockReturnValue({
+      getSession: vi.fn().mockResolvedValue(session),
+      commitSession: vi.fn().mockResolvedValue(new Headers()),
+      destroySession: vi.fn(),
+    });
+
+    const formData = new FormData();
+    formData.set(
+      "pathnameArrayItem",
+      "/geld-einklagen/anwaltschaft/klagende-partei/klagenden",
+    );
+    formData.set("klagenden", "0");
+    formData.set("_jsEnabled", "true");
+    const response = await action({
+      request: new Request(
+        "http://localhost/action/geld-einklagen/anwaltschaft/delete-klage-partei",
+        { method: "POST", body: formData },
+      ),
+      params: {},
+      context: {},
+    } as ActionFunctionArgs);
+
+    expect(response.status).toBe(200);
+    expect(session.data.hauptantrag).toEqual([
+      {
+        id: "draft",
+        klagende: { remaining: "on" },
+        beklagte: { defendant: "on" },
+      },
+    ]);
+    expect(session.data.klagenden).toEqual([{ id: "remaining" }]);
+  });
+
   it("deletes a klagende Partei's sole-party Antraege and updates its shared Antraege without changing unrelated items", async () => {
     const unrelatedHauptantrag = {
       id: "unrelated-hauptantrag",

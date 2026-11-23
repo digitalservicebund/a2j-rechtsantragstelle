@@ -8,6 +8,7 @@ import {
   getBefindenText,
   getNebenantragItemText,
   getBezifferterAntragText,
+  getUnbezifferterSchmerzensgeldantragText,
 } from "../hauptUndNebenantraegeContent";
 
 const party = (id: string) => ({
@@ -55,7 +56,7 @@ describe("hauptUndNebenantraegeContent", () => {
   });
 
   it("should use the singular and plural Klagende labels", () => {
-    expect(getKlagendeText(1)).toBe("der Kläger");
+    expect(getKlagendeText(1)).toBe("den Kläger");
     expect(getKlagendeText(2)).toBe("die Kläger");
   });
 
@@ -101,7 +102,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Die Beklagten zu 1), zu 2) werden als Gesamtschuldner verurteilt, an der Kläger zu 2) Mahnkosten in Höhe von 25 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 zu zahlen.",
+      "Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner verurteilt, an den Kläger zu 2) Mahnkosten in Höhe von 25 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 zu zahlen.",
     );
   });
 
@@ -138,7 +139,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Es wird festgestellt, dass sich der beklagte 2) mit der Annahme der im Antrag zu 2) genannten Gegenleistung seit dem 03.04.2025 in Annahmeverzug befindet.",
+      "Es wird festgestellt, dass sich der Beklagte zu 2) mit der Annahme der im Antrag zu 2) genannten Gegenleistung seit dem 03.04.2025 in Annahmeverzug befindet.",
     );
   });
 
@@ -171,7 +172,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Es wird festgestellt, dass sich die beklagten 1), zu 2) mit der Annahme der im Antrag zu 1) genannten Gegenleistung in Annahmeverzug befinden.",
+      "Es wird festgestellt, dass sich die Beklagten zu 1) und zu 2) mit der Annahme der im Antrag zu 1) genannten Gegenleistung in Annahmeverzug befinden.",
     );
   });
 
@@ -207,8 +208,144 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt, an der Kläger zu 1) Inkassokosten in Höhe von 12 Euro nebst Zinsen in Höhe von 3 Prozent p. a. seit dem 01.01.2025 zu zahlen.",
+      "Der Beklagte zu 1) wird verurteilt, an den Kläger zu 1) Inkassokosten in Höhe von 12 Euro nebst Zinsen in Höhe von 3 Prozent p. a. seit dem 01.01.2025 zu zahlen.",
     );
+  });
+
+  it("uses Rechtshängigkeit when a Hauptantrag has no interest start date", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "1.000,00",
+          beklagte: { [beklagten[1].id]: "on" },
+          klagende: { [klagenden[1].id]: "on" },
+          zinssatzInProzent: 12,
+          zinsmethode: "monatlicherZinssatzUeberBasiszins",
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
+    ).toContain(
+      "nebst Zinsen in Höhe von 12 Prozentpunkten über dem jeweiligen Basiszinssatz p. a., monatlich abrechenbar seit Rechtshängigkeit.",
+    );
+  });
+
+  it("uses Rechtshängigkeit with an end date for a Nebenantrag", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "100",
+          beklagte: { [beklagten[0].id]: "on" },
+          klagende: { [klagenden[0].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(
+        getNebenantragItemText({
+          item: {
+            type: "nebenantrag",
+            nebenantragArt: "mahnkosten",
+            nebenantragBetrag: "25",
+            nebenantragZinssatzInProzent: 5,
+            nebenantragZinsmethode: "jaehrlicherZinssatz",
+            nebenantragZinsende: { day: "3", month: "4", year: "2025" },
+          },
+          userData,
+          hauptantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "nebst Zinsen in Höhe von 5 Prozent p. a. seit Rechtshängigkeit bis zum 03.04.2025 zu zahlen.",
+    );
+  });
+
+  it("keeps the Rechtshängigkeit fallback for Schmerzensgeld interest", () => {
+    const userData = createUserData({
+      schmerzengeldantrag: [
+        {
+          mindestBetrag: "500",
+          beklagte: { [beklagten[0].id]: "on" },
+          klagende: { [klagenden[0].id]: "on" },
+          zinssatzInProzent: 5,
+          zinsmethode: "jaehrlicherZinssatz",
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(
+        getUnbezifferterSchmerzensgeldantragText({
+          userData,
+          schmerzengeldantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "nebst Zinsen in Höhe von 5 Prozent p.a. seit Rechtshängigkeit.",
+    );
+
+    expect(
+      renderToStaticMarkup(
+        getUnbezifferterSchmerzensgeldantragText({
+          userData,
+          schmerzengeldantragIndex: 0,
+        }),
+      ),
+    ).toContain(
+      "<strong>Der Beklagte zu 1)</strong> wird verurteilt an, <strong>der Kläger zu 1)</strong>",
+    );
+  });
+
+  it("prefixes each selected party number in a Bezifferter Antrag", () => {
+    const userData = createUserData({
+      hauptantrag: [
+        {
+          betragForderung: "1.000,00",
+          beklagte: { [beklagten[0].id]: "on", [beklagten[1].id]: "on" },
+          klagende: { [klagenden[0].id]: "on", [klagenden[1].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    const markup = renderToStaticMarkup(
+      getBezifferterAntragText({ userData, hauptantragIndex: 0 }),
+    );
+    expect(markup).toContain("<strong>Die Beklagten zu 1) und zu 2)</strong>");
+    expect(markup).toContain("<strong>die Kläger zu 1) und zu 2)</strong>");
+  });
+
+  it("does not duplicate the prefix in a Schmerzensgeldantrag", () => {
+    const userData = createUserData({
+      schmerzengeldantrag: [
+        {
+          mindestBetrag: "500",
+          beklagte: { [beklagten[0].id]: "on", [beklagten[1].id]: "on" },
+          klagende: { [klagenden[0].id]: "on", [klagenden[1].id]: "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    const markup = renderToStaticMarkup(
+      getUnbezifferterSchmerzensgeldantragText({
+        userData,
+        schmerzengeldantragIndex: 0,
+      }),
+    );
+    expect(markup).toContain("<strong>Die Beklagten zu 1) und zu 2)</strong>");
+    expect(markup).toContain("<strong>die Kläger zu 1) und zu 2)</strong>");
   });
 
   it("should include the amount, interest, and Zug-um-Zug description in a Hauptantrag", () => {
@@ -231,7 +368,7 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(
       textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt, an der Kläger zu 1) einen Betrag in Höhe von 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024, Zug-um-Zug gegen: Rückgabe der Sache.",
+      "Der Beklagte zu 1) wird verurteilt an, den Kläger zu 1) 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p. a. seit dem 01.02.2024 Zug-um-Zug gegen Rückgabe der Sache zu zahlen.",
     );
   });
 });

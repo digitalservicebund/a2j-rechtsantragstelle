@@ -50,11 +50,11 @@ export const getInterestText = ({
       endDate ? ` bis zum ${endDate}` : ""
     }`;
   } else if (startDate && endDate) {
-    period = ` vom ${startDate} bis zum ${endDate}`;
+    period = ` seit dem ${startDate} bis zum ${endDate}`;
   } else if (startDate) {
     period = ` seit dem ${startDate}`;
-  } else if (endDate) {
-    period = ` bis zum ${endDate}`;
+  } else {
+    period = ` seit Rechtshängigkeit ${endDate ? ` bis zum ${endDate}` : ""}`;
   }
 
   return ` nebst Zinsen in Höhe von ${rateText}${period}`;

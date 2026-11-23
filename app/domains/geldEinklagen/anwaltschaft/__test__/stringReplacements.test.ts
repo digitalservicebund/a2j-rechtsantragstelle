@@ -17,25 +17,13 @@ const schmerzensgeld =
 
 describe("getAntraegeStrings", () => {
   it.each([
-    [
-      `${zahlung}/hauptantrag/#/daten`,
-      [0],
-      "Bezifferter Zahlungsantrag 1 (Miete)",
-    ],
-    [
-      `${zahlung}/#/nebenantraege/#/daten`,
-      [1, 0],
-      "Bezifferter Zahlungsantrag 2",
-    ],
-    [
-      `${zahlung}/#/annahmeverzug/#/daten`,
-      [1, 1],
-      "Bezifferter Zahlungsantrag 2",
-    ],
+    [`${zahlung}/hauptantrag/#/daten`, [0], "Zahlungsantrag 1"],
+    [`${zahlung}/#/nebenantraege/#/daten`, [1, 0], "Zahlungsantrag 2"],
+    [`${zahlung}/#/annahmeverzug/#/daten`, [1, 1], "Zahlungsantrag 2"],
     [
       `${schmerzensgeld}/schmerzensgeldantraege/#/daten`,
       [0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
     // A new Schmerzensgeldantrag that isn't saved yet
     [
@@ -46,12 +34,12 @@ describe("getAntraegeStrings", () => {
     [
       `${schmerzensgeld}/#/nebenantraege/#/daten`,
       [0, 0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
     [
       "/tatsachenvortrag-beweise/vortraege/#/absaetze",
       [0],
-      "Unbezifferter Schmerzensgeldantrag 3 (Unfall)",
+      "Unbezifferter Schmerzensgeldantrag 3",
     ],
   ])("titles %s with %j as %s", (stepId, arrayIndexes, antragTitle) => {
     expect(getAntraegeStrings(userData, stepId, arrayIndexes)).toMatchObject({

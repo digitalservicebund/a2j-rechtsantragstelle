@@ -58,7 +58,7 @@ export const createFifthPage = (
       representative.type === "einzelkanzlei"
         ? [representative]
         : representative["verantwortende-personen"];
-    for (const person of signatories) {
+    for (const person of signatories ?? []) {
       if (!person.vorname.trim() || !person.nachname.trim()) {
         addMissingData(doc, section, "Signatur");
         hasSignature = true;

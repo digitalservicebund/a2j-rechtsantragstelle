@@ -4,6 +4,7 @@ import {
   type Schmerzensgeldantrag,
   type SchmerzengeldNebenantrag,
 } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
+import { hauptantraegeTypes as numberedAntragArrays } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 import { nebenantragArtLabels } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeContent";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
@@ -40,12 +41,6 @@ export type AntraegeUserData = Pick<
 
 const strings = translations.geldEinklagenAnwaltschaft;
 
-const numberedAntragArrays = [
-  "hauptantrag",
-  "schmerzengeldantrag",
-  "sonstigeAntraege",
-] as const;
-
 /**
  * Converts an index within one of the numbered Antrag arrays into the Antrag
  * number shared across Zahlungs-, Schmerzensgeld- and Sonstige Anträge.
@@ -72,22 +67,27 @@ export const getNumberedAntragTitle = (
   userData: Pick<AntraegeUserData, (typeof numberedAntragArrays)[number]>,
   arrayName: (typeof numberedAntragArrays)[number],
   index: number,
+  withSchlagwort?: boolean,
 ) => {
   const antragNumber = getAntragNumber(userData, arrayName, index);
   if (arrayName === "sonstigeAntraege") {
-    return getTitleWithSchlagwort(
-      `${strings.sonstigerAntrag.de} ${antragNumber}`,
-      userData.sonstigeAntraege?.[index]?.internesSchlagwort,
-    );
+    return withSchlagwort
+      ? getTitleWithSchlagwort(
+          `${strings.sonstigerAntrag.de} ${antragNumber}`,
+          userData.sonstigeAntraege?.[index]?.internesSchlagwort,
+        )
+      : `${strings.sonstigerAntrag.de} ${antragNumber}`;
   }
   const headline =
     arrayName === "hauptantrag"
       ? strings.bezifferterZahlungsantragHeadline.de
       : strings.unbezifferterZahlungsantragHeadline.de;
-  return getTitleWithSchlagwort(
-    `${headline} ${antragNumber}`,
-    userData[arrayName]?.[index]?.internesSchlagwortForderung,
-  );
+  return withSchlagwort
+    ? getTitleWithSchlagwort(
+        `${headline} ${antragNumber}`,
+        userData[arrayName]?.[index]?.internesSchlagwortForderung,
+      )
+    : `${headline} ${antragNumber}`;
 };
 
 export const getNebenantragTitle = (
@@ -146,6 +146,7 @@ const getProzessantraege = (
  */
 export const getOrderedAntraege = (
   userData: AntraegeUserData,
+  withSchlagwort?: boolean,
 ): OrderedAntrag[] => {
   const result: OrderedAntrag[] = [];
 
@@ -164,7 +165,12 @@ export const getOrderedAntraege = (
           arrayName === "hauptantrag"
             ? "zahlungsantrag"
             : "schmerzensgeldantrag",
-        title: getNumberedAntragTitle(userData, arrayName, index),
+        title: getNumberedAntragTitle(
+          userData,
+          arrayName,
+          index,
+          withSchlagwort,
+        ),
         isNebenantrag: false,
       });
       for (const [nebenIndex, nebenantrag] of (
@@ -193,7 +199,12 @@ export const getOrderedAntraege = (
       antragId: antrag.id || undefined,
       dataPath,
       kind: "sonstigerAntrag",
-      title: getNumberedAntragTitle(userData, "sonstigeAntraege", index),
+      title: getNumberedAntragTitle(
+        userData,
+        "sonstigeAntraege",
+        index,
+        withSchlagwort,
+      ),
       isNebenantrag: false,
     });
   }

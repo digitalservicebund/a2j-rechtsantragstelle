@@ -3,6 +3,9 @@ import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BASE_URL_SONSTIGE_ANTRAEGE } from "./SonstigeAntraegeUebersicht";
 import { DeleteButton } from "~/components/common/DeleteButton";
 import { translations } from "~/services/translations/translations";
+import { useFormFlow } from "~/components/hooks/formFlowContext";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
+import { getAntragDeletionDialogProps } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 type SonstigeAntraegeProps = {
   readonly itemIndex: number;
@@ -21,11 +24,15 @@ const SonstigeAntraege = ({
   onDelete,
   onEdit,
 }: SonstigeAntraegeProps) => {
+  const { userData } = useFormFlow();
+  const deletionTitle = `${
+    translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de
+  } ${antragNumber} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`;
   return (
     <ArrayItemCard
       id={`sonstigeAntraege-${itemIndex}`}
       badge={item.internesSchlagwort}
-      content={<p className="max-w-[632px]">{item.antrag}</p>}
+      content={<p className="max-w-632">{item.antrag}</p>}
       editButton={{
         id: `edit-sonstigeAntraege-${itemIndex}`,
         ariaLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber} ${translations.arraySummary.arrayEditButtonLabel.de}`,
@@ -36,24 +43,28 @@ const SonstigeAntraege = ({
       }}
       deleteButton={
         <DeleteButton
-          label={
-            translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
-              .de
-          }
-          title={`${
-            translations.geldEinklagenAnwaltschaft.soenstigeProzessantragDelete
-              .de
-          }${"?"}`}
-          onDelete={() => onDelete(itemIndex)}
+          label={deletionTitle}
+          title={`${deletionTitle}?`}
           description={
-            <div className="flex flex-col gap-kern-space-small">
-              <p>{translations.deleteDialog.description.de}</p>
-              {item.internesSchlagwort && (
-                <p className="font-bold">{item.internesSchlagwort}</p>
-              )}
-              <p className="font-normal">{item.antrag}</p>
-            </div>
+            <DeletionDialog
+              {...getAntragDeletionDialogProps({
+                antrag: item,
+                userData,
+                itemLabel: `${translations.geldEinklagenAnwaltschaft.soenstigeProzessantragItem.de} ${antragNumber}${item.internesSchlagwort ? ` (${item.internesSchlagwort})` : ""}`,
+                warningTexts: {
+                  auswirkungenText:
+                    translations.geldEinklagenAnwaltschaft
+                      .antragDeletionAuswirkungen.de,
+                  keepAndEditText:
+                    translations.geldEinklagenAnwaltschaft.keepAndEditAntrag.de,
+                  deletePermanentlyText:
+                    translations.geldEinklagenAnwaltschaft
+                      .deleteAntragPermanently.de,
+                },
+              })}
+            />
           }
+          onDelete={() => onDelete(itemIndex)}
         />
       }
     />

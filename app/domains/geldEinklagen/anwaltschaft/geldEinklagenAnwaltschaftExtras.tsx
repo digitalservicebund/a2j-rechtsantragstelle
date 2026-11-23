@@ -2,7 +2,7 @@ import type { FlowExtras } from "~/domains/extraLoaderConfiguration";
 import { KlageParteienUebersicht } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlageParteienUebersicht";
 import { ProzessbevollmaechtigteUebersicht } from "./shared/klageParties/prozessbevollmaechtigte/components/ProzessbevollmaechtigteUebersicht";
 import { type LoaderExtras } from "~/services/flow/server/loaderExtras";
-import { getAntraegeStrings } from "./stringReplacements";
+import { getAntraegeStrings, getGegenleistungen } from "./stringReplacements";
 import { type GeldEinklagenAnwaltschaftUserData } from "./userData";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
 import SonstigeAntraegeUebersicht from "./sonstigeAntraege/components/SonstigeAntraegeUebersicht";
@@ -45,12 +45,17 @@ export const geldEinklagenAnwaltschaftExtras: FlowExtras<GeldEinklagenAnwaltscha
   };
 
 export const geldEinklagenAnwaltschaftLoaderExtras = {
-  buildReplacements: ({ flowSessionEngine, arrayIndexes }) =>
-    getAntraegeStrings(
+  buildReplacements: ({ flowSessionEngine, arrayIndexes }) => ({
+    ...getAntraegeStrings(
       flowSessionEngine.prunedUserData as GeldEinklagenAnwaltschaftUserData,
       flowSessionEngine.stepId,
       arrayIndexes,
     ),
+    ...getGegenleistungen(
+      flowSessionEngine.prunedUserData as GeldEinklagenAnwaltschaftUserData,
+      arrayIndexes,
+    ),
+  }),
   buildLoaderData: (context) => ({
     stepId: context.flowSessionEngine.stepId,
   }),

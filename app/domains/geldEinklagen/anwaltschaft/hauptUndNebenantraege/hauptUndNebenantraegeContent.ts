@@ -5,20 +5,21 @@ import type {
   SchmerzengeldNebenantrag,
 } from "./hauptUndNebenantraegeSchemas";
 import { getInterestText, formatSplitDate } from "./utils";
+import { translations } from "~/services/translations/translations";
 
 const formatPartyNumbers = (numbers: number[]): string => {
   if (numbers.length === 0) return "";
 
   return numbers
     .map((number, index) => (index === 0 ? `${number})` : `zu ${number})`))
-    .join(", ");
+    .join(" und ");
 };
 
 export const getBeklagteText = (count: number): string =>
   count === 1 ? "Der Beklagte" : "Die Beklagten";
 
 export const getKlagendeText = (count: number): string =>
-  count === 1 ? "der Kläger" : "die Kläger";
+  count === 1 ? "den Kläger" : "die Kläger";
 
 export const getBefindenText = (count: number): string =>
   count === 1 ? "befindet" : "befinden";
@@ -38,7 +39,7 @@ export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "vorgerichtliche angefallene Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Adressermittlungkosten",
@@ -140,7 +141,11 @@ export const getNebenantragItemText = ({
         nebenantragArtLabels[nebenantrag.nebenantragArt],
       ),
       " in Höhe von ",
-      createElement("strong", null, `${nebenantrag.nebenantragBetrag} Euro`),
+      createElement(
+        "strong",
+        null,
+        `${nebenantrag.nebenantragBetrag} ${translations.currency.euro.de}`,
+      ),
       interestText
         ? createElement(
             Fragment,
@@ -164,13 +169,21 @@ export const getNebenantragItemText = ({
       Fragment,
       null,
       "Es wird festgestellt, dass sich ",
-      getBeklagteText(beklagteNumbers.length).toLowerCase(),
-      " ",
+      getBeklagteText(beklagteNumbers.length).replace(/^./, (letter) =>
+        letter.toLowerCase(),
+      ),
+      " zu ",
       formatPartyNumbers(beklagteNumbers),
       " mit der Annahme der im Antrag zu ",
       `${parentIndex + 1})`,
       " genannten Gegenleistung",
-      date ? ` seit dem ${date}` : "",
+      date
+        ? createElement(
+            Fragment,
+            null,
+            createElement("strong", null, ` seit dem ${date}`),
+          )
+        : "",
       " in ",
       createElement("strong", null, "Annahmeverzug"),
       " ",
@@ -196,8 +209,11 @@ export const getBezifferterAntragText = ({
     amountText: createElement(
       Fragment,
       null,
-      "einen Betrag in Höhe von ",
-      createElement("strong", null, `${hauptantrag?.betragForderung} Euro`),
+      createElement(
+        "strong",
+        null,
+        `${hauptantrag?.betragForderung} ${translations.currency.euro.de}`,
+      ),
     ),
   });
 };
@@ -223,7 +239,7 @@ export const getUnbezifferterSchmerzensgeldantragText = ({
       " zu zahlen, welches einen Betrag von ",
       createElement("strong", null, antrag?.mindestBetrag),
       " ",
-      createElement("strong", null, "Euro"),
+      createElement("strong", null, translations.currency.euro.de),
       " nicht unterschreiten sollte",
     ),
   });
@@ -291,7 +307,8 @@ const getAntragText = ({
             return `${separator}zu ${number})`;
           })
           .join("")
-    : formatPartyNumbers;
+    : (numbers: number[]) =>
+        numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
 
   return createElement(
     Fragment,
@@ -303,24 +320,24 @@ const getAntragText = ({
         ? "Der Beklagte"
         : getBeklagteText(beklagteNumbers.length),
       " ",
-      "zu ",
       formatNumbers(beklagteNumbers),
     ),
     " ",
     getVerb(beklagteNumbers.length),
     " ",
-    beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
-    isSchmerzensgeldantrag ? "verurteilt, an " : "verurteilt, ",
+    beklagteNumbers.length > 1
+      ? createElement("strong", null, "als Gesamtschuldner ")
+      : "",
+    "verurteilt an, ",
     createElement(
       "strong",
       null,
-      " an ",
       isSchmerzensgeldantrag
         ? klagendeNumbers.length === 1
           ? "der Kläger"
           : "die Kläger"
         : getKlagendeText(klagendeNumbers.length),
-      " zu ",
+      " ",
       formatNumbers(klagendeNumbers),
     ),
     " ",
@@ -341,9 +358,13 @@ const getAntragText = ({
       : "",
     hasZugUndZug
       ? [
-          ", Zug-um-Zug",
+          createElement("strong", null, " Zug-um-Zug"),
           gegenleistung?.trim()
-            ? [" gegen: ", createElement("strong", null, gegenleistung)]
+            ? [
+                " gegen ",
+                createElement("strong", null, gegenleistung),
+                " zu zahlen",
+              ]
             : "",
         ]
       : "",

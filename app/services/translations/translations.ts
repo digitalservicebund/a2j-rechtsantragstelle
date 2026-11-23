@@ -807,6 +807,33 @@ export const translations = {
     auswirkungen: {
       de: "Auswirkungen",
     },
+    antragDeletionWarning: {
+      de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
+    },
+    antragDeletionAuswirkungen: {
+      de: "Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem Antrag beziehungweise dieser prozessualen Ausführung verknüpft ist. Wenn Sie den Antrag/die Ausführung löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.",
+    },
+    nebenantragDeletionAuswirkungen: {
+      de: "Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem {{ nebenantragType }} verknüpft ist. Wenn Sie diesen Antrag löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.",
+    },
+    keepAndEditAntrag: {
+      de: "Falls Sie lediglich die Angaben für diesen Antrag/diese Ausführung ändern möchten, behalten und bearbeiten Sie diese anstatt sie zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.",
+    },
+    keepAndEditNebenantrag: {
+      de: "Falls Sie lediglich die Angaben für diesen {{ nebenantragType }} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.",
+    },
+    keepAndEditBezifferterZahlungsantrag: {
+      de: "Falls Sie lediglich die Angaben für den bezifferten Zahlungsantrag {{ antragNumber }} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.",
+    },
+    deleteAntragPermanently: {
+      de: "Falls Sie den Antrag/die Ausführung mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
+    },
+    deleteNebenantragPermanently: {
+      de: "Falls Sie den {{ nebenantragType }} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
+    },
+    deleteBezifferterZahlungsantragPermanently: {
+      de: "Falls Sie den bezifferten Zahlungsantrag {{ antragNumber }} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
+    },
     antragWithOnePartyDeletionDescription: {
       de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
     },
@@ -877,6 +904,9 @@ export const translations = {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
     bezifferterZahlungsantragHeadline: {
+      de: "Zahlungsantrag",
+    },
+    bezifferterZahlungsantrag: {
       de: "Bezifferter Zahlungsantrag",
     },
     unbezifferterZahlungsantragHeadline: {
@@ -904,15 +934,13 @@ export const translations = {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Tatsachenvorträge",
     },
     bezifferterZahlungsantragDeleteWarning: {
-      de: `<p>Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem allgemeinen Zahlungsantrag \${itemIndex + 1} oder möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. Wenn Sie den allgemeinen Zahlungsantrag \${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
-<strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li><br />
-<p>Falls Sie lediglich die Angaben für den allgemeinen Zahlungsantrag \${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.</p><br />
-<li><strong>Endgültig löschen:</strong></li><br />
-<p>Falls Sie den allgemeinen Zahlungsantrag \${itemIndex + 1} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>`,
+      de: "Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem bezifferten Zahlungsantrag {{ antragNumber }} oder möglichen dazugehörigen Nebenanträgen/Feststellungsantrag auf Annahmeverzug verknüpft ist. Wenn Sie den bezifferten Zahlungsantrag {{ antragNumber }} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.",
     },
     bezifferterZahlungsantragItemsToDelete: {
-      de: "Der folgende Zahlungsantrag wird inklusive dazugehöriger Nebenanträge/Feststellungsantrag auf Annahmeverzug entfernt:",
+      de: "Der folgende Zahlungsantrag wird inklusive möglicher Nebenanträge/Festellungsantrag auf Annahmeverzug entfernt:",
+    },
+    schmerzensgeldantragItemsToDelete: {
+      de: "Der folgende Schmerzensgeldantrag wird inklusive dazugehöriger Nebenanträge entfernt:",
     },
     zahlungsAntragHinzufuegen: {
       de: "Zahlungsantrag hinzufügen",
@@ -950,22 +978,20 @@ export const translations = {
     nebenatragDeleteButton: {
       de: "Nebenantrag löschen?",
     },
+    nebenantragDeletionTitle: {
+      de: "Nebenantrag löschen?",
+    },
     nebenantragInlineNoticeTitle: {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
     },
     nebenantragInlineNoticeAntragToDelete: {
       de: "Der folgende Antrag wird entfernt:",
     },
-    nebenantragDeleteWarning: {
-      de: `<p>Sie haben bereits einen Tatsachenvortrag erstellt, der mit diesem \${itemLabel} verknüpft ist. Wenn Sie diesen Antrag löschen, wird auch der damit verknüpfte Tatsachenvortrag gelöscht. Ohne Bezug wäre dieser unzulässig.</p><br />
-<strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li><br />
-<p>Falls Sie lediglich die Angaben für diesen \${itemLabel} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleibt Ihr bereits erstellter Tatsachenvortrag unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihres dazugehörigen Tatsachenvortrags.</p><br />
-<li><strong>Endgültig löschen:</strong></li><br />
-<p>Falls Sie den \${itemLabel} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>`,
-    },
     annahmeverzugAddButton: {
       de: "Annahmeverzug hinzufügen",
+    },
+    annahmeverzugDeletionTitle: {
+      de: "Feststellungsantrag auf Annahmeverzug löschen?",
     },
     schmerzengeldantragAddButton: {
       de: "Schmerzensgeldantrag hinzufügen",
@@ -979,25 +1005,14 @@ export const translations = {
     schmerzengeldantragHeadline: {
       de: "Schmerzensgeldantrag",
     },
-    schmerzengeldantragInlineNoticeTitle: {
-      de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
-    },
-    schmerzengeldantragInlineNoticeAntragToDelete: {
-      de: "Der folgende Antrag wird entfernt:",
-    },
     schmerzengeldantragDeleteWarning: {
-      de: `<p>Auswirkungen:<br />Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem Schmerzensgeldantrag oder möglichen dazugehörigen Nebenanträgen verknüpft ist. Wenn Sie den Schmerzensgeldantrag \${itemIndex + 1} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.</p><br />
-<strong>Das können Sie tun:</strong><br />
-<li><strong>Behalten und bearbeiten:</strong></li>
-<p>Falls Sie lediglich die Angaben für den Schmerzensgeldantrag \${itemIndex + 1} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.</p><br />
-<li><strong>Endgültig löschen:</strong></li>
-<p>Falls Sie den Schmerzensgeldantrag \${itemIndex + 1} mitsamt dem Tatsachenvortrag wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.</p>`,
+      de: "Sie haben mindestens einen Tatsachenvortrag erstellt, der mit dem Schmerzensgeldantrag {{ antragNumber }} oder möglichen dazugehörigen Nebenanträgen verknüpft ist. Wenn Sie den Schmerzensgeldantrag {{ antragNumber }} löschen, werden auch damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig.",
     },
-    schmerzengeldantragItemsToDelete: {
-      de: "Der folgende Schmerzensgeldantrag wird inklusive dazugehöriger Nebenanträge entfernt:",
+    keepAndEditSchmerzengeldantrag: {
+      de: "Falls Sie lediglich die Angaben für den Schmerzensgeldantrag {{ antragNumber }} ändern möchten, behalten und bearbeiten Sie diesen, anstatt ihn zu löschen. So bleiben Ihre bereits erstellten Tatsachenvorträge unverändert erhalten. Prüfen Sie bitte nach einer Bearbeitung dennoch die Vollständigkeit und Richtigkeit Ihrer dazugehörigen Tatsachenvorträge.",
     },
-    schmerzengeldHeadline: {
-      de: "Nebenantrag",
+    deleteSchmerzengeldantragPermanently: {
+      de: "Falls Sie den Schmerzensgeldantrag {{ antragNumber }} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
     },
     addVortragButton: {
       de: "Vortragen",

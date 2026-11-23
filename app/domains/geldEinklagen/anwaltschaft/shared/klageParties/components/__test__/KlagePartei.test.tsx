@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import KlagePartei from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/components/KlagePartei";
 import { type KlageParteien } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { translations } from "~/services/translations/translations";
@@ -24,6 +25,14 @@ vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
 }));
 
 describe("KlagePartei", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("always includes the legal-representation deletion text for organisations", () => {
     render(
       <KlagePartei
@@ -44,5 +53,29 @@ describe("KlagePartei", () => {
     expect(
       screen.getByRole("button", { name: expectedLabel }),
     ).toBeInTheDocument();
+  });
+
+  it("focuses the party title after deletion", () => {
+    vi.useFakeTimers();
+    render(
+      <KlagePartei
+        partei={organisation}
+        index={0}
+        displayIndex={0}
+        relationship="klagende"
+      />,
+    );
+
+    const focusFunction = vi.mocked(useDeleteArrayItem).mock.calls[0]?.[2];
+    expect(focusFunction).toBeDefined();
+    focusFunction?.(0);
+
+    act(() => vi.advanceTimersByTime(100));
+
+    expect(
+      screen.getByRole("heading", {
+        name: `${translations.geldEinklagenAnwaltschaft.klagendeParteiHeadline.de} 1)`,
+      }),
+    ).toHaveFocus();
   });
 });

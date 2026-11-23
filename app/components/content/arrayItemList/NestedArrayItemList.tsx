@@ -72,12 +72,12 @@ export const NestedArrayItemList = ({
               key={key}
               id={id}
               tabIndex={id ? -1 : undefined}
-              className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center"
+              className="border-b border-b-kern-grey-100 py-24 flex justify-between items-center gap-24"
             >
-              <div className="kern-body kern-body--default text-pretty flex flex-col">
+              <div className="kern-body kern-body--default text-pretty flex flex-col min-w-0 wrap-anywhere">
                 {content}
               </div>
-              <div className="flex gap-24">
+              <div className="flex gap-24 shrink-0">
                 <ArrayItemEditButton {...editButton} />
                 <DeleteButton
                   {...deleteButton}

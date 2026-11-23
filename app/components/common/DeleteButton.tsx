@@ -7,6 +7,7 @@ import classNames from "classnames";
 
 export type DeleteButtonProps = {
   label?: string;
+  ariaLabel?: string;
   title: string;
   description?: ReactNode;
   className?: string;
@@ -15,6 +16,7 @@ export type DeleteButtonProps = {
 
 export const DeleteButton = ({
   label,
+  ariaLabel,
   title,
   description,
   onDelete,
@@ -41,6 +43,7 @@ export const DeleteButton = ({
     <>
       <Button
         type="button"
+        aria-label={ariaLabel}
         aria-haspopup="dialog"
         look="secondary"
         className={classNames("border-0!", className)}

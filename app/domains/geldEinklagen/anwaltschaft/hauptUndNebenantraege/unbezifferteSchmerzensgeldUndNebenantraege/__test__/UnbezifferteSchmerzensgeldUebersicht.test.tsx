@@ -4,6 +4,7 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import type { FlowId } from "~/domains/flowIds";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../../userData";
 import { translations } from "~/services/translations/translations";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 import UnbezifferteSchmerzensgeldUebersicht from "../UnbezifferteSchmerzensgeldUebersicht";
 
 vi.mock("~/components/hooks/formFlowContext", () => ({
@@ -128,6 +129,7 @@ describe("UnbezifferteSchmerzensgeldUebersicht", () => {
       "schmerzengeldantrag",
       "/geld-einklagen/anwaltschaft",
       expect.any(Function),
+      ANTRAG_DELETION_URL_ENDPOINT,
     );
   });
 

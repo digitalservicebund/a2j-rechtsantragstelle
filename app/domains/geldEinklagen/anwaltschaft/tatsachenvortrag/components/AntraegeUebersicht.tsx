@@ -66,7 +66,7 @@ export const AntraegeUebersicht = () => {
   const userDataAnwaltschaft = userData as GeldEinklagenAnwaltschaftUserData;
   return (
     <div>
-      {getOrderedAntraege(userDataAnwaltschaft).map((antrag, index) => {
+      {getOrderedAntraege(userDataAnwaltschaft, true).map((antrag, index) => {
         const vortragIndex = getVortragIndex(
           userDataAnwaltschaft,
           antrag.antragId,

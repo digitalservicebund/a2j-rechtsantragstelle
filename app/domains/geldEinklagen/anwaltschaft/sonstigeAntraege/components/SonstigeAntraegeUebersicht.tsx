@@ -8,6 +8,7 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { ArrayItemListSection } from "~/components/content/arrayItemList/ArrayItemListSection";
 import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
 import React, { useEffect } from "react";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 export const BASE_URL_SONSTIGE_ANTRAEGE =
   "/geld-einklagen/anwaltschaft/sonstige-antraege/antrag";
@@ -54,6 +55,7 @@ const SonstigeAntraegeUebersicht = () => {
     "sonstigeAntraege",
     BASE_URL_SONSTIGE_ANTRAEGE,
     focusOnSonstigerAntrag,
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
   const { userData, flowId } = useFormFlow();
 

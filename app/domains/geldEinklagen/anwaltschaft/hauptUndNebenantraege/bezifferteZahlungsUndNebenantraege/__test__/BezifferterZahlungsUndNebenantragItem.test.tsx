@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { translations } from "~/services/translations/translations";
 import { BezifferterZahlungsUndNebenantragItem } from "../BezifferterZahlungsUndNebenantragItem";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 vi.mock("~/components/hooks/useDeleteArrayItem", () => ({
   useDeleteArrayItem: vi.fn(),
@@ -100,6 +101,7 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
       "hauptantrag#nebenantraege",
       "/geld-einklagen/anwaltschaft/hauptantrag/1",
       expect.any(Function),
+      ANTRAG_DELETION_URL_ENDPOINT,
     );
   });
 
@@ -141,11 +143,13 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
         parentArrayItemIndex={0}
       />,
     );
-    const item = document.getElementById("nebenantrag-0-1")!;
-    await user.click(within(item).getByRole("button"));
+    await user.click(
+      screen.getByRole("button", { name: "Nebenantrag 2 löschen" }),
+    );
     const dialog = screen.getByRole("dialog", {
-      name: "Nebenantrag Mahnkosten, 100",
+      name: "Nebenantrag löschen?",
     });
+    expect(dialog).toHaveTextContent("Nebenantrag - Mahnkosten, 100 Euro");
     expect(deleteItem).not.toHaveBeenCalled();
     await user.click(
       within(dialog).getByRole("button", {
@@ -153,6 +157,42 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
       }),
     );
     expect(deleteItem).toHaveBeenCalledExactlyOnceWith(1);
+  });
+
+  it("should use a shorter label for pre-litigation legal fees in the deletion dialog", async () => {
+    const user = userEvent.setup();
+    render(
+      <BezifferterZahlungsUndNebenantragItem
+        userData={{
+          hauptantrag: [
+            {
+              ...antrag,
+              nebenantraege: [
+                {
+                  ...nebenantrag,
+                  nebenantragArt: "vorgerichtlicheAnwaltskosten",
+                },
+              ],
+            },
+          ],
+        }}
+        parentArrayItemIndex={0}
+      />,
+    );
+    expect(
+      screen.getByText("vorgerichtlich angefallene Anwaltskosten", {
+        selector: "strong",
+      }),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", { name: "Nebenantrag 1 löschen" }),
+    );
+    expect(
+      screen.getByRole("dialog", { name: "Nebenantrag löschen?" }),
+    ).toHaveTextContent(
+      "Nebenantrag - Vorgerichtliche Anwaltskosten, 100 Euro",
+    );
   });
 
   it("should restore focus after editing or deleting a nebenantrag", () => {

@@ -36,18 +36,17 @@ export const AnnahmeverzugCheckbox = ({
   const label = (
     <>
       Es wird festgestellt, dass sich{" "}
-      <strong>
-        {getBeklagteText(beklagteNumbers.length)}{" "}
-        {beklagteNumbers.map((partyId, index) => (
-          <span key={partyId}>
-            {index > 0 ? ", " : ""}
-            zu {parties.findIndex((party) => party.id === partyId) + 1})
-          </span>
-        ))}
-      </strong>{" "}
-      mit der Annahme der im Antrag zu{" "}
-      <strong>{zahlungsantragIndex + 1})</strong> genannten Gegenleistung in{" "}
-      <strong>Annahmeverzug</strong>{" "}
+      {getBeklagteText(beklagteNumbers.length).replace(/^./, (letter) =>
+        letter.toLowerCase(),
+      )}{" "}
+      {beklagteNumbers.map((partyId, index) => (
+        <span key={partyId}>
+          {index > 0 ? " und " : ""}
+          zu {parties.findIndex((party) => party.id === partyId) + 1})
+        </span>
+      ))}{" "}
+      mit der Annahme der im Antrag zu {zahlungsantragIndex + 1} genannten
+      Gegenleistung in Annahmeverzug{" "}
       {beklagteNumbers.length === 1 ? "befindet" : "befinden"}.
     </>
   );
