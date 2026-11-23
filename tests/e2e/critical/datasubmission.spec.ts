@@ -35,6 +35,8 @@ test.describe("Data submission", () => {
     await page.getByLabel("Nein").click();
     await page.getByTestId("back-button").click();
 
-    await expect(page.getByText("Änderungen speichern?")).toBeVisible();
+    await expect(
+      page.getByText("Änderungen sind noch nicht gespeichert"),
+    ).toBeVisible();
   });
 });

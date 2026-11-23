@@ -1170,7 +1170,7 @@ export const translations = {
   },
   unsavedChangesDialog: {
     title: {
-      de: "Änderungen speichern?",
+      de: "Änderungen sind noch nicht gespeichert",
     },
     content: {
       de: "Sie haben Änderungen an Ihren Eingaben vorgenommen. Um diese zu speichern, müssen Sie diese einmal mit einem Klick auf “Weiter” bestätigen. Andernfalls gehen die Änderungen verloren.",
