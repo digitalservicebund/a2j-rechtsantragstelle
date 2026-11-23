@@ -35,8 +35,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     arrayIndexes,
   );
   const targetAntrag = targetArray?.[index] as Antrag | undefined;
-  if (!targetAntrag?.id) {
-    return new Response("Antrag not found or missing ID.", { status: 422 });
+  if (!targetAntrag) {
+    return new Response("Antrag not found.", { status: 422 });
   }
 
   const antragDeletionResult = deleteAntrag(

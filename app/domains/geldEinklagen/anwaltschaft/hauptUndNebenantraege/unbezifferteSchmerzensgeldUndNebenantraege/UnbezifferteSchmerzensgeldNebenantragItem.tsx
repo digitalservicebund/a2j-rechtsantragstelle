@@ -12,6 +12,7 @@ import {
   getAntragDeletionDialogProps,
 } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 const BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege";
@@ -25,7 +26,7 @@ const MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS = 6;
 
 const nebenantragArtDeleteDialogLabels = {
   ...nebenantragArtLabels,
-  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
 };
 
 export const UnbezifferteSchmerzensgeldNebenantragItem = ({
@@ -84,6 +85,9 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
       headingId={`schmerzensgeld-nebenantrag-heading-${parentArrayItemIndex}`}
       headingSuffix=" - Optional"
       items={items.map((entry, index) => {
+        const itemBetrag = entry.schmerzengeldNebenantragBetrag
+          ? `, ${entry.schmerzengeldNebenantragBetrag} ${translations.currency.euro.de}`
+          : "";
         return {
           key: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           id: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
@@ -105,23 +109,32 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
             onDelete: () => deleteUnbezifferteSchmerzensgeldNebenantrag(index),
             title:
               translations.geldEinklagenAnwaltschaft.nebenatragDeleteButton.de,
-            ariaLabel: `Schmerzensgeldantrag ${index + 1} löschen`,
+            ariaLabel: `Nebenantrag ${index + 1} löschen`,
             description: (
               <DeletionDialog
                 {...getAntragDeletionDialogProps({
                   antrag: entry,
                   userData,
-                  itemLabel: `Nebenantrag - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`,
+                  itemLabel: `${translations.geldEinklagenAnwaltschaft.nebenantrag.de} - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}${itemBetrag}`,
+                  description:
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeAntragToDelete.de,
                   warningTexts: {
-                    auswirkungenText:
+                    auswirkungenText: applyStringReplacement(
                       translations.geldEinklagenAnwaltschaft
-                        .antragDeletionAuswirkungen.de,
-                    keepAndEditText:
-                      translations.geldEinklagenAnwaltschaft.keepAndEditAntrag
-                        .de,
-                    deletePermanentlyText:
+                        .nebenantragDeletionAuswirkungen.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
+                    keepAndEditText: applyStringReplacement(
                       translations.geldEinklagenAnwaltschaft
-                        .deleteAntragPermanently.de,
+                        .keepAndEditNebenantrag.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
+                    deletePermanentlyText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .deleteNebenantragPermanently.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
                   },
                 })}
               />
