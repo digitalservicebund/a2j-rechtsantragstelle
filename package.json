@@ -77,7 +77,7 @@
     "match-sorter": "^8.3.1",
     "mustache": "^4.2.0",
     "pdf-lib": "^1.17.1",
-    "pdfkit": "^0.20.2",
+    "pdfkit": "^0.21.0",
     "pino-http": "^11.0.0",
     "posthog-js": "1.453.0",
     "posthog-node": "6.0.5",
