@@ -18,6 +18,7 @@ import type { UserData, SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { createDateInputSchema } from "~/services/validation/dateObject";
+import { createTimeSchema } from "~/services/validation/timeObject";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -236,6 +237,109 @@ describe("ValidatedFlowForm", () => {
       });
       fireEvent.input(dateYearInputComponent, {
         target: { value: "2024" },
+      });
+
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Time Input Component", () => {
+    beforeAll(() => {
+      mockGetPageConfigOrArrayPageByPathname({
+        inputName: createTimeSchema(),
+      });
+    });
+    const { component } = getStrapiInputComponent(
+      {
+        code: "invalid",
+        text: "Ungültige Uhrzeit",
+      },
+      "time",
+    );
+
+    it("should display an error if the user enters an invalid time", async () => {
+      const { getByText, getAllByRole, getByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+
+      const nextButton = getByText("NEXT");
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "25" },
+      });
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.blur(timeMinuteInputComponent);
+      fireEvent.blur(timeHourInputComponent);
+
+      expect(nextButton).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(getByText("Ungültige Uhrzeit")).toBeInTheDocument();
+        expect(timeHourInputComponent).toHaveClass(
+          "kern-form-input__input--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
+
+      fireEvent.click(nextButton);
+
+      await waitFor(() => {
+        expect(getByText("Ungültige Uhrzeit")).toBeInTheDocument();
+        expect(timeHourInputComponent).toHaveClass(
+          "kern-form-input__input--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
+    });
+
+    it("should not display an error for correct input", async () => {
+      const { getByText, getAllByRole, queryByTestId } =
+        renderValidatedFlowForm([component]);
+
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "22" },
+      });
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.blur(timeMinuteInputComponent);
+      fireEvent.blur(timeHourInputComponent);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(timeMinuteInputComponent).not.toHaveClass("has-error");
+        expect(timeHourInputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getAllByRole, getByRole } = renderValidatedFlowForm(
+        [component],
+        { inputName: { hour: "22", minute: "10" } },
+      );
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "22" },
+      });
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "11" },
       });
 
       fireEvent.click(getByText("BACK"));
