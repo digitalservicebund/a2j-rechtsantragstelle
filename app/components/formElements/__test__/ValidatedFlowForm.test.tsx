@@ -19,6 +19,10 @@ import * as parsePathname from "~/domains/flowIds";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { createTimeSchema } from "~/services/validation/timeObject";
+import { getStrapiAutoSuggestionInputComponent } from "tests/factories/cmsModels/strapiAutoSuggestionInputComponent";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import * as useDataListOptions from "~/components/formElements/inputs/autoSuggest/hooks/useDataListOptions";
+import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -29,6 +33,10 @@ vi.mock("react-router", async () => {
       pathname: "/",
     }),
     useRouteLoaderData: vi.fn(() => undefined),
+    useLoaderData: () => ({
+      userData: {},
+      flowId: "flowId",
+    }),
   };
 });
 
@@ -37,6 +45,7 @@ vi.mock("~/services/params", () => ({
 }));
 
 vi.mock("~/domains/pageSchemas");
+const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
 const mockGetPageConfigOrArrayPageByPathname = (
   pageSchema: SchemaObject | undefined,
@@ -61,6 +70,7 @@ describe("ValidatedFlowForm", () => {
     HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
       this.open = false;
     };
+    dataListSpy.mockReturnValue(getDataListOptions("nationalities"));
   });
 
   it("should render", () => {
@@ -719,6 +729,63 @@ describe("ValidatedFlowForm", () => {
       });
 
       fireEvent.click(getByText("secondTile"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("AutoSuggestionInput Component", () => {
+    beforeAll(() => {
+      mockGetPageConfigOrArrayPageByPathname({
+        inputName: autoSuggestStringRequiredSchema("nationalities"),
+      });
+    });
+    const { component, expectInputErrorToExist } =
+      getStrapiAutoSuggestionInputComponent({
+        code: "required",
+        text: "Please enter a value",
+      });
+
+    it("should display an error if the user does not enter any value and click next", async () => {
+      const { getByText } = renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(async () => {
+        await expectInputErrorToExist();
+      });
+    });
+
+    it("should not display an error in case select a value", async () => {
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const inputComponent = getByRole("combobox");
+
+      fireEvent.change(inputComponent, {
+        target: { value: "Brasilianisch" },
+      });
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(inputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "Brasilianisch",
+      });
+
+      const inputComponent = getByRole("combobox");
+      fireEvent.change(inputComponent, {
+        target: { value: "Deutsch" },
+      });
+      await waitFor(() => getByText("Deutsch"));
+      fireEvent.click(getByText("Deutsch"));
       fireEvent.click(getByText("BACK"));
 
       await waitFor(() => {
