@@ -8,6 +8,7 @@ import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import React, { useEffect } from "react";
 import { UnbezifferteSchmerzensgeldantrag } from "./UnbezifferteSchmerzensgeldantrag";
 import { getAntragNumber } from "../../tatsachenvortrag/antragOrdering";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "../../services/antragHelpers";
 import { getOrderedKlageParties } from "../../shared/klageParties/klagePartyOrdering";
 
 const BASE_URL_SCHMERZENGELD_ANTRAG =
@@ -61,6 +62,7 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
     "schmerzengeldantrag",
     "/geld-einklagen/anwaltschaft",
     focusOnSchmerzengeldAntrag,
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
 
   if (flowId !== "/geld-einklagen/anwaltschaft") {

@@ -73,8 +73,12 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
     const dialog = screen.getByRole("dialog", {
       name: "Schmerzensgeldantrag 4 löschen?",
     });
-    expect(dialog).toHaveTextContent("Unfall");
-    expect(dialog).toHaveTextContent("5000 Euro");
+    expect(dialog).toHaveTextContent(
+      "Schmerzensgeldantrag 4 (Unfall), 5000 Euro",
+    );
+    expect(dialog).not.toHaveTextContent(
+      translations.geldEinklagenAnwaltschaft.antragDeletionWarning.de,
+    );
     expect(onDelete).not.toHaveBeenCalled();
     await user.click(
       within(dialog).getByRole("button", {
@@ -82,5 +86,39 @@ describe("UnbezifferteSchmerzensgeldantrag", () => {
       }),
     );
     expect(onDelete).toHaveBeenCalledExactlyOnceWith(1);
+  });
+
+  it("should warn about connected Vorträge with the Antrag number", async () => {
+    const user = userEvent.setup();
+    const connectedAntrag = { ...antrag, id: "schmerz" };
+    render(
+      <UnbezifferteSchmerzensgeldantrag
+        itemIndex={0}
+        antragNumber={4}
+        item={connectedAntrag}
+        userData={{
+          schmerzengeldantrag: [connectedAntrag],
+          vortraege: [
+            { antragId: "schmerz", absaetze: [{ formulierung: "Text" }] },
+          ],
+        }}
+        onEdit={vi.fn()}
+        onDelete={vi.fn()}
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Schmerzensgeldantrag 4 löschen" }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: "Schmerzensgeldantrag 4 löschen?",
+    });
+    expect(dialog).toHaveTextContent(
+      translations.geldEinklagenAnwaltschaft.antragDeletionWarning.de,
+    );
+    expect(dialog).toHaveTextContent(
+      "Wenn Sie den Schmerzensgeldantrag 4 löschen",
+    );
+    expect(dialog).not.toHaveTextContent("{{");
   });
 });

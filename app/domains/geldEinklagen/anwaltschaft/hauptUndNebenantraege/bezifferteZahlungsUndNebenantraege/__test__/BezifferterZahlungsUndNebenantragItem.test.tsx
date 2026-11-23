@@ -190,7 +190,9 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
     );
     expect(
       screen.getByRole("dialog", { name: "Nebenantrag löschen?" }),
-    ).toHaveTextContent("Nebenantrag - Vorgerichtlich Anwaltskosten, 100 Euro");
+    ).toHaveTextContent(
+      "Nebenantrag - Vorgerichtliche Anwaltskosten, 100 Euro",
+    );
   });
 
   it("should restore focus after editing or deleting a nebenantrag", () => {

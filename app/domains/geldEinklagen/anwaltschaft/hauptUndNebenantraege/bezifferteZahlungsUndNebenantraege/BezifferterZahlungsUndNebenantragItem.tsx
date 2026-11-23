@@ -27,7 +27,7 @@ const MAX_NEBENANTRAG_ITEMS = 6;
 
 const nebenantragArtDeleteDialogLabels = {
   ...nebenantragArtLabels,
-  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
 };
 
 export const BezifferterZahlungsUndNebenantragItem = ({
@@ -117,16 +117,20 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             ? "Nebenantrag"
             : "Feststellungsantrag auf Annahmeverzug";
         const nebenantragType =
-          type === "nebenantrag" ? "Nebenantrag" : "Feststellungsantrag ";
+          type === "nebenantrag" ? "Nebenantrag" : "Feststellungsantrag";
+        const betrag =
+          entry.type === "nebenantrag" && entry.nebenantragBetrag
+            ? `, ${entry.nebenantragBetrag} ${translations.currency.euro.de}`
+            : "";
         const title =
           entry.type === "nebenantrag"
-            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag + " Euro" : ""}`
+            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}${betrag}`
             : itemLabel;
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
           id: `nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
-            <span className="kern-body max-w-[528px]">
+            <span className="kern-body max-w-528">
               {getNebenantragItemText({
                 item: entry,
                 userData,
@@ -147,6 +151,9 @@ export const BezifferterZahlungsUndNebenantragItem = ({
               <DeletionDialog
                 {...getAntragDeletionDialogProps({
                   antrag: entry,
+                  description:
+                    translations.geldEinklagenAnwaltschaft
+                      .nebenantragInlineNoticeAntragToDelete.de,
                   userData,
                   itemLabel: title,
                   warningTexts: {

@@ -52,12 +52,15 @@ export const BezifferterZahlungsantrag = ({
       deleteButton={
         <DeleteButton
           label={`Zahlungsantrag ${itemIndex + 1}${(item.nebenantraege?.length ?? 0) > 0 ? " und Nebenanträge" : ""} löschen`}
-          title={`Zahlungsantrag ${itemIndex + 1} löschen`}
+          title={`Zahlungsantrag ${itemIndex + 1} löschen?`}
           description={
             <DeletionDialog
               {...getAntragDeletionDialogProps({
                 antrag: item,
                 userData,
+                description:
+                  translations.geldEinklagenAnwaltschaft
+                    .bezifferterZahlungsantragItemsToDelete.de,
                 itemLabel: `${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantrag.de} ${antragNumber}${item.internesSchlagwortForderung ? ` (${item.internesSchlagwortForderung})` : ""}, ${item.betragForderung} ${translations.currency.euro.de}`,
                 warningTexts: {
                   auswirkungenText: applyStringReplacement(

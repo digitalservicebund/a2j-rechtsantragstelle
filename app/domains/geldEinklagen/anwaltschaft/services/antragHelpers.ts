@@ -156,13 +156,15 @@ export const getAntragDeletionDialogProps = ({
   userData,
   itemLabel,
   warningTexts,
+  description,
 }: {
   antrag: Antrag;
   userData: GeldEinklagenAnwaltschaftUserData;
   itemLabel: ReactNode;
   warningTexts: Omit<DeletionWarning, "title">;
+  description?: string;
 }): DeletionDialogProps => ({
-  description: translations.deleteDialog.description.de,
+  description: description ?? translations.deleteDialog.description.de,
   itemIcon: "draft",
   itemLabel,
   warning:

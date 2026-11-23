@@ -169,20 +169,17 @@ describe("delete Antrag action", () => {
     },
   );
 
-  it.each(["2", "99"])(
-    "rejects a draft without an ID or a missing item at index %s",
-    async (index) => {
-      const { session, commitSession } = setUpSession();
-      const originalData = structuredClone(session.data);
+  it("rejects a missing item", async () => {
+    const { session, commitSession } = setUpSession();
+    const originalData = structuredClone(session.data);
 
-      const response = await post(true, index);
+    const response = await post(true, "99");
 
-      expect(response.status).toBe(422);
-      expect(await response.text()).toBe("Antrag not found or missing ID.");
-      expect(session.data).toEqual(originalData);
-      expect(commitSession).not.toHaveBeenCalled();
-    },
-  );
+    expect(response.status).toBe(422);
+    expect(await response.text()).toBe("Antrag not found.");
+    expect(session.data).toEqual(originalData);
+    expect(commitSession).not.toHaveBeenCalled();
+  });
 
   it("rejects an invalid index before loading the session", async () => {
     const response = await post(true, "invalid");

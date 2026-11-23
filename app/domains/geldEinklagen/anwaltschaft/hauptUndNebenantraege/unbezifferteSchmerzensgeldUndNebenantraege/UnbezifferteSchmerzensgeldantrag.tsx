@@ -1,8 +1,9 @@
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { DeleteButton } from "~/components/common/DeleteButton";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
 import { translations } from "~/services/translations/translations";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
+import { getAntragDeletionDialogProps } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { getUnbezifferterSchmerzensgeldantragText } from "../hauptUndNebenantraegeContent";
 import { UnbezifferteSchmerzensgeldNebenantragItem } from "./UnbezifferteSchmerzensgeldNebenantragItem";
@@ -29,6 +30,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
   onDelete,
   onEdit,
 }: UnbezifferteSchmerzensgeldantragProps) => {
+  const replacements = { antragNumber: antragNumber.toString() };
   return (
     <ArrayItemCard
       id={`schmerzengeldantrag-${itemIndex}`}
@@ -50,40 +52,36 @@ export const UnbezifferteSchmerzensgeldantrag = ({
       }}
       deleteButton={
         <DeleteButton
-          label={`Schmerzensgeldantrag ${antragNumber} ${(item.nebenantraege?.length ?? 0) > 0 ? "und Nebenanträge" : ""} löschen`}
+          label={`Schmerzensgeldantrag ${antragNumber}${(item.nebenantraege?.length ?? 0) > 0 ? " und Nebenanträge" : ""} löschen`}
           title={`Schmerzensgeldantrag ${antragNumber} löschen?`}
           description={
-            <>
-              <InlineNotice
-                title={
+            <DeletionDialog
+              {...getAntragDeletionDialogProps({
+                antrag: item,
+                userData,
+                itemLabel: `${translations.geldEinklagenAnwaltschaft.schmerzengeldantragHeadline.de} ${antragNumber}${item.internesSchlagwortForderung ? ` (${item.internesSchlagwortForderung})` : ""}${item.mindestBetrag ? `, ${item.mindestBetrag} ${translations.currency.euro.de}` : ""}`,
+                description:
                   translations.geldEinklagenAnwaltschaft
-                    .schmerzengeldantragInlineNoticeTitle.de
-                }
-                tagName={"div"}
-                look={"warning"}
-                content={translations.geldEinklagenAnwaltschaft.schmerzengeldantragDeleteWarning.de.replaceAll(
-                  /\$\{itemIndex \+ 1\}/g,
-                  `${antragNumber}`,
-                )}
-              />
-              <p className="kern-body">
-                {
-                  translations.geldEinklagenAnwaltschaft
-                    .schmerzengeldantragItemsToDelete.de
-                }
-              </p>
-              <span className="flex flex-row items-center!">
-                <Icon name="draft" className="mr-8!" />
-                <p className="kern-body! font-bold! text-xl!">
-                  {`Schmerzensgeldantrag ${antragNumber}`}{" "}
-                  {item.internesSchlagwortForderung
-                    ? `(${item.internesSchlagwortForderung})`
-                    : ""}
-                  {", "}
-                  {item.mindestBetrag ? `${item.mindestBetrag} Euro` : ""}
-                </p>
-              </span>
-            </>
+                    .schmerzensgeldantragItemsToDelete.de,
+                warningTexts: {
+                  auswirkungenText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .schmerzengeldantragDeleteWarning.de,
+                    replacements,
+                  ),
+                  keepAndEditText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .keepAndEditSchmerzengeldantrag.de,
+                    replacements,
+                  ),
+                  deletePermanentlyText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .deleteSchmerzengeldantragPermanently.de,
+                    replacements,
+                  ),
+                },
+              })}
+            />
           }
           onDelete={() => onDelete(itemIndex)}
         />

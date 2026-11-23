@@ -69,7 +69,7 @@ describe("BezifferterZahlungsantrag", () => {
       }),
     );
     const dialog = screen.getByRole("dialog", {
-      name: "Zahlungsantrag 2 löschen",
+      name: "Zahlungsantrag 2 löschen?",
     });
     expect(dialog).toHaveTextContent(
       "Bezifferter Zahlungsantrag 2 (Lohn), 1000 Euro",
