@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { getOrderedKlageParties } from "../../shared/klageParties/klagePartyOrdering";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { focusOnZahlungsAntrag } from "../zahlungsAntragFocus";
+import { ANTRAG_DELETION_URL_ENDPOINT } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 const BASE_URL_ZAHLUNGS_ANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
@@ -49,6 +50,7 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
     "hauptantrag",
     "/geld-einklagen/anwaltschaft",
     focusOnZahlungsAntrag,
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
 
   if (flowId !== "/geld-einklagen/anwaltschaft") {

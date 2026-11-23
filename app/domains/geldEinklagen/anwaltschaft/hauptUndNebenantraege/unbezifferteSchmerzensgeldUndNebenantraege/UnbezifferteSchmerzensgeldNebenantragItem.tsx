@@ -6,9 +6,13 @@ import {
   nebenantragArtLabels,
 } from "../hauptUndNebenantraegeContent";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import {
+  ANTRAG_DELETION_URL_ENDPOINT,
+  getAntragDeletionDialogProps,
+} from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 const BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/unbezifferte-schmerzensgeld-und-nebenantraege";
@@ -22,7 +26,7 @@ const MAX_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAG_ITEMS = 6;
 
 const nebenantragArtDeleteDialogLabels = {
   ...nebenantragArtLabels,
-  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
 };
 
 export const UnbezifferteSchmerzensgeldNebenantragItem = ({
@@ -72,6 +76,7 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
         element?.focus();
       }, 100);
     },
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
 
   return (
@@ -80,6 +85,9 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
       headingId={`schmerzensgeld-nebenantrag-heading-${parentArrayItemIndex}`}
       headingSuffix=" - Optional"
       items={items.map((entry, index) => {
+        const itemBetrag = entry.schmerzengeldNebenantragBetrag
+          ? `, ${entry.schmerzengeldNebenantragBetrag} ${translations.currency.euro.de}`
+          : "";
         return {
           key: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
           id: `schmerzensgeld-nebenantrag-${parentArrayItemIndex}-${index}`,
@@ -101,34 +109,35 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
             onDelete: () => deleteUnbezifferteSchmerzensgeldNebenantrag(index),
             title:
               translations.geldEinklagenAnwaltschaft.nebenatragDeleteButton.de,
-            ariaLabel: `Schmerzensgeldantrag ${index + 1} löschen`,
+            ariaLabel: `Nebenantrag ${index + 1} löschen`,
             description: (
-              <>
-                <InlineNotice
-                  title={
+              <DeletionDialog
+                {...getAntragDeletionDialogProps({
+                  antrag: entry,
+                  userData,
+                  itemLabel: `${translations.geldEinklagenAnwaltschaft.nebenantrag.de} - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}${itemBetrag}`,
+                  description:
                     translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeTitle.de
-                  }
-                  tagName={"div"}
-                  look={"warning"}
-                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replaceAll(
-                    /\${itemLabel}/g,
-                    "Schmerzensgeldantrag",
-                  )}
-                />
-                <p className="kern-body">
-                  {
-                    translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeAntragToDelete.de
-                  }
-                </p>
-                <span className="flex flex-row items-center!">
-                  <Icon name="draft" className="mr-8!" />
-                  <p className="kern-body! font-bold! text-xl!">
-                    {`Nebenantrag - ${nebenantragArtDeleteDialogLabels[entry.schmerzengeldNebenantragArt]}, ${entry.schmerzengeldNebenantragBetrag ? entry.schmerzengeldNebenantragBetrag + " Euro" : ""}`}
-                  </p>
-                </span>
-              </>
+                      .nebenantragInlineNoticeAntragToDelete.de,
+                  warningTexts: {
+                    auswirkungenText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .nebenantragDeletionAuswirkungen.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
+                    keepAndEditText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .keepAndEditNebenantrag.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
+                    deletePermanentlyText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .deleteNebenantragPermanently.de,
+                      { nebenantragType: "Nebenantrag" },
+                    ),
+                  },
+                })}
+              />
             ),
           },
         };

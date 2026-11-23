@@ -1,14 +1,15 @@
-import get from "lodash/get";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import {
   type Antrag,
   deleteAntrag,
 } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
-import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { logWarning } from "~/services/logging";
 import { validatedSession } from "~/services/security/csrf/validatedSession.server";
 import { getSessionManager } from "~/services/session.server";
-import { getArrayDataFromFormData } from "~/services/session.server/arrayDeletion";
+import {
+  getArrayDataFromFormData,
+  getArrayForDeletion,
+} from "~/services/session.server/arrayDeletion";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const resultValidatedSession = await validatedSession(request);
@@ -22,22 +23,27 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (resultFormData.isErr) {
     return new Response(resultFormData.error.message, { status: 422 });
   }
-  const { flowId, arrayName, index, redirectPathname } = resultFormData.value;
+  const { flowId, arrayName, index, redirectPathname, arrayIndexes } =
+    resultFormData.value;
   const { getSession, commitSession } = getSessionManager(flowId);
   const cookieHeader = request.headers.get("Cookie");
   const flowSession = await getSession(cookieHeader);
-  const userData = flowSession.data as GeldEinklagenAnwaltschaftUserData;
 
-  // Find and delete connected Vorträge
-  const targetAntrag = get(userData, arrayName)[index] as Antrag;
-  if (!targetAntrag?.id) {
-    return new Response("Antrag not found or missing ID.", { status: 422 });
+  const targetArray = getArrayForDeletion(
+    flowSession.data,
+    arrayName,
+    arrayIndexes,
+  );
+  const targetAntrag = targetArray?.[index] as Antrag | undefined;
+  if (!targetAntrag) {
+    return new Response("Antrag not found.", { status: 422 });
   }
 
   const antragDeletionResult = deleteAntrag(
     flowSession,
     targetAntrag,
-    arrayName as keyof GeldEinklagenAnwaltschaftUserData,
+    arrayName,
+    arrayIndexes,
   );
   if (!antragDeletionResult.ok) {
     return antragDeletionResult;

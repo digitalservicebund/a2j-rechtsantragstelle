@@ -1,11 +1,12 @@
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { DeleteButton } from "~/components/common/DeleteButton";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
-import { translations } from "~/services/translations/translations";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import { BezifferterZahlungsUndNebenantragItem } from "./BezifferterZahlungsUndNebenantragItem";
 import { getBezifferterAntragText } from "../hauptUndNebenantraegeContent";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
+import { translations } from "~/services/translations/translations";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
+import { getAntragDeletionDialogProps } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
 
 const BASE_URL_BEZIFFERTER_ZAHLUNGS_UND_NEBENANTRAEGE =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag";
@@ -27,6 +28,8 @@ export const BezifferterZahlungsantrag = ({
   onDelete,
   onEdit,
 }: BezifferterZahlungsantragProps) => {
+  const antragNumber = itemIndex + 1;
+  const replacements = { antragNumber: antragNumber.toString() };
   return (
     <ArrayItemCard
       id={`bezifferterZahlungsAntrag-${itemIndex}`}
@@ -49,38 +52,35 @@ export const BezifferterZahlungsantrag = ({
       deleteButton={
         <DeleteButton
           label={`Zahlungsantrag ${itemIndex + 1}${(item.nebenantraege?.length ?? 0) > 0 ? " und Nebenanträge" : ""} löschen`}
-          title={`Zahlungsantrag ${itemIndex + 1} löschen`}
+          title={`Zahlungsantrag ${itemIndex + 1} löschen?`}
           description={
-            <>
-              <InlineNotice
-                title={
+            <DeletionDialog
+              {...getAntragDeletionDialogProps({
+                antrag: item,
+                userData,
+                description:
                   translations.geldEinklagenAnwaltschaft
-                    .bezifferterZahlungsantragInlineNoticeTitle.de
-                }
-                tagName={"div"}
-                look={"warning"}
-                content={translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragDeleteWarning.de.replaceAll(
-                  /\$\{itemIndex \+ 1\}/g,
-                  `${itemIndex + 1}`,
-                )}
-              />
-              <p className="kern-body">
-                {
-                  translations.geldEinklagenAnwaltschaft
-                    .bezifferterZahlungsantragItemsToDelete.de
-                }
-              </p>
-              <span className="flex flex-row items-center!">
-                <Icon name="draft" className="mr-8!" />
-                <p className="kern-body! font-bold! text-xl!">
-                  {`Bezifferter Zahlungsantrag ${itemIndex + 1}`}{" "}
-                  {item.internesSchlagwortForderung
-                    ? `(${item.internesSchlagwortForderung})`
-                    : ""}
-                  , {item.betragForderung ? `${item.betragForderung} Euro` : ""}
-                </p>
-              </span>
-            </>
+                    .bezifferterZahlungsantragItemsToDelete.de,
+                itemLabel: `${translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantrag.de} ${antragNumber}${item.internesSchlagwortForderung ? ` (${item.internesSchlagwortForderung})` : ""}, ${item.betragForderung} ${translations.currency.euro.de}`,
+                warningTexts: {
+                  auswirkungenText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .bezifferterZahlungsantragDeleteWarning.de,
+                    replacements,
+                  ),
+                  keepAndEditText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .keepAndEditBezifferterZahlungsantrag.de,
+                    replacements,
+                  ),
+                  deletePermanentlyText: applyStringReplacement(
+                    translations.geldEinklagenAnwaltschaft
+                      .deleteBezifferterZahlungsantragPermanently.de,
+                    replacements,
+                  ),
+                },
+              })}
+            />
           }
           onDelete={() => onDelete(itemIndex)}
         />

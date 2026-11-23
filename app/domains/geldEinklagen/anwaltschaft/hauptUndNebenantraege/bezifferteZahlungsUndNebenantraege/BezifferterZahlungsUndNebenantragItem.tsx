@@ -2,14 +2,18 @@ import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedAr
 import { useEffect } from "react";
 import { translations } from "~/services/translations/translations";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { InlineNotice } from "~/components/content/InlineNotice";
-import { Icon } from "~/components/common/Icon";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
 import type { Nebenantrag } from "../hauptUndNebenantraegeSchemas";
 import {
   getNebenantragItemText,
   nebenantragArtLabels,
 } from "../hauptUndNebenantraegeContent";
+import {
+  ANTRAG_DELETION_URL_ENDPOINT,
+  getAntragDeletionDialogProps,
+} from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
+import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
+import { applyStringReplacement } from "~/util/applyStringReplacement";
 
 const BASE_URL_NEBENANTRAG =
   "/geld-einklagen/anwaltschaft/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege";
@@ -23,7 +27,7 @@ const MAX_NEBENANTRAG_ITEMS = 6;
 
 const nebenantragArtDeleteDialogLabels = {
   ...nebenantragArtLabels,
-  vorgerichtlicheAnwaltskosten: "Vorgerichtlich Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
 };
 
 export const BezifferterZahlungsUndNebenantragItem = ({
@@ -94,6 +98,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
         element?.focus();
       }, 100);
     },
+    ANTRAG_DELETION_URL_ENDPOINT,
   );
 
   return (
@@ -111,15 +116,21 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           type === "nebenantrag"
             ? "Nebenantrag"
             : "Feststellungsantrag auf Annahmeverzug";
+        const nebenantragType =
+          type === "nebenantrag" ? "Nebenantrag" : "Feststellungsantrag";
+        const betrag =
+          entry.type === "nebenantrag" && entry.nebenantragBetrag
+            ? `, ${entry.nebenantragBetrag} ${translations.currency.euro.de}`
+            : "";
         const title =
           entry.type === "nebenantrag"
-            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}, ${entry.nebenantragBetrag ? entry.nebenantragBetrag + " Euro" : ""}`
+            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}${betrag}`
             : itemLabel;
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,
           id: `nebenantrag-${parentArrayItemIndex}-${index}`,
           content: (
-            <span className="kern-body max-w-[528px]">
+            <span className="kern-body max-w-528">
               {getNebenantragItemText({
                 item: entry,
                 userData,
@@ -137,30 +148,33 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             title: `${itemLabel} löschen?`,
             ariaLabel: `${itemLabel} ${index + 1} löschen`,
             description: (
-              <>
-                <InlineNotice
-                  title={
+              <DeletionDialog
+                {...getAntragDeletionDialogProps({
+                  antrag: entry,
+                  description:
                     translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeTitle.de
-                  }
-                  tagName={"div"}
-                  look={"warning"}
-                  content={translations.geldEinklagenAnwaltschaft.nebenantragDeleteWarning.de.replaceAll(
-                    /\${itemLabel}/g,
-                    itemLabel,
-                  )}
-                />
-                <p className="kern-body">
-                  {
-                    translations.geldEinklagenAnwaltschaft
-                      .nebenantragInlineNoticeAntragToDelete.de
-                  }
-                </p>
-                <span className="flex flex-row items-center!">
-                  <Icon name="draft" className="mr-8!" />
-                  <p className="kern-body! font-bold! text-xl!">{title}</p>
-                </span>
-              </>
+                      .nebenantragInlineNoticeAntragToDelete.de,
+                  userData,
+                  itemLabel: title,
+                  warningTexts: {
+                    auswirkungenText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .nebenantragDeletionAuswirkungen.de,
+                      { nebenantragType },
+                    ),
+                    keepAndEditText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .keepAndEditNebenantrag.de,
+                      { nebenantragType },
+                    ),
+                    deletePermanentlyText: applyStringReplacement(
+                      translations.geldEinklagenAnwaltschaft
+                        .deleteNebenantragPermanently.de,
+                      { nebenantragType },
+                    ),
+                  },
+                })}
+              />
             ),
           },
         };

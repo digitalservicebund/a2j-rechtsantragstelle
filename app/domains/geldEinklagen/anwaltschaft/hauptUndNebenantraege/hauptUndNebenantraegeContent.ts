@@ -5,6 +5,7 @@ import type {
   SchmerzengeldNebenantrag,
 } from "./hauptUndNebenantraegeSchemas";
 import { getInterestText, formatSplitDate } from "./utils";
+import { translations } from "~/services/translations/translations";
 
 const formatPartyNumbers = (numbers: number[]): string => {
   if (numbers.length === 0) return "";
@@ -140,7 +141,11 @@ export const getNebenantragItemText = ({
         nebenantragArtLabels[nebenantrag.nebenantragArt],
       ),
       " in Höhe von ",
-      createElement("strong", null, `${nebenantrag.nebenantragBetrag} Euro`),
+      createElement(
+        "strong",
+        null,
+        `${nebenantrag.nebenantragBetrag} ${translations.currency.euro.de}`,
+      ),
       interestText
         ? createElement(
             Fragment,
@@ -204,7 +209,11 @@ export const getBezifferterAntragText = ({
     amountText: createElement(
       Fragment,
       null,
-      createElement("strong", null, `${hauptantrag?.betragForderung} Euro`),
+      createElement(
+        "strong",
+        null,
+        `${hauptantrag?.betragForderung} ${translations.currency.euro.de}`,
+      ),
     ),
   });
 };
@@ -230,7 +239,7 @@ export const getUnbezifferterSchmerzensgeldantragText = ({
       " zu zahlen, welches einen Betrag von ",
       createElement("strong", null, antrag?.mindestBetrag),
       " ",
-      createElement("strong", null, "Euro"),
+      createElement("strong", null, translations.currency.euro.de),
       " nicht unterschreiten sollte",
     ),
   });
