@@ -106,6 +106,18 @@ describe("DateInput", () => {
     );
   });
 
+  it("should render the helperText given in the props", () => {
+    const { getByText } = render(
+      <DateInput
+        name="birthdate"
+        isRequired={false}
+        helperText="someHelperText"
+      />,
+    );
+
+    expect(getByText("someHelperText")).toBeInTheDocument();
+  });
+
   describe("Error display and handling", () => {
     it("renders an error message if the top-level field has an error", () => {
       vi.mocked(useField).mockImplementation((name) => {

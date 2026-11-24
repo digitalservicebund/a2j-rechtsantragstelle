@@ -34,6 +34,7 @@ import {
   beteiligteFromUserData,
   beteiligteSchema,
   toBeklagter,
+  toGesetzlicherVertreter,
   toKlaeger,
 } from "./beteiligte";
 import {
@@ -130,6 +131,10 @@ export async function geldEinklagenXjustizFromUserdata({
         rollennummerBeklagter,
         beteiligte.data.beklagter,
       );
+      const gesetzlicherVertreter = toGesetzlicherVertreter(
+        rollennummerBeklagter,
+        beteiligte.data.beklagter,
+      );
 
       const { zeugen, beweise, vortraege } = composeBegruendung(
         scope,
@@ -189,7 +194,9 @@ export async function geldEinklagenXjustizFromUserdata({
                 datatypeC(`${KLAGE_TITEL} ${KLAGE_UNTERTITEL}`).value,
               ),
             ],
-            beteiligung: [klaeger, beklagter, ...zeugen],
+            beteiligung: gesetzlicherVertreter
+              ? [klaeger, beklagter, gesetzlicherVertreter, ...zeugen]
+              : [klaeger, beklagter, ...zeugen],
           },
         },
         inhaltsdaten: {

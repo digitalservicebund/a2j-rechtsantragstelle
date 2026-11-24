@@ -6,7 +6,6 @@ import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const optionalIntegerSchema = z
   .union([integerSchema, z.literal("")])
@@ -85,12 +84,18 @@ const selectedKlagendeSchema = z
 export const hauptantraegeArraySchema = z.array(
   z.object({
     id: antragIdSchema,
-    internesSchlagwortForderung: z.string().max(50).optional(),
+    internesSchlagwortForderung: z
+      .string()
+      .max(50, { message: "max" })
+      .optional(),
     betragForderung: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,
     zugUndZug: checkedOptional.optional(),
-    beschreibungDerGegenleistung: stringOptionalSchema,
+    beschreibungDerGegenleistung: z
+      .string()
+      .max(500, { message: "max" })
+      .optional(),
     zinssatzInProzent: optionalIntegerSchema,
     zinsmethode: optionalZinsmethodeSchema,
     zinsbeginn: createDateInputOptionalSchema(),
@@ -126,7 +131,10 @@ export type SchmerzengeldNebenantrag = z.infer<
 export const schmerzengeldantragSchema = z.array(
   z.object({
     id: antragIdSchema,
-    internesSchlagwortForderung: z.string().max(50).optional(),
+    internesSchlagwortForderung: z
+      .string()
+      .max(50, { message: "max" })
+      .optional(),
     mindestBetrag: buildMoneyValidationSchema(),
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,
