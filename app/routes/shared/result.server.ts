@@ -15,7 +15,7 @@ import { getButtonNavigationProps } from "~/util/buttonProps";
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "~/services/flow/pageData";
 import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { type StrapiResultPage } from "~/services/cms/models/StrapiResultPage";
 
 // Information about the current result page, handed to a flow's optional hooks.
@@ -25,7 +25,7 @@ export type ResultExtrasContext = {
   flowId: FlowId;
   stepId: string;
   userData: UserDataWithPageData;
-  flowSessionEngine: FlowSession<PageConfigMap>;
+  flowSessionEngine: FlowSession<PagesConfig>;
 };
 
 // Optional per-flow hooks. A flow that needs nothing beyond the shared behavior

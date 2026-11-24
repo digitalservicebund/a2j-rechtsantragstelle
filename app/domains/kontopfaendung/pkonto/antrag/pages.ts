@@ -1,5 +1,5 @@
 import { setBankNameFromIban } from "~/domains/kontopfaendung/services/setBankNameFromIban";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { translations } from "~/services/translations/translations";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { emailSchema } from "~/services/validation/email";

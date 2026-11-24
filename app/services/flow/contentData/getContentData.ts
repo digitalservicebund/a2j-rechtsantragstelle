@@ -20,7 +20,7 @@ import { generateSummaryFromUserData } from "~/services/summary/autoGenerateSumm
 import { type FlowId } from "~/domains/flowIds";
 import { type UserDataWithPageData } from "../pageData";
 import { type FlowSession } from "../flowEngine/createFlowSession";
-import { type PageConfigMap } from "../flowEngine/types";
+import { type PagesConfig } from "../flowEngine/types";
 import { buildArrayConfigServer } from "~/services/array/buildArrayConfigServer";
 import { getMetaConfigurationByStepId } from "../getMetaConfigurationByStepId";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
@@ -59,7 +59,7 @@ function buildStepsStepper(
 
 const getBackButtonDestination = (
   flowId: FlowId,
-  flowSessionEngine: FlowSession<PageConfigMap>,
+  flowSessionEngine: FlowSession<PagesConfig>,
   arrayIndexes: number[] | undefined = [],
 ) => {
   const backDestination = flowSessionEngine.prevPath
@@ -84,7 +84,7 @@ export const getContentData = (
 ) => {
   return {
     arraySummaryData: (
-      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowSessionEngine: FlowSession<PagesConfig>,
       flowId: FlowId,
     ) => {
       const arrayCategories = cmsContent.content
@@ -120,7 +120,7 @@ export const getContentData = (
     },
     getButtonNavigation: (
       flowId: FlowId,
-      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowSessionEngine: FlowSession<PagesConfig>,
       arrayIndexes: number[] | undefined = [],
     ) => {
       const buttonNavigationTranslation = translationCode.buttonNavigation;
@@ -142,7 +142,7 @@ export const getContentData = (
       });
     },
     getNavProps: (
-      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowSessionEngine: FlowSession<PagesConfig>,
       useStepper: boolean,
       userVisitedValidationPage: boolean,
     ) => {
@@ -197,7 +197,7 @@ export const getContentData = (
       };
     },
     getAutoSummarySections: async (
-      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowSessionEngine: FlowSession<PagesConfig>,
       flowId: FlowId,
     ) => {
       if (!pathname.endsWith("/abgabe/zusammenfassung")) {
@@ -217,7 +217,7 @@ export const getContentData = (
       );
     },
     getProgress: (
-      flowSessionEngine: FlowSession<PageConfigMap>,
+      flowSessionEngine: FlowSession<PagesConfig>,
       stepId: string,
     ) => {
       const progress = flowSessionEngine.getProgress(stepId);

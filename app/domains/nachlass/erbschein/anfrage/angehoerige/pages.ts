@@ -2,7 +2,7 @@ import z from "zod";
 import { elternteilePages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/elternteil/elternteilePages";
 import { kinderPages } from "~/domains/nachlass/erbschein/anfrage/angehoerige/kinder/kinderPages";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -124,4 +124,4 @@ export const angehoerigePages = {
       "angehoerige#verhaeltnis": survivingAngehoerigeFields.verhaeltnis,
     },
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

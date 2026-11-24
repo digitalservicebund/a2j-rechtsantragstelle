@@ -1,6 +1,6 @@
 import { type Flow } from "~/domains/flows.server";
 import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { erbfolgeStaticFlow } from "./flowConfig";
 import { erbfolgeStringReplacements } from "../shared/stringReplacements";
 
@@ -8,7 +8,7 @@ export const erbscheinErbfolge = {
   flowType: "vorabCheck",
   // The compiled flow keeps its precise per-page types for direct consumers (the
   // result route). Here it is widened to the shared registry's flow type, where
-  // every flow is handled generically as CompiledFlow<PageConfigMap>.
-  config: erbfolgeStaticFlow as CompiledFlow<PageConfigMap>,
+  // every flow is handled generically as CompiledFlow<PagesConfig>.
+  config: erbfolgeStaticFlow as CompiledFlow<PagesConfig>,
   stringReplacements: erbfolgeStringReplacements,
-} satisfies Flow<PageConfigMap>;
+} satisfies Flow<PagesConfig>;

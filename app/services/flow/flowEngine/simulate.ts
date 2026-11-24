@@ -1,7 +1,7 @@
 import { evaluateAllBranches, evaluateRoute, extractEdges } from "./routing";
 import type {
   NodeKey,
-  PageConfigMap,
+  PagesConfig,
   TransitionConfigMap,
   InferredUserData,
 } from "./types";
@@ -19,7 +19,7 @@ export type SimulationResult = {
 };
 
 // A page visit at a specific array nesting level. Doubles as the BFS queue item.
-type VisitedContext<C extends PageConfigMap> = {
+type VisitedContext<C extends PagesConfig> = {
   key: NodeKey<C>;
   pageData: PageData;
   scopeData: Record<string, unknown>;
@@ -27,7 +27,7 @@ type VisitedContext<C extends PageConfigMap> = {
 };
 
 // Mutable BFS accumulators shared by the pass-2 helpers.
-type BfsState<C extends PageConfigMap> = {
+type BfsState<C extends PagesConfig> = {
   queue: Array<VisitedContext<C>>;
   parentMap: Map<NodeKey<C>, NodeKey<C>>;
   reachableSet: Set<NodeKey<C>>;
@@ -36,7 +36,7 @@ type BfsState<C extends PageConfigMap> = {
 // Returns array property names relative to the source page's current item.
 // ["nebenantraege", "absaetze"] means descend through both arrays, not just
 // the last one. These are data-path segments, not intermediate flow nodes.
-type ArrayFanOut<C extends PageConfigMap> = (
+type ArrayFanOut<C extends PagesConfig> = (
   sourceKey: NodeKey<C>,
   targetKey: NodeKey<C>,
 ) => string[] | undefined;
@@ -52,7 +52,7 @@ const createEdgeTracker = <T>() => {
   };
 };
 
-export const runSimulation = <C extends PageConfigMap>(
+export const runSimulation = <C extends PagesConfig>(
   data: InferredUserData<C>,
   compiledFlow: CompiledFlow<C>,
 ) =>
@@ -105,7 +105,7 @@ export const runSimulation = <C extends PageConfigMap>(
 // Pass 1: follow first-match transitions from the initial step, tracking visited
 // edges so a re-entered node takes an unvisited branch. Yields the linear key
 // order and whether the walk ended on a terminal node.
-const runLinearPass = <C extends PageConfigMap>(
+const runLinearPass = <C extends PagesConfig>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
   currentData: InferredUserData<C>,
@@ -140,7 +140,7 @@ const runLinearPass = <C extends PageConfigMap>(
 // steps back out of the item's sub-flow, so the scope pointer (arrayPath /
 // arrayIndexes / scopeData) is rewound to the target's level — otherwise a
 // shallower page would re-fan-out the current item's own children.
-const enqueueRegularBranch = <C extends PageConfigMap>(
+const enqueueRegularBranch = <C extends PagesConfig>(
   state: BfsState<C>,
   ctx: VisitedContext<C>,
   nextBranch: NodeKey<C>,
@@ -176,7 +176,7 @@ const enqueueRegularBranch = <C extends PageConfigMap>(
 // Descends through each array level before enqueueing the target's item context.
 // For ["hauptantrag", "nebenantraege"], visit every Nebenantrag of every
 // Hauptantrag, keeping scopeData, arrayPath and arrayIndexes aligned.
-const enqueueFanOutItems = <C extends PageConfigMap>(
+const enqueueFanOutItems = <C extends PagesConfig>(
   state: BfsState<C>,
   ctx: VisitedContext<C>,
   target: NodeKey<C>,
@@ -210,7 +210,7 @@ const enqueueFanOutItems = <C extends PageConfigMap>(
 
 // Fans out every addArrayItem branch of the current node. Reading each branch's
 // own target arrays lets a single page add to sibling or deeper nested arrays.
-const enqueueArrayFanOuts = <C extends PageConfigMap>(
+const enqueueArrayFanOuts = <C extends PagesConfig>(
   state: BfsState<C>,
   ctx: VisitedContext<C>,
   route: TransitionConfigMap<C>[NodeKey<C>],
@@ -231,7 +231,7 @@ const enqueueArrayFanOuts = <C extends PageConfigMap>(
   }
 };
 
-const simulate = <C extends PageConfigMap>(
+const simulate = <C extends PagesConfig>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
   currentData: InferredUserData<C>,

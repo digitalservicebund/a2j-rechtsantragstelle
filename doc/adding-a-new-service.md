@@ -30,7 +30,7 @@ The pages record is the single source of truth for URLs, validation and the user
 
 ```ts
 import z from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/services/flow/flowEngine/types";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const myFlowPages = {
@@ -90,7 +90,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { myFlowPages } from "./pages";
 
@@ -117,7 +117,7 @@ export const myFlowConfig = compileFlow({
     ],
     zusammenfassung: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;
 ```
 
 Rules:

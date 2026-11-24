@@ -1,6 +1,12 @@
 import { type z } from "zod";
-import { type ControlledFieldConfig } from "~/domains/pageSchemas";
-import { type SchemaObject, type UserData } from "~/domains/userData";
+import { type FieldApi } from "@rvf/react";
+import { type MaybePromise } from "p-map";
+import { type Dispatch, type SetStateAction } from "react";
+import type {
+  SchemaObject,
+  UserData,
+  AllowedUserTypes,
+} from "~/domains/userData";
 import type { PageData } from "../pageData";
 
 type InferSchema<S> = S extends z.ZodTypeAny
@@ -25,6 +31,28 @@ type RemoveIndexSignature<T> = {
   ]: T[K];
 };
 
+type ReadOnlyFields = {
+  fieldNames: string[];
+  shouldMakeReadOnly: (userData: UserData) => boolean;
+};
+
+type FieldValueChangeHandlerProps = {
+  value: AllowedUserTypes;
+  originalValue: AllowedUserTypes;
+  controlledField: FieldApi<any>;
+  setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
+};
+
+export type FieldValueChangeHandler = (
+  props: FieldValueChangeHandlerProps,
+) => MaybePromise<void | (() => void)>;
+
+export type ControlledFieldConfig = {
+  fieldName: string;
+  handleFieldValueChange: FieldValueChangeHandler;
+  getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
+};
+
 export type FlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
@@ -42,6 +70,7 @@ export type FlowEnginePageConfig = {
    * should be collapsed into the parent nav item to avoid cluttering the nav with too many items.
    */
   shouldCollapseIntoParentNavItem?: boolean;
+  readonlyFields?: ReadOnlyFields;
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
@@ -52,8 +81,8 @@ export type FlowEnginePageConfig = {
   };
 };
 
-export type PageConfigMap = Record<string, FlowEnginePageConfig>;
-export type NodeKey<C extends PageConfigMap> = Extract<keyof C, string>;
+export type PagesConfig = Record<string, FlowEnginePageConfig>;
+export type NodeKey<C extends PagesConfig> = Extract<keyof C, string>;
 
 // --- User Data Inference ---
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
@@ -70,7 +99,7 @@ type ExtractNodeSchema<Node> = Node extends {
     ? InferSchema<S>
     : {};
 
-export type InferredUserData<C extends PageConfigMap> = Partial<
+export type InferredUserData<C extends PagesConfig> = Partial<
   UnionToIntersection<ExtractNodeSchema<C[keyof C]>>
 > & { pageData?: PageData };
 
@@ -86,7 +115,7 @@ type GuardedTransition<Key, Data> = {
 export type TransitionConfig<Key, Data> =
   Key | null | Array<GuardedTransition<Key, Data>>;
 
-export type TransitionConfigMap<C extends PageConfigMap> = Record<
+export type TransitionConfigMap<C extends PagesConfig> = Record<
   NodeKey<C>,
   TransitionConfig<NodeKey<C>, InferredUserData<C>>
 >;

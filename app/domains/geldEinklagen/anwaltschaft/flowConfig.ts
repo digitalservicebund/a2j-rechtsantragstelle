@@ -5,12 +5,12 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { geldEinklagenAnwaltschaftPages } from "./pages";
 import { tatsachenvortragFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/flowConfig";
 import { hauptUndNebenantraegeFlowConfig } from "./hauptUndNebenantraege/flowConfig";
 
-export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PageConfigMap> =
+export const geldEinklagenAnwaltschaftFlowConfig: CompiledFlow<PagesConfig> =
   compileFlow({
     pages: geldEinklagenAnwaltschaftPages,
     initialStep: "voraussetzungen",

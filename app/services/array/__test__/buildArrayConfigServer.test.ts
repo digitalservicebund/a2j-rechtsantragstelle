@@ -1,5 +1,5 @@
 import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { buildArrayConfigServer } from "../buildArrayConfigServer";
 
 const isArrayRelevant = () => true;
@@ -9,7 +9,7 @@ describe("buildArrayConfigServer", () => {
     const flowSessionEngine = {
       arrayInfo: undefined,
       isReachable: vi.fn(),
-    } as unknown as FlowSession<PageConfigMap>;
+    } as unknown as FlowSession<PagesConfig>;
 
     const result = buildArrayConfigServer(
       flowSessionEngine,
@@ -33,7 +33,7 @@ describe("buildArrayConfigServer", () => {
         "/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten",
       isReachable: () => true,
       paths: ["/finanzielle-angaben/eigentum/bankkonten/bankkonto/#/daten"],
-    } as unknown as FlowSession<PageConfigMap>;
+    } as unknown as FlowSession<PagesConfig>;
 
     const result = buildArrayConfigServer(
       flowSessionEngine,
@@ -64,7 +64,7 @@ describe("buildArrayConfigServer", () => {
       isReachable: () => true,
       // Empty array: the item page was never visited, so it is absent from paths.
       paths: [],
-    } as unknown as FlowSession<PageConfigMap>;
+    } as unknown as FlowSession<PagesConfig>;
 
     const result = buildArrayConfigServer(
       flowSessionEngine,

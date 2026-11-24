@@ -24,7 +24,7 @@ import {
 } from "./stringReplacements";
 import { erbausschlagungAnfrageFlowConfig } from "./flowConfig";
 import { erbausschlagungAnfragePdfFromUserdata } from "../../services/pdf/erbausschlagung/erbausschlagungAnfragePdfFromUserdata";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 export const erbausschlagungAnfrage = {
   flowType: "formFlow",
@@ -56,4 +56,4 @@ export const erbausschlagungAnfrage = {
       await erbausschlagungAnfragePdfFromUserdata(userData),
     name: `Erbausschlagung_Anfrage`,
   },
-} satisfies Flow<PageConfigMap>;
+} satisfies Flow<PagesConfig>;

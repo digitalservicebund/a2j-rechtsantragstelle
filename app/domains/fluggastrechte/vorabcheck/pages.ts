@@ -1,5 +1,5 @@
 import z from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { airlineSchema } from "~/services/validation/airline";
 import { airportSchema } from "~/services/validation/airport";
 import { autoSuggestSchema } from "~/services/validation/autoSuggest";

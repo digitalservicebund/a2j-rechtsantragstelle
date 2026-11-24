@@ -9,11 +9,11 @@ import { testamentOderErbvertragTestCases } from "~/domains/nachlass/erbschein/a
 import { type ErbscheinAnfrageUserData } from "~/domains/nachlass/erbschein/anfrage/userData";
 import { verstorbenePersonTestCases } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/__test__/testCasesWithUserInput";
 import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { angehoerigeTestCases } from "~/domains/nachlass/erbschein/anfrage/angehoerige/__test__/testCasesWithUserInput";
 
 export const erbscheinAnfrageTestCases = {
-  config: erbscheinAnfrageFlowConfig as CompiledFlow<PageConfigMap>,
+  config: erbscheinAnfrageFlowConfig as CompiledFlow<PagesConfig>,
   testcases: {
     datenverarbeitung: [
       {

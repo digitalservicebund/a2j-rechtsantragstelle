@@ -10,7 +10,7 @@ import {
   createFlowSession,
   type FlowSession,
 } from "~/services/flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { removeArrayIndexWithWildcard } from "~/util/array";
 import { beratungshilfeAntragTestCases } from "../beratungshilfe/formular/__test__/testcasesWithUserInputs";
 import { beratungshilfeVorabcheckTestCases } from "../beratungshilfe/vorabcheck/__test__/testcasesWithUserInputs";
@@ -53,13 +53,13 @@ type VisitedSteps = Record<
   string,
   {
     visitedSteps: Set<string | undefined>;
-    config: CompiledFlow<PageConfigMap>;
+    config: CompiledFlow<PagesConfig>;
   }
 >;
 
 const flowEntries = Object.entries(flows) as Array<[FlowId, Flow]>;
 
-const getFlowIdByConfig = (config: CompiledFlow<PageConfigMap>) =>
+const getFlowIdByConfig = (config: CompiledFlow<PagesConfig>) =>
   flowEntries.find(([_, flow]) => flow.config === config)?.[0];
 
 // Build full user input from all previous expectedSteps
@@ -118,7 +118,7 @@ function testPageSchema<T extends UserData>(
 }
 
 function testArrayLinkPages(
-  flowSessionEngine: FlowSession<PageConfigMap>,
+  flowSessionEngine: FlowSession<PagesConfig>,
   stepId: string,
   nextStepId: string,
   previousStepId?: string,
@@ -145,7 +145,7 @@ function testArrayLinkPages(
 function runTestcases<T extends UserData>(
   testName: string,
   flowId: string,
-  config: CompiledFlow<PageConfigMap>,
+  config: CompiledFlow<PagesConfig>,
   expectedSteps: Array<ExpectedStep<T>>,
   allVisitedSteps: VisitedSteps,
 ) {

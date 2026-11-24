@@ -10,7 +10,7 @@ import {
   personUnion,
 } from "~/domains/nachlass/erbschein/anfrage/angehoerige/pageSchemaHelpers";
 import { type Kind } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 const kindSchema: z.ZodType<Kind> = z.lazy(() => personUnion(kindSchema));
@@ -53,7 +53,7 @@ const kinderLevel = (depth: number) => {
       shouldCollapseIntoParentNavItem: true,
       pageSchema: hatteKinderFieldHelper(prefix),
     },
-  } as const satisfies PageConfigMap;
+  } as const satisfies PagesConfig;
 };
 
 const kinderLevelPages = <D extends number>(depth: D) => {
@@ -95,4 +95,4 @@ export const kinderPages = {
   ...kinderLevelPages(3),
   ...kinderLevelPages(4),
   ...kinderLevelPages(5),
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

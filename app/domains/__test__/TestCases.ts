@@ -2,7 +2,7 @@ import type { AllowedUserTypes, AllUserDataKeys, UserData } from "../userData";
 import { type AddArrayItemEvent } from "~/services/array";
 import { type PageData } from "~/services/flow/pageData";
 import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 type ArrayItemProperties = `${AllUserDataKeys}#${string}`;
 
@@ -32,7 +32,7 @@ export type FlowTestCases<T extends UserData> = Record<
 // New flow tests: testing data submission with page schemas
 export type FlowTestConfig<
   T extends UserData,
-  C extends PageConfigMap = PageConfigMap,
+  C extends PagesConfig = PagesConfig,
 > = {
   config?: CompiledFlow<C>;
   testcases: FlowTestCases<T>;

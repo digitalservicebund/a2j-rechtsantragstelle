@@ -1,7 +1,7 @@
 import { type FlowId } from "~/domains/flowIds";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { type SummaryItem } from "~/services/summary/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 
@@ -10,7 +10,7 @@ import { type Replacements } from "~/util/applyStringReplacement";
 export type LoaderExtrasContext = {
   flowId: FlowId;
   arrayIndexes?: number[];
-  flowSessionEngine: FlowSession<PageConfigMap>;
+  flowSessionEngine: FlowSession<PagesConfig>;
 };
 
 export type ExtraDataWithFormElements = Record<string, unknown> & {

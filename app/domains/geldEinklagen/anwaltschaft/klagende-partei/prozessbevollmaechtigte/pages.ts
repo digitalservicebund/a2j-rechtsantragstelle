@@ -5,7 +5,7 @@ import {
   type KlagendeProzessbevollmaechtigte,
   verantwortendePersonSchema,
 } from "../../shared/klageParties/prozessbevollmaechtigte/prozessbevollmaechtigteSchemas";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { type PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -113,4 +113,4 @@ export const klagendeProzessbevollmaechtigtePages = {
         verantwortendePersonSchema.shape.berufsbezeichnung,
     },
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

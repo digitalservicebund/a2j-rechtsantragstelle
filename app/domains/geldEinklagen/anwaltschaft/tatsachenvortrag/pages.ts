@@ -8,7 +8,7 @@ import {
   vortraegeArraySchema,
   zeugeSchema,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";
@@ -133,4 +133,4 @@ export const tatsachenvortragPages = {
       ),
     },
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

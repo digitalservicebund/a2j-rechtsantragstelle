@@ -54,18 +54,18 @@ session.prunedUserData; // → userData with only reachable pages' fields kept
 
 ### File Map
 
-| File                                        | Role                                                                                                                 |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `types.ts`                                  | Core type definitions: `FlowEnginePageConfig`, `PageConfigMap`, `NodeKey`, `TransitionConfigMap`, `InferredUserData` |
-| `compileFlow.ts`                            | One-time static initialization: schema cache, `stepId` ↔ `nodeKey` map, array metadata, graph pre-computation        |
-| `precomputeProgress.ts`                     | Static BFS over all possible transitions → progress depth per node, `isFinal` detection                              |
-| `routing.ts`                                | Pure routing helpers: `evaluateRoute`, `extractEdges`, `evaluateAllBranches`                                         |
-| `simulate.ts`                               | Dynamic two-pass simulation: linear path + BFS reachable set + parent map                                            |
-| `statusTree.ts`                             | Section-level status projection (`buildStatusTree`) from simulation output                                           |
-| `pruneUserData.ts`                          | Keeps only fields from reachable/visited pages, including nested arrays                                              |
-| `createFlowSession.ts`                      | Public API: combines compiled flow + simulation result into a per-request `FlowSession` object                       |
-| `flowTransitionValidation.ts`               | Checks that a user reached the required pages of a source flow before entering this one                              |
-| `migrateSourceFlowDataToDestinationFlow.ts` | Copies answers from a source flow into the destination flow (`Flow.migration`)                                       |
+| File                                        | Role                                                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `types.ts`                                  | Core type definitions: `FlowEnginePageConfig`, `PagesConfig`, `NodeKey`, `TransitionConfigMap`, `InferredUserData` |
+| `compileFlow.ts`                            | One-time static initialization: schema cache, `stepId` ↔ `nodeKey` map, array metadata, graph pre-computation      |
+| `precomputeProgress.ts`                     | Static BFS over all possible transitions → progress depth per node, `isFinal` detection                            |
+| `routing.ts`                                | Pure routing helpers: `evaluateRoute`, `extractEdges`, `evaluateAllBranches`                                       |
+| `simulate.ts`                               | Dynamic two-pass simulation: linear path + BFS reachable set + parent map                                          |
+| `statusTree.ts`                             | Section-level status projection (`buildStatusTree`) from simulation output                                         |
+| `pruneUserData.ts`                          | Keeps only fields from reachable/visited pages, including nested arrays                                            |
+| `createFlowSession.ts`                      | Public API: combines compiled flow + simulation result into a per-request `FlowSession` object                     |
+| `flowTransitionValidation.ts`               | Checks that a user reached the required pages of a source flow before entering this one                            |
+| `migrateSourceFlowDataToDestinationFlow.ts` | Copies answers from a source flow into the destination flow (`Flow.migration`)                                     |
 
 ### Key Types
 

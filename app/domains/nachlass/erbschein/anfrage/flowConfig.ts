@@ -9,7 +9,7 @@ import { testamentOderErbvertragFlowConfig } from "~/domains/nachlass/erbschein/
 import { ehepartnerFlowConfig } from "~/domains/nachlass/erbschein/anfrage/ehepartner/flowConfig";
 import { angehoerigeFlowConfig } from "~/domains/nachlass/erbschein/anfrage/angehoerige/flowConfig";
 import { nachlassFlowConfig } from "~/domains/nachlass/erbschein/anfrage/nachlass/flowConfig";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 export const erbscheinAnfrageFlowConfig = compileFlow({
   pages: erbscheinAnfragePages,
@@ -27,4 +27,4 @@ export const erbscheinAnfrageFlowConfig = compileFlow({
     ende: null,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

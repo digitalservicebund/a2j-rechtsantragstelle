@@ -1,5 +1,5 @@
 import z from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/services/flow/flowEngine/types";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { antragIdSchema } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/hauptUndNebenantraegeSchemas";
 import { stringRequiredMaxSchema } from "~/services/validation/stringRequired";

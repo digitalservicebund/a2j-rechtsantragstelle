@@ -4,10 +4,7 @@ import {
   isSpecialComponentDescriptions,
   renderSpecialMetaDescriptions,
 } from "~/components/formElements/schemaToForm/renderSchemaBasedFormElement";
-import {
-  hasControlledFieldConfig,
-  type ControlledFieldConfig,
-} from "~/domains/pageSchemas";
+import { hasControlledFieldConfig } from "~/domains/pageSchemas";
 import { type SchemaObject } from "~/domains/userData";
 import { type StrapiFormComponent } from "~/services/cms/models/formElements/StrapiFormComponent";
 import { type DynamicOptions } from "~/services/validation/dynamicSelect";
@@ -29,6 +26,7 @@ import {
   renderZodString,
 } from "../formElements/schemaToForm/renderZodString";
 import { sortSchemaByFormComponents } from "../formElements/schemaToForm/sortSchemaByFormComponents";
+import { type ControlledFieldConfig } from "~/services/flow/flowEngine/types";
 
 type Props = {
   pageConfig: {
