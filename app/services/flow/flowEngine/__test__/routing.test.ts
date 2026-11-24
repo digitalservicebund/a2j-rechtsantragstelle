@@ -92,12 +92,12 @@ describe("extractEdges", () => {
     expect(extractEdges([{ target: null }])).toEqual([]);
   });
 
-  it("includes addArrayItem targets", () => {
+  it("excludes addArrayItem targets", () => {
     const route = [
       { target: "item", type: "addArrayItem" as const },
       { target: "next" },
     ];
-    expect(extractEdges(route)).toEqual(["item", "next"]);
+    expect(extractEdges(route)).toEqual(["next"]);
   });
 });
 

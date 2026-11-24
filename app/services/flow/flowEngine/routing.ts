@@ -27,7 +27,8 @@ export const extractEdges = <FlowKey, UserData>(
   if (Array.isArray(route)) {
     const edges: FlowKey[] = [];
     for (const transition of route) {
-      if (transition.target) edges.push(transition.target);
+      if (transition.target && transition.type !== "addArrayItem")
+        edges.push(transition.target);
     }
     return edges;
   }
