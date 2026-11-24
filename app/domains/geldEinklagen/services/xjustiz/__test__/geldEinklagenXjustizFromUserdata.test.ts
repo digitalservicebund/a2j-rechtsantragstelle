@@ -4,6 +4,7 @@ import {
   datatypeE,
   ergonomics,
   Gerichte,
+  Geschlecht,
   Rollenbezeichnung,
 } from "@digitalservicebund/a2j-xjustiz-bridge/nachricht/zahlungsklage";
 import { userDataMock } from "~/domains/geldEinklagen/services/pdf/__test__/userDataMock";
@@ -526,6 +527,132 @@ describe("geldEinklagenXjustizFromUserdata", () => {
           ],
         },
       },
+    });
+  });
+
+  describe("gesetzliche Vertretung of a Beklagte organisation", () => {
+    type Beteiligung = {
+      rolle: Array<{
+        rollennummer?: string;
+        rollenbezeichnung: { code: string };
+        referenz?: Array<{ refRollennummer: string }>;
+      }>;
+      beteiligter: unknown;
+    };
+    const beteiligung = () =>
+      (
+        JSON.parse(receivedBody ?? "null") as {
+          grunddaten: { verfahrensdaten: { beteiligung: Beteiligung[] } };
+        }
+      ).grunddaten.verfahrensdaten.beteiligung;
+
+    const vertretung = {
+      beklagteGesetzlichenVertretungAnrede: "herr" as const,
+      beklagteGesetzlichenVertretungTitle: "dr" as const,
+      beklagteGesetzlichenVertretungVorname: "Max",
+      beklagteGesetzlichenVertretungNachname: "Mustermann",
+    };
+
+    it("adds the Vertretung after the Beklagte, referencing it", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          gegenWenBeklagen: "organisation",
+          beklagteNameOrganisation: "Muster GmbH",
+          ...vertretung,
+        },
+        baseUrl,
+      });
+
+      const [, beklagter, vertreter] = beteiligung();
+      expect(vertreter).toStrictEqual({
+        rolle: [
+          {
+            rollenbezeichnung:
+              Rollenbezeichnung["Gesetzliche(r) Vertreter(in)"],
+            referenz: [{ refRollennummer: beklagter.rolle[0].rollennummer }],
+          },
+        ],
+        beteiligter: {
+          auswahlBeteiligter: {
+            natuerlichePerson: {
+              vollerName: {
+                vorname: "Max",
+                nachname: "Mustermann",
+                titel: "Dr.",
+              },
+              geschlecht: Geschlecht["männlich"],
+            },
+          },
+        },
+      });
+    });
+
+    it("keeps Zeugen after the Vertretung", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          gegenWenBeklagen: "organisation",
+          beklagteNameOrganisation: "Muster GmbH",
+          ...vertretung,
+          abschnitte: [
+            {
+              ...userDataWithBegruendung.abschnitte[0],
+              personen: [
+                {
+                  personAuswahl: "anotherPerson" as const,
+                  personId: "zeugin-1",
+                  anrede: "frau" as const,
+                  title: "",
+                  vorname: "Erika",
+                  nachname: "Muster",
+                  strasse: "Hauptstraße",
+                  hausnummer: "1",
+                  plz: "10115",
+                  ort: "Berlin",
+                  land: "Deutschland",
+                  telefonnummer: "",
+                  email: "",
+                },
+              ],
+            },
+          ],
+        },
+        baseUrl,
+      });
+
+      expect(
+        beteiligung().map(({ rolle }) => rolle[0].rollenbezeichnung),
+      ).toStrictEqual([
+        Rollenbezeichnung["Kläger(in)"],
+        Rollenbezeichnung["Beklagte(r)"],
+        Rollenbezeichnung["Gesetzliche(r) Vertreter(in)"],
+        Rollenbezeichnung["Zeuge (Zeugin)"],
+      ]);
+    });
+
+    it("adds no Vertretung without a Nachname", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: {
+          ...userDataWithBegruendung,
+          gegenWenBeklagen: "organisation",
+          beklagteNameOrganisation: "Muster GmbH",
+          ...vertretung,
+          beklagteGesetzlichenVertretungNachname: "",
+        },
+        baseUrl,
+      });
+
+      expect(beteiligung()).toHaveLength(2);
+    });
+
+    it("adds no Vertretung for a Beklagte person", async () => {
+      await geldEinklagenXjustizFromUserdata({
+        userData: { ...userDataWithBegruendung, ...vertretung },
+        baseUrl,
+      });
+
+      expect(beteiligung()).toHaveLength(2);
     });
   });
 

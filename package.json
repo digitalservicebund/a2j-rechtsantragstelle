@@ -45,8 +45,8 @@
     "verify:websites": "node ./scripts/verifyExternalLinks.ts verifyWebsites"
   },
   "dependencies": {
+    "@digitalservicebund/a2j-xjustiz-bridge": "^0.12.1",
     "@aws-sdk/client-s3": "^3.1175.0",
-    "@digitalservicebund/a2j-xjustiz-bridge": "^0.11.1",
     "@digitalservicebund/kern-ux-tailwind-theme": "^4.1.0",
     "@kern-ux/native": "^2.9.0",
     "@node-saml/node-saml": "github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916",

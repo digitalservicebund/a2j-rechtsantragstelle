@@ -32,13 +32,12 @@ const generate = async (
   return result.value;
 };
 
-describe.runIf(baseUrl)("XJustiz Zahlungsklage against XJustiz-Tools", () => {
-  it(
-    "generates a message with Antraege, Verhandlung texts and Beweise",
-    {
-      timeout: 180_000,
-    },
-    async () => {
+// The emulated XJustiz-Tools often need more than the default 5s per request
+describe.runIf(baseUrl)(
+  "XJustiz Zahlungsklage against XJustiz-Tools",
+  { timeout: 30_000 },
+  () => {
+    it("generates a message with Antraege, Verhandlung texts and Beweise", async () => {
       const xml = await generate({
         ...userDataMock,
         prozesszinsen: "yes",
@@ -86,18 +85,36 @@ describe.runIf(baseUrl)("XJustiz Zahlungsklage against XJustiz-Tools", () => {
         "<tns:schlagwort>Rechtliche Würdigung</tns:schlagwort>",
       );
       expect(xml.match(/<tns:zeugen>/g)).toHaveLength(1);
-    },
-  );
+    });
 
-  it(
-    "generates a message when all Abschnitte were deleted",
-    {
-      timeout: 180_000,
-    },
-    async () => {
+    it("generates a message with the gesetzliche Vertretung of a Beklagte organisation", async () => {
+      const xml = await generate({
+        ...userDataMock,
+        gegenWenBeklagen: "organisation",
+        beklagteNameOrganisation: "Muster GmbH",
+        beklagteGesetzlichenVertretungAnrede: "herr",
+        beklagteGesetzlichenVertretungTitle: "dr",
+        beklagteGesetzlichenVertretungVorname: "Max",
+        beklagteGesetzlichenVertretungNachname: "Mustermann",
+        abschnitte: [
+          {
+            beschreibung: "Die Rechnung wurde nicht bezahlt.",
+            personIdAsBeklagte: "",
+            personIdAsKlagende: "",
+            personen: [zeugin],
+          },
+        ],
+      });
+
+      expect(xml).toContain("Muster GmbH");
+      expect(xml).toContain("<tns:nachname>Mustermann</tns:nachname>");
+      expect(xml).toContain("<tns:ref.rollennummer>");
+    });
+
+    it("generates a message when all Abschnitte were deleted", async () => {
       const xml = await generate({ ...userDataMock, abschnitte: [] });
 
       expect(xml).toContain("<tns:schlagwort>Sachverhalt</tns:schlagwort>");
-    },
-  );
-});
+    });
+  },
+);
