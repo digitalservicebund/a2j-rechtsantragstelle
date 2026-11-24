@@ -53,7 +53,7 @@ export type ControlledFieldConfig = {
   getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
 };
 
-export type FlowEnginePageConfig = {
+type FlowEnginePageConfig = {
   // TODO: rename `stepId` → `path` once the old XState engine is fully retired and all flows have migrated to the new engine.
   stepId: string;
   pageSchema?: SchemaObject;
