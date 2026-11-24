@@ -568,7 +568,8 @@ describe("geldEinklagenXjustizFromUserdata", () => {
       expect(vertreter).toStrictEqual({
         rolle: [
           {
-            rollenbezeichnung: Rollenbezeichnung["Gesetzliche(r) Vertreter(in)"],
+            rollenbezeichnung:
+              Rollenbezeichnung["Gesetzliche(r) Vertreter(in)"],
             referenz: [{ refRollennummer: beklagter.rolle[0].rollennummer }],
           },
         ],

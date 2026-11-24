@@ -245,7 +245,7 @@ const toVertreterPerson = (vertretung: Vertretung): NatuerlichePerson => ({
   geschlecht: anredeToGeschlecht(vertretung.anrede),
 });
 
-export const toZeuge =<NachrichtenScope>(
+export const toZeuge = <NachrichtenScope>(
   rollennummer: Rollennummer<
     NachrichtenScope,
     (typeof Rollenbezeichnung)["Zeuge (Zeugin)"]
