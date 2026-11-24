@@ -6,7 +6,6 @@ import { integerSchema } from "~/services/validation/integer";
 import { klageParteiCheckboxesZodDescription } from "~/services/validation/klageParteiCheckboxes";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
-import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
 const optionalIntegerSchema = z
   .union([integerSchema, z.literal("")])
@@ -90,7 +89,10 @@ export const hauptantraegeArraySchema = z.array(
     klagende: selectedKlagendeSchema,
     beklagte: selectedBeklagteSchema,
     zugUndZug: checkedOptional.optional(),
-    beschreibungDerGegenleistung: stringOptionalSchema,
+    beschreibungDerGegenleistung: z
+      .string()
+      .max(500, { message: "max" })
+      .optional(),
     zinssatzInProzent: optionalIntegerSchema,
     zinsmethode: optionalZinsmethodeSchema,
     zinsbeginn: createDateInputOptionalSchema(),
