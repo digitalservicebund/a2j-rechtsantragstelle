@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import type { ReactNode } from "react";
 import type { GeldEinklagenAnwaltschaftUserData } from "../../userData";
+import type { KlageParteien } from "../../shared/klageParties/klagePartySchemas";
 import {
   getVerb,
   getBeklagteText,
@@ -33,6 +34,22 @@ const klagenden = [
   party("33333333-3333-4333-8333-333333333333"),
   party("44444444-4444-4444-8444-444444444444"),
 ];
+
+const organisation = (id: string): KlageParteien[number] => ({
+  id,
+  type: "organisation",
+  orgName: "Firma GmbH",
+  orgVertretungArt: "geschaeftsfuehrer-geschaeftsfuehrerin",
+  orgVertretungAnrede: "frau",
+  orgVertretungTitel: "",
+  orgVertretungVorname: "Test",
+  orgVertretungNachname: "Person",
+  strasse: "Musterstraße",
+  hausnummer: "1",
+  plz: "12345",
+  ort: "Berlin",
+  land: "Deutschland",
+});
 
 const createUserData = (
   overrides: Partial<GeldEinklagenAnwaltschaftUserData> = {},
@@ -346,6 +363,75 @@ describe("hauptUndNebenantraegeContent", () => {
     );
     expect(markup).toContain("<strong>Die Beklagten zu 1) und zu 2)</strong>");
     expect(markup).toContain("<strong>die Kläger zu 1) und zu 2)</strong>");
+  });
+
+  it("uses the displayed party order in a Schmerzensgeldantrag", () => {
+    const defendants = [
+      organisation("org-defendant"),
+      party("other-defendant"),
+      party("selected-defendant"),
+    ];
+    const plaintiffs = [
+      organisation("org-plaintiff"),
+      party("other-plaintiff"),
+      party("selected-plaintiff"),
+    ];
+    const userData = createUserData({
+      beklagten: defendants,
+      klagenden: plaintiffs,
+      schmerzengeldantrag: [
+        {
+          mindestBetrag: "12,00",
+          beklagte: { "org-defendant": "on" },
+          klagende: { "selected-plaintiff": "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(
+        getUnbezifferterSchmerzensgeldantragText({
+          userData,
+          schmerzengeldantragIndex: 0,
+        }),
+      ),
+    ).toBe(
+      "Der Beklagte zu 3) wird verurteilt an, der Kläger zu 2) ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von 12,00 Euro nicht unterschreiten sollte.",
+    );
+  });
+
+  it("uses the displayed party order in a Bezifferter Antrag", () => {
+    const defendants = [
+      organisation("org-defendant"),
+      party("other-defendant"),
+      party("selected-defendant"),
+    ];
+    const plaintiffs = [
+      organisation("org-plaintiff"),
+      party("other-plaintiff"),
+      party("selected-plaintiff"),
+    ];
+    const userData = createUserData({
+      beklagten: defendants,
+      klagenden: plaintiffs,
+      hauptantrag: [
+        {
+          betragForderung: "12,00",
+          beklagte: { "org-defendant": "on" },
+          klagende: { "selected-plaintiff": "on" },
+          zinsbeginn: { day: "", month: "", year: "" },
+          zinsende: { day: "", month: "", year: "" },
+        },
+      ],
+    });
+
+    expect(
+      textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
+    ).toBe(
+      "Der Beklagte zu 3) wird verurteilt an, den Kläger zu 2) 12,00 Euro zu zahlen.",
+    );
   });
 
   it("separates three or more selected parties with commas and a final und", () => {

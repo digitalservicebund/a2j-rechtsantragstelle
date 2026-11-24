@@ -4,6 +4,8 @@ import type {
   Nebenantrag,
   SchmerzengeldNebenantrag,
 } from "./hauptUndNebenantraegeSchemas";
+import { getOrderedKlageParties } from "../shared/klageParties/klagePartyOrdering";
+import type { KlageParteiVerhaeltnis } from "../shared/klageParties/klagePartySchemas";
 import { getInterestText, formatSplitDate } from "./utils";
 import { translations } from "~/services/translations/translations";
 
@@ -33,11 +35,13 @@ export const getVerb = (count: number): string =>
   count === 1 ? "wird" : "werden";
 
 const getSelectedPartyNumbers = (
-  parties: Array<{ id?: string }> | undefined,
+  userData: GeldEinklagenAnwaltschaftUserData,
+  relationship: KlageParteiVerhaeltnis,
   selection: Record<string, string> | undefined,
 ): number[] =>
-  (parties ?? []).flatMap((party, index) =>
-    party.id && selection?.[party.id] === "on" ? [index + 1] : [],
+  getOrderedKlageParties(userData, relationship).flatMap(
+    ({ partei, displayIndex }) =>
+      partei.id && selection?.[partei.id] === "on" ? [displayIndex + 1] : [],
   );
 
 export const nebenantragArtLabels: Record<
@@ -78,12 +82,14 @@ export const getNebenantragItemText = ({
       : userData.schmerzengeldantrag?.[schmerzengeldantragIndex];
 
   const beklagteNumbers = getSelectedPartyNumbers(
-    userData.beklagten,
+    userData,
+    "beklagte",
     hauptantrag?.beklagte,
   );
 
   const klagendeNumbers = getSelectedPartyNumbers(
-    userData.klagenden,
+    userData,
+    "klagende",
     hauptantrag?.klagende,
   );
 
@@ -269,12 +275,14 @@ const getAntragText = ({
   if (!hauptantrag) return "";
 
   const beklagteNumbers = getSelectedPartyNumbers(
-    userData.beklagten,
+    userData,
+    "beklagte",
     hauptantrag.beklagte,
   );
 
   const klagendeNumbers = getSelectedPartyNumbers(
-    userData.klagenden,
+    userData,
+    "klagende",
     hauptantrag.klagende,
   );
 
