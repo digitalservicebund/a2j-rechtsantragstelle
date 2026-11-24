@@ -7,4 +7,5 @@ import { type FlowId } from "./flowIds";
 // code that itself imports from ~/services/session.server.
 export const flowLifecycleOverridesInHours: Partial<Record<FlowId, number>> = {
   "/geld-einklagen/formular": 720, // 30 days
+  "/geld-einklagen/anwaltschaft": 720, // 30 days
 };
