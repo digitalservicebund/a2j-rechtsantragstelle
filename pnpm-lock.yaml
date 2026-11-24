@@ -164,7 +164,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@xmldom/xmldom@<0.8.14': '>=0.8.15'
   tar@<=7.5.17: '>=7.5.18'
   qs@<=6.16.0: '>=6.16.1'
   browserslist@<=4.28.6: '>=4.28.7'
@@ -192,8 +191,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
       '@node-saml/node-saml':
-        specifier: github:digitalservicebund/node-saml#850e8e8d5e7f8c037f20e2d808bde05949b21916
-        version: https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916
+        specifier: ^5.2.0
+        version: 5.2.0
       '@pdf-lib/fontkit':
         specifier: ^1.1.1
         version: 1.1.1
@@ -1069,9 +1068,8 @@ packages:
     resolution: {integrity: sha512-X5XaVWZIBCT7HHZGm5I7ZQXDwLG+bGXuSrMQAW+7Zvl87h1kmc1ZB1VSRJcpUfoUrGQp4Fkoxm5kZ+Ms+aW+eA==}
     engines: {node: '>= 20.19.0'}
 
-  '@node-saml/node-saml@https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916':
-    resolution: {gitHosted: true, integrity: sha512-uL/yPO1I36tArmQSCJeuOtTQN86N4UbSp2/CJuZY/n4Z63Zw1yjqB9R6qsLZfhQokWSBhfUisYOyQV4eRiw3gg==, tarball: https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916}
-    version: 5.1.0
+  '@node-saml/node-saml@5.2.0':
+    resolution: {integrity: sha512-bWjGrSZmenN+SiFcDxQ7Di2C108nK2jofJ0NT56C/NC/ELmjZS+6QOpf6YByM6f+eLTgfisrYVdwsNRV+XZsxg==}
     engines: {node: '>= 18'}
 
   '@npmcli/agent@4.0.2':
@@ -2718,9 +2716,9 @@ packages:
     resolution: {integrity: sha512-CJDxIgE5I0FH+ttq/Fxy6nRpxP70+e2O048EPe85J2use3XKdatVM7dDVvFNjQudd9B49NPoZ+8PG49zj4Er8Q==}
     engines: {node: '>= 16'}
 
-  '@xmldom/xmldom@0.9.12':
-    resolution: {integrity: sha512-5AXjrcMClTryPe9LgZrygpB1lj7s0S9E0+W+AHaVKAVyHanafK86iPSvG5xHVSp/jC+VH1UXu0TAEmY279xH7A==}
-    engines: {node: '>=14.6'}
+  '@xmldom/xmldom@0.8.15':
+    resolution: {integrity: sha512-/5NV/vDALVFDXgLmfsy9TRCBlKwO2LNBFzpzvb9iIj+jR+eSc6DLYYvVOdivT/jm7MtU6TebYuRmzEOI7w40UA==}
+    engines: {node: '>=10.0.0'}
 
   abbrev@4.0.0:
     resolution: {integrity: sha512-a1wflyaL0tHtJSmLSOVybYhy22vRih4eduhhrkcjgrWGnRfrZtovJ2FRjxuTtkkj47O/baf0R86QU5OuYpz8fA==}
@@ -4880,9 +4878,8 @@ packages:
     resolution: {integrity: sha512-h3Fbisa2nKGPxCpm89Hk33lBLsnaGBvctQopaBSOW/uIs6FTe1ATyAnKFJrzVs9vpGdsTe73WF3V4lIsk4Gacw==}
     engines: {node: '>=18'}
 
-  xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101:
-    resolution: {gitHosted: true, integrity: sha512-k7OFPzPZiRee6OuQSO9OlTfh2sePSea338A/6itvDnVK+HLVEA5DjQxIAMh+LUpABJ5p7iFJdyFC03ZzZv6PFg==, tarball: https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101}
-    version: 6.1.2
+  xml-crypto@6.4.0:
+    resolution: {integrity: sha512-d21ModhBO/+QWWAmOjyDeQJuHNmsR/HtOxyBchiTbKfGNKuHYwQNd+SlLhwyyrwoAGLp4Qc6BQ7nAtnM47dHSQ==}
     engines: {node: '>=16'}
 
   xml-encryption@3.1.0:
@@ -4915,8 +4912,8 @@ packages:
     resolution: {integrity: sha512-NNXnzrkDrAzalLhIUc01jO2mOzXGXh1JwPgkihcLLzw98c0WgYDmmjSh1Kl3wzaxSVWMuA+fe0WTWOBDWCBmNA==}
     engines: {node: '>=0.6.0'}
 
-  xpath@0.0.34:
-    resolution: {integrity: sha512-FxF6+rkr1rNSQrhUNYrAFJpRXNzlDoMxeXN5qI84939ylEv3qqPFKa85Oxr6tDaJKqwW6KKyo2v26TSv3k6LeA==}
+  xpath@0.0.35:
+    resolution: {integrity: sha512-8O+m2N04SwLpGw/1Grz2HD8ejnWDV7M1dMPgKKuOjhYh5W9H4pel/+06kInohIdpS2FeSbL4i8ID8c4tpxwq9Q==}
     engines: {node: '>=0.6.0'}
 
   xss@1.0.17:
@@ -5722,18 +5719,18 @@ snapshots:
 
   '@noble/hashes@2.4.0': {}
 
-  '@node-saml/node-saml@https://codeload.github.com/digitalservicebund/node-saml/tar.gz/850e8e8d5e7f8c037f20e2d808bde05949b21916':
+  '@node-saml/node-saml@5.2.0':
     dependencies:
       '@types/qs': 6.15.1
       '@types/xml-encryption': 1.2.4
       '@types/xml2js': 0.4.14
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.9.12
-      xml-crypto: https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101
+      '@xmldom/xmldom': 0.8.15
+      xml-crypto: 6.4.0
       xml-encryption: 3.1.0
       xml2js: 0.6.2
       xmlbuilder: 15.1.1
-      xpath: 0.0.34
+      xpath: 0.0.35
 
   '@npmcli/agent@4.0.2(supports-color@8.1.1)':
     dependencies:
@@ -7088,7 +7085,7 @@ snapshots:
 
   '@xmldom/is-dom-node@1.0.1': {}
 
-  '@xmldom/xmldom@0.9.12': {}
+  '@xmldom/xmldom@0.8.15': {}
 
   abbrev@4.0.0: {}
 
@@ -9301,15 +9298,15 @@ snapshots:
     dependencies:
       is-wsl: 3.1.1
 
-  xml-crypto@https://codeload.github.com/digitalservicebund/xml-crypto/tar.gz/1d02080b4f4b37bf72923c8ca38ab828039f9101:
+  xml-crypto@6.4.0:
     dependencies:
       '@xmldom/is-dom-node': 1.0.1
-      '@xmldom/xmldom': 0.9.12
+      '@xmldom/xmldom': 0.8.15
       xpath: 0.0.33
 
   xml-encryption@3.1.0:
     dependencies:
-      '@xmldom/xmldom': 0.9.12
+      '@xmldom/xmldom': 0.8.15
       escape-html: 1.0.3
       xpath: 0.0.32
 
@@ -9330,7 +9327,7 @@ snapshots:
 
   xpath@0.0.33: {}
 
-  xpath@0.0.34: {}
+  xpath@0.0.35: {}
 
   xss@1.0.17:
     dependencies:
