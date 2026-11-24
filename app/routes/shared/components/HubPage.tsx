@@ -87,7 +87,7 @@ export function HubPage() {
               managedByParent
               isHubPage
               content={nonHeroComponent}
-              className="rounded-lg mb-kern-space-4x-large"
+              className="rounded-lg mb-kern-space-6x-large"
             />
           </GridItem>
 

@@ -20,6 +20,7 @@ type BoxProps = {
   image?: ImageProps;
   items?: BoxItemProps[];
   wrap: boolean;
+  hasContentBackgroundColor: boolean;
 };
 
 const Box = ({
@@ -33,6 +34,7 @@ const Box = ({
   image,
   items,
   wrap,
+  hasContentBackgroundColor,
 }: BoxProps) => {
   const labelElementId = label
     ? `box-label-${identifier?.toLowerCase() ?? id}`
@@ -103,8 +105,9 @@ const Box = ({
     >
       <div
         className={classNames(
-          "flex flex-col gap-kern-space-small py-kern-space-x-large lg:px-0 xl:px-0",
+          "flex flex-col gap-kern-space-small lg:px-0 xl:px-0",
           { "px-kern-space-large": !wrap },
+          { "py-kern-space-x-large": hasContentBackgroundColor },
         )}
       >
         {image ? (
