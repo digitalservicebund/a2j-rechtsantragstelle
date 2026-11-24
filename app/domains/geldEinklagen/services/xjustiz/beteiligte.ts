@@ -1,9 +1,11 @@
 import {
   ergonomics,
   Geschlecht,
+  reference,
   Rollenbezeichnung,
   Staaten,
   type Beklagter,
+  type GesetzlicherVertreter,
   type Klaeger,
   type NatuerlichePerson,
   type Rollennummer,
@@ -13,6 +15,7 @@ import z from "zod";
 import { type GeldEinklagenFormularUserData } from "~/domains/geldEinklagen/formular/userData";
 import { mapTitle } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import {
+  optionalTypeA,
   optionalTypeC,
   optionalTypeD,
   typeA,
@@ -41,9 +44,17 @@ export const personSchema = z.object({
   kontoinhaber: optionalTypeD,
 });
 
+const vertretungSchema = z.object({
+  anrede: z.string().optional(),
+  title: optionalTypeC,
+  vorname: optionalTypeA,
+  nachname: typeA,
+});
+
 const organisationSchema = z.object({
   name: typeD,
   ...anschriftShape,
+  vertretung: vertretungSchema.optional(),
 });
 
 const beklagteSchema = z.discriminatedUnion("art", [
@@ -54,6 +65,7 @@ const beklagteSchema = z.discriminatedUnion("art", [
 type Person = z.output<typeof personSchema>;
 type Anschrift = z.output<z.ZodObject<typeof anschriftShape>>;
 type Beklagte = z.output<typeof beklagteSchema>;
+type Vertretung = z.output<typeof vertretungSchema>;
 
 export const beteiligteSchema = z.object({
   klaeger: personSchema,
@@ -72,6 +84,15 @@ const beklagteFromUserData = (userData: GeldEinklagenFormularUserData) => {
       art: "organisation",
       name: userData.beklagteNameOrganisation,
       ...anschrift,
+      // The Vertretung is optional in the flow, a Nachname is the minimum
+      vertretung: userData.beklagteGesetzlichenVertretungNachname?.trim()
+        ? {
+            anrede: userData.beklagteGesetzlichenVertretungAnrede,
+            title: mapTitle(userData.beklagteGesetzlichenVertretungTitle),
+            vorname: userData.beklagteGesetzlichenVertretungVorname,
+            nachname: userData.beklagteGesetzlichenVertretungNachname,
+          }
+        : undefined,
     };
   return {
     art: "person",
@@ -160,7 +181,6 @@ export const toKlaeger = <NachrichtenScope>(
   },
 });
 
-// The profile has no gesetzliche Vertretung for a Beklagte, so it is left out.
 export const toBeklagter = <NachrichtenScope>(
   rollennummer: Rollennummer<
     NachrichtenScope,
@@ -192,7 +212,40 @@ export const toBeklagter = <NachrichtenScope>(
   };
 };
 
-export const toZeuge = <NachrichtenScope>(
+export const toGesetzlicherVertreter = <NachrichtenScope>(
+  rollennummerBeklagter: Rollennummer<
+    NachrichtenScope,
+    (typeof Rollenbezeichnung)["Beklagte(r)"]
+  >,
+  beklagte: Beklagte,
+): GesetzlicherVertreter<NachrichtenScope> | undefined => {
+  if (beklagte.art !== "organisation" || !beklagte.vertretung) return undefined;
+  return {
+    rolle: [
+      {
+        rollenbezeichnung: Rollenbezeichnung["Gesetzliche(r) Vertreter(in)"],
+        referenz: [{ refRollennummer: reference(rollennummerBeklagter) }],
+      },
+    ],
+    beteiligter: {
+      auswahlBeteiligter: {
+        natuerlichePerson: toVertreterPerson(beklagte.vertretung),
+      },
+    },
+  };
+};
+
+// The flow only asks for the name, so there is no Anschrift
+const toVertreterPerson = (vertretung: Vertretung): NatuerlichePerson => ({
+  vollerName: {
+    vorname: vertretung.vorname,
+    nachname: vertretung.nachname,
+    titel: vertretung.title,
+  },
+  geschlecht: anredeToGeschlecht(vertretung.anrede),
+});
+
+export const toZeuge =<NachrichtenScope>(
   rollennummer: Rollennummer<
     NachrichtenScope,
     (typeof Rollenbezeichnung)["Zeuge (Zeugin)"]

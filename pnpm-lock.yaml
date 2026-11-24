@@ -183,8 +183,8 @@ importers:
         specifier: ^3.1173.0
         version: 3.1173.0
       '@digitalservicebund/a2j-xjustiz-bridge':
-        specifier: ^0.11.1
-        version: 0.11.1
+        specifier: ^0.12.1
+        version: 0.12.1
       '@digitalservicebund/kern-ux-tailwind-theme':
         specifier: ^4.1.0
         version: 4.1.0(@kern-ux/native@2.9.0)(tailwindcss@4.3.5)
@@ -731,8 +731,8 @@ packages:
     resolution: {integrity: sha512-c+xgSWboV2pdwXP67BUWDVRHi2BO5Q3KwxyFVs7taVTY+fsK47/L51ZXQoV9rozHJDNHvJ4v4WEsI/IlxV2l2A==}
     engines: {node: ^22.18.0 || >=24.11.0}
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.11.1':
-    resolution: {integrity: sha512-IZkJW/SbtC4n/HVkL068loNCV4/gJyWgDhyPLNtiyqC5oluGkZXp/dqgQsIEX1Y09t53dSohBlmQbw0HXUXmVg==}
+  '@digitalservicebund/a2j-xjustiz-bridge@0.12.1':
+    resolution: {integrity: sha512-JG0BCE1NCPMRSVfR20HaUlH9w23n4lxFwGkaKiHYpkAf5SiiBbbe85OQRwUGmHd0buCAOhZfox1llFEUO/cKxA==}
     engines: {node: 26.5.0, pnpm: 11.4.0}
 
   '@digitalservicebund/kern-ux-tailwind-theme@4.1.0':
@@ -5411,7 +5411,7 @@ snapshots:
       '@babel/helper-string-parser': 8.0.6
       '@babel/helper-validator-identifier': 8.0.6
 
-  '@digitalservicebund/a2j-xjustiz-bridge@0.11.1':
+  '@digitalservicebund/a2j-xjustiz-bridge@0.12.1':
     dependencies:
       '@standard-schema/spec': 1.1.0
       ky: 2.2.0
