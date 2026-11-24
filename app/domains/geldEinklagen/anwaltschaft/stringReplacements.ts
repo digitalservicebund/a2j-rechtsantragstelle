@@ -1,10 +1,12 @@
 import {
+  getAntragNumber,
   getNumberedAntragTitle,
   getOrderedAntraege,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/antragOrdering";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { firstArrayIndex } from "~/services/flow/pageData";
+import { translations } from "~/services/translations/translations";
 
 export const getKlagendeStrings = (
   context: GeldEinklagenAnwaltschaftUserData,
@@ -109,6 +111,10 @@ export const getAntraegeStrings = (
   if (!arrayName) return { keineAntraege };
   return {
     keineAntraege,
+    sonstigerAntragTitle:
+      arrayName === "sonstigeAntraege"
+        ? `${translations.geldEinklagenAnwaltschaft.sonstigerAntragOrProzessualeAusfuerung.de} ${getAntragNumber(userData, arrayName, firstIndex)}`
+        : "",
     antragTitle: getNumberedAntragTitle(userData, arrayName, firstIndex),
   };
 };

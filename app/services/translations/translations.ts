@@ -1077,6 +1077,9 @@ export const translations = {
     sonstigerAntrag: {
       de: "Sonstiger Antrag oder Ausführung",
     },
+    sonstigerAntragOrProzessualeAusfuerung: {
+      de: "Sonstiger Antrag oder prozessuale Ausführung",
+    },
     sonstigerAntragArrayItemTitle: {
       de: "Sonstiger Antrag/Prozessuale Ausführung",
     },

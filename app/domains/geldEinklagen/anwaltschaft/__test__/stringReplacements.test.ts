@@ -8,6 +8,7 @@ const userData = {
   ],
   schmerzengeldantrag: [{ id: "s1", internesSchlagwortForderung: "Unfall" }],
   vortraege: [{ antragId: "s1" }],
+  sonstigeAntraege: [{ id: "o1" }],
 } as unknown as GeldEinklagenAnwaltschaftUserData;
 
 const zahlung =
@@ -44,6 +45,14 @@ describe("getAntraegeStrings", () => {
   ])("titles %s with %j as %s", (stepId, arrayIndexes, antragTitle) => {
     expect(getAntraegeStrings(userData, stepId, arrayIndexes)).toMatchObject({
       antragTitle,
+    });
+  });
+
+  it("Correctly titles a sonstiger Antrag", () => {
+    expect(
+      getAntraegeStrings(userData, "/sonstige-antraege/antrag/#/daten", [0]),
+    ).toMatchObject({
+      sonstigerAntragTitle: "Sonstiger Antrag oder prozessuale Ausführung 4",
     });
   });
 
