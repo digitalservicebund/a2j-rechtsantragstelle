@@ -23,7 +23,7 @@ const contactFields = {
 
 const commonProzessbevollmaechtigteFields = {
   id: commonFields.id,
-  name: stringRequiredSchema,
+  name: stringOptionalSchema,
   geschaeftszeichen: stringOptionalSchema,
   ...adresseFields,
   ...contactFields,
@@ -43,6 +43,7 @@ export const verantwortendePersonSchema = z.object({
 
 export const berufsausuebungsgesellschaftSchema = z.object({
   ...commonProzessbevollmaechtigteFields,
+  name: stringRequiredSchema,
   ["verantwortende-personen"]: z
     .array(verantwortendePersonSchema)
     .min(MIN_BERUFSAUSUEBUNGSGESELLSCHAFT_VERANTWORTENDE_PERSONEN)
@@ -66,6 +67,7 @@ export const prozessbevollmaechtigteArraySchema = z
 
 export const beklagteBerufsausuebungsgesellschaftSchema = z.object({
   ...commonProzessbevollmaechtigteFields,
+  name: stringRequiredSchema,
   type: z.literal("berufsausuebungsgesellschaft"),
 });
 
