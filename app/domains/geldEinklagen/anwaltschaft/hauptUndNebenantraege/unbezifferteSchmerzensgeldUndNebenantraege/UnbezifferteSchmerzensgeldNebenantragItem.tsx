@@ -147,6 +147,9 @@ export const UnbezifferteSchmerzensgeldNebenantragItem = ({
           ? [
               {
                 href: `${BASE_URL_UNBEZIFFERTE_SCHMERZENSGELD_UND_NEBENANTRAEGE}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
+                onClick: onEditUnbezifferteSchmerzensgeldNebenantrag(
+                  items.length,
+                ),
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },

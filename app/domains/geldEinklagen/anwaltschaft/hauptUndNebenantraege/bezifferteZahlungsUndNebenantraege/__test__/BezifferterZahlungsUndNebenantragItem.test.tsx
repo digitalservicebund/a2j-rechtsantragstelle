@@ -131,6 +131,51 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
     ).toHaveAttribute("href", `${baseUrl}/0/annahmeverzug/6/daten`);
   });
 
+  it.each([
+    translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
+    translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton.de,
+  ])("should focus the newly added item after clicking %s", (linkName) => {
+    vi.useFakeTimers();
+    const { unmount } = render(
+      <BezifferterZahlungsUndNebenantragItem
+        userData={{
+          hauptantrag: [antrag, { ...antrag, nebenantraege: [nebenantrag] }],
+        }}
+        parentArrayItemIndex={1}
+      />,
+    );
+    act(() => vi.advanceTimersByTime(0));
+    const addLink = screen.getByRole("link", { name: linkName });
+    addLink.addEventListener("click", (event) => event.preventDefault());
+    fireEvent.click(addLink);
+    expect(sessionStorage.getItem("focus-nebenantrag-1")).toBe("1");
+    unmount();
+
+    render(
+      <BezifferterZahlungsUndNebenantragItem
+        userData={{
+          hauptantrag: [
+            antrag,
+            {
+              ...antrag,
+              nebenantraege: [
+                nebenantrag,
+                linkName ===
+                translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton.de
+                  ? annahmeverzug
+                  : nebenantrag,
+              ],
+            },
+          ],
+        }}
+        parentArrayItemIndex={1}
+      />,
+    );
+    act(() => vi.advanceTimersByTime(0));
+    expect(document.getElementById("nebenantrag-1-1")).toHaveFocus();
+    expect(sessionStorage.getItem("focus-nebenantrag-1")).toBeNull();
+  });
+
   it("should confirm the deletion of the selected nebenantrag", async () => {
     const user = userEvent.setup();
     render(
