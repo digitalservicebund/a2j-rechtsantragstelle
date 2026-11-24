@@ -27,11 +27,11 @@ export const getInterestText = ({
 
   const methods: Record<string, string> = {
     jaehrlicherZinssatzUeberBasiszins:
-      "Prozentpunkten über dem jeweiligen Basiszinssatz p. a.",
-    jaehrlicherZinssatz: "Prozent p. a.",
+      "Prozentpunkten über dem jeweiligen Basiszinssatz p.a.",
+    jaehrlicherZinssatz: "Prozent p.a.",
     monatlicherZinssatzUeberBasiszins:
-      "Prozentpunkten über dem jeweiligen Basiszinssatz p. a., monatlich abrechenbar",
-    monatlicherZinssatz: "Prozent p. a., monatlich abrechenbar",
+      "Prozentpunkten über dem jeweiligen Basiszinssatz p.a., monatlich abrechenbar",
+    monatlicherZinssatz: "Prozent p.a., monatlich abrechenbar",
   };
 
   const description = methods[method];

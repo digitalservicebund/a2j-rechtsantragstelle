@@ -87,6 +87,10 @@ function cmsToReact(
             })),
           }))}
           wrap={opts.inFlow}
+          hasContentBackgroundColor={
+            componentProps.contentBackgroundColor !== undefined &&
+            componentProps.contentBackgroundColor !== "white"
+          }
         />
       );
     case "page.details-summary":
