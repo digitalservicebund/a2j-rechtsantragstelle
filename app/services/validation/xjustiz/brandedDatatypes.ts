@@ -34,5 +34,6 @@ const optional = <Schema extends z.ZodType>(schema: Schema) =>
     schema.optional(),
   );
 
+export const optionalTypeA = optional(typeA);
 export const optionalTypeC = optional(typeC);
 export const optionalTypeD = optional(typeD);
