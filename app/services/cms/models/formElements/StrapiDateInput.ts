@@ -7,7 +7,7 @@ export const StrapiDateInputComponentSchema = z
   .object({
     name: z.string(),
     label: StrapiStringOptionalSchema,
-    placeholder: StrapiStringOptionalSchema,
+    helperText: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     __component: z.literal("form-elements.date-input"),
