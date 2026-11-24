@@ -10,6 +10,7 @@ type DateInputProps = {
   isRequired: boolean;
   label?: string;
   suffix?: string;
+  helperText?: string;
   errorMessages?: ErrorMessageProps[];
 };
 
@@ -29,26 +30,13 @@ const DateInput = ({
   name,
   label,
   suffix,
+  helperText,
   errorMessages,
   isRequired,
 }: DateInputProps) => {
   const day = name + ".day";
   const month = name + ".month";
   const year = name + ".year";
-
-  // TODO: Replace this adding the helperText to the DateInput component
-  const isInterestStartDate =
-    name === "schmerzengeldantrag#zinsbeginn" ||
-    name ===
-      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsbeginn" ||
-    name === "hauptantrag#nebenantraege#nebenantragZinsbeginn" ||
-    name === "hauptantrag#zinsbeginn";
-  const isInterestEndDate =
-    name === "schmerzengeldantrag#zinsende" ||
-    name ===
-      "schmerzengeldantrag#nebenantraege#schmerzengeldNebenantragZinsende" ||
-    name === "hauptantrag#nebenantraege#nebenantragZinsende" ||
-    name === "hauptantrag#zinsende";
 
   const field = useField(name);
   const dayField = useField(day);
@@ -89,12 +77,7 @@ const DateInput = ({
         </legend>
       )}
       <div className="kern-hint" id={helperId}>
-        {/* TODO: Replace this adding the helperText field to the DateInput component */}
-        {isInterestStartDate
-          ? "Ab Rechtshängigkeit, wenn Sie kein Datum angeben"
-          : isInterestEndDate
-            ? "Nur ausfüllen, wenn die Verzinsung zu einem bestimmten Datum endet"
-            : translations.dateComponent.hintText.de}
+        {helperText ?? translations.dateComponent.hintText.de}
       </div>
       <div className="kern-fieldset__body kern-fieldset__body--horizontal">
         <div className="kern-form-input">

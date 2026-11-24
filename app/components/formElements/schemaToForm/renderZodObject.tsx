@@ -68,6 +68,7 @@ export const renderZodObject = (
       <DateInput
         key={fieldName}
         name={fieldName}
+        helperText={helperText}
         suffix={suffix}
         label={label}
         errorMessages={errorMessages}
