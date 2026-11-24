@@ -8,12 +8,17 @@ import { getInterestText, formatSplitDate } from "./utils";
 import { translations } from "~/services/translations/translations";
 
 const formatPartyNumbers = (numbers: number[]): string => {
-  if (numbers.length === 0) return "";
-
   return numbers
-    .map((number, index) => (index === 0 ? `${number})` : `zu ${number})`))
-    .join(" und ");
+    .map((number, index) => {
+      const separator =
+        index === 0 ? "" : index === numbers.length - 1 ? " und " : ", ";
+      return `${separator}${index === 0 ? "" : "zu "}${number})`;
+    })
+    .join("");
 };
+
+const formatNumbers = (numbers: number[]) =>
+  numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
 
 export const getBeklagteText = (count: number): string =>
   count === 1 ? "Der Beklagte" : "Die Beklagten";
@@ -125,11 +130,11 @@ export const getNebenantragItemText = ({
       getVerb(beklagteNumbers.length),
       " ",
       beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
-      "verurteilt, ",
+      "verurteilt",
       createElement(
         "a",
         null,
-        "an ",
+        " an, ",
         getKlagendeText(klagendeNumbers.length),
         " zu ",
         formatPartyNumbers(klagendeNumbers),
@@ -298,18 +303,6 @@ const getAntragText = ({
       ? hauptantrag.beschreibungDerGegenleistung
       : undefined;
 
-  const formatNumbers = isSchmerzensgeldantrag
-    ? (numbers: number[]) =>
-        numbers
-          .map((number, index) => {
-            const separator =
-              index === 0 ? "" : index === numbers.length - 1 ? " und " : ", ";
-            return `${separator}zu ${number})`;
-          })
-          .join("")
-    : (numbers: number[]) =>
-        numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
-
   return createElement(
     Fragment,
     null,
@@ -357,17 +350,21 @@ const getAntragText = ({
         )
       : "",
     hasZugUndZug
-      ? [
+      ? createElement(
+          Fragment,
+          null,
           createElement("strong", null, " Zug-um-Zug"),
           gegenleistung?.trim()
-            ? [
+            ? createElement(
+                Fragment,
+                null,
                 " gegen ",
                 createElement("strong", null, gegenleistung),
-                " zu zahlen",
-              ]
+              )
             : "",
-        ]
+        )
       : "",
+    isSchmerzensgeldantrag ? "" : " zu zahlen",
     ".",
   );
 };
