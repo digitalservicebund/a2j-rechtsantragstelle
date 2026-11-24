@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type MouseEventHandler, type ReactNode } from "react";
 import {
   DeleteButton,
   type DeleteButtonProps,
@@ -23,6 +23,7 @@ type AddLink = {
   label: string;
   id?: string;
   disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 type NestedArrayItemListProps = {
@@ -90,11 +91,12 @@ export const NestedArrayItemList = ({
       )}
       {addLinks && addLinks.length > 0 && (
         <div className="flex flex-row justify-start gap-kern-space-x-large pt-24">
-          {addLinks.map(({ href, label, id }) => (
+          {addLinks.map(({ href, label, id, onClick }) => (
             <a
               key={href}
               id={id}
               href={href}
+              onClick={onClick}
               className="text-kern-action-default flex items-center"
             >
               <Icon name="plus" className="text-kern-action-default" />
