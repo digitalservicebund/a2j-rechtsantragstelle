@@ -87,3 +87,23 @@ export const WithPlaceholder: Story = {
   },
   decorators: [(Story) => reactRouterFormContext(<Story />)],
 };
+
+export const WithDisabledOption: Story = {
+  args: {
+    name: "select",
+    label: "Fruits",
+    placeholder: "Select a fruit",
+    options: [
+      {
+        value: "banana",
+        text: "Banana",
+        preSelected: false,
+      },
+      { value: "apple", text: "Apple", preSelected: false },
+      { value: "orange", text: "Orange", preSelected: false, disabled: true },
+      { value: "grape", text: "Grape", preSelected: false },
+      { value: "pear", text: "Pear", preSelected: false },
+    ],
+  },
+  decorators: [(Story) => reactRouterFormContext(<Story />)],
+};
