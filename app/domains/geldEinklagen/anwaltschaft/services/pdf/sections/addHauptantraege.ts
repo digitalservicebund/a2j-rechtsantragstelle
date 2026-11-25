@@ -34,7 +34,7 @@ export const addHauptantraege = (
   documentStruct.add(
     doc.struct("H2", {}, () => {
       doc.fontSize(18).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
-      doc.moveDown(2);
+      doc.moveDown();
     }),
   );
   documentStruct.add(
@@ -80,7 +80,6 @@ export const addHauptantraege = (
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(`${number}. ${getPdfText(mainText)}`, PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(2);
       }),
     );
     if (additionalTexts.length > 0) {
@@ -103,7 +102,6 @@ export const addHauptantraege = (
             undefined,
             { indent: 12 },
           );
-          doc.moveDown(2);
         }),
       );
     }
@@ -146,4 +144,5 @@ export const addHauptantraege = (
     );
   }
   documentStruct.add(list);
+  doc.moveDown();
 };

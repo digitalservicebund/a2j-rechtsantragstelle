@@ -13,6 +13,8 @@ import type { PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { klagendeProzessbevollmaechtigtePages } from "./prozessbevollmaechtigte/pages";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 
 type KlagePartyDoneContext = {
   klagenden?: KlageParteien;
@@ -122,12 +124,12 @@ export const klagendeParteiPages = {
       "klagenden#gesetzliche-vertretung#titel": vertretungFields.titel,
       "klagenden#gesetzliche-vertretung#vorname": vertretungFields.vorname,
       "klagenden#gesetzliche-vertretung#nachname": vertretungFields.nachname,
-      "klagenden#gesetzliche-vertretung#strasse": vertretungFields.strasse,
-      "klagenden#gesetzliche-vertretung#hausnummer":
-        vertretungFields.hausnummer,
-      "klagenden#gesetzliche-vertretung#plz": vertretungFields.plz,
-      "klagenden#gesetzliche-vertretung#ort": vertretungFields.ort,
-      "klagenden#gesetzliche-vertretung#land": vertretungFields.land,
+      "klagenden#gesetzliche-vertretung#strasse": stringOptionalSchema,
+      "klagenden#gesetzliche-vertretung#hausnummer": stringOptionalSchema,
+      "klagenden#gesetzliche-vertretung#plz": stringOptionalSchema,
+      "klagenden#gesetzliche-vertretung#ort": stringOptionalSchema,
+      "klagenden#gesetzliche-vertretung#land":
+        autoSuggestSchema(stringOptionalSchema)("countries"),
     },
   },
   ...klagendeProzessbevollmaechtigtePages,

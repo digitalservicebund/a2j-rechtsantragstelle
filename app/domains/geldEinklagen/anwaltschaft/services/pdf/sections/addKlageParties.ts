@@ -71,7 +71,6 @@ const addNaturalPerson = (
     }
   }
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
-  doc.moveDown(2);
 };
 
 const addOrganization = (
@@ -85,15 +84,18 @@ const addOrganization = (
     .text(party.orgName)
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(formatAddress(party))
-    .text("gesetzlich vertreten durch:")
+    .text("gesetzlich vertreten durch:", { indent: 8 })
+    .font(FONTS_BUNDESSANS_BOLD)
     .text(
-      `${getFullPlaintiffName(
+      `${getGesetzlicheVertretungArtLabel(party.orgVertretungArt)}, ${getFullPlaintiffName(
         party.orgVertretungAnrede,
         party.orgVertretungTitel,
         party.orgVertretungVorname,
         party.orgVertretungNachname,
       )}`,
+      { indent: 8 },
     );
+  doc.font(FONTS_BUNDESSANS_REGULAR);
 
   for (const representative of party["gesetzliche-vertretung"] ?? []) {
     doc
@@ -103,9 +105,7 @@ const addOrganization = (
       )
       .text(formatAddress(representative), { indent: 8 });
   }
-
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
-  doc.moveDown(2);
 };
 
 export const addKlageParties = (
@@ -120,7 +120,7 @@ export const addKlageParties = (
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(relationship === "klagende" ? "in der Sache" : "gegen");
-      doc.moveDown(2);
+      doc.moveDown(1);
     }),
   );
 
@@ -137,7 +137,6 @@ export const addKlageParties = (
       } else {
         addOrganization(doc, partei, displayIndex + 1, label);
       }
-      doc.moveDown(2);
     });
     claimantSection.add(partyParagraph);
   });
