@@ -1,7 +1,9 @@
 import { NestedArrayItemList } from "~/components/content/arrayItemList/NestedArrayItemList";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
-import { focusOnItem } from "~/domains/geldEinklagen/anwaltschaft/shared/focusOnItem";
-import { useAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
+import {
+  saveAbsaetzeFocusInSession,
+  useAbsaetze,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import {
   type Beweis,
   beweismittelSchema,
@@ -11,6 +13,7 @@ import {
 import { translations } from "~/services/translations/translations";
 import {
   getBeweisBody,
+  getBeweisDeletionDialogTitle,
   getBeweisTitle,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import {
@@ -38,6 +41,7 @@ const AddBeweis = ({
   nextIndex: number;
 }) => {
   const { pathname } = useLocation();
+  const { absaetzeBaseUrl } = useAbsaetze();
   const beweisePathname = `${pathname}/${absatzIndex}/beweise`;
   return (
     <ValidatedForm
@@ -45,6 +49,15 @@ const AddBeweis = ({
       defaultValues={defaultValues}
       method="post"
       action={addBeweisActionUrl}
+      onSubmitCapture={(event) => {
+        if (new FormData(event.currentTarget).get("type")) {
+          saveAbsaetzeFocusInSession(
+            absaetzeBaseUrl,
+            `absatz-${absatzIndex}-beweisangebote-${nextIndex}`,
+            `absatz-${absatzIndex}-beweisangebote`,
+          );
+        }
+      }}
       validationBehaviorConfig={{
         initial: "onSubmit",
         whenTouched: "onSubmit",
@@ -79,11 +92,26 @@ const AddBeweis = ({
         type="submit"
         disabled={nextIndex >= MAX_BEWEISE}
         aria-disabled={nextIndex >= MAX_BEWEISE}
+        className="h-min"
       >
         {translations.geldEinklagenAnwaltschaft.addBeweisButton.de}
       </Button>
     </ValidatedForm>
   );
+};
+
+const getDeletionStatement = (type: BeweisType) => {
+  switch (type) {
+    case "parteivernehmung":
+      return translations.geldEinklagenAnwaltschaft
+        .beweisangebotParteivernehmungDeletionDescription.de;
+    case "zeuge":
+      return translations.geldEinklagenAnwaltschaft
+        .beweisangebotPersonDeletionDescription.de;
+    default:
+      return translations.geldEinklagenAnwaltschaft
+        .beweisangebotDeletionDescription.de;
+  }
 };
 
 const BeweisDeletionDescription = ({
@@ -93,20 +121,15 @@ const BeweisDeletionDescription = ({
   beweis: Beweis;
   documentNumber: number | undefined;
 }) => {
-  const isDocument = getBeweisCategory(beweis.type) === "document";
   const beweisBody = getBeweisBody(beweis);
   return (
     <div className="flex flex-col gap-kern-space-small">
-      <p>
-        {isDocument
-          ? translations.geldEinklagenAnwaltschaft
-              .beweisangebotDeletionDescription.de
-          : translations.geldEinklagenAnwaltschaft
-              .additionalPersonDeletionDescription.de}
-      </p>
+      <p>{getDeletionStatement(beweis.type)}</p>
       <div className="flex gap-kern-space-small items-start">
         <Icon
-          name={isDocument ? "draft" : "person"}
+          name={
+            getBeweisCategory(beweis.type) === "document" ? "draft" : "person"
+          }
           className="size-kern-dimension-default"
         />
         <div className="flex flex-col">
@@ -133,18 +156,20 @@ export const BeweisangeboteList = ({
 }) => {
   const { absaetzeBaseUrl, absaetzeArrayName } = useAbsaetze();
   const beweiseBaseUrl = `${absaetzeBaseUrl}/${absatzArrayIndex}/beweise`;
-  const beweisIdPrefix = `absatz-${absatzArrayIndex}-beweis-`;
+  const headingId = `absatz-${absatzArrayIndex}-beweisangebote`;
   const deleteArrayItem = useDeleteArrayItem(
     `${absaetzeArrayName}#beweise`,
     beweiseBaseUrl,
-    focusOnItem(beweisIdPrefix),
+    () => {
+      setTimeout(() => document.getElementById(headingId)?.focus(), 100);
+    },
   );
   const nextItemIndex = beweise.length;
   return (
     <NestedArrayItemList
       heading={translations.geldEinklagenAnwaltschaft.beweisangeboteTitle.de}
       headingSuffix={translations.geldEinklagenAnwaltschaft.optionalSuffix.de}
-      headingId={`absatz-${absatzArrayIndex}-beweisangebote`}
+      headingId={headingId}
       subtitle={
         translations.geldEinklagenAnwaltschaft.beweisangeboteSubtitle.de
       }
@@ -171,14 +196,15 @@ export const BeweisangeboteList = ({
         editButton: {
           ariaLabel: `${translations.geldEinklagenAnwaltschaft.beweis.de} ${translations.arraySummary.arrayEditButtonLabel.de}`, // TODO: fix label
           href: `${beweiseBaseUrl}/${sourceIndex}/${beweis.type}-daten`,
+          onClick: () =>
+            saveAbsaetzeFocusInSession(
+              absaetzeBaseUrl,
+              `absatz-${absatzArrayIndex}-beweisangebote-${sourceIndex}`,
+              headingId,
+            ),
         },
         deleteButton: {
-          title:
-            getBeweisCategory(beweis.type) === "document"
-              ? translations.geldEinklagenAnwaltschaft
-                  .beweisangebotDeletionTitle.de
-              : translations.geldEinklagenAnwaltschaft
-                  .beweisangebotPersonDeletionTitle.de,
+          title: getBeweisDeletionDialogTitle(beweis.type),
           description: (
             <BeweisDeletionDescription
               beweis={beweis}

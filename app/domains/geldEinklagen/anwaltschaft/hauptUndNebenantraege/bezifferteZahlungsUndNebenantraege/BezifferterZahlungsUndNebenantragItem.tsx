@@ -25,11 +25,6 @@ type BezifferterZahlungsUndNebenantragItemProps = {
 
 const MAX_NEBENANTRAG_ITEMS = 6;
 
-const nebenantragArtDeleteDialogLabels = {
-  ...nebenantragArtLabels,
-  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
-};
-
 export const BezifferterZahlungsUndNebenantragItem = ({
   userData,
   parentArrayItemIndex,
@@ -124,7 +119,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
             : "";
         const title =
           entry.type === "nebenantrag"
-            ? `${itemLabel} - ${nebenantragArtDeleteDialogLabels[entry.nebenantragArt]}${betrag}`
+            ? `${itemLabel} - ${nebenantragArtLabels[entry.nebenantragArt]}${betrag}`
             : itemLabel;
         return {
           key: `hauptantrag-${parentArrayItemIndex}-${type}-${index}`,

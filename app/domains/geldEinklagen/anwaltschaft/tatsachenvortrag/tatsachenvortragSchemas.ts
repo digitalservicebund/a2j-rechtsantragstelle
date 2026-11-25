@@ -84,9 +84,17 @@ export type Absatz = z.infer<typeof absaetzeArraySchema>[number];
 
 // Links Absätze to an Antrag by its stable ID (UUID for array-based Anträge,
 // fixed key for Prozessanträge), so that all Anträge share one set of pages.
-export const vortraegeArraySchema = z.array(
-  z.object({
-    antragId: z.string().min(1),
-    absaetze: absaetzeArraySchema.optional(),
-  }),
-);
+export const vortraegeArraySchema = z
+  .array(
+    z.object({
+      antragId: z.string().min(1),
+      absaetze: absaetzeArraySchema.optional(),
+    }),
+  )
+  .refine((vortraege) =>
+    vortraege.some(
+      (vortrag) => vortrag.absaetze && vortrag.absaetze.length > 0,
+    ),
+  );
+
+export type Vortrag = z.infer<typeof vortraegeArraySchema>[number];

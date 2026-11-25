@@ -62,14 +62,14 @@ describe("getOrderedAntraege", () => {
         key: "hauptantrag.0",
         antragId: "z1",
         kind: "zahlungsantrag",
-        title: "Zahlungsantrag 1",
+        title: "Bezifferter Zahlungsantrag 1",
         isNebenantrag: false,
       },
       {
         key: "hauptantrag.1",
         antragId: undefined,
         kind: "zahlungsantrag",
-        title: "Zahlungsantrag 2",
+        title: "Bezifferter Zahlungsantrag 2",
         isNebenantrag: false,
       },
       {

@@ -903,13 +903,13 @@ export const translations = {
     soenstigeProzessantragInlineNoticeContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 10 sonstige Anträge und prozessuale Ausführungen hinzufügen.",
     },
-    bezifferterZahlungsantragHeadline: {
+    zahlungsantrag: {
       de: "Zahlungsantrag",
     },
     bezifferterZahlungsantrag: {
       de: "Bezifferter Zahlungsantrag",
     },
-    unbezifferterZahlungsantragHeadline: {
+    unbezifferterSchmerzensgeldantrag: {
       de: "Unbezifferter Schmerzensgeldantrag",
     },
     bezifferterZahlungsantragCheckboxesBeklagterHint: {
@@ -1002,7 +1002,7 @@ export const translations = {
     schmerzengeldantragInlineNoticeMaxReachedContent: {
       de: "Mit diesem Onlinedienst können Sie nicht mehr als 30 Schmerzensgeldanträge hinzufügen.",
     },
-    schmerzengeldantragHeadline: {
+    schmerzensgeldantrag: {
       de: "Schmerzensgeldantrag",
     },
     schmerzengeldantragDeleteWarning: {
@@ -1053,8 +1053,14 @@ export const translations = {
     beweisangebotPersonDeletionTitle: {
       de: "Beweisangebot: Person löschen?",
     },
+    beweisangebotParteivernehmungDeletionTitle: {
+      de: "Beweisangebot: Parteivernehmung löschen?",
+    },
     beweisangebotPersonDeletionDescription: {
       de: "Die folgende Person wird aus diesem Absatz entfernt:",
+    },
+    beweisangebotParteivernehmungDeletionDescription: {
+      de: "Die folgenden Personen werden aus diesem Absatz entfernt:",
     },
     parteivernehmungCheckboxesLabel: {
       de: "Wählen Sie eine oder mehrere Personen aus",
