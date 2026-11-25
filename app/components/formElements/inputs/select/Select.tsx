@@ -10,7 +10,7 @@ import { widthClassname, type Size } from "../inputWidth";
 type SelectProps = {
   name: string;
   label?: string;
-  options: DropdownOption[];
+  options: Array<DropdownOption & { disabled?: boolean }>;
   suffix?: string;
   errorMessages?: ErrorMessageProps[];
   size?: Size;
@@ -63,7 +63,12 @@ const Select = ({
           </option>
           {options.map((option) => {
             return (
-              <option value={option.value} key={option.value}>
+              <option
+                value={option.value}
+                key={option.value}
+                disabled={option.disabled}
+                aria-disabled={option.disabled}
+              >
                 {option.text}
               </option>
             );

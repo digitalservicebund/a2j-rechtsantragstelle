@@ -36,9 +36,11 @@ const addBeweisActionUrl = "/action/geld-einklagen/anwaltschaft/add-beweis";
 const AddBeweis = ({
   absatzIndex,
   nextIndex,
+  beweise,
 }: {
   absatzIndex: number;
   nextIndex: number;
+  beweise: OrderedBeweis[];
 }) => {
   const { pathname } = useLocation();
   const { absaetzeBaseUrl } = useAbsaetze();
@@ -74,6 +76,10 @@ const AddBeweis = ({
           options={beweismittelSchema.shape.type.options.map((value) => ({
             value,
             text: translations.beweismittel[value].de,
+            // There can only be one parteivernehmung per Beweis
+            disabled:
+              value === "parteivernehmung" &&
+              beweise.some((b) => b.beweis.type === "parteivernehmung"),
             preSelected: false,
           }))}
           placeholder={
@@ -215,7 +221,11 @@ export const BeweisangeboteList = ({
         },
       }))}
       additionalComponents={
-        <AddBeweis absatzIndex={absatzArrayIndex} nextIndex={nextItemIndex} />
+        <AddBeweis
+          absatzIndex={absatzArrayIndex}
+          nextIndex={nextItemIndex}
+          beweise={beweise}
+        />
       }
     />
   );

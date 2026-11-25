@@ -34,6 +34,16 @@ describe("Select", () => {
     expect(selectElement).toHaveValue("2");
   });
 
+  it("should disable options that have the disabled: true flag", () => {
+    const options = [
+      { value: "1", text: "One", preSelected: false, disabled: true },
+      { value: "2", text: "Two", preSelected: false },
+    ];
+    render(<Select name="select" options={options} />);
+    const selectElement = screen.getByRole("combobox") as HTMLSelectElement;
+    expect(selectElement.options[1].disabled).toBe(true);
+  });
+
   it("should render label when provided", () => {
     render(<Select name="select" options={[]} label="My Label" />);
     expect(screen.getByText("My Label")).toBeInTheDocument();
