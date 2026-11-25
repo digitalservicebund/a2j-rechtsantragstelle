@@ -225,7 +225,7 @@ describe("BezifferterZahlungsUndNebenantragItem", () => {
       />,
     );
     expect(
-      screen.getByText("Vorgerichtliche Anwaltskosten", {
+      screen.getByText("vorgerichtliche Anwaltskosten", {
         selector: "strong",
       }),
     ).toBeInTheDocument();
