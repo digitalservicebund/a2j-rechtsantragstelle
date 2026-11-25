@@ -28,6 +28,7 @@ export type OrderedAntrag = {
   title: string;
   shortTitle?: string;
   isNebenantrag: boolean;
+  antragNumber?: number;
 };
 
 export type AntraegeUserData = Pick<
@@ -209,6 +210,7 @@ export const getOrderedAntraege = (
           withSchlagwort,
         ),
         isNebenantrag: false,
+        antragNumber,
       });
       for (const [nebenIndex, nebenantrag] of (
         antrag.nebenantraege ?? []
@@ -221,6 +223,7 @@ export const getOrderedAntraege = (
           kind: "nebenantrag",
           title: getNebenantragTitle(nebenantrag, antragNumber),
           isNebenantrag: true,
+          antragNumber,
         });
       }
     }
@@ -245,6 +248,7 @@ export const getOrderedAntraege = (
       title,
       shortTitle: title,
       isNebenantrag: false,
+      antragNumber: getAntragNumber(userData, "sonstigeAntraege", index),
     });
   }
 

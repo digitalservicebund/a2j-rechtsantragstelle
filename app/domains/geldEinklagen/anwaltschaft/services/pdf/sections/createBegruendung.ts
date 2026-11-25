@@ -1,10 +1,7 @@
 import type PDFDocument from "pdfkit";
 import { getSelectableKlageParties } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
 import { getOrderedKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyOrdering";
-import {
-  getBeweisTitle,
-  getParteivernehmungBeweisCheckboxLabel,
-} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
+import { getParteivernehmungBeweisCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { getOrderedAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import type { Beweis } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
@@ -18,25 +15,27 @@ import {
 import { getPdfText } from "./addHauptantraege";
 import { addMissingData } from "./addMissingData";
 
-const getBeweisText = (
-  beweis: Beweis,
+const getBeweisPersonen = (
+  beweis: Extract<Beweis, { type: "zeuge" | "parteivernehmung" }>,
   userData: GeldEinklagenAnwaltschaftUserData,
-): string => {
+): string[] => {
   switch (beweis.type) {
     case "zeuge":
       return [
-        getFullPlaintiffName(
-          beweis.anrede,
-          beweis.titel,
-          beweis.vorname,
-          beweis.nachname,
-        ),
-        [beweis.strasse, beweis.hausnummer].filter(Boolean).join(" "),
-        [beweis.plz, beweis.ort].filter(Boolean).join(" "),
-        beweis.land,
-      ]
-        .filter(Boolean)
-        .join("\n");
+        [
+          getFullPlaintiffName(
+            beweis.anrede,
+            beweis.titel,
+            beweis.vorname,
+            beweis.nachname,
+          ),
+          [beweis.strasse, beweis.hausnummer].filter(Boolean).join(" "),
+          [beweis.plz, beweis.ort].filter(Boolean).join(" "),
+          beweis.land,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      ];
     case "parteivernehmung":
       return [
         ...getSelectableKlageParties(
@@ -60,14 +59,11 @@ const getBeweisText = (
               representative,
             ),
           ),
-        )
-        .join("\n");
-    default:
-      return beweis.beschreibung;
+        );
   }
 };
 
-export const createFourthPage = (
+export const createBegruendung = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,
@@ -90,21 +86,31 @@ export const createFourthPage = (
     }),
   );
 
-  doc.fontSize(12).text("I. Sachverhalt");
-  doc.moveDown(2);
+  section.add(
+    doc.struct("H3", {}, () => {
+      doc
+        .fontSize(12)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("I. Sachverhalt", PDF_MARGIN_HORIZONTAL);
+      doc.moveDown(0.5);
+    }),
+  );
 
   if (!absaetze.some(({ absatz }) => absatz.formulierung.trim())) {
     addMissingData(doc, section, "Sachverhalt");
     doc.moveDown(2);
   }
 
-  let previousAntragKey: string | undefined;
+  let previousAntragKey: string | number | undefined;
   for (const { antrag, absatz, beweise } of absaetze) {
-    if (antrag.key !== previousAntragKey) {
+    const antragKey = antrag.antragNumber ?? antrag.key;
+    if (antragKey !== previousAntragKey) {
       section.add(
         doc.struct("H3", {}, () => {
           let title = antrag.title;
-          if (antrag.kind === "prozessantrag") {
+          if (antrag.antragNumber !== undefined) {
+            title = `zu Antrag ${antrag.antragNumber}`;
+          } else if (antrag.kind === "prozessantrag") {
             if (antrag.antragId === "bedenkenVideoverhandlung") {
               title =
                 "zu prozessualer Ausführung – Bedenken gegen Videoverhandlung";
@@ -121,7 +127,7 @@ export const createFourthPage = (
           doc.moveDown(0.5);
         }),
       );
-      previousAntragKey = antrag.key;
+      previousAntragKey = antragKey;
     }
     section.add(
       doc.struct("P", {}, () => {
@@ -132,23 +138,51 @@ export const createFourthPage = (
         doc.moveDown(0.5);
       }),
     );
+    const printedPersonTypes = new Set<"zeuge" | "parteivernehmung">();
     for (const { beweis, documentNumber } of beweise) {
-      const title = getBeweisTitle(beweis.type, documentNumber, true);
-      if (title === undefined) {
-        throw new Error(`Missing PDF evidence title for ${beweis.type}`);
+      const evidenceX = PDF_MARGIN_HORIZONTAL + 16;
+      if (beweis.type === "zeuge" || beweis.type === "parteivernehmung") {
+        if (printedPersonTypes.has(beweis.type)) continue;
+        printedPersonTypes.add(beweis.type);
+        const personen = beweise.flatMap(({ beweis: item }) =>
+          (item.type === "zeuge" || item.type === "parteivernehmung") &&
+          item.type === beweis.type
+            ? getBeweisPersonen(item, userData)
+            : [],
+        );
+        const title =
+          beweis.type === "zeuge"
+            ? "Beweis angeboten durch Vernehmung der folgenden Personen als Zeugen oder Zeuginnen:"
+            : "Beweis angeboten durch Parteivernehmung der folgenden Personen:";
+        section.add(
+          doc.struct("P", {}, () => {
+            doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text(title, evidenceX);
+            doc.font(FONTS_BUNDESSANS_REGULAR);
+            for (const person of personen) {
+              doc.text(`\u2022 ${person}`, evidenceX + 8);
+            }
+            doc.moveDown(0.5);
+          }),
+        );
+      } else {
+        if (documentNumber === undefined) {
+          throw new Error("Missing document number for document evidence");
+        }
+        section.add(
+          doc.struct("P", {}, () => {
+            doc
+              .fontSize(10)
+              .font(FONTS_BUNDESSANS_BOLD)
+              .text(`Beweis (K${documentNumber}): `, evidenceX, undefined, {
+                continued: true,
+              })
+              .font(FONTS_BUNDESSANS_REGULAR)
+              .text(beweis.beschreibung);
+            doc.moveDown(0.5);
+          }),
+        );
       }
-      section.add(
-        doc.struct("P", {}, () => {
-          doc
-            .fontSize(10)
-            .font(FONTS_BUNDESSANS_BOLD)
-            .text(title, PDF_MARGIN_HORIZONTAL)
-            .font(FONTS_BUNDESSANS_REGULAR)
-            .text(getBeweisText(beweis, userData), PDF_MARGIN_HORIZONTAL);
-          doc.moveDown(0.5);
-        }),
-      );
     }
-    doc.moveDown(2);
+    doc.moveDown(0.5);
   }
 };

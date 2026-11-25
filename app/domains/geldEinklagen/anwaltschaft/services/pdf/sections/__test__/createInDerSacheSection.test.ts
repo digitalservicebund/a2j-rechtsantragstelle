@@ -3,7 +3,7 @@ import {
   emptyUserData,
   getPrintedText,
 } from "./pdfTestHelpers";
-import { createFirstPage } from "../createFirstPage";
+import { createInDerSacheSection } from "../createInDerSacheSection";
 import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { findCourtByName } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { addKlagende } from "../addKlagende";
@@ -18,7 +18,7 @@ vi.mock("../addKlagende");
 vi.mock("../addKlagendeProzessbevollmaechtigte");
 vi.mock("../addMissingData");
 
-describe("createFirstPage", () => {
+describe("createInDerSacheSection", () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
@@ -27,7 +27,7 @@ describe("createFirstPage", () => {
     vi.mocked(findCourtByName).mockReturnValue({} as never);
     const { doc, documentStruct } = createPdfTestContext();
 
-    createFirstPage(doc, documentStruct, {
+    createInDerSacheSection(doc, documentStruct, {
       ...emptyUserData,
       pilotgericht: "bonn",
     });
@@ -43,14 +43,18 @@ describe("createFirstPage", () => {
       pilotgericht: "bonn",
     });
     expect(addKlagendeProzessbevollmaechtigte).toHaveBeenCalled();
-    expect(addMissingData).not.toHaveBeenCalled();
+    expect(addMissingData).not.toHaveBeenCalledWith(
+      doc,
+      documentStruct,
+      "Amtsgericht",
+    );
     expect(getPrintedText(doc)).toContain("Klage");
   });
 
   it("should mark the court as missing when no pilot court is selected", () => {
     const { doc, documentStruct } = createPdfTestContext();
 
-    createFirstPage(doc, documentStruct, emptyUserData);
+    createInDerSacheSection(doc, documentStruct, emptyUserData);
 
     expect(addMissingData).toHaveBeenCalledWith(
       doc,
