@@ -3,7 +3,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { guards } from "./guards";
 
 export const fluggastrechteVorabcheckFlowConfig = compileFlow({
@@ -241,4 +241,4 @@ export const fluggastrechteVorabcheckFlowConfig = compileFlow({
     "erfolg-analog": "erfolg-per-post-klagen",
     "erfolg-per-post-klagen": null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

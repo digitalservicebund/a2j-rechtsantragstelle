@@ -2,7 +2,7 @@ import flatMap from "lodash/flatMap";
 import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
 import update from "lodash/update";
-import type { PageConfigMap } from "./types";
+import type { PagesConfig } from "./types";
 import { type SimulationResult } from "./simulate";
 
 export type StatusNode = {
@@ -53,7 +53,7 @@ const getSegmentsBeforeFirstWildcard = (id: string) => {
   return wildcardIndex === -1 ? rawParts.length - 1 : wildcardIndex;
 };
 
-export const buildStatusTree = <C extends PageConfigMap>(
+export const buildStatusTree = <C extends PagesConfig>(
   config: C,
   { reachableSet }: SimulationResult,
   doneNodeKeys: Set<string>,

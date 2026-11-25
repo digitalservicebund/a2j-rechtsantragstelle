@@ -1,6 +1,6 @@
 import { render, renderHook, waitFor } from "@testing-library/react";
 import { useControlledField } from "~/components/hooks/useControlledField";
-import { type FieldValueChangeHandler } from "~/domains/pageSchemas";
+import { type FieldValueChangeHandler } from "~/services/flow/flowEngine/types";
 
 vi.mock("@rvf/react-router", () => ({
   useField: () => ({

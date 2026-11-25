@@ -1,6 +1,6 @@
 import { type UserData } from "~/domains/userData";
 import { precomputeProgress } from "./precomputeProgress";
-import type { NodeKey, PageConfigMap, TransitionConfigMap } from "./types";
+import type { NodeKey, PagesConfig, TransitionConfigMap } from "./types";
 import z from "zod";
 import { type FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 
@@ -21,7 +21,7 @@ export const inferArrayNameFromStepId = (stepId: string): string => {
 // until stable, so pages kept alive only by stale fields also fall off.
 type PruningStrategy = "singlePass" | "cascading";
 
-type Options<C extends PageConfigMap> = {
+type Options<C extends PagesConfig> = {
   pages: C;
   initialStep: NodeKey<C>;
   transitions: TransitionConfigMap<C>;
@@ -109,7 +109,7 @@ const isOptionalArrayField = (
     : false;
 };
 
-const getArrayEntryPoint = <C extends PageConfigMap>(
+const getArrayEntryPoint = <C extends PagesConfig>(
   routes: TransitionConfigMap<C>[NodeKey<C>],
   pages: C,
 ): string | undefined => {
@@ -123,7 +123,7 @@ const getArrayEntryPoint = <C extends PageConfigMap>(
   }
 };
 
-export const compileFlow = <C extends PageConfigMap>({
+export const compileFlow = <C extends PagesConfig>({
   pages,
   initialStep,
   transitions,
@@ -254,6 +254,6 @@ export const compileFlow = <C extends PageConfigMap>({
   };
 };
 
-export type CompiledFlow<C extends PageConfigMap> = ReturnType<
+export type CompiledFlow<C extends PagesConfig> = ReturnType<
   typeof compileFlow<C>
 >;

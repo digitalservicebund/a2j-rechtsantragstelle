@@ -1,11 +1,11 @@
 import { type FlowId } from "~/domains/flowIds";
 import type { ArrayConfigServer } from ".";
 import { type FlowSession } from "../flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "../flow/flowEngine/types";
+import { type PagesConfig } from "../flow/flowEngine/types";
 import { ARRAY_WILDCARD } from "~/services/flow/flowEngine/compileFlow";
 
 export const buildArrayConfigServer = (
-  flowSessionEngine: FlowSession<PageConfigMap>,
+  flowSessionEngine: FlowSession<PagesConfig>,
   flowId: FlowId,
 ): Record<string, ArrayConfigServer> | undefined => {
   const arrayInfo = flowSessionEngine.arrayInfo;

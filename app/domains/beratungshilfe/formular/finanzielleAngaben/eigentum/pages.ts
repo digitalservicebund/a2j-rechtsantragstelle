@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { eigentuemerInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateInputOptionalSchema } from "~/services/validation/dateObject";
 import { ibanSchema } from "~/services/validation/iban";

@@ -1,6 +1,3 @@
-import { type FieldApi } from "@rvf/react";
-import { type MaybePromise } from "p-map";
-import { type Dispatch, type SetStateAction } from "react";
 import { geldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
 import { erbausschlagungAnfragePages } from "~/domains/nachlass/erbausschlagung/anfrage/pages";
 import { erbausschlagungGerichtFindenPages } from "~/domains/nachlass/erbausschlagung/gericht-finden/pages";
@@ -8,7 +5,10 @@ import { erbscheinAnfragePages } from "~/domains/nachlass/erbschein/anfrage/page
 import { erbscheinNachlassgerichtPages } from "~/domains/nachlass/erbschein/nachlassgericht/pages";
 import { erbscheinWegweiserPages } from "~/domains/nachlass/erbschein/wegweiser/pages";
 import { prozesskostenhilfeFormularPages } from "~/domains/prozesskostenhilfe/formular/pages";
-import { type FlowEnginePageConfig } from "~/services/flow/flowEngine/types";
+import type {
+  ControlledFieldConfig,
+  PagesConfig,
+} from "~/services/flow/flowEngine/types";
 import { beratungshilfeAntragPages } from "./beratungshilfe/formular/pages";
 import { beratungshilfeVorabcheckPages } from "./beratungshilfe/vorabcheck/pages";
 import { flowIdFromPathname, parsePathname, type FlowId } from "./flowIds";
@@ -18,8 +18,8 @@ import { geldEinklagenFormularPages } from "./geldEinklagen/formular/pages";
 import { kontopfaendungPkontoAntragPages } from "./kontopfaendung/pkonto/antrag/pages";
 import { kontopfaendungWegweiserPages } from "./kontopfaendung/wegweiser/pages";
 import { erbfolgePages } from "./nachlass/erbschein/erbfolge/pages";
-import type { AllowedUserTypes, SchemaObject, UserData } from "./userData";
 import { grundbuchauszugAntragPages } from "./grundbuchauszug/antrag/pages";
+import { type SchemaObject } from "./userData";
 
 export const pages: Record<FlowId, PagesConfig> = {
   "/beratungshilfe/vorabcheck": beratungshilfeVorabcheckPages,
@@ -87,42 +87,9 @@ export function getReadOnlyFields(pathname: string) {
     : undefined;
 }
 
-export type PagesConfig = Record<string, PageConfig>;
-
-type FieldValueChangeHandlerProps = {
-  value: AllowedUserTypes;
-  originalValue: AllowedUserTypes;
-  controlledField: FieldApi<any>;
-  setControlledFieldSrValue: Dispatch<SetStateAction<string | undefined>>;
-};
-
-export type FieldValueChangeHandler = (
-  props: FieldValueChangeHandlerProps,
-) => MaybePromise<void | (() => void)>;
-
-export type ControlledFieldConfig = {
-  fieldName: string;
-  handleFieldValueChange: FieldValueChangeHandler;
-  getScreenReaderAnnouncementText: (controlledFieldSrValue: string) => string;
-};
-
 export const hasControlledFieldConfig = (
   fieldName: string,
   controlledFieldConfig: ControlledFieldConfig | undefined,
 ) => {
   return controlledFieldConfig?.fieldName === fieldName;
 };
-
-type FlowPage = {
-  stepId: string;
-  pageSchema?: SchemaObject;
-  controlledFieldConfig?: ControlledFieldConfig;
-  readonlyFields?: ReadOnlyFields;
-};
-
-type ReadOnlyFields = {
-  fieldNames: string[];
-  shouldMakeReadOnly: (userData: UserData) => boolean;
-};
-
-type PageConfig = FlowPage | FlowEnginePageConfig;

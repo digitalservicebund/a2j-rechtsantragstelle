@@ -2,7 +2,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { kontopfaendungWegweiserPages } from "./pages";
 
 export const kontopfaendungWegweiserFlowConfig = compileFlow({
@@ -171,4 +171,4 @@ export const kontopfaendungWegweiserFlowConfig = compileFlow({
     rente: "ergebnisNaechsteSchritte",
     ergebnisNaechsteSchritte: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

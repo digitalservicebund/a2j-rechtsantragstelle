@@ -4,7 +4,7 @@ import { mockRouteArgsFromRequest } from "~/routes/__test__/mockRouteArgsFromReq
 import * as pruneUserData from "~/services/flow/flowEngine/pruneUserData";
 import type {
   InferredUserData,
-  PageConfigMap,
+  PagesConfig,
 } from "~/services/flow/flowEngine/types";
 
 const getPrunedUserDataForPdfSpy = vi.spyOn(
@@ -30,7 +30,7 @@ describe("pdfDownloadLoader", () => {
     getPrunedUserDataForPdfSpy.mockReturnValueOnce({
       vorname: "Zoe",
       nachname: "Müller",
-    } as InferredUserData<PageConfigMap>);
+    } as InferredUserData<PagesConfig>);
     const url = "https://mock-url.de/beratungshilfe/antrag/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 
@@ -49,7 +49,7 @@ describe("pdfDownloadLoader", () => {
     getPrunedUserDataForPdfSpy.mockReturnValueOnce({
       vorname: "Herman",
       nachname: "Müller",
-    } as InferredUserData<PageConfigMap>);
+    } as InferredUserData<PagesConfig>);
     const url = "https://mock-url.de/prozesskostenhilfe/formular/download/pdf";
     const response = await loader(mockRouteArgsFromRequest(new Request(url)));
 

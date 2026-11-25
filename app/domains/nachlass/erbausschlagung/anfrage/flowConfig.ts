@@ -1,4 +1,4 @@
-import type { PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { erbausschlagungAnfragePages } from "./pages";
 import {
   type CompiledFlow,
@@ -45,4 +45,4 @@ export const erbausschlagungAnfrageFlowConfig = compileFlow({
     abgabeEnde: null,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

@@ -17,12 +17,13 @@ export const getFullPlaintiffName = (
   title?: string,
   vorname?: string,
   nachname?: string,
+  vertretungArt?: string,
 ) => {
   const mappedTitle = mapTitle(title);
   const salutation = anrede === "none" ? "" : capitalize(anrede);
   const capitalizedVorname = vorname?.split(" ").map(capitalize).join(" ");
 
-  return [salutation, mappedTitle, capitalizedVorname, nachname]
+  return [salutation, mappedTitle, capitalizedVorname, nachname, vertretungArt]
     .filter(Boolean)
     .join(" ");
 };

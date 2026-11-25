@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";

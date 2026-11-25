@@ -9,7 +9,6 @@ import { mapLookValue } from "~/components/content/ContentComponents";
 import HiddenInput from "../inputs/hidden/HiddenInput";
 import IbanInput from "../inputs/iban/IbanInput";
 import TelephoneInput from "../inputs/telephone/TelephoneInput";
-import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 import { numberIncrementZodDescription } from "~/services/validation/numberIncrement";
 import NumberIncrement from "../inputs/number/NumberIncrement";
 import {
@@ -41,6 +40,7 @@ import { parteivernehmungBeweisCheckboxesZodDescription } from "~/domains/geldEi
 import { translations } from "~/services/translations/translations";
 import { getParteivernehmungBeweisCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { getKlagePartyCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
+import { type ControlledFieldConfig } from "~/services/flow/flowEngine/types";
 
 const specialComponentDescriptions = [
   filesUploadZodDescription,

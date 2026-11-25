@@ -3,13 +3,13 @@ import {
   emptyUserData,
   getPrintedText,
 } from "./pdfTestHelpers";
-import { createThirdPage } from "../createThirdPage";
+import { createSonstigerAntragUndAusfuehrung } from "../createSonstigerAntragUndAusfuehrung";
 
-describe("createThirdPage", () => {
+describe("createSonstigerAntragUndAusfuehrung", () => {
   it("should print prozessuale Ausfuehrungen fields", () => {
     const { doc, documentStruct } = createPdfTestContext();
 
-    createThirdPage(doc, documentStruct, {
+    createSonstigerAntragUndAusfuehrung(doc, documentStruct, {
       ...emptyUserData,
       muendlicheVerhandlung: "on",
       videoverhandlung: "yes",
@@ -38,7 +38,7 @@ describe("createThirdPage", () => {
   ] as const)("handles videoverhandlung=%s", (videoverhandlung, expected) => {
     const { doc, documentStruct } = createPdfTestContext();
 
-    createThirdPage(doc, documentStruct, {
+    createSonstigerAntragUndAusfuehrung(doc, documentStruct, {
       ...emptyUserData,
       videoverhandlung,
     });

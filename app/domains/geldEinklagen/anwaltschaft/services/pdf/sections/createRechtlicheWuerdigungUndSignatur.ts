@@ -8,7 +8,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
 
-export const createFifthPage = (
+export const createRechtlicheWuerdigungUndSignatur = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,

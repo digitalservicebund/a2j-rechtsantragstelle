@@ -77,7 +77,7 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(getKlagendeText(2)).toBe("die Kläger");
   });
 
-  it("should use the singuler and plural befindet labels", () => {
+  it("should use the singular and plural befindet labels", () => {
     expect(getBefindenText(1)).toBe("befindet");
     expect(getBefindenText(2)).toBe("befinden");
   });
@@ -119,7 +119,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner verurteilt an, den Kläger zu 2) Mahnkosten in Höhe von 25 Euro nebst Zinsen in Höhe von 5 Prozent p.a. seit dem 01.02.2024 zu zahlen.",
+      "Die Beklagten zu 1) und zu 2) werden als Gesamtschuldner verurteilt, an den Kläger zu 2) Mahnkosten in Höhe von 25 Euro nebst Zinsen in Höhe von 5 Prozent p.a. seit dem 01.02.2024 zu zahlen.",
     );
   });
 
@@ -193,7 +193,7 @@ describe("hauptUndNebenantraegeContent", () => {
     );
   });
 
-  it("should format a Schmerzengeld Nebenantrag", () => {
+  it("should format a Schmerzensgeld Nebenantrag", () => {
     const userData = createUserData({
       schmerzengeldantrag: [
         {
@@ -225,7 +225,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt an, den Kläger zu 1) Inkassokosten in Höhe von 12 Euro nebst Zinsen in Höhe von 3 Prozent p.a. seit dem 01.01.2025 zu zahlen.",
+      "Der Beklagte zu 1) wird verurteilt, an den Kläger zu 1) Inkassokosten in Höhe von 12 Euro nebst Zinsen in Höhe von 3 Prozent p.a. seit dem 01.01.2025 zu zahlen.",
     );
   });
 
@@ -318,7 +318,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toContain(
-      "<strong>Der Beklagte zu 1)</strong> wird verurteilt an, <strong>der Kläger zu 1)</strong>",
+      "<strong>Der Beklagte zu 1)</strong> wird verurteilt, an <strong>den Kläger zu 1)</strong>",
     );
   });
 
@@ -398,7 +398,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Der Beklagte zu 3) wird verurteilt an, der Kläger zu 2) ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von 12,00 Euro nicht unterschreiten sollte.",
+      "Der Beklagte zu 3) wird verurteilt, an den Kläger zu 2) ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von 12,00 Euro nicht unterschreiten sollte.",
     );
   });
 
@@ -430,7 +430,7 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(
       textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
     ).toBe(
-      "Der Beklagte zu 3) wird verurteilt an, den Kläger zu 2) 12,00 Euro zu zahlen.",
+      "Der Beklagte zu 3) wird verurteilt, an den Kläger zu 2) 12,00 Euro zu zahlen.",
     );
   });
 
@@ -517,7 +517,7 @@ describe("hauptUndNebenantraegeContent", () => {
     expect(
       textContent(getBezifferterAntragText({ userData, hauptantragIndex: 0 })),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt an, den Kläger zu 1) 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p.a. seit dem 01.02.2024 Zug-um-Zug gegen Rückgabe der Sache zu zahlen.",
+      "Der Beklagte zu 1) wird verurteilt, an den Kläger zu 1) 125,50 Euro nebst Zinsen in Höhe von 5 Prozent p.a. seit dem 01.02.2024 Zug-um-Zug gegen Rückgabe der Sache zu zahlen.",
     );
   });
 
@@ -582,7 +582,7 @@ describe("hauptUndNebenantraegeContent", () => {
           getBezifferterAntragText({ userData, hauptantragIndex: 0 }),
         ),
       ).toBe(
-        `Der Beklagte zu 1) wird verurteilt an, den Kläger zu 1) ${ending}`,
+        `Der Beklagte zu 1) wird verurteilt, an den Kläger zu 1) ${ending}`,
       );
     },
   );
@@ -608,7 +608,7 @@ describe("hauptUndNebenantraegeContent", () => {
         }),
       ),
     ).toBe(
-      "Der Beklagte zu 1) wird verurteilt an, der Kläger zu 1) ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von 500 Euro nicht unterschreiten sollte.",
+      "Der Beklagte zu 1) wird verurteilt, an den Kläger zu 1) ein in das Ermessen des Gerichts gestelltes Schmerzensgeld zu zahlen, welches einen Betrag von 500 Euro nicht unterschreiten sollte.",
     );
   });
 });

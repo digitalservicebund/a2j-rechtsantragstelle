@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
@@ -141,4 +141,4 @@ export const testamentOderErbvertragPages = {
     stepId: "/testament-oder-erbvertrag/beguenstigten/warnung",
     shouldCollapseIntoParentNavItem: true,
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

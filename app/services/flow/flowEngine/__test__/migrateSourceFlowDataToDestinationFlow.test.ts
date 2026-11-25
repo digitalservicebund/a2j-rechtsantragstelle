@@ -8,7 +8,7 @@ import {
 import { migrateSourceFlowDataToDestinationFlow } from "~/services/flow/flowEngine/migrateSourceFlowDataToDestinationFlow";
 import {
   type InferredUserData,
-  type PageConfigMap,
+  type PagesConfig,
 } from "~/services/flow/flowEngine/types";
 
 vi.mock("~/domains/pageSchemas");
@@ -61,12 +61,12 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
           },
         },
         pruningStrategy: "cascading",
-      }) as CompiledFlow<PageConfigMap>,
+      }) as CompiledFlow<PagesConfig>,
     } satisfies Flow;
 
     const destinationFlow = {
       flowType: "formFlow",
-      config: {} as CompiledFlow<PageConfigMap>,
+      config: {} as CompiledFlow<PagesConfig>,
       migration: {
         source: "/erbschein/erbfolge",
         sortedFields: [],
@@ -76,7 +76,7 @@ describe("migrateSourceFlowDataToDestinationFlow", () => {
     const mockUserData = {
       start: "foo",
       page1: 42,
-    } as InferredUserData<PageConfigMap>;
+    } as InferredUserData<PagesConfig>;
 
     const migrationData = migrateSourceFlowDataToDestinationFlow(
       mockUserData,

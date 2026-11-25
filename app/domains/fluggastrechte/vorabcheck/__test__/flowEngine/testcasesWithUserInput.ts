@@ -1,5 +1,5 @@
 import type { FlowTestConfig } from "~/domains/__test__/TestCases";
-import type { PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { fluggastrechteVorabcheckFlowConfig } from "../../flowConfig";
 import type { FluggastrechtVorabcheckUserData } from "../../userData";
 import { testCasesFluggastrechteAnnullierungAbbruch } from "./testcasesAnnullierungAbbruch";
@@ -27,4 +27,4 @@ export const fluggastrechteVorabcheckTestCases = {
     ...testcasesFluggastrechtOtherErfolgs,
     ...testCasesFluggastrechteVerspaetetAbbruch,
   },
-} satisfies FlowTestConfig<FluggastrechtVorabcheckUserData, PageConfigMap>;
+} satisfies FlowTestConfig<FluggastrechtVorabcheckUserData, PagesConfig>;

@@ -3,7 +3,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { edgeCasesForPlz } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { ANGELEGENHEIT_INFO } from "~/services/gerichtsfinder/types";
 
@@ -103,4 +103,4 @@ export const erbausschlagungGerichtFindenFlowConfig = compileFlow({
     ],
     gerichtErmitteltWohnsitz: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

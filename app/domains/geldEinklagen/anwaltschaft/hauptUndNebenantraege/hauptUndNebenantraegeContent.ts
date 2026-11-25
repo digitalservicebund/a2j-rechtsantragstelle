@@ -48,7 +48,7 @@ export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "vorgerichtliche Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Adressermittlungkosten",
@@ -136,11 +136,11 @@ export const getNebenantragItemText = ({
       getVerb(beklagteNumbers.length),
       " ",
       beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
-      "verurteilt",
+      "verurteilt,",
       createElement(
         "a",
         null,
-        " an, ",
+        " an ",
         getKlagendeText(klagendeNumbers.length),
         " zu ",
         formatPartyNumbers(klagendeNumbers),
@@ -329,13 +329,13 @@ const getAntragText = ({
     beklagteNumbers.length > 1
       ? createElement("strong", null, "als Gesamtschuldner ")
       : "",
-    "verurteilt an, ",
+    "verurteilt, an ",
     createElement(
       "strong",
       null,
       isSchmerzensgeldantrag
         ? klagendeNumbers.length === 1
-          ? "der Kläger"
+          ? "den Kläger"
           : "die Kläger"
         : getKlagendeText(klagendeNumbers.length),
       " ",
