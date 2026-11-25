@@ -1,5 +1,5 @@
 import { type CompiledFlow, compileFlow } from "../../flowEngine/compileFlow";
-import { type PageConfigMap } from "../../flowEngine/types";
+import { type PagesConfig } from "../../flowEngine/types";
 import { getSessionAndEngine } from "../getSessionAndEngine";
 
 const mockFlowId = "/beratungshilfe/antrag";
@@ -20,7 +20,7 @@ const config = compileFlow({
   pages,
   initialStep: "start",
   transitions,
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;
 
 vi.mock("~/services/session.server", () => ({
   getSessionManager: vi.fn().mockReturnValue({

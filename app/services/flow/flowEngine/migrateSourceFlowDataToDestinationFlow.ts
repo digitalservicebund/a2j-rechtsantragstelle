@@ -5,10 +5,10 @@ import { getAllPageSchemaByFlowId } from "~/domains/pageSchemas";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
 import {
   type InferredUserData,
-  type PageConfigMap,
+  type PagesConfig,
 } from "~/services/flow/flowEngine/types";
 
-export const migrateSourceFlowDataToDestinationFlow = <C extends PageConfigMap>(
+export const migrateSourceFlowDataToDestinationFlow = <C extends PagesConfig>(
   sourceUserData: InferredUserData<C>,
   sourceFlow: Flow<C>,
   destinationFlow: Flow<C>,

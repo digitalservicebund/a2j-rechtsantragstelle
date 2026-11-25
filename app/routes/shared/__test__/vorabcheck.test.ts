@@ -8,7 +8,7 @@ import { mockRouteArgsFromRequest } from "../../__test__/mockRouteArgsFromReques
 import { assertResponse } from "~/routes/__test__/isResponse";
 import { getUserDataAndFlow } from "~/services/flow/userDataAndFlow/getUserDataAndFlow";
 import { type FlowSession } from "~/services/flow/flowEngine/createFlowSession";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { type Replacements } from "~/util/applyStringReplacement";
 import { retrieveContentData } from "~/services/flow/contentData/retrieveContentData";
 
@@ -55,7 +55,7 @@ beforeEach(() => {
         flowSessionEngine: {
           currentStepId: "/kinder/0/daten",
           stepConfigMap: {},
-        } as unknown as FlowSession<PageConfigMap>,
+        } as unknown as FlowSession<PagesConfig>,
         validFlowPaths: [] as any,
         triggerValidation: false,
         userVisitedValidationPage: false,

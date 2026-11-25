@@ -1,7 +1,7 @@
 import { Result, type Unit } from "true-myth";
 import { skipFlowParamAllowedAndEnabled } from "~/services/params";
 import { type FlowSession } from "../flowEngine/createFlowSession";
-import { type PageConfigMap } from "../flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import {
   getFlowTransitionConfig,
   validateFlowTransition,
@@ -14,7 +14,7 @@ export const validateStepIdFlow = async (
   stepId: string,
   searchParams: URLSearchParams,
   cookieHeader: string | null,
-  currentFlowSessionEngine: FlowSession<PageConfigMap>,
+  currentFlowSessionEngine: FlowSession<PagesConfig>,
   currentFlow: Flow,
 ): Promise<Result<Unit, { redirectTo: string }>> => {
   if (

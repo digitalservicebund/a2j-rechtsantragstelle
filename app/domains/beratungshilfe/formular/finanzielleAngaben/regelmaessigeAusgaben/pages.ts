@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { besondereBelastungenInputSchema } from "~/domains/shared/formular/finanzielleAngaben/userData";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";

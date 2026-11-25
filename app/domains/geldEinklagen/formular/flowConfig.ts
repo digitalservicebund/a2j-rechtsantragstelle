@@ -13,7 +13,7 @@ import { zustaendigesGerichtDone } from "./gericht-pruefen/zustaendiges-gericht/
 import { hasFilledKlagendePerson } from "./klage-erstellen/klagende-person/doneFunctions";
 import { klageErstellenProzessfuehrungFlowConfig } from "./klage-erstellen/prozessfuehrung/flowConfig";
 import { hasOptionalString } from "~/domains/guards.server";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { type GeldEinklagenFormularUserData } from "./userData";
 import { klageErstellenBegruendungFlowConfig } from "./klage-erstellen/begruendung/flowConfig";
 
@@ -121,4 +121,4 @@ export const geldEinklagenFlowConfig = compileFlow({
     versandVorbereitenKlageVersendenAnleitungAnwaltschaft: null,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

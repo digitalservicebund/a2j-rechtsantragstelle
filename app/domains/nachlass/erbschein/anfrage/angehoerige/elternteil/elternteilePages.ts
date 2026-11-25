@@ -16,7 +16,7 @@ import {
   type Elternteil,
   type ElternteilKind,
 } from "~/domains/nachlass/erbschein/shared/erbfolgeTypes";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 const elternteilKindSchema: z.ZodType<ElternteilKind> = z.lazy(() =>
   personUnion(elternteilKindSchema),
@@ -81,7 +81,7 @@ const elternteilKinderLevel = (depth: number) => {
       shouldCollapseIntoParentNavItem: true,
       pageSchema: hatteKinderFieldHelper(prefix),
     },
-  } as const satisfies PageConfigMap;
+  } as const satisfies PagesConfig;
 };
 
 // Wraps a level into registry entries keyed elternteilKind{depth}Daten / …HatteKinder.

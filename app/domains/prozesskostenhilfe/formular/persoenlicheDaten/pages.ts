@@ -1,4 +1,4 @@
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";

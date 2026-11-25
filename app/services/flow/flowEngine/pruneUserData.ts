@@ -1,10 +1,6 @@
 import { ARRAY_WILDCARD } from "./compileFlow";
 import type { CompiledFlow } from "./compileFlow";
-import {
-  type PageConfigMap,
-  type NodeKey,
-  type InferredUserData,
-} from "./types";
+import { type PagesConfig, type NodeKey, type InferredUserData } from "./types";
 import { type PageData } from "../pageData";
 import { runSimulation } from "~/services/flow/flowEngine/simulate";
 
@@ -32,7 +28,7 @@ const setNestedField = (
   target[fieldName] = value;
 };
 
-type VisitedContext<C extends PageConfigMap> = {
+type VisitedContext<C extends PagesConfig> = {
   key: NodeKey<C>;
   pageData: PageData;
   scopeData: Record<string, unknown>;
@@ -43,7 +39,7 @@ type VisitedContext<C extends PageConfigMap> = {
 // item at this nesting level; arrayPath + arrayIndexes give the output path.
 // fieldNames use "#" notation (e.g. "children#name") but scopeData keys and the
 // nested output use the leaf name ("name").
-const copyArrayItemFields = <C extends PageConfigMap>(
+const copyArrayItemFields = <C extends PagesConfig>(
   result: Record<string, unknown>,
   compiledFlow: CompiledFlow<C>,
   { key, pageData, scopeData, arrayPath }: VisitedContext<C>,
@@ -56,7 +52,7 @@ const copyArrayItemFields = <C extends PageConfigMap>(
 };
 
 // Regular (top-level) page: copy declared fields directly from userData.
-const copyTopLevelFields = <C extends PageConfigMap>(
+const copyTopLevelFields = <C extends PagesConfig>(
   result: Record<string, unknown>,
   compiledFlow: CompiledFlow<C>,
   nodeKey: NodeKey<C>,
@@ -68,7 +64,7 @@ const copyTopLevelFields = <C extends PageConfigMap>(
   }
 };
 
-export const pruneUserData = <C extends PageConfigMap>(
+export const pruneUserData = <C extends PagesConfig>(
   compiledFlow: CompiledFlow<C>,
   visitedContexts: Array<{
     key: NodeKey<C>;
@@ -94,7 +90,7 @@ export const pruneUserData = <C extends PageConfigMap>(
   return result as InferredUserData<C>;
 };
 
-export const getPrunedUserDataFromSimulation = <C extends PageConfigMap>(
+export const getPrunedUserDataFromSimulation = <C extends PagesConfig>(
   compiledFlow: CompiledFlow<C>,
   userData: InferredUserData<C>,
 ) =>

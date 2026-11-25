@@ -15,7 +15,7 @@ import { erbscheinWegweiser } from "~/domains/nachlass/erbschein/wegweiser";
 import { type CompiledFlow } from "~/services/flow/flowEngine/compileFlow";
 import {
   type InferredUserData,
-  type PageConfigMap,
+  type PagesConfig,
 } from "~/services/flow/flowEngine/types";
 import type { FlowTransitionConfig } from "~/services/flow/flowEngine/flowTransitionValidation";
 import type { ArrayFieldInfo, FieldItem } from "~/services/summary/types";
@@ -29,11 +29,11 @@ import type { Result } from "true-myth";
 import type { AllowedUserTypes, UserData } from "./userData";
 import { grundbuchauszugAntrag } from "./grundbuchauszug/antrag";
 
-type MigrationDataMerger<Dest extends PageConfigMap> = (
-  sourceData: InferredUserData<PageConfigMap>,
+type MigrationDataMerger<Dest extends PagesConfig> = (
+  sourceData: InferredUserData<PagesConfig>,
 ) => InferredUserData<Dest>;
 
-type FlowMigration<C extends PageConfigMap> = {
+type FlowMigration<C extends PagesConfig> = {
   source: FlowId;
   sortedFields: string[];
   /**
@@ -86,7 +86,7 @@ type XjustizConfig = {
   name: string;
 };
 
-export type Flow<C extends PageConfigMap = PageConfigMap> = {
+export type Flow<C extends PagesConfig = PagesConfig> = {
   flowType: FlowType;
   config?: CompiledFlow<C>;
   migration?: FlowMigration<C>;
@@ -121,4 +121,4 @@ export const flows = {
   "/erbausschlagung/anfrage": erbausschlagungAnfrage,
   "/erbausschlagung/gericht-finden": erbausschlagungGerichtFinden,
   "/grundbuchauszug/antrag": grundbuchauszugAntrag,
-} satisfies Record<FlowId, Flow<PageConfigMap>>;
+} satisfies Record<FlowId, Flow<PagesConfig>>;
