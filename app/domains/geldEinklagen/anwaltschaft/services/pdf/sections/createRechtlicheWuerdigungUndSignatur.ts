@@ -73,13 +73,14 @@ export const createRechtlicheWuerdigungUndSignatur = (
             person.vorname,
             person.nachname,
           );
-          const signature = person.berufsbezeichnung
-            ? `${name}\n(${person.berufsbezeichnung})`
-            : name;
           doc
             .fontSize(10)
-            .font(FONTS_BUNDESSANS_REGULAR)
-            .text(signature, PDF_MARGIN_HORIZONTAL);
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(name, PDF_MARGIN_HORIZONTAL)
+            .font(FONTS_BUNDESSANS_REGULAR);
+          if (person.berufsbezeichnung) {
+            doc.text(`(${person.berufsbezeichnung})`, PDF_MARGIN_HORIZONTAL);
+          }
           doc.moveDown();
         }),
       );

@@ -1,7 +1,10 @@
 import type PDFDocument from "pdfkit";
-import { getSelectableKlageParties } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
+import {
+  getKlagePartyCheckboxLabel,
+  getSelectableKlageParties,
+} from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
+import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import { getOrderedKlageParties } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyOrdering";
-import { getParteivernehmungBeweisCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { getOrderedAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import type { Beweis } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import type { GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
@@ -12,29 +15,33 @@ import {
   PDF_MARGIN_HORIZONTAL,
   PDF_SIZE_FORMAT,
 } from "~/services/pdf/createPdfKitDocument";
-import { getPdfText } from "./addHauptantraege";
 import { addMissingData } from "./addMissingData";
 
 const getBeweisPersonen = (
   beweis: Extract<Beweis, { type: "zeuge" | "parteivernehmung" }>,
   userData: GeldEinklagenAnwaltschaftUserData,
-): string[] => {
+): Array<
+  | { name: string; address: string }
+  | { partyLabel: string; representative?: string }
+> => {
   switch (beweis.type) {
     case "zeuge":
       return [
-        [
-          getFullPlaintiffName(
+        {
+          name: getFullPlaintiffName(
             beweis.anrede,
             beweis.titel,
             beweis.vorname,
             beweis.nachname,
           ),
-          [beweis.strasse, beweis.hausnummer].filter(Boolean).join(" "),
-          [beweis.plz, beweis.ort].filter(Boolean).join(" "),
-          beweis.land,
-        ]
-          .filter(Boolean)
-          .join(", "),
+          address: [
+            [beweis.strasse, beweis.hausnummer].filter(Boolean).join(" "),
+            [beweis.plz, beweis.ort].filter(Boolean).join(" "),
+            beweis.land,
+          ]
+            .filter(Boolean)
+            .join(", "),
+        },
       ];
     case "parteivernehmung":
       return [
@@ -50,16 +57,27 @@ const getBeweisPersonen = (
         ),
       ]
         .filter(({ id }) => beweis.personen[id] === "on")
-        .map(({ index, party, relationship, representative }) =>
-          getPdfText(
-            getParteivernehmungBeweisCheckboxLabel(
-              index,
-              party,
-              relationship,
-              representative,
-            ),
-          ),
-        );
+        .map(({ index, party, relationship, representative }) => ({
+          partyLabel: [
+            `${relationship === "klagende" ? "Kläger" : representative ? "Beklagtem" : "Beklagter"} zu ${index + 1})`,
+            !representative && getKlagePartyCheckboxLabel(party),
+          ]
+            .filter(Boolean)
+            .join(" "),
+          representative: representative
+            ? [
+                getGesetzlicheVertretungArtLabel(representative.art),
+                getFullPlaintiffName(
+                  representative.anrede,
+                  representative.titel,
+                  representative.vorname,
+                  representative.nachname,
+                ),
+              ]
+                .filter(Boolean)
+                .join(", ")
+            : undefined,
+        }));
   }
 };
 
@@ -101,15 +119,18 @@ export const createBegruendung = (
     doc.moveDown(2);
   }
 
-  let previousAntragKey: string | number | undefined;
+  let previousAntragKey: string | undefined;
   for (const { antrag, absatz, beweise } of absaetze) {
-    const antragKey = antrag.antragNumber ?? antrag.key;
+    const antragKey = antrag.key;
     if (antragKey !== previousAntragKey) {
       section.add(
         doc.struct("H3", {}, () => {
           let title = antrag.title;
           if (antrag.antragNumber !== undefined) {
-            title = `zu Antrag ${antrag.antragNumber}`;
+            title = `zu Antrag ${antrag.antragNumber})`;
+            if (antrag.nebenantragLabel) {
+              title += ` – ${antrag.nebenantragLabel}`;
+            }
           } else if (antrag.kind === "prozessantrag") {
             if (antrag.antragId === "bedenkenVideoverhandlung") {
               title =
@@ -157,9 +178,42 @@ export const createBegruendung = (
         section.add(
           doc.struct("P", {}, () => {
             doc.fontSize(10).font(FONTS_BUNDESSANS_BOLD).text(title, evidenceX);
-            doc.font(FONTS_BUNDESSANS_REGULAR);
             for (const person of personen) {
-              doc.text(`\u2022 ${person}`, evidenceX + 8);
+              doc.font(FONTS_BUNDESSANS_REGULAR);
+              if ("partyLabel" in person) {
+                if (person.representative !== undefined) {
+                  doc
+                    .text(
+                      `\u2022 Gesetzliche Vertretung von ${person.partyLabel}`,
+                      evidenceX + 8,
+                    )
+                    .font(FONTS_BUNDESSANS_BOLD)
+                    .text(person.representative, evidenceX + 16);
+                } else {
+                  doc
+                    .text("\u2022 ", evidenceX + 8, undefined, {
+                      continued: true,
+                    })
+                    .font(FONTS_BUNDESSANS_BOLD)
+                    .text(person.partyLabel);
+                }
+              } else if (!person.name) {
+                doc.text(`\u2022 ${person.address}`, evidenceX + 8);
+              } else {
+                doc
+                  .text("\u2022 ", evidenceX + 8, undefined, {
+                    continued: true,
+                  })
+                  .font(FONTS_BUNDESSANS_BOLD);
+                if (person.address) {
+                  doc
+                    .text(person.name, { continued: true })
+                    .font(FONTS_BUNDESSANS_REGULAR)
+                    .text(`, ${person.address}`);
+                } else {
+                  doc.text(person.name);
+                }
+              }
             }
             doc.moveDown(0.5);
           }),

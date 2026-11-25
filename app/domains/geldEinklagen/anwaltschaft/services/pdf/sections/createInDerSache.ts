@@ -38,7 +38,7 @@ const MAIN_TITLE = "Klage";
 const MAIN_SUBTITLE =
   "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
 
-export const createInDerSacheSection = (
+export const createInDerSache = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,

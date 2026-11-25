@@ -27,6 +27,7 @@ export type OrderedAntrag = {
   kind: AntragKind;
   title: string;
   shortTitle?: string;
+  nebenantragLabel?: string;
   isNebenantrag: boolean;
   antragNumber?: number;
 };
@@ -121,6 +122,18 @@ export const getAbsatzSubtitle = (antrag: OrderedAntrag | undefined) => {
   }
 };
 
+const getNebenantragLabel = (
+  nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
+) => {
+  if ("schmerzengeldNebenantragArt" in nebenantrag) {
+    return nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
+  }
+  if (nebenantrag.type === "annahmeverzug") {
+    return strings.annahmeverzug.de;
+  }
+  return nebenantragArtLabels[nebenantrag.nebenantragArt];
+};
+
 export const getNebenantragTitle = (
   nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
   parentAntragNumber: number,
@@ -131,17 +144,7 @@ export const getNebenantragTitle = (
     ? strings.feststellungsantrag.de
     : strings.nebenantrag.de;
 
-  let nebenantragTypeInfo: string;
-  if ("schmerzengeldNebenantragArt" in nebenantrag) {
-    nebenantragTypeInfo =
-      nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
-  } else if (nebenantrag.type === "annahmeverzug") {
-    nebenantragTypeInfo = strings.annahmeverzug.de;
-  } else {
-    nebenantragTypeInfo = nebenantragArtLabels[nebenantrag.nebenantragArt];
-  }
-
-  return `${title} ${strings.zuAntrag.de} ${parentAntragNumber} - ${nebenantragTypeInfo}`;
+  return `${title} ${strings.zuAntrag.de} ${parentAntragNumber} - ${getNebenantragLabel(nebenantrag)}`;
 };
 
 const getProzessantraege = (
@@ -222,6 +225,7 @@ export const getOrderedAntraege = (
           dataPath: nebenDataPath,
           kind: "nebenantrag",
           title: getNebenantragTitle(nebenantrag, antragNumber),
+          nebenantragLabel: getNebenantragLabel(nebenantrag),
           isNebenantrag: true,
           antragNumber,
         });

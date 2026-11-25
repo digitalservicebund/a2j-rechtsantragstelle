@@ -6,7 +6,24 @@ import {
 import { geldEinklagenAnwaltschaftFlowConfig } from "~/domains/geldEinklagen/anwaltschaft/flowConfig";
 import { gesellschaft } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/prozessbevollmaechtigte/__test__/fixtures";
 import { getPrunedUserDataFromSimulation } from "~/services/flow/flowEngine/pruneUserData";
+import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+  PDF_MARGIN_HORIZONTAL,
+} from "~/services/pdf/createPdfKitDocument";
 import { createRechtlicheWuerdigungUndSignatur } from "../createRechtlicheWuerdigungUndSignatur";
+
+const fontForText = (doc: PDFKit.PDFDocument, text: string) => {
+  const textCalls = vi.mocked(doc.text).mock;
+  const fontCalls = vi.mocked(doc.font).mock;
+  const textIndex = textCalls.calls.findIndex(([value]) => value === text);
+  expect(textIndex).toBeGreaterThanOrEqual(0);
+  const textOrder = textCalls.invocationCallOrder[textIndex];
+  const fontIndex = fontCalls.invocationCallOrder.findLastIndex(
+    (order) => order < textOrder,
+  );
+  return fontCalls.calls[fontIndex]?.[0];
+};
 
 describe("createRechtlicheWuerdigungUndSignatur", () => {
   it("should not display rechtliche würdigung and reports a missing signature", () => {
@@ -55,11 +72,16 @@ describe("createRechtlicheWuerdigungUndSignatur", () => {
     expect(getPrintedText(doc)).toContain(
       "Der Anspruch folgt aus dem Vertrag.",
     );
-    expect(
-      getPrintedText(doc).some((text) =>
-        text.includes("Frau Erika Muster\n(Rechtsanwältin)"),
-      ),
-    ).toBe(true);
+    expect(doc.text).toHaveBeenCalledWith(
+      "Frau Erika Muster",
+      PDF_MARGIN_HORIZONTAL,
+    );
+    expect(doc.text).toHaveBeenCalledWith(
+      "(Rechtsanwältin)",
+      PDF_MARGIN_HORIZONTAL,
+    );
+    expect(fontForText(doc, "Frau Erika Muster")).toBe(FONTS_BUNDESSANS_BOLD);
+    expect(fontForText(doc, "(Rechtsanwältin)")).toBe(FONTS_BUNDESSANS_REGULAR);
     expect(getPrintedText(doc)).not.toContain("Fehlende Angaben: Signatur");
   });
 
@@ -92,8 +114,11 @@ describe("createRechtlicheWuerdigungUndSignatur", () => {
 
     createRechtlicheWuerdigungUndSignatur(doc, documentStruct, userData);
 
-    expect(getPrintedText(doc)).toContain("Dr. Erika Muster\n(Rechtsanwältin)");
+    expect(getPrintedText(doc)).toContain("Dr. Erika Muster");
+    expect(getPrintedText(doc)).toContain("(Rechtsanwältin)");
     expect(getPrintedText(doc)).toContain("Max Beispiel");
+    expect(fontForText(doc, "Dr. Erika Muster")).toBe(FONTS_BUNDESSANS_BOLD);
+    expect(fontForText(doc, "Max Beispiel")).toBe(FONTS_BUNDESSANS_BOLD);
     expect(getPrintedText(doc)).not.toContain("Fehlende Angaben: Signatur");
   });
 });
