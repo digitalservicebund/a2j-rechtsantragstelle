@@ -77,6 +77,7 @@ type FlowEnginePageConfig = {
   isRelevantForDone?: (userData: UserData) => boolean;
   controlledFieldConfig?: ControlledFieldConfig;
   shouldCollapseIntoParentNavItem?: boolean;
+  readonlyFields?: ReadOnlyFields;
   arraySummary?: {
     name: string;
     schema: z.ZodArray;
