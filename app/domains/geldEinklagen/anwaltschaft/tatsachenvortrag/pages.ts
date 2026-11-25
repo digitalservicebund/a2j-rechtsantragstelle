@@ -1,3 +1,4 @@
+import { getBeweisRelevance } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import {
   absaetzeArraySchema,
   augenscheinSchema,
@@ -55,6 +56,7 @@ export const tatsachenvortragPages = {
     stepId:
       "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/augenschein-daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: getBeweisRelevance("augenschein"),
     pageSchema: {
       "vortraege#absaetze#beweise#beschreibung":
         augenscheinSchema.shape.beschreibung,
@@ -70,6 +72,7 @@ export const tatsachenvortragPages = {
     stepId:
       "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/urkunde-daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: getBeweisRelevance("urkunde"),
     pageSchema: {
       "vortraege#absaetze#beweise#beschreibung":
         urkundeSchema.shape.beschreibung,
@@ -85,6 +88,7 @@ export const tatsachenvortragPages = {
     stepId:
       "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/sachverstaendigengutachten-daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: getBeweisRelevance("sachverstaendigengutachten"),
     pageSchema: {
       "vortraege#absaetze#beweise#beschreibung":
         sachverstaendigengutachtenSchema.shape.beschreibung,
@@ -100,6 +104,7 @@ export const tatsachenvortragPages = {
     stepId:
       "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/zeuge-daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: getBeweisRelevance("zeuge"),
     pageSchema: {
       "vortraege#absaetze#beweise#anrede": zeugeSchema.shape.anrede,
       "vortraege#absaetze#beweise#titel": zeugeSchema.shape.titel,
@@ -122,6 +127,7 @@ export const tatsachenvortragPages = {
     stepId:
       "/tatsachenvortrag-beweise/vortraege/#/absaetze/#/beweise/#/parteivernehmung-daten",
     shouldCollapseIntoParentNavItem: true,
+    isRelevantForDone: getBeweisRelevance("parteivernehmung"),
     pageSchema: {
       "vortraege#absaetze#beweise#personen":
         parteivernehmungSchema.shape.personen,

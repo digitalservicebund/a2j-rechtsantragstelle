@@ -112,8 +112,7 @@ describe("BezifferteZahlungsUndNebenantraegeUebersicht", () => {
       ],
     });
     const headline =
-      translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantragHeadline
-        .de;
+      translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantrag.de;
     expect(
       screen.getByRole("heading", { name: `${headline} 1` }),
     ).toBeInTheDocument();

@@ -48,12 +48,12 @@ export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "Vorgerichtliche Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Adressermittlungkosten",
   ruecklastschriftgebühren: "Rücklastschriftgebühren",
-  pauschale: "eine Pauschale gemäß § 288 Absatz 5 Satz 1 BGB",
+  pauschale: "Pauschale (§ 288 Absatz 5 Satz 1 BGB)",
 };
 
 export const getNebenantragItemText = ({

@@ -119,8 +119,8 @@ const BezifferteZahlungsUndNebenantraegeUebersicht = () => {
               className="kern-body kern-body--large kern-body--bold p-0! mb-16"
             >
               {
-                translations.geldEinklagenAnwaltschaft
-                  .bezifferterZahlungsantragHeadline.de
+                translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantrag
+                  .de
               }{" "}
               {index + 1}
             </h2>

@@ -9,20 +9,24 @@ import {
   type OrderedAntrag,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/antragOrdering";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
+import { EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 import { translations } from "~/services/translations/translations";
 
 const addVortragActionUrl = "/action/geld-einklagen/anwaltschaft/add-vortrag";
 
 const AntragRow = ({
+  id,
   antrag,
   hasAbsaetze,
   isFirst,
 }: {
+  id: string;
   antrag: OrderedAntrag;
   hasAbsaetze: boolean;
   isFirst: boolean;
 }) => (
   <div
+    id={id}
     className={classNames(
       "flex justify-between items-center gap-kern-space-default py-kern-space-small px-kern-space-default",
       {
@@ -38,7 +42,7 @@ const AntragRow = ({
           "text-kern-feedback-success!": hasAbsaetze,
         })}
       />
-      <span className="kern-body">{antrag.title}</span>
+      <span className="kern-body wrap-anywhere">{antrag.title}</span>
     </div>
     <form method="post" action={addVortragActionUrl}>
       <CsrfInput />
@@ -76,6 +80,7 @@ export const AntraegeUebersicht = () => {
         return (
           <AntragRow
             key={antrag.key}
+            id={`${EDIT_BUTTON_ID_PREFIX}vortraege-${index}`}
             antrag={antrag}
             hasAbsaetze={absaetze.length > 0}
             isFirst={index === 0}
