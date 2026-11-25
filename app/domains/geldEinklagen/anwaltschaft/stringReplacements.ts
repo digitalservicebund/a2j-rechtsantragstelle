@@ -1,4 +1,5 @@
 import {
+  getAbsatzSubtitle,
   getAntragNumber,
   getNumberedAntragTitle,
   getOrderedAntraege,
@@ -101,6 +102,7 @@ export const getAntraegeStrings = (
       isNebenantrag: antrag?.isNebenantrag ?? false,
       ...(secondIndex !== undefined && {
         absatzNumber: `${secondIndex + 1}`,
+        absatzSubtitle: getAbsatzSubtitle(antrag),
       }),
     };
   }
@@ -115,7 +117,13 @@ export const getAntraegeStrings = (
       arrayName === "sonstigeAntraege"
         ? `${translations.geldEinklagenAnwaltschaft.sonstigerAntragOrProzessualeAusfuerung.de} ${getAntragNumber(userData, arrayName, firstIndex)}`
         : "",
-    antragTitle: getNumberedAntragTitle(userData, arrayName, firstIndex),
+    antragTitle: getNumberedAntragTitle(
+      userData,
+      arrayName,
+      firstIndex,
+      undefined,
+      true,
+    ),
   };
 };
 

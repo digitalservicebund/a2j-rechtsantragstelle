@@ -4,11 +4,14 @@ import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { getAbsaetzeBaseUrl } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeHelpers";
 import { getOrderedAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
 import { Absatz } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/Absatz";
-import { AbsaetzeContext } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
+import {
+  AbsaetzeContext,
+  absaetzeFocusKey,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { MAX_ABSAETZE } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
 import { translations } from "~/services/translations/translations";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export const AbsaetzeUebersicht = () => {
   const { userData, flowId } = useFormFlow();
@@ -24,6 +27,22 @@ export const AbsaetzeUebersicht = () => {
     () => ({ absaetzeBaseUrl, absaetzeArrayName: "vortraege#absaetze" }),
     [absaetzeBaseUrl],
   );
+  useEffect(() => {
+    if (!absaetzeBaseUrl) return;
+
+    const key = absaetzeFocusKey(absaetzeBaseUrl);
+    const target = sessionStorage.getItem(key);
+    if (!target) return;
+
+    const timer = setTimeout(() => {
+      sessionStorage.removeItem(key);
+      const [targetId, fallbackId] = target.split("|");
+      (
+        document.getElementById(targetId) ?? document.getElementById(fallbackId)
+      )?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [absaetzeBaseUrl]);
   if (
     flowId !== "/geld-einklagen/anwaltschaft" ||
     vortragArrayIndex === undefined

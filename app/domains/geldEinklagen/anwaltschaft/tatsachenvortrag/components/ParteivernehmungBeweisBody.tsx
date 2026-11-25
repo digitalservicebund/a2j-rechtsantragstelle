@@ -23,7 +23,7 @@ export const ParteivernehmungBeweisBody = ({
     ...getSelectableKlageParties(beklagten, "beklagte", true),
   ].filter(({ id }) => parteivernehmung.personen[id] === "on");
   return (
-    <div className="flex flex-col gap-kern-space-small">
+    <div className="flex flex-col gap-kern-space-large">
       {parties.map(({ index, party, relationship, representative }) =>
         getParteivernehmungBeweisCheckboxLabel(
           index,
