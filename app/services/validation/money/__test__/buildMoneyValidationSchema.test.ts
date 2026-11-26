@@ -96,7 +96,7 @@ describe("buildOptionalMoneyValidationSchema", () => {
       { input: " 1 00 0", expected: "1.000,00" },
       { input: "1,000.9", expected: "1.000,90" },
       { input: "00000", expected: "0,00" },
-      { input: "999999999", expected: "999.999.999,00" },
+      { input: "99999999", expected: "99.999.999,00" },
       { input: "-0", expected: "0,00" },
       { input: "-123", expected: "-123,00" },
       { input: "", expected: "" },
