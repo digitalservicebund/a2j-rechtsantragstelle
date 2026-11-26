@@ -65,7 +65,7 @@ export const createInDerSache = (
       doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(MAIN_SUBTITLE);
     }),
   );
-  doc.moveDown(2);
+  doc.moveDown();
   addKlagende(doc, documentStruct, userData);
   addKlagendeProzessbevollmaechtigte(doc, documentStruct, userData);
   addBeklagende(doc, documentStruct, userData);

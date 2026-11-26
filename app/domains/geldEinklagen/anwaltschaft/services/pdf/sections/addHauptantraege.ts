@@ -40,7 +40,7 @@ export const addHauptantraege = (
   documentStruct.add(
     doc.struct("P", {}, () => {
       doc
-        .fontSize(10)
+        .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("Es werden folgende Anträge gestellt:");
       doc.moveDown(0.5);
@@ -89,7 +89,6 @@ export const addHauptantraege = (
             .fontSize(10)
             .font(FONTS_BUNDESSANS_REGULAR)
             .text("Daneben:", PDF_MARGIN_HORIZONTAL);
-          doc.moveDown(0.5);
         }),
       );
     }

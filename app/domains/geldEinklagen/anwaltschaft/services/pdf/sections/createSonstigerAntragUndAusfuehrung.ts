@@ -72,4 +72,5 @@ export const createSonstigerAntragUndAusfuehrung = (
         ]
       : [],
   );
+  doc.moveDown(1);
 };
