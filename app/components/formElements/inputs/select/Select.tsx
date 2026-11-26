@@ -6,12 +6,14 @@ import { InputLabel } from "../label/InputLabel";
 import { translations } from "~/services/translations/translations";
 import { type DropdownOption } from "~/services/cms/models/formElements/StrapiDropdown";
 import { widthClassname, type Size } from "../inputWidth";
+import { InputHelperText } from "~/components/formElements/inputs/helperText/InputHelperText";
 
 type SelectProps = {
   name: string;
   label?: string;
   options: Array<DropdownOption & { disabled?: boolean }>;
   suffix?: string;
+  helperText?: string;
   errorMessages?: ErrorMessageProps[];
   size?: Size;
   placeholder?: string;
@@ -22,12 +24,14 @@ const Select = ({
   label,
   options,
   suffix,
+  helperText,
   errorMessages,
   size = "large",
   placeholder,
 }: SelectProps) => {
   const field = useField(name);
   const errorId = `${name}-error`;
+  const helperId = `${name}-helper`;
 
   return (
     <div
@@ -35,7 +39,17 @@ const Select = ({
         "kern-form-input--error": field.error(),
       })}
     >
-      {label && <InputLabel name={name} label={label} suffix={suffix} />}
+      {label && (
+        <InputLabel
+          name={name}
+          label={label}
+          suffix={suffix}
+          className="mb-0!"
+        />
+      )}
+      {helperText && (
+        <InputHelperText helperText={helperText} helperId={helperId} />
+      )}
       <div
         data-testid="select-wrapper"
         className={classNames(
@@ -51,7 +65,10 @@ const Select = ({
           {...field.getInputProps({ id: name })}
           aria-invalid={field.error() !== null}
           defaultValue={options.find((option) => option.preSelected)?.value}
-          aria-describedby={field.error() ? errorId : undefined}
+          aria-describedby={[
+            field.error() && errorId,
+            helperText && helperId,
+          ].join(" ")}
           aria-errormessage={field.error() ? errorId : undefined}
           aria-required={
             !!errorMessages?.find((err) => err.code === "required")

@@ -56,6 +56,18 @@ describe("Select", () => {
     expect(screen.getByText("Optional")).toBeInTheDocument();
   });
 
+  it("should render helper text when provided", () => {
+    render(
+      <Select
+        name="select"
+        options={[]}
+        label="My Label"
+        helperText="Help me!"
+      />,
+    );
+    expect(screen.getByText("Help me!")).toBeInTheDocument();
+  });
+
   it("should render placeholder", () => {
     render(<Select name="select" options={[]} />);
     const placeholder = screen.getByText(translations.select.placeholder.de);

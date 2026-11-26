@@ -3,7 +3,7 @@ import {
   emptyUserData,
   getPrintedText,
 } from "./pdfTestHelpers";
-import { createInDerSacheSection } from "../createInDerSacheSection";
+import { createInDerSache } from "../createInDerSache";
 import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { findCourtByName } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { addKlagende } from "../addKlagende";
@@ -27,7 +27,7 @@ describe("createInDerSacheSection", () => {
     vi.mocked(findCourtByName).mockReturnValue({} as never);
     const { doc, documentStruct } = createPdfTestContext();
 
-    createInDerSacheSection(doc, documentStruct, {
+    createInDerSache(doc, documentStruct, {
       ...emptyUserData,
       pilotgericht: "bonn",
     });
@@ -54,7 +54,7 @@ describe("createInDerSacheSection", () => {
   it("should mark the court as missing when no pilot court is selected", () => {
     const { doc, documentStruct } = createPdfTestContext();
 
-    createInDerSacheSection(doc, documentStruct, emptyUserData);
+    createInDerSache(doc, documentStruct, emptyUserData);
 
     expect(addMissingData).toHaveBeenCalledWith(
       doc,
