@@ -26,20 +26,23 @@ const fontForText = (doc: PDFKit.PDFDocument, text: string) => {
 };
 
 describe("createRechtlicheWuerdigungUndSignatur", () => {
-  it("should not display rechtliche würdigung and reports a missing signature", () => {
-    const { doc, documentStruct } = createPdfTestContext();
+  it.each([undefined, "", "  "])(
+    "should display the rechtliche würdigung heading and report a missing signature for empty input %j",
+    (rechtlicheWuerdigung) => {
+      const { doc, documentStruct } = createPdfTestContext();
 
-    createRechtlicheWuerdigungUndSignatur(doc, documentStruct, {
-      ...emptyUserData,
-      rechtlicheWuerdigung: "  ",
-    });
+      createRechtlicheWuerdigungUndSignatur(doc, documentStruct, {
+        ...emptyUserData,
+        rechtlicheWuerdigung,
+      });
 
-    expect(getPrintedText(doc)).not.toContain("II. Rechtliche Würdigung");
-    expect(getPrintedText(doc)).toContain(
-      "Die Klage ist vollumfänglich begründet.",
-    );
-    expect(getPrintedText(doc)).toContain("Fehlende Angaben: Signatur");
-  });
+      expect(getPrintedText(doc)).toContain("II. Rechtliche Würdigung");
+      expect(getPrintedText(doc)).toContain(
+        "Die Klage ist vollumfänglich begründet.",
+      );
+      expect(getPrintedText(doc)).toContain("Fehlende Angaben: Signatur");
+    },
+  );
 
   it("should print a non empty rechtliche würdigung and valid klagende signatory", () => {
     const { doc, documentStruct } = createPdfTestContext();

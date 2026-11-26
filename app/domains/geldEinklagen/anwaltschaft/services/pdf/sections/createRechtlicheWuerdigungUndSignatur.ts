@@ -17,16 +17,18 @@ export const createRechtlicheWuerdigungUndSignatur = (
   documentStruct.add(section);
 
   const rechtlicheWuerdigung = userData.rechtlicheWuerdigung;
-  if (rechtlicheWuerdigung?.trim()) {
-    section.add(
-      doc.struct("H3", {}, () => {
-        doc
-          .fontSize(12)
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text("II. Rechtliche Würdigung", PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(0.5);
-      }),
-    );
+
+  section.add(
+    doc.struct("H3", {}, () => {
+      doc
+        .fontSize(12)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("II. Rechtliche Würdigung", PDF_MARGIN_HORIZONTAL);
+      doc.moveDown();
+    }),
+  );
+
+  if (rechtlicheWuerdigung) {
     section.add(
       doc.struct("P", {}, () => {
         doc

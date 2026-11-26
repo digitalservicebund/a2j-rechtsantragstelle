@@ -13,7 +13,6 @@ import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
   PDF_MARGIN_HORIZONTAL,
-  PDF_SIZE_FORMAT,
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
 
@@ -88,10 +87,6 @@ export const createBegruendung = (
 ) => {
   const absaetze = getOrderedAbsaetze(userData);
 
-  doc.addPage({
-    size: PDF_SIZE_FORMAT,
-    margins: { ...doc.page.margins, bottom: 70 },
-  });
   const section = doc.struct("Sect");
   documentStruct.add(section);
   section.add(
@@ -100,7 +95,7 @@ export const createBegruendung = (
         .fontSize(18)
         .font(FONTS_BUNDESSANS_BOLD)
         .text("Begründung", PDF_MARGIN_HORIZONTAL);
-      doc.moveDown(1);
+      doc.moveDown();
     }),
   );
 
@@ -116,7 +111,7 @@ export const createBegruendung = (
 
   if (!absaetze.some(({ absatz }) => absatz.formulierung.trim())) {
     addMissingData(doc, section, "Sachverhalt");
-    doc.moveDown(2);
+    doc.moveDown();
   }
 
   let previousAntragKey: string | undefined;

@@ -65,7 +65,13 @@ export const addProzessbevollmaechtigte = (
           );
       }
       if (representative.name) {
-        doc.font(FONTS_BUNDESSANS_REGULAR).text(representative.name);
+        doc
+          .font(
+            representative.type === "einzelkanzlei"
+              ? FONTS_BUNDESSANS_REGULAR
+              : FONTS_BUNDESSANS_BOLD,
+          )
+          .text(representative.name);
       }
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
@@ -88,7 +94,9 @@ export const addProzessbevollmaechtigte = (
       if (contactDetails) doc.text(contactDetails);
 
       if (representative.geschaeftszeichen) {
-        doc.text(`Geschäftszeichen: ${representative.geschaeftszeichen}`);
+        doc
+          .font(FONTS_BUNDESSANS_REGULAR)
+          .text(`Geschäftszeichen: ${representative.geschaeftszeichen}`);
       }
       doc.moveDown(2);
     });

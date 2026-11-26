@@ -16,7 +16,7 @@ describe("createBegruendung", () => {
 
     createBegruendung(doc, documentStruct, emptyUserData);
 
-    expect(doc.addPage).toHaveBeenCalled();
+    expect(doc.addPage).not.toHaveBeenCalled();
     expect(getPrintedText(doc)).toContain("Begründung");
     expect(getPrintedText(doc)).toContain("Fehlende Angaben: Sachverhalt");
   });
