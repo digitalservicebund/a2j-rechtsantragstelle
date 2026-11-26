@@ -16,7 +16,7 @@ export const bankkontenArraySchema = z
   .array(
     z.object({
       bankName: stringRequiredSchema,
-      kontostand: buildMoneyValidationSchema({}),
+      kontostand: buildMoneyValidationSchema({ min: Number.MIN_SAFE_INTEGER }),
       iban: schemaOrEmptyString(ibanSchema),
       kontoEigentuemer: eigentuemerInputSchema,
       kontoDescription: stringOptionalSchema,
