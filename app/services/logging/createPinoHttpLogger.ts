@@ -35,6 +35,7 @@ export const createPinoHttpLogger = () => {
         method: req.method,
         url: req.url,
         userAgent: req.headers["user-agent"],
+        protocol: req.headers["x-forwarded-proto"] || req.protocol,
       }),
       res: (res) => ({
         statusCode: res.statusCode,
