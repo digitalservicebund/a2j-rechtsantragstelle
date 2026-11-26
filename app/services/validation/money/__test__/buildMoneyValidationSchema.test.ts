@@ -52,7 +52,7 @@ describe("buildMoneyValidationSchema", () => {
     );
 
     describe("default option values", () => {
-      it("should fail in case the max value is higher than the max default value", () => {
+      it("should fail in case the max value is equal or higher than the max default value", () => {
         const inputValue = "100000001";
 
         const actual = buildMoneyValidationSchema().safeParse(inputValue);
@@ -60,7 +60,7 @@ describe("buildMoneyValidationSchema", () => {
         expect(actual.error!.issues[0].message).toBe("too_much");
       });
 
-      it("should fail in case the max value is higher than the max default value and the optional default value is empty object", () => {
+      it("should fail in case the max value is equal or higher than the max default value and the optional default value is empty object", () => {
         const inputValue = "100000001";
 
         const actual = buildMoneyValidationSchema({}).safeParse(inputValue);
@@ -135,7 +135,7 @@ describe("buildOptionalMoneyValidationSchema", () => {
     );
 
     describe("default option values", () => {
-      it("should fail in case the max value is higher than the max default value", () => {
+      it("should fail in case the max value is equal or higher than the max default value", () => {
         const inputValue = "100000001";
 
         const actual =
@@ -144,7 +144,7 @@ describe("buildOptionalMoneyValidationSchema", () => {
         expect(actual.error!.issues[0].message).toBe("too_much");
       });
 
-      it("should fail in case the max value is higher than the max default value and the optional default value is empty object", () => {
+      it("should fail in case the max value is equal or higher than the max default value and the optional default value is empty object", () => {
         const inputValue = "100000001";
 
         const actual = buildOptionalMoneyValidationSchema({}).safeParse(

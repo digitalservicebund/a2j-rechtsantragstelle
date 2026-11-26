@@ -14,7 +14,7 @@ type BuildMoneyValidationSchemaOptions = {
 const DEFAULT_MONEY_VALIDATION_OPTIONS: Required<BuildMoneyValidationSchemaOptions> =
   {
     min: 0,
-    max: 10000000000,
+    max: 10000000001,
   };
 
 export const buildMoneyValidationSchema = (
