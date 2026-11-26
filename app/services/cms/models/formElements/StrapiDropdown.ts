@@ -21,6 +21,7 @@ export const StrapiDropdownComponentSchema = z
     options: z.array(StrapiOptionSchema),
     placeholder: StrapiStringOptionalSchema,
     suffix: StrapiStringOptionalSchema,
+    helperText: StrapiStringOptionalSchema,
     errors: StrapiErrorRelationSchema,
     size: StrapiSize,
     ...HasStrapiIdSchema.shape,
