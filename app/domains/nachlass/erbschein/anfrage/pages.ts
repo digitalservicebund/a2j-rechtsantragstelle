@@ -4,7 +4,7 @@ import { ehepartnerPages } from "~/domains/nachlass/erbschein/anfrage/ehepartner
 import { nachlassPages } from "~/domains/nachlass/erbschein/anfrage/nachlass/pages";
 import { testamentOderErbvertragPages } from "~/domains/nachlass/erbschein/anfrage/testament-oder-erbvertrag/pages";
 import { verstorbenePersonPages } from "~/domains/nachlass/erbschein/anfrage/verstorbene-person/pages";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { schemaOrEmptyString } from "~/services/validation/schemaOrEmptyString";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 
@@ -30,6 +30,6 @@ export const erbscheinAnfragePages = {
   ende: {
     stepId: "/abgabe/ende",
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;
 
 export type ErbscheinAnfragePages = typeof erbscheinAnfragePages;

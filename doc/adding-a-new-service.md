@@ -30,7 +30,7 @@ The pages record is the single source of truth for URLs, validation and the user
 
 ```ts
 import z from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/services/flow/flowEngine/types";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
 export const myFlowPages = {
@@ -61,12 +61,13 @@ export const myFlowPages = {
 
 Optional page properties:
 
-| Property                          | Purpose                                                                                      |
-| --------------------------------- | -------------------------------------------------------------------------------------------- |
-| `arraySummary`                    | Marks the page as an array overview. See [array-user-data.md](./array-user-data.md)          |
-| `shouldCollapseIntoParentNavItem` | Keep this page out of the side navigation (typical for array item pages)                     |
-| `isRelevantForDone`               | `(userData) => boolean`. When `false`, the page counts as done without validating its fields |
-| `controlledFieldConfig`           | Config for fields whose value is controlled by another field                                 |
+| Property                          | Purpose                                                                                                                                                                                       |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `arraySummary`                    | Marks the page as an array overview. See [array-user-data.md](./array-user-data.md)                                                                                                           |
+| `shouldCollapseIntoParentNavItem` | Keep this page out of the side navigation (typical for array item pages)                                                                                                                      |
+| `isRelevantForDone`               | `(userData) => boolean`. When `false`, the page counts as done without validating its fields                                                                                                  |
+| `controlledFieldConfig`           | Config for fields whose value is controlled by another field                                                                                                                                  |
+| `readonlyFields`                  | Marks specific fields as readonly based on conditions: `fieldNames` (array of field names) and `shouldMakeReadOnly` (function evaluating user data to determine if fields should be readonly) |
 
 For a large flow, split pages by section (`<section>/pages.ts`) and spread them into one `pages.ts`, as PKH does.
 
@@ -90,7 +91,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { myFlowPages } from "./pages";
 
@@ -117,7 +118,7 @@ export const myFlowConfig = compileFlow({
     ],
     zusammenfassung: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;
 ```
 
 Rules:

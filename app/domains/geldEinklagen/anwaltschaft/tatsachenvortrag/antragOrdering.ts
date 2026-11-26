@@ -26,7 +26,10 @@ export type OrderedAntrag = {
   dataPath: string | undefined;
   kind: AntragKind;
   title: string;
+  shortTitle?: string;
+  nebenantragLabel?: string;
   isNebenantrag: boolean;
+  antragNumber?: number;
 };
 
 export type AntraegeUserData = Pick<
@@ -68,6 +71,11 @@ export const getNumberedAntragTitle = (
   arrayName: (typeof numberedAntragArrays)[number],
   index: number,
   withSchlagwort?: boolean,
+  /**
+   * If true, returns the full version of the title
+   * example: "Bezifferter Zahlungsantrag 1" instead of "Zahlungsantrag 1"
+   */
+  fullFormat?: boolean,
 ) => {
   const antragNumber = getAntragNumber(userData, arrayName, index);
   if (arrayName === "sonstigeAntraege") {
@@ -78,16 +86,52 @@ export const getNumberedAntragTitle = (
         )
       : `${strings.sonstigerAntrag.de} ${antragNumber}`;
   }
+  const zahlungsantragHeadline = fullFormat
+    ? translations.geldEinklagenAnwaltschaft.bezifferterZahlungsantrag.de
+    : translations.geldEinklagenAnwaltschaft.zahlungsantrag.de;
+  const schmerzensgeldHeadline = fullFormat
+    ? translations.geldEinklagenAnwaltschaft.unbezifferterSchmerzensgeldantrag
+        .de
+    : translations.geldEinklagenAnwaltschaft.schmerzensgeldantrag.de;
   const headline =
     arrayName === "hauptantrag"
-      ? strings.bezifferterZahlungsantragHeadline.de
-      : strings.unbezifferterZahlungsantragHeadline.de;
+      ? zahlungsantragHeadline
+      : schmerzensgeldHeadline;
+
   return withSchlagwort
     ? getTitleWithSchlagwort(
         `${headline} ${antragNumber}`,
         userData[arrayName]?.[index]?.internesSchlagwortForderung,
       )
     : `${headline} ${antragNumber}`;
+};
+
+export const getAbsatzSubtitle = (antrag: OrderedAntrag | undefined) => {
+  if (!antrag) return "";
+  switch (antrag.kind) {
+    case "zahlungsantrag":
+      return `(zum ${antrag.title.replace("Bezifferter", "bezifferten")})`;
+    case "schmerzensgeldantrag":
+      return `(zum ${antrag.title.replace("Unbezifferter", "unbezifferten")})`;
+    case "nebenantrag":
+      return `(zum ${antrag.title})`;
+    case "prozessantrag":
+      return `(${antrag.title.includes("Ausführung") ? "zur" : "zum"} ${antrag.title.replace("Prozessuale", "prozessualen")})`;
+    case "sonstigerAntrag":
+      return `(zum ${antrag.title.replace("Sonstiger", "sonstigen")})`;
+  }
+};
+
+const getNebenantragLabel = (
+  nebenantrag: Nebenantrag | SchmerzengeldNebenantrag,
+) => {
+  if ("schmerzengeldNebenantragArt" in nebenantrag) {
+    return nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
+  }
+  if (nebenantrag.type === "annahmeverzug") {
+    return strings.annahmeverzug.de;
+  }
+  return nebenantragArtLabels[nebenantrag.nebenantragArt];
 };
 
 export const getNebenantragTitle = (
@@ -100,17 +144,7 @@ export const getNebenantragTitle = (
     ? strings.feststellungsantrag.de
     : strings.nebenantrag.de;
 
-  let nebenantragTypeInfo: string;
-  if ("schmerzengeldNebenantragArt" in nebenantrag) {
-    nebenantragTypeInfo =
-      nebenantragArtLabels[nebenantrag.schmerzengeldNebenantragArt];
-  } else if (nebenantrag.type === "annahmeverzug") {
-    nebenantragTypeInfo = strings.annahmeverzug.de;
-  } else {
-    nebenantragTypeInfo = nebenantragArtLabels[nebenantrag.nebenantragArt];
-  }
-
-  return `${title} ${strings.zuAntrag.de} ${parentAntragNumber} - ${nebenantragTypeInfo}`;
+  return `${title} ${strings.zuAntrag.de} ${parentAntragNumber} - ${getNebenantragLabel(nebenantrag)}`;
 };
 
 const getProzessantraege = (
@@ -170,8 +204,16 @@ export const getOrderedAntraege = (
           arrayName,
           index,
           withSchlagwort,
+          true,
+        ),
+        shortTitle: getNumberedAntragTitle(
+          userData,
+          arrayName,
+          index,
+          withSchlagwort,
         ),
         isNebenantrag: false,
+        antragNumber,
       });
       for (const [nebenIndex, nebenantrag] of (
         antrag.nebenantraege ?? []
@@ -183,7 +225,9 @@ export const getOrderedAntraege = (
           dataPath: nebenDataPath,
           kind: "nebenantrag",
           title: getNebenantragTitle(nebenantrag, antragNumber),
+          nebenantragLabel: getNebenantragLabel(nebenantrag),
           isNebenantrag: true,
+          antragNumber,
         });
       }
     }
@@ -194,18 +238,21 @@ export const getOrderedAntraege = (
 
   for (const [index, antrag] of (userData.sonstigeAntraege ?? []).entries()) {
     const dataPath = `sonstigeAntraege.${index}`;
+    const title = getNumberedAntragTitle(
+      userData,
+      "sonstigeAntraege",
+      index,
+      withSchlagwort,
+    );
     result.push({
       key: dataPath,
       antragId: antrag.id || undefined,
       dataPath,
       kind: "sonstigerAntrag",
-      title: getNumberedAntragTitle(
-        userData,
-        "sonstigeAntraege",
-        index,
-        withSchlagwort,
-      ),
+      title,
+      shortTitle: title,
       isNebenantrag: false,
+      antragNumber: getAntragNumber(userData, "sonstigeAntraege", index),
     });
   }
 
@@ -216,6 +263,7 @@ export const getOrderedAntraege = (
       dataPath: undefined,
       kind: "prozessantrag",
       title,
+      shortTitle: title,
       isNebenantrag: false,
     });
   }

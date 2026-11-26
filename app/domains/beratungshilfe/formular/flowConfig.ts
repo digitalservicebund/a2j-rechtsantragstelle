@@ -2,7 +2,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { beratungshilfeAntragPages } from "./pages";
 import { grundvoraussetzungFlowConfig } from "./grundvoraussetzung/flowConfig";
 import { anwaltlicheVertretungFlowConfig } from "./anwaltlicheVertretung/flowConfig";
@@ -41,4 +41,4 @@ export const beratungshilfeFormularFlowConfig = compileFlow({
     ...abgabeFlowConfig,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

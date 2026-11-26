@@ -1,6 +1,6 @@
 import z from "zod";
 import { compileFlow, type CompiledFlow } from "../../flowEngine/compileFlow";
-import { type PageConfigMap } from "../../flowEngine/types";
+import { type PagesConfig } from "../../flowEngine/types";
 import { generateUserDataToSave } from "../generateUserDataToSave";
 
 const flowId = "/beratungshilfe/antrag";
@@ -20,7 +20,7 @@ const compiledFlow = compileFlow({
   pages,
   initialStep: "start",
   transitions,
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;
 
 describe("generateUserDataToSave", () => {
   it("should merge sessionUserData, formUserData and add subflowDoneStates to pageData", () => {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
 import { germanHouseNumberSchema } from "~/services/validation/germanHouseNumber";
 import { postcodeSchema } from "~/services/validation/postcode";

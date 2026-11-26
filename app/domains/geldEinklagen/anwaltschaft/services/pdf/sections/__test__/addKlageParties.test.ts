@@ -1,4 +1,8 @@
 import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+} from "~/services/pdf/createPdfKitDocument";
+import {
   createPdfTestContext,
   emptyUserData,
   getPrintedText,
@@ -48,5 +52,148 @@ describe("addKlageParties", () => {
 
     expect(getPrintedText(doc)).toContain("gegen");
     expect(getPrintedText(doc)).toContain("Fehlende Angaben: Beklagter");
+  });
+
+  it("aligns a natural person's representative and address, including wrapped lines", () => {
+    const { doc, documentStruct } = createPdfTestContext();
+    const address = {
+      strasse: "Musterstraße",
+      hausnummer: "1",
+      plz: "12345",
+      ort: "Musterstadt",
+      land: "Deutschland",
+    };
+
+    addKlageParties(
+      doc,
+      documentStruct,
+      {
+        klagenden: [
+          {
+            type: "natuerliche-person",
+            anrede: "frau",
+            vorname: "Erika",
+            nachname: "Musterfrau",
+            ...address,
+            "gesetzliche-vertretung": [
+              {
+                art: "elternteil",
+                anrede: "herr",
+                vorname: "Max",
+                nachname: "Muster",
+                ...address,
+              },
+            ],
+          },
+        ],
+      },
+      "klagende",
+    );
+
+    const indent = { indent: 8, indentAllLines: true };
+    expect(doc.text).toHaveBeenCalledWith(
+      "gesetzlich vertreten durch:",
+      indent,
+    );
+    expect(doc.text).toHaveBeenCalledWith("Elternteil, ", {
+      ...indent,
+      continued: true,
+    });
+    expect(doc.text).toHaveBeenCalledWith(
+      "Musterstraße 1, 12345 Musterstadt, Deutschland",
+      indent,
+    );
+  });
+
+  it("keeps all organization representative lines aligned when they wrap", () => {
+    const { doc, documentStruct } = createPdfTestContext();
+    const printed: Array<{ text: string; font: unknown }> = [];
+    vi.mocked(doc.text).mockImplementation((text) => {
+      printed.push({ text, font: vi.mocked(doc.font).mock.lastCall?.[0] });
+      return doc;
+    });
+    const address = {
+      strasse: "Musterstraße",
+      hausnummer: "1",
+      plz: "12345",
+      ort: "Musterstadt",
+      land: "Deutschland",
+    };
+
+    addKlageParties(
+      doc,
+      documentStruct,
+      {
+        klagenden: [
+          {
+            type: "organisation",
+            orgName: "Muster GmbH",
+            orgVertretungArt: "geschaeftsfuehrer-geschaeftsfuehrerin",
+            orgVertretungAnrede: "herr",
+            orgVertretungVorname: "Max",
+            orgVertretungNachname: "Muster",
+            ...address,
+            "gesetzliche-vertretung": [
+              {
+                art: "partner-partnerin",
+                anrede: "frau",
+                vorname: "Erika",
+                nachname: "Musterfrau",
+                ...address,
+              },
+              {
+                art: "partner-partnerin",
+                anrede: "herr",
+                vorname: "Peter",
+                nachname: "Muster",
+                ...address,
+              },
+            ],
+          },
+        ],
+      },
+      "klagende",
+    );
+
+    const indent = { indent: 8, indentAllLines: true };
+    expect(doc.text).toHaveBeenCalledWith(
+      "gesetzlich vertreten durch:",
+      indent,
+    );
+    expect(doc.text).toHaveBeenCalledWith(
+      "Geschäftsführer / Geschäftsführerin, ",
+      { ...indent, continued: true },
+    );
+    expect(doc.text).toHaveBeenCalledWith("Herr Max Muster");
+    expect(doc.text).toHaveBeenCalledWith("Partner / Partnerin, ", {
+      ...indent,
+      continued: true,
+    });
+    expect(printed).toContainEqual({
+      text: "Geschäftsführer / Geschäftsführerin, ",
+      font: FONTS_BUNDESSANS_BOLD,
+    });
+    expect(printed).toContainEqual({
+      text: "Herr Max Muster",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
+    expect(
+      printed.filter(({ text }) => text === "Partner / Partnerin, "),
+    ).toEqual([
+      { text: "Partner / Partnerin, ", font: FONTS_BUNDESSANS_BOLD },
+      { text: "Partner / Partnerin, ", font: FONTS_BUNDESSANS_BOLD },
+    ]);
+    expect(printed).toContainEqual({
+      text: "Frau Erika Musterfrau",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
+    expect(printed).toContainEqual({
+      text: "Herr Peter Muster",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
+    expect(doc.text).toHaveBeenCalledWith(
+      "Musterstraße 1, 12345 Musterstadt, Deutschland",
+      indent,
+    );
   });
 });

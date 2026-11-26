@@ -8,7 +8,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
 
-export const createFifthPage = (
+export const createRechtlicheWuerdigungUndSignatur = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,
@@ -17,16 +17,18 @@ export const createFifthPage = (
   documentStruct.add(section);
 
   const rechtlicheWuerdigung = userData.rechtlicheWuerdigung;
-  if (rechtlicheWuerdigung?.trim()) {
-    section.add(
-      doc.struct("H3", {}, () => {
-        doc
-          .fontSize(12)
-          .font(FONTS_BUNDESSANS_BOLD)
-          .text("II. Rechtliche Würdigung", PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(0.5);
-      }),
-    );
+
+  section.add(
+    doc.struct("H3", {}, () => {
+      doc
+        .fontSize(12)
+        .font(FONTS_BUNDESSANS_BOLD)
+        .text("II. Rechtliche Würdigung", PDF_MARGIN_HORIZONTAL);
+      doc.moveDown();
+    }),
+  );
+
+  if (rechtlicheWuerdigung) {
     section.add(
       doc.struct("P", {}, () => {
         doc
@@ -73,13 +75,14 @@ export const createFifthPage = (
             person.vorname,
             person.nachname,
           );
-          const signature = person.berufsbezeichnung
-            ? `${name}\n(${person.berufsbezeichnung})`
-            : name;
           doc
             .fontSize(10)
-            .font(FONTS_BUNDESSANS_REGULAR)
-            .text(signature, PDF_MARGIN_HORIZONTAL);
+            .font(FONTS_BUNDESSANS_BOLD)
+            .text(name, PDF_MARGIN_HORIZONTAL)
+            .font(FONTS_BUNDESSANS_REGULAR);
+          if (person.berufsbezeichnung) {
+            doc.text(`(${person.berufsbezeichnung})`, PDF_MARGIN_HORIZONTAL);
+          }
           doc.moveDown();
         }),
       );

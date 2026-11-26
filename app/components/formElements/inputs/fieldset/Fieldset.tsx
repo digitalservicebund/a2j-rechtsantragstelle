@@ -60,7 +60,7 @@ export const Fieldset = ({
       className="kern-fieldset"
       aria-describedby={hasHelperText ? helperTextId : undefined}
     >
-      <legend className="flex gap-kern-space-small items-center m-0! p-0!">
+      <legend className="flex gap-x-kern-space-small gap-y-0 items-center m-0! p-0! pt-6! pb-10! flex-wrap content-start!">
         {image && (
           <Image
             {...image}
@@ -72,10 +72,10 @@ export const Fieldset = ({
         )}
         <RichText
           html={heading}
-          className="text-kern-adaptive-medium! kern-label text-nowrap"
+          className="text-kern-adaptive-medium! kern-label text-nowrap p-0! [&_p]:mb-0!"
         />
         {suffix && (
-          <span className="text-kern-adaptive-medium! kern-label mb-8! kern-label__optional">
+          <span className="text-kern-adaptive-medium! kern-label p-0! kern-label__optional whitespace-normal!">
             {suffix}
           </span>
         )}

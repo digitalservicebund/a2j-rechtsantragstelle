@@ -8,11 +8,13 @@ import {
   organizationSchema,
   vertretungFields,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import type { PageData } from "~/services/flow/pageData";
 import { hiddenInputSchema } from "~/services/validation/hiddenInput";
 import { schemaOrEmptyStringOptional } from "~/services/validation/schemaOrEmptyString";
 import { beklagteProzessbevollmaechtigtePages } from "./prozessbevollmaechtigte/pages";
+import { stringOptionalSchema } from "~/services/validation/stringOptional";
+import { autoSuggestSchema } from "~/services/validation/autoSuggest";
 
 type BeklagtePartyDoneContext = {
   beklagten?: KlageParteien;
@@ -122,13 +124,13 @@ export const beklagteParteiPages = {
       "beklagten#gesetzliche-vertretung#titel": vertretungFields.titel,
       "beklagten#gesetzliche-vertretung#vorname": vertretungFields.vorname,
       "beklagten#gesetzliche-vertretung#nachname": vertretungFields.nachname,
-      "beklagten#gesetzliche-vertretung#strasse": vertretungFields.strasse,
-      "beklagten#gesetzliche-vertretung#hausnummer":
-        vertretungFields.hausnummer,
-      "beklagten#gesetzliche-vertretung#plz": vertretungFields.plz,
-      "beklagten#gesetzliche-vertretung#ort": vertretungFields.ort,
-      "beklagten#gesetzliche-vertretung#land": vertretungFields.land,
+      "beklagten#gesetzliche-vertretung#strasse": stringOptionalSchema,
+      "beklagten#gesetzliche-vertretung#hausnummer": stringOptionalSchema,
+      "beklagten#gesetzliche-vertretung#plz": stringOptionalSchema,
+      "beklagten#gesetzliche-vertretung#ort": stringOptionalSchema,
+      "beklagten#gesetzliche-vertretung#land":
+        autoSuggestSchema(stringOptionalSchema)("countries"),
     },
   },
   ...beklagteProzessbevollmaechtigtePages,
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;

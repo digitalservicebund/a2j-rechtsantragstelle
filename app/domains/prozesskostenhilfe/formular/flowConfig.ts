@@ -11,7 +11,7 @@ import { antragstellendePersonFlowConfig } from "./antragstellendePerson/flowCon
 import { gesetzlicheVertretungFlowConfig } from "./gesetzlicheVertretung/flowConfig";
 import { finanzielleAngabenFlowConfig } from "./finanzielleAngaben/flowConfig";
 import { abgabeFlowConfig } from "./abgabe/flowConfig";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 export const prozesskostenhilfeFormularFlowConfig = compileFlow({
   pages: prozesskostenhilfeFormularPages,
@@ -53,4 +53,4 @@ export const prozesskostenhilfeFormularFlowConfig = compileFlow({
     ...abgabeFlowConfig,
   },
   pruningStrategy: "cascading",
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

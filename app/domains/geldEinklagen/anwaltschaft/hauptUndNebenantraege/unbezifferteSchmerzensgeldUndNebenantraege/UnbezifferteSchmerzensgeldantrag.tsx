@@ -59,7 +59,7 @@ export const UnbezifferteSchmerzensgeldantrag = ({
               {...getAntragDeletionDialogProps({
                 antrag: item,
                 userData,
-                itemLabel: `${translations.geldEinklagenAnwaltschaft.schmerzengeldantragHeadline.de} ${antragNumber}${item.internesSchlagwortForderung ? ` (${item.internesSchlagwortForderung})` : ""}${item.mindestBetrag ? `, ${item.mindestBetrag} ${translations.currency.euro.de}` : ""}`,
+                itemLabel: `${translations.geldEinklagenAnwaltschaft.schmerzensgeldantrag.de} ${antragNumber}${item.internesSchlagwortForderung ? ` (${item.internesSchlagwortForderung})` : ""}${item.mindestBetrag ? `, ${item.mindestBetrag} ${translations.currency.euro.de}` : ""}`,
                 description:
                   translations.geldEinklagenAnwaltschaft
                     .schmerzensgeldantragItemsToDelete.de,

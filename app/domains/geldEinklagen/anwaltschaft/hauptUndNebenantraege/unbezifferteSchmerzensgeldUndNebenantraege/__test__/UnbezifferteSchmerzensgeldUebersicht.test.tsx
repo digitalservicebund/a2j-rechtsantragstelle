@@ -112,7 +112,7 @@ describe("UnbezifferteSchmerzensgeldUebersicht", () => {
       ],
     });
     const headline =
-      translations.geldEinklagenAnwaltschaft.schmerzengeldantragHeadline.de;
+      translations.geldEinklagenAnwaltschaft.schmerzensgeldantrag.de;
     expect(
       screen.getByRole("heading", { name: `${headline} 1` }),
     ).toBeInTheDocument();

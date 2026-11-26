@@ -6,6 +6,10 @@ import { FONTS_BUNDESSANS_BOLD } from "~/services/pdf/createPdfKitDocument";
 import { createLocalCourtAndDate } from "~/domains/shared/services/pdf/createLocalCourtAndDate";
 import { findCourtByName } from "~/services/gerichtsfinder/amtsgerichtData.server";
 import { addMissingData } from "./addMissingData";
+import { addBeklagende } from "./addBeklagende";
+import { addBeklagendeProzessbevollmaechtigte } from "./addBeklagendeProzessbevollmaechtigte";
+import { addHauptantraege } from "./addHauptantraege";
+import { addInhalteDerKlage } from "./addInhalteDerKlage";
 
 const pilotCourtNames = {
   bitburg: "Amtsgericht Bitburg",
@@ -34,7 +38,7 @@ const MAIN_TITLE = "Klage";
 const MAIN_SUBTITLE =
   "im Online-Verfahren nach Buch 12 Abschnitt 2 der Zivilprozessordnung";
 
-export const createFirstPage = (
+export const createInDerSache = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,
@@ -46,10 +50,11 @@ export const createFirstPage = (
   const amtsgericht = courtName ? findCourtByName(courtName) : undefined;
 
   createLocalCourtAndDate(doc, documentStruct, amtsgericht);
+  doc.moveDown(2);
+
   if (!amtsgericht) {
     addMissingData(doc, documentStruct, "Amtsgericht");
   }
-  doc.moveDown(4);
 
   documentStruct.add(
     doc.struct("H1", {}, () => {
@@ -58,12 +63,13 @@ export const createFirstPage = (
         .font(FONTS_BUNDESSANS_BOLD)
         .text(MAIN_TITLE, { align: "left" });
       doc.fontSize(14).font(FONTS_BUNDESSANS_BOLD).text(MAIN_SUBTITLE);
-      doc.moveDown(4);
     }),
   );
-
+  doc.moveDown();
   addKlagende(doc, documentStruct, userData);
-  doc.moveDown(2);
   addKlagendeProzessbevollmaechtigte(doc, documentStruct, userData);
-  doc.moveDown(2);
+  addBeklagende(doc, documentStruct, userData);
+  addBeklagendeProzessbevollmaechtigte(doc, documentStruct, userData);
+  addInhalteDerKlage(doc, documentStruct, userData);
+  addHauptantraege(doc, documentStruct, userData);
 };

@@ -7,7 +7,7 @@ import { logError } from "~/services/logging";
 import { isFeatureFlagEnabled } from "~/services/isFeatureFlagEnabled.server";
 import type {
   InferredUserData,
-  PageConfigMap,
+  PagesConfig,
 } from "~/services/flow/flowEngine/types";
 
 const FAKE_XML = '<?xml version="1.0"?><nachricht />';
@@ -23,7 +23,7 @@ vi.mock("~/services/isFeatureFlagEnabled.server", () => ({
 }));
 
 vi.spyOn(pruneUserData, "getPrunedUserDataFromSimulation").mockReturnValue(
-  userData as unknown as InferredUserData<PageConfigMap>,
+  userData as unknown as InferredUserData<PagesConfig>,
 );
 
 const xjustizFunctionSpy = vi.spyOn(

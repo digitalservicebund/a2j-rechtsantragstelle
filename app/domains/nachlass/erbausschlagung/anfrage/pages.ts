@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { relationshipToDeceasedSchema } from "~/domains/nachlass/shared/schemas";
 import { autoSuggestStreetNames } from "~/services/validation/autoSuggest";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { createDateInputSchema } from "~/services/validation/dateObject";
 import { emailSchema } from "~/services/validation/email";
@@ -353,6 +353,6 @@ export const erbausschlagungAnfragePages = {
   abgabeEnde: {
     stepId: "/abgabe/ende",
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;
 
 export type ErbausschlagungAnfragePages = typeof erbausschlagungAnfragePages;

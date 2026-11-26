@@ -10,10 +10,26 @@ import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlain
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
+  PDF_HEIGHT_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
 
 type KlagePartei = KlageParteien[number];
+
+const representativeIndent = { indent: 8, indentAllLines: true };
+
+const LINE_HEIGHT = 12;
+const MAX_BODY_Y = PDF_HEIGHT_SEIZE - 10;
+
+const getPartyHeight = (party: KlagePartei) => {
+  const additionalRepresentatives =
+    party["gesetzliche-vertretung"]?.length ?? 0;
+  const baseLines =
+    party.type === "natuerliche-person"
+      ? 3 + (additionalRepresentatives > 0 ? 1 : 0)
+      : 5;
+  return (baseLines + additionalRepresentatives * 2) * LINE_HEIGHT;
+};
 
 const formatAddress = (
   address: Pick<KlagePartei, "strasse" | "hausnummer" | "plz" | "ort" | "land">,
@@ -56,22 +72,21 @@ const addNaturalPerson = (
   const representatives = party["gesetzliche-vertretung"] ?? [];
 
   if (representatives.length > 0) {
-    doc.text("gesetzlich vertreten durch:", { indent: 8 });
+    doc.text("gesetzlich vertreten durch:", representativeIndent);
     for (const representative of representatives) {
       doc
         .font(FONTS_BUNDESSANS_BOLD)
         .text(`${getGesetzlicheVertretungArtLabel(representative.art)}, `, {
-          indent: 8,
+          ...representativeIndent,
           continued: true,
         });
       doc
         .font(FONTS_BUNDESSANS_REGULAR)
         .text(formatRepresentativeName(representative));
-      doc.text(formatAddress(representative), { indent: 6 });
+      doc.text(formatAddress(representative), representativeIndent);
     }
   }
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
-  doc.moveDown(2);
 };
 
 const addOrganization = (
@@ -85,7 +100,13 @@ const addOrganization = (
     .text(party.orgName)
     .font(FONTS_BUNDESSANS_REGULAR)
     .text(formatAddress(party))
-    .text("gesetzlich vertreten durch:")
+    .text("gesetzlich vertreten durch:", representativeIndent)
+    .font(FONTS_BUNDESSANS_BOLD)
+    .text(`${getGesetzlicheVertretungArtLabel(party.orgVertretungArt)}, `, {
+      ...representativeIndent,
+      continued: true,
+    })
+    .font(FONTS_BUNDESSANS_REGULAR)
     .text(
       `${getFullPlaintiffName(
         party.orgVertretungAnrede,
@@ -97,15 +118,16 @@ const addOrganization = (
 
   for (const representative of party["gesetzliche-vertretung"] ?? []) {
     doc
-      .text(
-        `${getGesetzlicheVertretungArtLabel(representative.art)}, ${formatRepresentativeName(representative)}`,
-        { indent: 8 },
-      )
-      .text(formatAddress(representative), { indent: 8 });
+      .font(FONTS_BUNDESSANS_BOLD)
+      .text(`${getGesetzlicheVertretungArtLabel(representative.art)}, `, {
+        ...representativeIndent,
+        continued: true,
+      })
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text(formatRepresentativeName(representative))
+      .text(formatAddress(representative), representativeIndent);
   }
-
   doc.text(`– ${label} zu ${number} –`, { align: "right" });
-  doc.moveDown(2);
 };
 
 export const addKlageParties = (
@@ -120,7 +142,7 @@ export const addKlageParties = (
         .fontSize(12)
         .font(FONTS_BUNDESSANS_BOLD)
         .text(relationship === "klagende" ? "in der Sache" : "gegen");
-      doc.moveDown(2);
+      doc.moveDown(1);
     }),
   );
 
@@ -130,6 +152,7 @@ export const addKlageParties = (
     addMissingData(doc, claimantSection, label);
   }
   parties.forEach(({ partei, displayIndex }) => {
+    if (doc.y + getPartyHeight(partei) > MAX_BODY_Y) doc.addPage();
     const partyParagraph = doc.struct("P", {}, () => {
       doc.fontSize(10);
       if (partei.type === "natuerliche-person") {
@@ -137,7 +160,6 @@ export const addKlageParties = (
       } else {
         addOrganization(doc, partei, displayIndex + 1, label);
       }
-      doc.moveDown(2);
     });
     claimantSection.add(partyParagraph);
   });

@@ -2,7 +2,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { kontopfaendungPkontoAntragPages } from "./pages";
 
@@ -51,4 +51,4 @@ export const kontopfaendungPkontoAntragFlowConfig = compileFlow({
     zusammenfassung: "ergebnis",
     ergebnis: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;
