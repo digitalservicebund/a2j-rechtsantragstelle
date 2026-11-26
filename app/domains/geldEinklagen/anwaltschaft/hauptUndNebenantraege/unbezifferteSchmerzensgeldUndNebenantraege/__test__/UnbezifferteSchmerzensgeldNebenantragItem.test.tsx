@@ -136,6 +136,50 @@ describe("UnbezifferteSchmerzensgeldNebenantragItem", () => {
     expect(deleteItem).toHaveBeenCalledExactlyOnceWith(1);
   });
 
+  it("should focus the newly added nebenantrag on returning to the overview", () => {
+    vi.useFakeTimers();
+    const { unmount } = render(
+      <UnbezifferteSchmerzensgeldNebenantragItem
+        userData={{
+          schmerzengeldantrag: [
+            antrag,
+            { ...antrag, nebenantraege: [nebenantrag] },
+          ],
+        }}
+        parentArrayItemIndex={1}
+      />,
+    );
+    act(() => vi.advanceTimersByTime(0));
+    const addLink = screen.getByRole("link", {
+      name: translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
+    });
+    addLink.addEventListener("click", (event) => event.preventDefault());
+    fireEvent.click(addLink);
+    expect(sessionStorage.getItem("focus-schmerzensgeld-nebenantrag-1")).toBe(
+      "1",
+    );
+    unmount();
+
+    render(
+      <UnbezifferteSchmerzensgeldNebenantragItem
+        userData={{
+          schmerzengeldantrag: [
+            antrag,
+            { ...antrag, nebenantraege: [nebenantrag, nebenantrag] },
+          ],
+        }}
+        parentArrayItemIndex={1}
+      />,
+    );
+    act(() => vi.advanceTimersByTime(0));
+    expect(
+      document.getElementById("schmerzensgeld-nebenantrag-1-1"),
+    ).toHaveFocus();
+    expect(
+      sessionStorage.getItem("focus-schmerzensgeld-nebenantrag-1"),
+    ).toBeNull();
+  });
+
   it("should restore focus after editing and deletion", () => {
     vi.useFakeTimers();
     sessionStorage.setItem("focus-schmerzensgeld-nebenantrag-0", "0");

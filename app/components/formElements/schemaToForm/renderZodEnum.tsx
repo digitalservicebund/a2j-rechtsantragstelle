@@ -90,6 +90,7 @@ export function renderZodEnum(
             text: cmsObject[value]?.text ?? text,
             preSelected: cmsObject[value]?.preSelected,
           }))}
+          helperText={matchingElement.helperText}
           errorMessages={errorMessages}
           size={size}
           suffix={suffix}

@@ -1,7 +1,7 @@
 import { extractEdges } from "./routing";
 import type {
   NodeKey,
-  PageConfigMap,
+  PagesConfig,
   TransitionConfigMap,
   TransitionConfig,
 } from "./types";
@@ -30,7 +30,7 @@ type ProgressWalkItem<FlowKey> = {
 // The queue items reached from `item`: each unvisited neighbour, with its depth
 // (frozen while inside an array sub-flow) and extended history. Kept separate so
 // the BFS body in precomputeProgress stays flat.
-const nextWalkItems = <C extends PageConfigMap>(
+const nextWalkItems = <C extends PagesConfig>(
   item: ProgressWalkItem<NodeKey<C>>,
   router: TransitionConfigMap<C>,
 ): Array<ProgressWalkItem<NodeKey<C>>> =>
@@ -46,7 +46,7 @@ const nextWalkItems = <C extends PageConfigMap>(
       };
     });
 
-export const precomputeProgress = <C extends PageConfigMap>(
+export const precomputeProgress = <C extends PagesConfig>(
   router: TransitionConfigMap<C>,
   initialStep: NodeKey<C>,
 ) => {

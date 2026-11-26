@@ -1,4 +1,5 @@
 import {
+  type Vortrag,
   type Beweis,
   type BeweisType,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
@@ -7,6 +8,12 @@ import { getGesetzlicheVertretungArtLabel } from "~/domains/geldEinklagen/anwalt
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { ParteivernehmungBeweisBody } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/ParteivernehmungBeweisBody";
 import { type GetCheckboxLabel } from "~/domains/geldEinklagen/anwaltschaft/hauptUndNebenantraege/bezifferteZahlungsUndNebenantraege/klageParteiCheckboxesHelpers";
+import { type PageData } from "~/services/flow/pageData";
+
+type VortragDoneContext = {
+  vortraege?: Vortrag[];
+  pageData?: PageData;
+};
 
 export const getAbsaetzeBaseUrl = (vortragIndex: number) =>
   `/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/vortraege/${vortragIndex}/absaetze`;
@@ -31,6 +38,31 @@ export const getBeweisTitle = (
   }
 };
 
+export const getBeweisDeletionDialogTitle = (type: BeweisType) => {
+  switch (type) {
+    case "parteivernehmung":
+      return translations.geldEinklagenAnwaltschaft
+        .beweisangebotParteivernehmungDeletionTitle.de;
+    case "zeuge":
+      return translations.geldEinklagenAnwaltschaft
+        .beweisangebotPersonDeletionTitle.de;
+    default:
+      return translations.geldEinklagenAnwaltschaft.beweisangebotDeletionTitle
+        .de;
+  }
+};
+
+export const getBeweisRelevance =
+  (beweisType: Beweis["type"]) =>
+  ({ vortraege, pageData }: VortragDoneContext) => {
+    const arrayIndices = pageData?.arrayIndexes ?? [];
+    const relevantBeweis =
+      vortraege?.[arrayIndices[0]]?.absaetze?.[arrayIndices[1]]?.beweise?.[
+        arrayIndices[2]
+      ];
+    return relevantBeweis?.type === beweisType;
+  };
+
 export const getBeweisBody = (
   beweis: Beweis,
   isOverviewPage: boolean = false,
@@ -40,8 +72,12 @@ export const getBeweisBody = (
       return (
         <div className="flex flex-col">
           <span className="kern-body--bold">
-            {beweis.anrede} {beweis.titel}
-            {beweis.vorname} {beweis.nachname}
+            {getFullPlaintiffName(
+              beweis.anrede,
+              beweis.titel,
+              beweis.vorname,
+              beweis.nachname,
+            )}
           </span>
           {isOverviewPage && (
             <>

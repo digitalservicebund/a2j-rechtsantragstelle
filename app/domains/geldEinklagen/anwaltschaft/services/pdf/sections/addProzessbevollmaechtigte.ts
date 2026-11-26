@@ -5,8 +5,12 @@ import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlain
 import {
   FONTS_BUNDESSANS_BOLD,
   FONTS_BUNDESSANS_REGULAR,
+  PDF_HEIGHT_SEIZE,
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
+
+const REPRESENTATIVE_BLOCK_HEIGHT = 75;
+const MAX_BODY_Y = PDF_HEIGHT_SEIZE - 10;
 
 const formatAddress = (
   strasse: string,
@@ -37,6 +41,7 @@ export const addProzessbevollmaechtigte = (
   }
 
   representatives.forEach((representative) => {
+    if (doc.y + REPRESENTATIVE_BLOCK_HEIGHT > MAX_BODY_Y) doc.addPage();
     const paragraph = doc.struct("P", {}, () => {
       const legalType =
         representative.type === "einzelkanzlei"
@@ -46,19 +51,17 @@ export const addProzessbevollmaechtigte = (
       doc
         .fontSize(10)
         .font(FONTS_BUNDESSANS_REGULAR)
-        .text(`Prozessbevollmächtigte ${legalType}:`);
-      if (relationship === "beklagte") {
+        .text(`Prozessbevollmächtigte (${legalType}):`);
+      if (representative.type === "einzelkanzlei") {
         doc
           .font(FONTS_BUNDESSANS_BOLD)
           .text(
-            "anrede" in representative
-              ? getFullPlaintiffName(
-                  representative.anrede,
-                  representative.titel,
-                  representative.vorname,
-                  representative.nachname,
-                )
-              : (representative.name ?? ""),
+            getFullPlaintiffName(
+              representative.anrede,
+              representative.titel,
+              representative.vorname,
+              representative.nachname,
+            ),
           );
       }
       if (representative.name) {
@@ -87,7 +90,6 @@ export const addProzessbevollmaechtigte = (
       if (representative.geschaeftszeichen) {
         doc.text(`Geschäftszeichen: ${representative.geschaeftszeichen}`);
       }
-
       doc.moveDown(2);
     });
     documentStruct.add(paragraph);

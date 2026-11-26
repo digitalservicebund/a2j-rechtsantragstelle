@@ -8,7 +8,7 @@ import { pruneUserData } from "./pruneUserData";
 import { evaluateRoute } from "./routing";
 import { runSimulation } from "./simulate";
 import { buildStatusTree } from "./statusTree";
-import type { InferredUserData, NodeKey, PageConfigMap } from "./types";
+import type { InferredUserData, NodeKey, PagesConfig } from "./types";
 
 const resolveFieldName = (fieldName: string) =>
   fieldName.includes("#") ? fieldName.split("#").at(-1)! : fieldName;
@@ -67,7 +67,7 @@ const insertConcreteIndexes = (stepId: string, indexes: number[]) => {
   return stepId.replaceAll(ARRAY_WILDCARD, () => String(indexes[index++]));
 };
 
-export const createFlowSession = <C extends PageConfigMap>(
+export const createFlowSession = <C extends PagesConfig>(
   compiledFlow: CompiledFlow<C>,
   userData: InferredUserData<C>,
   currentPath: string,
@@ -374,6 +374,6 @@ export const createFlowSession = <C extends PageConfigMap>(
   };
 };
 
-export type FlowSession<C extends PageConfigMap> = ReturnType<
+export type FlowSession<C extends PagesConfig> = ReturnType<
   typeof createFlowSession<C>
 >;

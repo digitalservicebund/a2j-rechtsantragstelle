@@ -1,9 +1,21 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
+import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { BeweisangeboteList } from "../components/BeweisangeboteList";
 import { translations } from "~/services/translations/translations";
 
+vi.mock("~/components/hooks/useDeleteArrayItem");
+
 describe("BeweisangeboteList", () => {
+  beforeEach(() => {
+    vi.mocked(useDeleteArrayItem).mockReturnValue(vi.fn());
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
   it("uses shared numbers in rows and deletion descriptions while retaining source links", () => {
     const Stub = createRoutesStub([
       {
@@ -85,5 +97,26 @@ describe("BeweisangeboteList", () => {
 
     fireEvent.change(dropdown, { target: { value: "urkunde" } });
     expect(dropdown).toHaveValue("urkunde");
+  });
+
+  it("returns focus to the evidence section after deletion, including the last item", () => {
+    vi.useFakeTimers();
+    const Stub = createRoutesStub([
+      {
+        id: "root",
+        path: "/",
+        Component: () => (
+          <BeweisangeboteList beweise={[]} absatzArrayIndex={4} />
+        ),
+      },
+    ]);
+    render(<Stub />);
+
+    const focusAfterDeletion = vi.mocked(useDeleteArrayItem).mock.calls[0][2];
+    act(() => {
+      focusAfterDeletion?.(0);
+      vi.runAllTimers();
+    });
+    expect(document.getElementById("absatz-4-beweisangebote")).toHaveFocus();
   });
 });

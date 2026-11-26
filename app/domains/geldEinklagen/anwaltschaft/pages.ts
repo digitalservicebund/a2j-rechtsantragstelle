@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { klagendeParteiPages } from "~/domains/geldEinklagen/anwaltschaft/klagende-partei/pages";
-import { type PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { checkedOptional } from "~/services/validation/checkedCheckbox";
 import {
   buildMoneyValidationSchema,

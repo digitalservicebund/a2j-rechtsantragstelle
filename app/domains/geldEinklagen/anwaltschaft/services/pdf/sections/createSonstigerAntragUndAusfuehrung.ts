@@ -7,7 +7,7 @@ import {
   PDF_MARGIN_HORIZONTAL,
 } from "~/services/pdf/createPdfKitDocument";
 
-export const createThirdPage = (
+export const createSonstigerAntragUndAusfuehrung = (
   doc: typeof PDFDocument,
   documentStruct: PDFKit.PDFStructureElement,
   userData: GeldEinklagenAnwaltschaftUserData,
@@ -37,7 +37,6 @@ export const createThirdPage = (
         }),
       );
     }
-    doc.moveDown(2);
   };
 
   addSection(

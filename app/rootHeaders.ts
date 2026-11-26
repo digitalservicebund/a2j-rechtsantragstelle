@@ -6,6 +6,7 @@ export const defaultHeaders = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy":
     "accelerometer=(),autoplay=(),camera=(),display-capture=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=(),sync-xhr=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()", // see https://github.com/w3c/webappsec-permissions-policy/blob/main/features.md
+  "Strict-Transport-Security": "max-age=2592000",
 };
 
 export const cacheControlHeaderKey = "shouldAddCacheControl";

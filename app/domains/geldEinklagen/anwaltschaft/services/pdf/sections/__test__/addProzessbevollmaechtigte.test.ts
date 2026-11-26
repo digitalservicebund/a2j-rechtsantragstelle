@@ -35,7 +35,7 @@ describe("addProzessbevollmaechtigte", () => {
     );
 
     expect(getPrintedText(doc)).toContain(
-      "Prozessbevollmächtigte Einzelkanzlei:",
+      "Prozessbevollmächtigte (Einzelkanzlei):",
     );
     expect(getPrintedText(doc)).toContain(
       "Hauptstraße 2, 10115 Berlin, Deutschland",

@@ -8,7 +8,7 @@ import {
   type FlowTransitionConfig,
   validateFlowTransition,
 } from "~/services/flow/flowEngine/flowTransitionValidation";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 import { getSessionData } from "~/services/session.server";
 
@@ -38,7 +38,7 @@ const createMockFlow = (flowType: FlowType): Flow => ({
     },
     flowTransitionConfig: mockFlowTransitionConfig,
     pruningStrategy: "cascading",
-  }) as CompiledFlow<PageConfigMap>,
+  }) as CompiledFlow<PagesConfig>,
 });
 
 describe("flowTransitionValidation", () => {

@@ -3,7 +3,7 @@ import {
   bankNameFromIBAN,
 } from "~/services/bank/bankNameFromIBAN";
 import { fetchBanks } from "~/services/bank/fetchBanks";
-import { type FieldValueChangeHandler } from "~/domains/pageSchemas";
+import { type FieldValueChangeHandler } from "~/services/flow/flowEngine/types";
 
 let banks: BankData | undefined = undefined;
 

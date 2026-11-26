@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { type PagesConfig } from "~/domains/pageSchemas";
-import { pkhFormularVereinfachteErklaerungPages } from "~/domains/prozesskostenhilfe/formular/antragstellendePerson/vereinfachteErklaerung/pages";
+import { pkhFormularVereinfachteErklaerungPages } from "./vereinfachteErklaerung/pages";
 import { buildMoneyValidationSchema } from "~/services/validation/money/buildMoneyValidationSchema";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 import { familyRelationshipSchema } from "../finanzielleAngaben/andere-unterhaltszahlungen/pages";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 export const pkhFormularAntragstellendePersonPages = {
   empfaenger: {

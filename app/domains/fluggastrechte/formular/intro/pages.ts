@@ -1,4 +1,5 @@
-import type { PagesConfig } from "~/domains/pageSchemas";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
+
 export const fluggastrechteIntroPages = {
   intro: {
     stepId: "/intro/start",

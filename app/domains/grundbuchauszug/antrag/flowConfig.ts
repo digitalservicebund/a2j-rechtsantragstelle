@@ -2,7 +2,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { grundbuchauszugAntragPages } from "./pages";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { type GrundbuchauszugAntragUserData } from "./userData";
@@ -78,4 +78,4 @@ export const grundbuchauszugAntragFlowConfig = compileFlow({
     ],
     abgabeZusammenfassung: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

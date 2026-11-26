@@ -16,7 +16,6 @@ export const tatsachenvortragFlowConfig = {
     { type: "addArrayItem", target: "sachverstaendigengutachtenDaten" },
     { type: "addArrayItem", target: "zeugeDaten" },
     { type: "addArrayItem", target: "parteivernehmungDaten" },
-    { target: "antraegeUebersicht" },
   ],
   absatzDaten: [{ target: "absaetzeUebersicht" }],
   augenscheinDaten: [{ target: "absaetzeUebersicht" }],

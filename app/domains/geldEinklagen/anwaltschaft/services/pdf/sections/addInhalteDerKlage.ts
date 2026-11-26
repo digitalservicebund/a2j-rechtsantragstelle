@@ -31,5 +31,5 @@ export const addInhalteDerKlage = (
       }
     }),
   );
-  doc.moveDown(2);
+  doc.moveDown();
 };

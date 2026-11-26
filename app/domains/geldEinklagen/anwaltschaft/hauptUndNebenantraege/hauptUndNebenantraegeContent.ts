@@ -4,16 +4,23 @@ import type {
   Nebenantrag,
   SchmerzengeldNebenantrag,
 } from "./hauptUndNebenantraegeSchemas";
+import { getOrderedKlageParties } from "../shared/klageParties/klagePartyOrdering";
+import type { KlageParteiVerhaeltnis } from "../shared/klageParties/klagePartySchemas";
 import { getInterestText, formatSplitDate } from "./utils";
 import { translations } from "~/services/translations/translations";
 
 const formatPartyNumbers = (numbers: number[]): string => {
-  if (numbers.length === 0) return "";
-
   return numbers
-    .map((number, index) => (index === 0 ? `${number})` : `zu ${number})`))
-    .join(" und ");
+    .map((number, index) => {
+      const separator =
+        index === 0 ? "" : index === numbers.length - 1 ? " und " : ", ";
+      return `${separator}${index === 0 ? "" : "zu "}${number})`;
+    })
+    .join("");
 };
+
+const formatNumbers = (numbers: number[]) =>
+  numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
 
 export const getBeklagteText = (count: number): string =>
   count === 1 ? "Der Beklagte" : "Die Beklagten";
@@ -28,23 +35,25 @@ export const getVerb = (count: number): string =>
   count === 1 ? "wird" : "werden";
 
 const getSelectedPartyNumbers = (
-  parties: Array<{ id?: string }> | undefined,
+  userData: GeldEinklagenAnwaltschaftUserData,
+  relationship: KlageParteiVerhaeltnis,
   selection: Record<string, string> | undefined,
 ): number[] =>
-  (parties ?? []).flatMap((party, index) =>
-    party.id && selection?.[party.id] === "on" ? [index + 1] : [],
+  getOrderedKlageParties(userData, relationship).flatMap(
+    ({ partei, displayIndex }) =>
+      partei.id && selection?.[partei.id] === "on" ? [displayIndex + 1] : [],
   );
 
 export const nebenantragArtLabels: Record<
   Extract<Nebenantrag, { nebenantragArt: string }>["nebenantragArt"],
   string
 > = {
-  vorgerichtlicheAnwaltskosten: "vorgerichtlich angefallene Anwaltskosten",
+  vorgerichtlicheAnwaltskosten: "vorgerichtliche Anwaltskosten",
   mahnkosten: "Mahnkosten",
   inkassokosten: "Inkassokosten",
   adressermittlungskosten: "Adressermittlungkosten",
   ruecklastschriftgebühren: "Rücklastschriftgebühren",
-  pauschale: "eine Pauschale gemäß § 288 Absatz 5 Satz 1 BGB",
+  pauschale: "Pauschale (§ 288 Absatz 5 Satz 1 BGB)",
 };
 
 export const getNebenantragItemText = ({
@@ -73,12 +82,14 @@ export const getNebenantragItemText = ({
       : userData.schmerzengeldantrag?.[schmerzengeldantragIndex];
 
   const beklagteNumbers = getSelectedPartyNumbers(
-    userData.beklagten,
+    userData,
+    "beklagte",
     hauptantrag?.beklagte,
   );
 
   const klagendeNumbers = getSelectedPartyNumbers(
-    userData.klagenden,
+    userData,
+    "klagende",
     hauptantrag?.klagende,
   );
 
@@ -125,11 +136,11 @@ export const getNebenantragItemText = ({
       getVerb(beklagteNumbers.length),
       " ",
       beklagteNumbers.length > 1 ? "als Gesamtschuldner " : "",
-      "verurteilt, ",
+      "verurteilt,",
       createElement(
         "a",
         null,
-        "an ",
+        " an ",
         getKlagendeText(klagendeNumbers.length),
         " zu ",
         formatPartyNumbers(klagendeNumbers),
@@ -264,12 +275,14 @@ const getAntragText = ({
   if (!hauptantrag) return "";
 
   const beklagteNumbers = getSelectedPartyNumbers(
-    userData.beklagten,
+    userData,
+    "beklagte",
     hauptantrag.beklagte,
   );
 
   const klagendeNumbers = getSelectedPartyNumbers(
-    userData.klagenden,
+    userData,
+    "klagende",
     hauptantrag.klagende,
   );
 
@@ -298,18 +311,6 @@ const getAntragText = ({
       ? hauptantrag.beschreibungDerGegenleistung
       : undefined;
 
-  const formatNumbers = isSchmerzensgeldantrag
-    ? (numbers: number[]) =>
-        numbers
-          .map((number, index) => {
-            const separator =
-              index === 0 ? "" : index === numbers.length - 1 ? " und " : ", ";
-            return `${separator}zu ${number})`;
-          })
-          .join("")
-    : (numbers: number[]) =>
-        numbers.length > 0 ? `zu ${formatPartyNumbers(numbers)}` : "";
-
   return createElement(
     Fragment,
     null,
@@ -328,13 +329,13 @@ const getAntragText = ({
     beklagteNumbers.length > 1
       ? createElement("strong", null, "als Gesamtschuldner ")
       : "",
-    "verurteilt an, ",
+    "verurteilt, an ",
     createElement(
       "strong",
       null,
       isSchmerzensgeldantrag
         ? klagendeNumbers.length === 1
-          ? "der Kläger"
+          ? "den Kläger"
           : "die Kläger"
         : getKlagendeText(klagendeNumbers.length),
       " ",
@@ -357,17 +358,21 @@ const getAntragText = ({
         )
       : "",
     hasZugUndZug
-      ? [
+      ? createElement(
+          Fragment,
+          null,
           createElement("strong", null, " Zug-um-Zug"),
           gegenleistung?.trim()
-            ? [
+            ? createElement(
+                Fragment,
+                null,
                 " gegen ",
                 createElement("strong", null, gegenleistung),
-                " zu zahlen",
-              ]
+              )
             : "",
-        ]
+        )
       : "",
+    isSchmerzensgeldantrag ? "" : " zu zahlen",
     ".",
   );
 };

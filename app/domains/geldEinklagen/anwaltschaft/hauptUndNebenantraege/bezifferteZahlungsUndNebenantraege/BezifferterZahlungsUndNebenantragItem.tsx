@@ -105,7 +105,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
     <NestedArrayItemList
       heading={translations.geldEinklagenAnwaltschaft.nebenantragHeadline.de}
       headingId={`nebenantrag-heading-${parentArrayItemIndex}`}
-      headingSuffix="Optional"
+      headingSuffix="- Optional"
       subtitle={
         translations.geldEinklagenAnwaltschaft.nebenantragDescription.de
       }
@@ -184,6 +184,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           ? [
               {
                 href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/nebenantraege/${items.length}/daten`,
+                onClick: onEditNebenantrag(items.length),
                 label:
                   translations.geldEinklagenAnwaltschaft.nebenatragAddButton.de,
               },
@@ -193,6 +194,7 @@ export const BezifferterZahlungsUndNebenantragItem = ({
           ? [
               {
                 href: `${BASE_URL_NEBENANTRAG}/${parentArrayItemIndex}/annahmeverzug/${items.length}/daten`,
+                onClick: onEditNebenantrag(items.length),
                 label:
                   translations.geldEinklagenAnwaltschaft.annahmeverzugAddButton
                     .de,

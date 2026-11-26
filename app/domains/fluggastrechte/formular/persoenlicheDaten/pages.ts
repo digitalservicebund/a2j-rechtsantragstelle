@@ -1,7 +1,7 @@
 import z from "zod";
 import { isTotalClaimWillSucceddedAboveLimit } from "~/domains/fluggastrechte/formular/services/isTotalClaimAboveLimit";
 import { WEITERE_PERSONEN_START_INDEX } from "~/domains/fluggastrechte/formular/stringReplacements/person";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/services/flow/flowEngine/types";
 import { checkedRequired } from "~/services/validation/checkedCheckbox";
 import { ibanSchema } from "~/services/validation/iban";
 import { phoneNumberSchema } from "~/services/validation/phoneNumber";

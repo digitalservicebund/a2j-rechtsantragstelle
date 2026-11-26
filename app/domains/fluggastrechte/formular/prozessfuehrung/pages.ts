@@ -1,5 +1,5 @@
 import z from "zod";
-import type { PagesConfig } from "~/domains/pageSchemas";
+import type { PagesConfig } from "~/services/flow/flowEngine/types";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
 
 export const fluggastrechteProzessfuehrungPages = {

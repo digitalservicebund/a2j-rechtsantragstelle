@@ -2,7 +2,7 @@ import { type FunctionComponent } from "react";
 import { IMaskMixin, type IMaskMixinProps } from "react-imask";
 import TextInput, { type InputProps } from "../text/TextInput";
 import { useControlledField } from "~/components/hooks/useControlledField";
-import { type ControlledFieldConfig } from "~/domains/pageSchemas";
+import { type ControlledFieldConfig } from "~/services/flow/flowEngine/types";
 
 type MaskedInputProps = Omit<InputProps, "size">;
 type MaskedIbanInputProps = MaskedInputProps &

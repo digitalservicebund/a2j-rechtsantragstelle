@@ -8,11 +8,11 @@ import {
 import { type Flow } from "~/domains/flows.server";
 import { Result } from "true-myth";
 import type { Session, SessionData } from "react-router";
-import { type PageConfigMap } from "../flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 type OkResult = {
   flowSession: Session<SessionData, SessionData>;
-  flowSessionEngine: FlowSession<PageConfigMap>;
+  flowSessionEngine: FlowSession<PagesConfig>;
 };
 
 type ErrorResult = {

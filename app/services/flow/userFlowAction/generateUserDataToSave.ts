@@ -2,18 +2,18 @@ import { createFlowSession } from "~/services/flow/flowEngine/createFlowSession"
 import { stepStatesToSubflowDoneStates } from "~/services/navigation/stepStatesToSubflowDoneStates";
 import { buildStepStatesFromStatusTree } from "~/services/navigation/buildStepStatesFromStatusTree";
 import { type FlowId } from "~/domains/flowIds";
-import { type InferredUserData, type PageConfigMap } from "../flowEngine/types";
+import { type InferredUserData, type PagesConfig } from "../flowEngine/types";
 import { type CompiledFlow } from "../flowEngine/compileFlow";
 import merge from "lodash/merge";
 import { type SessionData } from "react-router";
 
-type UpcomingUserData<C extends PageConfigMap> = {
+type UpcomingUserData<C extends PagesConfig> = {
   sessionUserData: SessionData;
   formUserData: InferredUserData<C>;
   migrationData: InferredUserData<C> | undefined;
 };
 
-export const generateUserDataToSave = <C extends PageConfigMap>(
+export const generateUserDataToSave = <C extends PagesConfig>(
   stepId: string,
   upcomingUserData: UpcomingUserData<C>,
   flowId: FlowId,

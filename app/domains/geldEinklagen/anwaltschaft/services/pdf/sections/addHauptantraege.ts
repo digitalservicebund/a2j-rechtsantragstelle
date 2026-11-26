@@ -17,7 +17,7 @@ import {
 } from "~/services/pdf/createPdfKitDocument";
 import { addMissingData } from "./addMissingData";
 
-export const getPdfText = (node: ReactNode) =>
+const getPdfText = (node: ReactNode) =>
   decode(
     renderToStaticMarkup(node)
       .replace(/<\/div>|<br\s*\/?>/g, " ")
@@ -34,7 +34,7 @@ export const addHauptantraege = (
   documentStruct.add(
     doc.struct("H2", {}, () => {
       doc.fontSize(18).font(FONTS_BUNDESSANS_BOLD).text("Klageantrag");
-      doc.moveDown(2);
+      doc.moveDown();
     }),
   );
   documentStruct.add(
@@ -80,7 +80,6 @@ export const addHauptantraege = (
           .fontSize(10)
           .font(FONTS_BUNDESSANS_REGULAR)
           .text(`${number}. ${getPdfText(mainText)}`, PDF_MARGIN_HORIZONTAL);
-        doc.moveDown(2);
       }),
     );
     if (additionalTexts.length > 0) {
@@ -97,13 +96,14 @@ export const addHauptantraege = (
     for (const text of additionalTexts) {
       body.add(
         doc.struct("P", {}, () => {
+          const bullet = "\u2022 ";
+          const bulletWidth = doc.widthOfString(bullet);
           doc.text(
-            `\u2022 ${getPdfText(text)}`,
-            PDF_MARGIN_HORIZONTAL,
+            `${bullet}${getPdfText(text)}`,
+            PDF_MARGIN_HORIZONTAL + 12 + bulletWidth,
             undefined,
-            { indent: 12 },
+            { indent: -bulletWidth },
           );
-          doc.moveDown(2);
         }),
       );
     }
@@ -146,4 +146,5 @@ export const addHauptantraege = (
     );
   }
   documentStruct.add(list);
+  doc.moveDown();
 };

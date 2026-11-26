@@ -3,7 +3,7 @@ import {
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
 import { beratungshilfeVorabcheckPages } from "./pages";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { isIncomeTooHigh } from "./isIncomeTooHigh";
 import { type BeratungshilfeVorabcheckUserData } from "./userData";
 
@@ -233,4 +233,4 @@ export const beratungshilfeVorabcheckFlowConfig = compileFlow({
     weitereZahlungenSummeAbschlussVielleicht: null,
     weitereZahlungenSummeAbschlussNein: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

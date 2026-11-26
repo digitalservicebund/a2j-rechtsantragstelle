@@ -1,7 +1,7 @@
 import { useField, useFormContext } from "@rvf/react-router";
 import { useEffect, useMemo, useRef, useState, startTransition } from "react";
-import { type ControlledFieldConfig } from "~/domains/pageSchemas";
 import { type AllowedUserTypes } from "~/domains/userData";
+import { type ControlledFieldConfig } from "~/services/flow/flowEngine/types";
 
 export const useControlledField = (
   fieldName: string,

@@ -3,7 +3,7 @@ import {
   type CompiledFlow,
   compileFlow,
 } from "~/services/flow/flowEngine/compileFlow";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 
 export const erbscheinWegweiserFlowConfig = compileFlow({
   pages: erbscheinWegweiserPages,
@@ -92,4 +92,4 @@ export const erbscheinWegweiserFlowConfig = compileFlow({
     erbscheinRequiredAndRequested: null,
     erbscheinNotRequired: null,
   },
-}) as CompiledFlow<PageConfigMap>;
+}) as CompiledFlow<PagesConfig>;

@@ -138,10 +138,7 @@ const UnbezifferteSchmerzensgeldUebersicht = () => {
                 id={`schmerzengeldantrag-heading-${index}`}
                 className="kern-body kern-body--large kern-body--bold p-0! mb-16"
               >
-                {
-                  translations.geldEinklagenAnwaltschaft
-                    .schmerzengeldantragHeadline.de
-                }{" "}
+                {translations.geldEinklagenAnwaltschaft.schmerzensgeldantrag.de}{" "}
                 {antragNumber}
               </h2>
               <UnbezifferteSchmerzensgeldantrag

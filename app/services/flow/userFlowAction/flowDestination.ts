@@ -1,13 +1,13 @@
 import { type FlowSession } from "../flowEngine/createFlowSession";
 import { getPageAndFlowDataFromPathname } from "../getPageAndFlowDataFromPathname";
-import { type PageConfigMap } from "../flowEngine/types";
+import { type PagesConfig } from "../flowEngine/types";
 import { arrayIsNonEmpty } from "~/util/array";
 import { resolveArrayCharacter } from "~/services/array/resolveArrayCharacter";
 import { arrayChar, EDIT_BUTTON_ID_PREFIX } from "~/services/array";
 
 export const flowDestination = (
   pathname: string,
-  flowSessionEngine: FlowSession<PageConfigMap>,
+  flowSessionEngine: FlowSession<PagesConfig>,
 ) => {
   const { flowId, arrayIndexes } = getPageAndFlowDataFromPathname(pathname);
   const nextStepId =

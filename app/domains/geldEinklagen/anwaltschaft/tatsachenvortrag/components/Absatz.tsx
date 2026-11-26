@@ -2,7 +2,10 @@ import { DeleteButton } from "~/components/common/DeleteButton";
 import { ArrayItemCard } from "~/components/content/arrayItemList/ArrayItemCard";
 import { useDeleteArrayItem } from "~/components/hooks/useDeleteArrayItem";
 import { focusOnItem } from "~/domains/geldEinklagen/anwaltschaft/shared/focusOnItem";
-import { useAbsaetze } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
+import {
+  saveAbsaetzeFocusInSession,
+  useAbsaetze,
+} from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { BeweisangeboteList } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/components/BeweisangeboteList";
 import type { Absatz as AbsatzType } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import type { OrderedBeweis } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/beweisOrdering";
@@ -34,11 +37,15 @@ export const Absatz = ({
         id: `absatz-${index}`,
         level: "h2",
       }}
-      content={<p>{absatz.formulierung}</p>}
+      content={
+        <p className="kern-body kern-body--default">{absatz.formulierung}</p>
+      }
       editButton={{
         id: `${EDIT_BUTTON_ID_PREFIX}absatz-${index}`,
         ariaLabel: `${absatzTitle} ${translations.arraySummary.arrayEditButtonLabel.de}`,
         href: `${absaetzeBaseUrl}/${index}/daten`,
+        onClick: () =>
+          saveAbsaetzeFocusInSession(absaetzeBaseUrl, `absatz-${index}`),
       }}
       deleteButton={
         <DeleteButton

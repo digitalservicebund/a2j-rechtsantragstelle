@@ -2,11 +2,10 @@ import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/
 import type { PDFDocumentBuilder } from "~/services/pdf/pdfFromUserData";
 import { pdfFromUserData } from "~/services/pdf/pdfFromUserData";
 import { setPdfMetadata } from "~/services/pdf/setPdfMetadata";
-import { createFirstPage } from "./sections/createFirstPage";
-import { createSecondPage } from "./sections/createSecondPage";
-import { createThirdPage } from "./sections/createThirdPage";
-import { createFourthPage } from "./sections/createFourthPage";
-import { createFifthPage } from "./sections/createFifthPage";
+import { createInDerSache } from "./sections/createInDerSache";
+import { createSonstigerAntragUndAusfuehrung } from "./sections/createSonstigerAntragUndAusfuehrung";
+import { createBegruendung } from "./sections/createBegruendung";
+import { createRechtlicheWuerdigungUndSignatur } from "./sections/createRechtlicheWuerdigungUndSignatur";
 import { createFooter } from "~/services/pdf/footer/createFooter";
 
 const TITLE = "Klage Neueingang";
@@ -17,18 +16,16 @@ const buildGeldEinklagenAnwaltschaftPDFDocument: PDFDocumentBuilder<
   GeldEinklagenAnwaltschaftUserData
 > = (doc, documentStruct, userData) => {
   setPdfMetadata(doc, { title: TITLE, subject: SUBJECT, keywords: KEYWORDS });
-  createFirstPage(doc, documentStruct, userData);
-  createSecondPage(doc, documentStruct, userData);
-  createThirdPage(doc, documentStruct, userData);
-  createFourthPage(doc, documentStruct, userData);
-  createFifthPage(doc, documentStruct, userData);
+  createInDerSache(doc, documentStruct, userData);
+  createSonstigerAntragUndAusfuehrung(doc, documentStruct, userData);
+  createBegruendung(doc, documentStruct, userData);
+  createRechtlicheWuerdigungUndSignatur(doc, documentStruct, userData);
 
   const { start, count } = doc.bufferedPageRange();
   const margins = Array.from({ length: count }, (_, index) => {
     doc.switchToPage(start + index);
     const pageMargins = doc.page.margins;
     const bottom = pageMargins.bottom;
-    // Fixed-position footers must not paginate at the body text's bottom margin.
     pageMargins.bottom = 0;
     return { pageMargins, bottom };
   });

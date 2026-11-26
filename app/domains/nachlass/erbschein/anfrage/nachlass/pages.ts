@@ -1,5 +1,5 @@
 import z from "zod";
-import { type PageConfigMap } from "~/services/flow/flowEngine/types";
+import { type PagesConfig } from "~/services/flow/flowEngine/types";
 import { stringOptionalSchema } from "~/services/validation/stringOptional";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 
@@ -88,4 +88,4 @@ export const nachlassPages = {
       hasVermoegen: z.enum(["yes", "no", "unknown"]),
     },
   },
-} as const satisfies PageConfigMap;
+} as const satisfies PagesConfig;
