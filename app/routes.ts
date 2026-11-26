@@ -56,7 +56,6 @@ export default [
   ]),
   ...prefix("grundbuchauszug", [...prefix("antrag", flowRoutes("GBAA"))]),
   ...prefix("geld-einklagen", [
-    ...prefix("anwaltschaft", flowRoutes("GEA")),
     ...prefix("formular", [
       route("*", "routes/geld-einklagen.formular.$.tsx", { id: `flowGEF` }),
       route("download/pdf", "routes/shared/pdfDownloadLoader.ts", {

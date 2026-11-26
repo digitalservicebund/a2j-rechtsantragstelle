@@ -1,5 +1,4 @@
 import get from "lodash/get";
-import partition from "lodash/partition";
 import unset from "lodash/unset";
 import { redirect, type ActionFunctionArgs } from "react-router";
 import {
@@ -10,10 +9,7 @@ import {
   deleteAntrag,
   getAntragIndex,
 } from "~/domains/geldEinklagen/anwaltschaft/services/antragHelpers";
-import {
-  getConnectedAntraege,
-  antragHasOnlyOneParty,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import { getConnectedAntraege } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import {
   getSingularOfKlageParteiRelationship,
   type KlageParteien,
@@ -71,10 +67,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       ? "hauptantrag"
       : "schmerzengeldantrag";
 
-  const [singlePartyConnectedAntraege, multiPartyConnectedAntraege] = partition(
-    getConnectedAntraege(targetPartei.id, relationship, userData),
-    antragHasOnlyOneParty(relationship),
-  );
+  const { singlePartyConnectedAntraege, multiPartyConnectedAntraege } =
+    getConnectedAntraege(targetPartei.id, relationship, userData);
 
   // Delete Anträge where the target Partei is the only party involved
   for (const antrag of singlePartyConnectedAntraege) {

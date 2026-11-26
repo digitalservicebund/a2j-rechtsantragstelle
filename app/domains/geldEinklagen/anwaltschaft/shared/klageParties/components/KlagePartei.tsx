@@ -87,6 +87,10 @@ const KlagePartei = ({
   relationship,
 }: KlageParteiProps) => {
   const headingText = `${translations.geldEinklagenAnwaltschaft[relationship === "klagende" ? "klagendeParteiHeadline" : "beklagteParteiHeadline"].de} ${displayIndex + 1})`;
+  const deletionText =
+    relationship === "klagende"
+      ? headingText
+      : headingText.replace("Beklagter", "Beklagten");
   const deleteArrayItem = useDeleteArrayItem(
     getPluralOfKlageParteiRelationship(relationship),
     getBaseKlagePartyUrl(relationship),
@@ -107,7 +111,7 @@ const KlagePartei = ({
       }}
       deleteButton={
         <DeleteButton
-          label={`${headingText} ${
+          label={`${deletionText} ${
             (Boolean(partei["gesetzliche-vertretung"]?.length) &&
               partei["gesetzliche-vertretung"]!.length > 0) ||
             "orgName" in partei
@@ -115,12 +119,12 @@ const KlagePartei = ({
                   .gesetzlicheVertretungDeletionLabel.de
               : ""
           } ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}`}
-          title={`${headingText} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}?`}
+          title={`${deletionText} ${translations.arraySummary.arrayDeleteButtonLabel.de.toLocaleLowerCase()}?`}
           description={
             <KlageParteiDeletionDialog
               partei={partei}
               relationship={relationship}
-              partyText={headingText}
+              partyText={deletionText}
             />
           }
           onDelete={() => deleteArrayItem(index)}

@@ -1,16 +1,16 @@
 import { useFormFlow } from "~/components/hooks/formFlowContext";
 import { DeletionDialog } from "~/domains/geldEinklagen/anwaltschaft/shared/components/DeletionDialog";
-import {
-  getConnectedAntraege,
-  antragHasOnlyOneParty,
-} from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
+import { getConnectedAntraege } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartyHelpers";
 import {
   type KlageParteien,
   type KlageParteiVerhaeltnis,
 } from "~/domains/geldEinklagen/anwaltschaft/shared/klageParties/klagePartySchemas";
 import { getFullPlaintiffName } from "~/domains/shared/services/pdf/getFullPlaintiffName";
 import { translations } from "~/services/translations/translations";
-import { applyStringReplacement } from "~/util/applyStringReplacement";
+import {
+  applyStringReplacement,
+  type Replacements,
+} from "~/util/applyStringReplacement";
 
 type KlageParteiDeletionDialogProps = {
   partei: KlageParteien[number];
@@ -18,33 +18,62 @@ type KlageParteiDeletionDialogProps = {
   partyText: string;
 };
 
+const getStringReplacements = (replacements: Replacements) => ({
+  singlePartyDeletionTitle: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft.antragWithOnePartyDeletionTitle.de,
+    replacements,
+  ),
+  singularPartyDeletionDescription: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft.antragWithOnePartyDeletionDescription
+      .de,
+    replacements,
+  ),
+  multiplePartiesDeletionTitle: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft
+      .antragWithMultiplePartiesDeletionTitle.de,
+    replacements,
+  ),
+  multiplePartiesDeletionDescription: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft
+      .antragWithMultiplePartiesDeletionDescription.de,
+    replacements,
+  ),
+  keepAndEditText: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft.keepAndEditBodyText.de,
+    replacements,
+  ),
+  deletePermanentlyText: applyStringReplacement(
+    translations.geldEinklagenAnwaltschaft.deletePermanentlyText.de,
+    replacements,
+  ),
+});
+
 export const KlageParteiDeletionDialog = ({
   partei,
   relationship,
   partyText,
 }: KlageParteiDeletionDialogProps) => {
   const { userData } = useFormFlow();
-  const connectedAntraege = getConnectedAntraege(
-    partei.id,
-    relationship,
-    userData,
-  );
+  const { singlePartyConnectedAntraege, multiPartyConnectedAntraege } =
+    getConnectedAntraege(partei.id, relationship, userData);
   const isNatuerlichePerson = partei.type === "natuerliche-person";
 
-  /**
-   * If there is an Antrag with only one party of the given relationship,
-   * we need to inform the user that the entire Antrag will be affected,
-   * and not just the party itself.
-   */
-  const hasAntragWithSingularParty = connectedAntraege.some(
-    antragHasOnlyOneParty(relationship),
-  );
   const replacements = {
     partyText,
+    partyTextShort: partyText.substring(0, partyText.indexOf(" ")),
+    partyTextPlural: relationship === "klagende" ? "Klägern" : "Beklagten",
     partyType: isNatuerlichePerson
-      ? translations.geldEinklagenAnwaltschaft.person.de.toLocaleLowerCase()
-      : translations.geldEinklagenAnwaltschaft.organisationHeadline.de.toLocaleLowerCase(),
+      ? translations.geldEinklagenAnwaltschaft.person.de
+      : translations.geldEinklagenAnwaltschaft.organisationHeadline.de,
   };
+  const {
+    singlePartyDeletionTitle,
+    singularPartyDeletionDescription,
+    multiplePartiesDeletionTitle,
+    multiplePartiesDeletionDescription,
+    keepAndEditText,
+    deletePermanentlyText,
+  } = getStringReplacements(replacements);
 
   return (
     <DeletionDialog
@@ -65,27 +94,34 @@ export const KlageParteiDeletionDialog = ({
           : partei.orgName
       }
       warning={
-        connectedAntraege.length > 0
+        [...singlePartyConnectedAntraege, ...multiPartyConnectedAntraege]
+          .length > 0
           ? {
               title:
                 translations.geldEinklagenAnwaltschaft
                   .klageParteiDeletionWarning.de,
-              auswirkungenText: applyStringReplacement(
-                translations.geldEinklagenAnwaltschaft[
-                  hasAntragWithSingularParty
-                    ? "antragWithOnePartyDeletionDescription"
-                    : "antragWithMultiplePartiesDeletionDescription"
-                ].de,
-                replacements,
+              auswirkungenText: (
+                <div className="flex flex-col gap-kern-space-default">
+                  {singlePartyConnectedAntraege.length > 0 && (
+                    <span>
+                      <span className="kern-body--bold">
+                        {singlePartyDeletionTitle}{" "}
+                      </span>
+                      {singularPartyDeletionDescription}
+                    </span>
+                  )}
+                  {multiPartyConnectedAntraege.length > 0 && (
+                    <span>
+                      <span className="kern-body--bold">
+                        {multiplePartiesDeletionTitle}{" "}
+                      </span>
+                      {multiplePartiesDeletionDescription}
+                    </span>
+                  )}
+                </div>
               ),
-              keepAndEditText: applyStringReplacement(
-                translations.geldEinklagenAnwaltschaft.keepAndEditBodyText.de,
-                replacements,
-              ),
-              deletePermanentlyText: applyStringReplacement(
-                translations.geldEinklagenAnwaltschaft.deletePermanentlyText.de,
-                replacements,
-              ),
+              keepAndEditText,
+              deletePermanentlyText,
             }
           : undefined
       }

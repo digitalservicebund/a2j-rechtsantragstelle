@@ -1,3 +1,4 @@
+import partition from "lodash/partition";
 import {
   type Hauptantrag,
   type Schmerzensgeldantrag,
@@ -111,13 +112,17 @@ export const getConnectedAntraege = (
         ([key, value]) => key === partyId && value === "on",
       ),
   );
-  return connectedAntraege;
+  const [singlePartyConnectedAntraege, multiPartyConnectedAntraege] = partition(
+    connectedAntraege,
+    antragHasOnlyOneParty(relationship),
+  );
+  return { singlePartyConnectedAntraege, multiPartyConnectedAntraege };
 };
 
 /**
  * Filter function to determine if a given antrag has only one party of the specified relationship
  */
-export const antragHasOnlyOneParty =
+const antragHasOnlyOneParty =
   (relationship: KlageParteiVerhaeltnis) =>
   (antrag: Hauptantrag | Schmerzensgeldantrag) =>
     Object.keys(antrag[relationship]).filter(

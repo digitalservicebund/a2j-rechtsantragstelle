@@ -6,7 +6,7 @@ import { translations } from "~/services/translations/translations";
 
 export type DeletionWarning = {
   title: string;
-  auswirkungenText: string;
+  auswirkungenText: string | React.ReactNode;
   keepAndEditText: string;
   deletePermanentlyText: string;
 };

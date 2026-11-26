@@ -805,7 +805,7 @@ export const translations = {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellte Anträge",
     },
     auswirkungen: {
-      de: "Auswirkungen",
+      de: "Auswirkungen:",
     },
     antragDeletionWarning: {
       de: "Achtung: Löschen hat Auswirkungen auf bereits erstellten Tatsachenvortrag",
@@ -834,8 +834,14 @@ export const translations = {
     deleteBezifferterZahlungsantragPermanently: {
       de: "Falls Sie den bezifferten Zahlungsantrag {{ antragNumber }} mitsamt den Tatsachenvorträgen wirklich löschen möchten, prüfen Sie bitte im Anschluss die Vollständigkeit und Richtigkeit Ihrer verbleibenden Tatsachenvorträge.",
     },
+    antragWithOnePartyDeletionTitle: {
+      de: "Anträge mit einem {{ partyTextShort }}:",
+    },
     antragWithOnePartyDeletionDescription: {
       de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Wenn Sie den {{ partyText }} löschen, werden auch die betroffenen Anträge sowie eventuell damit verknüpfte Tatsachenvorträge gelöscht. Ohne Bezug wären diese unzulässig. Das betrifft auch dazugehörige Nebenanträge.",
+    },
+    antragWithMultiplePartiesDeletionTitle: {
+      de: "Anträge mit mehreren {{ partyTextPlural }}:",
     },
     antragWithMultiplePartiesDeletionDescription: {
       de: "Sie haben in mindestens einem Hauptantrag ausgewählt, dass die Zahlung an den {{ partyText }} zu leisten ist. Dort wird die {{ partyType }} mit anderen Klagenden als Gesamtgläubiger aufgeführt. Wenn Sie den {{ partyText }} löschen, wird er auch aus den betroffenen Anträgen entfernt und diese werden entsprechend umformuliert. Das betrifft auch dazugehörige Nebenanträge.",
@@ -844,7 +850,7 @@ export const translations = {
       de: "Person",
     },
     followingKlaeger: {
-      de: "Folgende Kläger",
+      de: "Folgender Kläger",
     },
     willBeDeletedWithRepresentatives: {
       de: "wird inklusive möglicher Vertretungen entfernt:",
