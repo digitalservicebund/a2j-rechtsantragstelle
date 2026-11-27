@@ -24,16 +24,6 @@ export const geldEinklagenAnwaltschaftPages = {
         .trim()
         .max(100, { message: "max" })
         .optional(),
-      zahlungsklageBezeichnung: z
-        .string()
-        .trim()
-        .max(100, { message: "max" })
-        .optional(),
-      zahlungsklageNummer: z
-        .string()
-        .trim()
-        .max(50, { message: "max" })
-        .optional(),
       zahlungsklageGesamtstreitwert: buildMoneyValidationSchema({
         min: 1,
         max: 1000000,
