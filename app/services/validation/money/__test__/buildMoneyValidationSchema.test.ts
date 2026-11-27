@@ -12,7 +12,7 @@ describe("buildMoneyValidationSchema", () => {
       { input: " 1 00 0", expected: "1.000,00" },
       { input: "1,000.9", expected: "1.000,90" },
       { input: "00000", expected: "0,00" },
-      { input: "999999999", expected: "999.999.999,00" },
+      { input: "99999999", expected: "99.999.999,00" },
       { input: "-0", expected: "0,00" },
       { input: "-123", expected: "-123,00" },
     ];
@@ -50,6 +50,40 @@ describe("buildMoneyValidationSchema", () => {
         expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
+
+    describe("default option values", () => {
+      it("should fail in case the max value is equal or higher than the max default value", () => {
+        const inputValue = "100000001";
+
+        const actual = buildMoneyValidationSchema().safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_much");
+      });
+
+      it("should fail in case the max value is equal or higher than the max default value and the optional default value is empty object", () => {
+        const inputValue = "100000001";
+
+        const actual = buildMoneyValidationSchema({}).safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_much");
+      });
+
+      it("should fail in case the min value is lower than the min default value", () => {
+        const inputValue = "-1";
+
+        const actual = buildMoneyValidationSchema().safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_little");
+      });
+
+      it("should fail in case the min value is lower than the min default value is empty object", () => {
+        const inputValue = "-1";
+
+        const actual = buildMoneyValidationSchema({}).safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_little");
+      });
+    });
   });
 });
 
@@ -62,7 +96,7 @@ describe("buildOptionalMoneyValidationSchema", () => {
       { input: " 1 00 0", expected: "1.000,00" },
       { input: "1,000.9", expected: "1.000,90" },
       { input: "00000", expected: "0,00" },
-      { input: "999999999", expected: "999.999.999,00" },
+      { input: "99999999", expected: "99.999.999,00" },
       { input: "-0", expected: "0,00" },
       { input: "-123", expected: "-123,00" },
       { input: "", expected: "" },
@@ -99,5 +133,45 @@ describe("buildOptionalMoneyValidationSchema", () => {
         expect(actual.error!.issues[0].message).toBe(errorMessage);
       },
     );
+
+    describe("default option values", () => {
+      it("should fail in case the max value is equal or higher than the max default value", () => {
+        const inputValue = "100000001";
+
+        const actual =
+          buildOptionalMoneyValidationSchema().safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_much");
+      });
+
+      it("should fail in case the max value is equal or higher than the max default value and the optional default value is empty object", () => {
+        const inputValue = "100000001";
+
+        const actual = buildOptionalMoneyValidationSchema({}).safeParse(
+          inputValue,
+        );
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_much");
+      });
+
+      it("should fail in case the min value is lower than the min default value", () => {
+        const inputValue = "-1";
+
+        const actual =
+          buildOptionalMoneyValidationSchema().safeParse(inputValue);
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_little");
+      });
+
+      it("should fail in case the min value is lower than the min default value is empty object", () => {
+        const inputValue = "-1";
+
+        const actual = buildOptionalMoneyValidationSchema({}).safeParse(
+          inputValue,
+        );
+        expect(actual.success).toBe(false);
+        expect(actual.error!.issues[0].message).toBe("too_little");
+      });
+    });
   });
 });

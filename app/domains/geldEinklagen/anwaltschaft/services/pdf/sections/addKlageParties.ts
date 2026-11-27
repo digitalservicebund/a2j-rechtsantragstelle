@@ -118,10 +118,13 @@ const addOrganization = (
 
   for (const representative of party["gesetzliche-vertretung"] ?? []) {
     doc
-      .text(
-        `${getGesetzlicheVertretungArtLabel(representative.art)}, ${formatRepresentativeName(representative)}`,
-        representativeIndent,
-      )
+      .font(FONTS_BUNDESSANS_BOLD)
+      .text(`${getGesetzlicheVertretungArtLabel(representative.art)}, `, {
+        ...representativeIndent,
+        continued: true,
+      })
+      .font(FONTS_BUNDESSANS_REGULAR)
+      .text(formatRepresentativeName(representative))
       .text(formatAddress(representative), representativeIndent);
   }
   doc.text(`– ${label} zu ${number} –`, { align: "right" });

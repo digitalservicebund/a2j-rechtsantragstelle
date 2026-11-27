@@ -1,4 +1,8 @@
 import {
+  FONTS_BUNDESSANS_BOLD,
+  FONTS_BUNDESSANS_REGULAR,
+} from "~/services/pdf/createPdfKitDocument";
+import {
   createPdfTestContext,
   emptyUserData,
   getPrintedText,
@@ -103,6 +107,11 @@ describe("addKlageParties", () => {
 
   it("keeps all organization representative lines aligned when they wrap", () => {
     const { doc, documentStruct } = createPdfTestContext();
+    const printed: Array<{ text: string; font: unknown }> = [];
+    vi.mocked(doc.text).mockImplementation((text) => {
+      printed.push({ text, font: vi.mocked(doc.font).mock.lastCall?.[0] });
+      return doc;
+    });
     const address = {
       strasse: "Musterstraße",
       hausnummer: "1",
@@ -132,6 +141,13 @@ describe("addKlageParties", () => {
                 nachname: "Musterfrau",
                 ...address,
               },
+              {
+                art: "partner-partnerin",
+                anrede: "herr",
+                vorname: "Peter",
+                nachname: "Muster",
+                ...address,
+              },
             ],
           },
         ],
@@ -149,10 +165,32 @@ describe("addKlageParties", () => {
       { ...indent, continued: true },
     );
     expect(doc.text).toHaveBeenCalledWith("Herr Max Muster");
-    expect(doc.text).toHaveBeenCalledWith(
-      "Partner / Partnerin, Frau Erika Musterfrau",
-      indent,
-    );
+    expect(doc.text).toHaveBeenCalledWith("Partner / Partnerin, ", {
+      ...indent,
+      continued: true,
+    });
+    expect(printed).toContainEqual({
+      text: "Geschäftsführer / Geschäftsführerin, ",
+      font: FONTS_BUNDESSANS_BOLD,
+    });
+    expect(printed).toContainEqual({
+      text: "Herr Max Muster",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
+    expect(
+      printed.filter(({ text }) => text === "Partner / Partnerin, "),
+    ).toEqual([
+      { text: "Partner / Partnerin, ", font: FONTS_BUNDESSANS_BOLD },
+      { text: "Partner / Partnerin, ", font: FONTS_BUNDESSANS_BOLD },
+    ]);
+    expect(printed).toContainEqual({
+      text: "Frau Erika Musterfrau",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
+    expect(printed).toContainEqual({
+      text: "Herr Peter Muster",
+      font: FONTS_BUNDESSANS_REGULAR,
+    });
     expect(doc.text).toHaveBeenCalledWith(
       "Musterstraße 1, 12345 Musterstadt, Deutschland",
       indent,
