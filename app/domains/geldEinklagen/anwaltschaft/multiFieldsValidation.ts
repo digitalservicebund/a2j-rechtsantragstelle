@@ -1,5 +1,4 @@
 import { geldEinklagenAnwaltschaftPages } from "~/domains/geldEinklagen/anwaltschaft/pages";
-import { validateZahlungsklageReferenzzeichen } from "~/domains/geldEinklagen/anwaltschaft/services/validation/validateZahlungsklageReferenzzeichen";
 import { type MultiFieldsStepIdValidation } from "~/domains/types";
 import { hauptUndNebenantraegePages } from "./hauptUndNebenantraege/pages";
 import { validateHauptantragZins } from "./services/validation/validateHauptantragZins";
@@ -19,7 +18,6 @@ const _schema = Object.assign(
 export const geldEinklagenAnwaltschaftMultiFieldsValidation: MultiFieldsStepIdValidation<
   typeof _schema
 > = {
-  "/inhalt-klage": validateZahlungsklageReferenzzeichen(),
   "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/hauptantrag/#/daten":
     validateHauptantragZins(),
   "/haupt-und-nebenantraege/bezifferte-zahlungs-und-nebenantraege/#/nebenantraege/#/daten":
