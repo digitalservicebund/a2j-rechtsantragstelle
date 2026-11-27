@@ -21,7 +21,7 @@ const eigentuemerSchema = z.enum([
 export const bankkontenArraySchema = z
   .object({
     bankName: stringRequiredSchema,
-    kontostand: buildMoneyValidationSchema({}),
+    kontostand: buildMoneyValidationSchema({ min: Number.MIN_SAFE_INTEGER }),
     iban: schemaOrEmptyString(ibanSchema),
     kontoEigentuemer: eigentuemerSchema,
     kontoDescription: stringOptionalSchema,

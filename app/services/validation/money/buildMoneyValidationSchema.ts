@@ -11,9 +11,11 @@ type BuildMoneyValidationSchemaOptions = {
   max?: number;
 };
 
-const DEFAULT_MONEY_VALIDATION_OPTIONS: BuildMoneyValidationSchemaOptions = {
-  min: 0,
-};
+const DEFAULT_MONEY_VALIDATION_OPTIONS: Required<BuildMoneyValidationSchemaOptions> =
+  {
+    min: 0,
+    max: 10000000000,
+  };
 
 export const buildMoneyValidationSchema = (
   opts: BuildMoneyValidationSchemaOptions = DEFAULT_MONEY_VALIDATION_OPTIONS,
@@ -25,10 +27,10 @@ export const buildMoneyValidationSchema = (
     .transform((v) => preprocessMoney(v))
     .refine((v) => validateMoney(v), { error: "wrong_format", abort: true })
     .transform((v) => moneyToCents(v)!)
-    .refine((v) => v >= (opts.min ?? Number.MIN_SAFE_INTEGER), {
+    .refine((v) => v >= (opts.min ?? DEFAULT_MONEY_VALIDATION_OPTIONS.min), {
       message: "too_little",
     })
-    .refine((v) => v <= (opts.max ?? Number.MAX_SAFE_INTEGER), {
+    .refine((v) => v <= (opts.max ?? DEFAULT_MONEY_VALIDATION_OPTIONS.max), {
       message: "too_much",
     })
     .transform((v) => formatCents(v));
