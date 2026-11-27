@@ -10,7 +10,7 @@ import capitalize from "lodash/capitalize";
 import { objectKeysNonEmpty } from "~/util/objectKeysNonEmpty";
 import { Badge } from "~/components/content/Badge";
 import { useRef } from "react";
-import { DeleteDialog } from "~/components/common/DeleteDialog";
+import { DialogWithButtons } from "~/components/common/dialogs/DialogWithButtons";
 import classNames from "classnames";
 import { DELETE_URL_ENDPOINT } from "~/components/content/arraySummary/ArraySummaryItemActions";
 import { CsrfInput } from "~/components/formElements/inputs/csrf/CsrfInput";
@@ -128,10 +128,17 @@ const DeleteButtonWithJavaScript = ({
         iconLeft={<Icon name="trash" className="fill-kern-feedback-danger!" />}
         onClick={onDeleteClicked}
       />
-      <DeleteDialog
+      <DialogWithButtons
         title={deleteDialogTitle}
         description={deleteDialogDescription}
-        onClick={onClickDeleteDialog}
+        leftButton={{
+          description: translations.deleteDialog.cancel.de,
+          onClick: () => dialogRef.current?.close(),
+        }}
+        rightButton={{
+          description: translations.deleteDialog.confirm.de,
+          onClick: onClickDeleteDialog,
+        }}
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
       />

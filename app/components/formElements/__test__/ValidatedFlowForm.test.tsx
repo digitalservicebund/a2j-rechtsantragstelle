@@ -14,10 +14,15 @@ import { integerSchema } from "~/services/validation/integer";
 import { getPageConfigOrArrayPageByPathname } from "~/domains/pageSchemas";
 import { stringRequiredSchema } from "~/services/validation/stringRequired";
 import { YesNoAnswer } from "~/services/validation/YesNoAnswer";
-import { type SchemaObject } from "~/domains/userData";
+import type { UserData, SchemaObject } from "~/domains/userData";
 import * as parsePathname from "~/domains/flowIds";
 import ValidatedFlowForm from "~/components/formElements/ValidatedFormFlow";
 import { createDateInputSchema } from "~/services/validation/dateObject";
+import { createTimeSchema } from "~/services/validation/timeObject";
+import { getStrapiAutoSuggestionInputComponent } from "tests/factories/cmsModels/strapiAutoSuggestionInputComponent";
+import { autoSuggestStringRequiredSchema } from "~/services/validation/autoSuggest";
+import * as useDataListOptions from "~/components/formElements/inputs/autoSuggest/hooks/useDataListOptions";
+import { getDataListOptions } from "~/services/dataListOptions/getDataListOptions";
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual("react-router");
@@ -28,6 +33,10 @@ vi.mock("react-router", async () => {
       pathname: "/",
     }),
     useRouteLoaderData: vi.fn(() => undefined),
+    useLoaderData: () => ({
+      userData: {},
+      flowId: "flowId",
+    }),
   };
 });
 
@@ -36,6 +45,7 @@ vi.mock("~/services/params", () => ({
 }));
 
 vi.mock("~/domains/pageSchemas");
+const dataListSpy = vi.spyOn(useDataListOptions, "default");
 
 const mockGetPageConfigOrArrayPageByPathname = (
   pageSchema: SchemaObject | undefined,
@@ -54,6 +64,13 @@ vi.spyOn(parsePathname, "parsePathname").mockResolvedValue({
 describe("ValidatedFlowForm", () => {
   beforeAll(() => {
     configureZod(); // Need to auto-configure enum errors
+    HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {
+      this.open = true;
+    };
+    HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {
+      this.open = false;
+    };
+    dataListSpy.mockReturnValue(getDataListOptions("nationalities"));
   });
 
   it("should render", () => {
@@ -105,6 +122,23 @@ describe("ValidatedFlowForm", () => {
         expect(inputComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "10",
+      });
+
+      const inputComponent = getByRole("textbox");
+      fireEvent.input(inputComponent, {
+        target: { value: "12" },
+      });
+      fireEvent.blur(inputComponent);
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -195,6 +229,135 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getAllByRole, getByRole } = renderValidatedFlowForm(
+        [component],
+        { inputName: { day: "10", month: "11", year: "2024" } },
+      );
+      const dateDayInputComponent = getAllByRole("textbox")[0];
+      const dateMonthInputComponent = getAllByRole("textbox")[1];
+      const dateYearInputComponent = getAllByRole("textbox")[2];
+
+      fireEvent.input(dateDayInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.input(dateMonthInputComponent, {
+        target: { value: "12" },
+      });
+      fireEvent.input(dateYearInputComponent, {
+        target: { value: "2024" },
+      });
+
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("Time Input Component", () => {
+    beforeAll(() => {
+      mockGetPageConfigOrArrayPageByPathname({
+        inputName: createTimeSchema(),
+      });
+    });
+    const { component } = getStrapiInputComponent(
+      {
+        code: "invalid",
+        text: "Ungültige Uhrzeit",
+      },
+      "time",
+    );
+
+    it("should display an error if the user enters an invalid time", async () => {
+      const { getByText, getAllByRole, getByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+
+      const nextButton = getByText("NEXT");
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "25" },
+      });
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.blur(timeMinuteInputComponent);
+      fireEvent.blur(timeHourInputComponent);
+
+      expect(nextButton).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(getByText("Ungültige Uhrzeit")).toBeInTheDocument();
+        expect(timeHourInputComponent).toHaveClass(
+          "kern-form-input__input--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
+
+      fireEvent.click(nextButton);
+
+      await waitFor(() => {
+        expect(getByText("Ungültige Uhrzeit")).toBeInTheDocument();
+        expect(timeHourInputComponent).toHaveClass(
+          "kern-form-input__input--error",
+        );
+        expect(getByTestId("inputError")).toBeInTheDocument();
+        expect(getByTestId("icon-emergency-home")).toBeInTheDocument();
+      });
+    });
+
+    it("should not display an error for correct input", async () => {
+      const { getByText, getAllByRole, queryByTestId } =
+        renderValidatedFlowForm([component]);
+
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "22" },
+      });
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "10" },
+      });
+      fireEvent.blur(timeMinuteInputComponent);
+      fireEvent.blur(timeHourInputComponent);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(timeMinuteInputComponent).not.toHaveClass("has-error");
+        expect(timeHourInputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getAllByRole, getByRole } = renderValidatedFlowForm(
+        [component],
+        { inputName: { hour: "22", minute: "10" } },
+      );
+      const timeHourInputComponent = getAllByRole("textbox")[0];
+      const timeMinuteInputComponent = getAllByRole("textbox")[1];
+
+      fireEvent.input(timeMinuteInputComponent, {
+        target: { value: "22" },
+      });
+      fireEvent.input(timeHourInputComponent, {
+        target: { value: "11" },
+      });
+
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("Textarea Component", () => {
@@ -240,6 +403,23 @@ describe("ValidatedFlowForm", () => {
         expect(textareaComponent).not.toHaveClass("has-error");
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "value",
+      });
+
+      const inputComponent = getByRole("textbox");
+      fireEvent.input(inputComponent, {
+        target: { value: "new value" },
+      });
+      fireEvent.blur(inputComponent);
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -302,6 +482,22 @@ describe("ValidatedFlowForm", () => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByLabelText } = renderValidatedFlowForm(
+        [component],
+        {
+          mySelect: "ja",
+        },
+      );
+
+      fireEvent.click(getByLabelText("Nein"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("Dropdown Component", () => {
@@ -340,6 +536,23 @@ describe("ValidatedFlowForm", () => {
       await waitFor(() => {
         expect(queryByTestId("inputError")).not.toBeInTheDocument();
         expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByTestId } = renderValidatedFlowForm(
+        [component],
+        {
+          myDropdown: "option1",
+        },
+      );
+
+      const select = getByTestId("select");
+      fireEvent.change(select, { target: { value: "option2" } });
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
       });
     });
   });
@@ -425,6 +638,22 @@ describe("ValidatedFlowForm", () => {
         );
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole, getByLabelText } = renderValidatedFlowForm(
+        [checkbox1.component],
+        {
+          checkbox1: "off",
+        },
+      );
+
+      fireEvent.click(getByLabelText("Checkbox 1"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 
   describe("TileGroup Component", () => {
@@ -493,21 +722,95 @@ describe("ValidatedFlowForm", () => {
         expect(secondRadio).not.toHaveFocus();
       });
     });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        myTileGroup: "firstTile",
+      });
+
+      fireEvent.click(getByText("secondTile"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("AutoSuggestionInput Component", () => {
+    beforeAll(() => {
+      mockGetPageConfigOrArrayPageByPathname({
+        inputName: autoSuggestStringRequiredSchema("nationalities"),
+      });
+    });
+    const { component, expectInputErrorToExist } =
+      getStrapiAutoSuggestionInputComponent({
+        code: "required",
+        text: "Please enter a value",
+      });
+
+    it("should display an error if the user does not enter any value and click next", async () => {
+      const { getByText } = renderValidatedFlowForm([component]);
+
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(async () => {
+        await expectInputErrorToExist();
+      });
+    });
+
+    it("should not display an error in case select a value", async () => {
+      const { getByText, getByRole, queryByTestId } = renderValidatedFlowForm([
+        component,
+      ]);
+      const inputComponent = getByRole("combobox");
+
+      fireEvent.change(inputComponent, {
+        target: { value: "Brasilianisch" },
+      });
+      fireEvent.click(getByText("NEXT"));
+      await waitFor(() => {
+        expect(inputComponent).not.toHaveClass("has-error");
+        expect(queryByTestId("inputError")).not.toBeInTheDocument();
+        expect(queryByTestId("icon-emergency-home")).not.toBeInTheDocument();
+      });
+    });
+
+    it("should open a modal in case change the value but it clicks on the back button", async () => {
+      const { getByText, getByRole } = renderValidatedFlowForm([component], {
+        inputName: "Brasilianisch",
+      });
+
+      const inputComponent = getByRole("combobox");
+      fireEvent.change(inputComponent, {
+        target: { value: "Deutsch" },
+      });
+      await waitFor(() => getByText("Deutsch"));
+      fireEvent.click(getByText("Deutsch"));
+      fireEvent.click(getByText("BACK"));
+
+      await waitFor(() => {
+        expect(getByRole("dialog")).toBeInTheDocument();
+      });
+    });
   });
 });
 
 function renderValidatedFlowForm(
   formElements: Array<Partial<StrapiFormComponent>>,
+  stepData: UserData = {},
 ) {
   const router = createMemoryRouter([
     {
       path: "/",
       element: (
         <ValidatedFlowForm
-          stepData={{}}
+          stepData={stepData}
           // @ts-expect-error Incompatible types, as we're only mocking partials of FormElements
           formElements={formElements}
-          buttonNavigationProps={{ next: { destination: "", label: "NEXT" } }}
+          buttonNavigationProps={{
+            next: { destination: "", label: "NEXT" },
+            back: { destination: "/back", label: "BACK" },
+          }}
           csrf={""}
         />
       ),

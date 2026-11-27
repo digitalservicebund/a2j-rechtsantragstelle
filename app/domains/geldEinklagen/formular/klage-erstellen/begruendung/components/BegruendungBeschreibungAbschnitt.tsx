@@ -1,7 +1,7 @@
 import { useFetcher, useLocation } from "react-router";
 import Button from "~/components/common/Button";
 import { Icon } from "~/components/common/Icon";
-import { DeleteDialog } from "~/components/common/DeleteDialog";
+import { DialogWithButtons } from "~/components/common/dialogs/DialogWithButtons";
 import { type GeldEinklagenFormularKlageErstellenUserData } from "../../userData";
 import { BegruendungBeschreibungBeweise } from "./BegruendungBeschreibungBeweise";
 import { translations } from "~/services/translations/translations";
@@ -62,13 +62,20 @@ const DeleteButtonWithJavaScript = ({
       >
         {translations.geldEinklagen.begruendungBeschreibungDeleteButton.de}
       </Button>
-      <DeleteDialog
+      <DialogWithButtons
         title={`${headingText} ${translations.geldEinklagen.begruendungBeschreibungDeleteDialogTitle.de}`}
         description={
           translations.geldEinklagen
             .begruendungBeschreibungDeleteDialogDescription.de
         }
-        onClick={onClickDeleteDialog}
+        leftButton={{
+          description: translations.deleteDialog.cancel.de,
+          onClick: () => dialogRef.current?.close(),
+        }}
+        rightButton={{
+          description: translations.deleteDialog.confirm.de,
+          onClick: onClickDeleteDialog,
+        }}
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
       />

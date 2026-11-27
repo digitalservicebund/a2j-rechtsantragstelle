@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from "react";
 import Button from "./Button";
-import { DeleteDialog } from "./DeleteDialog";
+import { DialogWithButtons } from "./dialogs/DialogWithButtons";
 import { Icon } from "./Icon";
 import { translations } from "~/services/translations/translations";
 import classNames from "classnames";
@@ -56,7 +56,7 @@ export const DeleteButton = ({
       >
         {label}
       </Button>
-      <DeleteDialog
+      <DialogWithButtons
         title={title}
         description={
           description || hasError ? (
@@ -70,7 +70,14 @@ export const DeleteButton = ({
             </>
           ) : null
         }
-        onClick={() => void deleteItem()}
+        leftButton={{
+          description: translations.deleteDialog.cancel.de,
+          onClick: () => dialogRef.current?.close(),
+        }}
+        rightButton={{
+          description: translations.deleteDialog.confirm.de,
+          onClick: () => void deleteItem(),
+        }}
         closeDialog={() => dialogRef.current?.close()}
         dialogRef={dialogRef}
         pending={pending}

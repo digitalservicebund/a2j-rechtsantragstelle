@@ -7,11 +7,11 @@ test.describe("Data submission", () => {
     const cookieSettings = new CookieSettings(page);
     await cookieSettings.acceptCookieBanner();
 
-    await page.getByRole("button", { name: "Weiter" }).click();
+    await page.locator(`button[name="_action"]`).click();
     await page.getByLabel("Ja").click();
-    await page.getByText("Weiter").click();
+    await page.locator(`button[name="_action"]`).click();
     await page.getByLabel("Ja, komplett").click();
-    await page.getByText("Weiter").click();
+    await page.locator(`button[name="_action"]`).click();
     await expect(
       page.getByText("wahrscheinlich keine Beratungshilfe"),
     ).toBeVisible();
@@ -19,5 +19,24 @@ test.describe("Data submission", () => {
       .getByRole("link", { name: "Zur vorherigen Frage", exact: true })
       .click();
     await expect(page.getByLabel("Ja, komplett")).toBeChecked();
+  });
+
+  test("should open dialog for unsaved changes", async ({ page }) => {
+    await page.goto("/beratungshilfe/vorabcheck");
+    const cookieSettings = new CookieSettings(page);
+    await cookieSettings.acceptCookieBanner();
+
+    await page.locator(`button[name="_action"]`).click();
+    await page.getByLabel("Ja").click();
+    await page.locator(`button[name="_action"]`).click();
+
+    await page.getByTestId("back-button").click();
+
+    await page.getByLabel("Nein").click();
+    await page.getByTestId("back-button").click();
+
+    await expect(
+      page.getByText("Änderungen sind noch nicht gespeichert"),
+    ).toBeVisible();
   });
 });
