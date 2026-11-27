@@ -126,7 +126,7 @@ export const getParteivernehmungBeweisCheckboxLabel: GetCheckboxLabel = (
     )
   );
   return (
-    <div>
+    <div key={index}>
       <div>
         <span>
           {relationship === "klagende"

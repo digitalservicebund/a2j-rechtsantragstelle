@@ -7,6 +7,7 @@ import { Absatz } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/co
 import {
   AbsaetzeContext,
   absaetzeFocusKey,
+  saveAbsaetzeFocusInSession,
 } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/absaetzeContext";
 import { MAX_ABSAETZE } from "~/domains/geldEinklagen/anwaltschaft/tatsachenvortrag/tatsachenvortragSchemas";
 import { type GeldEinklagenAnwaltschaftUserData } from "~/domains/geldEinklagen/anwaltschaft/userData";
@@ -62,6 +63,11 @@ export const AbsaetzeUebersicht = () => {
           href: `${absaetzeBaseUrl}/${nextAbsatzIndex}/daten`,
           buttonText: translations.geldEinklagenAnwaltschaft.addAbsatzButton.de,
           disabled: maxAbsaetzeReached,
+          onClick: () =>
+            saveAbsaetzeFocusInSession(
+              absaetzeBaseUrl,
+              `absatz-${nextAbsatzIndex}`,
+            ),
           additionalContent: maxAbsaetzeReached && (
             <InlineNotice
               title={

@@ -142,6 +142,55 @@ describe("AbsaetzeUebersicht", () => {
     expect(sessionStorage.getItem(otherKey)).toBe("absatz-1|absatz-1");
   });
 
+  it.each([0, 1])(
+    "focuses a newly added Absatz after %i existing Absaetze",
+    (existingCount) => {
+      vi.useFakeTimers();
+      const baseUrl =
+        "/geld-einklagen/anwaltschaft/tatsachenvortrag-beweise/vortraege/0/absaetze";
+      const existing = Array.from({ length: existingCount }, () =>
+        absatz("Document"),
+      );
+      const userData: GeldEinklagenAnwaltschaftUserData = {
+        hauptantrag: [hauptantrag("first", "first-neben")],
+        vortraege: [{ antragId: "first", absaetze: existing }],
+        pageData: { arrayIndexes: [0] },
+      };
+      const Stub = createRoutesStub([
+        { id: "root", path: "/", Component: () => <AbsaetzeUebersicht /> },
+      ]);
+      const { unmount } = render(
+        <TestFormFlow userData={userData}>
+          <Stub />
+        </TestFormFlow>,
+      );
+      const add = screen.getByTestId("add-array-item");
+      add.addEventListener("click", (event) => event.preventDefault(), {
+        once: true,
+      });
+      fireEvent.click(add);
+      unmount();
+
+      render(
+        <StrictMode>
+          <TestFormFlow
+            userData={{
+              ...userData,
+              vortraege: [
+                { antragId: "first", absaetze: [...existing, absatz("New")] },
+              ],
+            }}
+          >
+            <Stub />
+          </TestFormFlow>
+        </StrictMode>,
+      );
+      act(() => vi.runAllTimers());
+      expect(document.getElementById(`absatz-${existingCount}`)).toHaveFocus();
+      expect(sessionStorage.getItem(absaetzeFocusKey(baseUrl))).toBeNull();
+    },
+  );
+
   it("focuses a newly added evidence item or its heading if it was not saved", () => {
     vi.useFakeTimers();
     const baseUrl =
